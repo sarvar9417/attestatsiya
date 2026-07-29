@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+    <meta name="handheld-friendly" content="true" />
+    <meta name="description" content="EnglishPath — A2+ dan B2 darajasiga 90 kunda yetish uchun intensiv ingliz tili platformasi" />
+    <meta property="og:title" content="EnglishPath — A2+ → B2 in 90 Days" />
+    <meta property="og:description" content="A2+ dan B2 darajasiga 90 kunda yetish uchun intensiv ingliz tili platformasi" />
+    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#1a56db" id="theme-color" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="EnglishPath" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="EnglishPath" />
+    <title>EnglishPath — A2+ → B2 in 90 Days</title>
+
+    <!-- Dark mode flash prevention + Mobile keyboard handling -->
+    <script>
+      (function() {
+        var theme = localStorage.getItem('theme');
+        if (theme === 'dark' || theme === 'system' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+          document.getElementById('theme-color').setAttribute('content', '#030712');
+        }
+        // Mobile keyboard: adjust viewport height when keyboard opens
+        if (window.visualViewport) {
+          function adjustViewport() {
+            document.documentElement.style.setProperty('--vh', window.visualViewport.height * 0.01 + 'px');
+          }
+          window.visualViewport.addEventListener('resize', adjustViewport);
+          adjustViewport();
+        }
+      })();
+    </script>
+
+    <!-- Preconnect hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://julclavaqxzffslmaard.supabase.co" />
+    <link rel="dns-prefetch" href="https://api.anthropic.com" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="antialiased">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
