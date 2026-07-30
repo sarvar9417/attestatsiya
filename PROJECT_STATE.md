@@ -42,6 +42,8 @@
 ### 2026-07-30 read-only remote audit
 
 - Remote’da eski BIGINT ustunlari yo‘q; UUID sxema faol.
+- `supabase_migrations.schema_migrations` remote’da mavjud emas; amaldagi
+  sxema CLI migration history bilan baseline qilinmagan.
 - 9 ta modulning barchasi `published`.
 - Faol blueprint 50 savol va 2 ballni saqlaydi, ammo `duration_min = 150`.
 - 9 ta kvota jami `33 bilish / 5 qo‘llash / 12 mulohaza`; rasmiy
@@ -60,7 +62,7 @@
 | ID | Tavsif | Status |
 |----|--------|--------|
 | B-SEC-001 | Lokal hujjatlardan credential olib tashlandi; Supabase credentiallari rotate qilindi | RESOLVED |
-| B-DB-001 | Remote migration tarixini o'qish uchun DB password secret manager'da mavjud emas | OPEN |
+| B-DB-001 | HTTPS audit remote migration metadata jadvali yo‘qligini tasdiqladi | RESOLVED |
 | B-DB-002 | BIGINT va UUID migration liniyalari bir-biriga zid | OPEN |
 | B-QA-001 | CI secret scan, lint, typecheck, unit, build va E2E bilan yashil | RESOLVED |
 | B-001 | Y1/Y2/Y3 generatorlar (axborotHajmi, sanoqSistema, mantiqAmal, ipMaska) yozilmagan | OPEN |
