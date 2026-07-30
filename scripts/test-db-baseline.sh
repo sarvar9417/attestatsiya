@@ -55,7 +55,9 @@ psql \
   -f supabase/migrations/20260730000000_uuid_baseline.sql \
   -f supabase/migrations/20260730000008_taxonomy_contract.sql \
   -f supabase/migrations/20260730000009_official_2026_seed.sql \
+  -f supabase/migrations/20260730000010_rpc_security_hardening.sql \
   -f supabase/seed.sql \
+  -f supabase/tests/security_hardening.test.sql \
   -c "select count(*) as modules from public.modules;" \
   -c "select count(*) as quotas, sum(question_count) as questions, sum(n_bilish) as bilish, sum(n_qollash) as qollash, sum(n_mulohaza) as mulohaza from public.blueprint_quotas;" \
   -c "select count(*) as active_constructs from public.constructs where is_active;" \
@@ -73,6 +75,7 @@ psql \
   -f supabase/tests/remote_drift_fixture.sql \
   -f supabase/migrations/20260730000008_taxonomy_contract.sql \
   -f supabase/migrations/20260730000009_official_2026_seed.sql \
+  -f supabase/migrations/20260730000010_rpc_security_hardening.sql \
   -f supabase/tests/remote_drift_assertions.sql \
   -c "select count(*) as modules from public.modules;" \
   -c "select count(*) as quotas, sum(question_count) as questions, sum(n_bilish) as bilish, sum(n_qollash) as qollash, sum(n_mulohaza) as mulohaza from public.blueprint_quotas;" \

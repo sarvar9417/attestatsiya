@@ -68,7 +68,7 @@
 
 | Task | Egasi | Holat | Boshlangan vaqt | Branch |
 |------|-------|-------|-----------------|--------|
-| — | — | P0-003 tugadi; P0-004 boshlashga tayyor | — | — |
+| TASK-P0-004 | Codex | IN_PROGRESS — local migration va regressiya testlari | 2026-07-30 | `task/TASK-P0-004-rpc-security` |
 
 ## Bloklovchilar
 
