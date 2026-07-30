@@ -37,7 +37,7 @@
 | questions | 5 (Y1 sample) |
 | question_options | 20 |
 | question_keys | 5 |
-| RPC functions | 18 (start_exam, submit_answer, finish_exam va h.k.) |
+| RPC/functions | 19 (`start_exam`, `submit_answer`, `finish_exam`, profile guard va h.k.) |
 
 ### 2026-07-30 read-only remote audit
 
@@ -64,11 +64,25 @@
 - Postflight Management API va anon REST orqali `16 / 15 / 50 / 8-35-7 / 120`
   invariantlari tasdiqlandi.
 
+### 2026-07-30 P0-004 remote security hardening
+
+- `20260730000010_rpc_security_hardening.sql` remote’da qo‘llandi va migration
+  history’ga atomik yozildi.
+- Oddiy authenticated foydalanuvchi o‘z `role` yoki `is_blocked` qiymatini
+  o‘zgartira olmaydi; admin boshqaruv yo‘li saqlandi.
+- `submit_answer` exam egasi va question membership’ni kalitdan oldin
+  tekshiradi, `finish_exam` bilan bir xil lock tartibidan foydalanadi.
+- Birinchi answer immutable: retry avvalgi natijani qaytaradi va SM-2 ni qayta
+  hisoblamaydi; anonymous execute huquqi olib tashlandi.
+- Remote postflightda trigger, RPC definition va permissionlar tasdiqlandi;
+  `profiles=1`, `exams=0`, `exam_items=0`, `user_construct_stats=0` sonlari
+  migratsiyadan oldin va keyin o‘zgarmadi.
+
 ## Faol tasklar
 
 | Task | Egasi | Holat | Boshlangan vaqt | Branch |
 |------|-------|-------|-----------------|--------|
-| TASK-P0-004 | Codex | IN_PROGRESS — local migration va regressiya testlari | 2026-07-30 | `task/TASK-P0-004-rpc-security` |
+| — | — | P0 xavfsizlik tasklari yakunlandi; Phase 1 types navbatda | — | — |
 
 ## Bloklovchilar
 
@@ -84,10 +98,9 @@
 
 ## Keyingi bajariladigan task
 
-1. TASK-P0-004 role escalation va submit idempotency tuzatishlari
-2. UUID sxemaga mos frontend database types generatsiyasi
-3. Secure server-scored ExamRunner
-4. 16 modulni remote lesson/microtopic taksonomiyasi bilan bog‘lash
+1. UUID sxemaga mos frontend database types generatsiyasi
+2. Secure server-scored ExamRunner
+3. 16 modulni remote lesson/microtopic taksonomiyasi bilan bog‘lash
 
 ## Auditda tasdiqlangan natijalar
 
@@ -97,6 +110,7 @@
 | TASK-P0-001 Foundation recovery | 2026-07-30 | Root README, ADR-017/018, Node/npm pin va avtomatik secret scan |
 | TASK-P0-002 CI quality gate | 2026-07-30 | PR #1 da secret scan, lint, typecheck, 49 unit test, build va 4 Playwright smoke testi yashil |
 | TASK-P0-003 UUID DB baseline | 2026-07-30 | PR #2; fresh va drift-upgrade PostgreSQL joblari yashil; remote 16/15/50/8-35-7/120 bilan sinxron |
+| TASK-P0-004 RPC security | 2026-07-30 | PR #3; local va CI PostgreSQL regressiyalari yashil; remote trigger/RPC/permission postflight tasdiqlandi |
 | TASK-P0-005 UI security boundary | 2026-07-30 | Admin deny-by-default; client mock production bundle'dan chiqarildi; bundle regression check qo'shildi |
 | Build audit | 2026-07-30 | TypeScript + Vite build o'tadi |
 | Unit test audit | 2026-07-30 | GitHub CI'da repoga kirgan 49 Vitest test o'tadi |
@@ -106,7 +120,7 @@
 
 | Muhit | URL | Database | Holat |
 |-------|-----|----------|-------|
-| Local | `http://localhost:5173` | Remote Supabase (plyqezulrfowyblsfpzy) | UUID baseline sinxron; P0-004 RPC security hardening navbatda |
+| Local | `http://localhost:5173` | Remote Supabase (plyqezulrfowyblsfpzy) | UUID baseline va P0-004 RPC security remote bilan sinxron |
 | Production | TBD | TBD | Yaratilmagan |
 
 ## Muhim havolalar
