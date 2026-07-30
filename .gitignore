@@ -1,24 +1,24 @@
-# Dependencies
 node_modules/
-
-# Build output
 dist/
 dist-ssr/
-
-# Coverage
 coverage/
-
-
-# Environment — NEVER commit secrets
 .env
 .env.local
 .env.*.local
+supabase/.temp/
+*.pem
+*.key
+*.p12
+*.pfx
 
-# Logs
+# Local source corpus and generated bulk imports are not versioned.
+darsliklar/
+Topics/
+scripts/topics_import_data.json
+supabase/migrations/*_import_topics_content.sql
+
 *.log
 npm-debug.log*
-
-# Editor
 .vscode/settings.json
 .idea/
 *.suo
@@ -26,43 +26,10 @@ npm-debug.log*
 *.njsproj
 *.sln
 *.sw?
-
-# OS
 .DS_Store
 Thumbs.db
 nul
-
-# TypeScript cache
 *.tsbuildinfo
-
-# Supabase CLI
-supabase/
-!supabase/
-supabase/*
-!supabase/migrations/
-supabase/migrations/*
-!supabase/migrations/20260720000000_complete_personal_vocabulary.sql
-
-# Claude agent settings — local machine config
-.claude/
-
-# DB migration scripts (contain secrets)
-scripts/*.mjs
-scripts/*.sql
-!scripts/sync_listening_supabase.mjs
-!scripts/patch-vite-pwa.mjs
-!scripts/*.ts
-!scripts/create_tandem_tables.sql
-# Personal vocabulary sxemasi — maxfiy ma'lumotsiz, version-control kerak
-!scripts/personal_vocabulary_setup.sql
-
-# Playwright E2E
 playwright-report/
 test-results/
-
-# Backup files
 *.bak
-!scripts/add_rls_policies.sql
-!scripts/seed-fixed-lessons.mjs
-!scripts/seed-fixed-lessons.sql
-!scripts/seed-fixed-lessons-clean.sql

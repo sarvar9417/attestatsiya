@@ -1,32 +1,12 @@
 import { Component } from 'react'
-import ErrorDisplay from './ui/ErrorDisplay'
 import { monitoring } from '../lib/monitoring'
-import type { LucideIcon } from 'lucide-react'
-import { Bug } from 'lucide-react'
-import type { ErrorSeverity } from '../lib/errors'
+import { AlertTriangle, RefreshCw } from 'lucide-react'
 
 interface Props {
   children: React.ReactNode
   fallback?: React.ReactNode
-
-  /** Custom icon for the error display */
-  icon?: LucideIcon
-  /** Custom title (default: 'Nimadir xato ketdi') */
-  title?: string
-  /** Custom message (default: 'Kutilmagan xatolik yuz berdi') */
-  message?: string
-
-  /** Callback fired when error is caught (for additional logging, state reset, etc.) */
   onError?: (error: Error, info: React.ErrorInfo) => void
-
-  /**
-   * Key change forces ErrorBoundary to reset (use location.key for route-level reset).
-   * Pass the current route key so navigation clears the error state automatically.
-   */
   resetKey?: string
-
-  /** Error severity level (default: 'error') */
-  severity?: ErrorSeverity
 }
 
 interface State {
@@ -47,12 +27,10 @@ export default class ErrorBoundary extends Component<Props, State> {
   componentDidCatch(error: Error, info: React.ErrorInfo) {
     monitoring.captureException(error, {
       componentStack: info.componentStack,
-      severity: this.props.severity ?? 'error',
     })
     this.props.onError?.(error, info)
   }
 
-  /** Reset error state when resetKey changes (route navigation) */
   componentDidUpdate(prevProps: Props) {
     if (this.props.resetKey && this.props.resetKey !== prevProps.resetKey) {
       if (this.state.hasError) {
@@ -71,16 +49,15 @@ export default class ErrorBoundary extends Component<Props, State> {
 
       return (
         <div className="min-h-[300px] flex items-center justify-center bg-white dark:bg-gray-900">
-          <ErrorDisplay
-            icon={this.props.icon ?? Bug}
-            title={this.props.title ?? 'Nimadir xato ketdi'}
-            message={this.props.message ?? 'Kutilmagan xatolik yuz berdi. Iltimos, qayta urinib ko\'ring.'}
-            detail={this.state.error?.stack ?? this.state.error?.message}
-            variant="error"
-            retry={this.handleRetry}
-            retryLabel="Qayta urinish"
-            size="md"
-          />
+          <div className="flex flex-col items-center justify-center text-center p-6">
+            <AlertTriangle size={48} className="text-red-400 mb-4" />
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Nimadir xato ketdi</h3>
+            <p className="text-gray-500 mb-4">Kutilmagan xatolik yuz berdi</p>
+            <button onClick={this.handleRetry} className="flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition-colors text-sm font-medium">
+              <RefreshCw size={16} />
+              Qayta urinish
+            </button>
+          </div>
         </div>
       )
     }

@@ -1,0 +1,49 @@
+# TASKS.md — atomik backlog
+
+> Loyiha React+Vite, Supabase, files/ spec bo'yicha.
+
+## Qoidalar
+
+- Statuslar: `READY`, `CLAIMED`, `IN_PROGRESS`, `BLOCKED`, `DONE`
+- Dependency `DONE` bo'lmasdan task boshlanmaydi
+- "Done" bandlari test bilan isbotlanadi
+
+## Phase 0 — Foundation ✅ DONE
+
+| ID | Status | Deliverable |
+|----|--------|-------------|
+| T-001 | DONE | React+Vite+TypeScript strict+Vitest+Playwright |
+| T-002 | DONE | Supabase remote project (plyqezulrfowyblsfpzy) |
+| T-003 | DONE | DB UUID schema migrations (6 files: extensions, content, assessment, progress, quality, RLS) |
+| T-004 | DONE | RPC functions (18 ta: start_exam, submit_answer, finish_exam, get_review, SM-2, etc.) |
+| T-005 | DONE | Seed data (1 subject, 9 modules, 74 constructs, 1 blueprint, 9 quotas, 5 sample questions) |
+| T-006 | DONE | Admin panel QuestionsPage with status transitions |
+| T-007 | DONE | 47 tests total (43 Vitest + 4 Playwright), tsc 0 errors |
+
+## Phase 1 — Core app (keyingi)
+
+| ID | Status | Dependency | Deliverable |
+|----|--------|------------|-------------|
+| T-008 | BLOCKED | B-003 | database.types.ts UUID schema bo'yicha yangilash |
+| T-009 | BLOCKED | T-008 | ExamRunner + Y1/Y2/Y3 komponentlarini UUID schema ga moslash |
+| T-010 | BLOCKED | T-008, T-009 | contentTree.ts, topicContent.ts ni UUID schema ga moslash |
+| T-011 | BLOCKED | T-010 | Learning moduli (mavzu o'qish, test) |
+| T-012 | BLOCKED | T-010 | Y1/Y2/Y3 generatorlar (axborotHajmi, sanoqSistema, mantiqAmal, ipMaska) |
+| T-013 | BLOCKED | T-011, T-012 | ExamRunner bilan imtihon ishga tushirish (RPC orqali) |
+| T-014 | BLOCKED | T-013 | Natija ekrani (ball, toifa qarori, guruh kesimi) |
+| T-015 | BLOCKED | T-014 | Mock exam UI (timer, navigator, flag) |
+
+## Blockerlar
+
+| ID | Tavsif |
+|----|--------|
+| B-001 | Y1/Y2/Y3 generatorlar yozilmagan (konstrukt kodlari va parametrlar asosida savol generatsiyasi) |
+| B-002 | TypeScript types UUID schema bo'yicha yangilanmagan |
+| B-003 | ExamRunner UUID schema ga moslanmagan |
+
+## Test talabi
+
+Har task uchun kamida:
+- happy path
+- permission/validation failure
+- chegaraviy holat

@@ -4,13 +4,13 @@ import { supabase } from '../lib/supabase'
 
 export interface AuthState {
   session: Session | null
-  user:    User    | null
+  user: User | null
   loading: boolean
 }
 
 export function useAuth() {
   const [session, setSession] = useState<Session | null>(null)
-  const [user,    setUser]    = useState<User    | null>(null)
+  const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -38,15 +38,7 @@ export function useAuth() {
         emailRedirectTo: `${window.location.origin}/`,
       },
     })
-    if (!error && data.user) {
-      // Upsert into public.users so the trigger or RLS-protected insert lands
-      await supabase.from('users').upsert(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        { id: data.user.id, email, name } as any,
-        { onConflict: 'id' }
-      )
-    }
-    return { error }
+    return { data, error }
   }
 
   async function resendConfirmation(email: string) {
@@ -73,29 +65,17 @@ export function useAuth() {
   }
 
   async function updatePassword(newPassword: string) {
-    const { error } = await supabase.auth.updateUser({
-      password: newPassword,
-    })
+    const { error } = await supabase.auth.updateUser({ password: newPassword })
     return { error }
   }
 
   async function signOut() {
     await supabase.auth.signOut()
-    // Boshqa foydalanuvchi shu brauzerda kirsa, eski profil/progress/hearts/league
-    // ko'rinmasligi uchun BARCHA local ma'lumotni tozalaymiz (to'liq izolyatsiya).
-    try {
-      localStorage.clear()  // profil, progress, hearts, league XP, SRS, AI kesh — hammasi
-      // IndexedDB'dagi BARCHA user ma'lumotini tozalaymiz (vocabulary, sessions,
-      // dailyProgress, writings, mockTests, lessonProgress, catalog, stats)
-      const { clearLocalUserData } = await import('../db/database')
-      await clearLocalUserData()
-    } catch { /* ignore */ }
-    // To'liq toza holatda qayta yuklash
+    localStorage.clear()
     window.location.href = '/'
   }
 
-  const displayName =
-    user?.user_metadata?.name as string | undefined
+  const displayName = user?.user_metadata?.name as string | undefined
 
   return { session, user, loading, displayName, signUp, signIn, resetPassword, updatePassword, signOut, resendConfirmation }
 }
