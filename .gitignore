@@ -18,6 +18,7 @@ darsliklar/
 Topics/
 scripts/topics_import_data.json
 supabase/migrations/*_import_topics_content.sql
+supabase/archive/generated-incompatible/
 
 *.log
 npm-debug.log*

@@ -50,3 +50,52 @@ jobs:
 
       - name: E2E smoke
         run: npm run test:e2e
+
+  database:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: attestatsiya_test
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d attestatsiya_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: postgres
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fresh UUID baseline and idempotent seed
+        run: |
+          psql -X -v ON_ERROR_STOP=1 -d attestatsiya_test \
+            -f supabase/tests/bootstrap_local.sql \
+            -f supabase/migrations/20260730000000_uuid_baseline.sql \
+            -f supabase/migrations/20260730000008_taxonomy_contract.sql \
+            -f supabase/migrations/20260730000009_official_2026_seed.sql \
+            -f supabase/seed.sql
+
+      - name: Remote drift reconciliation
+        run: |
+          createdb attestatsiya_upgrade_test
+          psql -X -v ON_ERROR_STOP=1 -d attestatsiya_upgrade_test \
+            -f supabase/tests/bootstrap_local.sql \
+            -f supabase/migrations/20260730000000_uuid_baseline.sql \
+            -f supabase/tests/remote_drift_fixture.sql \
+            -f supabase/migrations/20260730000008_taxonomy_contract.sql \
+            -f supabase/migrations/20260730000009_official_2026_seed.sql \
+            -f supabase/tests/remote_drift_assertions.sql

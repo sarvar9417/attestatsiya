@@ -1,40 +1,39 @@
--- Schema integrity tests (pgTAP)
-BEGIN;
-SELECT plan(25);
+-- UUID schema integrity tests (pgTAP)
+begin;
+select plan(30);
 
--- Tables exist
-SELECT has_table('public', 'roles', 'roles jadvali mavjud');
-SELECT has_table('public', 'specification_versions', 'specification_versions jadvali mavjud');
-SELECT has_table('public', 'modules', 'modules jadvali mavjud');
-SELECT has_table('public', 'subtopics', 'subtopics jadvali mavjud');
-SELECT has_table('public', 'lessons', 'lessons jadvali mavjud');
-SELECT has_table('public', 'questions', 'questions jadvali mavjud');
-SELECT has_table('public', 'options', 'options jadvali mavjud');
-SELECT has_table('public', 'question_versions', 'question_versions jadvali mavjud');
-SELECT has_table('public', 'attempts', 'attempts jadvali mavjud');
-SELECT has_table('public', 'attempt_answers', 'attempt_answers jadvali mavjud');
-SELECT has_table('public', 'mastery_records', 'mastery_records jadvali mavjud');
-SELECT has_table('public', 'review_queue', 'review_queue jadvali mavjud');
-SELECT has_table('public', 'mock_exams', 'mock_exams jadvali mavjud');
-SELECT has_table('public', 'mock_exam_questions', 'mock_exam_questions jadvali mavjud');
-SELECT has_table('public', 'sources', 'sources jadvali mavjud');
-SELECT has_table('public', 'source_references', 'source_references jadvali mavjud');
-SELECT has_table('public', 'stimuli', 'stimuli jadvali mavjud');
+select has_table('public', 'subjects', 'subjects table exists');
+select has_table('public', 'modules', 'modules table exists');
+select has_table('public', 'lessons', 'lessons table exists');
+select has_table('public', 'constructs', 'constructs table exists');
+select has_table('public', 'lesson_constructs', 'lesson_constructs table exists');
+select has_table('public', 'blueprints', 'blueprints table exists');
+select has_table('public', 'blueprint_quotas', 'blueprint_quotas table exists');
+select has_table('public', 'questions', 'questions table exists');
+select has_table('public', 'question_options', 'question_options table exists');
+select has_table('public', 'question_keys', 'question_keys table exists');
+select has_table('public', 'profiles', 'profiles table exists');
+select has_table('public', 'exams', 'exams table exists');
+select has_table('public', 'exam_items', 'exam_items table exists');
+select has_table('public', 'user_construct_stats', 'user_construct_stats table exists');
+select has_table('public', 'user_lesson_progress', 'user_lesson_progress table exists');
+select has_table('public', 'user_module_progress', 'user_module_progress table exists');
+select has_table('public', 'question_stats', 'question_stats table exists');
+select has_table('public', 'question_reports', 'question_reports table exists');
+select has_table('public', 'audit_log', 'audit_log table exists');
 
--- RLS enabled
-SELECT has_table_enablerole('public', 'modules', 'RLS modules da yoqilgan');
-SELECT has_table_enablerole('public', 'questions', 'RLS questions da yoqilgan');
-SELECT has_table_enablerole('public', 'attempts', 'RLS attempts da yoqilgan');
+select has_type('public', 'user_role', 'user_role enum exists');
+select has_type('public', 'content_status', 'content_status enum exists');
+select has_type('public', 'question_format', 'question_format enum exists');
+select has_type('public', 'cognitive_level', 'cognitive_level enum exists');
+select has_type('public', 'report_status', 'report_status enum exists');
+select has_type('public', 'exam_kind', 'exam_kind enum exists');
+select has_type('public', 'exam_section', 'exam_section enum exists');
 
--- Constraints
-SELECT col_not_null('public', 'modules', 'code', 'modules.code NOT NULL');
-SELECT col_not_null('public', 'questions', 'question_text', 'questions.question_text NOT NULL');
-SELECT col_not_null('public', 'options', 'option_text', 'options.option_text NOT NULL');
+select col_type_is('public', 'subjects', 'id', 'uuid', 'subjects.id is UUID');
+select col_type_is('public', 'modules', 'id', 'uuid', 'modules.id is UUID');
+select col_type_is('public', 'questions', 'id', 'uuid', 'questions.id is UUID');
+select col_type_is('public', 'exams', 'id', 'uuid', 'exams.id is UUID');
 
--- Unique constraints
-SELECT has_unique('public', 'roles', 'name', 'roles.name UNIQUE');
-SELECT has_unique('public', 'specification_versions', 'version', 'specification_versions.version UNIQUE');
-SELECT has_unique('public', 'mastery_records', ARRAY['user_id', 'subtopic_id'], 'mastery_records(user_id, subtopic_id) UNIQUE');
-
-SELECT * FROM finish();
-ROLLBACK;
+select * from finish();
+rollback;

@@ -28,12 +28,12 @@
 | Jadval | Soni |
 |--------|------|
 | subjects | 1 (Informatika) |
-| modules | 9 ta DB moduli; learner daraxtidagi 16 modul bilan mos emas |
-| constructs | 74 (S1–S9, 76 dan 2 tasi duplicate slug sabab o'tkazib yuborilgan) |
+| modules | 16 ta learner moduli, `M01`–`M16` |
+| constructs | 150 total: 76 active rasmiy + 74 inactive legacy |
 | lessons | 3 (M01 ga tegishli) |
 | lesson_constructs | 4 |
-| blueprints | 1 (2026, ammo seed'da 150 daqiqa — noto'g'ri) |
-| blueprint_quotas | 9; rasmiy ikki o'qli modelga moslashtirilmagan |
+| blueprints | 1 active (2026, 50 savol, 120 daqiqa, 2 ball) |
+| blueprint_quotas | 15; jami 50 / 8 bilish / 35 qo'llash / 7 mulohaza |
 | questions | 5 (Y1 sample) |
 | question_options | 20 |
 | question_keys | 5 |
@@ -51,11 +51,24 @@
 - Audit anon REST orqali faqat o‘qish rejimida bajarildi; remote yozuv
   o‘zgartirilmadi.
 
+### 2026-07-30 P0-003 remote reconciliation
+
+- `supabase_migrations.schema_migrations` yaratildi va `00000/00008/00009`
+  versiyalari ro‘yxatdan o‘tkazildi.
+- Mavjud UUID sxema `00000` baseline sifatida belgilandi; baseline DDL remote’da
+  qayta ishlatilmadi.
+- Remote taxonomy `M01`–`M16`, 15 blueprint guruhi va 76 active rasmiy
+  konstruktga reconcile qilindi.
+- 74 legacy konstrukt va ularga bog‘langan questionlar o‘chirilmay `inactive`
+  holatda saqlandi.
+- Postflight Management API va anon REST orqali `16 / 15 / 50 / 8-35-7 / 120`
+  invariantlari tasdiqlandi.
+
 ## Faol tasklar
 
 | Task | Egasi | Holat | Boshlangan vaqt | Branch |
 |------|-------|-------|-----------------|--------|
-| — | — | Keyingi DB task auditni kutmoqda | — | — |
+| — | — | P0-003 tugadi; P0-004 boshlashga tayyor | — | — |
 
 ## Bloklovchilar
 
@@ -63,7 +76,7 @@
 |----|--------|--------|
 | B-SEC-001 | Lokal hujjatlardan credential olib tashlandi; Supabase credentiallari rotate qilindi | RESOLVED |
 | B-DB-001 | HTTPS audit remote migration metadata jadvali yo‘qligini tasdiqladi | RESOLVED |
-| B-DB-002 | BIGINT va UUID migration liniyalari bir-biriga zid | OPEN |
+| B-DB-002 | Legacy BIGINT liniya arxivlandi; UUID baseline va remote history sinxron | RESOLVED |
 | B-QA-001 | CI secret scan, lint, typecheck, unit, build va E2E bilan yashil | RESOLVED |
 | B-001 | Y1/Y2/Y3 generatorlar (axborotHajmi, sanoqSistema, mantiqAmal, ipMaska) yozilmagan | OPEN |
 | B-002 | ExamRunner + UUID schema moslash | OPEN |
@@ -71,10 +84,10 @@
 
 ## Keyingi bajariladigan task
 
-1. Remote migration tarixini read-only audit qilish
-2. Yangi DB baseline strategiyasini tasdiqlash
-3. DB role escalation va submit idempotency tuzatishlari
-4. UUID sxemaga mos frontend turlarini generatsiya qilish
+1. TASK-P0-004 role escalation va submit idempotency tuzatishlari
+2. UUID sxemaga mos frontend database types generatsiyasi
+3. Secure server-scored ExamRunner
+4. 16 modulni remote lesson/microtopic taksonomiyasi bilan bog‘lash
 
 ## Auditda tasdiqlangan natijalar
 
@@ -83,6 +96,7 @@
 | Safety checkpoint | 2026-07-30 | `4caa968`; raw darsliklar va secretlar commitga kiritilmagan |
 | TASK-P0-001 Foundation recovery | 2026-07-30 | Root README, ADR-017/018, Node/npm pin va avtomatik secret scan |
 | TASK-P0-002 CI quality gate | 2026-07-30 | PR #1 da secret scan, lint, typecheck, 49 unit test, build va 4 Playwright smoke testi yashil |
+| TASK-P0-003 UUID DB baseline | 2026-07-30 | PR #2; fresh va drift-upgrade PostgreSQL joblari yashil; remote 16/15/50/8-35-7/120 bilan sinxron |
 | TASK-P0-005 UI security boundary | 2026-07-30 | Admin deny-by-default; client mock production bundle'dan chiqarildi; bundle regression check qo'shildi |
 | Build audit | 2026-07-30 | TypeScript + Vite build o'tadi |
 | Unit test audit | 2026-07-30 | GitHub CI'da repoga kirgan 49 Vitest test o'tadi |
@@ -92,7 +106,7 @@
 
 | Muhit | URL | Database | Holat |
 |-------|-----|----------|-------|
-| Local | `http://localhost:5173` | Remote Supabase (plyqezulrfowyblsfpzy) | Frontend ishlaydi; remote yozuvlar auditgacha muzlatilgan |
+| Local | `http://localhost:5173` | Remote Supabase (plyqezulrfowyblsfpzy) | UUID baseline sinxron; P0-004 RPC security hardening navbatda |
 | Production | TBD | TBD | Yaratilmagan |
 
 ## Muhim havolalar
