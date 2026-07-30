@@ -27,9 +27,7 @@ window.addEventListener('unhandledrejection', (event) => {
   if (reason instanceof Error) {
     import('./lib/monitoring').then(({ monitoring }) =>
       monitoring.captureException(reason, { type: 'unhandledrejection' })
-    ).catch(() => {
-      console.error('[unhandledrejection]', reason)
-    })
+    ).catch(() => undefined)
   }
 })
 

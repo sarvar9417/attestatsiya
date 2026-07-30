@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import { ArrowLeft, Clock, AlertTriangle, ChevronLeft, ChevronRight, ChevronUp, ChevronDown, Flag, CheckCircle2, XCircle } from 'lucide-react'
 import { BLUEPRINT, MODULES } from '../../data/contentTree'
 import Y1Question from './questions/Y1Question'
@@ -110,42 +110,41 @@ export default function MockExamView({ onBack, onComplete }: Props) {
     return () => clearInterval(t)
   }, [phase, timeLeft])
 
-  useEffect(() => { if (autoSubmit) handleFinish() }, [autoSubmit])
-
   const formatTime = (s: number) => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`
 
   const answered = Object.keys(answers).length
 
-  let correctCount = 0
-  if (phase === 'result') {
-    correctCount = questions.filter(q => {
-      const ans = answers[q.id]
-      if (!ans) return false
-      if (typeof q.correctAnswer === 'string') return ans === q.correctAnswer
-      if (typeof q.correctAnswer === 'object' && !Array.isArray(q.correctAnswer)) {
-        const ca = q.correctAnswer as Record<string, string>
-        const aa = ans as Record<string, string>
-        return Object.keys(ca).every(k => ca[k] === aa[k])
-      }
-      if (Array.isArray(q.correctAnswer)) {
-        const ca = q.correctAnswer as string[]
-        const aa = ans as string[]
-        return ca.length === aa.length && ca.every((v, i) => v === aa[i])
-      }
-      return false
-    }).length
-  }
+  const correctCount = questions.filter(q => {
+    const ans = answers[q.id]
+    if (!ans) return false
+    if (typeof q.correctAnswer === 'string') return ans === q.correctAnswer
+    if (typeof q.correctAnswer === 'object' && !Array.isArray(q.correctAnswer)) {
+      const ca = q.correctAnswer as Record<string, string>
+      const aa = ans as Record<string, string>
+      return Object.keys(ca).every(k => ca[k] === aa[k])
+    }
+    if (Array.isArray(q.correctAnswer)) {
+      const ca = q.correctAnswer as string[]
+      const aa = ans as string[]
+      return ca.length === aa.length && ca.every((v, i) => v === aa[i])
+    }
+    return false
+  }).length
   const score = Math.round((correctCount / TOTAL) * 100)
 
   const handleAnswer = (value: string | Record<string, string> | string[]) => {
     setAnswers(p => ({ ...p, [questions[currentQ].id]: value }))
   }
 
-  const handleFinish = () => {
+  const handleFinish = useCallback(() => {
     if (phase === 'result') return
     setPhase('result')
     onComplete(score, correctCount)
-  }
+  }, [correctCount, onComplete, phase, score])
+
+  useEffect(() => {
+    if (autoSubmit) handleFinish()
+  }, [autoSubmit, handleFinish])
 
   if (phase === 'intro') {
     return (
@@ -346,7 +345,12 @@ export default function MockExamView({ onBack, onComplete }: Props) {
               </div>
             )}
             <div className="flex items-center justify-between mt-6">
-              <button onClick={() => setFlagged(p => { const n = new Set(p); n.has(currentQ) ? n.delete(currentQ) : n.add(currentQ); return n })} className={`flex items-center gap-1.5 text-sm ${flagged.has(currentQ) ? 'text-yellow-600' : 'text-gray-400'} hover:text-yellow-600`}>
+              <button onClick={() => setFlagged(p => {
+                const next = new Set(p)
+                if (next.has(currentQ)) next.delete(currentQ)
+                else next.add(currentQ)
+                return next
+              })} className={`flex items-center gap-1.5 text-sm ${flagged.has(currentQ) ? 'text-yellow-600' : 'text-gray-400'} hover:text-yellow-600`}>
                 <Flag size={14} /> {flagged.has(currentQ) ? 'Belgilangan' : 'Belgilash'}
               </button>
               <div className="flex gap-2">
@@ -388,6 +392,14 @@ export default function MockExamView({ onBack, onComplete }: Props) {
           <AlertTriangle size={18} className="text-amber-500 shrink-0" />
           <p className="text-sm text-amber-700 dark:text-amber-300">Hali {TOTAL - answered} ta savolga javob bermadingiz.</p>
         </div>
+      )}
+      {answered === TOTAL && (
+        <button
+          onClick={handleFinish}
+          className="lg:hidden w-full mt-4 py-3 bg-primary-600 text-white rounded-xl text-sm font-medium hover:bg-primary-700 transition-colors"
+        >
+          Imtihonni yakunlash
+        </button>
       )}
     </div>
   )

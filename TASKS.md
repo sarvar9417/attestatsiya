@@ -8,17 +8,26 @@
 - Dependency `DONE` bo'lmasdan task boshlanmaydi
 - "Done" bandlari test bilan isbotlanadi
 
-## Phase 0 — Foundation ✅ DONE
+## P0 — Xavfsizlik va barqarorlashtirish
+
+| ID | Status | Dependency | Deliverable |
+|----|--------|------------|-------------|
+| TASK-P0-001 | DONE | — | Secretlarni repodan chiqarish, safety checkpoint, root README, stack/taksonomiya ADR, auditga mos project state |
+| TASK-P0-002 | IN_PROGRESS | TASK-P0-001 | GitHub CI: secret scan, lint, unit, build va Playwright smoke |
+| TASK-P0-003 | BLOCKED | TASK-P0-001, remote migration audit | Bitta toza UUID migration baseline va rasmiy 2026 seed |
+| TASK-P0-004 | BLOCKED | TASK-P0-003 | Role escalation, exam membership va idempotent submit xavfsizlik tuzatishlari |
+
+## Oldingi foundation natijalari — audit holati
 
 | ID | Status | Deliverable |
 |----|--------|-------------|
 | T-001 | DONE | React+Vite+TypeScript strict+Vitest+Playwright |
 | T-002 | DONE | Supabase remote project (plyqezulrfowyblsfpzy) |
-| T-003 | DONE | DB UUID schema migrations (6 files: extensions, content, assessment, progress, quality, RLS) |
-| T-004 | DONE | RPC functions (18 ta: start_exam, submit_answer, finish_exam, get_review, SM-2, etc.) |
-| T-005 | DONE | Seed data (1 subject, 9 modules, 74 constructs, 1 blueprint, 9 quotas, 5 sample questions) |
-| T-006 | DONE | Admin panel QuestionsPage with status transitions |
-| T-007 | DONE | 47 tests total (43 Vitest + 4 Playwright), tsc 0 errors |
+| T-003 | BLOCKED | Eski BIGINT va yangi UUID migratsiyalar bir-biriga zid; fresh reset isbotlanmagan |
+| T-004 | BLOCKED | RPC mavjud, ammo exam membership va qayta submit himoyasi yetarli emas |
+| T-005 | BLOCKED | Seed 150 daqiqa, 9 guruh va noto'g'ri UUID qiymatlaridan foydalanadi |
+| T-006 | BLOCKED | Admin panel eski type/schema'ga tayangan va frontend role guard yo'q |
+| T-007 | BLOCKED | 43 unit + 4 smoke E2E o'tadi, ammo lint yiqiladi va domain/RLS qamrovi yetarli emas |
 
 ## Phase 1 — Core app (keyingi)
 
@@ -37,6 +46,10 @@
 
 | ID | Tavsif |
 |----|--------|
+| B-SEC-001 | Ochiq matnda qolgan credentiallar repodan chiqarildi, lekin Supabase tomonda rotate qilish talab qilinadi |
+| B-DB-001 | Remote migration list uchun DB password secret manager orqali berilmagan; linked tarix tekshirilmagan |
+| B-DB-002 | BIGINT va UUID migratsiyalar bir ketma-ketlikda turibdi |
+| B-QA-001 | CI workflow yo'q va lint quality gate qizil |
 | B-001 | Y1/Y2/Y3 generatorlar yozilmagan (konstrukt kodlari va parametrlar asosida savol generatsiyasi) |
 | B-002 | TypeScript types UUID schema bo'yicha yangilanmagan |
 | B-003 | ExamRunner UUID schema ga moslanmagan |

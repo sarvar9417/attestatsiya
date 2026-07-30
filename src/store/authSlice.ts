@@ -11,7 +11,7 @@ export interface AuthSlice {
   completeOnboarding: (name: string) => void
 }
 
-export interface AppState extends AuthSlice {}
+export type AppState = AuthSlice
 
 export const createAuthSlice: StateCreator<AppState, [], [], AuthSlice> = (set) => {
   return {

@@ -70,7 +70,7 @@ export default function ModulesPage() {
     await supabase.from('subtopics').insert({
       module_id: moduleId,
       title: subForm.title,
-      sort_order: modules.find(m => m.id === moduleId)?.subtopics.length ?? 0 + 1,
+      sort_order: (modules.find(m => m.id === moduleId)?.subtopics.length ?? 0) + 1,
     })
     setSubForm(null)
     load()
@@ -78,7 +78,8 @@ export default function ModulesPage() {
 
   const toggleExpand = (id: number) => {
     const next = new Set(expanded)
-    next.has(id) ? next.delete(id) : next.add(id)
+    if (next.has(id)) next.delete(id)
+    else next.add(id)
     setExpanded(next)
   }
 

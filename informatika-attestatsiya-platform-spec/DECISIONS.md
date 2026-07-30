@@ -4,14 +4,14 @@ Har yangi muhim qaror `ADR-###` bilan qo‘shiladi. Eski qaror o‘chirilmaydi; 
 
 ## ADR-001 — Modular monolith
 
-- Holat: `ACCEPTED`
-- Qaror: MVP bitta Next.js ilovasi va bitta PostgreSQL bazasidan iborat modular monolith bo‘ladi.
+- Holat: `ACCEPTED`; framework qismi ADR-017 bilan yangilangan
+- Qaror: MVP bitta web ilova va bitta PostgreSQL bazasidan iborat modular monolith bo‘ladi.
 - Sabab: jamoa AI coderlardan tashkil topadi; distributed transaction, service discovery va alohida deploylar keraksiz murakkablik yaratadi.
 - Natija: domain modullari kodda qat’iy ajratiladi, lekin mikroservisga bo‘linmaydi.
 
 ## ADR-002 — Next.js App Router va TypeScript
 
-- Holat: `ACCEPTED`
+- Holat: `SUPERSEDED` — ADR-017
 - Qaror: full-stack web ilova Next.js App Router va TypeScript strict mode’da quriladi.
 - Sabab: server va client render, responsive PWA, bitta repository va typed komponentlar.
 - Cheklov: domain logic React component yoki route handler ichida yozilmaydi.
@@ -99,6 +99,34 @@ Har yangi muhim qaror `ADR-###` bilan qo‘shiladi. Eski qaror o‘chirilmaydi; 
 
 ## ADR-016 — Versions pinned at bootstrap
 
-- Holat: `ACCEPTED`
+- Holat: `SUPERSEDED` — ADR-017
 - Qaror: Node 24 LTS, exact package versions va lockfile commit qilinadi.
 - Natija: keyingi dependency upgrade alohida task va test bilan amalga oshiriladi.
+
+## ADR-017 — React + Vite, Node 24 va npm
+
+- Holat: `ACCEPTED`
+- Qaror: mavjud React 18 + Vite + TypeScript strict frontend saqlanadi.
+  Server chegarasi Supabase PostgreSQL, RLS, tekshirilgan RPC va zarur Edge
+  Function’lardan iborat bo‘ladi. Node.js 24 LTS, npm va committed
+  `package-lock.json` ishlatiladi.
+- Sabab: ishlaydigan learner/admin UI va test bazasi mavjud. Next.js’ga
+  migratsiya domain xavfsizligi, kontent sifati yoki attestatsiya aniqligiga
+  bevosita qiymat qo‘shmaydi.
+- Cheklov: browser exam scoring, timer, answer key, role assignment yoki
+  mastery uchun authoritative bo‘la olmaydi.
+- Supersedes: ADR-002 va ADR-016’ning package manager/toolchain qismi.
+
+## ADR-018 — Ikki o‘qli kontent taksonomiyasi
+
+- Holat: `ACCEPTED`
+- Qaror: rasmiy baholash o‘qi va pedagogik o‘qitish o‘qi alohida
+  versiyalanadi.
+- Baholash o‘qi: rasmiy blueprint guruhlari, savol raqami, kvota, format va
+  kognitiv daraja.
+- O‘qitish o‘qi: 16 modul → mavzu → mikro-mavzu → o‘quv maqsadi.
+- Bog‘lanish: `construct` ikkala o‘qni many-to-many mapping orqali bog‘laydi.
+- Sabab: bitta modul rasmiy sinovning bir necha konstruktini o‘rgatishi,
+  bitta konstrukt esa bir necha mikro-mavzuda mustahkamlanishi mumkin.
+- Natija: modul soni yoki tartibi blueprint kvotasini anglatmaydi; mock
+  generator faqat versiyalangan assessment blueprint’dan foydalanadi.

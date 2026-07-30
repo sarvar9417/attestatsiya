@@ -1,4 +1,4 @@
-export interface Level {}
-export interface DailyChecklist {}
-export interface MockResult {}
-export interface LessonSessionData {}
+export type Level = Record<string, never>
+export type DailyChecklist = Record<string, never>
+export type MockResult = Record<string, never>
+export type LessonSessionData = Record<string, never>

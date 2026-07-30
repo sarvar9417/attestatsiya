@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import { Plus, Search, Send, CheckCircle, Globe, Archive, Undo2 } from 'lucide-react'
 import QuestionFormModal from '../../components/admin/QuestionFormModal'
@@ -63,9 +63,7 @@ export default function QuestionsPage() {
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState<number | null>(null)
 
-  useEffect(() => { load() }, [filterStatus])
-
-  async function load() {
+  const load = useCallback(async () => {
     setLoading(true)
     let query = supabase
       .from('questions')
@@ -76,7 +74,11 @@ export default function QuestionsPage() {
     const { data } = await query
     if (data) setQuestions(data)
     setLoading(false)
-  }
+  }, [filterStatus])
+
+  useEffect(() => {
+    void load()
+  }, [load])
 
   async function transitionStatus(q: Question, nextStatus: string) {
     const { error } = await supabase.from('questions').update({

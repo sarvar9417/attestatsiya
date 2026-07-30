@@ -925,7 +925,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'definition', content: 'HTML (HyperText Markup Language) — veb-sahifalarni yaratish uchun ishlatiladigan belgilash tili. Teglar yordamida sahifa tuzilishi ifodalanadi.' },
     { type: 'code', content: '<!DOCTYPE html>\n<html>\n<head>\n  <title>Sahifa nomi</title>\n</head>\n<body>\n  <h1>Sarlavha</h1>\n  <p>Matn</p>\n</body>\n</html>', language: 'html' },
     { type: 'table', content: '| Teg | Vazifasi |\n|-----|---------|\n| <h1>-<h6> | Sarlavhalar |\n| <p> | Paragraf |\n| <a> | Havola (link) |\n| <img> | Rasm |\n| <ul>/<ol> | Ro\'yxatlar |\n| <table> | Jadval |\n| <div> | Blok konteyner |\n| <span> | Qator ichidagi element |' },
-    { type: 'note', content: '💡 Atributlar teg ichida yoziladi: <a href=\"https://example.com\">Link</a>. href — atribut, "url" — qiymat.' },
+    { type: 'note', content: '💡 Atributlar teg ichida yoziladi: <a href="https://example.com">Link</a>. href — atribut, "url" — qiymat.' },
   ], [
     { id: 'M11.01-q1', text: 'HTML nimaning qisqartmasi?', options: ['HyperText Markup Language', 'High Tech Modern Language', 'HyperText Modern Layout', 'Home Tool Markup Language'], correctIndex: 0, explanation: 'HTML — HyperText Markup Language', type: 'Y1' },
     { id: 'M11.01-q2', text: 'Qaysi teg eng katta sarlavha uchun ishlatiladi?', options: ['<h6>', '<h1>', '<header>', '<title>'], correctIndex: 1, explanation: '<h1> eng katta, <h6> eng kichik sarlavha', type: 'Y1' },

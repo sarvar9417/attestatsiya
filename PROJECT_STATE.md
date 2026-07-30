@@ -5,7 +5,7 @@
 ## Holat
 
 - Loyiha bosqichi: `DEVELOPMENT`
-- Joriy milestone: `M0 — Foundation (adapted)`
+- Joriy milestone: `P0 — xavfsizlik va barqarorlashtirish`
 - Oxirgi yangilanish: `2026-07-30`
 - Production mavjud: `yo'q`
 - Database project mavjud: `ha (plyqezulrfowyblsfpzy, Singapore)`
@@ -15,25 +15,25 @@
 
 - **Stack:** React + Vite, TypeScript strict, Tailwind CSS, Zustand
 - **Database:** Supabase (PostgreSQL), UUID PK, enum turlari, RLS
-- **Autentifikatsiya:** anonymous kirish, auth.uid() orqali auto-profile
-- **Kontent tuzilmasi:** 16 modul (M01–M16), 117 subtopic, contentTree.ts va topicContent.ts to'liq
-- **Imtihon:** 50 savol, 150 daqiqa, Y1/Y2/Y3 formatlar
-- **Kognitiv:** bilish (35) + qo'llash (5) + mulohaza (10) = 50
-- **DB yozuv operatsiyalari:** faqat RPC (security definer), direct insert/update emas
-- **question_keys:** clientga ko'rinmaydi (faqat staff)
+- **Autentifikatsiya:** email/parol ishlaydi; anonymous upgrade hali implement qilinmagan
+- **Kontent tuzilmasi:** learner o'qi 16 modul (M01–M16); assessment blueprint alohida o'q
+- **Imtihon kontrakti:** 50 savol, 120 daqiqa, Y1/Y2/Y3 formatlar
+- **Kognitiv kontrakt:** bilish (8) + qo'llash (35) + mulohaza (7) = 50
+- **DB yozuv operatsiyalari:** RPC-only maqsad; amaldagi policy va RPC'lar xavfsizlik auditida
+- **question_keys:** mock/practice browser demosi kalitlarni bundle ichida saqlaydi; server oqimiga ko'chirish shart
 - **Til:** o'zbek lotin yozuvi
 
-## DB holati
+## DB holati — oldingi remote kuzatuv, audit talab qilinadi
 
 | Jadval | Soni |
 |--------|------|
 | subjects | 1 (Informatika) |
-| modules | 9 (M01–M09) |
+| modules | 9 ta DB moduli; learner daraxtidagi 16 modul bilan mos emas |
 | constructs | 74 (S1–S9, 76 dan 2 tasi duplicate slug sabab o'tkazib yuborilgan) |
 | lessons | 3 (M01 ga tegishli) |
 | lesson_constructs | 4 |
-| blueprints | 1 (2026, 50 savol) |
-| blueprint_quotas | 9 (barcha guruh uchun) |
+| blueprints | 1 (2026, ammo seed'da 150 daqiqa — noto'g'ri) |
+| blueprint_quotas | 9; rasmiy ikki o'qli modelga moslashtirilmagan |
 | questions | 5 (Y1 sample) |
 | question_options | 20 |
 | question_keys | 5 |
@@ -43,44 +43,42 @@
 
 | Task | Egasi | Holat | Boshlangan vaqt | Branch |
 |------|-------|-------|-----------------|--------|
-| DB migratsiyalari (UUID schema) | AI | DONE | 2026-07-30 | main |
-| RPC funksiyalari | AI | DONE | 2026-07-30 | main |
-| Seed ma'lumot | AI | DONE | 2026-07-30 | main |
-| Admin panel (QuestionsPage) | AI | DONE | 2026-07-29 | main |
-| E2E testlar (Playwright) | AI | DONE | 2026-07-29 | main |
-| Unit testlar (Vitest) | AI | DONE | 2026-07-29 | main |
+| TASK-P0-002 CI quality gate | Codex | IN_PROGRESS | 2026-07-30 | task/TASK-P0-001-foundation |
 
 ## Bloklovchilar
 
 | ID | Tavsif | Status |
 |----|--------|--------|
+| B-SEC-001 | Lokal hujjatlardan credential olib tashlandi; Supabase'da rotate qilish qolgan | OPEN |
+| B-DB-001 | Remote migration tarixini o'qish uchun DB password secret manager'da mavjud emas | OPEN |
+| B-DB-002 | BIGINT va UUID migration liniyalari bir-biriga zid | OPEN |
+| B-QA-001 | Lint yiqiladi, CI workflow yo'q | OPEN |
 | B-001 | Y1/Y2/Y3 generatorlar (axborotHajmi, sanoqSistema, mantiqAmal, ipMaska) yozilmagan | OPEN |
 | B-002 | ExamRunner + UUID schema moslash | OPEN |
 | B-003 | TypeScript database.types.ts UUID schema bo'yicha yangilanmagan | OPEN |
 
 ## Keyingi bajariladigan task
 
-1. TypeScript database.types.ts ni UUID schema bo'yicha yangilash
-2. ExamRunner + Y1/Y2/Y3 komponentlarini UUID schema ga moslash
-3. Y1/Y2/Y3 generatorlarini yozish (axborotHajmi, sanoqSistema, mantiqAmal, ipMaska)
-4. Natija ekrani (ball, toifa qarori, guruh kesimi)
+1. TASK-P0-002 branchni GitHub'ga chiqarish va CI natijasini tekshirish
+2. Remote migration tarixini read-only audit qilish
+3. Yangi DB baseline strategiyasini tasdiqlash
+4. DB xavfsizlik migratsiyasi va testlarini yozish
 
-## So'nggi tugallangan tasklar
+## Auditda tasdiqlangan natijalar
 
 | Task | Tugallangan vaqt | Izoh |
 |------|-----------------|------|
-| DB UUID schema migratsiyalari | 2026-07-30 | 6 ta migration: extensions/content/assessment/progress/quality/RLS |
-| RPC funksiyalari | 2026-07-30 | 18 ta RPC: start_exam, submit_answer, finish_exam, get_review, SM-2 va h.k. |
-| Seed ma'lumot | 2026-07-30 | 1 subject, 9 modul, 74 konstrukt, 1 blueprint, 9 kvota, 5 savol |
-| Admin QuestionsPage | 2026-07-29 | Status transition UI (draft→review→approved→published→archived) |
-| E2E testlar | 2026-07-29 | 4 Playwright test (auth, tablar, parol tiklash, validatsiya) |
-| topicContent to'ldirish | 2026-07-30 | 16 modul, 117 subtopic uchun content yozildi: 350+ theory blok, 400+ test savol |
+| Safety checkpoint | 2026-07-30 | `4caa968`; raw darsliklar va secretlar commitga kiritilmagan |
+| TASK-P0-001 Foundation recovery | 2026-07-30 | Root README, ADR-017/018, Node/npm pin va avtomatik secret scan |
+| Build audit | 2026-07-30 | TypeScript + Vite build o'tadi |
+| Unit test audit | 2026-07-30 | 43 Vitest test o'tadi |
+| E2E smoke audit | 2026-07-30 | 4 auth smoke testi o'tadi; product flow qamrovi hali yo'q |
 
 ## Environment holati
 
 | Muhit | URL | Database | Holat |
 |-------|-----|----------|-------|
-| Local | `http://localhost:5173` | Remote Supabase (plyqezulrfowyblsfpzy) | Ishlayapti |
+| Local | `http://localhost:5173` | Remote Supabase (plyqezulrfowyblsfpzy) | Frontend ishlaydi; remote yozuvlar auditgacha muzlatilgan |
 | Production | TBD | TBD | Yaratilmagan |
 
 ## Muhim havolalar

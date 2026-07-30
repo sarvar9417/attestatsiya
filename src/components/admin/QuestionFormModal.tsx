@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
+import { monitoring } from '../../lib/monitoring'
 import { X } from 'lucide-react'
 
 interface Props {
@@ -113,7 +114,10 @@ export default function QuestionFormModal({ question, onClose, onSaved }: Props)
       }
       onSaved()
     } catch (err) {
-      console.error(err)
+      monitoring.captureException(
+        err instanceof Error ? err : new Error(String(err)),
+        { area: 'admin.question-form' }
+      )
       alert('Xatolik yuz berdi')
     } finally {
       setSaving(false)

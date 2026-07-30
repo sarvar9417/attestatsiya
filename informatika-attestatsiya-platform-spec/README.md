@@ -95,9 +95,10 @@ fayllarini o‘qishi shart.
 ## Asosiy texnologik stack
 
 - Node.js 24 LTS.
-- `pnpm` va committed lockfile.
-- Next.js App Router, React va TypeScript strict mode.
+- `npm` va committed `package-lock.json`.
+- React 18, Vite va TypeScript strict mode.
 - PostgreSQL, Supabase Auth, Storage va Row Level Security.
+- Tekshirilgan PostgreSQL RPC va zarur Supabase Edge Function’lar server chegarasi.
 - SQL migratsiyalar va Supabase CLI.
 - Zod bilan runtime validation.
 - Vitest — unit/integration; Playwright — E2E; pgTAP — RLS/database.
