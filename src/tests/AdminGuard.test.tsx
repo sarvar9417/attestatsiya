@@ -3,6 +3,10 @@ import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import AdminGuard from '../components/auth/AdminGuard'
 
+vi.mock('../lib/supabase', () => ({
+  supabase: {},
+}))
+
 function renderGuard(loadRole: (userId: string) => Promise<string | null>, userId = 'user-1') {
   return render(
     <MemoryRouter>

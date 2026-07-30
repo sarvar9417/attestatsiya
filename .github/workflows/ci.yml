@@ -12,6 +12,10 @@ jobs:
   quality:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    env:
+      # CI faqat UI smoke-test qiladi; haqiqiy Supabase credential ishlatilmaydi.
+      VITE_SUPABASE_URL: https://example.invalid
+      VITE_SUPABASE_ANON_KEY: ci-public-placeholder
 
     steps:
       - name: Checkout
