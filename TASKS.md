@@ -15,7 +15,7 @@
 | TASK-P0-001 | DONE | — | Secretlarni repodan chiqarish, safety checkpoint, root README, stack/taksonomiya ADR, auditga mos project state |
 | TASK-P0-002 | DONE | TASK-P0-001 | GitHub CI: secret scan, lint, unit, build va Playwright smoke |
 | TASK-P0-003 | DONE | TASK-P0-001, remote migration audit | Bitta toza UUID migration baseline va rasmiy 2026 seed |
-| TASK-P0-004 | READY | TASK-P0-003 | Role escalation, exam membership va idempotent submit xavfsizlik tuzatishlari |
+| TASK-P0-004 | DONE | TASK-P0-003 | Role escalation, exam membership va idempotent submit xavfsizlik tuzatishlari |
 | TASK-P0-005 | DONE | TASK-P0-001 | Admin route deny-by-default guard va xavfsiz bo‘lmagan client mock’ni production bundle’dan chiqarish |
 
 ## Oldingi foundation natijalari — audit holati
@@ -25,10 +25,10 @@
 | T-001 | DONE | React+Vite+TypeScript strict+Vitest+Playwright |
 | T-002 | DONE | Supabase remote project (plyqezulrfowyblsfpzy) |
 | T-003 | DONE | Eski BIGINT liniya arxivlandi; UUID baseline fresh va drift-upgrade ssenariylarida isbotlandi |
-| T-004 | BLOCKED | RPC mavjud, ammo exam membership va qayta submit himoyasi yetarli emas |
+| T-004 | DONE | `submit_answer` owner/membership tekshiradi, answer immutable va retry idempotent |
 | T-005 | DONE | Remote seed 16 modul, 15 guruh, 50/120 va 8/35/7 kontraktiga reconcile qilindi |
-| T-006 | BLOCKED | Admin panel eski type/schema'ga tayangan va frontend role guard yo'q |
-| T-007 | BLOCKED | 43 unit + 4 smoke E2E o'tadi, ammo lint yiqiladi va domain/RLS qamrovi yetarli emas |
+| T-006 | BLOCKED | Frontend role guard yopilgan, ammo admin panel eski type/schema'ga tayangan |
+| T-007 | BLOCKED | 49 unit + 4 smoke E2E o'tadi, ammo domain/RLS va product-flow qamrovi yetarli emas |
 
 ## Phase 1 — Core app (keyingi)
 

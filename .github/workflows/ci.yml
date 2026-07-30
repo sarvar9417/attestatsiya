@@ -87,7 +87,9 @@ jobs:
             -f supabase/migrations/20260730000000_uuid_baseline.sql \
             -f supabase/migrations/20260730000008_taxonomy_contract.sql \
             -f supabase/migrations/20260730000009_official_2026_seed.sql \
-            -f supabase/seed.sql
+            -f supabase/migrations/20260730000010_rpc_security_hardening.sql \
+            -f supabase/seed.sql \
+            -f supabase/tests/security_hardening.test.sql
 
       - name: Remote drift reconciliation
         run: |
@@ -98,4 +100,5 @@ jobs:
             -f supabase/tests/remote_drift_fixture.sql \
             -f supabase/migrations/20260730000008_taxonomy_contract.sql \
             -f supabase/migrations/20260730000009_official_2026_seed.sql \
+            -f supabase/migrations/20260730000010_rpc_security_hardening.sql \
             -f supabase/tests/remote_drift_assertions.sql
