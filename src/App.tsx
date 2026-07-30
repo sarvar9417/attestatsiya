@@ -57,6 +57,8 @@ function MainLayout() {
                 <Route path="/learn" element={<LearningPage />} />
                 <Route path="/learn/:moduleId" element={<ModulePage />} />
                 <Route path="/exam" element={<ExamPage />} />
+                <Route path="/exam/:kind" element={<ExamPage />} />
+                <Route path="/exam/:kind/:moduleId" element={<ExamPage />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </div>
