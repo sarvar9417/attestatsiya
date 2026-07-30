@@ -1,0 +1,635 @@
+  // ========= M01: AXBOROT VA RAQAMLI SAVODXONLIK =========
+
+  // ╔══════════════════════════════════════════════════════════════════╗
+  // ║  M01 «Axborot va axborot jarayonlari» LaTeX darsligi asosida  ║
+  // ║  to'liq qayta qurildi (19 bob, jami 685+ kontent blok)         ║
+  // ╚══════════════════════════════════════════════════════════════════╝
+
+
+  // ═══════════════════════════════════════════════════════════════════
+  // M01.01 — LaTeX darsligi asosidagi to'liq kontent
+  // ═══════════════════════════════════════════════════════════════════
+
+  "M01.01": t("M01.01", "Informatika, ma'lumot, axborot va bilim", [
+    { type: "definition", content: "\chapterintroBu bobda bir-biriga eng ko‘p aralashtiriladigan to‘rtta
+tushuncha — informatika, ma’lumot, axborot va bilim — aniq chegaralanadi." },
+    { type: "definition", content: "Informatika — axborotni izlash, yig‘ish, saqlash, qayta ishlash,
+uzatish, himoyalash va undan foydalanish usullari hamda bu jarayonlarni
+amalga oshiruvchi kompyuter va kommunikatsiya vositalarini o‘rganuvchi fan." },
+    { type: "text", content: "``Informatika'' atamasi fransuzcha informatique so‘zidan tarqalgan;
+darslikda u information va automatique g‘oyalari birikmasi
+sifatida tushuntiriladi. Yevropada informatics, AQSHda esa ko‘proq
+computer science nomi ishlatiladi." },
+    { type: "text", content: "Informatikada axborot asosiy ashyo, kompyuter esa asosiy
+vositalardan biridir. Fan faqat kompyuter qurilmasini emas, axborot bilan
+ishlashning butun siklini o‘rganadi. Shu sabab:" },
+    { type: "text", content: "``informatika — kompyuter tuzilishini o‘rganuvchi fan'' — juda tor;" },
+    { type: "text", content: "``informatika — faqat dasturlash fani'' — noto‘g‘ri;" },
+    { type: "definition", content: "``informatika — axborot jarayonlari va ularni avtomatlashtirish
+ usullarini o‘rganuvchi fan'' — mazmunan to‘liqroq." },
+    { type: "text", content: "Texnik ta’minot  Hardware  Kompyuter, aloqa va tashqi qurilmalar." },
+    { type: "text", content: "Dasturiy ta’minot  Software  Operatsion tizim, dastur va algoritmik vositalar." },
+    { type: "text", content: "Insoniy ta’minot  Brainware / userware 
+Tizimni loyihalovchi, boshqaruvchi va undan foydalanuvchi insonlar,
+ularning bilim hamda qoidalari." },
+    { type: "text", content: "Brainware kompyuterning ``miyasi'' bo‘lgan protsessor emas.
+U axborot tizimida ishtirok etuvchi insonlar va ularning kompetensiyasidir." },
+    { type: "example", content: "Ma’lumot (data) — hali talqin qilinmagan yoki muayyan
+vaziyatga bog‘lanmagan raqam, belgi, tovush, tasvir va kuzatuvlar." },
+    { type: "text", content: "Axborot (information) — kontekst va mazmun berilib,
+qabul qiluvchi uchun ma’no kasb etgan ma’lumot." },
+    { type: "definition", content: "Bilim (knowledge) — axborotning tajriba, qoida va avvalgi
+tushunchalar bilan bog‘lanib, xulosa chiqarish yoki harakat qilishga xizmat
+qiladigan o‘zlashtirilgan shakli." },
+    { type: "text", content: "Cambridge darsligi ma’lumotni qayta ishlanmagan belgilar, axborotni
+kontekst va mazmunga ega ma’lumot, bilimni esa inson tajribasi
+qo‘llangan axborot deb ajratadi." },
+    { type: "example", content: "Bir xil belgi turli kontekstda boshqa axborot beradi. Masalan, ``42'':
+harorat, o‘lcham, avtobus raqami yoki test natijasi bo‘lishi mumkin.
+Kontekstsiz ``42'' — ma’lumot; ``50 savoldan 42 tasi to‘g‘ri'' — axborot." },
+    { type: "text", content: "Inson nuqtayi nazaridan: tajriba va o‘rganish orqali
+ shakllangan faktlar hamda qoidalar majmui." },
+    { type: "definition", content: "Axborot tizimida: ekspert tizimi xulosa chiqarishi uchun
+ saqlangan faktlar, tushunchalar va ``agar — u holda'' qoidalari majmui." },
+    { type: "text", content: "Demak, oddiy ma’lumotlar bazasi ko‘proq yozuv va maydonlarni
+tartibli saqlaydi; bilimlar bazasi esa faktlar orasidagi mantiqiy
+munosabat va qoidalarni ham ifodalashi mumkin." },
+    { type: "definition", content: "Axborot keng tushuncha bo‘lgani uchun barcha vaziyatni qamraydigan bitta
+jumla yetarli bo‘lmasligi mumkin. Darslik va ma’ruzada quyidagi
+yondashuvlar uchraydi:" },
+    { type: "definition", content: "Hissiy-idrokiy 
+Borliqdagi narsa va hodisalarning sezgi a’zolari orqali ongda aks etishi." },
+    { type: "text", content: "Mazmuniy 
+Xabarni qabul qilish natijasida inson ongida hosil bo‘lgan ma’no." },
+    { type: "text", content: "Kibernetik 
+Boshqaruv tizimining tashqi muhitga moslashishi va qaror qabul qilishi
+uchun foydalaniladigan mazmun." },
+    { type: "example", content: "Shennoncha 
+Natija haqidagi noaniqlikning kamayishi. Teng ehtimolli ikki holatdan
+bittasi ma’lum bo‘lishi 1 bit axborot beradi." },
+    { type: "text", content: "Klod Shennon nazariyasida ``axborot'' xabarning foydali yoki haqiqat
+ekanini emas, noaniqlikni qancha kamaytirishini o‘lchaydi. Noto‘g‘ri xabar
+ham bitlarda hajmga ega bo‘lishi mumkin, lekin sifatsiz axborot bo‘ladi." },
+    { type: "definition", content: "[Obyekt]
+ Biz o‘rganayotgan narsa, hodisa, jarayon yoki shaxs." },
+    { type: "text", content: "[Axborot obyekti]
+ Axborotni ifodalovchi yoki undan ma’no olish mumkin bo‘lgan matn, rasm,
+ jadval, tovush yozuvi, model va shu kabilar." },
+    { type: "text", content: "[Xabar]
+ Axborotni jo‘natuvchidan qabul qiluvchiga yetkazish uchun tuzilgan
+ belgilar, tovushlar, tasvirlar yoki signallar ketma-ketligi." },
+    { type: "definition", content: "[Signal]
+ Axborotni kanal bo‘ylab tashuvchi fizik jarayon yoki holat: elektr
+ kuchlanishi, yorug‘lik impulsi, radioto‘lqin, tovush to‘lqini va boshqalar." },
+    { type: "text", content: "[Axborot tashuvchi]
+ Axborot saqlanadigan moddiy muhit: qog‘oz, disk, flesh-xotira, magnit
+ tasma, toshdagi yozuv va boshqalar." },
+  ], [
+    {"id":"M01.01-q1","text":"Informatika atamasi qaysi tildan olingan?","options":["Ingliz","Fransuz","Nemis","Rus"],"correctIndex":1,"explanation":"Informatika fransuzcha «informatique» (information + automatique) so'zidan olingan","type":"Y1"},
+    {"id":"M01.01-q2","text":"Ma'lumot va axborot o'rtasidagi farqni belgilang.","options":["Ma'lumot = axborot","Ma'lumot — xom faktlar, axborot — kontekstli ma'lumot","Axborot — xom faktlar, ma'lumot — qayta ishlangan","Hech qanday farq yo'q"],"correctIndex":1,"explanation":"Ma'lumot (data) — xom faktlar, axborot (information) — kontekst va mazmunga ega ma'lumot","type":"Y2"},
+    {"id":"M01.01-q3","text":"Informatika tizimining uch tarkibiga nimalar kiradi?","options":["Monitor, klaviatura, sichqon","Texnik, dasturiy, insoniy ta'minot","Word, Excel, PowerPoint","Internet, brauzer, server"],"correctIndex":1,"explanation":"Informatika tizimi: texnik (hardware), dasturiy (software) va insoniy (brainware) ta'minot","type":"Y2"},
+    {"id":"M01.01-q4","text":"Bilimlar bazasi deganda nima tushuniladi?","options":["Xom faktlar to'plami","Inson tajribasi qo'llangan axborot","Internetdagi barcha ma'lumotlar","Kompyuter xotirasi"],"correctIndex":1,"explanation":"Bilimlar bazasi — inson tajribasi qo'llangan, tahlil qilingan axborot","type":"Y1"},
+    {"id":"M01.01-q5","text":"Klod Shennon nazariyasida axborot nima sifatida o'lchanadi?","options":["Xabarning foydaliligi","Noaniqlikning kamayishi","Xabarning uzunligi","Xabarning haqiqatligi"],"correctIndex":1,"explanation":"Shennon nazariyasida axborot — natija haqidagi noaniqlikning kamayishi","type":"Y2"},
+    {"id":"M01.01-q6","text":"Axborotga shennoncha yondashuvda 1 bit axborot nima?","options":["8 xil belgi","Ikki teng ehtimolli holatdan birini bilish","1 bayt ma'lumot","Bitta harf"],"correctIndex":1,"explanation":"Ikki teng ehtimolli holatdan biri ma'lum bo'lishi 1 bit axborot beradi","type":"Y2"},
+    {"id":"M01.01-q7","text":"Axborot va uni tashuvchi o'rtasidagi farq nima?","options":["Ular aynan bir narsa","Axborot mazmun, tashuvchi esa uni saqlovchi muhit","Tashuvchi mazmun, axborot esa shakl","Farqi yo'q"],"correctIndex":1,"explanation":"Axborot va uni tashuvchi aynan bir narsa emas. Bir matn qog'ozda ham, SSDda ham saqlanishi mumkin","type":"Y2"},
+  ]),
+
+  // ═══════════════════════════════════════════════════════════════════
+  // M01.02 — LaTeX darsligi asosidagi to'liq kontent
+  // ═══════════════════════════════════════════════════════════════════
+
+  "M01.02": t("M01.02", "Axborot turlari, xossalari, manbalari va jarayonlari", [
+    { type: "note", content: "\chapterintroTestda ``tur'', ``shakl'', ``xossa'' va ``signal tabiati''
+bir-biriga aralashtiriladi. Bu bob tasnif mezonini avval aniqlashni o‘rgatadi." },
+    { type: "example", content: "Bitta obyekt bir vaqtning o‘zida bir necha guruhga kirishi mumkin.
+Masalan, jonli efirdagi ob-havo xaritasi:" },
+    { type: "text", content: "ifoda shakliga ko‘ra — grafik va matnli;" },
+    { type: "text", content: "signal tabiatiga ko‘ra — kompyuter ichida raqamli;" },
+    { type: "text", content: "dolzarbligiga ko‘ra — vaqtida ko‘rilsa dolzarb." },
+    { type: "text", content: "Savolda ``qaysi tur?'' deyilsa, javob variantlaridan tasnif mezonini
+toping. ``Matnli'' bilan ``ishonchli'' bir darajadagi turlar emas:
+birinchisi shakl, ikkinchisi sifat xossasi." },
+    { type: "text", content: "Matnli  Harf, raqam, tinish va maxsus belgilar  maqola, xabar" },
+    { type: "text", content: "Sonli  Miqdorni bildiruvchi son va o‘lchov birligi  27 \(^\circ\)C" },
+    { type: "text", content: "Grafik  Rasm, chizma, sxema, diagramma  xarita, ikonka" },
+    { type: "text", content: "Audio  Ovoz to‘lqinining raqamli ifodasi  nutq, musiqa" },
+    { type: "text", content: "Video  Kadrlar ketma-ketligi, ko‘pincha audio bilan  videodars" },
+    { type: "text", content: "Multimedia  Bir nechta media turi birgalikda  interaktiv dars" },
+    { type: "text", content: "``Rasmli'' va ``grafik'' ko‘pincha sinonim ishlatiladi. Multimedia
+esa alohida sezgi turi emas; matn, grafika, animatsiya, audio va videoning
+bir muhitda uyg‘unlashuvidir." },
+    { type: "text", content: "Ko‘rish (vizual)  matn, rang, imo-ishora, rasm, video" },
+    { type: "text", content: "Eshitish (audial)  nutq, musiqa, signal tovushi" },
+    { type: "text", content: "Ta’m bilish  shirin, nordon, sho‘r ta’m" },
+    { type: "text", content: "Teri orqali sezish (taktil)  harorat, bosim, tebranish, Braille bo‘rtmalari" },
+    { type: "text", content: "Braille yozuvi shaklan belgili matn, qabul qilish usuliga ko‘ra taktil
+axborotdir. Demak, tasniflar bir-birini inkor qilmaydi." },
+    { type: "text", content: "Analog (uzluksiz) signal — vaqt yoki makonda qiymati uzluksiz
+o‘zgarishi mumkin bo‘lgan signal." },
+    { type: "text", content: "Diskret (uzlukli) signal — faqat ajratilgan paytlar yoki
+belgilangan qiymatlar to‘plamida ifodalanadigan signal." },
+    { type: "text", content: "Tabiatdagi tovush va yorug‘lik ko‘pincha analog signal; kompyuterda
+saqlangan matn, piksel qiymati va raqamli audio namunasi diskretdir.
+Analog signalni kompyuterda saqlash uchun undan ma’lum vaqtlarda
+namuna olinadi, qiymatlar darajalarga kvantlanadi va
+ikkilikda kodlanadi." },
+    { type: "definition", content: "``Ovoz analog, demak MP3 analog fayl'' — noto‘g‘ri. Tabiiy ovoz to‘lqini
+analog; MP3 ichidagi ma’lumot raqamli. ``Raqamli'' va ``elektron''
+ham aynan bir tushuncha emas: analog elektron qurilmalar ham mavjud." },
+    { type: "text", content: "Axborot sifati bitta xossa bilan emas, foydalanish vazifasiga mos xossalar
+majmui bilan baholanadi." },
+    { type: "text", content: "Aniqlik / to‘g‘rilik 
+Fakt va qiymatlar xatosizmi? 
+Raqam, ism, sana, o‘lchov yoki imlo xatosi qarorni buzishi mumkin." },
+    { type: "text", content: "Ishonchlilik 
+Manba va dalilga ishonish mumkinmi? 
+Muallif vakolati, dalil, tahrir va boshqa manbalar bilan moslik tekshiriladi." },
+    { type: "text", content: "Dolzarblik 
+Maqsadga aynan shu ma’lumot kerakmi? 
+Keraksiz faktlar ko‘p bo‘lsa, asosiy axborotni topish qiyinlashadi." },
+    { type: "text", content: "O‘z vaqtidalik 
+Axborot eskirmaganmi? 
+Kecha to‘g‘ri bo‘lgan kurs, jadval yoki narx bugun noto‘g‘ri bo‘lishi mumkin." },
+    { type: "text", content: "To‘liqlik 
+Qaror uchun zarur qismlar bormi? 
+Manzilning ko‘cha nomi bor-u, uy raqami yo‘q bo‘lsa, axborot yetarli emas." },
+    { type: "text", content: "Tafsilot darajasi 
+Tafsilot kam ham, ortiqcha ham emasmi? 
+Auditoriya va vazifaga mos optimal chuqurlik talab etiladi." },
+    { type: "text", content: "Tushunarlilik 
+Qabul qiluvchi til va belgilarni tushunadimi? 
+Noma’lum kod yoki keraksiz jargon ma’noni yopadi." },
+  ], [
+    {"id":"M01.02-q1","text":"Quyidagilardan qaysi biri axborot turi emas?","options":["Matnli","Grafik","Jismoniy","Video"],"correctIndex":2,"explanation":"Jismoniy axborot turi mavjud emas","type":"Y1"},
+    {"id":"M01.02-q2","text":"Analog va diskret signalni farqlang.","options":["Sinonim","Analog — uzluksiz, diskret — uzlukli","Analog — raqamli, diskret — uzluksiz","Farqi yo'q"],"correctIndex":1,"explanation":"Analog (uzluksiz) — tabiatdagi tovush, yorug'lik; diskret (uzlukli) — kompyuterdagi ma'lumot","type":"Y2"},
+    {"id":"M01.02-q3","text":"Axborot sifatining asosiy xususiyati emas?","options":["To'g'rilik","Dolzarblik","Rangli bo'lishi","To'liqlik"],"correctIndex":2,"explanation":"Rangli bo'lishi axborot sifati xususiyati emas","type":"Y1"},
+    {"id":"M01.02-q4","text":"Bilvosita ma'lumot manbai qanday ma'lumot?","options":["To'planish maqsadiga ko'ra yig'ilgan","Boshqa maqsadda yig'ilgan ikkilamchi ma'lumot","Faqat rasmlardan iborat","Jonli efir ma'lumoti"],"correctIndex":1,"explanation":"Bilvosita (ikkilamchi) manba — boshqa maqsadda yig'ilgan ma'lumot","type":"Y1"},
+    {"id":"M01.02-q5","text":"Statik va dinamik ma'lumotni farqlang.","options":["Sinonim","Statik — qo'lda tahrirlanadi, dinamik — avtomatik yangilanadi","Dinamik — qo'lda tahrirlanadi","Farqi yo'q"],"correctIndex":1,"explanation":"Statik ma'lumot qo'lda tahrirlanadi, dinamik esa manba o'zgarishi bilan avtomatik yangilanadi","type":"Y2"},
+    {"id":"M01.02-q6","text":"Internetdan olingan ma'lumot avtomatik ikkilamchi hisoblanadimi?","options":["Ha","Yo'q, tasnif foydalanish maqsadiga bog'liq","Har doim birlamchi","Internetda ikkilamchi manba yo'q"],"correctIndex":1,"explanation":"Tasnif foydalanish maqsadiga bog'liq — meteorologik stansiya o'z sensor natijasi uchun birlamchi","type":"Y2"},
+  ]),
+
+  // ═══════════════════════════════════════════════════════════════════
+  // M01.03 — LaTeX darsligi asosidagi to'liq kontent
+  // ═══════════════════════════════════════════════════════════════════
+
+  "M01.03": t("M01.03", "Axborot texnologiyalari va raqamli muhit", [
+    { type: "text", content: "\chapterintroAxborotni bilish yetarli emas: uni maqsadli topish, tanqidiy
+baholash, qonuniy ishlatish va xavfsiz boshqarish raqamli savodxonlikni hosil qiladi." },
+    { type: "definition", content: "Axborot texnologiyasi (AT) — axborotni izlash, yig‘ish, saqlash,
+qayta ishlash, uzatish, himoyalash va foydalanuvchiga taqdim etish uchun
+qo‘llanadigan usullar, jarayonlar, dasturiy hamda texnik vositalar majmui." },
+    { type: "example", content: "ATning natijasi shunchaki qurilma emas, maqsadga mos axborot
+mahsuloti yoki xizmatdir. Masalan, elektron jurnal tizimida:" },
+    { type: "text", content: "ma’lumot — o‘quvchi, sana, baho, davomat yozuvlari;" },
+    { type: "text", content: "texnika — kompyuter, telefon, server va tarmoq;" },
+    { type: "text", content: "dastur — bazani boshqarish va interfeys;" },
+    { type: "definition", content: "jarayon — kiritish, tekshirish, hisoblash, saqlash, hisobot;" },
+    { type: "text", content: "inson — o‘qituvchi, administrator, o‘quvchi va ota-ona;" },
+    { type: "text", content: "natija — o‘zlashtirish haqidagi tushunarli axborot." },
+    { type: "text", content: "Axborot texnologiyasi = kompyuter, degan tenglik noto‘g‘ri.
+Kompyuter — vosita; texnologiya esa maqsad, usul, dastur, qurilma,
+ma’lumot va inson faoliyatining tashkil etilgan tizimidir." },
+    { type: "text", content: "Raqamli axborot — qiymatlari diskret kodlar, amalda ko‘pincha
+ikkilik bitlar bilan ifodalangan axborot. Uning afzalliklari:" },
+    { type: "text", content: "algoritmlar bilan avtomatik qayta ishlash;" },
+    { type: "text", content: "qidirish, indekslash va katta hajmda saqlash;" },
+    { type: "text", content: "shifrlash, nazorat yig‘indisi va zaxira nusxasi bilan himoyalash;" },
+    { type: "text", content: "matn, rasm, audio va videoni bir qurilmada birlashtirish." },
+    { type: "text", content: "Cheklovlari ham bor: qurilma va formatga bog‘liqlik, tez ko‘payadigan
+noto‘g‘ri axborot, maxfiylik buzilishi, raqamli izning uzoq saqlanishi,
+eskirgan tashuvchi yoki kodek sabab faylni ocha olmaslik." },
+    { type: "text", content: "Axborotlashgan jamiyat — axborot va bilim yaratish, qayta
+ishlash, almashish hamda ulardan foydalanish iqtisodiyot, boshqaruv,
+ta’lim va kundalik hayotning asosiy omiliga aylangan jamiyat." },
+    { type: "text", content: "Uning belgilariga raqamli xizmatlar, elektron hujjatlar, tarmoqli aloqa,
+masofaviy ta’lim, katta ma’lumotlar, axborot kasblari va tezkor bilim
+almashinuvi kiradi. Biroq texnika mavjudligi o‘z-o‘zidan axborot
+madaniyatini yaratmaydi." },
+    { type: "text", content: "Axborot madaniyati — axborotga ehtiyojni aniqlash, uni samarali
+izlash, ishonchliligini baholash, qayta ishlash, tartiblash, qonuniy va
+axloqiy qo‘llash hamda xavfsiz ulashish qobiliyatlari majmui." },
+    { type: "definition", content: "Milliy 6-sinf darsligi bu tushunchaga soxta ma’lumotga aldanmaslik,
+zarurini ajratish, mazmunni tushunish, xolis manbani ulashish va mantiqiy
+xulosa chiqarishni kiritadi." },
+    { type: "text", content: "Axborot ehtiyoji  Men aynan nimani va qaysi aniqlikda bilmoqchiman?" },
+    { type: "text", content: "Qidiruv  Kalit so‘z, filtr va ishonchli domenni tanladimmi?" },
+    { type: "text", content: "Baholash  Muallif, sana, dalil, maqsad va boshqa manbalarni tekshirdimmi?" },
+    { type: "text", content: "Qayta ishlash  Faktni fikrdan ajratib, xulosani dalilga bog‘ladimmi?" },
+    { type: "text", content: "Mualliflik  Iqtibos, havola, litsenziya va ruxsat talabini bajardimmi?" },
+    { type: "text", content: "Maxfiylik  Shaxsiy yoki maxfiy ma’lumotni ortiqcha oshkor qilmadimmi?" },
+    { type: "text", content: "Muloqot  Auditoriya, mavzu va raqamli etiketga mos yozdimmi?" },
+    { type: "text", content: "Raqamli iz — foydalanuvchining onlayn va raqamli tizimlardagi
+harakati natijasida qoladigan yozuvlar: post, izoh, qidiruv, joylashuv,
+fayl metama’lumoti, kirish jurnali va boshqalar." },
+    { type: "text", content: "Faol iz foydalanuvchi ataylab joylashtirgan post, forma yoki
+xabardan; passiv iz esa tizim qayd etgan IP manzil, qurilma
+ma’lumoti, cookie yoki kirish vaqtidan hosil bo‘ladi. O‘chirilgan kontent
+nusxa, arxiv yoki skrinshotda qolishi mumkin." },
+    { type: "note", content: "``Shaxsiy profil faqat do‘stlarimga ko‘rinadi, demak undagi ma’lumot
+mutlaqo maxfiy'' — kafolat emas. Qabul qiluvchi nusxa olishi, hisob
+buzilishi yoki platforma siyosati o‘zgarishi mumkin." },
+  ], [
+    {"id":"M01.03-q1","text":"AT va kompyuter o'rtasidagi farq nima?","options":["Sinonim","Kompyuter — vosita, AT — usul va vositalar tizimi","AT — kompyuterning bir qismi","Farqi yo'q"],"correctIndex":1,"explanation":"Axborot texnologiyasi = kompyuter degan tenglik noto'g'ri","type":"Y2"},
+    {"id":"M01.03-q2","text":"Raqamli izning faol turiga misol?","options":["IP manzil","Cookie fayllari","Ijtimoiy tarmoqdagi post","Serverdagi kirish jurnali"],"correctIndex":2,"explanation":"Faol iz — foydalanuvchi ataylab joylashtirgan post yoki xabar","type":"Y2"},
+    {"id":"M01.03-q3","text":"Axborot madaniyatining birinchi bosqichi nima?","options":["Qidirish","Baholash","Ehtiyojni aniq qo'yish","Xulosa chiqarish"],"correctIndex":2,"explanation":"1) ehtiyojni aniq qo'yish; 2) qidirish; 3) baholash; 4) saralash; 5) ulashish","type":"Y1"},
+    {"id":"M01.03-q4","text":"Fakt va fikrni farqlang.","options":["Sinonim","Fakt — dalil bilan tekshirish mumkin, fikr — shaxsiy baho","Fikr — tekshiriladi, fakt — baho","Farqi yo'q"],"correctIndex":1,"explanation":"Fakt: «fayl 8 MiB» (tekshirish mumkin). Fikr: «bu format eng qulay» (shaxsiy baho)","type":"Y2"},
+    {"id":"M01.03-q5","text":"Raqamli axborotning afzalligi emas?","options":["Aniq nusxalash","Tez uzatish","Hech qachon eskirib qolmasligi","Avtomatik qayta ishlash"],"correctIndex":2,"explanation":"Raqamli axborot eskirgan tashuvchi sabab ochilmasligi mumkin","type":"Y2"},
+    {"id":"M01.03-q6","text":"Xulosa nima?","options":["Fakt va qoida asosidagi natija","Shaxsiy baho","Xom fakt","Tasodifiy fikr"],"correctIndex":0,"explanation":"Xulosa — bir yoki bir necha fakt va qoida asosida chiqarilgan natija","type":"Y1"},
+  ]),
+
+  // ═══════════════════════════════════════════════════════════════════
+  // M01.04 — LaTeX darsligi asosidagi to'liq kontent
+  // ═══════════════════════════════════════════════════════════════════
+
+  "M01.04": t("M01.04", "Belgi, kod, kodlash va shifrlash", [
+    { type: "note", content: "\chapterintroKodlash axborotni ifodalashga, shifrlash esa uni kalitsiz
+tushunishni qiyinlashtirishga xizmat qiladi. Bu ikki maqsadni aralashtirmang." },
+    { type: "definition", content: "Belgi — ma’lum obyekt, harakat, xossa yoki tushunchani
+ifodalash uchun qabul qilingan ishora." },
+    { type: "text", content: "Alifbo — kodlashda ishlatiladigan ruxsat etilgan belgilar
+to‘plami; uning elementlari soni alifbo quvvati deyiladi." },
+    { type: "text", content: "Kod — axborot elementlarini boshqa belgilar yoki signallar
+ketma-ketligi bilan moslashtiruvchi qoidalar tizimi." },
+    { type: "text", content: "Kodlash — axborotni belgilangan qoida bo‘yicha kodga
+o‘tkazish; dekodlash — kodlangan ifodadan dastlabki mazmunni
+qayta tiklash." },
+    { type: "text", content: "Belgining ma’nosi tabiiy bo‘lishi shart emas; u kelishuvga tayanadi.
+Ma’ruzada shartli belgilar ikki ko‘rinishda izohlanadi:" },
+    { type: "example", content: "oshkora kelishuv — belgi ma’nosi qoida yoki izoh bilan
+ beriladi, masalan, yo‘l belgisi;" },
+    { type: "example", content: "yashirin/tarkibiy kelishuv — ma’no til va madaniyat
+ tajribasi orqali tushuniladi, masalan, harf yoki ramz." },
+    { type: "text", content: "Kodlash faqat ``0 va 1 ga aylantirish'' emas. U turli maqsadlarda
+qo‘llanadi:" },
+    { type: "text", content: "Ifodalash: kompyuter ishlov bera oladigan formatga o‘tkazish." },
+    { type: "text", content: "Ixchamlashtirish: uzun nomni qisqa kod bilan almashtirish." },
+    { type: "text", content: "Tasniflash: obyektlarni guruh va tur bo‘yicha belgilash." },
+    { type: "text", content: "Tez kiritish: takroriy ma’lumotni qisqa yozish." },
+    { type: "text", content: "Aniq uzatish: yagona kelishilgan alifbodan foydalanish." },
+    { type: "text", content: "Xatoni aniqlash: tekshiruv biti yoki nazorat raqamini qo‘shish." },
+    { type: "text", content: "Siqish: takrorlanishni samaraliroq kod bilan ifodalash." },
+    { type: "text", content: "Kam joy va tez kiritish  Kod ma’nosini bilmaslik yoki noto‘g‘ri talqin" },
+    { type: "text", content: "Bir xil formatda avtomatik ishlov  Ko‘plab mos kelmaydigan format/kodek" },
+    { type: "text", content: "Tasdiqlash qoidalarini soddalashtirish  O/0, I/l/1 kabi o‘xshash belgilar" },
+    { type: "text", content: "Qisqa identifikatorlar  Kodlar yetishmasligi yoki takrorlanishi" },
+    { type: "text", content: "Siqish orqali kichik fayl  Yo‘qotishli usulda sifatning pasayishi" },
+    { type: "note", content: "Qisqa kod maxfiylikni kafolatlamaydi. ``E = erkak, A = ayol''
+yozuvini tushunmaslik vaqtinchalik noaniqlikdir; kod jadvali topilsa,
+ma’no ochiladi. Kriptografik shifrlashda esa kalit va algoritm mavjud." },
+    { type: "text", content: "Raqamli  telefon kodi, mahsulot raqami, Unicode kod nuqtasi" },
+    { type: "text", content: "Belgili  Morse alifbosi, qisqartma, yo‘l belgilari" },
+    { type: "text", content: "Grafik  piktogramma, bayroq/semafor, QR kod" },
+    { type: "text", content: "Tovushli  signal qo‘ng‘irog‘i, ogohlantirish ohangi" },
+    { type: "text", content: "Ikkilik  0 va 1 ketma-ketligi bilan kompyuterda ifodalash" },
+    { type: "text", content: "[Morse kodi]
+ Harf va raqamlarni qisqa hamda uzun signallar ketma-ketligi bilan
+ ifodalaydi. Kod uzunligi o‘zgaruvchan." },
+    { type: "example", content: "[Semafor]
+ Bayroq yoki qo‘l holatlari orqali harflarni masofadan uzatadi." },
+    { type: "text", content: "[Braille]
+ Bo‘rtma nuqtalar kombinatsiyasi; ko‘rishida nuqsoni bor insonlar
+ taktil tarzda o‘qiydi." },
+  ], [
+    {"id":"M01.04-q1","text":"Kodlash nima?","options":["Axborotni o'chirish","Axborotni bir ko'rinishdan boshqasiga o'tkazish","Axborotni nusxalash","Axborotni uzatish"],"correctIndex":1,"explanation":"Kodlash — axborotni qoida bo'yicha kodga o'tkazish","type":"Y1"},
+    {"id":"M01.04-q2","text":"Kodlash, siqish va shifrlashni farqlang.","options":["Uchchalasi bir xil","Kodlash — format, siqish — hajm, shifrlash — maxfiylik","Siqish va shifrlash bir xil","Kodlash — maxfiylik"],"correctIndex":1,"explanation":"Kodlash — taqdim etish; siqish — hajm kamaytirish; shifrlash — maxfiylik","type":"Y2"},
+    {"id":"M01.04-q3","text":"Prefiks kodga misol qaysi?","options":["0, 01, 10","0, 10, 110, 111","1, 11, 111","00, 001, 10"],"correctIndex":1,"explanation":"0, 10, 110, 111 — prefiks kod: hech bir kod so'zi boshqasining bosh qismi emas","type":"Y2"},
+    {"id":"M01.04-q4","text":"Sezar shifrida kalit nima?","options":["Alifbo","Siljish miqdori","Xabar uzunligi","Maxfiy so'z"],"correctIndex":1,"explanation":"Sezar shifrida har bir harf bir xil miqdorga siljitiladi — bu siljish miqdori kalit","type":"Y2"},
+    {"id":"M01.04-q5","text":"Simmetrik va asimmetrik shifrlashni farqlang.","options":["Sinonim","Simmetrik — bir kalit, asimmetrik — kalit jufti","Asimmetrik — bir kalit","Ikkalasi bir xil"],"correctIndex":1,"explanation":"Simmetrikda bir maxfiy kalit, asimmetrikda ochiq va yopiq kalit jufti","type":"Y2"},
+    {"id":"M01.04-q6","text":"HTTPS qanday shifrlashdan foydalanadi?","options":["Faqat simmetrik","Faqat asimmetrik","Ikkalasini birlashtiradi","Hech qanday"],"correctIndex":2,"explanation":"HTTPS asimmetrik bilan kalit almashadi, keyin simmetrik bilan ma'lumotni shifrlaydi","type":"Y2"},
+  ]),
+
+  // ═══════════════════════════════════════════════════════════════════
+  // M01.05 — LaTeX darsligi asosidagi to'liq kontent
+  // ═══════════════════════════════════════════════════════════════════
+
+  "M01.05": t("M01.05", "Bit, bayt, axborot birliklari va Xartli formulasi", [
+    { type: "example", content: "\chapterintroBit bir vaqtning o‘zida ikkilik raqam, xotira birligi va
+ikki teng ehtimolli holatdan birini aniqlash miqdori sifatida uchraydi." },
+    { type: "example", content: "Bit (binary digit) — 0 yoki 1 qiymatini qabul qiluvchi
+eng kichik ikkilik birlik. Axborot nazariyasida u ikki teng ehtimolli
+holatdan qaysi biri yuz berganini bilish bilan olinadigan miqdor." },
+    { type: "text", content: "Shuning uchun \(8~\mathrmMb=1~\mathrmMB\) faqat bir xil prefiks
+tizimi va qo‘shimcha shartlar ostida; ``Mb'' bilan ``MB'' teng emas." },
+    { type: "example", content: "Teng uzunlikdagi ikkilik kodda \(i\) bit bilan kodlanadigan mumkin
+bo‘lgan holatlar soni:" },
+    { type: "text", content: "Bu bog‘lanish Xartli formulasi deb yuritiladi." },
+    { type: "text", content: "Agar \(N\) ikkining darajasi bo‘lmasa, barcha belgilarni kodlash uchun
+eng kichik butun bitlar soni olinadi:" },
+    { type: "text", content: "Demak, bitta belgiga kamida \(i=8\) bit kerak." },
+    { type: "text", content: "30 xil signal beradigan faqat yoniq/o‘chiq lampalar soni:" },
+    { type: "example", content: "\(N=2^i\) formulada \(N\) — xabar uzunligi emas, mumkin bo‘lgan
+holat yoki alifbo belgilarining soni; \(i\) — bitta holatni ifodalovchi
+kod uzunligi. \(m\) ta belgi yozilgan xabarning hajmi esa \(I=m\cdot i\)." },
+    { type: "text", content: "Maktab darsliklarida an’anaviy ravishda KB, MB, GB yozuvlari 1024
+ko‘paytuvchisi bilan beriladi. Zamonaviy standart aniq farqlaydi:" },
+    { type: "text", content: "kilobayt  kB  \(10^3~\B=1000~\B\)  SI o‘nlik" },
+    { type: "text", content: "terabayt  TB  \(10^12~\B\)  SI o‘nlik" },
+    { type: "text", content: "kibibayt  KiB  \(2^10~\B=1024~\B\)  IEC ikkilik" },
+    { type: "text", content: "mebibayt  MiB  \(2^20~\B=1048576~\B\)  IEC ikkilik" },
+    { type: "text", content: "gibibayt  GiB  \(2^30~\B\)  IEC ikkilik" },
+    { type: "text", content: "tebibayt  TiB  \(2^40~\B\)  IEC ikkilik" },
+    { type: "text", content: "Davomi: SI tizimida PB, EB, ZB, YB; IEC tizimida PiB, EiB, ZiB, YiB.
+NISTning rasmiy birlik izohida \(1~\mathrmKiB=2^10\B\) va
+\(1~\mathrmkB=10^3\B\) alohida ko‘rsatiladi." },
+    { type: "text", content: "Darslikdagi ``1 KB = 1024 B'' yozuvi tarixiy-amaliy konvensiya.
+Texnik jihatdan aniq yozuv \(1~\mathrmKiB=1024~\B\).
+Attestatsiya masalasida berilgan ta’rif yoki variantlar qaysi modelni
+talab qilayotganini aniqlang." },
+    { type: "text", content: "64 MiB xotirada 150 KiBli nechta to‘liq fayl?" },
+    { type: "text", content: "Kasrli fayl saqlanmaydi, shuning uchun natija pastga yaxlitlanadi." },
+    { type: "text", content: "Real diskda foydalanuvchiga ko‘rinadigan bo‘sh joy katalog, fayl tizimi,
+blok bo‘yicha yaxlitlash va xizmat ma’lumotlari sabab formuladagi ideal
+sig‘imdan kichik bo‘lishi mumkin. Test masalasi aytmasa, bu qo‘shimcha
+xarajatlar hisobga olinmaydi." },
+    { type: "example", content: "65 xil holatni kodlash uchun kamida necha bit kerak?" },
+    { type: "text", content: "1 MB bilan 1 MiB orasidan qaysi biri katta?" },
+    { type: "text", content: "\answers
+1) \(2^6<65\le2^7\), demak 7 bit. 2) \(3072\) KiB va
+\(3\cdot2^20\cdot8=25165824\) bit. 3) 1 MiB =
+1,048,576 B; 1 MB = 1,000,000 B, demak MiB katta." },
+    { type: "text", content: "\(N=2^i\) imkoniyatlar sonini, \(I=m\cdot i\) esa teng uzunlikdagi
+kodlangan xabar hajmini beradi. Bit va baytni, shuningdek, SI kB/MB bilan
+IEC KiB/MiBni yozuvdan ajrating." },
+    { type: "text", content: "Asosiy qamrov: ICT5, PDF 20–24; ICT7, PDF 21–25; ICT9, PDF 14–20;
+``Ma’ruza (Tayyor)'', PDF 27–29; NIST rasmiy binary-prefix izohi." },
+    { type: "table", content: "| kilobayt | kB | \(10^3~\B=1000~\B\) | SI o‘nlik\\ |\\n|---|---|---|---|\\n| megabayt | MB | \(10^6~\B\) | SI o‘nlik\\ |\\n| gigabayt | GB | \(10^9~\B\) | SI o‘nlik\\ |\\n| terabayt | TB | \(10^{12}~\B\) | SI o‘nlik\\ |\\n| kibibayt | KiB | \(2^{10}~\B=1024~\B\) | IEC ikkilik\\ |\\n| mebibayt | MiB | \(2^{20}~\B=1\,048\,576~\B\) | IEC ikkilik\\ |\\n| gibibayt | GiB | \(2^{30}~\B\) | IEC ikkilik\\ |\\n| tebibayt | TiB | \(2^{40}~\B\) | IEC ikkilik\\ |" },
+  ], [
+    {"id":"M01.05-q1","text":"Axborotning eng kichik o'lchov birligi?","options":["Bayt","Bit","Kilobayt","Megabayt"],"correctIndex":1,"explanation":"Bit (binary digit) — eng kichik ikkilik birlik","type":"Y1"},
+    {"id":"M01.05-q2","text":"Xartli formulasida N nimani bildiradi?","options":["Xabar uzunligi","Mumkin bo'lgan holatlar soni","Vaqt","Tezlik"],"correctIndex":1,"explanation":"N=2^i da N — mumkin bo'lgan holat yoki alifbo belgilari soni","type":"Y2"},
+    {"id":"M01.05-q3","text":"65 xil holatni kodlash uchun necha bit kerak?","options":["5","6","7","8"],"correctIndex":2,"explanation":"2^6=64<65≤2^7=128, demak 7 bit","type":"Y2"},
+    {"id":"M01.05-q4","text":"1 MiB bilan 1 MB farqi?","options":["Farqi yo'q","1 MiB=1,048,576 B, 1 MB=1,000,000 B","1 MB katta","MiB — video, MB — audio"],"correctIndex":1,"explanation":"1 MiB = 2^20 = 1,048,576 B; 1 MB = 10^6 = 1,000,000 B. MiB katta","type":"Y2"},
+    {"id":"M01.05-q5","text":"8 MiB xotira, 500 KiB fayl: nechta sig'adi?","options":["16","17","8","32"],"correctIndex":0,"explanation":"8 MiB = 8192 KiB. 8192/500 = 16.384 → 16 ta to'liq fayl","type":"Y2"},
+    {"id":"M01.05-q6","text":"Belgilanishda b va B farqi?","options":["Sinonim","b=bit, B=bayt","b=bayt, B=bit","Farqsiz"],"correctIndex":1,"explanation":"b=bit, B=bayt. 8 Mb ≠ 1 MB","type":"Y1"},
+  ]),
+
+  // ═══════════════════════════════════════════════════════════════════
+  // M01.06 — LaTeX darsligi asosidagi to'liq kontent
+  // ═══════════════════════════════════════════════════════════════════
+
+  "M01.06": t("M01.06", "Axborot hajmi, uzatish tezligi va aloqa kanali", [
+    { type: "text", content: "\chapterintroFormula yodlashdan oldin axborot turini, siqilgan yoki xom
+ekanini, birliklar tizimini va berilganlarning bitta elementga yoki butun
+faylga tegishli ekanini aniqlang." },
+    { type: "text", content: "Axborot turini toping: matn, rastr, audio, video, arxiv." },
+    { type: "text", content: "Modelni aniqlang: teng uzunlikdagi kodmi, xom PCMmi,
+ xom videomi yoki tayyor bit ratemi?" },
+    { type: "text", content: "Birliklarni birxillashtiring: minutni sekundga, baytni
+ bitga, cmni dyuymga." },
+    { type: "text", content: "Oraliq kattalikni toping: kod uzunligi, piksel soni,
+ bit tezligi yoki kadrlar soni." },
+    { type: "text", content: "Formulaga qo‘ying va birlikni yozib boring." },
+    { type: "text", content: "Natijani tekshiring: bit/bayt, 1000/1024, yaxlitlash va
+ siqish shartini qayta ko‘ring." },
+    { type: "formula", content: "Ko‘p xato formuladan emas, model tanlashdan keladi. ``192 kb/s
+MP3'' uchun namuna chastotasi va bit chuqurligini yana ko‘paytirish
+kerak emas — 192 kb/s tayyor siqilgan bit tezligidir." },
+    { type: "example", content: "Kod uzunligi  \(i=\lceil\log_2N\rceil\)  \(N\) xil holat, teng uzunlik" },
+    { type: "text", content: "Matn  \(I=m i\)  \(m\) belgi, har biri \(i\) bit" },
+    { type: "text", content: "Rastr  \(I=WHd\)  \(d\) bit/piksel, siqilmagan" },
+    { type: "text", content: "PCM audio  \(I=f_s d c t\)  namuna, chuqurlik, kanal, sekund" },
+    { type: "text", content: "Xom video  \(I=WHdft\)  siqilmagan, audiosiz" },
+    { type: "text", content: "Bit rate berilgan  \(I=Rt\)  siqilgan yoki tayyor oqim" },
+    { type: "text", content: "Fayl soni  \(n=\lfloor S/I_f\rfloor\)  to‘liq fayllar" },
+    { type: "text", content: "Alifboda 70 belgi. Kitob 120 sahifa, sahifada 40 satr, satrda 60 belgi.
+Teng uzunlikdagi minimal ikkilik kod ishlatiladi." },
+    { type: "text", content: "70 belgiga \(7\) bit kerak, lekin \(7\) bit \(128\) kombinatsiya
+beradi. Ishlatilmaydigan kombinatsiyalar borligi xato emas." },
+    { type: "text", content: "\(12.7\times20.32\) cm, 200 PPI, 4096 rangli siqilmagan tasvir:" },
+    { type: "text", content: "2.5 minut, 44.1 kHz, 16 bit, stereo PCM:" },
+    { type: "text", content: "\(640\times360\), 256 rang, 24 fps, 30 sekund xom video:" },
+    { type: "text", content: "10 Mb/s video + 256 kb/s audio, 12 minut:" },
+    { type: "text", content: "Bu yerda tarmoq/media prefiksi o‘nlik deb olindi." },
+    { type: "text", content: "8 GiB xotiraga har biri 75 MiB bo‘lgan nechta to‘liq fayl sig‘adi?" },
+    { type: "text", content: "Siqilmagan rasm 24 MiB. 6:1 siqish qo‘llandi:" },
+    { type: "text", content: "Agar ``60 ga kamaydi'' deyilsa, boshqa formula:" },
+    { type: "text", content: "``6 marta kichraydi'' — \(I/6\). ``6 ga kamaydi'' — \(0.94I\).
+``Yangi hajm aslning 6 i'' — \(0.06I\). Uch jumla boshqa-boshqa." },
+    { type: "text", content: "\(800\times600\) tasvir hajmi 1440000 B, siqilmagan. Rang
+chuqurligini toping:" },
+    { type: "text", content: "Mono PCM fayl \(9600000\) bit, 20 sekund, 16 bit. Namuna chastotasi:" },
+    { type: "text", content: "Bitdan baytga o‘tganda son 8 marta kamayishi kerak." },
+    { type: "text", content: "KiBdan MiBga o‘tganda son 1024 marta kamayadi." },
+  ], [
+    {"id":"M01.06-q1","text":"Axborot uzatish tezligi birligi?","options":["Bayt/s","Bit/s","Metr/s","Gramm/s"],"correctIndex":1,"explanation":"Tezlik bit/s (bps) da o'lchanadi","type":"Y1"},
+    {"id":"M01.06-q2","text":"1 MB necha Mbit?","options":["1","8","10","1024"],"correctIndex":1,"explanation":"1 bayt = 8 bit, 1 MB = 8 Mbit","type":"Y2"},
+    {"id":"M01.06-q3","text":"Bandwidth va throughput farqi?","options":["Sinonim","Bandwidth — nazariy, throughput — amaliy tezlik","Throughput — nazariy","Farqi yo'q"],"correctIndex":1,"explanation":"Bandwidth — kanalning nazariy maksimal tezligi; throughput — amalda yetkazilgan","type":"Y2"},
+    {"id":"M01.06-q4","text":"2400 Bd, 16 holat: bit/s?","options":["2400","4800","9600","19200"],"correctIndex":2,"explanation":"log2(16)=4. 2400×4=9600 bit/s","type":"Y2"},
+    {"id":"M01.06-q5","text":"To'liq dupleks rejimi?","options":["Faqat bir tomonga","Ikki tomonga navbat bilan","Ikki tomonga bir vaqtda","Hech qanday"],"correctIndex":2,"explanation":"To'liq dupleks — ikki tomonga bir vaqtda (telefon)","type":"Y2"},
+    {"id":"M01.06-q6","text":"Simplex aloqa misoli?","options":["Telefon","Ratsiya","Oddiy teleefir","Internet"],"correctIndex":2,"explanation":"Simplex — faqat bir tomonga (teleefir, radio eshittirish)","type":"Y1"},
+  ]),
+
+  // ═══════════════════════════════════════════════════════════════════
+  // M01.07 — LaTeX darsligi asosidagi to'liq kontent
+  // ═══════════════════════════════════════════════════════════════════
+
+  "M01.07": t("M01.07", "Matn, grafika, audio, videoni kodlash va siqish", [
+    { type: "text", content: "\chapterintroMatn hajmini hisoblash uchun avval ``belgi'', ``kod nuqtasi'',
+``kod birligi'' va ``bayt'' aynan bir narsa emasligini bilish kerak." },
+    { type: "definition", content: "Klaviaturadagi tugma bosilishi bevosita ``harfning rasmi'' sifatida
+saqlanmaydi. Soddalashtirilgan jarayon:" },
+    { type: "text", content: "Ekranga chiqarishda baytlar dekodlanadi, shrift esa kod nuqtasiga mos
+glif — ko‘rinadigan shaklni chizadi." },
+    { type: "text", content: "ASCII (American Standard Code for Information Interchange)
+— lotin harflari, raqamlar, tinish va boshqaruv belgilarini sonli kodlar
+bilan moslashtiruvchi standart." },
+    { type: "text", content: "Asl standart ASCII 7 bitli bo‘lib, \(2^7=128\) kod
+\(0...127\) ni qamraydi. Amaliy darsliklarda 8 bitli
+``kengaytirilgan ASCII'' \(0...255\), ya’ni 256 belgi sifatida
+soddalashtirib beriladi." },
+    { type: "text", content: "0  48  00110000  raqam belgisi, son 0 emas" },
+    { type: "text", content: "bo‘shliq  32  00100000  ko‘rinmaydigan matn belgisi" },
+    { type: "note", content: "ASCII ``A'' belgisi bilan uning ekrandagi glifini, 65 soni bilan esa
+sonning matndagi ``65'' yozuvini aralashtirmang. ``65'' matni ikki belgi:
+``6'' va ``5'' kodlaridan iborat." },
+    { type: "text", content: "Unicode — dunyo yozuv tizimlaridagi belgilar va ramzlarga
+yagona kod nuqtasi (code point) beruvchi standart." },
+    { type: "example", content: "Masalan, lotin ``A'' harfining kod nuqtasi U+0041. Kod nuqtasini fayldagi
+baytlarga aylantirish uchun UTF-8, UTF-16 yoki
+UTF-32 kabi kodlash shakli tanlanadi." },
+    { type: "text", content: "UTF-8  8 bitli kod birliklari  Kod nuqtasiga qarab 1–4 bayt; ASCII
+0–127 qiymatlari aynan bir bayt bilan mos." },
+    { type: "text", content: "UTF-16  16 bitli kod birliklari  Ko‘p kod nuqtasi 2 bayt, qo‘shimcha
+tekislikdagilar surrogat juftligi bilan 4 bayt." },
+    { type: "text", content: "UTF-32  32 bitli kod birligi  Har kod nuqtasi 4 bayt; sodda, lekin
+ko‘pincha hajmi katta." },
+    { type: "text", content: "Unicode rasmiy hujjatiga ko‘ra UTF-8 kod nuqtasini bir, ikki, uch yoki
+to‘rt baytli yagona ketma-ketlikka o‘tkazadi; ASCII oralig‘i bir bayt
+bo‘lib qoladi." },
+    { type: "text", content: "Darslikdagi ``Unicode belgisi 16 bit = 2 bayt'' qoidasi UTF-16ning
+soddalashtirilgan modeli. Unicode — belgilar repertuari va kod nuqtalari;
+UTF-16da ham barcha belgilar aynan 2 bayt emas. UTF-8da o‘zbek lotin
+matnining oddiy ASCII harflari 1 bayt, ``o‘'' yozuvidagi tipografik
+apostrof yoki kirill harflari ko‘proq bayt olishi mumkin." },
+    { type: "example", content: "Foydalanuvchi bitta ko‘rinadigan belgi deb qabul qiladigan glif bir nechta
+kod nuqtasidan tuzilishi mumkin. Masalan, ayrim urg‘uli harf tayyor kod
+nuqtasi yoki asosiy harf + birlashtiruvchi belgi bilan yoziladi. Emoji ham
+bir nechta kod nuqtasi kombinatsiyasi bo‘lishi mumkin." },
+    { type: "text", content: "Maktab masalasida ``har bir belgi 1 bayt'' yoki ``Unicode’da 2 bayt''
+deyilgan bo‘lsa, shu shartli model ishlatiladi. Real fayl
+hajmi so‘ralsa, kodlash, satr oxiri, BOM, format va metama’lumotlar
+ko‘rsatilmasdan aniq javob berib bo‘lmaydi." },
+    { type: "text", content: "bu yerda \(m\) — belgilar soni, \(i\) — har belgiga bitlar soni." },
+    { type: "text", content: "\(P\) — sahifalar, \(R\) — bir sahifadagi satrlar,
+\(C\) — bir satrdagi belgilar." },
+    { type: "text", content: "300 sahifa, har sahifada 25 satr, har satrda 80 belgi. Har belgi
+8 bit deb olinsin:" },
+    { type: "text", content: "Alifbo quvvati 50 ta, xabar 1200 belgidan iborat. Doimiy ikkilik kod:" },
+    { type: "text", content: "Baytga yaxlitlash umumiy bitlar soniga qo‘llanadi." },
+    { type: "text", content: "Masalada ``matndagi barcha belgilar'' deyilsa, odatda harf, raqam,
+tinish belgisi, probel va satr ajratgichi ham belgi hisoblanadi.
+Ammo berilgan ``har satrda 80 ta belgi'' qiymati probellarni allaqachon
+qamrab olgan deb olinadi; yana qo‘shib yuborilmaydi." },
+    { type: "text", content: "``So‘z uzunligi'' bilan ``matn belgilar soni'' bir xil emas. ``Axborot
+hajmi'' iborasida bo‘shliq ham qatnashadi: 7 harf + 1 bo‘shliq + 5 harf
+= 13 belgi (kodlash shartiga ko‘ra baytlar soni alohida)." },
+    { type: "text", content: "formatlash, shrift va uslub ma’lumotlari;" },
+    { type: "text", content: "DOCX kabi konteynerdagi XML va xizmat fayllari;" },
+    { type: "text", content: "fayl tizimining blok bo‘yicha joy ajratishi." },
+    { type: "text", content: "Shuning uchun oddiy TXT va Word hujjatida bir xil ko‘rinadigan
+matnning fayl hajmi farq qiladi." },
+    { type: "text", content: "40 belgili alifbo va 500 belgili xabar uchun minimal hajmni toping." },
+    { type: "text", content: "\answers
+1) 7 bitli 128 kod. 8 bitli 256 kod — kengaytirilgan kod sahifalari.
+2) Yo‘q, kod nuqtasiga qarab 1–4 bayt. 3) \(i=6\) bit,
+\(I=3000\) bit \(=375\) bayt." },
+  ], [
+    {"id":"M01.07-q1","text":"ASCII standarti necha bitli?","options":["5","6","7","8"],"correctIndex":2,"explanation":"Asl ASCII 7 bitli, 2^7=128 kod (0..127)","type":"Y1"},
+    {"id":"M01.07-q2","text":"Rastr va vektor grafikani farqlang.","options":["Rastr — obyekt, vektor — piksel","Rastr — piksel, vektor — geometrik obyekt","Ikkalasi bir","Vektor — foto"],"correctIndex":1,"explanation":"Rastr piksel, vektor geometrik obyekt saqlaydi","type":"Y2"},
+    {"id":"M01.07-q3","text":"Audio hajm formulasi?","options":["I=en×bo'y","I=f_s×d×c×t","I=m×v²","I=a×b×c"],"correctIndex":1,"explanation":"Audio hajmi = f_s × d × c × t","type":"Y2"},
+    {"id":"M01.07-q4","text":"Konteyner va kodek farqi?","options":["Sinonim","Konteyner — tuzilma, kodek — algoritm","Kodek — konteyner turi","Konteyner — kodek qismi"],"correctIndex":1,"explanation":"Konteyner (MP4) — oqimlarni birlashtiruvchi; kodek (H.264) — kodlash algoritmi","type":"Y2"},
+    {"id":"M01.07-q5","text":"Unicode va UTF-8 farqi?","options":["Sinonim","Unicode — kod nuqtasi, UTF-8 — baytlarga kodlash","UTF-8 — kod nuqtasi","Farqi yo'q"],"correctIndex":1,"explanation":"Unicode kod nuqtasini belgilaydi, UTF-8 uni baytlarga kodlaydi","type":"Y2"},
+    {"id":"M01.07-q6","text":"Yo'qotishsiz siqishga misol?","options":["JPEG","MP3","PNG","MPEG"],"correctIndex":2,"explanation":"PNG — yo'qotishsiz; JPEG/MP3 — yo'qotishli","type":"Y1"},
+    {"id":"M01.07-q7","text":"PPI va DPI farqi?","options":["Sinonim","PPI — piksel, DPI — bosma nuqtasi zichligi","DPI — piksel","Farqi yo'q"],"correctIndex":1,"explanation":"PPI — piksel/inch (ekran), DPI — nuqta/inch (printer)","type":"Y2"},
+  ]),
+
+  // ═══════════════════════════════════════════════════════════════════
+  // M01.08 — LaTeX darsligi asosidagi to'liq kontent
+  // ═══════════════════════════════════════════════════════════════════
+
+  "M01.08": t("M01.08", "Mualliflik huquqi, litsenziya va raqamli etika", [
+    { type: "text", content: "\chapterintroInternetda ochiq ko‘rinishi — erkin foydalanish ruxsati
+degani emas. Asarning egasi, litsenziyasi, foydalanish maqsadi va manba
+ko‘rsatish talabi alohida tekshiriladi." },
+    { type: "text", content: "Mualliflik huquqi — ijodkorning adabiy, ilmiy va badiiy
+asariga nisbatan qonunda belgilangan shaxsiy hamda mulkiy huquqlari." },
+    { type: "text", content: "WIPO ta’rifida mualliflik huquqi ijodkorlarning adabiy va badiiy
+asarlariga bo‘lgan huquqlarini anglatadi; kitob, musiqa, tasvir, film,
+kompyuter dasturi, ma’lumotlar bazasi va boshqa ijodiy ifodalar shular
+jumlasiga kiradi." },
+    { type: "text", content: "Umumiy qoida sifatida mualliflik huquqi g‘oyaning o‘zini emas,
+uning ijodiy ifodalanish shaklini himoya qiladi. Bir xil mavzuda
+mustaqil matn yozish mumkin; boshqa muallifning jumla, rasm yoki kodini
+ruxsatsiz ko‘chirish boshqa masala." },
+    { type: "text", content: "muallif sifatida tan olinishi va ism ko‘rsatilishi;" },
+    { type: "text", content: "asarni nusxalash, tarqatish, namoyish yoki ijro etishni nazorat qilish;" },
+    { type: "text", content: "tarjima, qayta ishlash va hosila asarga ruxsat berish;" },
+    { type: "text", content: "asarning daxlsizligi bilan bog‘liq shaxsiy huquqlar." },
+    { type: "example", content: "O‘zbekistonda asosiy rasmiy manba ``Mualliflik huquqi va turdosh
+huquqlar to‘g‘risida''gi O‘RQ-42-son Qonunidir. Darslik 2006-yilgi
+qonun va Fuqarolik kodeksini tilga oladi; amaliy vaziyatda doimo
+Lex.uzdagi amaldagi tahrir tekshiriladi." },
+    { type: "text", content: "Muallif nomini yozish har qanday foydalanishni avtomatik qonuniy
+qilmaydi. Atributsiya plagiatdan saqlashi mumkin, lekin
+mualliflik huquqidagi nusxalash yoki tarqatish ruxsati baribir kerak bo‘lishi mumkin." },
+    { type: "text", content: "Plagiat — boshqa shaxsning matni, g‘oyaviy tuzilmasi yoki
+ijodiy natijasini o‘ziniki qilib ko‘rsatish, manbani yashirish." },
+    { type: "text", content: "Mualliflik huquqini buzish — huquq egasining ruxsatisiz,
+qonundagi istisno yoki litsenziya doirasidan tashqarida himoyalangan
+asardan foydalanish." },
+    { type: "text", content: "Ruxsatli CC BY rasm, muallif ko‘rsatilgan  plagiat emas, litsenziyaga mos" },
+    { type: "text", content: "Ruxsatli rasm, muallif ko‘rsatilmagan  litsenziya/akademik talab buzilishi mumkin" },
+    { type: "text", content: "Ruxsatsiz film, manba yozilgan  manba ko‘rsatilsa ham huquqbuzarlik bo‘lishi mumkin" },
+    { type: "text", content: "O‘z fikri, tasodifan o‘xshash mavzu  ifoda mustaqil bo‘lsa plagiat emas" },
+    { type: "text", content: "Litsenziya — huquq egasi boshqalarga asardan qaysi shartlarda
+foydalanishga ruxsat berishini belgilovchi huquqiy vosita." },
+    { type: "text", content: "Ommaviy mulk (public domain) — mualliflik huquqi muddati
+tugagan, qo‘llanmaydigan yoki huquq egasi qonun doirasida undan voz
+kechgan materiallar sohasi. ``Internetda bepul'' va ``public domain''
+sinonim emas." },
+    { type: "text", content: "Creative Commons to‘rtta asosiy shartdan olti litsenziya tuzadi:" },
+    { type: "text", content: "BY  Attribution  muallif va manba ko‘rsatiladi" },
+    { type: "text", content: "SA  ShareAlike  hosila asar ayni yoki mos litsenziyada tarqatiladi" },
+    { type: "text", content: "NC  NonCommercial  faqat notijorat foydalanish" },
+    { type: "text", content: "ND  NoDerivatives  o‘zgartirilgan nusxani tarqatishga ruxsat yo‘q" },
+    { type: "text", content: "CC BY  foydalanish va qayta ishlash mumkin; muallif ko‘rsatiladi" },
+    { type: "text", content: "CC BY-SA  qayta ishlash mumkin; muallif + ayni shartlarda ulashish" },
+    { type: "text", content: "CC BY-ND  tarqatish mumkin; muallif ko‘rsatiladi, o‘zgartirilmaydi" },
+    { type: "text", content: "CC BY-NC  notijorat foydalanish/qayta ishlash; muallif ko‘rsatiladi" },
+    { type: "text", content: "CC BY-NC-SA  notijorat + muallif + ayni shartlar" },
+    { type: "text", content: "CC BY-NC-ND  notijorat, o‘zgartirmasdan, muallifni ko‘rsatib tarqatish" },
+    { type: "text", content: "CC0 — huquq egasining imkon qadar huquqlardan voz kechib,
+asarni ommaviy mulkka yaqin rejimga berish vositasi; u oltita CC
+litsenziyasidan biri emas." },
+  ], [
+    {"id":"M01.08-q1","text":"Netiket nima?","options":["Internet tezligi","Internetda muloqot qoidalari","Kompyuter xavfsizligi","Dasturlash tili"],"correctIndex":1,"explanation":"Netiket — internetda muloqot qilishdagi axloqiy me'yorlar","type":"Y1"},
+    {"id":"M01.08-q2","text":"Plagiat va huquqbuzarlik farqi?","options":["Sinonim","Plagiat — o'ziniki qilish, huquqbuzarlik — ruxsatsiz foydalanish","Plagiat — qonuniy","Farqi yo'q"],"correctIndex":1,"explanation":"Plagiat — manbani yashirib o'ziniki qilish; huquqbuzarlik — ruxsatsiz foydalanish","type":"Y2"},
+    {"id":"M01.08-q3","text":"Creative Commons?","options":["Dasturlash tili","Litsenziyalar tizimi","Operatsion tizim","Brauzer"],"correctIndex":1,"explanation":"Creative Commons — 6 turdagi bepul litsenziyalar tizimi (+ CC0)","type":"Y1"},
+    {"id":"M01.08-q4","text":"TASL tamoyili?","options":["Tez, Aniq, Samarali, Lo'nda","Title, Author, Source, License","Tur, Aspekt, Sinf, Loyiha","Tartib, Asos, Sana"],"correctIndex":1,"explanation":"TASL — Title, Author, Source, License","type":"Y2"},
+    {"id":"M01.08-q5","text":"Misinformatsiya va dezinformatsiya farqi?","options":["Sinonim","Misinformatsiya — ataylab emas, dezinformatsiya — ataylab yolg'on","Dezinformatsiya — noto'g'ri","Farqi yo'q"],"correctIndex":1,"explanation":"Misinformatsiya — noto'g'ri, lekin ataylab emas; dezinformatsiya — aldash niyatida","type":"Y2"},
+    {"id":"M01.08-q6","text":"CC BY-SA litsenziyasi?","options":["O'zgartirish mumkin emas","Ayni litsenziyada ulashish talabi","Faqat notijorat","Muallif ko'rsatilmaydi"],"correctIndex":1,"explanation":"SA (ShareAlike) — hosila asarni ayni litsenziyada tarqatish talabi","type":"Y2"},
+    {"id":"M01.08-q7","text":"Mualliflik huquqi nimani himoya qiladi?","options":["G'oyani","Ifodalanish shaklini","Mavzuni","Nomi"],"correctIndex":1,"explanation":"Mualliflik huquqi g'oyaning o'zini emas, uning ijodiy ifodalanish shaklini himoya qiladi","type":"Y1"},
+  ]),
+
+  // ═══════════════════════════════════════════════════════════════════
+  // M01.09 — LaTeX darsligi asosidagi to'liq kontent
+  // ═══════════════════════════════════════════════════════════════════
+
+  "M01.09": t("M01.09", "Axborotni izlash, tekshirish va validatsiya", [
+    { type: "text", content: "\chapterintroQidiruv tizimi haqiqatni emas, so‘rovga mos deb topilgan
+sahifalarni tartiblaydi. Natijani tanlash va tekshirish foydalanuvchining vazifasi." },
+    { type: "text", content: "[Internet]
+ O‘zaro bog‘langan tarmoqlar global tizimi." },
+    { type: "text", content: "[WWW]
+ Internet orqali olinadigan o‘zaro havolalangan veb-sahifalar va resurslar xizmati." },
+    { type: "text", content: "[Veb-brauzer]
+ Veb-resursni so‘raydigan, HTML/CSS va media mazmunini talqin qilib ko‘rsatadigan dastur." },
+    { type: "text", content: "[Qidiruv tizimi]
+ Sahifalarni topish, indekslash va so‘rovga mos natijalarni tartiblash xizmati." },
+    { type: "text", content: "Google qidiruv tizimi; Chrome brauzer. Internet bilan WWW ham aynan bir
+narsa emas: elektron pochta va boshqa xizmatlar Internetdan foydalanadi,
+ammo WWW sahifasi bo‘lishi shart emas." },
+    { type: "note", content: "URL (Uniform Resource Locator) resurs manzilini bildiradi.
+HTTPS shifrlangan transport va server sertifikati bilan bog‘liq, lekin
+sahifadagi har bir gapning haqiqat ekanini kafolatlamaydi." },
+    { type: "text", content: "Crawler havolalar orqali sahifalarni topadi." },
+    { type: "text", content: "Indeks sahifa mazmuni va belgilarini tartibli bazaga yozadi." },
+    { type: "text", content: "Reyting algoritmi so‘rovga moslik, sifat, yangilik,
+ joylashuv va boshqa signallar bo‘yicha natijalarni tartiblaydi." },
+    { type: "text", content: "Natija sahifasi organik va reklama/sponsored natijalarni ko‘rsatishi mumkin." },
+    { type: "text", content: "Natijaning birinchi bo‘lishi ``eng to‘g‘ri'' degani emas. Reyting
+so‘rovga moslik va ko‘plab texnik/tijoriy signallarni hisoblaydi." },
+    { type: "text", content: "Aniq kalit so‘z  axborot hajmi formula  umumiy gapni toraytiradi" },
+    { type: "text", content: "Qo‘shtirnoq  'axborot uzatish tezligi'  aynan iborani qidiradi" },
+    { type: "text", content: "Istisno  python -ilon  keraksiz ma’noni kamaytiradi" },
+    { type: "text", content: "Sayt bo‘yicha  site:gov.uz attestatsiya  domen ichida qidiradi" },
+    { type: "text", content: "Fayl turi  filetype:pdf informatika  PDF natijalarni toraytiradi" },
+    { type: "text", content: "Sana/til filtri  qidiruv vositalari  yangilik va auditoriyani moslaydi" },
+    { type: "text", content: "Darsliklarda ``+'' operatori barcha so‘zni talab qilish belgisi sifatida
+uchraydi. Zamonaviy qidiruv tizimlari operatorlarni o‘zgartirishi yoki
+``+''ni e’tiborsiz qoldirishi mumkin. Eng barqaror yondashuv —
+aniq ibora, mazmunli kalit so‘z, site: va filetype:
+kabi qo‘llab-quvvatlanadigan operatorni qidiruv tizimi yordamida tekshirish." },
+    { type: "text", content: "Muallif  Kim yozgan, malakasi va aloqasi bormi?  muallif noma’lum" },
+    { type: "text", content: "Tashkilot  Kim nashr qilgan, tahrir siyosati bormi?  soxta rasmiy ko‘rinish" },
+    { type: "text", content: "Sana  Qachon yozilgan/yangilangan?  sana yo‘q yoki mavzu uchun eski" },
+    { type: "text", content: "Dalil  Manba, metod, ma’lumot va havolalar bormi?  ``olimlar aytdi'' xolos" },
+    { type: "text", content: "Maqsad  Axborot berish, sotish, ishontirish yoki kuldirishmi?  reklama yashirilgan" },
+    { type: "text", content: "Xolislik  Qarshi dalil va cheklov tan olinganmi?  hissiy, mutlaq da’vo" },
+    { type: "text", content: "Moslik  Savol va auditoriyaga mosmi?  boshqa mamlakat/vaqt/kontekst" },
+    { type: "text", content: "Tasdiq  Mustaqil ishonchli manbalar mos keladimi?  barcha sayt bir asl xatoni ko‘chirgan" },
+    { type: "note", content: ".gov, .edu yoki chiroyli dizayn ijobiy signal bo‘lishi
+mumkin, lekin yakka holda kafolat emas. Domenni harfma-harf tekshiring:
+soxta sayt nomi rasmiy nomga juda o‘xshashi mumkin." },
+    { type: "text", content: "``Uchta saytda bir xil yozilgan'' har doim uchta mustaqil dalil emas.
+Ular bir xil press-reliz yoki xato postdan nusxa olgan bo‘lishi mumkin.
+Shuning uchun:" },
+    { type: "text", content: "kamida bitta mustaqil nufuzli manba bilan solishtiring;" },
+  ], [
+    {"id":"M01.09-q1","text":"CRAAP testi nechta mezon?","options":["3","4","5","6"],"correctIndex":2,"explanation":"CRAAP — Currency, Relevance, Authority, Accuracy, Purpose","type":"Y1"},
+    {"id":"M01.09-q2","text":"Validatsiya va verifikatsiya farqi?","options":["Sinonim","Validatsiya — qoidaga moslik, verifikatsiya — manbaga moslik","Verifikatsiya — qoidaga","Farqi yo'q"],"correctIndex":1,"explanation":"Validatsiya — qiymat qoidaga mosmi; verifikatsiya — nusxa manbaga mosmi","type":"Y2"},
+    {"id":"M01.09-q3","text":"Paritet biti nechta xatoni tuzatadi?","options":["Hech qanday","1 ta","2 ta","Hammasini"],"correctIndex":0,"explanation":"Paritet biti xatoni aniqlaydi, lekin tuzatmaydi","type":"Y2"},
+    {"id":"M01.09-q4","text":"Autentifikatsiya nima?","options":["Qiymatni tekshirish","Shaxsni isbotlash","Ruxsat berish","Saralash"],"correctIndex":1,"explanation":"Autentifikatsiya — shaxsni isbotlash (parol, biometriya)","type":"Y2"},
+    {"id":"M01.09-q5","text":"URL tarkibiga nima kiradi?","options":["Protokol","Protsessor","Monitor","Printer"],"correctIndex":0,"explanation":"URL: protocol://domain/path?query","type":"Y1"},
+    {"id":"M01.09-q6","text":"Qidiruv tizimi ishlashining birinchi bosqichi?","options":["Indekslash","Crawler","Reyting","Natijani ko'rsatish"],"correctIndex":1,"explanation":"1) Crawler sahifalarni topadi; 2) Indeks; 3) Reyting","type":"Y1"},
+    {"id":"M01.09-q7","text":"Nazorat raqami nima?","options":["Tasodifiy son","Kiritish xatolarini aniqlaydigan belgi","Kalit so'z","Parol"],"correctIndex":1,"explanation":"Nazorat raqami identifikatordan hisoblanib, xatoni aniqlaydi","type":"Y1"},
+  ]),

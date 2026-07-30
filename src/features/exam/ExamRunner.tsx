@@ -2,12 +2,14 @@ import {
   AlertTriangle,
   Check,
   CheckCircle2,
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
   Clock3,
   LoaderCircle,
   RefreshCw,
   ShieldCheck,
+  X,
 } from 'lucide-react'
 import {
   useCallback,
@@ -27,12 +29,71 @@ import {
   type FinishExamResponse,
 } from './contracts'
 import {
-  supabaseExamGateway,
   type ExamGateway,
+  supabaseExamGateway,
 } from './examGateway'
+import { backendGateway } from './backendGateway'
 import Y1Choice from './questions/Y1Choice'
 import Y2Match from './questions/Y2Match'
 import Y3Order from './questions/Y3Order'
+
+/**
+ * Gateway that prefers the backend but falls back to direct Supabase RPCs
+ * if the backend is unreachable (network error or 5xx).
+ */
+function createFallbackGateway(preferred: ExamGateway, fallback: ExamGateway): ExamGateway {
+  return {
+    async startMockExam() {
+      try {
+        return await preferred.startMockExam()
+      } catch (error) {
+        if (isNetworkError(error)) return fallback.startMockExam()
+        throw error
+      }
+    },
+    async startModuleExam(moduleId: string) {
+      try {
+        return await preferred.startModuleExam(moduleId)
+      } catch (error) {
+        if (isNetworkError(error)) return fallback.startModuleExam(moduleId)
+        throw error
+      }
+    },
+    async startTopicExam(lessonId: string) {
+      try {
+        return await preferred.startTopicExam(lessonId)
+      } catch (error) {
+        if (isNetworkError(error)) return fallback.startTopicExam(lessonId)
+        throw error
+      }
+    },
+    async submitAnswer(input) {
+      try {
+        return await preferred.submitAnswer(input)
+      } catch (error) {
+        if (isNetworkError(error)) return fallback.submitAnswer(input)
+        throw error
+      }
+    },
+    async finishExam(examId: string) {
+      try {
+        return await preferred.finishExam(examId)
+      } catch (error) {
+        if (isNetworkError(error)) return fallback.finishExam(examId)
+        throw error
+      }
+    },
+  }
+}
+
+function isNetworkError(error: unknown): boolean {
+  if (error instanceof TypeError) return true
+  if (error instanceof Error && error.message.includes('Failed to fetch')) return true
+  if (error instanceof Error && error.message.includes('NetworkError')) return true
+  return false
+}
+
+const fallbackGateway = createFallbackGateway(backendGateway, supabaseExamGateway)
 
 type RunnerPhase =
   | 'intro'
@@ -67,7 +128,7 @@ function errorMessage(error: unknown): string {
 }
 
 export default function ExamRunner({
-  gateway = supabaseExamGateway,
+  gateway = fallbackGateway,
   examKind = 'mock',
   moduleId,
   lessonId,
@@ -85,6 +146,7 @@ export default function ExamRunner({
   const [startError, setStartError] = useState<string | null>(null)
   const [finishArmed, setFinishArmed] = useState(false)
   const [clockNow, setClockNow] = useState(Date.now())
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const questionOpenedAtRef = useRef(Date.now())
   const finishInFlightRef = useRef(false)
   const autoFinishAttemptedRef = useRef(false)
@@ -118,6 +180,17 @@ export default function ExamRunner({
     setFinishArmed(false)
   }, [currentIndex])
 
+  // Close sidebar on Escape
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && sidebarOpen) {
+        setSidebarOpen(false)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [sidebarOpen])
+
   const resetToIntro = () => {
     setPhase('intro')
     setSession(null)
@@ -131,6 +204,7 @@ export default function ExamRunner({
     setFinishArmed(false)
     finishInFlightRef.current = false
     autoFinishAttemptedRef.current = false
+    setSidebarOpen(false)
   }
 
   const startExam = async () => {
@@ -340,6 +414,14 @@ export default function ExamRunner({
     )
   }
 
+  const examTitle =
+    examKind === 'mock'
+      ? 'Attestatsiya mock sinovi'
+      : examKind === 'bolim'
+        ? 'Modul sinovi'
+        : 'Mavzu sinovi'
+
+  // ─── Intro / Starting / Error screens ────────────────────
   if (phase === 'intro' || phase === 'starting' || phase === 'start-error') {
     const starting = phase === 'starting'
 
@@ -354,11 +436,7 @@ export default function ExamRunner({
             />
           </div>
           <h1 className="text-2xl font-bold text-center text-gray-900 dark:text-white">
-            {examKind === 'mock'
-              ? 'Attestatsiya sinov imtihoni'
-              : examKind === 'bolim'
-                ? 'Modul sinovi'
-                : 'Mavzu sinovi'}
+            {examTitle}
           </h1>
           <p className="mt-3 text-center text-gray-500">
             Savollar serverda tanlanadi, javoblar serverda baholanadi. Javob
@@ -423,6 +501,7 @@ export default function ExamRunner({
     )
   }
 
+  // ─── Result screen ───────────────────────────────────────
   if (phase === 'result' && result) {
     const percentage =
       result.max_score > 0
@@ -485,6 +564,7 @@ export default function ExamRunner({
     )
   }
 
+  // ─── Active exam screen ──────────────────────────────────
   if (!session || !currentItem) return null
 
   const currentSaved = savedQuestionIds.has(currentItem.question_id)
@@ -494,198 +574,413 @@ export default function ExamRunner({
   )
   const busy = phase === 'finishing'
   const interactionBusy = busy || submittingId !== null
+  const answeredQuestions = session.items.filter(
+    (item) => savedQuestionIds.has(item.question_id)
+  ).length
+
+  // Move to a specific question
+  const goToQuestion = (index: number) => {
+    setCurrentIndex(index)
+    setSidebarOpen(false)
+  }
 
   return (
-    <main className="max-w-5xl mx-auto p-4 sm:p-6">
-      <header className="flex flex-wrap items-center justify-between gap-3 mb-4">
-        <div>
-          <p className="text-xs uppercase tracking-wide text-gray-400">
-            {examKind === 'mock'
-              ? 'Attestatsiya mock sinovi'
-              : examKind === 'bolim'
-                ? 'Modul sinovi'
-                : 'Mavzu sinovi'}
-          </p>
-          <h1 className="font-semibold text-gray-900 dark:text-white">
-            Savol {currentIndex + 1} / {total}
-          </h1>
-        </div>
-        <div className="flex items-center gap-3">
-          <span className="text-sm text-gray-500">
-            {savedCount}/{total} saqlandi
-          </span>
-          {remainingSeconds !== null && (
-            <span
-              className={`inline-flex items-center gap-1.5 font-mono font-semibold ${
-                remainingSeconds <= 300 ? 'text-red-600' : 'text-gray-700'
-              }`}
-            >
-              <Clock3 size={17} aria-hidden="true" />
-              {formatDuration(remainingSeconds)}
-            </span>
-          )}
-        </div>
-      </header>
+    <main className="flex flex-col h-dvh bg-gray-50 dark:bg-gray-950">
+      {/* ── Body: Sidebar + Main ─────────────────────────── */}
+      <div className="flex flex-1 min-h-0 overflow-hidden">
+        {/* ── LEFT SIDEBAR (Desktop) ──────────────────────── */}
+        <aside className="hidden lg:flex exam-sidebar">
+          {/* User info card */}
+          <div className="exam-sidebar-section border-b border-gray-100 dark:border-gray-800">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-b2-600 flex items-center justify-center text-white font-bold text-sm shadow-sm">
+                {examTitle.charAt(0)}
+              </div>
+              <div className="min-w-0">
+                <p className="text-xs font-semibold text-gray-900 dark:text-white truncate">{examTitle}</p>
+                <p className="text-[11px] text-gray-400">Attestatsiya platformasi</p>
+              </div>
+            </div>
+          </div>
 
-      <div className="progress-bar mb-5">
-        <div
-          className="progress-fill bg-primary-500"
-          style={{ width: `${((currentIndex + 1) / total) * 100}%` }}
-        />
-      </div>
-
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_220px]">
-        <section className="card p-5 sm:p-6">
-          <div className="flex items-center justify-between gap-2 mb-5">
-            <span className="badge bg-gray-100 text-gray-600 text-xs">
-              {currentItem.format}
-            </span>
-            {currentSaved && (
-              <span className="inline-flex items-center gap-1 text-sm text-emerald-600">
-                <Check size={16} aria-hidden="true" />
-                Serverda saqlandi
-              </span>
+          {/* Timer */}
+          <div className="exam-sidebar-section border-b border-gray-100 dark:border-gray-800">
+            <p className="exam-sidebar-section-header">Qolgan vaqt</p>
+            {remainingSeconds !== null ? (
+              <div className={`exam-timer ${remainingSeconds <= 300 ? 'exam-timer-urgent' : ''}`}>
+                <Clock3 size={20} className={remainingSeconds <= 300 ? 'text-red-500' : 'text-primary-500'} />
+                <span className={`exam-timer-display ${remainingSeconds <= 300 ? 'text-red-600 dark:text-red-400' : 'text-gray-900 dark:text-white'}`}>
+                  {formatDuration(remainingSeconds)}
+                </span>
+              </div>
+            ) : (
+              <p className="text-sm text-gray-400">Cheklanmagan</p>
             )}
           </div>
 
-          {renderQuestion(currentItem)}
+          {/* Progress stats */}
+          <div className="exam-sidebar-section border-b border-gray-100 dark:border-gray-800">
+            <div className="flex items-center justify-between gap-4">
+              <div className="exam-stat-chip-answered">
+                <Check size={12} />
+                <span>{answeredQuestions} ta bajarildi</span>
+              </div>
+              <div className="exam-stat-chip-remaining">
+                <span>{unansweredCount} ta qoldi</span>
+              </div>
+            </div>
+            {/* Mini progress bar */}
+            <div className="exam-progress mt-3">
+              <div
+                className="exam-progress-fill bg-gradient-to-r from-emerald-500 to-primary-500"
+                style={{ width: `${total > 0 ? (answeredQuestions / total) * 100 : 0}%` }}
+              />
+            </div>
+            <p className="text-[11px] text-gray-400 text-center mt-1.5">
+              {currentIndex + 1} / {total} · {Math.round((answeredQuestions / total) * 100)}%
+            </p>
+          </div>
 
-          <div aria-live="polite" className="min-h-6 mt-4">
-            {message && (
-              <p
-                className={`text-sm ${
-                  message.includes('saqlandi') || message.startsWith('To‘g‘ri.')
-                    ? 'text-emerald-600'
-                    : 'text-amber-700 dark:text-amber-300'
-                }`}
+          {/* Question navigation grid */}
+          <div className="exam-sidebar-section flex-1 overflow-y-auto scrollbar-thin">
+            <p className="exam-sidebar-section-header">
+              Savollar ({total})
+            </p>
+            <div className="exam-q-grid">
+              {session.items.map((item, index) => {
+                const saved = savedQuestionIds.has(item.question_id)
+                const isCurrent = index === currentIndex
+
+                let btnClass = 'exam-q-btn '
+                if (isCurrent) {
+                  btnClass += 'exam-q-btn-current'
+                } else if (saved) {
+                  btnClass += 'exam-q-btn-answered'
+                } else {
+                  btnClass += 'exam-q-btn-unanswered'
+                }
+
+                return (
+                  <button
+                    key={item.question_id}
+                    type="button"
+                    disabled={interactionBusy}
+                    aria-label={`Savol ${index + 1}${saved ? ', belgilangan' : ''}`}
+                    aria-current={isCurrent ? 'true' : undefined}
+                    onClick={() => goToQuestion(index)}
+                    className={btnClass}
+                  >
+                    {index + 1}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Finish button + user info at bottom */}
+          <div className="exam-sidebar-section border-t border-gray-100 dark:border-gray-800 mt-auto">
+            {finishArmed ? (
+              <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/40">
+                <p className="text-xs font-medium text-amber-800 dark:text-amber-200 mb-3">
+                  {unansweredCount > 0
+                    ? `${unansweredCount} ta javoblanmagan savol bor. Baribir yakunlaysizmi?`
+                    : 'Barcha savollarga javob berildi. Yakunlaysizmi?'}
+                </p>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setFinishArmed(false)}
+                    className="exam-nav-btn-prev flex-1 justify-center"
+                  >
+                    Bekor qilish
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => void finishExam()}
+                    className="exam-nav-btn-save flex-1 justify-center"
+                  >
+                    Yakunlash
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <button
+                type="button"
+                disabled={interactionBusy}
+                onClick={() => {
+                  if (unansweredCount > 0) {
+                    setFinishArmed(true)
+                  } else {
+                    void finishExam()
+                  }
+                }}
+                className="exam-finish-btn"
               >
-                {message}
-              </p>
+                Sinovni yakunlash
+              </button>
             )}
           </div>
+        </aside>
 
-          <div className="flex flex-wrap items-center justify-between gap-3 mt-4">
-            <div className="flex gap-2">
+        {/* ── Mobile Sidebar Overlay ─────────────────────── */}
+        {sidebarOpen && (
+          <>
+            <div
+              className="exam-sidebar-overlay"
+              onClick={() => setSidebarOpen(false)}
+              aria-hidden="true"
+            />
+            <aside className="exam-sidebar-mobile">
+              {/* Mobile sidebar header */}
+              <div className="flex items-center justify-between px-4 py-3.5 border-b border-gray-100 dark:border-gray-800">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 to-b2-600 flex items-center justify-center text-white font-bold text-xs shadow-sm">
+                    {examTitle.charAt(0)}
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900 dark:text-white">{examTitle}</p>
+                    <p className="text-[11px] text-gray-400">{answeredQuestions}/{total} bajarildi</p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSidebarOpen(false)}
+                  className="w-9 h-9 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center text-gray-400"
+                  aria-label="Panelni yopish"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* Mobile timer */}
+              {remainingSeconds !== null && (
+                <div className="px-4 py-3 border-b border-gray-100 dark:border-gray-800">
+                  <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">Qolgan vaqt</p>
+                  <div className={`exam-timer ${remainingSeconds <= 300 ? 'exam-timer-urgent' : ''}`}>
+                    <Clock3 size={18} className={remainingSeconds <= 300 ? 'text-red-500' : 'text-primary-500'} />
+                    <span className={`exam-timer-display text-base ${remainingSeconds <= 300 ? 'text-red-600 dark:text-red-400' : 'text-gray-900 dark:text-white'}`}>
+                      {formatDuration(remainingSeconds)}
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {/* Mobile question grid */}
+              <div className="flex-1 overflow-y-auto p-4">
+                <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3">
+                  Savollar ({total})
+                </p>
+                <div className="exam-q-grid">
+                  {session.items.map((item, index) => {
+                    const saved = savedQuestionIds.has(item.question_id)
+                    const isCurrent = index === currentIndex
+
+                    let btnClass = 'exam-q-btn '
+                    if (isCurrent) {
+                      btnClass += 'exam-q-btn-current'
+                    } else if (saved) {
+                      btnClass += 'exam-q-btn-answered'
+                    } else {
+                      btnClass += 'exam-q-btn-unanswered'
+                    }
+
+                    return (
+                      <button
+                        key={item.question_id}
+                        type="button"
+                        disabled={interactionBusy}
+                        aria-label={`Savol ${index + 1}${saved ? ', belgilangan' : ''}`}
+                        onClick={() => {
+                          setCurrentIndex(index)
+                          setSidebarOpen(false)
+                        }}
+                        className={btnClass}
+                      >
+                        {index + 1}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+
+              {/* Mobile finish button */}
+              <div className="p-4 border-t border-gray-100 dark:border-gray-800">
+                <button
+                  type="button"
+                  disabled={interactionBusy}
+                  onClick={() => {
+                    if (unansweredCount > 0) {
+                      setFinishArmed(true)
+                    } else {
+                      void finishExam()
+                    }
+                    setSidebarOpen(false)
+                  }}
+                  className="exam-finish-btn"
+                >
+                  Sinovni yakunlash
+                </button>
+              </div>
+            </aside>
+          </>
+        )}
+
+        {/* ── MAIN CONTENT AREA ───────────────────────────── */}
+        <section className="flex-1 min-w-0 flex flex-col overflow-y-auto scrollbar-thin">
+          {/* Top header bar */}
+          <div className="flex items-center justify-between gap-3 px-4 sm:px-6 py-3 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-gray-100 dark:border-gray-800 shrink-0">
+            <div className="flex items-center gap-2.5">
+              <button
+                type="button"
+                onClick={() => setSidebarOpen(true)}
+                className="lg:hidden p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500 transition-colors"
+                aria-label="Savollar panelini ochish"
+              >
+                <ChevronDown size={18} />
+              </button>
+              <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider hidden sm:inline">{examTitle}</span>
+              <div className="w-px h-4 bg-gray-200 dark:bg-gray-700 hidden sm:block" />
+              <span className="text-sm font-bold text-gray-900 dark:text-white">
+                Savol {currentIndex + 1}
+              </span>
+            </div>
+            <div className="flex items-center gap-2.5">
+              {remainingSeconds !== null && (
+                <span className={`inline-flex items-center gap-1.5 font-mono font-bold text-sm px-2.5 py-1.5 rounded-lg ${
+                  remainingSeconds <= 300
+                    ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400'
+                    : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'
+                }`}>
+                  <Clock3 size={15} />
+                  {formatDuration(remainingSeconds)}
+                </span>
+              )}
+              <span className="text-xs text-gray-400 hidden sm:inline">
+                {answeredQuestions}/{total}
+              </span>
+            </div>
+          </div>
+
+          {/* Question content wrapper */}
+          <div className="flex-1 p-4 sm:p-6 lg:p-8 max-w-3xl mx-auto w-full">
+            {/* Question meta row */}
+            <div className="exam-question-meta">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-xs font-bold font-mono">
+                {currentItem.format}
+              </span>
+              {currentItem.cognitive_level && (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs font-medium">
+                  {{
+                    knowledge: 'Bilish',
+                    application: 'Qo‘llash',
+                    reasoning: 'Mulohaza',
+                  }[currentItem.cognitive_level] || currentItem.cognitive_level}
+                </span>
+              )}
+              {currentItem.difficulty && (
+                <span className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 text-xs font-medium">
+                  {'★'.repeat(currentItem.difficulty)}{'☆'.repeat(5 - currentItem.difficulty)}
+                </span>
+              )}
+              <div className="flex-1" />
+              {currentSaved && (
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 px-3 py-1.5 rounded-lg">
+                  <Check size={14} />
+                  Saqlangan
+                </span>
+              )}
+            </div>
+
+            {/* Question card */}
+            <div className="exam-question-card">
+              <div className="exam-question-stem">
+                {renderQuestion(currentItem)}
+              </div>
+            </div>
+
+            {/* Feedback message */}
+            <div aria-live="polite" className="min-h-8 mt-4">
+              {message && (
+                <div className={`flex items-start gap-3 p-4 rounded-xl border ${
+                  message.includes('saqlandi') || message.startsWith('To‘g‘ri.')
+                    ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800/40 text-emerald-700 dark:text-emerald-300'
+                    : 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800/40 text-amber-700 dark:text-amber-300'
+                }`}>
+                  {message.includes('saqlandi') || message.startsWith('To‘g‘ri.') ? (
+                    <CheckCircle2 size={18} className="shrink-0 mt-0.5 text-emerald-500" />
+                  ) : (
+                    <AlertTriangle size={18} className="shrink-0 mt-0.5 text-amber-500" />
+                  )}
+                  <span className="text-sm leading-relaxed">{message}</span>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* ── Bottom Navigation ─────────────────────────── */}
+          <div className="exam-nav-bar">
+            <div className="flex items-center gap-2 max-w-3xl mx-auto w-full">
+              {/* Previous button */}
               <button
                 type="button"
                 disabled={currentIndex === 0 || interactionBusy}
-                onClick={() =>
-                  setCurrentIndex((index) => Math.max(0, index - 1))
-                }
-                className="btn-secondary inline-flex items-center gap-1.5 disabled:opacity-50"
+                onClick={() => setCurrentIndex((i) => Math.max(0, i - 1))}
+                className="exam-nav-btn-prev"
               >
-                <ChevronLeft size={16} />
-                Oldingi
+                <ChevronLeft size={17} />
+                <span className="hidden sm:inline">Oldingi</span>
               </button>
+
+              {/* Save button (center) */}
+              <button
+                type="button"
+                disabled={
+                  !currentComplete ||
+                  currentSaved ||
+                  submittingId === currentItem.question_id ||
+                  interactionBusy
+                }
+                onClick={() => void submitCurrentAnswer()}
+                className="exam-nav-btn-save flex-1 justify-center"
+              >
+                {submittingId === currentItem.question_id ? (
+                  <LoaderCircle size={17} className="animate-spin" />
+                ) : currentSaved ? (
+                  <Check size={17} />
+                ) : (
+                  <ShieldCheck size={17} />
+                )}
+                {submittingId === currentItem.question_id
+                  ? 'Saqlanmoqda…'
+                  : currentSaved
+                    ? 'Saqlangan'
+                    : 'Javobni saqlash'}
+              </button>
+
+              {/* Next button */}
               <button
                 type="button"
                 disabled={currentIndex === total - 1 || interactionBusy}
-                onClick={() =>
-                  setCurrentIndex((index) => Math.min(total - 1, index + 1))
-                }
-                className="btn-secondary inline-flex items-center gap-1.5 disabled:opacity-50"
+                onClick={() => setCurrentIndex((i) => Math.min(total - 1, i + 1))}
+                className="exam-nav-btn-next"
               >
-                Keyingi
-                <ChevronRight size={16} />
+                <span className="hidden sm:inline">Keyingi</span>
+                <ChevronRight size={17} />
               </button>
             </div>
-            <button
-              type="button"
-              disabled={
-                !currentComplete ||
-                currentSaved ||
-                submittingId === currentItem.question_id ||
-                interactionBusy
-              }
-              onClick={() => void submitCurrentAnswer()}
-              className="btn-primary inline-flex items-center gap-2 disabled:opacity-50"
-            >
-              {submittingId === currentItem.question_id && (
-                <LoaderCircle size={17} className="animate-spin" />
-              )}
-              {currentSaved ? 'Javob saqlandi' : 'Javobni saqlash'}
-            </button>
           </div>
         </section>
-
-        <aside className="card p-4 h-fit lg:sticky lg:top-20">
-          <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
-            Savollar
-          </h2>
-          <div className="grid grid-cols-5 gap-1.5">
-            {session.items.map((item, index) => {
-              const saved = savedQuestionIds.has(item.question_id)
-
-              return (
-                <button
-                  key={item.question_id}
-                  type="button"
-                  disabled={interactionBusy}
-                  aria-label={`${index + 1}-savol${saved ? ', saqlangan' : ''}`}
-                  onClick={() => setCurrentIndex(index)}
-                  className={`w-8 h-8 rounded-lg text-xs font-medium ${
-                    index === currentIndex ? 'ring-2 ring-primary-500' : ''
-                  } ${
-                    saved
-                      ? 'bg-emerald-100 text-emerald-700'
-                      : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
-                  }`}
-                >
-                  {index + 1}
-                </button>
-              )
-            })}
-          </div>
-
-          <button
-            type="button"
-            disabled={interactionBusy}
-            onClick={() => {
-              if (unansweredCount > 0) {
-                setFinishArmed(true)
-              } else {
-                void finishExam()
-              }
-            }}
-            className="btn-secondary w-full mt-5 disabled:opacity-50"
-          >
-            Sinovni yakunlash
-          </button>
-
-          {finishArmed && (
-            <div className="mt-3 p-3 rounded-xl bg-amber-50 dark:bg-amber-900/20 text-sm">
-              <p className="text-amber-800 dark:text-amber-200">
-                {unansweredCount} ta savol javobsiz. Baribir yakunlaysizmi?
-              </p>
-              <div className="flex gap-2 mt-3">
-                <button
-                  type="button"
-                  onClick={() => setFinishArmed(false)}
-                  className="btn-secondary flex-1 text-xs"
-                >
-                  Davom etish
-                </button>
-                <button
-                  type="button"
-                  onClick={() => void finishExam()}
-                  className="btn-primary flex-1 text-xs"
-                >
-                  Yakunlash
-                </button>
-              </div>
-            </div>
-          )}
-        </aside>
       </div>
 
+      {/* ── Loading Overlay ──────────────────────────────── */}
       {busy && (
         <div
           role="status"
-          className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center p-4 backdrop-blur-sm"
         >
-          <div className="card px-6 py-5 inline-flex items-center gap-3">
-            <LoaderCircle className="animate-spin text-primary-600" />
-            <span>Natija serverda hisoblanmoqda…</span>
+          <div className="bg-white dark:bg-gray-900 rounded-2xl px-8 py-6 shadow-2xl border border-gray-100 dark:border-gray-800 inline-flex items-center gap-4">
+            <LoaderCircle size={24} className="animate-spin text-primary-600" />
+            <span className="font-semibold text-gray-900 dark:text-white">Natija serverda hisoblanmoqda…</span>
           </div>
         </div>
       )}

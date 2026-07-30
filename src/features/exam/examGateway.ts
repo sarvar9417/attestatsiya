@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { monitoring } from '../../lib/monitoring'
 import { typedSupabase } from '../../lib/supabase'
+import { resolveModuleUuid, resolveLessonUuid } from '../../lib/resolveIds'
 import type { Database, Json } from '../../lib/database.types'
 import {
   examSessionSchema,
@@ -86,13 +87,27 @@ export const supabaseExamGateway: ExamGateway = {
     return startExam('mock')
   },
 
-  async startModuleExam(moduleId: string) {
-    return startExam('bolim', moduleId)
+  async startModuleExam(moduleCode: string) {
+    const moduleUuid = await resolveModuleUuid(moduleCode)
+    if (!moduleUuid) {
+      throw new ExamGatewayError(
+        `"${moduleCode}" moduli topilmadi. Kontent bazasida mavjud emas.`,
+        'insufficient-pool'
+      )
+    }
+    return startExam('bolim', moduleUuid)
   },
 
-  async startTopicExam(lessonId: string) {
+  async startTopicExam(subtopicCode: string) {
+    const lessonUuid = await resolveLessonUuid(subtopicCode)
+    if (!lessonUuid) {
+      throw new ExamGatewayError(
+        `"${subtopicCode}" mavzusi topilmadi.`,
+        'insufficient-pool'
+      )
+    }
     const { data, error } = await typedSupabase.rpc('generate_topic_test', {
-      p_lesson_id: lessonId,
+      p_lesson_id: lessonUuid,
     })
 
     if (error) throw requestError(error.message)

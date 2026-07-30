@@ -20,6 +20,8 @@ export const examItemSchema = z
     stem_md: z.string().min(1),
     assets: z.array(z.unknown()),
     options: z.array(examOptionSchema),
+    cognitive_level: z.enum(['knowledge', 'application', 'reasoning']).optional(),
+    difficulty: z.number().int().min(1).max(5).optional(),
   })
   .strict()
   .superRefine((item, context) => {

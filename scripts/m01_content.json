@@ -1,0 +1,2787 @@
+{
+  "M01.01": {
+    "theory": [
+      {
+        "type": "definition",
+        "content": "\\chapterintroBu bobda bir-biriga eng ko‘p aralashtiriladigan to‘rtta\ntushuncha — informatika, ma’lumot, axborot va bilim — aniq chegaralanadi."
+      },
+      {
+        "type": "definition",
+        "content": "Informatika — axborotni izlash, yig‘ish, saqlash, qayta ishlash,\nuzatish, himoyalash va undan foydalanish usullari hamda bu jarayonlarni\namalga oshiruvchi kompyuter va kommunikatsiya vositalarini o‘rganuvchi fan."
+      },
+      {
+        "type": "text",
+        "content": "``Informatika'' atamasi fransuzcha informatique so‘zidan tarqalgan;\ndarslikda u information va automatique g‘oyalari birikmasi\nsifatida tushuntiriladi. Yevropada informatics, AQSHda esa ko‘proq\ncomputer science nomi ishlatiladi."
+      },
+      {
+        "type": "text",
+        "content": "Informatikada axborot asosiy ashyo, kompyuter esa asosiy\nvositalardan biridir. Fan faqat kompyuter qurilmasini emas, axborot bilan\nishlashning butun siklini o‘rganadi. Shu sabab:"
+      },
+      {
+        "type": "text",
+        "content": "``informatika — kompyuter tuzilishini o‘rganuvchi fan'' — juda tor;"
+      },
+      {
+        "type": "text",
+        "content": "``informatika — faqat dasturlash fani'' — noto‘g‘ri;"
+      },
+      {
+        "type": "definition",
+        "content": "``informatika — axborot jarayonlari va ularni avtomatlashtirish\n usullarini o‘rganuvchi fan'' — mazmunan to‘liqroq."
+      },
+      {
+        "type": "text",
+        "content": "Texnik ta’minot & Hardware & Kompyuter, aloqa va tashqi qurilmalar."
+      },
+      {
+        "type": "text",
+        "content": "Dasturiy ta’minot & Software & Operatsion tizim, dastur va algoritmik vositalar."
+      },
+      {
+        "type": "text",
+        "content": "Insoniy ta’minot & Brainware / userware &\nTizimni loyihalovchi, boshqaruvchi va undan foydalanuvchi insonlar,\nularning bilim hamda qoidalari."
+      },
+      {
+        "type": "text",
+        "content": "Brainware kompyuterning ``miyasi'' bo‘lgan protsessor emas.\nU axborot tizimida ishtirok etuvchi insonlar va ularning kompetensiyasidir."
+      },
+      {
+        "type": "example",
+        "content": "Ma’lumot (data) — hali talqin qilinmagan yoki muayyan\nvaziyatga bog‘lanmagan raqam, belgi, tovush, tasvir va kuzatuvlar."
+      },
+      {
+        "type": "text",
+        "content": "Axborot (information) — kontekst va mazmun berilib,\nqabul qiluvchi uchun ma’no kasb etgan ma’lumot."
+      },
+      {
+        "type": "definition",
+        "content": "Bilim (knowledge) — axborotning tajriba, qoida va avvalgi\ntushunchalar bilan bog‘lanib, xulosa chiqarish yoki harakat qilishga xizmat\nqiladigan o‘zlashtirilgan shakli."
+      },
+      {
+        "type": "text",
+        "content": "Cambridge darsligi ma’lumotni qayta ishlanmagan belgilar, axborotni\nkontekst va mazmunga ega ma’lumot, bilimni esa inson tajribasi\nqo‘llangan axborot deb ajratadi."
+      },
+      {
+        "type": "example",
+        "content": "Bir xil belgi turli kontekstda boshqa axborot beradi. Masalan, ``42'':\nharorat, o‘lcham, avtobus raqami yoki test natijasi bo‘lishi mumkin.\nKontekstsiz ``42'' — ma’lumot; ``50 savoldan 42 tasi to‘g‘ri'' — axborot."
+      },
+      {
+        "type": "text",
+        "content": "Inson nuqtayi nazaridan: tajriba va o‘rganish orqali\n shakllangan faktlar hamda qoidalar majmui."
+      },
+      {
+        "type": "definition",
+        "content": "Axborot tizimida: ekspert tizimi xulosa chiqarishi uchun\n saqlangan faktlar, tushunchalar va ``agar — u holda'' qoidalari majmui."
+      },
+      {
+        "type": "text",
+        "content": "Demak, oddiy ma’lumotlar bazasi ko‘proq yozuv va maydonlarni\ntartibli saqlaydi; bilimlar bazasi esa faktlar orasidagi mantiqiy\nmunosabat va qoidalarni ham ifodalashi mumkin."
+      },
+      {
+        "type": "definition",
+        "content": "Axborot keng tushuncha bo‘lgani uchun barcha vaziyatni qamraydigan bitta\njumla yetarli bo‘lmasligi mumkin. Darslik va ma’ruzada quyidagi\nyondashuvlar uchraydi:"
+      },
+      {
+        "type": "definition",
+        "content": "Hissiy-idrokiy &\nBorliqdagi narsa va hodisalarning sezgi a’zolari orqali ongda aks etishi."
+      },
+      {
+        "type": "text",
+        "content": "Mazmuniy &\nXabarni qabul qilish natijasida inson ongida hosil bo‘lgan ma’no."
+      },
+      {
+        "type": "text",
+        "content": "Kibernetik &\nBoshqaruv tizimining tashqi muhitga moslashishi va qaror qabul qilishi\nuchun foydalaniladigan mazmun."
+      },
+      {
+        "type": "example",
+        "content": "Shennoncha &\nNatija haqidagi noaniqlikning kamayishi. Teng ehtimolli ikki holatdan\nbittasi ma’lum bo‘lishi 1 bit axborot beradi."
+      },
+      {
+        "type": "text",
+        "content": "Klod Shennon nazariyasida ``axborot'' xabarning foydali yoki haqiqat\nekanini emas, noaniqlikni qancha kamaytirishini o‘lchaydi. Noto‘g‘ri xabar\nham bitlarda hajmga ega bo‘lishi mumkin, lekin sifatsiz axborot bo‘ladi."
+      },
+      {
+        "type": "definition",
+        "content": "[Obyekt]\n Biz o‘rganayotgan narsa, hodisa, jarayon yoki shaxs."
+      },
+      {
+        "type": "text",
+        "content": "[Axborot obyekti]\n Axborotni ifodalovchi yoki undan ma’no olish mumkin bo‘lgan matn, rasm,\n jadval, tovush yozuvi, model va shu kabilar."
+      },
+      {
+        "type": "text",
+        "content": "[Xabar]\n Axborotni jo‘natuvchidan qabul qiluvchiga yetkazish uchun tuzilgan\n belgilar, tovushlar, tasvirlar yoki signallar ketma-ketligi."
+      },
+      {
+        "type": "definition",
+        "content": "[Signal]\n Axborotni kanal bo‘ylab tashuvchi fizik jarayon yoki holat: elektr\n kuchlanishi, yorug‘lik impulsi, radioto‘lqin, tovush to‘lqini va boshqalar."
+      },
+      {
+        "type": "text",
+        "content": "[Axborot tashuvchi]\n Axborot saqlanadigan moddiy muhit: qog‘oz, disk, flesh-xotira, magnit\n tasma, toshdagi yozuv va boshqalar."
+      },
+      {
+        "type": "text",
+        "content": "Axborot va uni tashuvchi aynan bir narsa emas.\nBir matn qog‘ozda ham, SSDda ham saqlanishi mumkin; tashuvchi o‘zgarsa,\nmazmun o‘zgarmasligi mumkin. Xabar esa axborotni yetkazish shakli,\nsignal — uni fizik tashish vositasidir."
+      },
+      {
+        "type": "text",
+        "content": "Inson ko‘rish, eshitish, hid bilish, ta’m bilish va teri orqali sezish\nretseptorlari yordamida muhitdan belgilar oladi. Kompyuter esa sensor va\nkiritish qurilmalari orqali fizik signalni o‘lchab, uni raqamli kodga\naylantiradi."
+      },
+      {
+        "type": "text",
+        "content": "Ayrim darsliklarda axborotning taxminan 90 foizi ko‘rish, 9 foizi eshitish,\n1 foizi boshqa sezgilar orqali olinishi haqida o‘quv modeli berilgan.\nBu qat’iy biologik qonun emas; test aynan darslik faktini so‘rasa, raqamlarni\nmanba doirasida taning."
+      },
+      {
+        "type": "text",
+        "content": "``998'' yozuvi qachon ma’lumot, qachon axborot bo‘ladi?"
+      },
+      {
+        "type": "text",
+        "content": "Informatika fanida axborot va kompyuterning roli nimasi bilan farq qiladi?"
+      },
+      {
+        "type": "example",
+        "content": "Signal, xabar va tashuvchini bitta telefon qo‘ng‘irog‘i misolida ajrating."
+      },
+      {
+        "type": "text",
+        "content": "\\answers\n1) Kontekstsiz — ma’lumot; ``O‘zbekistonning xalqaro telefon kodi +998'' —\naxborot. 2) Axborot — o‘rganiladigan ashyo, kompyuter — uni qayta ishlash\nvositasi. 3) Ovoz mazmuni — axborot; nutq shaklidagi ketma-ketlik — xabar;\nradio/elektr signali — signal; aloqa tarmog‘i va qurilma — uzatish vositalari."
+      },
+      {
+        "type": "text",
+        "content": "Ma’lumotga kontekst va mazmun berilsa, u axborotga aylanadi."
+      },
+      {
+        "type": "text",
+        "content": "Axborot tajriba va qoida bilan bog‘lansa, bilimga xizmat qiladi."
+      },
+      {
+        "type": "text",
+        "content": "Xabar mazmunni ifodalaydi, signal uni kanal bo‘ylab tashiydi,\n tashuvchi esa saqlaydi."
+      },
+      {
+        "type": "definition",
+        "content": "Informatika faqat kompyuter yoki dasturlash emas — axborot\n jarayonlarining butun tizimidir."
+      },
+      {
+        "type": "text",
+        "content": "Asosiy qamrov: ICT5, PDF 10–24; ICT7, PDF 4–8; CAM10–11, PDF 10–13;\n``Ma’ruza (Tayyor)'', PDF 22–23."
+      },
+      {
+        "type": "table",
+        "content": "| Hissiy-idrokiy |  |\\n|---|---|\\n| Mazmuniy |  |\\n| Kibernetik |  |\\n| Shennoncha |  |"
+      }
+    ],
+    "questions": []
+  },
+  "M01.02": {
+    "theory": [
+      {
+        "type": "note",
+        "content": "\\chapterintroTestda ``tur'', ``shakl'', ``xossa'' va ``signal tabiati''\nbir-biriga aralashtiriladi. Bu bob tasnif mezonini avval aniqlashni o‘rgatadi."
+      },
+      {
+        "type": "example",
+        "content": "Bitta obyekt bir vaqtning o‘zida bir necha guruhga kirishi mumkin.\nMasalan, jonli efirdagi ob-havo xaritasi:"
+      },
+      {
+        "type": "text",
+        "content": "ifoda shakliga ko‘ra — grafik va matnli;"
+      },
+      {
+        "type": "text",
+        "content": "signal tabiatiga ko‘ra — kompyuter ichida raqamli;"
+      },
+      {
+        "type": "text",
+        "content": "dolzarbligiga ko‘ra — vaqtida ko‘rilsa dolzarb."
+      },
+      {
+        "type": "text",
+        "content": "Savolda ``qaysi tur?'' deyilsa, javob variantlaridan tasnif mezonini\ntoping. ``Matnli'' bilan ``ishonchli'' bir darajadagi turlar emas:\nbirinchisi shakl, ikkinchisi sifat xossasi."
+      },
+      {
+        "type": "text",
+        "content": "Matnli & Harf, raqam, tinish va maxsus belgilar & maqola, xabar"
+      },
+      {
+        "type": "text",
+        "content": "Sonli & Miqdorni bildiruvchi son va o‘lchov birligi & 27 \\(^\\circ\\)C"
+      },
+      {
+        "type": "text",
+        "content": "Grafik & Rasm, chizma, sxema, diagramma & xarita, ikonka"
+      },
+      {
+        "type": "text",
+        "content": "Audio & Ovoz to‘lqinining raqamli ifodasi & nutq, musiqa"
+      },
+      {
+        "type": "text",
+        "content": "Video & Kadrlar ketma-ketligi, ko‘pincha audio bilan & videodars"
+      },
+      {
+        "type": "text",
+        "content": "Multimedia & Bir nechta media turi birgalikda & interaktiv dars"
+      },
+      {
+        "type": "text",
+        "content": "``Rasmli'' va ``grafik'' ko‘pincha sinonim ishlatiladi. Multimedia\nesa alohida sezgi turi emas; matn, grafika, animatsiya, audio va videoning\nbir muhitda uyg‘unlashuvidir."
+      },
+      {
+        "type": "text",
+        "content": "Ko‘rish (vizual) & matn, rang, imo-ishora, rasm, video"
+      },
+      {
+        "type": "text",
+        "content": "Eshitish (audial) & nutq, musiqa, signal tovushi"
+      },
+      {
+        "type": "text",
+        "content": "Ta’m bilish & shirin, nordon, sho‘r ta’m"
+      },
+      {
+        "type": "text",
+        "content": "Teri orqali sezish (taktil) & harorat, bosim, tebranish, Braille bo‘rtmalari"
+      },
+      {
+        "type": "text",
+        "content": "Braille yozuvi shaklan belgili matn, qabul qilish usuliga ko‘ra taktil\naxborotdir. Demak, tasniflar bir-birini inkor qilmaydi."
+      },
+      {
+        "type": "text",
+        "content": "Analog (uzluksiz) signal — vaqt yoki makonda qiymati uzluksiz\no‘zgarishi mumkin bo‘lgan signal."
+      },
+      {
+        "type": "text",
+        "content": "Diskret (uzlukli) signal — faqat ajratilgan paytlar yoki\nbelgilangan qiymatlar to‘plamida ifodalanadigan signal."
+      },
+      {
+        "type": "text",
+        "content": "Tabiatdagi tovush va yorug‘lik ko‘pincha analog signal; kompyuterda\nsaqlangan matn, piksel qiymati va raqamli audio namunasi diskretdir.\nAnalog signalni kompyuterda saqlash uchun undan ma’lum vaqtlarda\nnamuna olinadi, qiymatlar darajalarga kvantlanadi va\nikkilikda kodlanadi."
+      },
+      {
+        "type": "definition",
+        "content": "``Ovoz analog, demak MP3 analog fayl'' — noto‘g‘ri. Tabiiy ovoz to‘lqini\nanalog; MP3 ichidagi ma’lumot raqamli. ``Raqamli'' va ``elektron''\nham aynan bir tushuncha emas: analog elektron qurilmalar ham mavjud."
+      },
+      {
+        "type": "text",
+        "content": "Axborot sifati bitta xossa bilan emas, foydalanish vazifasiga mos xossalar\nmajmui bilan baholanadi."
+      },
+      {
+        "type": "text",
+        "content": "Aniqlik / to‘g‘rilik &\nFakt va qiymatlar xatosizmi? &\nRaqam, ism, sana, o‘lchov yoki imlo xatosi qarorni buzishi mumkin."
+      },
+      {
+        "type": "text",
+        "content": "Ishonchlilik &\nManba va dalilga ishonish mumkinmi? &\nMuallif vakolati, dalil, tahrir va boshqa manbalar bilan moslik tekshiriladi."
+      },
+      {
+        "type": "text",
+        "content": "Dolzarblik &\nMaqsadga aynan shu ma’lumot kerakmi? &\nKeraksiz faktlar ko‘p bo‘lsa, asosiy axborotni topish qiyinlashadi."
+      },
+      {
+        "type": "text",
+        "content": "O‘z vaqtidalik &\nAxborot eskirmaganmi? &\nKecha to‘g‘ri bo‘lgan kurs, jadval yoki narx bugun noto‘g‘ri bo‘lishi mumkin."
+      },
+      {
+        "type": "text",
+        "content": "To‘liqlik &\nQaror uchun zarur qismlar bormi? &\nManzilning ko‘cha nomi bor-u, uy raqami yo‘q bo‘lsa, axborot yetarli emas."
+      },
+      {
+        "type": "text",
+        "content": "Tafsilot darajasi &\nTafsilot kam ham, ortiqcha ham emasmi? &\nAuditoriya va vazifaga mos optimal chuqurlik talab etiladi."
+      },
+      {
+        "type": "text",
+        "content": "Tushunarlilik &\nQabul qiluvchi til va belgilarni tushunadimi? &\nNoma’lum kod yoki keraksiz jargon ma’noni yopadi."
+      },
+      {
+        "type": "text",
+        "content": "Foydalilik / qimmatlilik &\nAxborot qaror yoki ishga xizmat qiladimi? &\nBir kishi uchun qimmatli axborot boshqasi uchun foydasiz bo‘lishi mumkin."
+      },
+      {
+        "type": "text",
+        "content": "Obyektivlik &\nFakt fikr va manfaatdan ajratilganmi? &\nSubyektiv xulosa fakt sifatida ko‘rsatilmasligi kerak."
+      },
+      {
+        "type": "text",
+        "content": "Mavjudlik &\nRuxsatli foydalanuvchi vaqtida oladimi? &\nAxborot bor, lekin unga kirib bo‘lmasa, amalda foydasiz."
+      },
+      {
+        "type": "example",
+        "content": "Vaziyat: maktab sayti ``ertaga dars 8:00 da'' deb yozdi, ammo xabar o‘tgan\nyildan qolgan."
+      },
+      {
+        "type": "text",
+        "content": "Bir paytlar to‘g‘ri bo‘lgan bo‘lishi mumkin."
+      },
+      {
+        "type": "text",
+        "content": "Hozir o‘z vaqtidalik xossasini yo‘qotgan."
+      },
+      {
+        "type": "text",
+        "content": "Shu sababli amaldagi qaror uchun ishonchli emas."
+      },
+      {
+        "type": "text",
+        "content": "To‘liq axborot noto‘g‘ri bo‘lishi mumkin."
+      },
+      {
+        "type": "text",
+        "content": "Dolzarb axborot ishonchsiz manbadan kelishi mumkin."
+      },
+      {
+        "type": "text",
+        "content": "Ishonchli manba eski ma’lumotni berishi mumkin."
+      },
+      {
+        "type": "text",
+        "content": "Juda batafsil axborot vazifaga mos bo‘lmasa, dolzarb emas."
+      },
+      {
+        "type": "text",
+        "content": "Valid formatdagi qiymat real hayotda noto‘g‘ri bo‘lishi mumkin."
+      },
+      {
+        "type": "text",
+        "content": "``Bugungi valyuta kursi'' bir oy oldingi rasmda berildi. Qaysi xossa buzilgan?"
+      },
+      {
+        "type": "text",
+        "content": "4K videoni kompyuter qanday turdagi axborot sifatida saqlaydi?"
+      },
+      {
+        "type": "text",
+        "content": "``Talaba imtihondan o‘tdi'', lekin ball ko‘rsatilmagan. Qaysi xossa yetishmasligi mumkin?"
+      },
+      {
+        "type": "text",
+        "content": "\\answers\n1) O‘z vaqtidalik (yangilik) va natijada ishonchlilik. 2) Raqamli,\nvideo shaklidagi axborot. 3) Vazifaga qarab to‘liqlik yoki tafsilot\ndarajasi."
+      },
+      {
+        "type": "text",
+        "content": "Tasniflashdan avval mezonni aniqlang. Matnli/grafik/audio/video —\nifodalanish shakllari; analog/diskret — signalning o‘zgarish tabiati;\naniq/ishonchli/dolzarb/to‘liq — sifat xossalari."
+      },
+      {
+        "type": "text",
+        "content": "Asosiy qamrov: ICT5, PDF 13–16; ICT7, PDF 5–8; CAM10–11, PDF 12–17;\n``Ma’ruza (Tayyor)'', PDF 22–24."
+      },
+      {
+        "type": "table",
+        "content": "| Ko‘rish (vizual) | matn, rang, imo-ishora, rasm, video\\\\ |\\n|---|---|\\n| Eshitish (audial) | nutq, musiqa, signal tovushi\\\\ |\\n| Hid bilish | tutun hidi, gul hidi\\\\ |\\n| Ta’m bilish | shirin, nordon, sho‘r ta’m\\\\ |\\n| Teri orqali sezish (taktil) | harorat, bosim, tebranish, Braille bo‘rtmalari\\\\ |"
+      },
+      {
+        "type": "table",
+        "content": "| Fakt va qiymatlar xatosizmi? |  |\\n|---|---|\\n| Manba va dalilga ishonish mumkinmi? |  |\\n| Maqsadga aynan shu ma’lumot kerakmi? |  |\\n| Axborot eskirmaganmi? |  |\\n| Qaror uchun zarur qismlar bormi? |  |\\n| Tafsilot kam ham, ortiqcha ham emasmi? |  |\\n| Qabul qiluvchi til va belgilarni tushunadimi? |  |\\n| Axborot qaror yoki ishga xizmat qiladimi? |  |\\n| Fakt fikr va manfaatdan ajratilganmi? |  |\\n| Ruxsatli foydalanuvchi vaqtida oladimi? |  |"
+      },
+      {
+        "type": "text",
+        "content": "\\chapterintroHar bir axborot almashinuvida ``kimdan?'', ``nima orqali?'',\n``kimga?'' va ``axborot ustida nima bajarildi?'' savollari ajratiladi."
+      },
+      {
+        "type": "definition",
+        "content": "Axborot manbai — xabarni hosil qiluvchi yoki yuboruvchi shaxs,\nqurilma, obyekt yoxud jarayon."
+      },
+      {
+        "type": "text",
+        "content": "Axborot kanali — signal manbadan qabul qiluvchiga o‘tadigan\nmuhit yoki vosita."
+      },
+      {
+        "type": "text",
+        "content": "Axborot qabul qiluvchi — xabar yetib boradigan va uni talqin\nqiladigan shaxs, qurilma yoki tizim."
+      },
+      {
+        "type": "example",
+        "content": "Masalan, o‘qituvchi videodars yuboradi: o‘qituvchi — manba; mikrofon,\nkamera, Internet va serverlar — kodlash hamda kanal tizimi; o‘quvchining\nqurilmasi va o‘quvchi — texnik hamda insoniy qabul qiluvchilar."
+      },
+      {
+        "type": "definition",
+        "content": "``Telefon'' vaziyatga qarab manba, kanalga kiruvchi vosita yoki qabul\nqiluvchi bo‘lishi mumkin. Rol obyekt nomi bilan emas, ayni jarayondagi\nvazifasi bilan aniqlanadi."
+      },
+      {
+        "type": "text",
+        "content": "jonli \\(\\rightarrow\\) jonli & O‘qituvchi o‘quvchiga og‘zaki tushuntiradi."
+      },
+      {
+        "type": "text",
+        "content": "jonli \\(\\rightarrow\\) texnika & Foydalanuvchi mikrofonga gapiradi."
+      },
+      {
+        "type": "text",
+        "content": "texnika \\(\\rightarrow\\) jonli & Telefon ogohlantirish ovozini chiqaradi."
+      },
+      {
+        "type": "text",
+        "content": "texnika \\(\\rightarrow\\) texnika & Sensor ma’lumotni serverga yuboradi."
+      },
+      {
+        "type": "text",
+        "content": "Bevosita (birlamchi) manba — ma’lumot aynan joriy maqsad uchun\nto‘g‘ridan-to‘g‘ri o‘lchangan, kuzatilgan yoki yig‘ilgan manba."
+      },
+      {
+        "type": "text",
+        "content": "Bilvosita (ikkilamchi) manba — avval boshqa maqsadda boshqa\nshaxs yoki tashkilot tomonidan yig‘ilgan ma’lumotdan foydalanish."
+      },
+      {
+        "type": "example",
+        "content": "Misol & Xonani o‘zingiz ruletka bilan o‘lchaysiz. &\nOldingi qurilish rejasidagi o‘lchamni olasiz."
+      },
+      {
+        "type": "text",
+        "content": "Afzallik & Maqsadga mos, manbasi ma’lum, yangi bo‘lishi mumkin. &\nTez, arzon, katta hajm tayyor bo‘lishi mumkin."
+      },
+      {
+        "type": "text",
+        "content": "Kamchilik & Vaqt, mablag‘ va mehnat talab qiladi; namuna kichik bo‘lishi mumkin. &\nEskirgan, noxolis, ortiqcha yoki kerakli formatda bo‘lmasligi mumkin."
+      },
+      {
+        "type": "example",
+        "content": "``Internetdan olindi'' degani avtomatik ravishda ikkilamchi degani emas.\nMasalan, meteorologik stansiyaning ayni paytdagi o‘z sensori natijasi\ntashkilot uchun birlamchi; boshqa tadqiqotchi undan boshqa maqsadda\nfoydalansa, u uchun ikkilamchi bo‘lishi mumkin. Tasnif foydalanish\nmaqsadiga bog‘liq."
+      },
+      {
+        "type": "text",
+        "content": "Statik ma’lumot — odatda o‘z-o‘zidan yangilanmaydigan, faqat\nqo‘lda tahrirlansa o‘zgaradigan ma’lumot."
+      },
+      {
+        "type": "example",
+        "content": "Dinamik ma’lumot — boshlang‘ich manba yoki tizim holati\no‘zgarganda foydalanuvchi matnni qo‘lda tahrirlamasdan avtomatik\nyangilanadigan ma’lumot."
+      },
+      {
+        "type": "text",
+        "content": "Yangilanish & qo‘lda yoki umuman yo‘q & manba o‘zgarishi bilan avtomatik"
+      },
+      {
+        "type": "example",
+        "content": "Misol & PDF qo‘llanma, chop etilgan jurnal & jonli hisob, chipta qoldig‘i, sensor paneli"
+      },
+      {
+        "type": "text",
+        "content": "Kuchli tomoni & barqaror, oflayn o‘qiladi, nashrdan oldin tekshirilishi mumkin &\nko‘pincha yangi va real vaqtga yaqin"
+      },
+      {
+        "type": "text",
+        "content": "Xavfi & tez eskirishi mumkin & tez yangilangani sabab xato ham tez tarqalishi mumkin"
+      },
+      {
+        "type": "text",
+        "content": "Har bir veb-sahifa dinamik emas. Veb-sahifadagi oddiy ``Biz haqimizda''\nmatni qo‘lda tahrirlanadi — statik. Ma’lumotlar bazasidagi yangi yozuv\nbilan avtomatik o‘zgargan narx yoki natija — dinamik."
+      },
+      {
+        "type": "definition",
+        "content": "Axborotli jarayon — axborotni hosil qilish yoki u bilan\nbajariladigan maqsadli amal."
+      },
+      {
+        "type": "definition",
+        "content": "Darsliklarda uchraydigan jarayonlarni to‘liq tizimlash:"
+      },
+      {
+        "type": "text",
+        "content": "Yaratish / hosil qilish & Sensor o‘lchovi, matn yozish, suratga olish."
+      },
+      {
+        "type": "text",
+        "content": "Qabul qilish & Signalni sezish, qurilma orqali kiritish."
+      },
+      {
+        "type": "text",
+        "content": "Yig‘ish / to‘plash & Turli manbalardagi yozuvlarni bir joyga jamlash."
+      },
+      {
+        "type": "text",
+        "content": "Izlash & Kalit so‘z, katalog, indeks yoki so‘rov orqali topish."
+      },
+      {
+        "type": "text",
+        "content": "Saqlash & Axborotni tashuvchiga yozib, keyin foydalanish imkonini yaratish."
+      },
+      {
+        "type": "note",
+        "content": "Qayta ishlash & Saralash, hisoblash, tahrirlash, kodlash yoki yangi axborot olish."
+      },
+      {
+        "type": "text",
+        "content": "Uzatish & Xabarni kanal orqali manbadan qabul qiluvchiga yetkazish."
+      },
+      {
+        "type": "text",
+        "content": "Nusxalash & Mazmunning qo‘shimcha nusxasini yaratish."
+      },
+      {
+        "type": "text",
+        "content": "Taqdim etish / chiqarish & Ekran, bosma, ovoz yoki boshqa shaklda ko‘rsatish."
+      },
+      {
+        "type": "text",
+        "content": "Foydalanish & Qaror, boshqaruv, ta’lim yoki faoliyatda qo‘llash."
+      },
+      {
+        "type": "text",
+        "content": "Himoyalash & Maxfiylik, yaxlitlik va mavjudlikni saqlash."
+      },
+      {
+        "type": "text",
+        "content": "Yo‘q qilish & Keraksiz axborotni qayta tiklab bo‘lmaydigan tarzda o‘chirish."
+      },
+      {
+        "type": "definition",
+        "content": "Kompyuter tizimida bu jarayonlar qurilmalar bilan bog‘lanadi:"
+      },
+      {
+        "type": "text",
+        "content": "kiritish qurilmalari — qabul qilish va raqamlashtirish;"
+      },
+      {
+        "type": "text",
+        "content": "tezkor va tashqi xotira — vaqtincha yoki uzoq saqlash;"
+      },
+      {
+        "type": "text",
+        "content": "chiqarish qurilmalari — inson tushunadigan ko‘rinishda taqdim etish;"
+      },
+      {
+        "type": "text",
+        "content": "tarmoq vositalari — uzatish va qabul qilish."
+      },
+      {
+        "type": "text",
+        "content": "Qayta ishlash faqat formatni almashtirish emas. U ma’lumotga amal qo‘llab,\nyangi mazmun olishni ham bildiradi:"
+      },
+      {
+        "type": "example",
+        "content": "Masalan, \\(50\\) ta savoldan \\(46\\) tasi to‘g‘ri ekani — kiruvchi\nma’lumotlar. \\(46/50 \\times 100 = 92\\) hisoblash — qayta ishlash.\n``Natija 90 mezondan yuqori'' — kontekstli xulosa."
+      },
+      {
+        "type": "text",
+        "content": "Poyezdning GPS bo‘yicha avtomatik yangilanadigan kelish vaqti\n statikmi yoki dinamik?"
+      },
+      {
+        "type": "text",
+        "content": "So‘rovnomani aynan platforma dizayni uchun o‘tkazish qanday manba?"
+      },
+      {
+        "type": "definition",
+        "content": "Faylni ZIPga aylantirish qaysi axborot jarayonlariga kiradi?"
+      },
+      {
+        "type": "text",
+        "content": "\\answers\n1) Dinamik. 2) Shu maqsad uchun yig‘ilsa, bevosita/birlamchi.\n3) Qayta ishlash (siqish/kodlash) va natijani saqlash."
+      },
+      {
+        "type": "text",
+        "content": "Manba xabarni yaratadi, kanal signalni tashiydi, qabul qiluvchi talqin\nqiladi. Birlamchi/ikkilamchi tasnifi ma’lumotning qaysi maqsadda\nyig‘ilganiga, statik/dinamik tasnifi esa qanday yangilanishiga bog‘liq."
+      },
+      {
+        "type": "text",
+        "content": "Asosiy qamrov: ICT5, PDF 13–16; ICT7, PDF 4–8; CAM10–11, PDF 12–16;\n``Ma’ruza (Tayyor)'', PDF 22–27."
+      },
+      {
+        "type": "table",
+        "content": "| jonli \\(\\rightarrow\\) jonli | O‘qituvchi o‘quvchiga og‘zaki tushuntiradi.\\\\ |\\n|---|---|\\n| jonli \\(\\rightarrow\\) texnika | Foydalanuvchi mikrofonga gapiradi.\\\\ |\\n| texnika \\(\\rightarrow\\) jonli | Telefon ogohlantirish ovozini chiqaradi.\\\\ |\\n| texnika \\(\\rightarrow\\) texnika | Sensor ma’lumotni serverga yuboradi.\\\\ |"
+      },
+      {
+        "type": "table",
+        "content": "|  | \\textbf{Bevosita} | \\textbf{Bilvosita}\\\\ |\\n|---|---|---|\\n| Misol | Xonani o‘zingiz ruletka bilan o‘lchaysiz. |  |\\n| Afzallik | Maqsadga mos, manbasi ma’lum, yangi bo‘lishi mumkin. |  |\\n| Kamchilik | Vaqt, mablag‘ va mehnat talab qiladi; namuna kichik bo‘lishi mumkin. |  |"
+      },
+      {
+        "type": "table",
+        "content": "| Yangilanish | qo‘lda yoki umuman yo‘q | manba o‘zgarishi bilan avtomatik\\\\ |\\n|---|---|---|\\n| Misol | PDF qo‘llanma, chop etilgan jurnal | jonli hisob, chipta qoldig‘i, sensor paneli\\\\ |\\n| Kuchli tomoni | barqaror, oflayn o‘qiladi, nashrdan oldin tekshirilishi mumkin |  |\\n| Xavfi | tez eskirishi mumkin | tez yangilangani sabab xato ham tez tarqalishi mumkin\\\\ |"
+      }
+    ],
+    "questions": []
+  },
+  "M01.03": {
+    "theory": [
+      {
+        "type": "text",
+        "content": "\\chapterintroAxborotni bilish yetarli emas: uni maqsadli topish, tanqidiy\nbaholash, qonuniy ishlatish va xavfsiz boshqarish raqamli savodxonlikni hosil qiladi."
+      },
+      {
+        "type": "definition",
+        "content": "Axborot texnologiyasi (AT) — axborotni izlash, yig‘ish, saqlash,\nqayta ishlash, uzatish, himoyalash va foydalanuvchiga taqdim etish uchun\nqo‘llanadigan usullar, jarayonlar, dasturiy hamda texnik vositalar majmui."
+      },
+      {
+        "type": "example",
+        "content": "ATning natijasi shunchaki qurilma emas, maqsadga mos axborot\nmahsuloti yoki xizmatdir. Masalan, elektron jurnal tizimida:"
+      },
+      {
+        "type": "text",
+        "content": "ma’lumot — o‘quvchi, sana, baho, davomat yozuvlari;"
+      },
+      {
+        "type": "text",
+        "content": "texnika — kompyuter, telefon, server va tarmoq;"
+      },
+      {
+        "type": "text",
+        "content": "dastur — bazani boshqarish va interfeys;"
+      },
+      {
+        "type": "definition",
+        "content": "jarayon — kiritish, tekshirish, hisoblash, saqlash, hisobot;"
+      },
+      {
+        "type": "text",
+        "content": "inson — o‘qituvchi, administrator, o‘quvchi va ota-ona;"
+      },
+      {
+        "type": "text",
+        "content": "natija — o‘zlashtirish haqidagi tushunarli axborot."
+      },
+      {
+        "type": "text",
+        "content": "Axborot texnologiyasi = kompyuter, degan tenglik noto‘g‘ri.\nKompyuter — vosita; texnologiya esa maqsad, usul, dastur, qurilma,\nma’lumot va inson faoliyatining tashkil etilgan tizimidir."
+      },
+      {
+        "type": "text",
+        "content": "Raqamli axborot — qiymatlari diskret kodlar, amalda ko‘pincha\nikkilik bitlar bilan ifodalangan axborot. Uning afzalliklari:"
+      },
+      {
+        "type": "text",
+        "content": "algoritmlar bilan avtomatik qayta ishlash;"
+      },
+      {
+        "type": "text",
+        "content": "qidirish, indekslash va katta hajmda saqlash;"
+      },
+      {
+        "type": "text",
+        "content": "shifrlash, nazorat yig‘indisi va zaxira nusxasi bilan himoyalash;"
+      },
+      {
+        "type": "text",
+        "content": "matn, rasm, audio va videoni bir qurilmada birlashtirish."
+      },
+      {
+        "type": "text",
+        "content": "Cheklovlari ham bor: qurilma va formatga bog‘liqlik, tez ko‘payadigan\nnoto‘g‘ri axborot, maxfiylik buzilishi, raqamli izning uzoq saqlanishi,\neskirgan tashuvchi yoki kodek sabab faylni ocha olmaslik."
+      },
+      {
+        "type": "text",
+        "content": "Axborotlashgan jamiyat — axborot va bilim yaratish, qayta\nishlash, almashish hamda ulardan foydalanish iqtisodiyot, boshqaruv,\nta’lim va kundalik hayotning asosiy omiliga aylangan jamiyat."
+      },
+      {
+        "type": "text",
+        "content": "Uning belgilariga raqamli xizmatlar, elektron hujjatlar, tarmoqli aloqa,\nmasofaviy ta’lim, katta ma’lumotlar, axborot kasblari va tezkor bilim\nalmashinuvi kiradi. Biroq texnika mavjudligi o‘z-o‘zidan axborot\nmadaniyatini yaratmaydi."
+      },
+      {
+        "type": "text",
+        "content": "Axborot madaniyati — axborotga ehtiyojni aniqlash, uni samarali\nizlash, ishonchliligini baholash, qayta ishlash, tartiblash, qonuniy va\naxloqiy qo‘llash hamda xavfsiz ulashish qobiliyatlari majmui."
+      },
+      {
+        "type": "definition",
+        "content": "Milliy 6-sinf darsligi bu tushunchaga soxta ma’lumotga aldanmaslik,\nzarurini ajratish, mazmunni tushunish, xolis manbani ulashish va mantiqiy\nxulosa chiqarishni kiritadi."
+      },
+      {
+        "type": "text",
+        "content": "Axborot ehtiyoji & Men aynan nimani va qaysi aniqlikda bilmoqchiman?"
+      },
+      {
+        "type": "text",
+        "content": "Qidiruv & Kalit so‘z, filtr va ishonchli domenni tanladimmi?"
+      },
+      {
+        "type": "text",
+        "content": "Baholash & Muallif, sana, dalil, maqsad va boshqa manbalarni tekshirdimmi?"
+      },
+      {
+        "type": "text",
+        "content": "Qayta ishlash & Faktni fikrdan ajratib, xulosani dalilga bog‘ladimmi?"
+      },
+      {
+        "type": "text",
+        "content": "Mualliflik & Iqtibos, havola, litsenziya va ruxsat talabini bajardimmi?"
+      },
+      {
+        "type": "text",
+        "content": "Maxfiylik & Shaxsiy yoki maxfiy ma’lumotni ortiqcha oshkor qilmadimmi?"
+      },
+      {
+        "type": "text",
+        "content": "Muloqot & Auditoriya, mavzu va raqamli etiketga mos yozdimmi?"
+      },
+      {
+        "type": "text",
+        "content": "Raqamli iz — foydalanuvchining onlayn va raqamli tizimlardagi\nharakati natijasida qoladigan yozuvlar: post, izoh, qidiruv, joylashuv,\nfayl metama’lumoti, kirish jurnali va boshqalar."
+      },
+      {
+        "type": "text",
+        "content": "Faol iz foydalanuvchi ataylab joylashtirgan post, forma yoki\nxabardan; passiv iz esa tizim qayd etgan IP manzil, qurilma\nma’lumoti, cookie yoki kirish vaqtidan hosil bo‘ladi. O‘chirilgan kontent\nnusxa, arxiv yoki skrinshotda qolishi mumkin."
+      },
+      {
+        "type": "note",
+        "content": "``Shaxsiy profil faqat do‘stlarimga ko‘rinadi, demak undagi ma’lumot\nmutlaqo maxfiy'' — kafolat emas. Qabul qiluvchi nusxa olishi, hisob\nbuzilishi yoki platforma siyosati o‘zgarishi mumkin."
+      },
+      {
+        "type": "text",
+        "content": "[Fakt]\n Dalil bilan tekshirish mumkin bo‘lgan da’vo: ``fayl 8 MiB''."
+      },
+      {
+        "type": "text",
+        "content": "[Fikr]\n Shaxsiy baho yoki munosabat: ``bu format eng qulay''."
+      },
+      {
+        "type": "text",
+        "content": "[Xulosa]\n Bir yoki bir necha fakt va qoida asosida chiqarilgan natija:\n ``8 MiB fayl 4 MiB bo‘sh joyga sig‘maydi''."
+      },
+      {
+        "type": "note",
+        "content": "Ko‘p takrorlangan gap fakt bo‘lib qolmaydi. Qidiruv natijasining yuqori\no‘rni ham ishonchlilik kafolati emas; reklama, moslashtirish va reyting\nalgoritmi natijani oldinga olib chiqishi mumkin."
+      },
+      {
+        "type": "text",
+        "content": "Axborot texnologiyasi va texnik vosita orasidagi farq nima?"
+      },
+      {
+        "type": "example",
+        "content": "Raqamli izning faol va passiv turiga bittadan misol bering."
+      },
+      {
+        "type": "text",
+        "content": "``Bu sayt chiroyli, demak axboroti ishonchli'' fikrida qaysi xato bor?"
+      },
+      {
+        "type": "definition",
+        "content": "\\answers\n1) Texnik vosita tizimning bitta tarkibi; AT — usul, jarayon, dastur,\nqurilma, ma’lumot va insonlarning maqsadli majmui. 2) Faol — post;\npassiv — serverdagi kirish jurnali. 3) Dizayn manbaning dalili,\nmuallifi yoki aniqligini kafolatlamaydi."
+      },
+      {
+        "type": "text",
+        "content": "Raqamli savodxonlik — faqat dastur tugmalarini bilish emas. Axborot\nehtiyojini aniqlash, manbani tekshirish, xulosa qilish, mualliflikka rioya\netish va maxfiylikni saqlash uning ajralmas qismlaridir."
+      },
+      {
+        "type": "text",
+        "content": "Asosiy qamrov: ICT5, PDF 13–16; ICT6, PDF 82–104; ICT8, PDF 8–11;\nCAM5, PDF 90–107; CAM6, PDF 159–170; ``Ma’ruza (Tayyor)'', PDF 22–29."
+      },
+      {
+        "type": "table",
+        "content": "| Axborot ehtiyoji | Men aynan nimani va qaysi aniqlikda bilmoqchiman?\\\\ |\\n|---|---|\\n| Qidiruv | Kalit so‘z, filtr va ishonchli domenni tanladimmi?\\\\ |\\n| Baholash | Muallif, sana, dalil, maqsad va boshqa manbalarni tekshirdimmi?\\\\ |\\n| Qayta ishlash | Faktni fikrdan ajratib, xulosani dalilga bog‘ladimmi?\\\\ |\\n| Mualliflik | Iqtibos, havola, litsenziya va ruxsat talabini bajardimmi?\\\\ |\\n| Maxfiylik | Shaxsiy yoki maxfiy ma’lumotni ortiqcha oshkor qilmadimmi?\\\\ |\\n| Muloqot | Auditoriya, mavzu va raqamli etiketga mos yozdimmi?\\\\ |"
+      }
+    ],
+    "questions": []
+  },
+  "M01.04": {
+    "theory": [
+      {
+        "type": "note",
+        "content": "\\chapterintroKodlash axborotni ifodalashga, shifrlash esa uni kalitsiz\ntushunishni qiyinlashtirishga xizmat qiladi. Bu ikki maqsadni aralashtirmang."
+      },
+      {
+        "type": "definition",
+        "content": "Belgi — ma’lum obyekt, harakat, xossa yoki tushunchani\nifodalash uchun qabul qilingan ishora."
+      },
+      {
+        "type": "text",
+        "content": "Alifbo — kodlashda ishlatiladigan ruxsat etilgan belgilar\nto‘plami; uning elementlari soni alifbo quvvati deyiladi."
+      },
+      {
+        "type": "text",
+        "content": "Kod — axborot elementlarini boshqa belgilar yoki signallar\nketma-ketligi bilan moslashtiruvchi qoidalar tizimi."
+      },
+      {
+        "type": "text",
+        "content": "Kodlash — axborotni belgilangan qoida bo‘yicha kodga\no‘tkazish; dekodlash — kodlangan ifodadan dastlabki mazmunni\nqayta tiklash."
+      },
+      {
+        "type": "text",
+        "content": "Belgining ma’nosi tabiiy bo‘lishi shart emas; u kelishuvga tayanadi.\nMa’ruzada shartli belgilar ikki ko‘rinishda izohlanadi:"
+      },
+      {
+        "type": "example",
+        "content": "oshkora kelishuv — belgi ma’nosi qoida yoki izoh bilan\n beriladi, masalan, yo‘l belgisi;"
+      },
+      {
+        "type": "example",
+        "content": "yashirin/tarkibiy kelishuv — ma’no til va madaniyat\n tajribasi orqali tushuniladi, masalan, harf yoki ramz."
+      },
+      {
+        "type": "text",
+        "content": "Kodlash faqat ``0 va 1 ga aylantirish'' emas. U turli maqsadlarda\nqo‘llanadi:"
+      },
+      {
+        "type": "text",
+        "content": "Ifodalash: kompyuter ishlov bera oladigan formatga o‘tkazish."
+      },
+      {
+        "type": "text",
+        "content": "Ixchamlashtirish: uzun nomni qisqa kod bilan almashtirish."
+      },
+      {
+        "type": "text",
+        "content": "Tasniflash: obyektlarni guruh va tur bo‘yicha belgilash."
+      },
+      {
+        "type": "text",
+        "content": "Tez kiritish: takroriy ma’lumotni qisqa yozish."
+      },
+      {
+        "type": "text",
+        "content": "Aniq uzatish: yagona kelishilgan alifbodan foydalanish."
+      },
+      {
+        "type": "text",
+        "content": "Xatoni aniqlash: tekshiruv biti yoki nazorat raqamini qo‘shish."
+      },
+      {
+        "type": "text",
+        "content": "Siqish: takrorlanishni samaraliroq kod bilan ifodalash."
+      },
+      {
+        "type": "text",
+        "content": "Kam joy va tez kiritish & Kod ma’nosini bilmaslik yoki noto‘g‘ri talqin"
+      },
+      {
+        "type": "text",
+        "content": "Bir xil formatda avtomatik ishlov & Ko‘plab mos kelmaydigan format/kodek"
+      },
+      {
+        "type": "text",
+        "content": "Tasdiqlash qoidalarini soddalashtirish & O/0, I/l/1 kabi o‘xshash belgilar"
+      },
+      {
+        "type": "text",
+        "content": "Qisqa identifikatorlar & Kodlar yetishmasligi yoki takrorlanishi"
+      },
+      {
+        "type": "text",
+        "content": "Siqish orqali kichik fayl & Yo‘qotishli usulda sifatning pasayishi"
+      },
+      {
+        "type": "note",
+        "content": "Qisqa kod maxfiylikni kafolatlamaydi. ``E = erkak, A = ayol''\nyozuvini tushunmaslik vaqtinchalik noaniqlikdir; kod jadvali topilsa,\nma’no ochiladi. Kriptografik shifrlashda esa kalit va algoritm mavjud."
+      },
+      {
+        "type": "text",
+        "content": "Raqamli & telefon kodi, mahsulot raqami, Unicode kod nuqtasi"
+      },
+      {
+        "type": "text",
+        "content": "Belgili & Morse alifbosi, qisqartma, yo‘l belgilari"
+      },
+      {
+        "type": "text",
+        "content": "Grafik & piktogramma, bayroq/semafor, QR kod"
+      },
+      {
+        "type": "text",
+        "content": "Tovushli & signal qo‘ng‘irog‘i, ogohlantirish ohangi"
+      },
+      {
+        "type": "text",
+        "content": "Ikkilik & 0 va 1 ketma-ketligi bilan kompyuterda ifodalash"
+      },
+      {
+        "type": "text",
+        "content": "[Morse kodi]\n Harf va raqamlarni qisqa hamda uzun signallar ketma-ketligi bilan\n ifodalaydi. Kod uzunligi o‘zgaruvchan."
+      },
+      {
+        "type": "example",
+        "content": "[Semafor]\n Bayroq yoki qo‘l holatlari orqali harflarni masofadan uzatadi."
+      },
+      {
+        "type": "text",
+        "content": "[Braille]\n Bo‘rtma nuqtalar kombinatsiyasi; ko‘rishida nuqsoni bor insonlar\n taktil tarzda o‘qiydi."
+      },
+      {
+        "type": "text",
+        "content": "[Skitala]\n Tasmani ma’lum diametrli tayoqqa o‘rab yozishga asoslangan tarixiy\n o‘rin almashtirish usuli."
+      },
+      {
+        "type": "text",
+        "content": "[Sezar shifri]\n Alifbodagi har bir harfni bir xil miqdorga siljitib almashtiradi."
+      },
+      {
+        "type": "text",
+        "content": "Doimiy uzunlikdagi kod — har bir element bir xil \\(i\\) ta\nbelgi bilan ifodalanadigan kod."
+      },
+      {
+        "type": "text",
+        "content": "O‘zgaruvchan uzunlikdagi kod — elementlar turli uzunlikdagi\nkod so‘zlari bilan ifodalanadigan kod."
+      },
+      {
+        "type": "example",
+        "content": "Doimiy kodda chegarani topish oson: masalan, har 8 bit bir bayt.\nO‘zgaruvchan kod ko‘p uchraydigan elementga qisqa kod berib joyni tejashi\nmumkin, lekin kod so‘zlari chegarasini aniqlash qoidasi kerak."
+      },
+      {
+        "type": "example",
+        "content": "Prefiks kodda hech bir kod so‘zi boshqa kod so‘zining bosh qismi\nbo‘lmaydi. Masalan, \\(0, 10, 110, 111\\) to‘plami darhol va bir qiymatli\ndekodlanadi. \\(0, 01, 10\\) esa prefiks emas: ``01'' ketma-ketligini\n\\(0|1\\) yoki \\(01\\) deb talqin qilish muammosi tug‘ilishi mumkin."
+      },
+      {
+        "type": "definition",
+        "content": "Jarayon & Asosiy maqsad & Ochish uchun nima kerak?"
+      },
+      {
+        "type": "text",
+        "content": "Kodlash & Taqdim etish va mos format & Kodlash standarti yoki jadvali"
+      },
+      {
+        "type": "text",
+        "content": "Siqish & Fayl hajmini kamaytirish & Siqish algoritmi/kodek"
+      },
+      {
+        "type": "text",
+        "content": "Shifrlash & Maxfiylikni ta’minlash & Algoritm bilan birga maxfiy kalit"
+      },
+      {
+        "type": "text",
+        "content": "Shifrlash — ochiq ma’lumotni kalitsiz mazmunli o‘qib\nbo‘lmaydigan shifrmatnga aylantirish; deshifrlash — tegishli\nkalit bilan ochiq ma’lumotni tiklash."
+      },
+      {
+        "type": "text",
+        "content": "Kriptologiya — maxfiy aloqa haqidagi soha;\nkriptografiya himoyalash usullarini yaratadi,\nkriptoanaliz esa shifrning zaifligini tahlil qiladi."
+      },
+      {
+        "type": "text",
+        "content": "Sezar usulida lotin alifbosini \\(+3\\) siljitamiz:"
+      },
+      {
+        "type": "text",
+        "content": "``DATA'' \\(\\to\\) ``GDWD''. Teskari \\(-3\\) siljish deshifrlaydi.\nBu tarixiy o‘quv shifri, zamonaviy himoya uchun juda zaif."
+      },
+      {
+        "type": "text",
+        "content": "Kalit & shifrlash va ochish uchun bir maxfiy kalit &\nochiq va yopiq kalit jufti"
+      },
+      {
+        "type": "text",
+        "content": "Muammo & maxfiy kalitni xavfsiz yetkazish & hisoblash murakkabligi"
+      },
+      {
+        "type": "text",
+        "content": "Qo‘llanish & katta hajmli seans ma’lumoti & kalit almashish, raqamli imzo"
+      },
+      {
+        "type": "text",
+        "content": "HTTPS amalda ikki yondashuvni birlashtiradi: server sertifikati va\nochiq kalit mexanizmi orqali seans ishonchi/kaliti o‘rnatiladi, keyingi\nkatta hajmli trafik esa tez simmetrik shifrlash bilan himoyalanadi."
+      },
+      {
+        "type": "text",
+        "content": "Shifrlash axborot o‘g‘irlanishini jismonan to‘xtatmaydi; qo‘lga tushgan\nma’lumotni kalitsiz tushunishni qiyinlashtiradi. Zaxira, kirishni boshqarish\nva antivirus boshqa himoya qatlamlaridir."
+      },
+      {
+        "type": "definition",
+        "content": "ASCII, ZIP va AES jarayonlarini kodlash, siqish va shifrlashga moslang."
+      },
+      {
+        "type": "text",
+        "content": "Nima uchun o‘zgaruvchan uzunlikdagi kodda chegara qoidasi kerak?"
+      },
+      {
+        "type": "text",
+        "content": "\\answers\n1) ASCII — belgini kodlash; ZIP — yo‘qotishsiz siqish; AES — shifrlash.\n2) Bitlar ketma-ketligini yagona usulda kod so‘zlariga ajratish uchun.\n3) Alifbodagi siljish miqdori (va ishlatilgan alifbo)."
+      },
+      {
+        "type": "text",
+        "content": "Kod — moslashtirish qoidasi; kodlash — formatga o‘tkazish; dekodlash —\nmazmunni tiklash. Shifrlashning farqlovchi belgisi — maxfiylik maqsadi va\nkalitdan foydalanishidir."
+      },
+      {
+        "type": "text",
+        "content": "Asosiy qamrov: ICT5, PDF 17–24; ICT7, PDF 13–16 va 26–29;\nCAM10–11, PDF 17–25; ``Ma’ruza (Tayyor)'', PDF 24–27."
+      },
+      {
+        "type": "table",
+        "content": "| Kam joy va tez kiritish | Kod ma’nosini bilmaslik yoki noto‘g‘ri talqin\\\\ |\\n|---|---|\\n| Bir xil formatda avtomatik ishlov | Ko‘plab mos kelmaydigan format/kodek\\\\ |\\n| Tasdiqlash qoidalarini soddalashtirish | O/0, I/l/1 kabi o‘xshash belgilar\\\\ |\\n| Qisqa identifikatorlar | Kodlar yetishmasligi yoki takrorlanishi\\\\ |\\n| Siqish orqali kichik fayl | Yo‘qotishli usulda sifatning pasayishi\\\\ |"
+      },
+      {
+        "type": "table",
+        "content": "| Raqamli | telefon kodi, mahsulot raqami, Unicode kod nuqtasi\\\\ |\\n|---|---|\\n| Belgili | Morse alifbosi, qisqartma, yo‘l belgilari\\\\ |\\n| Grafik | piktogramma, bayroq/semafor, QR kod\\\\ |\\n| Tovushli | signal qo‘ng‘irog‘i, ogohlantirish ohangi\\\\ |\\n| Ikkilik | 0 va 1 ketma-ketligi bilan kompyuterda ifodalash\\\\ |"
+      },
+      {
+        "type": "table",
+        "content": "|  | \\textbf{Simmetrik} | \\textbf{Asimmetrik}\\\\ |\\n|---|---|---|\\n| Kalit | shifrlash va ochish uchun bir maxfiy kalit |  |\\n| Tezlik | odatda tez | odatda sekinroq\\\\ |\\n| Muammo | maxfiy kalitni xavfsiz yetkazish | hisoblash murakkabligi\\\\ |\\n| Qo‘llanish | katta hajmli seans ma’lumoti | kalit almashish, raqamli imzo\\\\ |"
+      }
+    ],
+    "questions": []
+  },
+  "M01.05": {
+    "theory": [
+      {
+        "type": "example",
+        "content": "\\chapterintroBit bir vaqtning o‘zida ikkilik raqam, xotira birligi va\nikki teng ehtimolli holatdan birini aniqlash miqdori sifatida uchraydi."
+      },
+      {
+        "type": "example",
+        "content": "Bit (binary digit) — 0 yoki 1 qiymatini qabul qiluvchi\neng kichik ikkilik birlik. Axborot nazariyasida u ikki teng ehtimolli\nholatdan qaysi biri yuz berganini bilish bilan olinadigan miqdor."
+      },
+      {
+        "type": "text",
+        "content": "Shuning uchun \\(8~\\mathrmMb=1~\\mathrmMB\\) faqat bir xil prefiks\ntizimi va qo‘shimcha shartlar ostida; ``Mb'' bilan ``MB'' teng emas."
+      },
+      {
+        "type": "example",
+        "content": "Teng uzunlikdagi ikkilik kodda \\(i\\) bit bilan kodlanadigan mumkin\nbo‘lgan holatlar soni:"
+      },
+      {
+        "type": "text",
+        "content": "Bu bog‘lanish Xartli formulasi deb yuritiladi."
+      },
+      {
+        "type": "text",
+        "content": "Agar \\(N\\) ikkining darajasi bo‘lmasa, barcha belgilarni kodlash uchun\neng kichik butun bitlar soni olinadi:"
+      },
+      {
+        "type": "text",
+        "content": "Demak, bitta belgiga kamida \\(i=8\\) bit kerak."
+      },
+      {
+        "type": "text",
+        "content": "30 xil signal beradigan faqat yoniq/o‘chiq lampalar soni:"
+      },
+      {
+        "type": "example",
+        "content": "\\(N=2^i\\) formulada \\(N\\) — xabar uzunligi emas, mumkin bo‘lgan\nholat yoki alifbo belgilarining soni; \\(i\\) — bitta holatni ifodalovchi\nkod uzunligi. \\(m\\) ta belgi yozilgan xabarning hajmi esa \\(I=m\\cdot i\\)."
+      },
+      {
+        "type": "text",
+        "content": "Maktab darsliklarida an’anaviy ravishda KB, MB, GB yozuvlari 1024\nko‘paytuvchisi bilan beriladi. Zamonaviy standart aniq farqlaydi:"
+      },
+      {
+        "type": "text",
+        "content": "kilobayt & kB & \\(10^3~\\B=1000~\\B\\) & SI o‘nlik"
+      },
+      {
+        "type": "text",
+        "content": "terabayt & TB & \\(10^12~\\B\\) & SI o‘nlik"
+      },
+      {
+        "type": "text",
+        "content": "kibibayt & KiB & \\(2^10~\\B=1024~\\B\\) & IEC ikkilik"
+      },
+      {
+        "type": "text",
+        "content": "mebibayt & MiB & \\(2^20~\\B=1048576~\\B\\) & IEC ikkilik"
+      },
+      {
+        "type": "text",
+        "content": "gibibayt & GiB & \\(2^30~\\B\\) & IEC ikkilik"
+      },
+      {
+        "type": "text",
+        "content": "tebibayt & TiB & \\(2^40~\\B\\) & IEC ikkilik"
+      },
+      {
+        "type": "text",
+        "content": "Davomi: SI tizimida PB, EB, ZB, YB; IEC tizimida PiB, EiB, ZiB, YiB.\nNISTning rasmiy birlik izohida \\(1~\\mathrmKiB=2^10\\B\\) va\n\\(1~\\mathrmkB=10^3\\B\\) alohida ko‘rsatiladi."
+      },
+      {
+        "type": "text",
+        "content": "Darslikdagi ``1 KB = 1024 B'' yozuvi tarixiy-amaliy konvensiya.\nTexnik jihatdan aniq yozuv \\(1~\\mathrmKiB=1024~\\B\\).\nAttestatsiya masalasida berilgan ta’rif yoki variantlar qaysi modelni\ntalab qilayotganini aniqlang."
+      },
+      {
+        "type": "text",
+        "content": "64 MiB xotirada 150 KiBli nechta to‘liq fayl?"
+      },
+      {
+        "type": "text",
+        "content": "Kasrli fayl saqlanmaydi, shuning uchun natija pastga yaxlitlanadi."
+      },
+      {
+        "type": "text",
+        "content": "Real diskda foydalanuvchiga ko‘rinadigan bo‘sh joy katalog, fayl tizimi,\nblok bo‘yicha yaxlitlash va xizmat ma’lumotlari sabab formuladagi ideal\nsig‘imdan kichik bo‘lishi mumkin. Test masalasi aytmasa, bu qo‘shimcha\nxarajatlar hisobga olinmaydi."
+      },
+      {
+        "type": "example",
+        "content": "65 xil holatni kodlash uchun kamida necha bit kerak?"
+      },
+      {
+        "type": "text",
+        "content": "1 MB bilan 1 MiB orasidan qaysi biri katta?"
+      },
+      {
+        "type": "text",
+        "content": "\\answers\n1) \\(2^6<65\\le2^7\\), demak 7 bit. 2) \\(3072\\) KiB va\n\\(3\\cdot2^20\\cdot8=25165824\\) bit. 3) 1 MiB =\n1,048,576 B; 1 MB = 1,000,000 B, demak MiB katta."
+      },
+      {
+        "type": "text",
+        "content": "\\(N=2^i\\) imkoniyatlar sonini, \\(I=m\\cdot i\\) esa teng uzunlikdagi\nkodlangan xabar hajmini beradi. Bit va baytni, shuningdek, SI kB/MB bilan\nIEC KiB/MiBni yozuvdan ajrating."
+      },
+      {
+        "type": "text",
+        "content": "Asosiy qamrov: ICT5, PDF 20–24; ICT7, PDF 21–25; ICT9, PDF 14–20;\n``Ma’ruza (Tayyor)'', PDF 27–29; NIST rasmiy binary-prefix izohi."
+      },
+      {
+        "type": "table",
+        "content": "| kilobayt | kB | \\(10^3~\\B=1000~\\B\\) | SI o‘nlik\\\\ |\\n|---|---|---|---|\\n| megabayt | MB | \\(10^6~\\B\\) | SI o‘nlik\\\\ |\\n| gigabayt | GB | \\(10^9~\\B\\) | SI o‘nlik\\\\ |\\n| terabayt | TB | \\(10^{12}~\\B\\) | SI o‘nlik\\\\ |\\n| kibibayt | KiB | \\(2^{10}~\\B=1024~\\B\\) | IEC ikkilik\\\\ |\\n| mebibayt | MiB | \\(2^{20}~\\B=1\\,048\\,576~\\B\\) | IEC ikkilik\\\\ |\\n| gibibayt | GiB | \\(2^{30}~\\B\\) | IEC ikkilik\\\\ |\\n| tebibayt | TiB | \\(2^{40}~\\B\\) | IEC ikkilik\\\\ |"
+      }
+    ],
+    "questions": []
+  },
+  "M01.06": {
+    "theory": [
+      {
+        "type": "text",
+        "content": "\\chapterintroFormula yodlashdan oldin axborot turini, siqilgan yoki xom\nekanini, birliklar tizimini va berilganlarning bitta elementga yoki butun\nfaylga tegishli ekanini aniqlang."
+      },
+      {
+        "type": "text",
+        "content": "Axborot turini toping: matn, rastr, audio, video, arxiv."
+      },
+      {
+        "type": "text",
+        "content": "Modelni aniqlang: teng uzunlikdagi kodmi, xom PCMmi,\n xom videomi yoki tayyor bit ratemi?"
+      },
+      {
+        "type": "text",
+        "content": "Birliklarni birxillashtiring: minutni sekundga, baytni\n bitga, cmni dyuymga."
+      },
+      {
+        "type": "text",
+        "content": "Oraliq kattalikni toping: kod uzunligi, piksel soni,\n bit tezligi yoki kadrlar soni."
+      },
+      {
+        "type": "text",
+        "content": "Formulaga qo‘ying va birlikni yozib boring."
+      },
+      {
+        "type": "text",
+        "content": "Natijani tekshiring: bit/bayt, 1000/1024, yaxlitlash va\n siqish shartini qayta ko‘ring."
+      },
+      {
+        "type": "formula",
+        "content": "Ko‘p xato formuladan emas, model tanlashdan keladi. ``192 kb/s\nMP3'' uchun namuna chastotasi va bit chuqurligini yana ko‘paytirish\nkerak emas — 192 kb/s tayyor siqilgan bit tezligidir."
+      },
+      {
+        "type": "example",
+        "content": "Kod uzunligi & \\(i=\\lceil\\log_2N\\rceil\\) & \\(N\\) xil holat, teng uzunlik"
+      },
+      {
+        "type": "text",
+        "content": "Matn & \\(I=m i\\) & \\(m\\) belgi, har biri \\(i\\) bit"
+      },
+      {
+        "type": "text",
+        "content": "Rastr & \\(I=WHd\\) & \\(d\\) bit/piksel, siqilmagan"
+      },
+      {
+        "type": "text",
+        "content": "PCM audio & \\(I=f_s d c t\\) & namuna, chuqurlik, kanal, sekund"
+      },
+      {
+        "type": "text",
+        "content": "Xom video & \\(I=WHdft\\) & siqilmagan, audiosiz"
+      },
+      {
+        "type": "text",
+        "content": "Bit rate berilgan & \\(I=Rt\\) & siqilgan yoki tayyor oqim"
+      },
+      {
+        "type": "text",
+        "content": "Fayl soni & \\(n=\\lfloor S/I_f\\rfloor\\) & to‘liq fayllar"
+      },
+      {
+        "type": "text",
+        "content": "Alifboda 70 belgi. Kitob 120 sahifa, sahifada 40 satr, satrda 60 belgi.\nTeng uzunlikdagi minimal ikkilik kod ishlatiladi."
+      },
+      {
+        "type": "text",
+        "content": "70 belgiga \\(7\\) bit kerak, lekin \\(7\\) bit \\(128\\) kombinatsiya\nberadi. Ishlatilmaydigan kombinatsiyalar borligi xato emas."
+      },
+      {
+        "type": "text",
+        "content": "\\(12.7\\times20.32\\) cm, 200 PPI, 4096 rangli siqilmagan tasvir:"
+      },
+      {
+        "type": "text",
+        "content": "2.5 minut, 44.1 kHz, 16 bit, stereo PCM:"
+      },
+      {
+        "type": "text",
+        "content": "\\(640\\times360\\), 256 rang, 24 fps, 30 sekund xom video:"
+      },
+      {
+        "type": "text",
+        "content": "10 Mb/s video + 256 kb/s audio, 12 minut:"
+      },
+      {
+        "type": "text",
+        "content": "Bu yerda tarmoq/media prefiksi o‘nlik deb olindi."
+      },
+      {
+        "type": "text",
+        "content": "8 GiB xotiraga har biri 75 MiB bo‘lgan nechta to‘liq fayl sig‘adi?"
+      },
+      {
+        "type": "text",
+        "content": "Siqilmagan rasm 24 MiB. 6:1 siqish qo‘llandi:"
+      },
+      {
+        "type": "text",
+        "content": "Agar ``60 ga kamaydi'' deyilsa, boshqa formula:"
+      },
+      {
+        "type": "text",
+        "content": "``6 marta kichraydi'' — \\(I/6\\). ``6 ga kamaydi'' — \\(0.94I\\).\n``Yangi hajm aslning 6 i'' — \\(0.06I\\). Uch jumla boshqa-boshqa."
+      },
+      {
+        "type": "text",
+        "content": "\\(800\\times600\\) tasvir hajmi 1440000 B, siqilmagan. Rang\nchuqurligini toping:"
+      },
+      {
+        "type": "text",
+        "content": "Mono PCM fayl \\(9600000\\) bit, 20 sekund, 16 bit. Namuna chastotasi:"
+      },
+      {
+        "type": "text",
+        "content": "Bitdan baytga o‘tganda son 8 marta kamayishi kerak."
+      },
+      {
+        "type": "text",
+        "content": "KiBdan MiBga o‘tganda son 1024 marta kamayadi."
+      },
+      {
+        "type": "text",
+        "content": "Rang chuqurligi, kanal yoki fps oshsa xom hajm kamaymasligi kerak."
+      },
+      {
+        "type": "text",
+        "content": "Siqilgan fayl uchun ``tejash'' musbat bo‘lsa, yangi hajm asldan kichik."
+      },
+      {
+        "type": "text",
+        "content": "Fayllar soni butun va sig‘imdan oshmaydigan bo‘lishi kerak."
+      },
+      {
+        "type": "text",
+        "content": "500 belgili, 32 belgili alifbo matni necha bit?"
+      },
+      {
+        "type": "text",
+        "content": "\\(1920\\times1080\\), 24 bitli bitta kadr necha bayt?"
+      },
+      {
+        "type": "text",
+        "content": "2 Mb/s oqim 40 sekundda necha MB (o‘nlik)?"
+      },
+      {
+        "type": "text",
+        "content": "\\answers\n1) \\(i=5\\), \\(I=2500\\) bit. 2) \\(1920\\cdot1080\\cdot24/8\n=6220800\\) B. 3) \\(2000000\\cdot40/8=10000000\\) B\n= 10 MB."
+      },
+      {
+        "type": "text",
+        "content": "Har bir hisobda ``bir element hajmi × elementlar soni'' g‘oyasi yotadi.\nMatnda element — belgi, rastrda — piksel, audioda — namuna va kanal,\nvideoda — piksel va kadr. Tayyor bit rate berilsa, vaqtga ko‘paytiriladi."
+      },
+      {
+        "type": "text",
+        "content": "Asosiy qamrov: ICT5, PDF 20–24; ICT7, PDF 21–39; ICT9, PDF 14–20;\nCAM10–11, PDF 19–23; ``Ma’ruza (Tayyor)'', PDF 27–29."
+      },
+      {
+        "type": "table",
+        "content": "| Kod uzunligi | \\(i=\\lceil\\log_2N\\rceil\\) | \\(N\\) xil holat, teng uzunlik\\\\ |\\n|---|---|---|\\n| Matn | \\(I=m i\\) | \\(m\\) belgi, har biri \\(i\\) bit\\\\ |\\n| Rastr | \\(I=WHd\\) | \\(d\\) bit/piksel, siqilmagan\\\\ |\\n| PCM audio | \\(I=f_s d c t\\) | namuna, chuqurlik, kanal, sekund\\\\ |\\n| Xom video | \\(I=WHdft\\) | siqilmagan, audiosiz\\\\ |\\n| Bit rate berilgan | \\(I=Rt\\) | siqilgan yoki tayyor oqim\\\\ |\\n| Uzatish | \\(v=I/t\\) | birliklar mos\\\\ |\\n| Fayl soni | \\(n=\\lfloor S/I_f\\rfloor\\) | to‘liq fayllar\\\\ |"
+      },
+      {
+        "type": "text",
+        "content": "\\chapterintroHajm, tezlik va vaqt uchligi birliklar mos bo‘lgandagina\nto‘g‘ri ishlaydi. Tarmoqning reklama tezligi bilan amaliy tezligi bir xil bo‘lmasligi mumkin."
+      },
+      {
+        "type": "text",
+        "content": "Axborot uzatish tezligi — vaqt birligida uzatilgan axborot hajmi:"
+      },
+      {
+        "type": "text",
+        "content": "Tezlik ko‘pincha bit/s, kbit/s, Mbit/s yoki Gbit/s; fayl hajmi esa B,\nKiB, MiBda beriladi. Hisobdan oldin bir turga keltiriladi."
+      },
+      {
+        "type": "text",
+        "content": "150 MiB fayl 20 Mbit/s tezlikda ideal sharoitda:"
+      },
+      {
+        "type": "example",
+        "content": "Bu misolda MiB ikkilik, Mbit/s tarmoqdagi odatiy o‘nlik birlik."
+      },
+      {
+        "type": "text",
+        "content": "Tezlik ``MB/s'' bilan berilgan bo‘lsa, yana 8 ga bo‘lmang. ``Mbit/s''\nbo‘lsa, baytli fayl hajmini bitga aylantiring yoki tezlikni 8 ga bo‘lib\nMB/sga o‘tkazing."
+      },
+      {
+        "type": "text",
+        "content": "[Bandwidth / o‘tkazish qobiliyati]\n Kanalning nazariy yoki belgilangan maksimal ma’lumot uzatish quvvati."
+      },
+      {
+        "type": "text",
+        "content": "[Throughput / amaliy o‘tkazuvchanlik]\n Amalda vaqt birligida yetkazilgan jami bitlar."
+      },
+      {
+        "type": "text",
+        "content": "[Goodput]\n Protokol sarlavhasi va qayta uzatishlarsiz foydalanuvchining foydali\n ma’lumoti tezligi."
+      },
+      {
+        "type": "text",
+        "content": "[Kechikish (latency)]\n Signal yoki paket manbadan qabul qiluvchiga yetib borishi uchun ketgan vaqt."
+      },
+      {
+        "type": "text",
+        "content": "Amaliy tezlikka protokol sarlavhalari, Wi-Fi shovqini, server cheklovi,\nqayta uzatish, tarmoq bandligi va qurilma tezligi ta’sir qiladi."
+      },
+      {
+        "type": "text",
+        "content": "Katta bandwidth kichik latency degani emas. Sun’iy yo‘ldosh kanali katta\nhajmni tez uzatishi mumkin, ammo uzoq masofa sabab javob kechikishi katta\nbo‘ladi."
+      },
+      {
+        "type": "text",
+        "content": "Bit tezligi — sekundda uzatilgan bitlar soni, bit/s."
+      },
+      {
+        "type": "text",
+        "content": "Baud (Bd) — sekundda uzatilgan signal belgisi yoki modulyatsiya\nsimvollari soni."
+      },
+      {
+        "type": "example",
+        "content": "Agar har bir signal simvoli \\(M\\) xil holatdan birini olsa, bir simvol\n\\(\\log_2M\\) bit tashishi mumkin:"
+      },
+      {
+        "type": "text",
+        "content": "(ideal kodlash modeli, protokol xarajatisiz)."
+      },
+      {
+        "type": "text",
+        "content": "Ikkilik signalda \\(M=2\\) bo‘lsa, son jihatdan baud = bit/s bo‘lishi mumkin."
+      },
+      {
+        "type": "example",
+        "content": "ITU baudni modulyatsiya tezligi birligi sifatida belgilaydi. Shuning uchun\nma’ruzadagi ``baud — axborot uzatish tezligi'' jumlasi faqat har simvol\nbitta bit tashigan sodda holatda bit/s bilan tenglashtiriladi."
+      },
+      {
+        "type": "text",
+        "content": "Simplex & faqat bir tomonga & oddiy teleefir"
+      },
+      {
+        "type": "text",
+        "content": "Yarim dupleks & ikki tomonga, lekin navbat bilan & ratsiya"
+      },
+      {
+        "type": "text",
+        "content": "To‘liq dupleks & ikki tomonga bir vaqtda & telefon suhbati"
+      },
+      {
+        "type": "text",
+        "content": "Ketma-ket uzatishda bitlar bitta yoki kam sonli yo‘l\n bo‘ylab navbat bilan boradi; uzoq masofada sinxronlash osonroq."
+      },
+      {
+        "type": "text",
+        "content": "Parallel uzatishda bir necha bit alohida yo‘llarda\n bir vaqtda boradi; qisqa masofada tez, lekin yo‘llar kechikishi\n farqi va ko‘p sim talab qiladi."
+      },
+      {
+        "type": "text",
+        "content": "O‘ralgan juft & arzon, Ethernetda keng & masofa va elektromagnit ta’sir"
+      },
+      {
+        "type": "text",
+        "content": "Koaksial & ekranlangan, mustahkam & hajmli, zamonaviy LANda kamroq"
+      },
+      {
+        "type": "text",
+        "content": "Optik tola & juda katta tezlik, uzoq masofa, EM shovqinga chidamli & narx va o‘rnatish"
+      },
+      {
+        "type": "text",
+        "content": "Radio/Wi-Fi & harakatchanlik, kabelsiz & shovqin, umumiy muhit, xavfsizlik"
+      },
+      {
+        "type": "text",
+        "content": "Infraqizil & qisqa, to‘g‘ri ko‘rish yo‘li & to‘siqdan o‘tmaydi"
+      },
+      {
+        "type": "text",
+        "content": "Sun’iy yo‘ldosh & juda keng hudud & katta kechikish va xarajat"
+      },
+      {
+        "type": "example",
+        "content": "5 protokol xarajati va samarali tezlik nominalning 80 i deyilsa,\navval foydali tezlik shartini izohlash kerak. Masalan, goodput\n\\(0.8\\cdot10=8\\) Mbit/s bo‘lsa, \\(t\\approx44.04\\) s."
+      },
+      {
+        "type": "text",
+        "content": "Fayl 24 sekundda 6 Mbit/s bilan uzatildi:"
+      },
+      {
+        "type": "text",
+        "content": "80 Mbit/s nazariy tezlik bayt/sda nechaga teng?"
+      },
+      {
+        "type": "example",
+        "content": "1200 Bd va 8 holatli simvol ideal holda nechta bit/s?"
+      },
+      {
+        "type": "text",
+        "content": "Throughput va goodput nimasi bilan farq qiladi?"
+      },
+      {
+        "type": "text",
+        "content": "\\answers\n1) 10 MB/s (o‘nlik). 2) \\(\\log_2 8=3\\), demak 3600 bit/s.\n3) Throughput protokol bitlarini ham, goodput faqat foydali yukni hisoblaydi."
+      },
+      {
+        "type": "formula",
+        "content": "\\(v=I/t\\) formulada birlik mosligi birinchi shart. Bit/s bilan baud\nfaqat bir simvol bitta bit tashiganda teng. Nominal bandwidth, amaliy\nthroughput, foydali goodput va latency turli tarmoq ko‘rsatkichlaridir."
+      },
+      {
+        "type": "text",
+        "content": "Asosiy qamrov: ICT7, PDF 23–25 va 33–39; ICT11, PDF 146–150;\n``Ma’ruza (Tayyor)'', PDF 27–28; ITU-T B.14."
+      },
+      {
+        "type": "table",
+        "content": "| O‘ralgan juft | arzon, Ethernetda keng | masofa va elektromagnit ta’sir\\\\ |\\n|---|---|---|\\n| Koaksial | ekranlangan, mustahkam | hajmli, zamonaviy LANda kamroq\\\\ |\\n| Optik tola | juda katta tezlik, uzoq masofa, EM shovqinga chidamli | narx va o‘rnatish\\\\ |\\n| Radio/Wi-Fi | harakatchanlik, kabelsiz | shovqin, umumiy muhit, xavfsizlik\\\\ |\\n| Infraqizil | qisqa, to‘g‘ri ko‘rish yo‘li | to‘siqdan o‘tmaydi\\\\ |\\n| Sun’iy yo‘ldosh | juda keng hudud | katta kechikish va xarajat\\\\ |"
+      }
+    ],
+    "questions": []
+  },
+  "M01.07": {
+    "theory": [
+      {
+        "type": "text",
+        "content": "\\chapterintroMatn hajmini hisoblash uchun avval ``belgi'', ``kod nuqtasi'',\n``kod birligi'' va ``bayt'' aynan bir narsa emasligini bilish kerak."
+      },
+      {
+        "type": "definition",
+        "content": "Klaviaturadagi tugma bosilishi bevosita ``harfning rasmi'' sifatida\nsaqlanmaydi. Soddalashtirilgan jarayon:"
+      },
+      {
+        "type": "text",
+        "content": "Ekranga chiqarishda baytlar dekodlanadi, shrift esa kod nuqtasiga mos\nglif — ko‘rinadigan shaklni chizadi."
+      },
+      {
+        "type": "text",
+        "content": "ASCII (American Standard Code for Information Interchange)\n— lotin harflari, raqamlar, tinish va boshqaruv belgilarini sonli kodlar\nbilan moslashtiruvchi standart."
+      },
+      {
+        "type": "text",
+        "content": "Asl standart ASCII 7 bitli bo‘lib, \\(2^7=128\\) kod\n\\(0...127\\) ni qamraydi. Amaliy darsliklarda 8 bitli\n``kengaytirilgan ASCII'' \\(0...255\\), ya’ni 256 belgi sifatida\nsoddalashtirib beriladi."
+      },
+      {
+        "type": "text",
+        "content": "0 & 48 & 00110000 & raqam belgisi, son 0 emas"
+      },
+      {
+        "type": "text",
+        "content": "bo‘shliq & 32 & 00100000 & ko‘rinmaydigan matn belgisi"
+      },
+      {
+        "type": "note",
+        "content": "ASCII ``A'' belgisi bilan uning ekrandagi glifini, 65 soni bilan esa\nsonning matndagi ``65'' yozuvini aralashtirmang. ``65'' matni ikki belgi:\n``6'' va ``5'' kodlaridan iborat."
+      },
+      {
+        "type": "text",
+        "content": "Unicode — dunyo yozuv tizimlaridagi belgilar va ramzlarga\nyagona kod nuqtasi (code point) beruvchi standart."
+      },
+      {
+        "type": "example",
+        "content": "Masalan, lotin ``A'' harfining kod nuqtasi U+0041. Kod nuqtasini fayldagi\nbaytlarga aylantirish uchun UTF-8, UTF-16 yoki\nUTF-32 kabi kodlash shakli tanlanadi."
+      },
+      {
+        "type": "text",
+        "content": "UTF-8 & 8 bitli kod birliklari & Kod nuqtasiga qarab 1–4 bayt; ASCII\n0–127 qiymatlari aynan bir bayt bilan mos."
+      },
+      {
+        "type": "text",
+        "content": "UTF-16 & 16 bitli kod birliklari & Ko‘p kod nuqtasi 2 bayt, qo‘shimcha\ntekislikdagilar surrogat juftligi bilan 4 bayt."
+      },
+      {
+        "type": "text",
+        "content": "UTF-32 & 32 bitli kod birligi & Har kod nuqtasi 4 bayt; sodda, lekin\nko‘pincha hajmi katta."
+      },
+      {
+        "type": "text",
+        "content": "Unicode rasmiy hujjatiga ko‘ra UTF-8 kod nuqtasini bir, ikki, uch yoki\nto‘rt baytli yagona ketma-ketlikka o‘tkazadi; ASCII oralig‘i bir bayt\nbo‘lib qoladi."
+      },
+      {
+        "type": "text",
+        "content": "Darslikdagi ``Unicode belgisi 16 bit = 2 bayt'' qoidasi UTF-16ning\nsoddalashtirilgan modeli. Unicode — belgilar repertuari va kod nuqtalari;\nUTF-16da ham barcha belgilar aynan 2 bayt emas. UTF-8da o‘zbek lotin\nmatnining oddiy ASCII harflari 1 bayt, ``o‘'' yozuvidagi tipografik\napostrof yoki kirill harflari ko‘proq bayt olishi mumkin."
+      },
+      {
+        "type": "example",
+        "content": "Foydalanuvchi bitta ko‘rinadigan belgi deb qabul qiladigan glif bir nechta\nkod nuqtasidan tuzilishi mumkin. Masalan, ayrim urg‘uli harf tayyor kod\nnuqtasi yoki asosiy harf + birlashtiruvchi belgi bilan yoziladi. Emoji ham\nbir nechta kod nuqtasi kombinatsiyasi bo‘lishi mumkin."
+      },
+      {
+        "type": "text",
+        "content": "Maktab masalasida ``har bir belgi 1 bayt'' yoki ``Unicode’da 2 bayt''\ndeyilgan bo‘lsa, shu shartli model ishlatiladi. Real fayl\nhajmi so‘ralsa, kodlash, satr oxiri, BOM, format va metama’lumotlar\nko‘rsatilmasdan aniq javob berib bo‘lmaydi."
+      },
+      {
+        "type": "text",
+        "content": "bu yerda \\(m\\) — belgilar soni, \\(i\\) — har belgiga bitlar soni."
+      },
+      {
+        "type": "text",
+        "content": "\\(P\\) — sahifalar, \\(R\\) — bir sahifadagi satrlar,\n\\(C\\) — bir satrdagi belgilar."
+      },
+      {
+        "type": "text",
+        "content": "300 sahifa, har sahifada 25 satr, har satrda 80 belgi. Har belgi\n8 bit deb olinsin:"
+      },
+      {
+        "type": "text",
+        "content": "Alifbo quvvati 50 ta, xabar 1200 belgidan iborat. Doimiy ikkilik kod:"
+      },
+      {
+        "type": "text",
+        "content": "Baytga yaxlitlash umumiy bitlar soniga qo‘llanadi."
+      },
+      {
+        "type": "text",
+        "content": "Masalada ``matndagi barcha belgilar'' deyilsa, odatda harf, raqam,\ntinish belgisi, probel va satr ajratgichi ham belgi hisoblanadi.\nAmmo berilgan ``har satrda 80 ta belgi'' qiymati probellarni allaqachon\nqamrab olgan deb olinadi; yana qo‘shib yuborilmaydi."
+      },
+      {
+        "type": "text",
+        "content": "``So‘z uzunligi'' bilan ``matn belgilar soni'' bir xil emas. ``Axborot\nhajmi'' iborasida bo‘shliq ham qatnashadi: 7 harf + 1 bo‘shliq + 5 harf\n= 13 belgi (kodlash shartiga ko‘ra baytlar soni alohida)."
+      },
+      {
+        "type": "text",
+        "content": "formatlash, shrift va uslub ma’lumotlari;"
+      },
+      {
+        "type": "text",
+        "content": "DOCX kabi konteynerdagi XML va xizmat fayllari;"
+      },
+      {
+        "type": "text",
+        "content": "fayl tizimining blok bo‘yicha joy ajratishi."
+      },
+      {
+        "type": "text",
+        "content": "Shuning uchun oddiy TXT va Word hujjatida bir xil ko‘rinadigan\nmatnning fayl hajmi farq qiladi."
+      },
+      {
+        "type": "text",
+        "content": "40 belgili alifbo va 500 belgili xabar uchun minimal hajmni toping."
+      },
+      {
+        "type": "text",
+        "content": "\\answers\n1) 7 bitli 128 kod. 8 bitli 256 kod — kengaytirilgan kod sahifalari.\n2) Yo‘q, kod nuqtasiga qarab 1–4 bayt. 3) \\(i=6\\) bit,\n\\(I=3000\\) bit \\(=375\\) bayt."
+      },
+      {
+        "type": "text",
+        "content": "ASCII va Unicode sinonim emas. Unicode kod nuqtasini belgilaydi, UTF esa\nuni baytlarga kodlaydi. Matn hajmini hisoblashda alifbo quvvati,\nkod uzunligi, belgilar soni va testda berilgan modelni alohida aniqlang."
+      },
+      {
+        "type": "text",
+        "content": "Asosiy qamrov: ICT5, PDF 20–24; ICT7, PDF 26–29; CAM10–11, PDF 19–20;\n``Ma’ruza (Tayyor)'', PDF 27–29; Unicode Consortium rasmiy hujjatlari."
+      },
+      {
+        "type": "table",
+        "content": "| A | 65 | 01000001 | bosh lotin harfi\\\\ |\\n|---|---|---|---|\\n| B | 66 | 01000010 | keyingi kod\\\\ |\\n| a | 97 | 01100001 | kichik harf\\\\ |\\n| 0 | 48 | 00110000 | raqam belgisi, son 0 emas\\\\ |\\n| bo‘shliq | 32 | 00100000 | ko‘rinmaydigan matn belgisi\\\\ |"
+      },
+      {
+        "type": "table",
+        "content": "| UTF-8 | 8 bitli kod birliklari | Kod nuqtasiga qarab 1–4 bayt; ASCII |\\n|---|---|---|\\n| UTF-16 | 16 bitli kod birliklari | Ko‘p kod nuqtasi 2 bayt, qo‘shimcha |\\n| UTF-32 | 32 bitli kod birligi | Har kod nuqtasi 4 bayt; sodda, lekin |"
+      },
+      {
+        "type": "text",
+        "content": "\\chapterintroRastr tasvir piksel qiymatlarini, vektor tasvir esa geometrik\nobyektlar va ularning xossalarini saqlaydi. Hajm formulasi shu farqdan boshlanadi."
+      },
+      {
+        "type": "text",
+        "content": "Asosiy birlik & piksel & chiziq, egri, shakl, matn kabi obyekt"
+      },
+      {
+        "type": "text",
+        "content": "Saqlanadi & har pikselning rang qiymati & koordinata, o‘lcham, rang, kontur formulasi"
+      },
+      {
+        "type": "text",
+        "content": "Masshtab & kattalashtirilsa pikselizatsiya & odatda sifat yo‘qotmasdan masshtablanadi"
+      },
+      {
+        "type": "text",
+        "content": "Mos vazifa & foto va murakkab rang o‘tishlari & logotip, ikonka, sxema, chizma"
+      },
+      {
+        "type": "example",
+        "content": "Misol format & BMP, PNG, JPEG, GIF, TIFF & SVG, EPS, AI"
+      },
+      {
+        "type": "text",
+        "content": "Fraktal grafika matematik qoida va takrorlanuvchi tuzilma\nyordamida tasvir hosil qiladi. 2D grafika tekislikdagi,\n3D grafika esa uch o‘lchamli sahna, obyekt, material, yorug‘lik\nva kamerani ifodalaydi."
+      },
+      {
+        "type": "text",
+        "content": "Monitor barcha tasvirni yakunda piksel panjarasida ko‘rsatadi. Bu vektor\nfayl ``rastr faylga aylanib qoldi'' degani emas; ko‘rsatish vaqtida\nrastrlash bajariladi, manba faylda esa vektor obyektlar saqlanishi mumkin."
+      },
+      {
+        "type": "text",
+        "content": "Piksel (picture element) — rastr tasvir yoki ekrandagi\neng kichik alohida boshqariladigan rang elementi."
+      },
+      {
+        "type": "example",
+        "content": "Piksel o‘lchami odatda \\(W\\times H\\) bilan beriladi:\nmasalan, \\(1920\\times1080\\). Piksellar soni:"
+      },
+      {
+        "type": "text",
+        "content": "PPI (pixels per inch) — ekranda yoki raqamli tasvirda\nbir dyuymga to‘g‘ri keladigan piksellar soni."
+      },
+      {
+        "type": "text",
+        "content": "DPI (dots per inch) — bosma qurilmaning bir dyuymga\nqo‘ya oladigan nuqtalari soni."
+      },
+      {
+        "type": "text",
+        "content": "Darslikda PPI va DPI ba’zan yaqin ma’noda uchraydi, lekin aniq farq:\nPPI — piksel zichligi, DPI — printer nuqtalari zichligi. Bitta pikselni\nprinter bir nechta siyoh nuqtasi bilan hosil qilishi mumkin."
+      },
+      {
+        "type": "text",
+        "content": "Eni \\(a\\) cm, bo‘yi \\(b\\) cm, zichligi \\(r\\) PPI bo‘lsa:"
+      },
+      {
+        "type": "text",
+        "content": "Natija amaliy faylda butun pikselga yaxlitlanadi."
+      },
+      {
+        "type": "text",
+        "content": "\\(10.16\\times15.24\\) cm tasvir \\(300\\) PPI:"
+      },
+      {
+        "type": "text",
+        "content": "Rang chuqurligi \\(d\\) — bitta piksel rangini kodlashga\najratilgan bitlar soni."
+      },
+      {
+        "type": "text",
+        "content": "bu yerda \\(N\\) — kodlanadigan ranglar soni."
+      },
+      {
+        "type": "text",
+        "content": "32 bit & ko‘pincha 24 bit rang + 8 bit alfa & shaffoflik kanali bilan"
+      },
+      {
+        "type": "text",
+        "content": "RGB qizil (Red), yashil (Green) va ko‘k\n(Blue) yorug‘lik kanallarini qo‘shadi. Nol intensivliklar qora,\nuch kanalning maksimal qiymati oq beradi. 24 bitli RGBda har kanal\n8 bit, ya’ni \\(0...255\\):"
+      },
+      {
+        "type": "text",
+        "content": "CMYK ko‘k-yashil (Cyan), qirmizi (Magenta),\nsariq (Yellow) va qora (Key) siyohlarga asoslangan,\nasosan bosmada ishlatiladi. Oqartirilgan qog‘ozdan qaytuvchi yorug‘lik\nsiyoh orqali qisman yutiladi."
+      },
+      {
+        "type": "text",
+        "content": "HSL/HSV rangni tus, to‘yinganlik va yorug‘lik/qiymat bilan\ntanlashni qulaylashtiradi. Alfa kanal pikselning shaffoflik\ndarajasini saqlaydi; u rang modeli emas, qo‘shimcha kanal."
+      },
+      {
+        "type": "text",
+        "content": "Ekran uchun RGB, rangli bosma uchun CMYK — odatiy moslik. ``RGBning\nasosiy rangi qora'' degan ibora noaniq: qora kanal emas, barcha yorug‘lik\nkanallari 0 bo‘lgandagi natija."
+      },
+      {
+        "type": "text",
+        "content": "Metama’lumot va qator to‘ldirishlarini hisobga olmagan nazariy hajm:"
+      },
+      {
+        "type": "text",
+        "content": "\\(640\\times480\\) tasvirda 24 xil rang ishlatilishi mumkin.\nDoimiy kod uchun:"
+      },
+      {
+        "type": "text",
+        "content": "Yuqoridagi \\(1200\\times1800\\) tasvir 24 bitli RGB bo‘lsa:"
+      },
+      {
+        "type": "text",
+        "content": "Real BMP faylida sarlavha, palitra va har qatorni ma’lum bayt chegarasiga\nto‘ldirish bo‘lishi mumkin. PNG/JPEGda esa siqish qo‘llanadi; shu sabab\n\\(W\\cdot H\\cdot d/8\\) siqilmagan piksel ma’lumotining nazariy hajmi,\ntayyor fayl hajmi emas."
+      },
+      {
+        "type": "text",
+        "content": "BMP & rastr & odatda siqilmagan yoki sodda siqish; katta, tahrirga qulay"
+      },
+      {
+        "type": "text",
+        "content": "JPEG/JPG & rastr & yo‘qotishli; foto uchun samarali, shaffoflik yo‘q"
+      },
+      {
+        "type": "text",
+        "content": "PNG & rastr & yo‘qotishsiz; shaffoflik va aniq chetlar uchun qulay"
+      },
+      {
+        "type": "text",
+        "content": "GIF & rastr & 256 ranggacha palitra; oddiy animatsiya va shaffoflik"
+      },
+      {
+        "type": "text",
+        "content": "TIFF & rastr/konteyner & bosma va arxivda turli siqish/chuqurlik imkonlari"
+      },
+      {
+        "type": "text",
+        "content": "SVG & vektor & XML asosli; sifat yo‘qotmasdan masshtablanadi"
+      },
+      {
+        "type": "text",
+        "content": "PSD/AI & muharrir loyihasi & qatlam va tahrirlash xossalarini saqlaydi"
+      },
+      {
+        "type": "text",
+        "content": "Fayl kengaytmasini nomini o‘zgartirish formatni konvertatsiya qilmaydi.\nrasm.bmpni rasm.jpg deb qayta nomlash uning ichki\nkodlanishini JPEGga aylantirmaydi."
+      },
+      {
+        "type": "text",
+        "content": "1024 rang uchun rang chuqurligi nechta bit?"
+      },
+      {
+        "type": "text",
+        "content": "\\(800\\times600\\), 16 bitli siqilmagan tasvir hajmi qancha?"
+      },
+      {
+        "type": "text",
+        "content": "Logotipni cheksiz masshtablash uchun qaysi tur ma’qul?"
+      },
+      {
+        "type": "example",
+        "content": "\\answers\n1) \\(1024=2^10\\), 10 bit. 2) \\(800\\cdot600\\cdot16/8\n=960000\\B\\approx937.5\\) KiB. 3) Vektor, masalan SVG."
+      },
+      {
+        "type": "text",
+        "content": "Rastr hajmini piksel soni va rang chuqurligi belgilaydi. PPI tasvir\no‘lchamini pikselga bog‘laydi, DPI esa bosma nuqtasiga tegishli.\nFormat tanlovi foto, chizma, shaffoflik, animatsiya va tahrirlash talabiga bog‘liq."
+      },
+      {
+        "type": "text",
+        "content": "Asosiy qamrov: ICT7, PDF 29–34; CAM8, PDF 124–126;\nCAM10–11, PDF 19–21; CAM9, PDF 145–152; ``Ma’ruza (Tayyor)'', PDF 28–29."
+      },
+      {
+        "type": "table",
+        "content": "|  | \\textbf{Rastrli grafika} | \\textbf{Vektorli grafika}\\\\ |\\n|---|---|---|\\n| Asosiy birlik | piksel | chiziq, egri, shakl, matn kabi obyekt\\\\ |\\n| Saqlanadi | har pikselning rang qiymati | koordinata, o‘lcham, rang, kontur formulasi\\\\ |\\n| Masshtab | kattalashtirilsa pikselizatsiya | odatda sifat yo‘qotmasdan masshtablanadi\\\\ |\\n| Mos vazifa | foto va murakkab rang o‘tishlari | logotip, ikonka, sxema, chizma\\\\ |\\n| Misol format | BMP, PNG, JPEG, GIF, TIFF | SVG, EPS, AI\\\\ |"
+      },
+      {
+        "type": "table",
+        "content": "| 1 bit | 2 | qora-oq\\\\ |\\n|---|---|---|\\n| 4 bit | 16 | kichik palitra\\\\ |\\n| 8 bit | 256 | indekslangan rang/kulrang\\\\ |\\n| 16 bit | 65 536 | \\eng{high color}\\\\ |\\n| 24 bit | 16 777 216 | 8 bitdan R, G, B\\\\ |\\n| 32 bit | ko‘pincha 24 bit rang + 8 bit alfa | shaffoflik kanali bilan\\\\ |"
+      },
+      {
+        "type": "table",
+        "content": "| BMP | rastr | odatda siqilmagan yoki sodda siqish; katta, tahrirga qulay\\\\ |\\n|---|---|---|\\n| JPEG/JPG | rastr | yo‘qotishli; foto uchun samarali, shaffoflik yo‘q\\\\ |\\n| PNG | rastr | yo‘qotishsiz; shaffoflik va aniq chetlar uchun qulay\\\\ |\\n| GIF | rastr | 256 ranggacha palitra; oddiy animatsiya va shaffoflik\\\\ |\\n| TIFF | rastr/konteyner | bosma va arxivda turli siqish/chuqurlik imkonlari\\\\ |\\n| SVG | vektor | XML asosli; sifat yo‘qotmasdan masshtablanadi\\\\ |\\n| PSD/AI | muharrir loyihasi | qatlam va tahrirlash xossalarini saqlaydi\\\\ |"
+      },
+      {
+        "type": "text",
+        "content": "\\chapterintroRaqamli audio sifati va hajmi uch asosiy omilga bog‘liq:\nnamuna chastotasi, bit chuqurligi va kanallar soni."
+      },
+      {
+        "type": "text",
+        "content": "Tabiiy ovoz — muhitdagi bosimning vaqt bo‘yicha uzluksiz o‘zgarishi.\nMikrofon uni analog elektr signaliga aylantiradi. Ovoz kartasidagi\nADC (analog-to-digital converter) signalni o‘lchab,\nraqamli namunalar hosil qiladi. Ijroda DAC\n(digital-to-analog converter) sonli namunalarni analog signalga\naylantiradi, karnay esa ovoz to‘lqinini hosil qiladi."
+      },
+      {
+        "type": "text",
+        "content": "Namuna chastotasi \\(f_s\\) — bir sekundda analog signaldan\nolinadigan namunalar soni; gersda (Hz) o‘lchanadi."
+      },
+      {
+        "type": "text",
+        "content": "Bit chuqurligi \\(d\\) — bitta namuna qiymatini kodlash uchun\najratilgan bitlar soni. \\(d\\) bit \\(2^d\\) ta kvantlash darajasini beradi."
+      },
+      {
+        "type": "text",
+        "content": "Kanal — alohida yoziladigan audio oqimi. Mono \\(c=1\\),\nstereo odatda \\(c=2\\)."
+      },
+      {
+        "type": "text",
+        "content": "Namuna chastotasi ko‘tarilsa vaqt bo‘yicha mayda o‘zgarishlar yaxshiroq\nushlanadi. Bit chuqurligi ko‘tarilsa amplituda darajalari ko‘payadi,\nkvantlash xatosi kamayadi. Kanal ko‘payganda fazoviy tovush haqida\nko‘proq ma’lumot saqlanadi — va hajm ortadi."
+      },
+      {
+        "type": "text",
+        "content": "Nyquist–Shannon natijasining sodda talqini: chastotasi \\(f_\\max\\)\ngacha bo‘lgan signalni tiklash uchun ideal sharoitda\n\\(f_s>2f_\\max\\) namuna chastotasi kerak. Bu 44.1 kHz CD namunalash\nchastotasining inson eshitish diapazoni bilan bog‘lanishini tushuntiradi."
+      },
+      {
+        "type": "text",
+        "content": "Hz va dB boshqa-boshqa kattaliklar. Hz — sekunddagi tebranish yoki\nnamuna soni; dB — darajaning logarifmik nisbati. ADC ``har bir namunani\ndBda saqlaydi'' deyish soddalashtirish: amalda kvantlangan amplituda soni\nsaqlanadi, dB esa darajani ifodalashda ishlatiladi."
+      },
+      {
+        "type": "text",
+        "content": "Bu yerda \\(R\\) — bit tezligi, \\(t\\) — sekunddagi davomiylik."
+      },
+      {
+        "type": "text",
+        "content": "3 minutlik stereo audio: \\(f_s=48000\\) Hz, \\(d=16\\) bit, \\(c=2\\)."
+      },
+      {
+        "type": "example",
+        "content": "Darslikdagi \\(I=i\\cdot M\\cdot t\\) formula mono (\\(c=1\\)) holati.\nStereo yoki ko‘p kanalli audio berilsa, \\(\\times c\\) ko‘paytuvchisini\nunutmang."
+      },
+      {
+        "type": "text",
+        "content": "Omil oshsa & Sifatga ta’sir & Hajmga ta’sir"
+      },
+      {
+        "type": "text",
+        "content": "Namuna chastotasi & yuqori chastotalarni aniqroq ifodalaydi & chiziqli oshadi"
+      },
+      {
+        "type": "text",
+        "content": "Bit chuqurligi & dinamik diapazon/kvantlash aniqligi yaxshilanadi & chiziqli oshadi"
+      },
+      {
+        "type": "text",
+        "content": "Kanallar soni & fazoviy tovush imkoniyati ortadi & chiziqli oshadi"
+      },
+      {
+        "type": "text",
+        "content": "Davomiylik & sifat o‘zgarmaydi & chiziqli oshadi"
+      },
+      {
+        "type": "text",
+        "content": "Siqilgan bit rate & odatda sifat oshadi & chiziqli oshadi"
+      },
+      {
+        "type": "text",
+        "content": "WAV & siqilmagan PCM yoki konteyner & sifatli tahrir, katta hajm"
+      },
+      {
+        "type": "text",
+        "content": "AIFF & ko‘pincha siqilmagan PCM & Apple ekotizimida keng tarqalgan"
+      },
+      {
+        "type": "text",
+        "content": "FLAC & yo‘qotishsiz siqish & original PCMni to‘liq tiklaydi"
+      },
+      {
+        "type": "text",
+        "content": "APE & yo‘qotishsiz siqish & kamroq moslik, yuqori siqish maqsadi"
+      },
+      {
+        "type": "text",
+        "content": "MP3 & yo‘qotishli & juda keng moslik, ixcham tarqatish"
+      },
+      {
+        "type": "text",
+        "content": "AAC & yo‘qotishli & ko‘plab video/oqim tizimlarida"
+      },
+      {
+        "type": "text",
+        "content": "OGG & konteyner; Vorbis/Opus audio bilan & ochiq ekotizimlarda keng"
+      },
+      {
+        "type": "text",
+        "content": "Fayl kengaytmasi sifatni yolg‘iz belgilamaydi. MP3ning 320 kb/s va\n64 kb/s variantlari bir xil format nomiga ega, lekin hajm ham, sifat ham\nfarq qiladi. WAV ham faqat ``siqilmagan audio'' degan yagona format emas,\nu turli kodlangan oqimlarni saqlay oladigan konteynerdir."
+      },
+      {
+        "type": "text",
+        "content": "Agar tayyor siqilgan oqimning bit tezligi \\(R\\) berilsa:"
+      },
+      {
+        "type": "text",
+        "content": "Test ``1 kbit = 1024 bit'' desa, natija tegishli ikkilik modelda qayta\nhisoblanadi."
+      },
+      {
+        "type": "text",
+        "content": "\\(8\\) kHz, \\(8\\) bit, mono, 10 sekund audio hajmi qancha?"
+      },
+      {
+        "type": "text",
+        "content": "Qaysi format originalni to‘liq tiklaydi: FLACmi yoki MP3?"
+      },
+      {
+        "type": "text",
+        "content": "\\answers\n1) ADC analogdan raqamliga, DAC raqamlidan analogga.\n2) \\(8000\\cdot8\\cdot1\\cdot10=640000\\) bit \\(=80000\\) B.\n3) FLAC — yo‘qotishsiz; MP3 — yo‘qotishli."
+      },
+      {
+        "type": "text",
+        "content": "Siqilmagan audioning hajmi namuna chastotasi, bit chuqurligi, kanal va\ndavomiylik ko‘paytmasidir. Siqilgan audioda tayyor bit tezligi berilsa,\nuni davomiylikka ko‘paytirish kifoya."
+      },
+      {
+        "type": "text",
+        "content": "Asosiy qamrov: ICT6, PDF 115–127; ICT7, PDF 34–39;\nCAM10–11, PDF 20–22; ``Ma’ruza (Tayyor)'', PDF 28–29."
+      },
+      {
+        "type": "table",
+        "content": "| Namuna chastotasi | yuqori chastotalarni aniqroq ifodalaydi | chiziqli oshadi\\\\ |\\n|---|---|---|\\n| Bit chuqurligi | dinamik diapazon/kvantlash aniqligi yaxshilanadi | chiziqli oshadi\\\\ |\\n| Kanallar soni | fazoviy tovush imkoniyati ortadi | chiziqli oshadi\\\\ |\\n| Davomiylik | sifat o‘zgarmaydi | chiziqli oshadi\\\\ |\\n| Siqilgan bit rate | odatda sifat oshadi | chiziqli oshadi\\\\ |"
+      },
+      {
+        "type": "table",
+        "content": "| WAV | siqilmagan PCM yoki konteyner | sifatli tahrir, katta hajm\\\\ |\\n|---|---|---|\\n| AIFF | ko‘pincha siqilmagan PCM | Apple ekotizimida keng tarqalgan\\\\ |\\n| FLAC | yo‘qotishsiz siqish | original PCMni to‘liq tiklaydi\\\\ |\\n| APE | yo‘qotishsiz siqish | kamroq moslik, yuqori siqish maqsadi\\\\ |\\n| MP3 | yo‘qotishli | juda keng moslik, ixcham tarqatish\\\\ |\\n| AAC | yo‘qotishli | ko‘plab video/oqim tizimlarida\\\\ |\\n| OGG | konteyner; Vorbis/Opus audio bilan | ochiq ekotizimlarda keng\\\\ |"
+      },
+      {
+        "type": "text",
+        "content": "\\chapterintroVideo — vaqt bo‘yicha almashuvchi kadrlar. To‘liq multimedia\nfaylida tasvir oqimi bilan audio, subtitr va xizmat ma’lumotlari ham bo‘lishi mumkin."
+      },
+      {
+        "type": "text",
+        "content": "Kadr (frame) — videodagi bitta alohida tasvir."
+      },
+      {
+        "type": "text",
+        "content": "Kadr chastotasi \\(f\\) — bir sekundda ko‘rsatiladigan kadrlar\nsoni; fps (frames per second) bilan belgilanadi."
+      },
+      {
+        "type": "text",
+        "content": "24 fps bo‘lsa, bir sekundda 24 ta kadr tasvirlanadi. Kadr tezligi\noshsa harakat silliqroq ko‘rinishi mumkin, lekin siqilmagan hajm va\nqayta ishlash talabi ortadi. Video aniqligi \\(W\\times H\\), rang\nchuqurligi \\(d\\) va davomiylik \\(t\\) ham asosiy omillardir."
+      },
+      {
+        "type": "text",
+        "content": "\\(1280\\times720\\), 24 bit rang, 25 fps, 10 sekund xom video:"
+      },
+      {
+        "type": "text",
+        "content": "Atigi 10 sekund uchun katta natija siqish nega zarurligini ko‘rsatadi."
+      },
+      {
+        "type": "text",
+        "content": "\\(768\\times484\\), 1024 rang, 30 fps, 2 minut:"
+      },
+      {
+        "type": "formula",
+        "content": "Video formulasida \\(f\\) — sekunddagi kadrlar, audio formulasida \\(f_s\\) —\nsekunddagi tovush namunalari. Ikkalasi Hz o‘lchamiga o‘xshash bo‘lsa-da,\nbir xil kattalik emas."
+      },
+      {
+        "type": "text",
+        "content": "Kadr o‘lchami \\(W\\times H\\) & piksel ko‘payadi; xom hajm chiziqli oshadi"
+      },
+      {
+        "type": "text",
+        "content": "Kadr chastotasi & harakat silliqligi va sekundlik ma’lumot ortadi"
+      },
+      {
+        "type": "text",
+        "content": "Rang chuqurligi & ranglar soni va xom hajm ortadi"
+      },
+      {
+        "type": "text",
+        "content": "Video bit tezligi & siqilgan oqimga sekundiga ko‘proq bit ajratiladi"
+      },
+      {
+        "type": "text",
+        "content": "Kodek samaradorligi & bir xil ko‘rinadigan sifatni kamroq bitda berishi mumkin"
+      },
+      {
+        "type": "text",
+        "content": "Kontent murakkabligi & shovqin va tez harakatni siqish qiyinroq"
+      },
+      {
+        "type": "text",
+        "content": "Audio oqimi & umumiy fayl hajmiga qo‘shiladi"
+      },
+      {
+        "type": "text",
+        "content": "Siqilgan videoda tayyor umumiy bit tezligi berilsa:"
+      },
+      {
+        "type": "text",
+        "content": "8 Mb/s video va 192 kb/s audio, davomiyligi 5 minut:"
+      },
+      {
+        "type": "text",
+        "content": "Kodek — media oqimini kodlaydigan/siqadigan va qayta\ndekodlaydigan algoritm yoki dasturiy modul."
+      },
+      {
+        "type": "text",
+        "content": "Konteyner — video, audio, subtitr, bob, metama’lumot kabi\nbir yoki bir nechta oqimni bitta fayl tuzilmasida birlashtiruvchi format."
+      },
+      {
+        "type": "example",
+        "content": "Konteyner misoli & Ichida bo‘lishi mumkin"
+      },
+      {
+        "type": "text",
+        "content": "MP4 & H.264/H.265/AV1 video, AAC/Opus audio va subtitr"
+      },
+      {
+        "type": "text",
+        "content": "AVI & turli eski va yangi video/audio kodeklar"
+      },
+      {
+        "type": "text",
+        "content": "MKV & ko‘p oqim, subtitr va boblarni moslashuvchan saqlash"
+      },
+      {
+        "type": "text",
+        "content": "WebM & ko‘pincha VP9/AV1 video va Opus audio"
+      },
+      {
+        "type": "text",
+        "content": "WMV/ASF & Microsoft oilasidagi konteyner/kodek nomlari"
+      },
+      {
+        "type": "text",
+        "content": "``MP4 — MPEG-4 kodeki'' degan tenglik har doim to‘g‘ri emas. MP4 odatda\nkonteyner; uning ichidagi video turli kodekda bo‘lishi mumkin. Shu sabab\nMP4 faylni ochish uchun konteynerni o‘qish bilan birga tegishli kodek ham kerak."
+      },
+      {
+        "type": "example",
+        "content": "Animatsiya — sun’iy yaratilgan kadrlar yoki obyekt\n holatlarini ketma-ket ko‘rsatib harakat taassuroti yaratish."
+      },
+      {
+        "type": "text",
+        "content": "Video — real tasvirga olish yoki render natijasidagi\n kadrlar ketma-ketligi."
+      },
+      {
+        "type": "text",
+        "content": "Multimedia — matn, grafika, audio, video, animatsiya\n va interaktiv boshqaruvdan birgalikda foydalanish."
+      },
+      {
+        "type": "text",
+        "content": "Interaktiv taqdimot multimedia bo‘lishi mumkin, lekin har bir video\ninteraktiv emas. Gif animatsiya ovozsiz bo‘lishi mumkin; video fayl esa\naudio oqimisiz ham mavjud bo‘la oladi."
+      },
+      {
+        "type": "text",
+        "content": "Full HD & \\(1920\\times1080\\) & ``1080p''"
+      },
+      {
+        "type": "text",
+        "content": "4K UHD & \\(3840\\times2160\\) & kino 4Ksi boshqa bo‘lishi mumkin"
+      },
+      {
+        "type": "text",
+        "content": "8K UHD & \\(7680\\times4320\\) & juda katta piksel soni"
+      },
+      {
+        "type": "formula",
+        "content": "Nomi emas, masalada berilgan \\(W\\times H\\) qiymatini formulaga qo‘ying.\nBa’zi darslik yoki interfeysda atama/son noto‘g‘ri yoki yaxlitlangan\nbo‘lishi mumkin."
+      },
+      {
+        "type": "text",
+        "content": "MP4 va H.264 vazifasi nimasi bilan farq qiladi?"
+      },
+      {
+        "type": "text",
+        "content": "Xom video hajmiga ta’sir qiluvchi to‘rtta ko‘paytuvchini ayting."
+      },
+      {
+        "type": "text",
+        "content": "\\answers\n1) Har sekundda 30 kadr. 2) MP4 — konteyner, H.264 — video kodek.\n3) Piksel eni, bo‘yi, rang chuqurligi, fps va davomiylikdan to‘rttasi\n(aslida formula besh omilli)."
+      },
+      {
+        "type": "text",
+        "content": "Xom video — kadr hajmi \\(\\times\\) sekunddagi kadrlar \\(\\times\\)\ndavomiylik. Siqilgan videoda esa berilgan bit tezlik asosiy hisob\nkattaligiga aylanadi. Konteyner va kodekni alohida biling."
+      },
+      {
+        "type": "text",
+        "content": "Asosiy qamrov: ICT6, PDF 115–127; ICT7, PDF 36–39;\nCAM10–11, PDF 21–23; ``Ma’ruza (Tayyor)'', PDF 28–29."
+      },
+      {
+        "type": "table",
+        "content": "| Kadr o‘lchami \\(W\\times H\\) | piksel ko‘payadi; xom hajm chiziqli oshadi\\\\ |\\n|---|---|\\n| Kadr chastotasi | harakat silliqligi va sekundlik ma’lumot ortadi\\\\ |\\n| Rang chuqurligi | ranglar soni va xom hajm ortadi\\\\ |\\n| Video bit tezligi | siqilgan oqimga sekundiga ko‘proq bit ajratiladi\\\\ |\\n| Kodek samaradorligi | bir xil ko‘rinadigan sifatni kamroq bitda berishi mumkin\\\\ |\\n| Kontent murakkabligi | shovqin va tez harakatni siqish qiyinroq\\\\ |\\n| Audio oqimi | umumiy fayl hajmiga qo‘shiladi\\\\ |"
+      },
+      {
+        "type": "table",
+        "content": "| MP4 | H.264/H.265/AV1 video, AAC/Opus audio va subtitr\\\\ |\\n|---|---|\\n| AVI | turli eski va yangi video/audio kodeklar\\\\ |\\n| MKV | ko‘p oqim, subtitr va boblarni moslashuvchan saqlash\\\\ |\\n| WebM | ko‘pincha VP9/AV1 video va Opus audio\\\\ |\\n| WMV/ASF | Microsoft oilasidagi konteyner/kodek nomlari\\\\ |"
+      },
+      {
+        "type": "table",
+        "content": "| HD | \\(1280\\times720\\) | ``720p''\\\\ |\\n|---|---|---|\\n| Full HD | \\(1920\\times1080\\) | ``1080p''\\\\ |\\n| 4K UHD | \\(3840\\times2160\\) | kino 4Ksi boshqa bo‘lishi mumkin\\\\ |\\n| 8K UHD | \\(7680\\times4320\\) | juda katta piksel soni\\\\ |"
+      },
+      {
+        "type": "text",
+        "content": "\\chapterintroFormat fayl tuzilishini, kodek oqimni qanday kodlashni,\nsiqish esa takroriy yoki kam ahamiyatli ma’lumotni qanday kamaytirishni belgilaydi."
+      },
+      {
+        "type": "text",
+        "content": "Fayl formati — fayl ichidagi ma’lumot qanday tuzilishi,\nkodlanishi va talqin qilinishini belgilovchi qoidalar."
+      },
+      {
+        "type": "example",
+        "content": "Fayl kengaytmasi — nom oxiridagi formatni ko‘rsatuvchi qism,\nmasalan, .txt, .png, .mp3."
+      },
+      {
+        "type": "text",
+        "content": "Kengaytma dasturga formatni taxmin qilishga yordam beradi, lekin haqiqiy\nformat fayl ichidagi tuzilma bilan belgilanadi. Metama’lumot\nfayl mazmuni haqidagi qo‘shimcha axborot: muallif, sana, o‘lcham,\ngeolokatsiya, kodek, davomiylik va boshqalar."
+      },
+      {
+        "type": "definition",
+        "content": "Siqish — axborotni kamroq bit bilan ifodalab, fayl hajmini\nkamaytirish jarayoni."
+      },
+      {
+        "type": "text",
+        "content": "yuklab olish va uzatish vaqtini kamaytirish;"
+      },
+      {
+        "type": "text",
+        "content": "cheklangan tarmoqda oqimli audio/video ko‘rsatish;"
+      },
+      {
+        "type": "text",
+        "content": "trafik va saqlash xarajatini kamaytirish uchun ishlatiladi."
+      },
+      {
+        "type": "text",
+        "content": "Tiklash & asl bitlar aynan tiklanadi & ayrim ma’lumot qaytarilmaydi"
+      },
+      {
+        "type": "text",
+        "content": "Mos kontent & matn, dastur, baza, arxiv & foto, audio, video"
+      },
+      {
+        "type": "text",
+        "content": "Sifat & mazmun yo‘qolmaydi & siqish kuchaysa artefakt/sifat pasayishi"
+      },
+      {
+        "type": "example",
+        "content": "Misol & ZIP, PNG, FLAC, RLE & JPEG, MP3, AAC, ko‘p video kodeklar"
+      },
+      {
+        "type": "text",
+        "content": "Matn va dasturda bitta belgi/bit yo‘qolishi mazmun yoki ishlashni buzadi,\nshuning uchun odatda yo‘qotishsiz siqish kerak. Inson sezishi qiyin bo‘lgan\nfoto/tovush detallari olib tashlansa, media ancha kichrayishi mumkin."
+      },
+      {
+        "type": "text",
+        "content": "RLE (run-length encoding) bir xil qiymat ketma-ketligini\n``qiymat + takror soni'' bilan almashtiradi:"
+      },
+      {
+        "type": "text",
+        "content": "U bir xil rangli katta sohalar yoki takroriy ma’lumotda samarali.\nABCDEF kabi takrorlanmaydigan ketma-ketlikda xizmat belgilari\nsabab hajm hatto ortishi mumkin."
+      },
+      {
+        "type": "text",
+        "content": "Huffman kodlash tez-tez uchraydigan elementga qisqa,\nkam uchraydiganga uzun prefiks kod beradi. ZIP/PNG kabi tizimlarda\nLZ oilasi takroriy satrlarni oldingi ma’lumotga havola bilan ifodalashi\nmumkin. Bu usullar yo‘qotishsiz."
+      },
+      {
+        "type": "example",
+        "content": "``4 marta kichraydi'' bilan ``75 kamaydi'' bir holatning ikki ifodasi."
+      },
+      {
+        "type": "text",
+        "content": "Foto tarqatish & JPEG & murakkab ranglarda kuchli yo‘qotishli siqish"
+      },
+      {
+        "type": "text",
+        "content": "Shaffof logotip & PNG & alfa va yo‘qotishsiz aniq chetlar"
+      },
+      {
+        "type": "text",
+        "content": "Masshtablanadigan ikonka & SVG & geometrik vektor tuzilishi"
+      },
+      {
+        "type": "text",
+        "content": "Audio arxiv & FLAC & originalni aynan tiklash"
+      },
+      {
+        "type": "text",
+        "content": "Kichik musiqa fayli & MP3/AAC/Opus & yo‘qotishli, samarali oqim"
+      },
+      {
+        "type": "text",
+        "content": "Tahrirlash loyihasi & PSD/AI/loyiha formati & qatlam va obyektlar saqlanadi"
+      },
+      {
+        "type": "text",
+        "content": "Bir nechta fayl arxivi & ZIP/7z & to‘plam + yo‘qotishsiz siqish"
+      },
+      {
+        "type": "text",
+        "content": "Media faylni ochishda uch daraja mos bo‘lishi kerak:"
+      },
+      {
+        "type": "text",
+        "content": "qurilma kodekning profil, rang chuqurligi va aniqligini\n qo‘llab-quvvatlaydi."
+      },
+      {
+        "type": "text",
+        "content": "Shu sabab bir xil .mp4 fayllardan biri ochilib, boshqasi\nochilmasligi mumkin."
+      },
+      {
+        "type": "text",
+        "content": "Konvertatsiya — faylni bir format yoki tuzilmadan boshqasiga\no‘tkazish."
+      },
+      {
+        "type": "text",
+        "content": "Transkodlash — media oqimini dekodlab, boshqa kodek yoki\nsozlama bilan qayta kodlash."
+      },
+      {
+        "type": "text",
+        "content": "Yo‘qotishli faylni qayta-qayta yo‘qotishli kodlash sifatni har bosqichda\npasaytirishi mumkin. Faqat konteynerni almashtirib, ichki oqimni qayta\nkodlamaslik remux deyiladi; bunda sifat o‘zgarmaydi."
+      },
+      {
+        "type": "text",
+        "content": "Yo‘qotishli MP3ni WAVga aylantirish yo‘qolgan tovushni qaytarmaydi.\nWAV fayl kattalashadi, ammo manba sifati oshmaydi. Xuddi shunday,\nJPEGni PNGga o‘tkazish oldingi JPEG artefaktlarini yo‘qotmaydi."
+      },
+      {
+        "type": "text",
+        "content": "Arxivlash — fayllarni bir to‘plamga joylash va ko‘pincha\n siqish (ZIP, 7z, RAR)."
+      },
+      {
+        "type": "text",
+        "content": "Zaxira nusxasi — yo‘qolish yoki buzilishdan tiklash uchun\n boshqa joyda nusxa saqlash."
+      },
+      {
+        "type": "text",
+        "content": "Bir diskdagi yagona ZIP arxiv zaxira strategiyasi emas: disk buzilsa,\nasl ham, arxiv ham yo‘qoladi."
+      },
+      {
+        "type": "text",
+        "content": "PNG va JPEGdan qaysi biri odatda yo‘qotishsiz?"
+      },
+      {
+        "type": "text",
+        "content": "100 MB fayl 25 MB bo‘lsa, koeffitsiyent va tejash foizi?"
+      },
+      {
+        "type": "text",
+        "content": "Fayl kengaytmasini o‘zgartirish nega konvertatsiya emas?"
+      },
+      {
+        "type": "text",
+        "content": "\\answers\n1) PNG. 2) \\(4:1\\), 75. 3) Ichki bayt tuzilishi va kodlash\no‘zgarmaydi; faqat nom o‘zgaradi."
+      },
+      {
+        "type": "text",
+        "content": "Yo‘qotishsiz siqishda asl nusxa aynan tiklanadi, yo‘qotishlida esa\nqabul qilinadigan sifat evaziga katta hajm tejaladi. Format, kengaytma,\nkonteyner va kodekni alohida tushunish moslik savollarini yechadi."
+      },
+      {
+        "type": "text",
+        "content": "Asosiy qamrov: ICT6, PDF 115–127; ICT10, PDF 29–31;\nCAM8, PDF 124–126; CAM9, PDF 145–152; CAM10–11, PDF 19–23."
+      },
+      {
+        "type": "table",
+        "content": "|  | \\textbf{Yo‘qotishsiz} | \\textbf{Yo‘qotishli}\\\\ |\\n|---|---|---|\\n| Tiklash | asl bitlar aynan tiklanadi | ayrim ma’lumot qaytarilmaydi\\\\ |\\n| Mos kontent | matn, dastur, baza, arxiv | foto, audio, video\\\\ |\\n| Sifat | mazmun yo‘qolmaydi | siqish kuchaysa artefakt/sifat pasayishi\\\\ |\\n| Misol | ZIP, PNG, FLAC, RLE | JPEG, MP3, AAC, ko‘p video kodeklar\\\\ |"
+      },
+      {
+        "type": "table",
+        "content": "| Foto tarqatish | JPEG | murakkab ranglarda kuchli yo‘qotishli siqish\\\\ |\\n|---|---|---|\\n| Shaffof logotip | PNG | alfa va yo‘qotishsiz aniq chetlar\\\\ |\\n| Masshtablanadigan ikonka | SVG | geometrik vektor tuzilishi\\\\ |\\n| Audio arxiv | FLAC | originalni aynan tiklash\\\\ |\\n| Kichik musiqa fayli | MP3/AAC/Opus | yo‘qotishli, samarali oqim\\\\ |\\n| Tahrirlash loyihasi | PSD/AI/loyiha formati | qatlam va obyektlar saqlanadi\\\\ |\\n| Bir nechta fayl arxivi | ZIP/7z | to‘plam + yo‘qotishsiz siqish\\\\ |"
+      }
+    ],
+    "questions": []
+  },
+  "M01.08": {
+    "theory": [
+      {
+        "type": "text",
+        "content": "\\chapterintroInternetda ochiq ko‘rinishi — erkin foydalanish ruxsati\ndegani emas. Asarning egasi, litsenziyasi, foydalanish maqsadi va manba\nko‘rsatish talabi alohida tekshiriladi."
+      },
+      {
+        "type": "text",
+        "content": "Mualliflik huquqi — ijodkorning adabiy, ilmiy va badiiy\nasariga nisbatan qonunda belgilangan shaxsiy hamda mulkiy huquqlari."
+      },
+      {
+        "type": "text",
+        "content": "WIPO ta’rifida mualliflik huquqi ijodkorlarning adabiy va badiiy\nasarlariga bo‘lgan huquqlarini anglatadi; kitob, musiqa, tasvir, film,\nkompyuter dasturi, ma’lumotlar bazasi va boshqa ijodiy ifodalar shular\njumlasiga kiradi."
+      },
+      {
+        "type": "text",
+        "content": "Umumiy qoida sifatida mualliflik huquqi g‘oyaning o‘zini emas,\nuning ijodiy ifodalanish shaklini himoya qiladi. Bir xil mavzuda\nmustaqil matn yozish mumkin; boshqa muallifning jumla, rasm yoki kodini\nruxsatsiz ko‘chirish boshqa masala."
+      },
+      {
+        "type": "text",
+        "content": "muallif sifatida tan olinishi va ism ko‘rsatilishi;"
+      },
+      {
+        "type": "text",
+        "content": "asarni nusxalash, tarqatish, namoyish yoki ijro etishni nazorat qilish;"
+      },
+      {
+        "type": "text",
+        "content": "tarjima, qayta ishlash va hosila asarga ruxsat berish;"
+      },
+      {
+        "type": "text",
+        "content": "asarning daxlsizligi bilan bog‘liq shaxsiy huquqlar."
+      },
+      {
+        "type": "example",
+        "content": "O‘zbekistonda asosiy rasmiy manba ``Mualliflik huquqi va turdosh\nhuquqlar to‘g‘risida''gi O‘RQ-42-son Qonunidir. Darslik 2006-yilgi\nqonun va Fuqarolik kodeksini tilga oladi; amaliy vaziyatda doimo\nLex.uzdagi amaldagi tahrir tekshiriladi."
+      },
+      {
+        "type": "text",
+        "content": "Muallif nomini yozish har qanday foydalanishni avtomatik qonuniy\nqilmaydi. Atributsiya plagiatdan saqlashi mumkin, lekin\nmualliflik huquqidagi nusxalash yoki tarqatish ruxsati baribir kerak bo‘lishi mumkin."
+      },
+      {
+        "type": "text",
+        "content": "Plagiat — boshqa shaxsning matni, g‘oyaviy tuzilmasi yoki\nijodiy natijasini o‘ziniki qilib ko‘rsatish, manbani yashirish."
+      },
+      {
+        "type": "text",
+        "content": "Mualliflik huquqini buzish — huquq egasining ruxsatisiz,\nqonundagi istisno yoki litsenziya doirasidan tashqarida himoyalangan\nasardan foydalanish."
+      },
+      {
+        "type": "text",
+        "content": "Ruxsatli CC BY rasm, muallif ko‘rsatilgan & plagiat emas, litsenziyaga mos"
+      },
+      {
+        "type": "text",
+        "content": "Ruxsatli rasm, muallif ko‘rsatilmagan & litsenziya/akademik talab buzilishi mumkin"
+      },
+      {
+        "type": "text",
+        "content": "Ruxsatsiz film, manba yozilgan & manba ko‘rsatilsa ham huquqbuzarlik bo‘lishi mumkin"
+      },
+      {
+        "type": "text",
+        "content": "O‘z fikri, tasodifan o‘xshash mavzu & ifoda mustaqil bo‘lsa plagiat emas"
+      },
+      {
+        "type": "text",
+        "content": "Litsenziya — huquq egasi boshqalarga asardan qaysi shartlarda\nfoydalanishga ruxsat berishini belgilovchi huquqiy vosita."
+      },
+      {
+        "type": "text",
+        "content": "Ommaviy mulk (public domain) — mualliflik huquqi muddati\ntugagan, qo‘llanmaydigan yoki huquq egasi qonun doirasida undan voz\nkechgan materiallar sohasi. ``Internetda bepul'' va ``public domain''\nsinonim emas."
+      },
+      {
+        "type": "text",
+        "content": "Creative Commons to‘rtta asosiy shartdan olti litsenziya tuzadi:"
+      },
+      {
+        "type": "text",
+        "content": "BY & Attribution & muallif va manba ko‘rsatiladi"
+      },
+      {
+        "type": "text",
+        "content": "SA & ShareAlike & hosila asar ayni yoki mos litsenziyada tarqatiladi"
+      },
+      {
+        "type": "text",
+        "content": "NC & NonCommercial & faqat notijorat foydalanish"
+      },
+      {
+        "type": "text",
+        "content": "ND & NoDerivatives & o‘zgartirilgan nusxani tarqatishga ruxsat yo‘q"
+      },
+      {
+        "type": "text",
+        "content": "CC BY & foydalanish va qayta ishlash mumkin; muallif ko‘rsatiladi"
+      },
+      {
+        "type": "text",
+        "content": "CC BY-SA & qayta ishlash mumkin; muallif + ayni shartlarda ulashish"
+      },
+      {
+        "type": "text",
+        "content": "CC BY-ND & tarqatish mumkin; muallif ko‘rsatiladi, o‘zgartirilmaydi"
+      },
+      {
+        "type": "text",
+        "content": "CC BY-NC & notijorat foydalanish/qayta ishlash; muallif ko‘rsatiladi"
+      },
+      {
+        "type": "text",
+        "content": "CC BY-NC-SA & notijorat + muallif + ayni shartlar"
+      },
+      {
+        "type": "text",
+        "content": "CC BY-NC-ND & notijorat, o‘zgartirmasdan, muallifni ko‘rsatib tarqatish"
+      },
+      {
+        "type": "text",
+        "content": "CC0 — huquq egasining imkon qadar huquqlardan voz kechib,\nasarni ommaviy mulkka yaqin rejimga berish vositasi; u oltita CC\nlitsenziyasidan biri emas."
+      },
+      {
+        "type": "text",
+        "content": "Eng erkin litsenziya — odatda CC BY; eng cheklovchi kombinatsiya —\nCC BY-NC-ND. SA ``o‘zgartirish mumkin emas'' degani emas; o‘zgartirilgan\nasarni ayni shartda ulashish talabidir. ND esa hosila asarni tarqatishni cheklaydi."
+      },
+      {
+        "type": "note",
+        "content": "Minimal atributsiya TASL tamoyili bilan esda qoladi:"
+      },
+      {
+        "type": "text",
+        "content": "L — License: litsenziya nomi va havolasi."
+      },
+      {
+        "type": "text",
+        "content": "Iqtibos aynan olingan bo‘lsa qo‘shtirnoq/blok, sahifa va manba beriladi.\nParafrazda jumla o‘z so‘zlaringizda qayta tuziladi, ammo g‘oya manbasi\nbaribir ko‘rsatiladi."
+      },
+      {
+        "type": "text",
+        "content": "Bir necha so‘zni sinonimga almashtirish parafraz emas. Tuzilma va ifoda\nmanbaga juda yaqin qolsa, plagiat xavfi saqlanadi."
+      },
+      {
+        "type": "text",
+        "content": "salomlashish, hurmat va kontekstni saqlash;"
+      },
+      {
+        "type": "text",
+        "content": "katta harflarda uzluksiz yozib ``baqirmaslik'';"
+      },
+      {
+        "type": "text",
+        "content": "qabul qiluvchini, CC/BCC va ilovani yuborishdan avval tekshirish;"
+      },
+      {
+        "type": "text",
+        "content": "shaxsiy ma’lumot yoki suratni roziliksiz tarqatmaslik;"
+      },
+      {
+        "type": "text",
+        "content": "muallif, litsenziya va auditoriyani hurmat qilish."
+      },
+      {
+        "type": "text",
+        "content": "Materialning muallifi va asl manbasini toping."
+      },
+      {
+        "type": "text",
+        "content": "Litsenziya yoki foydalanish shartini o‘qing."
+      },
+      {
+        "type": "text",
+        "content": "Maqsad (tijorat/notijorat), o‘zgartirish va tarqatish ruxsatini tekshiring."
+      },
+      {
+        "type": "text",
+        "content": "Muallif, nom, manba va litsenziyani ko‘rsating."
+      },
+      {
+        "type": "text",
+        "content": "Shaxsiy ma’lumot, tasvir huquqi va maxfiylikni ham alohida tekshiring."
+      },
+      {
+        "type": "text",
+        "content": "BY va SA talabi nimasi bilan farq qiladi?"
+      },
+      {
+        "type": "text",
+        "content": "Manba ko‘rsatish har doim ruxsat o‘rnini bosadimi?"
+      },
+      {
+        "type": "text",
+        "content": "CC BY-NC-ND asarni tahrirlab tijoratda ishlatishga ruxsat beradimi?"
+      },
+      {
+        "type": "text",
+        "content": "\\answers\n1) BY muallifni ko‘rsatish; SA hosila asarni ayni/mos litsenziyada\nulashish. 2) Yo‘q. 3) Yo‘q: NC tijoratni, ND o‘zgartirilgan nusxani\ntarqatishni cheklaydi."
+      },
+      {
+        "type": "definition",
+        "content": "Onlayn mavjudlik — ruxsat emas. Mualliflik huquqi, plagiat, litsenziya\nva atributsiya bir-biriga bog‘liq, lekin aynan bir tushuncha emas.\nFoydalanishdan oldin huquq egasi, shart va maqsadni tekshiring."
+      },
+      {
+        "type": "text",
+        "content": "Asosiy qamrov: ICT6, PDF 102–104; CAM5, PDF 99–107;\nCAM6, PDF 206–212; CAM8, PDF 107–109; CAM9, PDF 137–152;\nWIPO, Creative Commons va Lex.uz rasmiy manbalari."
+      },
+      {
+        "type": "table",
+        "content": "| Ruxsatli CC BY rasm, muallif ko‘rsatilgan | plagiat emas, litsenziyaga mos\\\\ |\\n|---|---|\\n| Ruxsatli rasm, muallif ko‘rsatilmagan | litsenziya/akademik talab buzilishi mumkin\\\\ |\\n| Ruxsatsiz film, manba yozilgan | manba ko‘rsatilsa ham huquqbuzarlik bo‘lishi mumkin\\\\ |\\n| O‘z fikri, tasodifan o‘xshash mavzu | ifoda mustaqil bo‘lsa plagiat emas\\\\ |"
+      },
+      {
+        "type": "table",
+        "content": "| BY | Attribution | muallif va manba ko‘rsatiladi\\\\ |\\n|---|---|---|\\n| SA | ShareAlike | hosila asar ayni yoki mos litsenziyada tarqatiladi\\\\ |\\n| NC | NonCommercial | faqat notijorat foydalanish\\\\ |\\n| ND | NoDerivatives | o‘zgartirilgan nusxani tarqatishga ruxsat yo‘q\\\\ |"
+      },
+      {
+        "type": "table",
+        "content": "| CC BY | foydalanish va qayta ishlash mumkin; muallif ko‘rsatiladi\\\\ |\\n|---|---|\\n| CC BY-SA | qayta ishlash mumkin; muallif + ayni shartlarda ulashish\\\\ |\\n| CC BY-ND | tarqatish mumkin; muallif ko‘rsatiladi, o‘zgartirilmaydi\\\\ |\\n| CC BY-NC | notijorat foydalanish/qayta ishlash; muallif ko‘rsatiladi\\\\ |\\n| CC BY-NC-SA | notijorat + muallif + ayni shartlar\\\\ |\\n| CC BY-NC-ND | notijorat, o‘zgartirmasdan, muallifni ko‘rsatib tarqatish\\\\ |"
+      }
+    ],
+    "questions": []
+  },
+  "M01.09": {
+    "theory": [
+      {
+        "type": "text",
+        "content": "\\chapterintroQidiruv tizimi haqiqatni emas, so‘rovga mos deb topilgan\nsahifalarni tartiblaydi. Natijani tanlash va tekshirish foydalanuvchining vazifasi."
+      },
+      {
+        "type": "text",
+        "content": "[Internet]\n O‘zaro bog‘langan tarmoqlar global tizimi."
+      },
+      {
+        "type": "text",
+        "content": "[WWW]\n Internet orqali olinadigan o‘zaro havolalangan veb-sahifalar va resurslar xizmati."
+      },
+      {
+        "type": "text",
+        "content": "[Veb-brauzer]\n Veb-resursni so‘raydigan, HTML/CSS va media mazmunini talqin qilib ko‘rsatadigan dastur."
+      },
+      {
+        "type": "text",
+        "content": "[Qidiruv tizimi]\n Sahifalarni topish, indekslash va so‘rovga mos natijalarni tartiblash xizmati."
+      },
+      {
+        "type": "text",
+        "content": "Google qidiruv tizimi; Chrome brauzer. Internet bilan WWW ham aynan bir\nnarsa emas: elektron pochta va boshqa xizmatlar Internetdan foydalanadi,\nammo WWW sahifasi bo‘lishi shart emas."
+      },
+      {
+        "type": "note",
+        "content": "URL (Uniform Resource Locator) resurs manzilini bildiradi.\nHTTPS shifrlangan transport va server sertifikati bilan bog‘liq, lekin\nsahifadagi har bir gapning haqiqat ekanini kafolatlamaydi."
+      },
+      {
+        "type": "text",
+        "content": "Crawler havolalar orqali sahifalarni topadi."
+      },
+      {
+        "type": "text",
+        "content": "Indeks sahifa mazmuni va belgilarini tartibli bazaga yozadi."
+      },
+      {
+        "type": "text",
+        "content": "Reyting algoritmi so‘rovga moslik, sifat, yangilik,\n joylashuv va boshqa signallar bo‘yicha natijalarni tartiblaydi."
+      },
+      {
+        "type": "text",
+        "content": "Natija sahifasi organik va reklama/sponsored natijalarni ko‘rsatishi mumkin."
+      },
+      {
+        "type": "text",
+        "content": "Natijaning birinchi bo‘lishi ``eng to‘g‘ri'' degani emas. Reyting\nso‘rovga moslik va ko‘plab texnik/tijoriy signallarni hisoblaydi."
+      },
+      {
+        "type": "text",
+        "content": "Aniq kalit so‘z & axborot hajmi formula & umumiy gapni toraytiradi"
+      },
+      {
+        "type": "text",
+        "content": "Qo‘shtirnoq & 'axborot uzatish tezligi' & aynan iborani qidiradi"
+      },
+      {
+        "type": "text",
+        "content": "Istisno & python -ilon & keraksiz ma’noni kamaytiradi"
+      },
+      {
+        "type": "text",
+        "content": "Sayt bo‘yicha & site:gov.uz attestatsiya & domen ichida qidiradi"
+      },
+      {
+        "type": "text",
+        "content": "Fayl turi & filetype:pdf informatika & PDF natijalarni toraytiradi"
+      },
+      {
+        "type": "text",
+        "content": "Sana/til filtri & qidiruv vositalari & yangilik va auditoriyani moslaydi"
+      },
+      {
+        "type": "text",
+        "content": "Darsliklarda ``+'' operatori barcha so‘zni talab qilish belgisi sifatida\nuchraydi. Zamonaviy qidiruv tizimlari operatorlarni o‘zgartirishi yoki\n``+''ni e’tiborsiz qoldirishi mumkin. Eng barqaror yondashuv —\naniq ibora, mazmunli kalit so‘z, site: va filetype:\nkabi qo‘llab-quvvatlanadigan operatorni qidiruv tizimi yordamida tekshirish."
+      },
+      {
+        "type": "text",
+        "content": "Muallif & Kim yozgan, malakasi va aloqasi bormi? & muallif noma’lum"
+      },
+      {
+        "type": "text",
+        "content": "Tashkilot & Kim nashr qilgan, tahrir siyosati bormi? & soxta rasmiy ko‘rinish"
+      },
+      {
+        "type": "text",
+        "content": "Sana & Qachon yozilgan/yangilangan? & sana yo‘q yoki mavzu uchun eski"
+      },
+      {
+        "type": "text",
+        "content": "Dalil & Manba, metod, ma’lumot va havolalar bormi? & ``olimlar aytdi'' xolos"
+      },
+      {
+        "type": "text",
+        "content": "Maqsad & Axborot berish, sotish, ishontirish yoki kuldirishmi? & reklama yashirilgan"
+      },
+      {
+        "type": "text",
+        "content": "Xolislik & Qarshi dalil va cheklov tan olinganmi? & hissiy, mutlaq da’vo"
+      },
+      {
+        "type": "text",
+        "content": "Moslik & Savol va auditoriyaga mosmi? & boshqa mamlakat/vaqt/kontekst"
+      },
+      {
+        "type": "text",
+        "content": "Tasdiq & Mustaqil ishonchli manbalar mos keladimi? & barcha sayt bir asl xatoni ko‘chirgan"
+      },
+      {
+        "type": "note",
+        "content": ".gov, .edu yoki chiroyli dizayn ijobiy signal bo‘lishi\nmumkin, lekin yakka holda kafolat emas. Domenni harfma-harf tekshiring:\nsoxta sayt nomi rasmiy nomga juda o‘xshashi mumkin."
+      },
+      {
+        "type": "text",
+        "content": "``Uchta saytda bir xil yozilgan'' har doim uchta mustaqil dalil emas.\nUlar bir xil press-reliz yoki xato postdan nusxa olgan bo‘lishi mumkin.\nShuning uchun:"
+      },
+      {
+        "type": "text",
+        "content": "kamida bitta mustaqil nufuzli manba bilan solishtiring;"
+      },
+      {
+        "type": "text",
+        "content": "sana, birlik, sarlavha va kontekstni tekshiring;"
+      },
+      {
+        "type": "text",
+        "content": "faktni muallif fikri va reklama mazmunidan ajrating;"
+      },
+      {
+        "type": "text",
+        "content": "rasm/video uchun asl joy va tahrir izlarini tekshiring."
+      },
+      {
+        "type": "note",
+        "content": "Filtrlash — mezonga mos bo‘lmagan yozuvlarni vaqtincha\nchiqarib tashlash; saralash — yozuvlarni tanlangan tartibga\nkeltirish. Qidiruv natijasini qisqartirish filtr, eng yangi sana bo‘yicha\njoylashtirish saralashdir."
+      },
+      {
+        "type": "text",
+        "content": "Xulosa dalildan keng bo‘lmasligi kerak. 30 nafar bir sinf o‘quvchisi\nso‘roviga qarab butun mamlakat haqida qat’iy xulosa chiqarish —\nnamuna cheklovini e’tiborsiz qoldirish."
+      },
+      {
+        "type": "text",
+        "content": "Misinformatsiya — noto‘g‘ri, lekin albatta ataylab\n tarqatilmagan axborot."
+      },
+      {
+        "type": "text",
+        "content": "Dezinformatsiya — aldash niyatida ataylab tarqatilgan\n noto‘g‘ri yoki chalg‘ituvchi axborot."
+      },
+      {
+        "type": "text",
+        "content": "Manipulyativ axborot — to‘g‘ri faktni ham kontekstdan\n uzib, noto‘g‘ri taassurot berish."
+      },
+      {
+        "type": "example",
+        "content": "Niyatni dalilsiz aniqlash qiyin. Test vaziyatida ``ataylab'' so‘zi\ndezinformatsiyani, ``xato tarqaldi'' esa misinformatsiyani ajratadi."
+      },
+      {
+        "type": "example",
+        "content": "Brauzer va qidiruv tizimiga bittadan misol keltiring."
+      },
+      {
+        "type": "note",
+        "content": "HTTPS manbaning faktik to‘g‘riligini kafolatlaydimi?"
+      },
+      {
+        "type": "text",
+        "content": "\\answers\n1) Firefox — brauzer; Bing — qidiruv tizimi. 2) Yo‘q, u asosan\ntransport va identifikatsiya himoyasiga tegishli. 3) Nusxalash zanjiri,\nkontekst yo‘qolishi va ikkilamchi talqinni tekshirish uchun."
+      },
+      {
+        "type": "note",
+        "content": "Qidiruv natijasi — tekshirish uchun nomzod, tayyor haqiqat emas.\nMuallif, sana, dalil, maqsad, mustaqillik va kontekstni tekshirib,\nkeyingina saralash va xulosa qilish kerak."
+      },
+      {
+        "type": "text",
+        "content": "Asosiy qamrov: ICT6, PDF 82–104; CAM5, PDF 90–107;\nCAM6, PDF 159–170; CAM7, PDF 39–45; CAM10–11, PDF 12–17."
+      },
+      {
+        "type": "table",
+        "content": "| Aniq kalit so‘z | \\texttt{axborot hajmi formula} | umumiy gapni toraytiradi\\\\ |\\n|---|---|---|\\n| Qo‘shtirnoq | \\texttt{'axborot uzatish tezligi'} | aynan iborani qidiradi\\\\ |\\n| Istisno | \\texttt{python -ilon} | keraksiz ma’noni kamaytiradi\\\\ |\\n| Sayt bo‘yicha | \\texttt{site:gov.uz attestatsiya} | domen ichida qidiradi\\\\ |\\n| Fayl turi | \\texttt{filetype:pdf informatika} | PDF natijalarni toraytiradi\\\\ |\\n| Sana/til filtri | qidiruv vositalari | yangilik va auditoriyani moslaydi\\\\ |"
+      },
+      {
+        "type": "table",
+        "content": "| Muallif | Kim yozgan, malakasi va aloqasi bormi? | muallif noma’lum\\\\ |\\n|---|---|---|\\n| Tashkilot | Kim nashr qilgan, tahrir siyosati bormi? | soxta rasmiy ko‘rinish\\\\ |\\n| Sana | Qachon yozilgan/yangilangan? | sana yo‘q yoki mavzu uchun eski\\\\ |\\n| Dalil | Manba, metod, ma’lumot va havolalar bormi? | ``olimlar aytdi'' xolos\\\\ |\\n| Maqsad | Axborot berish, sotish, ishontirish yoki kuldirishmi? | reklama yashirilgan\\\\ |\\n| Xolislik | Qarshi dalil va cheklov tan olinganmi? | hissiy, mutlaq da’vo\\\\ |\\n| Moslik | Savol va auditoriyaga mosmi? | boshqa mamlakat/vaqt/kontekst\\\\ |\\n| Tasdiq | Mustaqil ishonchli manbalar mos keladimi? | barcha sayt bir asl xatoni ko‘chirgan\\\\ |"
+      },
+      {
+        "type": "note",
+        "content": "\\chapterintroValidatsiya qiymatning qoidaga mosligini, verifikatsiya esa\nkiritilgan nusxaning manbaga mosligini tekshiradi. Hech biri yakka holda\nreal dunyodagi haqiqatni kafolatlamaydi."
+      },
+      {
+        "type": "text",
+        "content": "Validatsiya — kiritilgan ma’lumot oldindan belgilangan qoida va\nchegaralarga mos, ya’ni maqbul ekanini avtomatik tekshirish."
+      },
+      {
+        "type": "text",
+        "content": "Verifikatsiya — kiritilgan yoki uzatilgan ma’lumot asl manba\nbilan bir xil ekanini tekshirish."
+      },
+      {
+        "type": "text",
+        "content": "Yosh maydoni \\(18...80\\) diapazonda bo‘lsin. 45 qiymati valid,\nammo asl hujjatda 54 yozilgan bo‘lsa, noto‘g‘ri kiritilgan.\nDiapazon validatsiyasi xatoni topmaydi; manba bilan verifikatsiya topadi."
+      },
+      {
+        "type": "text",
+        "content": "``Valid'' = ``to‘g‘ri'' emas. Valid qiymat faqat qoida doirasida.\n``31.12.2025'' formatga mos sana bo‘lishi mumkin, ammo shaxsning haqiqiy\ntug‘ilgan sanasi bo‘lmasligi mumkin."
+      },
+      {
+        "type": "text",
+        "content": "Mavjudlik & majburiy maydon bo‘sh emas & email kiritilganmi?"
+      },
+      {
+        "type": "text",
+        "content": "Tur & qiymat kerakli ma’lumot turida & yosh — butun son"
+      },
+      {
+        "type": "text",
+        "content": "Diapazon & quyi va yuqori chegara ichida & \\(0\\le ball\\le100\\)"
+      },
+      {
+        "type": "text",
+        "content": "Cheklov & bitta yuqori yoki quyi chegara & yosh \\(\\ge18\\)"
+      },
+      {
+        "type": "text",
+        "content": "Uzunlik & belgilar soni talabga mos & ID aynan 8 belgi"
+      },
+      {
+        "type": "text",
+        "content": "Format / andaza & belgilarning joylashuvi mos & 4 raqam + 2 harf"
+      },
+      {
+        "type": "text",
+        "content": "Ro‘yxatdan qidirish & qiymat ruxsat etilgan ro‘yxatda & viloyat kodi mavjud"
+      },
+      {
+        "type": "text",
+        "content": "Muvofiqlik & ikki yoki ko‘p maydon mantiqan mos & tugash sanasi \\(\\ge\\) boshlanish"
+      },
+      {
+        "type": "text",
+        "content": "Noyoblik & qiymat takrorlanmagan & foydalanuvchi nomi yagona"
+      },
+      {
+        "type": "text",
+        "content": "Nazorat raqami & identifikator algoritmik tekshiruvdan o‘tadi & ISBN, shtrix-kod"
+      },
+      {
+        "type": "text",
+        "content": "``a@b'' maydonni bo‘sh qoldirmaydi, demak mavjudlikdan o‘tadi.\nLekin to‘liq email andazasiga yoki real manzilga mosligi alohida\ntekshiruv. Har bir validatsiya turi faqat o‘z qoidasini tekshiradi."
+      },
+      {
+        "type": "text",
+        "content": "\\(18\\le yosh\\le65\\) — ikki chegara, diapazon."
+      },
+      {
+        "type": "text",
+        "content": "Nazorat raqami (check digit) — identifikator\nraqamlaridan algoritm bilan hisoblanib, kiritish/uzatishdagi ayrim\nxatolarni aniqlash uchun qo‘shilgan ortiqcha belgi."
+      },
+      {
+        "type": "text",
+        "content": "U ma’lumotni mazmunan haqiqiy qilmaydi; faqat kod tuzilmasidagi\nehtimoliy xatoni topadi. Ikki raqam o‘rni almashishi, bitta raqam\no‘zgarishi kabi ko‘p xatolar maxsus algoritm bilan aniqlanishi mumkin."
+      },
+      {
+        "type": "text",
+        "content": "Sodda o‘quv nazorat biti: raqamlar yig‘indisining \\(10\\) ga bo‘lgandagi\nqoldig‘i 0 bo‘lsin. 352? uchun"
+      },
+      {
+        "type": "text",
+        "content": "Bu haqiqiy ISBN algoritmi emas; nazorat g‘oyasini ko‘rsatadi."
+      },
+      {
+        "type": "text",
+        "content": "[Vizual tekshirish]\n Ekrandagi qiymatni asl hujjat bilan inson ko‘zi orqali solishtirish."
+      },
+      {
+        "type": "text",
+        "content": "[Ikki marta kiritish]\n Ma’lumot ikki marta mustaqil kiritilib, kompyuter natijalarni solishtiradi."
+      },
+      {
+        "type": "text",
+        "content": "[Prufriding]\n Matnning imlo, grammatika, format va mazmunini inson tomonidan qayta ko‘rib chiqish."
+      },
+      {
+        "type": "text",
+        "content": "Asl manbaning o‘zi xato bo‘lsa, verifikatsiya nusxaning manbaga mosligini\ntasdiqlaydi, lekin haqiqatni emas."
+      },
+      {
+        "type": "text",
+        "content": "Juft paritetda jami 1 lar soni juft bo‘lishi uchun qo‘shimcha\nbit qo‘shiladi. 1011001 da to‘rtta 1 bor, juft paritet biti 0.\nBir bit o‘zgarsa, jami toqlashadi va xato seziladi."
+      },
+      {
+        "type": "text",
+        "content": "Bitta paritet biti barcha xatoni topmaydi. Ikki bit bir vaqtda o‘zgarsa,\n1 lar sonining juft/toqligi o‘zgarmasligi mumkin. Paritet odatda xatoni\naniqlaydi, qaysi bit xato ekanini tuzatmaydi."
+      },
+      {
+        "type": "text",
+        "content": "Checksum — blok qiymatlaridan hisoblangan nazorat\n yig‘indisi; qabul tomonda qayta hisoblanadi."
+      },
+      {
+        "type": "text",
+        "content": "CRC — bitlar ketma-ketligini polinom bo‘yicha bo‘lishga\n asoslangan, ko‘p tarmoq va saqlash tizimida kuchliroq xato aniqlash usuli."
+      },
+      {
+        "type": "example",
+        "content": "Xatoni tuzatuvchi kod yetarli ortiqcha bit qo‘shib, ayrim\nxatolarning joyini aniqlash va qayta uzatmasdan tuzatish imkonini beradi.\nHamming kodi bunga klassik misol. Boshqa yo‘l —\nxato aniqlansa paketni qayta uzatishni so‘rash."
+      },
+      {
+        "type": "text",
+        "content": "Validatsiya & qiymat qoidaga mosmi? & parol 12 belgimi?"
+      },
+      {
+        "type": "text",
+        "content": "Identifikatsiya & kim ekanini da’vo qilyapti? & loginni kiritish"
+      },
+      {
+        "type": "text",
+        "content": "Autentifikatsiya & da’vo qilgan shaxs ekanini isbotladimi? & parol/biometriya"
+      },
+      {
+        "type": "text",
+        "content": "Avtorizatsiya & unga nima qilishga ruxsat? & admin panelga kirish huquqi"
+      },
+      {
+        "type": "text",
+        "content": "Email maydoni bo‘sh emasligini qaysi tekshiruv aniqlaydi?"
+      },
+      {
+        "type": "text",
+        "content": "Ikki marta kiritish validatsiyami yoki verifikatsiyami?"
+      },
+      {
+        "type": "text",
+        "content": "\\answers\n1) Mavjudlik. 2) Ro‘yxatdan qidirish yoki belgilangan qoida shakliga\nqarab diapazon; harflar ro‘yxati bo‘lsa lookup aniqroq. 3) Verifikatsiya."
+      },
+      {
+        "type": "text",
+        "content": "Validatsiya — maqbullik; verifikatsiya — manbaga moslik. Nazorat biti,\nchecksum va CRC uzatishdagi xatoni aniqlaydi; xatoni tuzatuvchi kod esa\nortiqcha ma’lumotdan foydalanib ayrim xatoni tiklaydi."
+      },
+      {
+        "type": "text",
+        "content": "Asosiy qamrov: CAM10–11, PDF 25–31; ``Ma’ruza (Tayyor)'', PDF 25–27;\nICT11 xavfsizlik bo‘limlari, PDF 256–264."
+      },
+      {
+        "type": "table",
+        "content": "| Validatsiya | qiymat qoidaga mosmi? | parol 12 belgimi?\\\\ |\\n|---|---|---|\\n| Identifikatsiya | kim ekanini da’vo qilyapti? | loginni kiritish\\\\ |\\n| Autentifikatsiya | da’vo qilgan shaxs ekanini isbotladimi? | parol/biometriya\\\\ |\\n| Avtorizatsiya | unga nima qilishga ruxsat? | admin panelga kirish huquqi\\\\ |"
+      }
+    ],
+    "questions": []
+  }
+}

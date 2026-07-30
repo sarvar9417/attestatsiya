@@ -13,6 +13,27 @@ const config: Config = {
         mono: ['JetBrains Mono', 'monospace'],
       },
       colors: {
+        background: 'var(--background)',
+        foreground: 'var(--foreground)',
+        card: {
+          DEFAULT: 'var(--card)',
+          foreground: 'var(--card-foreground)',
+        },
+        muted: {
+          DEFAULT: 'var(--muted)',
+          foreground: 'var(--muted-foreground)',
+        },
+        border: 'var(--border)',
+        ring: 'var(--ring)',
+        success: {
+          DEFAULT: 'var(--success)',
+        },
+        warning: {
+          DEFAULT: 'var(--warning)',
+        },
+        destructive: {
+          DEFAULT: 'var(--destructive)',
+        },
         primary: {
           DEFAULT: '#1a56db',
           50:  '#eff6ff',
@@ -25,6 +46,7 @@ const config: Config = {
           700: '#1d4ed8',
           800: '#1e40af',
           900: '#1e3a8a',
+          foreground: 'var(--primary-foreground)',
         },
         b1: {
           DEFAULT: '#0f766e',

@@ -84,6 +84,33 @@
 |------|-------|-------|-----------------|--------|
 | — | — | T-009 tugadi; kontent taksonomiyasini remote UUID bilan bog‘lash navbatda | — | — |
 
+## Tugallangan darslik kontenti ekstraksiyasi
+
+| Task | Holat | Natija |
+|------|-------|--------|
+| T-DL-001 | DONE | `Adabiyotlar.txt`, `Informatika Testlar spesifikatsiyasi.txt` — attestatsiya spesifikasiyasi ajratildi |
+| T-DL-002 | DONE | 13 ta Cambridge+ darslik ekstraksiyasi: 5,6,7,8,9,10-11 sinflar |
+| T-DL-003 | DONE | 9 ta ICT (O'zbekiston) darslik ekstraksiyasi: 5–11 sinflar |
+| T-DL-004 | DONE | `barcha_kontent_kodlar_boyicha.txt` — Cambridge darsliklaridan content code bo'yicha tartiblangan ~87K qator |
+| T-DL-005 | DONE | Individual code fayllari (1.1.txt–13.2.txt) — 38 ta fayl, jami ~124K qator. Har bir content code bo'yicha Cambridge + ICT + tematik manbalar birlashtirildi |
+
+Barcha darslik kontenti: `darsliklar/` katalogida. Ekstraksiyalar `darsliklar/extracted/` da.
+
+## Darslik kontent auditi — yakuniy holat
+
+| Task | Holat | Natija |
+|------|-------|--------|
+| Kirill → lotin | DONE | Barcha 10 fayldan kirill belgilari tozalandi |
+| Ruscha UI → o'zbekcha | DONE | 30 ta ruscha menyu nomi tarjima qilindi |
+| Spelling/grammar | DONE | 27 ta xato tuzatildi |
+| Deduplikatsiya | DONE | O'rtacha 48% qisqarish bilan takroriy bloklar olib tashlandi |
+| Off-topic kontent | DONE | 1.8.txt, 5.2.txt va 12.x dan ortiqcha kontent olib tashlandi |
+| topicContent.ts boyitish | DONE | M01–M13, 90+ subtopic, 1787 qator, 136+ test savoli |
+| Y2/Y3 → TopicView integratsiyasi | DONE | QuestionCard Y1 (MCQ), Y2 (moslashtirish), Y3 (tartiblash) turlariga mos ishlaydi; 3 ta Y2 savol haqiqiy juftlik formatiga o'tkazildi; 2 ta Y3 savol qo'shildi |
+| Subtopic navigatsiyasi | PENDING | — |
+| Progress vizualizatsiyasi | PENDING | — |
+| Deep linking | PENDING | — |
+
 ## Bloklovchilar
 
 | ID | Tavsif | Status |
@@ -98,7 +125,9 @@
 
 ## Keyingi bajariladigan task
 
-1. 16 modulni remote lesson/microtopic taksonomiyasi bilan bog‘lash
+1. Subtopic navigatsiyasi — prev/next tugmalari va kalit bosish (Left/Right)
+2. Progress vizualizatsiyasi — ModulePage da completion badge va progress bar
+3. Deep linking — `/learn/:moduleId/:subtopicId` route
 
 ## Auditda tasdiqlangan natijalar
 
@@ -112,9 +141,25 @@
 | TASK-P0-005 UI security boundary | 2026-07-30 | Admin deny-by-default; client mock production bundle'dan chiqarildi; bundle regression check qo'shildi |
 | T-008 UUID database types | 2026-07-30 | PR #4; Supabase-generated remote kontrakt, typed client boundary va 5 schema regressiya testi |
 | T-009 secure ExamRunner | 2026-07-30 | PR #5; keyless runtime contract, Y1/Y2/Y3 UUID payload, server timer/finish va bundle guard |
+| T-M01-001 M01 kontent konvertori | 2026-07-30 | LaTeX qo'llanmadan 22 mavzu (19 bob + 3 ilova), 691 blok; `npm run content:m01` qayta yaratadi |
+| T-M01-002 Kitob ko'rinishi | 2026-07-30 | Rangli qutilar, KaTeX, strukturaviy jadval, 7 sxema va bob mundarijasi; 22 yangi test |
+| T-M01-003 Bo'limli o'qish | 2026-07-30 | Bob `\section` bo'yicha sahifalanadi (3–11 bo'lim); bitta yakuniy CTA; 10/19 bobda test savoli yo'qligi ochiq ko'rsatiladi |
+| T-M01-004 Yangi manbaga ko'chish | 2026-07-30 | M01 kontenti yangilangan yagona LaTeX nashridan qayta generatsiya qilindi: 12 mavzu (7 bob + 5 ilova), 783 blok, 279 KaTeX ifodasi, 10 sxema |
 | Build audit | 2026-07-30 | TypeScript + Vite build o'tadi |
 | Unit test audit | 2026-07-30 | PR #5 clean GitHub CI’da 61 Vitest test o‘tadi |
 | E2E smoke audit | 2026-07-30 | 4 auth smoke testi o'tadi; product flow qamrovi hali yo'q |
+
+## Ochiq masalalar — M01 kontenti
+
+- M01 ning barcha 12 mavzusida test savoli yo'q: eski 33 savol yangi bob
+  tuzilmasiga mos kelmagani uchun o'chirildi. UI buni "test hali qo'shilmagan"
+  deb ochiq ko'rsatadi; savol banki yangi manba bo'yicha to'ldirilishi kerak.
+- `scripts/` da eski (endi yo'q bo'lgan `chapters/` papkasiga tayangan)
+  m01 pipeline qoldiqlari bor: `rebuild_m01*.py`, `fix_m01_content.py`,
+  `generate_m01.py`, `clean_m01.py`, `audit_m01.py`, `m01_*.txt`,
+  `m01_content.json`. Ular hech qayerdan chaqirilmaydi.
+- `src/pages/ExamDemoPage.tsx` (boshqa agent ishlayotgan, commit qilinmagan)
+  hozir `tsc` ni yiqitadi: 6 xato, shundan biri `"knowlege"` yozuv xatosi.
 
 ## Environment holati
 

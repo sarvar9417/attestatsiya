@@ -124,7 +124,7 @@ describe('secure ExamRunner', () => {
     renderExam(gateway)
 
     expect(
-      screen.getByRole('heading', { name: 'Attestatsiya sinov imtihoni' })
+      screen.getByRole('heading', { name: 'Attestatsiya mock sinovi' })
     ).toBeDefined()
 
     await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))

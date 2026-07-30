@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { reportWebVitals } from './lib/performance'
 import { useAuth } from './hooks/useAuth'
 import { monitoring } from './lib/monitoring'
+import { setApiAuthToken } from './lib/apiClient'
 import Sidebar from './components/layout/Sidebar'
 import MobileBottomNav from './components/layout/MobileBottomNav'
 import OfflineBanner from './components/layout/OfflineBanner'
@@ -16,6 +17,8 @@ import LearningPage from './pages/LearningPage'
 import ModulePage from './pages/ModulePage'
 import DashboardPage from './pages/DashboardPage'
 import ExamPage from './pages/ExamPage'
+import ExamDemoPage from './pages/ExamDemoPage'
+import TopicExamPage from './pages/TopicExamPage'
 
 const Auth = lazy(() => import('./pages/Auth'))
 const NotFound = lazy(() => import('./pages/NotFound'))
@@ -59,6 +62,8 @@ function MainLayout() {
                 <Route path="/exam" element={<ExamPage />} />
                 <Route path="/exam/:kind" element={<ExamPage />} />
                 <Route path="/exam/:kind/:moduleId" element={<ExamPage />} />
+                <Route path="/exam-demo" element={<ExamDemoPage />} />
+                <Route path="/exam/topic/:moduleId/:subtopicId" element={<TopicExamPage />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </div>
@@ -72,6 +77,11 @@ function MainLayout() {
 
 function AppRouter() {
   const { session, loading } = useAuth()
+
+  // Sync auth token to API client
+  useEffect(() => {
+    setApiAuthToken(session?.access_token ?? null)
+  }, [session])
 
   if (loading) return <SimpleLoadingSkeleton />
   if (!session) return <Suspense fallback={<SimpleLoadingSkeleton />}><Auth /></Suspense>

@@ -1,7 +1,70 @@
+import { M01_CONTENT } from './topics/m01'
+
+/**
+ * Nazariy blok turlari.
+ *
+ * Birinchi guruh — barcha modullarda ishlatiladigan asosiy turlar.
+ * Ikkinchi guruh — "Axborot va axborot jarayonlari" qo'llanmasidagi
+ * tuzilma: bob sarlavhalari, rangli qutilar, ro'yxat va diagrammalar.
+ */
+export type TheoryBlockType =
+  | 'text' | 'formula' | 'code' | 'example' | 'note' | 'definition' | 'table'
+  | 'heading'      // \section — bob ichidagi bo'lim
+  | 'subheading'   // \subsection va \subsubsection
+  | 'intro'        // bob kirish qutisi
+  | 'goal'         // "Bob maqsadi va o'rganish natijalari" / "Bob yakuni" (to'q fon)
+  | 'exam'         // "ATTESTATSIYA uchun muhim"
+  | 'trap'         // "Ko'p uchraydigan xato"
+  | 'extra'        // "Darslikdan tashqari aniqlashtirish", "Mavzu chegarasi"
+  | 'solved'       // "Tushuntiruvchi misol", "Bosqichma-bosqich yechimlar"
+  | 'task'         // "Ishlanadigan misollar: oddiydan murakkabga"
+  | 'keywords'     // "Tayanch atamalar"
+  | 'case'         // sarlavhasi o'zgaruvchan tahlil qutisi
+  | 'summary'      // "Bob yakuni"
+  | 'source'       // "Manba izi"
+  | 'quickcheck'   // "Tezkor tekshiruv"
+  | 'answers'      // "Javob va izoh"
+  | 'keyformula'   // \formula{...} — ajratilgan asosiy formula
+  | 'list'         // itemize / enumerate
+  | 'deflist'      // atama — izoh ro'yxati
+  | 'diagram'      // kitobdagi sxema (React SVG)
+
+/**
+ * Blok matni ichki mini-formatda saqlanadi:
+ * `**qalin**`, `__kursiv__`, `~~inglizcha atama~~`, `==kalit so'z==`,
+ * `` `kod` ``, `$matematika$` (KaTeX), `@@manba, PDF 10–12@@`, `[matn](url)`.
+ */
 export interface TheoryBlock {
-  type: 'text' | 'formula' | 'code' | 'example' | 'note' | 'definition' | 'table'
+  type: TheoryBlockType
   content: string
   language?: string
+  /** Quti sarlavhasi — manbada o'z nomi berilgan bo'lsa (aks holda tur bo'yicha standart) */
+  label?: string
+  /** table: sarlavha qatori (bo'sh bo'lishi mumkin) */
+  headers?: string[]
+  /** table: ma'lumot qatorlari */
+  rows?: string[][]
+  /** list: elementlar */
+  items?: string[]
+  /** list: raqamlangan ro'yxatmi */
+  ordered?: boolean
+  /** deflist: atama va izohi */
+  terms?: { term: string; body: string }[]
+  /** quti ichidagi ichki bloklar (matn + ro'yxat + formula) */
+  children?: TheoryBlock[]
+  /** diagram: React komponenti identifikatori */
+  diagram?: string
+}
+
+export interface PairItem {
+  leftId: string
+  leftContent: string
+  rightContent: string
+}
+
+export interface OrderedItem {
+  id: string
+  content: string
 }
 
 export interface TestQuestion {
@@ -11,6 +74,9 @@ export interface TestQuestion {
   correctIndex: number
   explanation: string
   type: 'Y1' | 'Y2' | 'Y3'
+  pairs?: PairItem[]
+  items?: OrderedItem[]
+  correctOrder?: string[]
 }
 
 export interface TopicContent {
@@ -18,6 +84,10 @@ export interface TopicContent {
   title: string
   theory: TheoryBlock[]
   questions: TestQuestion[]
+  /** Kontent olingan manba fayli (generatsiya qilingan mavzular uchun) */
+  source?: string
+  /** Qo'llanmadagi o'rni: bob yoki ilova (formulalar varag'i, lug'at, manbalar) */
+  kind?: 'chapter' | 'appendix'
 }
 
 function t(subtopicId: string, title: string, theory: TheoryBlock[], questions: TestQuestion[]): TopicContent {
@@ -26,120 +96,9 @@ function t(subtopicId: string, title: string, theory: TheoryBlock[], questions: 
 
 export const TOPIC_CONTENT: Record<string, TopicContent> = {
   // ========= M01: AXBOROT VA RAQAMLI SAVODXONLIK =========
-
-  "M01.01": t("M01.01", "Informatika, axborot, ma'lumot va bilim", [
-    { type: "definition", content: "Informatika — kompyuter va kommunikatsion texnologiyalar yordamida axborotni katta tezlikda izlash, to'plash, saqlash, qayta ishlash va uzatish usullarini o'rgatuvchi fan. Axborot — atrof-muhit haqidagi ma'lumotlar, bilimlar va xabarlar majmui." },
-    { type: "text", content: "Axborot (data) — xom faktlar. Ma'lumot (information) — qayta ishlangan, tushunarli axborot. Bilim (knowledge) — ma'lumotlarni tahlil qilish natijasida hosil bo'lgan tushuncha va qonuniyatlar. Masalan: termometr ko'rsatkichi 38°C — axborot. Bu isitma borligi — ma'lumot. Isitma infeksiyadan kelib chiqishi — bilim." },
-    { type: "table", content: "| Tushuncha | Ta'rifi | Misol |\n|----------|--------|------|\n| Axborot (Data) | Xom faktlar, raqamlar | 38, 39, 37 |\n| Ma'lumot (Information) | Qayta ishlangan axborot | Bemorning harorati 38°C |\n| Bilim (Knowledge) | Tahlil natijasi | Virus tufayli harorat ko'tarilgan |" },
-    { type: "note", content: "Informatika atamasi fransuzcha \"informatique\" va \"automatique\" so'zlaridan kelib chiqqan. Amerikada \"computer science\" (kompyuter ilmi) deb yuritiladi. O'zbekistonda informatika fani 1970-yillarda V. Q. Qobulov tashabbusi bilan rivojlana boshlagan." },
-    { type: "example", content: "Axborotli jarayonlar:\n• Izlash — internetdan ma'lumot qidirish\n• To'plash — statistik ma'lumotlarni yig'ish\n• Saqlash — faylni diskka yozish\n• Qayta ishlash — ma'lumotlarni tahlil qilish\n• Uzatish — elektron pochta orqali xabar jo'natish" },
-  ], [
-    { id: "M01.01-q1", text: "Informatika atamasi qaysi tildan olingan?", options: ["Ingliz", "Fransuz", "Nemis", "Rus"], correctIndex: 1, explanation: "Informatika fransuzcha \"informatique\" so'zidan olingan", type: "Y1" },
-    { id: "M01.01-q2", text: "Axborot va ma'lumot o'rtasidagi farqni belgilang.", options: ["Axborot = ma'lumot", "Axborot — xom faktlar, ma'lumot — qayta ishlangan axborot", "Ma'lumot — xom faktlar, axborot — qayta ishlangan", "Hech qanday farq yo'q"], correctIndex: 1, explanation: "Axborot (data) — xom faktlar, ma'lumot (information) — qayta ishlangan, tushunarli axborot", type: "Y2" },
-    { id: "M01.01-q3", text: "Axborotli jarayonga misol bo'la olmaydigan amalni toping.", options: ["Izlash", "Saqlash", "Yugurish", "Uzatish"], correctIndex: 2, explanation: "Yugurish — jismoniy harakat, axborotli jarayon emas", type: "Y1" },
-  ]),
-
-  "M01.02": t("M01.02", "Axborot turlari va manbalari", [
-    { type: "definition", content: "Axborot turlari — axborotning ifodalanish shakliga ko'ra turlanishi. Asosiy turlari: matnli, sonli, grafik, tovushli, video. Axborot manbalari — axborot olinadigan joy yoki vosita." },
-    { type: "table", content: "| Axborot turi | Tavsifi | Misol |\n|-------------|---------|------|\n| Matnli | Yozma belgilar | Kitob, maqola, xat |\n| Sonli | Raqamlar | Statistik ma'lumotlar |\n| Grafik | Rasm, chizma | Foto, diagramma, xarita |\n| Tovushli | Ovoz, musiqa | Nutq, qo'shiq |\n| Video | Harakatli tasvir | Film, animatsiya |" },
-    { type: "text", content: "Axborot qabul qilish usullari: ko'rish (90%), eshitish (9%), his qilish, ta'm va hid bilish (1%). Axborot manbalari: shaxsiy (kuzatish, tajriba), hujjatli (kitob, gazeta, internet), elektron (media, onlayn platformalar). Axboratning xossalari: to'liqlik, ishonchlilik, dolzarblik, tushunarlilik, qimmatlilik." },
-    { type: "note", content: "Axborot sifatini tekshirish muhim: aniq, tushunarli, ishonchli, dolzarb va foydali bo'lishi kerak. Milliy tarbiyamizga, tafakkurimizga zid axborotdan saqlanish lozim." },
-    { type: "example", content: "Axborot turlari:\n• Matnli: \"Bugun havo harorati 25°C\"\n• Sonli: 25, 1013, 60%\n• Grafik: ob-havo xaritasi\n• Tovushli: ob-havo ma'lumoti radio orqali\n• Video: ob-havo prognozi ko'rsatuvi" },
-  ], [
-    { id: "M01.02-q1", text: "Inson axborotning necha foizini ko'rish orqali qabul qiladi?", options: ["50%", "75%", "90%", "99%"], correctIndex: 2, explanation: "Inson axborotning 90% ini ko'rish orqali qabul qiladi", type: "Y1" },
-    { id: "M01.02-q2", text: "Quyidagilardan qaysi biri axborot turi emas?", options: ["Matnli", "Grafik", "Jismoniy", "Video"], correctIndex: 2, explanation: "Jismoniy axborot turi mavjud emas. Asosiy turlar: matnli, sonli, grafik, tovushli, video", type: "Y1" },
-    { id: "M01.02-q3", text: "Axborotning vaqt o'tishi bilan o'z ahamiyatini yo'qotmasligi qaysi xossa?", options: ["To'liqlik", "Dolzarblik", "Ishonchlilik", "Tushunarlilik"], correctIndex: 1, explanation: "Dolzarblik — axborotning vaqt o'tishi bilan o'z ahamiyatini saqlab qolish xossasi", type: "Y1" },
-    { id: "M01.02-q4", text: "Rasm va diagramma qaysi axborot turiga kiradi?", options: ["Matnli", "Sonli", "Grafik", "Video"], correctIndex: 2, explanation: "Rasm va diagramma grafik axborot turiga kiradi", type: "Y1" },
-  ]),
-
-  "M01.03": t("M01.03", "Axborot va raqamli texnologiyalar", [
-    { type: "definition", content: "Raqamli texnologiyalar — axborotni raqamli (diskret) ko'rinishda qayta ishlash, saqlash va uzatish texnologiyalari. Axborot texnologiyalari (AT) — axborotni izlash, to'plash, saqlash, qayta ishlash va uzatishda ishlatiladigan usullar va texnik vositalar majmui." },
-    { type: "text", content: "Raqamli texnologiyalarning asosiy yo'nalishlari: aloqa vositalari, telekommunikatsiya, internet, kompyuterlar va qo'shimcha vositalar. XXI asr axborot texnologiyalari asri hisoblanadi. Kompyuterlar axborotni insonga nisbatan milliard marta tez qayta ishlaydi." },
-    { type: "table", content: "| Texnologiya | Vazifasi | Misol |\n|------------|---------|------|\n| Kompyuter | Axborotni qayta ishlash | Shaxsiy kompyuter, noutbuk |\n| Internet | Global tarmoq | WWW, email, bulut |\n| Mobil aloqa | Masofaviy bog'lanish | Smartfon, 4G/5G |\n| Bulutli | Masofaviy saqlash | Google Drive, iCloud |\n| Sun'iy intellekt | Aqlli tahlil | Chatbot, tavsiya tizimlari |" },
-    { type: "note", content: "Raqamli texnologiyalar jamiyatning barcha sohalariga kirib bormoqda: ta'lim (LMS, e-learning), tibbiyot (telemeditsina), biznes (e-commerce), davlat boshqaruvi (e-government)." },
-    { type: "example", content: "Raqamli texnologiyalar misollari:\n• Aqlli oynalar (smart glasses)\n• Gologrammalar\n• Dronlar\n• Aqlli uy tizimlari\n• Hyperloop transport tizimi\n• Kvant kompyuterlari va neyro kompyuterlar" },
-  ], [
-    { id: "M01.03-q1", text: "Axborot texnologiyalari nima?", options: ["Faqat kompyuterlar", "Axborot bilan ishlash usul va vositalari", "Internet tarmog'i", "Mobil qurilmalar"], correctIndex: 1, explanation: "Axborot texnologiyalari — axborotni izlash, to'plash, saqlash, qayta ishlash va uzatish usullari va texnik vositalari", type: "Y1" },
-    { id: "M01.03-q2", text: "Qaysi texnologiya masofaviy ma'lumot saqlash imkonini beradi?", options: ["Kompyuter", "Internet", "Bulutli texnologiyalar", "Mobil aloqa"], correctIndex: 2, explanation: "Bulutli texnologiyalar (Google Drive, iCloud) masofaviy ma'lumot saqlash imkonini beradi", type: "Y1" },
-    { id: "M01.03-q3", text: "Kompyuter insonga nisbatan qancha tez axborot qayta ishlaydi?", options: ["Ming marta", "Milliard marta", "10 marta", "100 marta"], correctIndex: 1, explanation: "Kompyuterlar axborotni insonga nisbatan bir necha milliard barobar tezlikda qayta ishlaydi", type: "Y1" },
-  ]),
-
-  "M01.04": t("M01.04", "Axborotni kodlash", [
-    { type: "definition", content: "Kodlash — maxsus belgilar tizimi (kod) yordamida axborotni bir ko'rinishdan boshqa qulayroq ko'rinishga o'tkazish jarayoni. Dekodlash — kodlangan axborotning mazmunini qayta tiklash. Kompyuterda barcha axborot ikkilik kod (0 va 1) orqali ifodalanadi." },
-    { type: "text", content: "Kodlashning 3 ta asosiy usuli: raqamli kodlash (sonlarni kodlash), belgili kodlash (matnni kodlash), grafik kodlash (tasvirlarni kodlash). Morze alifbosi — nuqta va tire kombinatsiyalaridan iborat kodlash tizimi. Samuel Morze 1836-yilda telegraf uchun ixtiro qilgan." },
-    { type: "table", content: "| Kodlash usuli | Misol | Qo'llanilishi |\n|-------------|------|-------------|\n| Ikkilik kod | 0 va 1 | Kompyuter xotirasi |\n| Morze alifbosi | .- (A), -... (B) | Telegraf |\n| ASCII | A=65, B=66 | Matn kodlash |\n| Unicode | O'=1206 | Ko'p tilli matn |\n| RGB | (255,0,0) Ranglar | Grafik kodlash |" },
-    { type: "note", content: "Kompyuter faqat ikkilik sanoq sistemasida ishlaydi. Barcha ma'lumotlar — matn, rasm, tovush, video — ikkilik kodga o'tkazilib, shu ko'rinishda saqlanadi va qayta ishlanadi." },
-    { type: "example", content: "Kodlash misollari:\n• A = 01000001₂ (ASCII)\n• Rangi qizil: RGB(255, 0, 0)\n• S.O.S xabari: ... --- ... (Morze)\n• 5 soni: 101₂ (ikkilik)" },
-  ], [
-    { id: "M01.04-q1", text: "Kodlash nima?", options: ["Axborotni o'chirish", "Axborotni bir ko'rinishdan boshqasiga o'tkazish", "Axborotni nusxalash", "Axborotni uzatish"], correctIndex: 1, explanation: "Kodlash — axborotni bir ko'rinishdan boshqa qulayroq ko'rinishga o'tkazish jarayoni", type: "Y1" },
-    { id: "M01.04-q2", text: "Kompyuterdagi barcha ma'lumotlar qanday ko'rinishda saqlanadi?", options: ["O'nlik kodda", "Ikkilik kodda", "Matnli ko'rinishda", "Grafik ko'rinishda"], correctIndex: 1, explanation: "Kompyuterda barcha ma'lumotlar ikkilik kod (0 va 1) orqali ifodalanadi", type: "Y1" },
-    { id: "M01.04-q3", text: "Morze alifbosida A harfi qanday kodlanadi?", options: [".-", "-...", ".--", "-."], correctIndex: 0, explanation: "Morze alifbosida A = .- (nuqta-tire)", type: "Y1" },
-    { id: "M01.04-q4", text: "ASCII jadvalida A harfining kodi nechaga teng?", options: ["97", "65", "66", "49"], correctIndex: 1, explanation: "ASCII jadvalida A=65, a=97", type: "Y2" },
-  ]),
-
-  "M01.05": t("M01.05", "Axborot o'lchov birliklari", [
-    { type: "definition", content: "Bit — axborotning eng kichik o'lchov birligi, 0 yoki 1 qiymatini qabul qiladi. Bayt — 8 bitdan iborat, bitta belgini saqlash uchun yetarli. Katta hajmlar uchun KB, MB, GB, TB kabi birliklar ishlatiladi." },
-    { type: "table", content: "| Birlik | Qisqartma | Qiymati |\n|--------|-----------|--------|\n| Bit | bit | 0 yoki 1 |\n| Bayt | B | 8 bit |\n| Kilobayt | KB | 1024 B |\n| Megabayt | MB | 1024 KB |\n| Gigabayt | GB | 1024 MB |\n| Terabayt | TB | 1024 GB |" },
-    { type: "note", content: "1 KB = 1024 bayt (2^10). Ba'zi hollarda (masalan, qattiq disk ishlab chiqaruvchilari) 1 KB = 1000 bayt deb hisoblanadi. Diqqat: Katta K harfi, kichik b harf (Kb — kilobit, KB — kilobayt)." },
-    { type: "example", content: "Hajm misollari:\n• 1 sahifa matn ≈ 2 KB\n• 1 ta rasm ≈ 2-5 MB\n• 1 ta musiqa ≈ 3-5 MB\n• 1 ta film ≈ 1-2 GB\n• 1 TB ≈ 500 soatlik video" },
-    { type: "formula", content: "1 KB = 1024 B\n1 MB = 1024 KB\n1 GB = 1024 MB\n1 TB = 1024 GB" },
-  ], [
-    { id: "M01.05-q1", text: "Axborotning eng kichik o'lchov birligi nima?", options: ["Bayt", "Bit", "Kilobayt", "Megabayt"], correctIndex: 1, explanation: "Bit — axborotning eng kichik o'lchov birligi", type: "Y1" },
-    { id: "M01.05-q2", text: "1 bayt necha bitga teng?", options: ["4", "8", "16", "2"], correctIndex: 1, explanation: "1 bayt = 8 bit", type: "Y1" },
-    { id: "M01.05-q3", text: "2 GB necha MB ga teng?", options: ["1024 MB", "2048 MB", "512 MB", "256 MB"], correctIndex: 1, explanation: "1 GB = 1024 MB, shuning uchun 2 GB = 2048 MB", type: "Y2" },
-    { id: "M01.05-q4", text: "5 MB necha KB ga teng?", options: ["5000 KB", "5120 KB", "1024 KB", "500 KB"], correctIndex: 1, explanation: "5 MB = 5 × 1024 = 5120 KB", type: "Y2" },
-  ]),
-
-  "M01.06": t("M01.06", "Axborot hajmi va uzatish tezligi", [
-    { type: "definition", content: "Axborot hajmi — fayl yoki ma'lumotning xotirada egallagan o'rni. Axborot uzatish tezligi — vaqt birligida uzatiladigan axborot miqdori. Odatda bit/s (bps) yoki uning hosilalarida o'lchanadi." },
-    { type: "formula", content: "Axborot hajmi (I) = Uzatish tezligi (v) × Vaqt (t)\nI = v × t\nv = I / t\nt = I / v" },
-    { type: "table", content: "| Tezlik birligi | Qiymati | Qo'llanilishi |\n|--------------|--------|-------------|\n| bps (bit/s) | 1 bit/s | Eski modemlar |\n| Kbps | 1000 bps | Dial-up |\n| Mbps | 1,000,000 bps | ADSL, 4G |\n| Gbps | 1,000,000,000 bps | Fiber optik, 5G |" },
-    { type: "example", content: "Hisoblash misoli:\n1) Fayl hajmi 100 MB, uzatish tezligi 10 Mbps. Vaqt = 100 × 8 / 10 = 80 sekund?\n   To'g'ri: 100 MB = 800 Mbit. 800 / 10 = 80 sekund.\n2) 5 sekundda 25 MB uzatilsa, tezlik = 25 × 8 / 5 = 40 Mbps" },
-    { type: "note", content: "Tezlik (Mbps) va hajm (MB) o'rtasidagi farqni unutmang: 1 MB = 8 Mbit. Internet tezligi odatda Mbit/s da, fayl hajmi MB da o'lchanadi." },
-  ], [
-    { id: "M01.06-q1", text: "Axborot uzatish tezligi qanday birlikda o'lchanadi?", options: ["Bayt/s", "Bit/s", "Metr/s", "Gramm/s"], correctIndex: 1, explanation: "Axborot uzatish tezligi bit/s (bps) yoki hosilalarida o'lchanadi", type: "Y1" },
-    { id: "M01.06-q2", text: "1 MB necha Mbit ga teng?", options: ["1", "8", "10", "1024"], correctIndex: 1, explanation: "1 Bayt = 8 bit, shuning uchun 1 MB = 8 Mbit", type: "Y2" },
-    { id: "M01.06-q3", text: "50 MB faylni 10 Mbps tezlikda yuklash uchun necha sekund kerak?", options: ["5", "40", "10", "20"], correctIndex: 1, explanation: "50 MB = 400 Mbit. 400 / 10 = 40 sekund", type: "Y2" },
-    { id: "M01.06-q4", text: "Internet tezligi 100 Mbps, fayl hajmi 200 MB. Yuklash vaqti necha sekund?", options: ["2", "8", "16", "20"], correctIndex: 2, explanation: "200 MB = 1600 Mbit. 1600 / 100 = 16 sekund", type: "Y2" },
-  ]),
-
-  "M01.07": t("M01.07", "Matn, grafika, audio va videoni kodlash", [
-    { type: "definition", content: "Matnni kodlash — har bir belgiga raqamli kod (ASCII, Unicode) mos qo'yish. Grafik kodlash — tasvirni piksellarga ajratib, har bir piksel rangini kodlash. Audio kodlash — tovush to'lqinini namunalarga (sample) ajratib kodlash. Video kodlash — ketma-ket kadrlarni kodlash." },
-    { type: "table", content: "| Ma'lumot turi | Kodlash usuli | Formatlar |\n|-------------|-------------|---------|\n| Matn | ASCII (7 bit), Unicode (16/32 bit) | .txt, .docx, .pdf |\n| Grafik | RGB, CMYK, bitmap, vektor | .jpg, .png, .bmp, .svg |\n| Audio | PCM, MP3 kodlash | .wav, .mp3, .aac |\n| Video | Kadrlar ketma-ketligi, siqish | .mp4, .avi, .mov |" },
-    { type: "text", content: "ASCII — 128 belgi (lotin harflari, raqamlar, belgilar). Unicode — 65 536+ belgi (barcha tillar uchun). RGB — qizil, yashil, ko'k ranglarning intensivligi (0-255). Rasm o'lchami = eni × bo'yi × rang chuqurligi. Audio sifat = namuna olish chastotasi × bit chuqurligi." },
-    { type: "note", content: "Matn fayllari eng kichik hajmga ega, video fayllar eng katta. Siqish algoritmlari (ZIP, JPEG, MP3) fayl hajmini kamaytiradi. JPEG — yo'qotish bilan siqish, PNG — yo'qotmasdan siqish." },
-    { type: "example", content: "Hisoblash:\n• 1024×768 piksel, 24 bit rang: 1024×768×24 = 18,874,368 bit ≈ 2.25 MB\n• 3 daqiqa audio, 44100 Hz, 16 bit: 3×60×44100×16 = 127,008,000 bit ≈ 15.14 MB" },
-  ], [
-    { id: "M01.07-q1", text: "ASCII jadvalida nechta belgi bor?", options: ["64", "128", "256", "512"], correctIndex: 1, explanation: "ASCII jadvalida 128 ta belgi mavjud (7 bitli kodlash)", type: "Y1" },
-    { id: "M01.07-q2", text: "RGB rang modelida nechta asosiy rang bor?", options: ["2", "3", "4", "5"], correctIndex: 1, explanation: "RGB — qizil (Red), yashil (Green), ko'k (Blue) — 3 ta asosiy rang", type: "Y1" },
-    { id: "M01.07-q3", text: "24 bitli rang chuqurligida nechta rang ifodalash mumkin?", options: ["256", "65536", "16777216", "1024"], correctIndex: 2, explanation: "24 bit = 2^24 = 16,777,216 xil rang", type: "Y2" },
-    { id: "M01.07-q4", text: "Unicode nima uchun ishlab chiqilgan?", options: ["Faqat ingliz tili uchun", "Barcha tillarni kodlash uchun", "Faqat raqamlar uchun", "Faqat grafik uchun"], correctIndex: 1, explanation: "Unicode barcha tillardagi belgilarni (65 536+) kodlash uchun ishlab chiqilgan", type: "Y1" },
-  ]),
-
-  "M01.08": t("M01.08", "Raqamli axloq va mualliflik huquqi", [
-    { type: "definition", content: "Raqamli axloq (netiket) — internet va raqamli muhitda o'zaro munosabatlarda rioya qilinadigan axloqiy me'yorlar. Mualliflik huquqi — asar muallifining o'z asaridan foydalanish, tarqatish va nusxalash bo'yicha eksklyuziv huquqi." },
-    { type: "text", content: "Mualliflik huquqi O'zbekiston Respublikasi Fuqarolik Kodeksi va \"Mualliflik huquqi va turdosh huquqlar to'g'risida\"gi qonun (2006) bilan tartibga solinadi. Creative Commons — mualliflik huquqini himoya qiluvchi bepul litsenziyalar tizimi. Internetdan olingan materiallardan foydalanganda manba ko'rsatilishi shart." },
-    { type: "table", content: "| Tushuncha | Ta'rifi |\n|----------|--------|\n| Netiket | Internetda muloqot qoidalari |\n| Mualliflik huquqi | Asar muallifining huquqlari |\n| Plagiat | Birovning asarini o'ziniki qilib ko'rsatish |\n| Creative Commons | Bepul litsenziyalar tizimi |\n| Copyright (©) | Mualliflik huquqi belgisi |\n| Piratlik | Mualliflik huquqini buzish |" },
-    { type: "note", content: "Raqamli axloq qoidalari: boshqalarni hurmat qilish, spam yubormaslik, haqoratli so'zlardan saqlanish, maxfiy ma'lumotlarni tarqatmaslik, mualliflik huquqiga rioya qilish." },
-    { type: "example", content: "Mualliflik huquqi amaliyoti:\n• Rasmni websaytdan olishda — manba ko'rsatish\n• Dastur kodidan foydalanishda — litsenziyaga rioya qilish\n• Iqtibos keltirishda — muallif nomini yozish\n• Ochiq litsenziyalar (Creative Commons) — muallif ruxsati bilan foydalanish" },
-  ], [
-    { id: "M01.08-q1", text: "Netiket nima?", options: ["Internet tezligi", "Internetda muloqot qoidalari", "Kompyuter xavfsizligi", "Dasturlash tili"], correctIndex: 1, explanation: "Netiket — internetda muloqot qilishda rioya qilinadigan axloqiy me'yorlar", type: "Y1" },
-    { id: "M01.08-q2", text: "Mualliflik huquqini buzish nima deb ataladi?", options: ["Xakerlik", "Piratlik", "Netiket", "Antivirus"], correctIndex: 1, explanation: "Mualliflik huquqini buzish piratlik deb ataladi", type: "Y1" },
-    { id: "M01.08-q3", text: "Creative Commons nima?", options: ["Dasturlash tili", "Mualliflik huquqi litsenziyalari tizimi", "Operatsion tizim", "Internet brauzer"], correctIndex: 1, explanation: "Creative Commons — mualliflik huquqlarini himoya qiluvchi bepul litsenziyalar tizimi", type: "Y1" },
-    { id: "M01.08-q4", text: "O'zbekistonda mualliflik huquqi qaysi hujjat bilan tartibga solinadi?", options: ["Konstitutsiya", "Fuqarolik Kodeksi va maxsus qonun", "Mehnat Kodeksi", "Jinoyat Kodeksi"], correctIndex: 1, explanation: "O'zbekistonda mualliflik huquqi Fuqarolik Kodeksi va \"Mualliflik huquqi va turdosh huquqlar to'g'risida\"gi qonun bilan tartibga solinadi", type: "Y2" },
-  ]),
-
-  "M01.09": t("M01.09", "Axborotni saralash, tekshirish va xulosa chiqarish", [
-    { type: "definition", content: "Axborotni saralash — ma'lumotlarni berilgan mezon bo'yicha tartibga solish (alfavit, raqam, vaqt). Axborotni tekshirish — ma'lumotning ishonchliligi, dolzarbligi va to'liqligini aniqlash. Xulosa chiqarish — tahlil natijasida mantiqiy yakun hosil qilish." },
-    { type: "text", content: "Axborotni tekshirish mezonlari (CRAAP test): Currency (dolzarblik), Relevance (moslik), Authority (mualliflik), Accuracy (aniqlik), Purpose (maqsad). Internetdan olingan ma'lumotlarni kamida 3 ta manba bilan solishtirish tavsiya etiladi." },
-    { type: "table", content: "| Mezon | Savol |\n|-------|------|\n| Dolzarblik | Ma'lumot qachon e'lon qilingan? |\n| Moslik | Bu ma'lumot mening maqsadimga mosmi? |\n| Mualliflik | Ma'lumot muallifi kim? Ekspertmi? |\n| Aniqlik | Ma'lumot boshqa manbalar bilan tasdiqlanganmi? |\n| Maqsad | Ma'lumot ma'lumot berish uchunmi yoki ishontirish uchunmi? |" },
-    { type: "note", content: "Yaxshi tadqiqotchi hech qachon bir manbaga tayanmaydi. Axborotni tahlil qilishda: ma'lumot to'plash → saralash → tekshirish → taqqoslash → xulosa chiqarish ketma-ketligiga amal qiling." },
-    { type: "example", content: "Axborotni tekshirish misoli:\n• Bir maqolada \"Yer Quyosh atrofini 365 kunda aylanadi\" deyilgan\n• Boshqa manba: \"365.25 kun\"\n• Uchinchi manba: \"365 kun 6 soat\"\n• Xulosa: To'liq aylanish 365.25 kun (kabisa yil hisobi bilan)" },
-  ], [
-    { id: "M01.09-q1", text: "Axborotni tekshirishning CRAAP testi nechta mezondan iborat?", options: ["3", "4", "5", "6"], correctIndex: 2, explanation: "CRAAP — Currency, Relevance, Authority, Accuracy, Purpose (5 mezon)", type: "Y1" },
-    { id: "M01.09-q2", text: "Internetdan olingan ma'lumotni nechta manba bilan solishtirish tavsiya qilinadi?", options: ["1", "2", "3", "5"], correctIndex: 2, explanation: "Internetdan olingan ma'lumotlarni kamida 3 ta manba bilan solishtirish tavsiya etiladi", type: "Y1" },
-    { id: "M01.09-q3", text: "Agar bir maqola \"2020 yilgi ma'lumotlarga ko'ra\" desa, qaysi CRAAP mezoni shubha uyg'otadi?", options: ["Moslik", "Mualliflik", "Dolzarblik", "Maqsad"], correctIndex: 2, explanation: "Agar ma'lumot eski bo'lsa (2020), dolzarblik mezoniga shubha bor — vaqt o'tgan", type: "Y2" },
-  ]),
+  // Kontent "Axborot va axborot jarayonlari" LaTeX qo'llanmasidan
+  // generatsiya qilingan (src/data/topics/m01.ts).
+  ...M01_CONTENT,
 
   // ========= M02: KOMPYUTER TIZIMLARI VA DASTURIY MUHIT =========
 
@@ -1439,4 +1398,35 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
 
 export function getTopicContent(subtopicId: string): TopicContent | undefined {
   return TOPIC_CONTENT[subtopicId]
+}
+
+export interface SubtopicMeta {
+  theoryCount: number
+  questionCount: number
+  totalBlocks: number
+  theoryTypes: { type: string; count: number }[]
+  questionTypes: { type: string; count: number }[]
+}
+
+export function getSubtopicMeta(subtopicId: string): SubtopicMeta | null {
+  const content = TOPIC_CONTENT[subtopicId]
+  if (!content) return null
+
+  const theoryTypes: Record<string, number> = {}
+  for (const block of content.theory) {
+    theoryTypes[block.type] = (theoryTypes[block.type] || 0) + 1
+  }
+
+  const questionTypes: Record<string, number> = {}
+  for (const q of content.questions) {
+    questionTypes[q.type] = (questionTypes[q.type] || 0) + 1
+  }
+
+  return {
+    theoryCount: content.theory.length,
+    questionCount: content.questions.length,
+    totalBlocks: content.theory.length + content.questions.length,
+    theoryTypes: Object.entries(theoryTypes).map(([type, count]) => ({ type, count })),
+    questionTypes: Object.entries(questionTypes).map(([type, count]) => ({ type, count })),
+  }
 }
