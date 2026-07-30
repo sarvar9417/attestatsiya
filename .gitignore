@@ -16,6 +16,7 @@ __pycache__/
 # Local source corpus and generated bulk imports are not versioned.
 darsliklar/
 Topics/
+!src/data/topics/m01.ts
 scripts/topics_import_data.json
 supabase/migrations/*_import_topics_content.sql
 supabase/archive/generated-incompatible/
