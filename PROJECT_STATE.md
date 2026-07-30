@@ -55,7 +55,7 @@
 
 | Task | Egasi | Holat | Boshlangan vaqt | Branch |
 |------|-------|-------|-----------------|--------|
-| — | — | Keyingi DB task auditni kutmoqda | — | — |
+| TASK-P0-003 DB baseline | Codex | IN_PROGRESS | 2026-07-30 | task/TASK-P0-003-db-baseline |
 
 ## Bloklovchilar
 
@@ -63,7 +63,7 @@
 |----|--------|--------|
 | B-SEC-001 | Lokal hujjatlardan credential olib tashlandi; Supabase credentiallari rotate qilindi | RESOLVED |
 | B-DB-001 | HTTPS audit remote migration metadata jadvali yo‘qligini tasdiqladi | RESOLVED |
-| B-DB-002 | BIGINT va UUID migration liniyalari bir-biriga zid | OPEN |
+| B-DB-002 | BIGINT va UUID migration liniyalarini squash/archivlash ishlari ketmoqda | IN_PROGRESS |
 | B-QA-001 | CI secret scan, lint, typecheck, unit, build va E2E bilan yashil | RESOLVED |
 | B-001 | Y1/Y2/Y3 generatorlar (axborotHajmi, sanoqSistema, mantiqAmal, ipMaska) yozilmagan | OPEN |
 | B-002 | ExamRunner + UUID schema moslash | OPEN |
@@ -71,10 +71,10 @@
 
 ## Keyingi bajariladigan task
 
-1. Remote migration tarixini read-only audit qilish
-2. Yangi DB baseline strategiyasini tasdiqlash
-3. DB role escalation va submit idempotency tuzatishlari
-4. UUID sxemaga mos frontend turlarini generatsiya qilish
+1. P0-003 branch CI natijasini tekshirish
+2. Remote’da UUID baseline versiyasini applied sifatida ro‘yxatdan o‘tkazish
+3. Taxonomy va rasmiy 2026 seed migratsiyalarini qo‘llash
+4. DB role escalation va submit idempotency tuzatishlari
 
 ## Auditda tasdiqlangan natijalar
 
