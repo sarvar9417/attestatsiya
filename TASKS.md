@@ -16,6 +16,7 @@
 | TASK-P0-002 | IN_PROGRESS | TASK-P0-001 | GitHub CI: secret scan, lint, unit, build va Playwright smoke |
 | TASK-P0-003 | BLOCKED | TASK-P0-001, remote migration audit | Bitta toza UUID migration baseline va rasmiy 2026 seed |
 | TASK-P0-004 | BLOCKED | TASK-P0-003 | Role escalation, exam membership va idempotent submit xavfsizlik tuzatishlari |
+| TASK-P0-005 | DONE | TASK-P0-001 | Admin route deny-by-default guard va xavfsiz bo‘lmagan client mock’ni production bundle’dan chiqarish |
 
 ## Oldingi foundation natijalari — audit holati
 

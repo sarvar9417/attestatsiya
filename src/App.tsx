@@ -11,6 +11,7 @@ import { Menu, X } from 'lucide-react'
 import ErrorBoundary from './components/ErrorBoundary'
 import { useOnlineStatus } from './hooks/useOnlineStatus'
 import AdminLayout from './components/admin/AdminLayout'
+import AdminGuard from './components/auth/AdminGuard'
 import LearningPage from './pages/LearningPage'
 import ModulePage from './pages/ModulePage'
 import DashboardPage from './pages/DashboardPage'
@@ -75,7 +76,14 @@ function AppRouter() {
 
   return (
     <Routes>
-      <Route path="/admin/*" element={<AdminLayout />} />
+      <Route
+        path="/admin/*"
+        element={
+          <AdminGuard userId={session.user.id}>
+            <AdminLayout />
+          </AdminGuard>
+        }
+      />
       <Route path="/*" element={<MainLayout />} />
     </Routes>
   )

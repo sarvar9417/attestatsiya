@@ -20,7 +20,7 @@
 - **Imtihon kontrakti:** 50 savol, 120 daqiqa, Y1/Y2/Y3 formatlar
 - **Kognitiv kontrakt:** bilish (8) + qo'llash (35) + mulohaza (7) = 50
 - **DB yozuv operatsiyalari:** RPC-only maqsad; amaldagi policy va RPC'lar xavfsizlik auditida
-- **question_keys:** mock/practice browser demosi kalitlarni bundle ichida saqlaydi; server oqimiga ko'chirish shart
+- **question_keys:** rasmiy mock client bundle'dan chiqarilgan; practice kontenti mastery uchun authoritative emas
 - **Til:** o'zbek lotin yozuvi
 
 ## DB holati — oldingi remote kuzatuv, audit talab qilinadi
@@ -59,10 +59,10 @@
 
 ## Keyingi bajariladigan task
 
-1. TASK-P0-002 branchni GitHub'ga chiqarish va CI natijasini tekshirish
+1. TASK-P0-002 CI natijasini tekshirish
 2. Remote migration tarixini read-only audit qilish
 3. Yangi DB baseline strategiyasini tasdiqlash
-4. DB xavfsizlik migratsiyasi va testlarini yozish
+4. DB role escalation va submit idempotency tuzatishlari
 
 ## Auditda tasdiqlangan natijalar
 
@@ -70,6 +70,7 @@
 |------|-----------------|------|
 | Safety checkpoint | 2026-07-30 | `4caa968`; raw darsliklar va secretlar commitga kiritilmagan |
 | TASK-P0-001 Foundation recovery | 2026-07-30 | Root README, ADR-017/018, Node/npm pin va avtomatik secret scan |
+| TASK-P0-005 UI security boundary | 2026-07-30 | Admin deny-by-default; client mock production bundle'dan chiqarildi; bundle regression check qo'shildi |
 | Build audit | 2026-07-30 | TypeScript + Vite build o'tadi |
 | Unit test audit | 2026-07-30 | 43 Vitest test o'tadi |
 | E2E smoke audit | 2026-07-30 | 4 auth smoke testi o'tadi; product flow qamrovi hali yo'q |
