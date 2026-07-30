@@ -10,6 +10,8 @@ supabase/.temp/
 *.key
 *.p12
 *.pfx
+__pycache__/
+*.py[cod]
 
 # Local source corpus and generated bulk imports are not versioned.
 darsliklar/
