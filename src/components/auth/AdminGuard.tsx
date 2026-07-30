@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { ShieldAlert } from 'lucide-react'
-import { supabase } from '../../lib/supabase'
+import { typedSupabase } from '../../lib/supabase'
 import { monitoring } from '../../lib/monitoring'
 import { SimpleLoadingSkeleton } from '../ui/PageSkeleton'
 
@@ -15,7 +15,7 @@ interface AdminGuardProps {
 }
 
 async function loadProfileRole(userId: string): Promise<string | null> {
-  const { data, error } = await supabase
+  const { data, error } = await typedSupabase
     .from('profiles')
     .select('role')
     .eq('id', userId)

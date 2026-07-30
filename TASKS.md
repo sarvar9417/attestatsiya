@@ -34,8 +34,8 @@
 
 | ID | Status | Dependency | Deliverable |
 |----|--------|------------|-------------|
-| T-008 | BLOCKED | B-003 | database.types.ts UUID schema bo'yicha yangilash |
-| T-009 | BLOCKED | T-008 | ExamRunner + Y1/Y2/Y3 komponentlarini UUID schema ga moslash |
+| T-008 | DONE | TASK-P0-003 | database.types.ts UUID schema bo'yicha yangilash |
+| T-009 | READY | T-008 | ExamRunner + Y1/Y2/Y3 komponentlarini UUID schema ga moslash |
 | T-010 | BLOCKED | T-008, T-009 | contentTree.ts, topicContent.ts ni UUID schema ga moslash |
 | T-011 | BLOCKED | T-010 | Learning moduli (mavzu o'qish, test) |
 | T-012 | BLOCKED | T-010 | Y1/Y2/Y3 generatorlar (axborotHajmi, sanoqSistema, mantiqAmal, ipMaska) |
@@ -52,7 +52,7 @@
 | B-DB-002 | RESOLVED — legacy liniya arxivlandi, faol UUID baseline va migration history yaratildi |
 | B-QA-001 | RESOLVED — CI secret scan, lint, typecheck, unit, build va E2E bilan yashil |
 | B-001 | Y1/Y2/Y3 generatorlar yozilmagan (konstrukt kodlari va parametrlar asosida savol generatsiyasi) |
-| B-002 | TypeScript types UUID schema bo'yicha yangilanmagan |
+| B-002 | RESOLVED — TypeScript types remote UUID schema bo'yicha generatsiya qilindi |
 | B-003 | ExamRunner UUID schema ga moslanmagan |
 
 ## Test talabi

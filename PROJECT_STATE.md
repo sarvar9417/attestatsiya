@@ -82,7 +82,7 @@
 
 | Task | Egasi | Holat | Boshlangan vaqt | Branch |
 |------|-------|-------|-----------------|--------|
-| — | — | P0 xavfsizlik tasklari yakunlandi; Phase 1 types navbatda | — | — |
+| — | — | T-008 tugadi; secure server-scored ExamRunner navbatda | — | — |
 
 ## Bloklovchilar
 
@@ -94,13 +94,12 @@
 | B-QA-001 | CI secret scan, lint, typecheck, unit, build va E2E bilan yashil | RESOLVED |
 | B-001 | Y1/Y2/Y3 generatorlar (axborotHajmi, sanoqSistema, mantiqAmal, ipMaska) yozilmagan | OPEN |
 | B-002 | ExamRunner + UUID schema moslash | OPEN |
-| B-003 | TypeScript database.types.ts UUID schema bo'yicha yangilanmagan | OPEN |
+| B-003 | TypeScript database.types.ts remote UUID schema bo‘yicha generatsiya qilindi | RESOLVED |
 
 ## Keyingi bajariladigan task
 
-1. UUID sxemaga mos frontend database types generatsiyasi
-2. Secure server-scored ExamRunner
-3. 16 modulni remote lesson/microtopic taksonomiyasi bilan bog‘lash
+1. Secure server-scored ExamRunner
+2. 16 modulni remote lesson/microtopic taksonomiyasi bilan bog‘lash
 
 ## Auditda tasdiqlangan natijalar
 
@@ -112,8 +111,9 @@
 | TASK-P0-003 UUID DB baseline | 2026-07-30 | PR #2; fresh va drift-upgrade PostgreSQL joblari yashil; remote 16/15/50/8-35-7/120 bilan sinxron |
 | TASK-P0-004 RPC security | 2026-07-30 | PR #3; local va CI PostgreSQL regressiyalari yashil; remote trigger/RPC/permission postflight tasdiqlandi |
 | TASK-P0-005 UI security boundary | 2026-07-30 | Admin deny-by-default; client mock production bundle'dan chiqarildi; bundle regression check qo'shildi |
+| T-008 UUID database types | 2026-07-30 | PR #4; Supabase-generated remote kontrakt, typed client boundary va 5 schema regressiya testi |
 | Build audit | 2026-07-30 | TypeScript + Vite build o'tadi |
-| Unit test audit | 2026-07-30 | GitHub CI'da repoga kirgan 49 Vitest test o'tadi |
+| Unit test audit | 2026-07-30 | PR #4 clean GitHub CI’da 54 Vitest test o‘tadi |
 | E2E smoke audit | 2026-07-30 | 4 auth smoke testi o'tadi; product flow qamrovi hali yo'q |
 
 ## Environment holati
