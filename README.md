@@ -75,6 +75,18 @@ npm run test:e2e
 saqlanadi. DB paroli, personal access token va service-role key repository
 fayllarida saqlanmaydi.
 
+Remote UUID sxema o‘zgarganda TypeScript kontraktini Supabase CLI loginidan
+quyidagicha qayta generatsiya qiling:
+
+```bash
+./scripts/generate-database-types.sh
+```
+
+Skript chiqishni avval vaqtinchalik faylda tekshiradi, so‘ng
+`src/lib/database.types.ts`ni atomik almashtiradi. Yangi kod
+`typedSupabase` clientidan foydalanadi; `supabase` nomi faqat hali UUID
+sxemaga ko‘chirilmagan legacy admin ekranlari uchun vaqtinchalik alias.
+
 ## Lokal manbalar
 
 `darsliklar/`, `Topics/` va katta bulk-import artefaktlari mualliflik huquqi,

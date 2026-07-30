@@ -82,7 +82,7 @@
 
 | Task | Egasi | Holat | Boshlangan vaqt | Branch |
 |------|-------|-------|-----------------|--------|
-| — | — | P0 xavfsizlik tasklari yakunlandi; Phase 1 types navbatda | — | — |
+| T-008 | Codex | IN_PROGRESS — remote UUID type generation va contract test | 2026-07-30 | `task/TASK-T-008-database-types` |
 
 ## Bloklovchilar
 

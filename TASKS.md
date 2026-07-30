@@ -34,7 +34,7 @@
 
 | ID | Status | Dependency | Deliverable |
 |----|--------|------------|-------------|
-| T-008 | BLOCKED | B-003 | database.types.ts UUID schema bo'yicha yangilash |
+| T-008 | IN_PROGRESS | TASK-P0-003 | database.types.ts UUID schema bo'yicha yangilash |
 | T-009 | BLOCKED | T-008 | ExamRunner + Y1/Y2/Y3 komponentlarini UUID schema ga moslash |
 | T-010 | BLOCKED | T-008, T-009 | contentTree.ts, topicContent.ts ni UUID schema ga moslash |
 | T-011 | BLOCKED | T-010 | Learning moduli (mavzu o'qish, test) |
