@@ -35,8 +35,8 @@
 | ID | Status | Dependency | Deliverable |
 |----|--------|------------|-------------|
 | T-008 | DONE | TASK-P0-003 | database.types.ts UUID schema bo'yicha yangilash |
-| T-009 | READY | T-008 | ExamRunner + Y1/Y2/Y3 komponentlarini UUID schema ga moslash |
-| T-010 | BLOCKED | T-008, T-009 | contentTree.ts, topicContent.ts ni UUID schema ga moslash |
+| T-009 | DONE | T-008 | ExamRunner + Y1/Y2/Y3 komponentlarini UUID schema ga moslash |
+| T-010 | READY | T-008, T-009 | contentTree.ts, topicContent.ts ni UUID schema ga moslash |
 | T-011 | BLOCKED | T-010 | Learning moduli (mavzu o'qish, test) |
 | T-012 | BLOCKED | T-010 | Y1/Y2/Y3 generatorlar (axborotHajmi, sanoqSistema, mantiqAmal, ipMaska) |
 | T-013 | BLOCKED | T-011, T-012 | ExamRunner bilan imtihon ishga tushirish (RPC orqali) |
@@ -53,7 +53,7 @@
 | B-QA-001 | RESOLVED — CI secret scan, lint, typecheck, unit, build va E2E bilan yashil |
 | B-001 | Y1/Y2/Y3 generatorlar yozilmagan (konstrukt kodlari va parametrlar asosida savol generatsiyasi) |
 | B-002 | RESOLVED — TypeScript types remote UUID schema bo'yicha generatsiya qilindi |
-| B-003 | ExamRunner UUID schema ga moslanmagan |
+| B-003 | RESOLVED — server-scored ExamRunner UUID RPC kontraktiga o‘tkazildi |
 
 ## Test talabi
 

@@ -82,7 +82,7 @@
 
 | Task | Egasi | Holat | Boshlangan vaqt | Branch |
 |------|-------|-------|-----------------|--------|
-| — | — | T-008 tugadi; secure server-scored ExamRunner navbatda | — | — |
+| — | — | T-009 tugadi; kontent taksonomiyasini remote UUID bilan bog‘lash navbatda | — | — |
 
 ## Bloklovchilar
 
@@ -93,13 +93,12 @@
 | B-DB-002 | Legacy BIGINT liniya arxivlandi; UUID baseline va remote history sinxron | RESOLVED |
 | B-QA-001 | CI secret scan, lint, typecheck, unit, build va E2E bilan yashil | RESOLVED |
 | B-001 | Y1/Y2/Y3 generatorlar (axborotHajmi, sanoqSistema, mantiqAmal, ipMaska) yozilmagan | OPEN |
-| B-002 | ExamRunner + UUID schema moslash | OPEN |
+| B-002 | Server-scored ExamRunner UUID RPC kontraktiga o‘tkazildi | RESOLVED |
 | B-003 | TypeScript database.types.ts remote UUID schema bo‘yicha generatsiya qilindi | RESOLVED |
 
 ## Keyingi bajariladigan task
 
-1. Secure server-scored ExamRunner
-2. 16 modulni remote lesson/microtopic taksonomiyasi bilan bog‘lash
+1. 16 modulni remote lesson/microtopic taksonomiyasi bilan bog‘lash
 
 ## Auditda tasdiqlangan natijalar
 
@@ -112,15 +111,16 @@
 | TASK-P0-004 RPC security | 2026-07-30 | PR #3; local va CI PostgreSQL regressiyalari yashil; remote trigger/RPC/permission postflight tasdiqlandi |
 | TASK-P0-005 UI security boundary | 2026-07-30 | Admin deny-by-default; client mock production bundle'dan chiqarildi; bundle regression check qo'shildi |
 | T-008 UUID database types | 2026-07-30 | PR #4; Supabase-generated remote kontrakt, typed client boundary va 5 schema regressiya testi |
+| T-009 secure ExamRunner | 2026-07-30 | PR #5; keyless runtime contract, Y1/Y2/Y3 UUID payload, server timer/finish va bundle guard |
 | Build audit | 2026-07-30 | TypeScript + Vite build o'tadi |
-| Unit test audit | 2026-07-30 | PR #4 clean GitHub CI’da 54 Vitest test o‘tadi |
+| Unit test audit | 2026-07-30 | PR #5 clean GitHub CI’da 61 Vitest test o‘tadi |
 | E2E smoke audit | 2026-07-30 | 4 auth smoke testi o'tadi; product flow qamrovi hali yo'q |
 
 ## Environment holati
 
 | Muhit | URL | Database | Holat |
 |-------|-----|----------|-------|
-| Local | `http://localhost:5173` | Remote Supabase (plyqezulrfowyblsfpzy) | UUID baseline va P0-004 RPC security remote bilan sinxron |
+| Local | `http://localhost:5173` | Remote Supabase (plyqezulrfowyblsfpzy) | Secure ExamRunner tayyor; real mock uchun savol banki 5/50 |
 | Production | TBD | TBD | Yaratilmagan |
 
 ## Muhim havolalar
