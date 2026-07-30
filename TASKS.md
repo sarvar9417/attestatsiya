@@ -13,7 +13,7 @@
 | ID | Status | Dependency | Deliverable |
 |----|--------|------------|-------------|
 | TASK-P0-001 | DONE | — | Secretlarni repodan chiqarish, safety checkpoint, root README, stack/taksonomiya ADR, auditga mos project state |
-| TASK-P0-002 | IN_PROGRESS | TASK-P0-001 | GitHub CI: secret scan, lint, unit, build va Playwright smoke |
+| TASK-P0-002 | DONE | TASK-P0-001 | GitHub CI: secret scan, lint, unit, build va Playwright smoke |
 | TASK-P0-003 | BLOCKED | TASK-P0-001, remote migration audit | Bitta toza UUID migration baseline va rasmiy 2026 seed |
 | TASK-P0-004 | BLOCKED | TASK-P0-003 | Role escalation, exam membership va idempotent submit xavfsizlik tuzatishlari |
 | TASK-P0-005 | DONE | TASK-P0-001 | Admin route deny-by-default guard va xavfsiz bo‘lmagan client mock’ni production bundle’dan chiqarish |
@@ -47,10 +47,10 @@
 
 | ID | Tavsif |
 |----|--------|
-| B-SEC-001 | Ochiq matnda qolgan credentiallar repodan chiqarildi, lekin Supabase tomonda rotate qilish talab qilinadi |
+| B-SEC-001 | RESOLVED — repodan chiqarildi va Supabase tomonda rotate qilindi |
 | B-DB-001 | Remote migration list uchun DB password secret manager orqali berilmagan; linked tarix tekshirilmagan |
 | B-DB-002 | BIGINT va UUID migratsiyalar bir ketma-ketlikda turibdi |
-| B-QA-001 | CI workflow yo'q va lint quality gate qizil |
+| B-QA-001 | RESOLVED — CI secret scan, lint, typecheck, unit, build va E2E bilan yashil |
 | B-001 | Y1/Y2/Y3 generatorlar yozilmagan (konstrukt kodlari va parametrlar asosida savol generatsiyasi) |
 | B-002 | TypeScript types UUID schema bo'yicha yangilanmagan |
 | B-003 | ExamRunner UUID schema ga moslanmagan |

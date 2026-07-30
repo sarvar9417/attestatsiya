@@ -53,26 +53,26 @@
 
 | Task | Egasi | Holat | Boshlangan vaqt | Branch |
 |------|-------|-------|-----------------|--------|
-| TASK-P0-002 CI quality gate | Codex | IN_PROGRESS | 2026-07-30 | task/TASK-P0-001-foundation |
+| — | — | Keyingi DB task auditni kutmoqda | — | — |
 
 ## Bloklovchilar
 
 | ID | Tavsif | Status |
 |----|--------|--------|
-| B-SEC-001 | Lokal hujjatlardan credential olib tashlandi; Supabase'da rotate qilish qolgan | OPEN |
+| B-SEC-001 | Lokal hujjatlardan credential olib tashlandi; Supabase credentiallari rotate qilindi | RESOLVED |
 | B-DB-001 | Remote migration tarixini o'qish uchun DB password secret manager'da mavjud emas | OPEN |
 | B-DB-002 | BIGINT va UUID migration liniyalari bir-biriga zid | OPEN |
-| B-QA-001 | Lint yiqiladi, CI workflow yo'q | OPEN |
+| B-QA-001 | CI secret scan, lint, typecheck, unit, build va E2E bilan yashil | RESOLVED |
 | B-001 | Y1/Y2/Y3 generatorlar (axborotHajmi, sanoqSistema, mantiqAmal, ipMaska) yozilmagan | OPEN |
 | B-002 | ExamRunner + UUID schema moslash | OPEN |
 | B-003 | TypeScript database.types.ts UUID schema bo'yicha yangilanmagan | OPEN |
 
 ## Keyingi bajariladigan task
 
-1. TASK-P0-002 CI natijasini tekshirish
-2. Remote migration tarixini read-only audit qilish
-3. Yangi DB baseline strategiyasini tasdiqlash
-4. DB role escalation va submit idempotency tuzatishlari
+1. Remote migration tarixini read-only audit qilish
+2. Yangi DB baseline strategiyasini tasdiqlash
+3. DB role escalation va submit idempotency tuzatishlari
+4. UUID sxemaga mos frontend turlarini generatsiya qilish
 
 ## Auditda tasdiqlangan natijalar
 
@@ -80,9 +80,10 @@
 |------|-----------------|------|
 | Safety checkpoint | 2026-07-30 | `4caa968`; raw darsliklar va secretlar commitga kiritilmagan |
 | TASK-P0-001 Foundation recovery | 2026-07-30 | Root README, ADR-017/018, Node/npm pin va avtomatik secret scan |
+| TASK-P0-002 CI quality gate | 2026-07-30 | PR #1 da secret scan, lint, typecheck, 49 unit test, build va 4 Playwright smoke testi yashil |
 | TASK-P0-005 UI security boundary | 2026-07-30 | Admin deny-by-default; client mock production bundle'dan chiqarildi; bundle regression check qo'shildi |
 | Build audit | 2026-07-30 | TypeScript + Vite build o'tadi |
-| Unit test audit | 2026-07-30 | 43 Vitest test o'tadi |
+| Unit test audit | 2026-07-30 | GitHub CI'da repoga kirgan 49 Vitest test o'tadi |
 | E2E smoke audit | 2026-07-30 | 4 auth smoke testi o'tadi; product flow qamrovi hali yo'q |
 
 ## Environment holati
