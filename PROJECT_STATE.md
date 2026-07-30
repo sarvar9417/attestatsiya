@@ -39,6 +39,16 @@
 | question_keys | 5 |
 | RPC functions | 18 (start_exam, submit_answer, finish_exam va h.k.) |
 
+### 2026-07-30 read-only remote audit
+
+- Remote’da eski BIGINT ustunlari yo‘q; UUID sxema faol.
+- 9 ta modulning barchasi `published`.
+- Faol blueprint 50 savol va 2 ballni saqlaydi, ammo `duration_min = 150`.
+- 9 ta kvota jami `33 bilish / 5 qo‘llash / 12 mulohaza`; rasmiy
+  `8 / 35 / 7` kontraktiga zid.
+- Audit anon REST orqali faqat o‘qish rejimida bajarildi; remote yozuv
+  o‘zgartirilmadi.
+
 ## Faol tasklar
 
 | Task | Egasi | Holat | Boshlangan vaqt | Branch |
