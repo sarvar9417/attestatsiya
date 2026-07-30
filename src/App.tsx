@@ -20,7 +20,6 @@ import ExamPage from './pages/ExamPage'
 import ExamDemoPage from './pages/ExamDemoPage'
 import TopicExamPage from './pages/TopicExamPage'
 
-const Auth = lazy(() => import('./pages/Auth'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 function MainLayout() {
@@ -84,14 +83,13 @@ function AppRouter() {
   }, [session])
 
   if (loading) return <SimpleLoadingSkeleton />
-  if (!session) return <Suspense fallback={<SimpleLoadingSkeleton />}><Auth /></Suspense>
 
   return (
     <Routes>
       <Route
         path="/admin/*"
         element={
-          <AdminGuard userId={session.user.id}>
+          <AdminGuard userId={session?.user.id}>
             <AdminLayout />
           </AdminGuard>
         }

@@ -2,6 +2,8 @@ import type { FastifyInstance } from 'fastify'
 import { examService } from '../services/exam.service.js'
 import { startExamSchema, submitAnswerSchema, finishExamSchema, reviewParamsSchema } from '../schemas/exam.js'
 import { sendError, AppError } from '../lib/errors.js'
+import { getDemoToken } from '../lib/demoAuth.js'
+import { config } from '../config.js'
 
 /**
  * Extract the Supabase auth token from the Authorization header.
@@ -18,7 +20,17 @@ export async function examRoutes(app: FastifyInstance) {
    */
   app.post('/api/exam/start', async (req, reply) => {
     const { kind, module_id, lesson_id } = startExamSchema.body.parse(req.body)
-    const token = getToken(req)
+    let token = getToken(req)
+
+    // Demo mode: use demo token if no token provided
+    if (!token && config.demo.enabled) {
+      try {
+        token = await getDemoToken()
+      } catch (error) {
+        return sendError(reply, error)
+      }
+    }
+
     if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
 
     try {
@@ -35,7 +47,17 @@ export async function examRoutes(app: FastifyInstance) {
    */
   app.post('/api/exam/submit', async (req, reply) => {
     const input = submitAnswerSchema.body.parse(req.body)
-    const token = getToken(req)
+    let token = getToken(req)
+
+    // Demo mode: use demo token if no token provided
+    if (!token && config.demo.enabled) {
+      try {
+        token = await getDemoToken()
+      } catch (error) {
+        return sendError(reply, error)
+      }
+    }
+
     if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
 
     try {
@@ -52,7 +74,17 @@ export async function examRoutes(app: FastifyInstance) {
    */
   app.post('/api/exam/finish', async (req, reply) => {
     const { exam_id } = finishExamSchema.body.parse(req.body)
-    const token = getToken(req)
+    let token = getToken(req)
+
+    // Demo mode: use demo token if no token provided
+    if (!token && config.demo.enabled) {
+      try {
+        token = await getDemoToken()
+      } catch (error) {
+        return sendError(reply, error)
+      }
+    }
+
     if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
 
     try {
@@ -69,7 +101,17 @@ export async function examRoutes(app: FastifyInstance) {
    */
   app.get('/api/exam/:id/review', async (req, reply) => {
     const { id } = reviewParamsSchema.params.parse(req.params)
-    const token = getToken(req)
+    let token = getToken(req)
+
+    // Demo mode: use demo token if no token provided
+    if (!token && config.demo.enabled) {
+      try {
+        token = await getDemoToken()
+      } catch (error) {
+        return sendError(reply, error)
+      }
+    }
+
     if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
 
     try {
@@ -85,7 +127,17 @@ export async function examRoutes(app: FastifyInstance) {
    * Get constructs due for spaced repetition
    */
   app.get('/api/exam/due-reviews', async (req, reply) => {
-    const token = getToken(req)
+    let token = getToken(req)
+
+    // Demo mode: use demo token if no token provided
+    if (!token && config.demo.enabled) {
+      try {
+        token = await getDemoToken()
+      } catch (error) {
+        return sendError(reply, error)
+      }
+    }
+
     if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
 
     try {

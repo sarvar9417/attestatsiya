@@ -3,6 +3,8 @@ import { progressService } from '../services/progress.service.js'
 import { syncProgressSchema } from '../schemas/progress.js'
 import { sendError, AppError } from '../lib/errors.js'
 import { supabase } from '../lib/supabase.js'
+import { getDemoToken } from '../lib/demoAuth.js'
+import { config } from '../config.js'
 
 /**
  * Extract the Supabase auth token from the Authorization header.
@@ -14,9 +16,20 @@ function getToken(req: { headers: { authorization?: string } }): string | null {
 /**
  * Verify the Supabase auth token and return the user.
  * Throws AppError if the token is invalid.
+ * In demo mode, uses the demo user if no token is provided.
  */
 async function requireAuth(req: { headers: { authorization?: string } }) {
-  const token = getToken(req)
+  let token = getToken(req)
+
+  // Demo mode: use demo token if no token provided
+  if (!token && config.demo.enabled) {
+    try {
+      token = await getDemoToken()
+    } catch (error) {
+      throw new AppError('Demo rejimida xatolik', 500, 'DEMO_AUTH_ERROR')
+    }
+  }
+
   if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
 
   const { data: { user }, error: authError } = await supabase.auth.getUser(token)
