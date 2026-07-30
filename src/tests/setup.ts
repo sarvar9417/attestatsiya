@@ -1,4 +1,6 @@
 import { vi } from 'vitest'
+// DOM matcherlari: toBeInTheDocument, toHaveClass va h.k.
+import '@testing-library/jest-dom/vitest'
 
 const store: Record<string, string> = {}
 Object.defineProperty(window, 'localStorage', {
@@ -11,3 +13,6 @@ Object.defineProperty(window, 'localStorage', {
   },
   writable: true,
 })
+
+// jsdom scrollIntoView'ni qo'llab-quvvatlamaydi
+Element.prototype.scrollIntoView = vi.fn()

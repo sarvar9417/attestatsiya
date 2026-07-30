@@ -30,13 +30,31 @@
 | T-006 | BLOCKED | Frontend role guard yopilgan, ammo admin panel eski type/schema'ga tayangan |
 | T-007 | BLOCKED | 49 unit + 4 smoke E2E o'tadi, ammo domain/RLS va product-flow qamrovi yetarli emas |
 
+## Darslik kontenti ekstraksiyasi
+
+| ID | Status | Dependency | Deliverable |
+|----|--------|------------|-------------|
+| T-DL-001 | DONE | — | Adabiyotlar.txt, spetsifikatsiya — attestatsiya hujjatlaridan kontent code va adabiyotlar ro'yxati ajratildi |
+| T-DL-002 | DONE | T-DL-001 | Cambridge+ (5–11 sinf) va ICT (5–11 sinf) darsliklaridan to'liq matn ekstraksiyasi, 18 fayl |
+| T-DL-003 | DONE | T-DL-002 | Content code bo'yicha Cambridge kontentini tartiblash → `barcha_kontent_kodlar_boyicha.txt` (~87K qator) |
+| T-DL-004 | DONE | T-DL-003 | 38 ta individual code fayli (1.1.txt–13.2.txt) — Cambridge + ICT + tematik manbalar birlashtirildi (~124K qator) |
+
+## M01 kontenti — qo'llanmadan sinxronizatsiya
+
+| ID | Status | Dependency | Deliverable |
+|----|--------|------------|-------------|
+| T-M01-001 | DONE | — | `Axborot_va_axborot_jarayonlari_LaTeX` boblari kitobdagi ketma-ketlikda strukturaviy bloklarga o'girildi (`scripts/latex_to_blocks.py` → `scripts/gen_m01_ts.py` → `src/data/topics/m01.ts`); 22 mavzu, 691 blok |
+| T-M01-002 | DONE | T-M01-001 | Kitob dizayni: quti turlari, KaTeX formulalar, jadval, sxemalar va bob mundarijasi (`src/components/learning/theory/`, `.book-*` CSS) |
+| T-M01-003 | DONE | T-M01-002 | Bo'limli o'qish rejimi: `\section` bo'yicha sahifalash, sticky holat paneli, mundarija, klaviatura navigatsiyasi va yakunda bitta "Testni boshlash" (`BookReader.tsx`); takroriy CTA'lar olib tashlandi |
+| T-M01-004 | DONE | T-M01-003 | Kontent yangi manbaga ko'chirildi: `I_qism_..._yagona.tex` (yagona fayl, 10 raqamli + 4 raqamsiz bob) → 12 mavzu, 783 blok; eski 22 mavzulik kontent va 33 savol butunlay o'chirildi; yangi quti turlari (Tayanch atamalar, Ishlanadigan misollar, Bosqichma-bosqich yechimlar, Bob maqsadi, tahlil qutilari) va 10 ta yangi sxema qo'shildi |
+
 ## Phase 1 — Core app (keyingi)
 
 | ID | Status | Dependency | Deliverable |
 |----|--------|------------|-------------|
 | T-008 | DONE | TASK-P0-003 | database.types.ts UUID schema bo'yicha yangilash |
-| T-009 | READY | T-008 | ExamRunner + Y1/Y2/Y3 komponentlarini UUID schema ga moslash |
-| T-010 | BLOCKED | T-008, T-009 | contentTree.ts, topicContent.ts ni UUID schema ga moslash |
+| T-009 | DONE | T-008 | ExamRunner + Y1/Y2/Y3 komponentlarini UUID schema ga moslash |
+| T-010 | READY | T-008, T-009 | contentTree.ts, topicContent.ts ni UUID schema ga moslash |
 | T-011 | BLOCKED | T-010 | Learning moduli (mavzu o'qish, test) |
 | T-012 | BLOCKED | T-010 | Y1/Y2/Y3 generatorlar (axborotHajmi, sanoqSistema, mantiqAmal, ipMaska) |
 | T-013 | BLOCKED | T-011, T-012 | ExamRunner bilan imtihon ishga tushirish (RPC orqali) |
@@ -53,7 +71,7 @@
 | B-QA-001 | RESOLVED — CI secret scan, lint, typecheck, unit, build va E2E bilan yashil |
 | B-001 | Y1/Y2/Y3 generatorlar yozilmagan (konstrukt kodlari va parametrlar asosida savol generatsiyasi) |
 | B-002 | RESOLVED — TypeScript types remote UUID schema bo'yicha generatsiya qilindi |
-| B-003 | ExamRunner UUID schema ga moslanmagan |
+| B-003 | RESOLVED — server-scored ExamRunner UUID RPC kontraktiga o‘tkazildi |
 
 ## Test talabi
 

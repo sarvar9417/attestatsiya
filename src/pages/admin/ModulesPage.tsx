@@ -9,6 +9,8 @@ interface Module {
   description: string | null
   sort_order: number
   subtopics: Subtopic[]
+  lessons: Map<number | null, Lesson[]>
+  lessonCount: number
 }
 
 interface Subtopic {
@@ -16,6 +18,17 @@ interface Subtopic {
   title: string
   description: string | null
   sort_order: number
+}
+
+interface Lesson {
+  id: number
+  subtopic_id: number | null
+  title: string
+  theory: string | null
+  duration_min: number | null
+  sort_order: number
+  status: string
+  created_at: string
 }
 
 export default function ModulesPage() {
@@ -35,6 +48,7 @@ export default function ModulesPage() {
 
     const { data: m } = await supabase.from('modules').select('*').eq('spec_id', specs.id).order('sort_order')
     const { data: s } = await supabase.from('subtopics').select('*').order('sort_order')
+    const { data: l } = await supabase.from('lessons').select('*').order('sort_order')
 
     if (m) {
       const subtopicMap = new Map<number, Subtopic[]>()
@@ -45,7 +59,50 @@ export default function ModulesPage() {
           subtopicMap.set(st.module_id, arr)
         })
       }
-      setModules(m.map(mod => ({ ...mod, subtopics: subtopicMap.get(mod.id) || [] })))
+      // Module mapping: code → id
+      const moduleCodeToId = new Map<string, number>()
+      if (m) {
+        m.forEach(mod => moduleCodeToId.set(mod.code, mod.id))
+      }
+
+      const lessonsByModule = new Map<number, { stMap: Map<number | null, Lesson[]>; totalLessons: number }>()
+      if (l) {
+        l.forEach(lesson => {
+          // Find which module this lesson belongs to
+          let modId: number | null = null
+          if (lesson.subtopic_id) {
+            const st = s?.find(s => s.id === lesson.subtopic_id)
+            if (st) modId = st.module_id
+          } else {
+            // NULL subtopic_id → try to extract from title prefix (e.g. "M06 - ...")
+            const codeMatch = lesson.title.match(/^(M\d{2})\s*-/)
+            if (codeMatch && moduleCodeToId.has(codeMatch[1])) {
+              modId = moduleCodeToId.get(codeMatch[1])!
+            }
+          }
+          if (modId != null && m) {
+            if (!lessonsByModule.has(modId)) {
+              lessonsByModule.set(modId, { stMap: new Map(), totalLessons: 0 })
+            }
+            const entry = lessonsByModule.get(modId)!
+            entry.totalLessons++
+            const stId = lesson.subtopic_id ?? 0 // 0 = no subtopic
+            if (!entry.stMap.has(stId)) {
+              entry.stMap.set(stId, [])
+            }
+            entry.stMap.get(stId)!.push(lesson)
+          }
+        })
+      }
+      setModules(m.map(mod => {
+        const entry = lessonsByModule.get(mod.id)
+        return {
+          ...mod,
+          subtopics: subtopicMap.get(mod.id) || [],
+          lessons: entry?.stMap || new Map(),
+          lessonCount: entry?.totalLessons || 0,
+        }
+      }))
     }
     setLoading(false)
   }
@@ -119,16 +176,50 @@ export default function ModulesPage() {
                 </div>
                 {mod.description && <p className="text-sm text-gray-500 mt-0.5">{mod.description}</p>}
               </div>
-              <span className="text-xs text-gray-400">{mod.subtopics.length} ta mavzu</span>
+              <span className="text-xs text-gray-400">{mod.subtopics.length} mavzu · {mod.lessonCount} ta dars</span>
             </button>
 
             {expanded.has(mod.id) && (
-              <div className="px-4 pb-4 pl-14 space-y-1">
-                {mod.subtopics.map(st => (
-                  <div key={st.id} className="flex items-center gap-2 py-1.5 px-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                    <span className="text-sm text-gray-700 dark:text-gray-300">{st.title}</span>
+              <div className="px-4 pb-4 pl-14 space-y-3">
+                {/* Subtopics */}
+                {mod.subtopics.map(st => {
+                  const stLessons = mod.lessons.get(st.id) || []
+                  return (
+                    <div key={st.id}>
+                      <div className="flex items-center gap-2 py-1.5 px-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{st.title}</span>
+                        <span className="text-xs text-gray-400 ml-auto">{stLessons.length} ta dars</span>
+                      </div>
+                      {stLessons.length > 0 && (
+                        <div className="ml-4 mt-1 space-y-0.5 border-l-2 border-gray-200 dark:border-gray-700 pl-3">
+                          {stLessons.map(lesson => (
+                            <div key={lesson.id} className="flex items-center gap-2 py-1 px-2 text-xs rounded hover:bg-gray-50 dark:hover:bg-gray-800/30">
+                              <span className={`w-1.5 h-1.5 rounded-full ${lesson.status === 'published' ? 'bg-green-500' : lesson.status === 'draft' ? 'bg-yellow-500' : 'bg-gray-400'}`} />
+                              <span className="text-gray-600 dark:text-gray-400 flex-1 truncate">{lesson.title}</span>
+                              {lesson.duration_min && <span className="text-gray-400 shrink-0">{lesson.duration_min} min</span>}
+                              <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${lesson.status === 'published' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'}`}>{lesson.status}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
+                {/* Subtopiksiz darslar */}
+                {mod.lessons.has(0) && (
+                  <div>
+                    <p className="text-xs text-gray-400 px-3 py-1">Subtopiksiz darslar</p>
+                    <div className="ml-4 space-y-0.5 border-l-2 border-dashed border-gray-300 dark:border-gray-700 pl-3">
+                      {(mod.lessons.get(0) || []).map(lesson => (
+                        <div key={lesson.id} className="flex items-center gap-2 py-1 px-2 text-xs rounded hover:bg-gray-50 dark:hover:bg-gray-800/30">
+                          <span className={`w-1.5 h-1.5 rounded-full ${lesson.status === 'published' ? 'bg-green-500' : lesson.status === 'draft' ? 'bg-yellow-500' : 'bg-gray-400'}`} />
+                          <span className="text-gray-600 dark:text-gray-400 flex-1 truncate">{lesson.title}</span>
+                          {lesson.duration_min && <span className="text-gray-400 shrink-0">{lesson.duration_min} min</span>}
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                ))}
+                )}
                 <button
                   onClick={() => setSubForm({ moduleId: mod.id, title: '' })}
                   className="flex items-center gap-1.5 text-sm text-primary-600 hover:text-primary-700 py-1.5"

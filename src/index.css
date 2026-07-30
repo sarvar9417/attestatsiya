@@ -4,9 +4,80 @@
 
 @layer base {
   :root {
+    /* ── Design tokens (shadcn/ui compatible) ────────────── */
+    --background: #f8f9fa;
+    --foreground: #1a1f2e;
+    --card: #ffffff;
+    --card-foreground: #1a1f2e;
+    --muted: #f1f3f5;
+    --muted-foreground: #6b7280;
+    --border: #e5e7eb;
+    --primary: #2563eb;
+    --primary-foreground: #ffffff;
+    --success: #059669;
+    --warning: #d97706;
+    --destructive: #dc2626;
+    --ring: #2563eb;
+
     --color-primary: #1a56db;
     --color-b1: #0f766e;
     --color-b2: #7c3aed;
+
+    /* "Axborot va axborot jarayonlari" qo'llanmasi paletasi (main.tex) */
+    --bk-navy: #12304a;
+    --bk-teal: #087e8b;
+    --bk-aqua: #dff4f3;
+    --bk-gold: #b7791f;
+    --bk-gold-soft: #f2b544;
+    --bk-gold-light: #fff4d6;
+    --bk-coral: #d1462f;
+    --bk-coral-soft: #e85d4a;
+    --bk-coral-light: #fdebe8;
+    --bk-green: #2e7d5b;
+    --bk-green-light: #e8f5ee;
+    --bk-purple: #7354a3;
+    --bk-purple-light: #f0ebf8;
+    --bk-ink: #23303a;
+    --bk-muted: #657785;
+    --bk-paper: #f7f9fa;
+    --bk-surface: #ffffff;
+    --bk-line: #e2e8ec;
+  }
+
+  .dark {
+    /* ── Design tokens (dark) ────────────────────────────── */
+    --background: #0f1118;
+    --foreground: #f1f5f9;
+    --card: #181b26;
+    --card-foreground: #f1f5f9;
+    --muted: #1f2230;
+    --muted-foreground: #94a3b8;
+    --border: #1e293b;
+    --primary: #3b82f6;
+    --primary-foreground: #ffffff;
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --destructive: #ef4444;
+    --ring: #3b82f6;
+
+    --bk-navy: #cfe3f2;
+    --bk-teal: #5ecfd8;
+    --bk-aqua: rgba(8, 126, 139, 0.16);
+    --bk-gold: #f0c674;
+    --bk-gold-soft: #f2b544;
+    --bk-gold-light: rgba(242, 181, 68, 0.12);
+    --bk-coral: #f79383;
+    --bk-coral-soft: #e85d4a;
+    --bk-coral-light: rgba(232, 93, 74, 0.13);
+    --bk-green: #6fc79c;
+    --bk-green-light: rgba(46, 125, 91, 0.16);
+    --bk-purple: #b79ee0;
+    --bk-purple-light: rgba(115, 84, 163, 0.18);
+    --bk-ink: #e5e9ec;
+    --bk-muted: #97a6b4;
+    --bk-paper: rgba(148, 163, 184, 0.08);
+    --bk-surface: #0f1729;
+    --bk-line: rgba(148, 163, 184, 0.22);
   }
 
   body {
@@ -707,6 +778,14 @@ html.dark .skeleton-shimmer {
 .animate-stagger > *:nth-child(14) { animation-delay: 780ms; }
 .animate-stagger > *:nth-child(15) { animation-delay: 840ms; }
 .animate-stagger > *:nth-child(16) { animation-delay: 900ms; }
+.animate-stagger > *:nth-child(17) { animation-delay: 960ms; }
+.animate-stagger > *:nth-child(18) { animation-delay: 1020ms; }
+.animate-stagger > *:nth-child(19) { animation-delay: 1080ms; }
+.animate-stagger > *:nth-child(20) { animation-delay: 1140ms; }
+
+.stagger-delay {
+  animation-delay: 1200ms !important;
+}
 
 /* ── Pulse glow (for interactive elements on hover) ───────────────────────── */
 @keyframes pulse-glow {
@@ -979,6 +1058,302 @@ button, a, input, select, textarea, [role="button"], [tabindex]:not([tabindex="-
   50%      { opacity: 1; transform: translateX(-50%) scale(1.15); }
 }
 
+/* ═══ CONTENT BLOCK DECORATIONS ═════════════════════════════════════════ */
+
+/* Section divider — gradient line with dot */
+.content-divider {
+  @apply relative flex items-center justify-center my-8;
+}
+
+.content-divider::before {
+  content: '';
+  @apply absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-700 to-transparent;
+}
+
+.content-divider-icon {
+  @apply relative z-10 w-8 h-8 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 flex items-center justify-center shadow-sm;
+}
+
+/* Theory block entrance */
+@keyframes block-entrance {
+  0% { opacity: 0; transform: translateY(12px) scale(0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.animate-block-entrance {
+  animation: block-entrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Glass card effect */
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+html.dark .glass-card {
+  background: rgba(17, 24, 39, 0.7);
+  border-color: rgba(55, 65, 81, 0.5);
+}
+
+/* Subtle background pattern for cards */
+.bg-pattern-dots {
+  background-image: radial-gradient(rgba(0,0,0,0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+html.dark .bg-pattern-dots {
+  background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+}
+
+/* Gradient text for special highlights */
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-b2-600;
+}
+html.dark .text-gradient {
+  @apply from-primary-400 to-b2-400;
+}
+
+/* Content type header with decorative accent */
+.content-type-header {
+  @apply flex items-center gap-2.5 mb-4 pb-3 border-b border-gray-100 dark:border-gray-800;
+}
+
+.content-type-dot {
+  @apply w-2 h-2 rounded-full;
+}
+
+/* Enhanced table styling */
+.content-table-wrapper {
+  @apply overflow-x-auto rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm;
+}
+
+.content-table {
+  @apply w-full text-sm;
+}
+
+.content-table thead {
+  @apply bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-800/80;
+}
+
+.content-table th {
+  @apply px-5 py-3.5 text-left text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider;
+}
+
+.content-table tbody tr {
+  @apply border-b border-gray-50 dark:border-gray-800/50 transition-colors duration-150;
+}
+
+.content-table tbody tr:last-child {
+  @apply border-b-0;
+}
+
+.content-table tbody tr:hover {
+  @apply bg-gray-50/80 dark:bg-gray-800/40;
+}
+
+.content-table tbody tr:nth-child(even) {
+  @apply bg-gray-50/40 dark:bg-gray-800/20;
+}
+
+.content-table tbody tr:nth-child(even):hover {
+  @apply bg-gray-50/80 dark:bg-gray-800/40;
+}
+
+.content-table td {
+  @apply px-5 py-3 text-sm;
+}
+
+/* Scroll indicator for long content */
+@keyframes scroll-indicator {
+  0%, 100% { opacity: 0.3; transform: translateY(0); }
+  50% { opacity: 0.8; transform: translateY(4px); }
+}
+.animate-scroll-indicator {
+  animation: scroll-indicator 2s ease-in-out infinite;
+}
+
+/* Definition term highlight — inline badge style */
+.term-badge {
+  @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-lg 
+         bg-primary-50 dark:bg-primary-900/30 
+         text-primary-700 dark:text-primary-300 
+         font-semibold text-[13px] leading-tight;
+}
+
+/* Badge with icon container */
+.icon-badge {
+  @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium;
+}
+
+/* Progress milestone dot markers */
+.milestone-dot {
+  @apply w-3 h-3 rounded-full border-2 border-white dark:border-gray-900 shadow-sm transition-all duration-300;
+}
+
+/* Floating action button style */
+.fab {
+  @apply fixed bottom-24 right-6 z-40 w-12 h-12 rounded-2xl 
+         bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700
+         flex items-center justify-center
+         hover:shadow-xl hover:-translate-y-0.5 
+         transition-all duration-200 text-gray-500 hover:text-primary-600;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   EXAM/RUNNER UI — test sahifasi uchun ixtisoslashgan klasslar
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* ── Exam sidebar ───────────────────────────────────────────────────── */
+.exam-sidebar {
+  @apply w-72 flex-shrink-0 flex flex-col border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 overflow-y-auto;
+}
+
+.exam-sidebar-mobile {
+  @apply fixed inset-y-0 left-0 z-50 w-80 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 shadow-2xl flex flex-col;
+}
+
+.exam-sidebar-overlay {
+  @apply fixed inset-0 z-40 bg-black/50 lg:hidden backdrop-blur-sm;
+}
+
+/* ── Question number grid ────────────────────────────────────────────── */
+.exam-q-grid {
+  @apply grid grid-cols-5 gap-2;
+}
+
+.exam-q-btn {
+  @apply w-full aspect-square rounded-xl text-xs font-semibold flex items-center justify-center
+         transition-all duration-200 relative overflow-hidden;
+}
+
+.exam-q-btn-answered {
+  @apply bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400
+         shadow-sm border border-emerald-200 dark:border-emerald-800/50;
+}
+.exam-q-btn-answered::after {
+  content: '';
+  @apply absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-500 dark:bg-emerald-400;
+}
+
+.exam-q-btn-current {
+  @apply ring-2 ring-primary-500 dark:ring-primary-400 bg-primary-50 text-primary-700
+         dark:bg-primary-900/30 dark:text-primary-300 shadow-sm;
+}
+
+.exam-q-btn-unanswered {
+  @apply bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400
+         border border-gray-200 dark:border-gray-700
+         hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300;
+}
+
+.exam-q-btn-flagged {
+  @apply bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400
+         border border-amber-200 dark:border-amber-800/40
+         ring-1 ring-amber-300 dark:ring-amber-700;
+}
+
+.exam-q-btn-skipped {
+  @apply bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400
+         border border-orange-200 dark:border-orange-800/40;
+}
+
+/* ── Timer ────────────────────────────────────────────────────────────── */
+.exam-timer {
+  @apply flex items-center gap-2 px-3 py-2.5 rounded-xl bg-gray-50 dark:bg-gray-800/80 border border-gray-100 dark:border-gray-700;
+}
+
+.exam-timer-urgent {
+  @apply bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800/40;
+}
+
+.exam-timer-display {
+  @apply font-mono font-bold text-lg tracking-wider tabular-nums;
+}
+
+/* ── Question card ────────────────────────────────────────────────────── */
+.exam-question-card {
+  @apply bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 
+         shadow-sm p-6 sm:p-8 transition-shadow duration-300;
+}
+
+.exam-question-stem {
+  @apply text-base sm:text-lg leading-relaxed text-gray-900 dark:text-gray-100 mb-6;
+}
+
+.exam-question-meta {
+  @apply flex items-center gap-3 mb-5 pb-4 border-b border-gray-100 dark:border-gray-800;
+}
+
+/* ── Navigation bar ─────────────────────────────────────────────────────── */
+.exam-nav-bar {
+  @apply sticky bottom-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-t border-gray-100 dark:border-gray-800 
+         px-4 py-3 flex items-center justify-between gap-3 safe-area-bottom;
+}
+
+.exam-nav-btn {
+  @apply inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-sm
+         transition-all duration-150;
+}
+
+.exam-nav-btn-prev {
+  @apply exam-nav-btn bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300
+         hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-30 disabled:cursor-not-allowed;
+}
+
+.exam-nav-btn-next {
+  @apply exam-nav-btn bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300
+         hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-30 disabled:cursor-not-allowed;
+}
+
+.exam-nav-btn-save {
+  @apply exam-nav-btn bg-primary-600 hover:bg-primary-700 text-white shadow-sm
+         disabled:opacity-40 disabled:cursor-not-allowed;
+}
+
+/* ── Finish exam button ────────────────────────────────────────────────── */
+.exam-finish-btn {
+  @apply w-full py-2.5 rounded-xl font-semibold text-sm
+         bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400
+         hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-800 dark:hover:text-gray-200
+         transition-all duration-150 disabled:opacity-40;
+}
+
+/* ── Progress bar (question based) ──────────────────────────────────────── */
+.exam-progress {
+  @apply h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden;
+}
+
+.exam-progress-fill {
+  @apply h-full rounded-full transition-all duration-500 ease-out;
+}
+
+/* ── Stats chips ─────────────────────────────────────────────────────────── */
+.exam-stat-chip {
+  @apply inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium;
+}
+
+.exam-stat-chip-answered {
+  @apply exam-stat-chip bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400;
+}
+
+.exam-stat-chip-remaining {
+  @apply exam-stat-chip bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400;
+}
+
+/* ── Sidebar section headings ────────────────────────────────────────────── */
+.exam-sidebar-section {
+  @apply px-4 py-3;
+}
+
+.exam-sidebar-section-header {
+  @apply text-[11px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3;
+}
+
+/* ── Divider line ─────────────────────────────────────────────────────────── */
+.exam-divider {
+  @apply border-t border-gray-100 dark:border-gray-800 my-2;
+}
+
 /* ════════════════════════════════════════════════════════════════════════════
    ACCESSIBILITY: prefers-reduced-motion
    ════════════════════════════════════════════════════════════════════════════ */
@@ -1072,5 +1447,1061 @@ button, a, input, select, textarea, [role="button"], [tabindex]:not([tabindex="-
     @apply bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700
            hover:border-gray-300 dark:hover:border-gray-600
            hover:shadow-md dark:hover:shadow-black/30;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   KITOB KO'RINISHI — "Axborot va axborot jarayonlari" qo'llanmasi
+   Manba tuzilmasi: main.tex dagi quti, sarlavha va jadval uslublari.
+   ═══════════════════════════════════════════════════════════════════ */
+@layer components {
+
+  /* ─── Bloklar orasidagi ritm ─── */
+  .book-chapter > [data-block] + [data-block] {
+    margin-top: 0.85rem;
+  }
+  .book-chapter > [data-block='heading'] {
+    margin-top: 2.25rem;
+  }
+  .book-chapter > [data-block='subheading'] {
+    margin-top: 1.6rem;
+  }
+  .book-chapter > [data-block='heading']:first-child,
+  .book-chapter > [data-block='intro']:first-child {
+    margin-top: 0;
+  }
+  .book-chapter > [data-block='text'] + [data-block='text'] {
+    margin-top: 0.7rem;
+  }
+  .book-chapter > [data-block='source'] {
+    margin-top: 1.5rem;
+  }
+
+  /* ─── Tipografiya ─── */
+  .book-paragraph {
+    color: var(--bk-ink);
+    font-size: 0.9375rem;
+    line-height: 1.78;
+    letter-spacing: -0.003em;
+    text-wrap: pretty;
+  }
+
+  .book-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--bk-navy);
+    font-size: 1.1875rem;
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+    scroll-margin-top: 5rem;
+  }
+  .book-heading-rule {
+    display: inline-block;
+    width: 0.25rem;
+    height: 1.4rem;
+    border-radius: 999px;
+    background: linear-gradient(to bottom, var(--bk-gold-soft), var(--bk-teal));
+    flex-shrink: 0;
+  }
+
+  .book-subheading {
+    color: var(--bk-teal);
+    font-size: 1rem;
+    font-weight: 650;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+  }
+
+  /* ─── Inline belgilar ─── */
+  .book-bold {
+    color: var(--bk-navy);
+    font-weight: 650;
+  }
+  .book-term {
+    color: var(--bk-teal);
+    font-weight: 650;
+  }
+  .book-eng {
+    color: var(--bk-muted);
+    font-style: italic;
+  }
+  .book-code {
+    @apply font-mono text-[0.85em] px-1.5 py-0.5 rounded-md;
+    background: var(--bk-paper);
+    border: 1px solid var(--bk-line);
+    color: var(--bk-ink);
+  }
+  .book-src {
+    color: var(--bk-muted);
+    font-size: 0.72rem;
+    white-space: nowrap;
+    margin-left: 0.25rem;
+    opacity: 0.85;
+  }
+  .book-yes { color: var(--bk-green); font-weight: 700; }
+  .book-no { color: var(--bk-coral); font-weight: 700; }
+  .book-src::before { content: '('; }
+  .book-src::after { content: ')'; }
+  .book-link {
+    color: var(--bk-teal);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--bk-teal) 40%, transparent);
+    text-underline-offset: 2px;
+  }
+  .book-math .katex,
+  .book-formula .katex {
+    color: var(--bk-ink);
+  }
+  .book-math-error {
+    @apply font-mono text-xs;
+    color: var(--bk-coral);
+  }
+
+  /* ─── Bob kirishi (chapterintro) ─── */
+  .book-intro {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem 1.15rem;
+    border-radius: 1rem;
+    background: linear-gradient(135deg, #12304a, #1b4763);
+    color: #eaf4f8;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    box-shadow: 0 6px 18px -12px rgba(18, 48, 74, 0.7);
+  }
+  .book-intro-icon {
+    color: var(--bk-gold-soft);
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+
+  /* ─── Rangli qutilar ─── */
+  .book-box {
+    border-radius: 1rem;
+    border: 1px solid var(--bk-line);
+    border-left-width: 4px;
+    background: var(--bk-surface);
+    overflow: hidden;
+  }
+  .book-box-head {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.55rem 0.9rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .book-box-head-button {
+    cursor: pointer;
+    text-align: left;
+  }
+  .book-box-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 0.5rem;
+    flex-shrink: 0;
+  }
+  .book-box-label { flex: 1 1 auto; }
+  .book-box-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: none;
+    opacity: 0.8;
+  }
+  .book-box-body {
+    padding: 0.15rem 0.95rem 0.85rem;
+  }
+  .book-box-body > * + * {
+    margin-top: 0.6rem;
+  }
+
+  .book-box-definition {
+    border-left-color: var(--bk-teal);
+    background: var(--bk-aqua);
+  }
+  .book-box-definition .book-box-head { color: var(--bk-teal); }
+  .book-box-definition .book-box-icon {
+    background: color-mix(in srgb, var(--bk-teal) 16%, transparent);
+    color: var(--bk-teal);
+  }
+
+  .book-box-exam {
+    border-left-color: var(--bk-gold-soft);
+    background: var(--bk-gold-light);
+  }
+  .book-box-exam .book-box-head { color: var(--bk-gold); }
+  .book-box-exam .book-box-icon {
+    background: color-mix(in srgb, var(--bk-gold-soft) 22%, transparent);
+    color: var(--bk-gold);
+  }
+
+  .book-box-trap {
+    border-left-color: var(--bk-coral-soft);
+    background: var(--bk-coral-light);
+  }
+  .book-box-trap .book-box-head { color: var(--bk-coral); }
+  .book-box-trap .book-box-icon {
+    background: color-mix(in srgb, var(--bk-coral-soft) 18%, transparent);
+    color: var(--bk-coral);
+  }
+
+  .book-box-extra {
+    border-left-color: var(--bk-purple);
+    background: var(--bk-purple-light);
+  }
+  .book-box-extra .book-box-head { color: var(--bk-purple); }
+  .book-box-extra .book-box-icon {
+    background: color-mix(in srgb, var(--bk-purple) 16%, transparent);
+    color: var(--bk-purple);
+  }
+
+  .book-box-solved {
+    border-left-color: var(--bk-green);
+    background: var(--bk-green-light);
+  }
+  .book-box-solved .book-box-head { color: var(--bk-green); }
+  .book-box-solved .book-box-icon {
+    background: color-mix(in srgb, var(--bk-green) 16%, transparent);
+    color: var(--bk-green);
+  }
+
+  .book-box-summary {
+    border-left-color: var(--bk-navy);
+    border-top: 2px solid var(--bk-navy);
+    background: var(--bk-paper);
+  }
+  .book-box-summary .book-box-head { color: var(--bk-navy); }
+  .book-box-summary .book-box-icon {
+    background: color-mix(in srgb, var(--bk-navy) 12%, transparent);
+    color: var(--bk-navy);
+  }
+
+  .book-box-quickcheck {
+    border-left-color: var(--bk-teal);
+    border-style: dashed;
+    border-left-style: solid;
+    background: var(--bk-surface);
+  }
+  .book-box-quickcheck .book-box-head { color: var(--bk-teal); }
+  .book-box-quickcheck .book-box-icon {
+    background: color-mix(in srgb, var(--bk-teal) 12%, transparent);
+    color: var(--bk-teal);
+  }
+
+  .book-box-task {
+    border-left-color: var(--bk-gold-soft);
+    border-color: color-mix(in srgb, var(--bk-gold-soft) 55%, transparent);
+    background: var(--bk-surface);
+  }
+  .book-box-task .book-box-head { color: var(--bk-gold); }
+  .book-box-task .book-box-icon {
+    background: color-mix(in srgb, var(--bk-gold-soft) 20%, transparent);
+    color: var(--bk-gold);
+  }
+
+  .book-box-keywords {
+    border-left-color: var(--bk-navy);
+    background: var(--bk-paper);
+  }
+  .book-box-keywords .book-box-head { color: var(--bk-navy); }
+  .book-box-keywords .book-box-icon {
+    background: color-mix(in srgb, var(--bk-navy) 12%, transparent);
+    color: var(--bk-navy);
+  }
+  .book-box-keywords .book-paragraph { font-size: 0.875rem; }
+
+  .book-box-case {
+    border-left-color: var(--bk-gold-soft);
+    background: var(--bk-paper);
+  }
+  .book-box-case .book-box-head { color: var(--bk-gold); }
+  .book-box-case .book-box-icon {
+    background: color-mix(in srgb, var(--bk-gold-soft) 18%, transparent);
+    color: var(--bk-gold);
+  }
+
+  /* "Bob maqsadi" va "Bob yakuni" — to'q fonli quti (kitobdagi Navy) */
+  .book-box-goal {
+    border: 0;
+    background: linear-gradient(135deg, #12304a, #1b4763);
+    box-shadow: 0 6px 18px -12px rgba(18, 48, 74, 0.7);
+  }
+  .book-box-goal .book-box-head { color: var(--bk-gold-soft); }
+  .book-box-goal .book-box-icon {
+    background: rgba(242, 181, 68, 0.18);
+    color: var(--bk-gold-soft);
+  }
+  .book-box-goal .book-paragraph,
+  .book-box-goal .book-list > li,
+  .book-box-goal .book-list-text {
+    color: #eaf4f8;
+  }
+  .book-box-goal .book-bold,
+  .book-box-goal .book-term { color: #ffd88a; }
+  .book-box-goal .book-list-dot { background: var(--bk-gold-soft); }
+  .book-box-goal .book-list-num {
+    background: rgba(242, 181, 68, 0.2);
+    color: #ffd88a;
+  }
+  .book-box-goal .katex { color: #eaf4f8; }
+
+  .book-box-answers {
+    border-left-color: var(--bk-muted);
+    background: var(--bk-paper);
+  }
+  .book-box-answers .book-box-head { color: var(--bk-muted); }
+  .book-box-answers .book-box-icon {
+    background: color-mix(in srgb, var(--bk-muted) 14%, transparent);
+    color: var(--bk-muted);
+  }
+  .book-box-answers .book-paragraph { font-size: 0.875rem; }
+
+  /* ─── Manba izi ─── */
+  .book-source {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.6rem 0.85rem;
+    border: 1px dashed var(--bk-line);
+    border-radius: 0.85rem;
+    color: var(--bk-muted);
+    font-size: 0.78rem;
+    line-height: 1.6;
+  }
+
+  /* ─── Ro'yxatlar ─── */
+  .book-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+  .book-list > li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    color: var(--bk-ink);
+    font-size: 0.9125rem;
+    line-height: 1.7;
+  }
+  .book-list-text { flex: 1 1 auto; min-width: 0; }
+  .book-list-dot {
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 999px;
+    background: var(--bk-teal);
+    flex-shrink: 0;
+    margin-top: 0.62rem;
+  }
+  .book-list-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.3rem;
+    height: 1.3rem;
+    border-radius: 0.45rem;
+    background: color-mix(in srgb, var(--bk-teal) 12%, transparent);
+    color: var(--bk-teal);
+    font-size: 0.72rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+
+  /* ─── Atama ro'yxati (description) ─── */
+  .book-deflist {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+  .book-deflist-item {
+    padding: 0.6rem 0.85rem;
+    border-radius: 0.85rem;
+    background: var(--bk-paper);
+    border: 1px solid var(--bk-line);
+  }
+  .book-deflist-term {
+    color: var(--bk-teal);
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 0.15rem;
+  }
+  .book-deflist-body {
+    color: var(--bk-ink);
+    font-size: 0.885rem;
+    line-height: 1.7;
+  }
+
+  /* ─── Jadval ─── */
+  .book-table-wrap {
+    border: 1px solid var(--bk-line);
+    border-radius: 1rem;
+    overflow: hidden;
+    background: var(--bk-surface);
+  }
+  .book-table-head {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.9rem;
+    background: var(--bk-paper);
+    border-bottom: 1px solid var(--bk-line);
+    color: var(--bk-teal);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .book-table-hint {
+    margin-left: auto;
+    margin-right: 0.6rem;
+    color: var(--bk-muted);
+    font-weight: 600;
+    font-size: 0.62rem;
+    letter-spacing: 0.02em;
+    text-transform: none;
+    white-space: nowrap;
+  }
+  @media (min-width: 640px) {
+    .book-table-hint { display: none; }
+  }
+  .book-table-count {
+    margin-left: auto;
+    color: var(--bk-muted);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: none;
+  }
+  .book-table-scroll {
+    overflow-x: auto;
+  }
+  .book-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.855rem;
+  }
+  .book-table thead th {
+    padding: 0.6rem 0.9rem;
+    text-align: left;
+    vertical-align: bottom;
+    color: var(--bk-navy);
+    font-weight: 700;
+    font-size: 0.78rem;
+    background: color-mix(in srgb, var(--bk-teal) 7%, transparent);
+    border-bottom: 1px solid var(--bk-line);
+    white-space: nowrap;
+  }
+  .book-table tbody td {
+    padding: 0.6rem 0.9rem;
+    vertical-align: top;
+    color: var(--bk-ink);
+    line-height: 1.62;
+    border-bottom: 1px solid color-mix(in srgb, var(--bk-line) 60%, transparent);
+    min-width: 8rem;
+  }
+  .book-table tbody tr:last-child td { border-bottom: 0; }
+  .book-table tbody tr:nth-child(even) td {
+    background: color-mix(in srgb, var(--bk-paper) 60%, transparent);
+  }
+  .book-table-first {
+    font-weight: 600;
+    color: var(--bk-navy);
+  }
+  .book-table tbody td:first-child {
+    min-width: 9.5rem;
+  }
+
+  /* ─── Formula ─── */
+  .book-formula {
+    padding: 0.75rem 1rem;
+    border-radius: 0.9rem;
+    border: 1px solid var(--bk-line);
+    background: var(--bk-paper);
+    overflow-x: auto;
+  }
+  .book-formula-body {
+    text-align: center;
+  }
+  .book-formula-body .katex-display {
+    margin: 0;
+  }
+  .book-formula-accent {
+    border-color: color-mix(in srgb, var(--bk-gold-soft) 60%, transparent);
+    background: var(--bk-gold-light);
+  }
+
+  /* quti ichidagi formula qo'shimcha ramka olmaydi */
+  .book-box .book-formula:not(.book-formula-accent),
+  .book-box-body .book-formula:not(.book-formula-accent) {
+    padding: 0.35rem 0.1rem;
+    border: 0;
+    background: transparent;
+  }
+
+  /* faqat manba izidan iborat satr */
+  .book-src-line {
+    text-align: right;
+    margin-top: -0.35rem;
+  }
+
+  .book-pre {
+    @apply font-mono text-xs p-4 rounded-xl overflow-x-auto;
+    background: #0f1729;
+    color: #e2e8f0;
+  }
+
+  /* ─── Bob mundarijasi ─── */
+  .book-outline {
+    margin-bottom: 1.5rem;
+    padding: 0.85rem 1rem;
+    border-radius: 1rem;
+    border: 1px solid var(--bk-line);
+    background: var(--bk-paper);
+  }
+  .book-outline-head {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.55rem;
+    color: var(--bk-muted);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .book-outline-list {
+    display: grid;
+    gap: 0.1rem;
+  }
+  @media (min-width: 640px) {
+    .book-outline-list { grid-template-columns: 1fr 1fr; gap: 0.1rem 1.25rem; }
+  }
+  .book-outline-link {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.3rem 0.35rem;
+    border-radius: 0.5rem;
+    text-align: left;
+    font-size: 0.83rem;
+    line-height: 1.5;
+    color: var(--bk-ink);
+    transition: background-color 0.15s ease;
+  }
+  .book-outline-link:hover {
+    background: color-mix(in srgb, var(--bk-teal) 10%, transparent);
+    color: var(--bk-teal);
+  }
+  .book-outline-link.is-current {
+    background: color-mix(in srgb, var(--bk-teal) 14%, transparent);
+    color: var(--bk-teal);
+    font-weight: 600;
+  }
+  .book-outline-link.is-current .book-outline-num { color: var(--bk-teal); }
+  .book-outline-num {
+    color: var(--bk-muted);
+    font-size: 0.7rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    margin-top: 0.15rem;
+    flex-shrink: 0;
+  }
+  .book-outline-text { flex: 1 1 auto; min-width: 0; }
+
+  /* ─── Sxemalar ─── */
+  .book-diagram {
+    padding: 1rem;
+    border-radius: 1rem;
+    border: 1px solid var(--bk-line);
+    background: var(--bk-surface);
+  }
+  .book-diagram-figcaption {
+    margin-top: 0.7rem;
+    text-align: center;
+    color: var(--bk-muted);
+    font-size: 0.72rem;
+    letter-spacing: 0.01em;
+  }
+  .book-diagram-flow {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+  @media (min-width: 640px) {
+    .book-diagram-flow { flex-direction: row; align-items: stretch; }
+  }
+  .book-diagram-flow-item {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  @media (min-width: 640px) {
+    .book-diagram-flow-item { flex-direction: row; align-items: center; }
+  }
+  .book-diagram-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.15rem;
+    flex: 1 1 auto;
+    padding: 0.6rem 0.7rem;
+    border-radius: 0.85rem;
+    border: 1px solid color-mix(in srgb, var(--bk-teal) 45%, transparent);
+    background: var(--bk-aqua);
+    text-align: center;
+  }
+  .book-diagram-node-title {
+    color: var(--bk-navy);
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+  .book-diagram-node-sub {
+    color: var(--bk-muted);
+    font-size: 0.72rem;
+    line-height: 1.45;
+  }
+  .book-diagram-link,
+  .book-diagram-link-v {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    flex-shrink: 0;
+  }
+  .book-diagram-link {
+    flex-direction: column;
+    padding: 0 0.4rem;
+    min-width: 3.5rem;
+  }
+  .book-diagram-link-v {
+    flex-direction: row;
+    padding: 0.3rem 0;
+    width: 100%;
+  }
+  .book-diagram-arrow { color: var(--bk-muted); flex-shrink: 0; }
+  .book-diagram-link-label {
+    color: var(--bk-muted);
+    font-size: 0.63rem;
+    line-height: 1.25;
+    text-align: center;
+  }
+  .book-diagram-steps {
+    display: flex;
+    flex-direction: column;
+  }
+  .book-diagram-step-row {
+    display: flex;
+    flex-direction: column;
+  }
+  .book-diagram-step {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 0.8rem;
+    border-radius: 0.85rem;
+    border: 1px solid color-mix(in srgb, var(--bk-teal) 40%, transparent);
+    background: var(--bk-aqua);
+    color: var(--bk-navy);
+    font-size: 0.85rem;
+    font-weight: 550;
+  }
+  .book-diagram-step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 999px;
+    background: var(--bk-teal);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .book-diagram-node-teal {
+    border-color: color-mix(in srgb, var(--bk-teal) 55%, transparent);
+    background: var(--bk-aqua);
+  }
+  .book-diagram-node-gold {
+    border-color: color-mix(in srgb, var(--bk-gold-soft) 60%, transparent);
+    background: var(--bk-gold-light);
+  }
+  .book-diagram-node-purple {
+    border-color: color-mix(in srgb, var(--bk-purple) 50%, transparent);
+    background: var(--bk-purple-light);
+  }
+  .book-diagram-node-green {
+    border-color: color-mix(in srgb, var(--bk-green) 50%, transparent);
+    background: var(--bk-green-light);
+  }
+  .book-diagram-node-coral {
+    border-color: color-mix(in srgb, var(--bk-coral-soft) 55%, transparent);
+    background: var(--bk-coral-light);
+  }
+  .book-diagram-node-muted {
+    border-color: var(--bk-line);
+    background: var(--bk-paper);
+  }
+
+  .book-diagram-cycle {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 480px) {
+    .book-diagram-cycle { grid-template-columns: 1fr 1fr; }
+  }
+  @media (min-width: 768px) {
+    .book-diagram-cycle { grid-template-columns: repeat(3, 1fr); }
+  }
+  .book-diagram-cycle-item {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.55rem 0.7rem;
+    border-radius: 0.85rem;
+    border: 1px solid color-mix(in srgb, var(--bk-teal) 40%, transparent);
+    background: var(--bk-aqua);
+    color: var(--bk-navy);
+    font-size: 0.82rem;
+    font-weight: 550;
+    line-height: 1.35;
+  }
+
+  .book-diagram-notes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .book-diagram-note-warn { color: var(--bk-coral); }
+  .book-diagram-note-warn svg { color: var(--bk-coral); }
+
+  .book-diagram-pair {
+    display: grid;
+    gap: 0.9rem;
+  }
+  @media (min-width: 640px) {
+    .book-diagram-pair { grid-template-columns: 1fr 1fr; }
+  }
+  .book-diagram-chart {
+    padding: 0.4rem 0.5rem 0.2rem;
+    border-radius: 0.85rem;
+    background: var(--bk-paper);
+    border: 1px solid var(--bk-line);
+  }
+  .book-diagram-caption {
+    text-align: center;
+    color: var(--bk-muted);
+    font-size: 0.72rem;
+    padding-bottom: 0.25rem;
+  }
+  .book-diagram-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    color: var(--bk-muted);
+    font-size: 0.75rem;
+  }
+  .book-diagram-lane {
+    margin-bottom: 0.4rem;
+    color: var(--bk-muted);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .book-diagram-question-row {
+    display: flex;
+    justify-content: center;
+  }
+  .book-diagram-question {
+    display: inline-flex;
+    padding: 0.45rem 1.1rem;
+    border-radius: 999px;
+    border: 1px solid var(--bk-navy);
+    background: var(--bk-paper);
+    color: var(--bk-navy);
+    font-size: 0.83rem;
+    font-weight: 700;
+  }
+  .book-diagram-leaves {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 480px) {
+    .book-diagram-leaves { grid-template-columns: 1fr 1fr; }
+  }
+  @media (min-width: 768px) {
+    .book-diagram-leaves { grid-template-columns: repeat(3, 1fr); }
+  }
+  .book-diagram-leaf {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.55rem 0.6rem;
+    border-radius: 0.75rem;
+    border: 1px solid color-mix(in srgb, var(--bk-teal) 40%, transparent);
+    background: var(--bk-aqua);
+    text-align: center;
+  }
+  .book-diagram-leaf-q {
+    color: var(--bk-muted);
+    font-size: 0.7rem;
+  }
+  .book-diagram-leaf-f {
+    color: var(--bk-navy);
+    font-size: 0.85rem;
+  }
+
+  /* ─── Manba fayli izi ─── */
+  .book-provenance {
+    margin-top: 1.25rem;
+    color: var(--bk-muted);
+    font-size: 0.7rem;
+    text-align: center;
+    opacity: 0.75;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   BO'LIMLI O'QISH REJIMI — navigatsiya, sahifalovchi va yakun kartasi
+   ═══════════════════════════════════════════════════════════════════ */
+@layer components {
+
+  /* ─── Yuqoridagi holat paneli ─── */
+  .book-navbar {
+    position: sticky;
+    top: 3rem;
+    z-index: 15;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-bottom: 1.25rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.9rem;
+    border: 1px solid var(--bk-line);
+    background: var(--bk-surface);
+    box-shadow: 0 6px 16px -14px rgba(18, 48, 74, 0.55);
+  }
+  @media (min-width: 1024px) {
+    .book-navbar { top: 0.5rem; }
+  }
+  .book-navbar-dots {
+    display: flex;
+    align-items: center;
+    gap: 0.28rem;
+    flex-shrink: 0;
+  }
+  .book-navbar-dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--bk-muted) 35%, transparent);
+    transition: width 0.2s ease, background-color 0.2s ease;
+  }
+  .book-navbar-dot:hover { background: var(--bk-teal); }
+  .book-navbar-dot.is-visited { background: color-mix(in srgb, var(--bk-teal) 55%, transparent); }
+  .book-navbar-dot.is-current {
+    width: 1.15rem;
+    background: var(--bk-teal);
+  }
+  .book-navbar-count {
+    color: var(--bk-muted);
+    font-size: 0.7rem;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .book-navbar-count strong { color: var(--bk-teal); font-weight: 700; }
+  .book-navbar-title {
+    flex: 1 1 auto;
+    min-width: 0;
+    color: var(--bk-navy);
+    font-size: 0.78rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: none;
+  }
+  @media (min-width: 640px) {
+    .book-navbar-title { display: block; }
+  }
+  .book-navbar-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-left: auto;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.6rem;
+    border: 1px solid var(--bk-line);
+    color: var(--bk-muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  @media (min-width: 640px) {
+    .book-navbar-button { margin-left: 0; }
+  }
+  .book-navbar-button:hover {
+    color: var(--bk-teal);
+    border-color: var(--bk-teal);
+  }
+
+  /* ─── Bo'limlar orasidagi sahifalovchi ─── */
+  .book-pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+    margin-top: 1.75rem;
+  }
+  .book-pager.is-single { grid-template-columns: 1fr; }
+  .book-pager-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+    padding: 0.7rem 0.85rem;
+    border-radius: 0.9rem;
+    border: 1px solid var(--bk-line);
+    background: var(--bk-surface);
+    color: var(--bk-navy);
+    text-align: left;
+    transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .book-pager-button:hover:not(:disabled) {
+    border-color: var(--bk-teal);
+    box-shadow: 0 6px 18px -14px rgba(8, 126, 139, 0.9);
+  }
+  .book-pager-button:disabled { opacity: 0.4; cursor: not-allowed; }
+  .book-pager-button.is-next {
+    justify-content: flex-end;
+    text-align: right;
+    border-color: color-mix(in srgb, var(--bk-teal) 45%, transparent);
+    background: color-mix(in srgb, var(--bk-teal) 7%, var(--bk-surface));
+  }
+  .book-pager-body { display: flex; flex-direction: column; min-width: 0; }
+  .book-pager-label {
+    color: var(--bk-muted);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .book-pager-title {
+    font-size: 0.82rem;
+    font-weight: 600;
+    line-height: 1.35;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* ─── Bob yakuni va davom etish ─── */
+  .book-finish {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 2rem;
+    padding: 1.75rem 1.25rem 1.5rem;
+    border-radius: 1.25rem;
+    border: 1px solid color-mix(in srgb, var(--bk-teal) 35%, transparent);
+    background: color-mix(in srgb, var(--bk-teal) 6%, var(--bk-surface));
+    text-align: center;
+  }
+  .book-finish-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    margin-bottom: 0.35rem;
+    border-radius: 999px;
+    background: var(--bk-teal);
+    color: #fff;
+  }
+  .book-finish-title {
+    color: var(--bk-navy);
+    font-size: 1.05rem;
+    font-weight: 700;
+  }
+  .book-finish-sub {
+    color: var(--bk-muted);
+    font-size: 0.82rem;
+  }
+  .book-finish-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-top: 0.9rem;
+    padding: 0.75rem 1.4rem;
+    border-radius: 0.9rem;
+    background: linear-gradient(135deg, #1a56db, #3b82f6);
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 650;
+    box-shadow: 0 10px 24px -14px rgba(26, 86, 219, 0.9);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .book-finish-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 28px -14px rgba(26, 86, 219, 0.95);
+  }
+  .book-finish-cta-meta {
+    padding: 0.15rem 0.5rem;
+    border-radius: 0.5rem;
+    background: rgba(255, 255, 255, 0.22);
+    font-size: 0.7rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .book-finish-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem 1rem;
+    margin-top: 1rem;
+    max-width: 100%;
+  }
+  .book-finish-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    max-width: 100%;
+    min-width: 0;
+    padding: 0.3rem 0.5rem;
+    border-radius: 0.6rem;
+    color: var(--bk-muted);
+    font-size: 0.76rem;
+    font-weight: 600;
+    transition: color 0.15s ease, background-color 0.15s ease;
+  }
+  .book-finish-link:hover {
+    color: var(--bk-teal);
+    background: color-mix(in srgb, var(--bk-teal) 10%, transparent);
   }
 }

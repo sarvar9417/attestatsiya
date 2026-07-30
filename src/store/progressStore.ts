@@ -52,7 +52,8 @@ export const useProgressStore = create<ProgressState>()(
             completed: true,
             correctCount: correct,
             totalCount: total,
-            lastScore: Math.round((correct / total) * 100),
+            // testsiz ma'lumotnoma mavzusi: o'qib chiqilgani yetarli
+            lastScore: total > 0 ? Math.round((correct / total) * 100) : 100,
           }
           if (!module.completedTopics.includes(subtopicId)) {
             module.completedTopics = [...module.completedTopics, subtopicId]
