@@ -7,7 +7,7 @@ import re
 import os
 import json
 
-BASE = '/Users/sarvar9417/Desktop/attestatsiya/Axborot_va_axborot_jarayonlari_LaTeX'
+BASE = '/Users/sarvar9417/Desktop/attestatsiya/frontend/Axborot_va_axborot_jarayonlari_LaTeX'
 
 # Chapter to subtopic mapping (Variant A)
 CHAPTER_MAP = {
@@ -278,7 +278,7 @@ def main():
     output_text += '// ╚══════════════════════════════════════════════════════════════════╝\n\n'
     output_text += '\n\n'.join(output_parts)
     
-    out_path = '/Users/sarvar9417/Desktop/attestatsiya/scripts/m01_generated.txt'
+    out_path = '/Users/sarvar9417/Desktop/attestatsiya/frontend/scripts/m01_generated.txt'
     with open(out_path, 'w', encoding='utf-8') as f:
         f.write(output_text)
     
