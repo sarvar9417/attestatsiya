@@ -61,9 +61,11 @@
 | T-014 | BLOCKED | T-013 | Natija ekrani (ball, toifa qarori, guruh kesimi) |
 | T-015 | BLOCKED | T-014 | Mock exam UI (timer, navigator, flag) |
 | T-016 | DONE | — | User auth frontend: login/register/profil/logout UX (validatsiya, EMAIL_NOT_CONFIRMED, redirect), profilga parol o'zgartirish, route himoyasi va session expiry |
-| T-017 | IN_PROGRESS | T-011, T-012 | M01 darslik kontenti va 400 savolni frontend → backend → DB oqimiga ko'chirish (lessons.blocks + questions seed + lessonContentGateway) |
+| T-017 | DONE | T-011, T-012 | M01 darslik kontenti va 400 savolni frontend → backend → DB oqimiga ko'chirish (lessons.blocks + questions seed + lessonContentGateway) |
 | T-018 | DONE | T-017 | Dars testi 20 ta random savol (faqat joriy dars pool'idan) + javoblar aralashishi (option_order) + umumiy vaqt savollar×2 daqiqa (server timer) + admin sinov urinishlarini ko'rish (API + admin panel sahifasi); Vercel deploy (frontend + backend) va ko'p segmentli /api/* routing fix (PR #9 — rewrites) |
 | T-019 | DONE | T-018 | Zod validatsiya xatolari 400 `VALIDATION_ERROR` qaytaradi (ilgari 500): ildiz sabab — `setErrorHandler` route'lardan keyin chaqirilgani uchun Fastify route context'lari default handler'ni ushlab qolgan; endi handler route'lardan oldin o'rnatiladi + zod 3.25.x `issues`/`errors` strukturaviy tekshiruvi; regressiya testlari (`error-handler.test.ts`, 3 ta) |
+| T-021 | DONE | T-019 | Backend Vercel loyihasi GitHub'ga ulandi (`POST /link`, productionBranch=main, rootDirectory=backend); auto-deploy tasdiqlandi (push → production deploy, preview ham); PR #13 |
+| T-022 | DONE | T-021 | Backend alohida `sarvar9417/attestatsiya-backend` (public) repoga ko'chirildi; Vercel qayta ulandi (rootDirectory bekor, repo ildizi); yangi repo CI (tsc + vitest 102 + secrets scan); push → auto-deploy tasdiqlandi; asosiy repodan `backend/` olib tashlandi |
 
 ## Blockerlar
 
