@@ -558,6 +558,10 @@ Barcha darslik kontenti: `darsliklar/` katalogida. Ekstraksiyalar `darsliklar/ex
 
 ## Backend GitHub auto-deploy (TASK-021, 2026-07-31)
 
+> ⚠️ Bu bo'lim tarixiy holatni tasvirlaydi — keyinroq TASK-022 da backend alohida
+> `attestatsiya-backend` repoga ko'chirildi va Vercel qayta ulandi. Quyidagi
+> monorepo ulanish (repo: attestatsiya, rootDirectory: backend) endi mavjud emas.
+
 - **Backend loyihasi (attestatsiya-backend) Vercel GitHub integratsiyasiga ulandi:**
   `POST /v9/projects/prj_xDVzqUZyqVP33Eiy2OoMqoes6fgI/link` bilan
   `{"type":"github","repo":"attestatsiya","org":"sarvar9417"}` — endi har
