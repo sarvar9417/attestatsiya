@@ -554,6 +554,22 @@ Barcha darslik kontenti: `darsliklar/` katalogida. Ekstraksiyalar `darsliklar/ex
   mumkin — yangi deploy yangi asset hash'lar bilan keladi; bitta hard refresh
   (Cmd+Shift+R) yetarli bo'ladi.
 
+## Backend GitHub auto-deploy (TASK-021, 2026-07-31)
+
+- **Backend loyihasi (attestatsiya-backend) Vercel GitHub integratsiyasiga ulandi:**
+  `POST /v9/projects/prj_xDVzqUZyqVP33Eiy2OoMqoes6fgI/link` bilan
+  `{"type":"github","repo":"attestatsiya","org":"sarvar9417"}` — endi har
+  `main`'ga push'da avtomatik production deploy bo'ladi.
+- **`rootDirectory: backend`** (PATCH /v9/projects/{id}) — build `backend/` katalogidan
+  bajariladi, `backend/vercel.json` ishlatiladi (rewrites + buildCommand/outputDirectory).
+- **`productionBranch: main`** — ulanishda avtomatik o'rnatildi.
+- **Env var'lar (production):** SUPABASE_URL, SUPABASE_SERVICE_KEY, AUTH_REDIRECT_URL —
+  avvalgi CLI deploy'lardagi kabi. Preview env var'lari hali yo'q — PR preview'lari
+  env'siz ishga tushadi (kerak bo'lsa alohida qo'shilishi mumkin).
+- **Eslatma:** bundan oldin backend faqat qo'lda `vercel deploy --prod --token` bilan
+  deploy qilinardi (GitHub integratsiya ulanmagan edi); frontend (attestatsiya)
+  allaqachon ulangan edi. Endi ikkala loyiha ham main push'da avtomatik deploy bo'ladi.
+
 ## Ochiq masalalar — M01 kontenti
 
 - M01.01 (appendix) ga savol biriktirilmagan: `generate_topic_test` da
