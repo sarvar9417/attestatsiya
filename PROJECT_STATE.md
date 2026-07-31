@@ -88,6 +88,8 @@
 | T-017 | AI sessiya | DONE | 2026-07-31 | task/TASK-017-m01-content-db |
 | T-018 | AI sessiya | DONE | 2026-07-31 | task/TASK-018-vercel-env-fix |
 | T-019 | AI sessiya | DONE | 2026-07-31 | task/TASK-020-qora-ekran-tuzatishlar |
+| T-021 | AI sessiya | DONE | 2026-07-31 | task/TASK-021-backend-git-deploy |
+| T-022 | AI sessiya | DONE | 2026-07-31 | task/TASK-022-backend-own-repo |
 | T-012 | — | READY | — | task/T-012-generators |
 
 ## Auth va learner trafigi backend'ga ko'chirildi (2026-07-31)
@@ -570,6 +572,33 @@ Barcha darslik kontenti: `darsliklar/` katalogida. Ekstraksiyalar `darsliklar/ex
   deploy qilinardi (GitHub integratsiya ulanmagan edi); frontend (attestatsiya)
   allaqachon ulangan edi. Endi ikkala loyiha ham main push'da avtomatik deploy bo'ladi.
 
+## Backend alohida repo'ga ko'chirildi (TASK-022, 2026-07-31)
+
+- **Backend endi mustaqil GitHub repoda:** `sarvar9417/attestatsiya-backend` (public,
+  to'liq ko'chirish — asosiy repodagi `backend/` katalogi o'chirildi). Asosiy repo
+  `attestatsiya` faqat frontend (va supabase migrations, hujjatlar) uchun.
+- **Yangi repo tarkibi:** `src/`, `api/[...all].ts`, `vercel.json`, tsconfig'lar,
+  `vitest.config.ts`, `package-lock.json`, `.env.example` (faqat placeholder'lar),
+  `README.md`, `.gitignore` (node_modules/.env/.vercel/dist/coverage/*.log),
+  `.github/workflows/ci.yml` (npm ci + check:secrets + tsc + tsc:api + vitest run,
+  placeholder env bilan — testlar .env'siz ishlaydi), `scripts/check-secrets.mjs`
+  (`sb_secret_` va JWT pattern'lar).
+- **Vercel qayta ulandi:** attestatsiya-backend loyihasi endi yangi repoga bog'langan
+  (`POST /link` → `{type: github, repo: attestatsiya-backend, org: sarvar9417}`);
+  eski monorepo bog'lanishi o'chirildi; `rootDirectory` bekor qilindi (repo o'zi
+  backend ildizi); `productionBranch: main`.
+- **Auto-deploy tasdiqlandi:** yangi repoga push (`e82a477`) → Vercel production
+  deploy avtomatik (sha: e82a4773, ref: main, target: production, READY). Jonli:
+  `/api/health` healthy (DB env'lar ishlayapti), `register {}` → 400 VALIDATION_ERROR.
+- **Env var'lar (Vercel, production):** SUPABASE_URL, SUPABASE_SERVICE_KEY,
+  AUTH_REDIRECT_URL — o'zgarmadi (loyiha darajasida). Preview env hali yo'q
+  (PR preview'lari runtime'da env'siz — hujjatlashtirilgan).
+- **Lokal:** `backend/.env` nusxasi `~/Desktop/attestatsiya-backend/.env` da saqlangan
+  (gitignore'da). Lokal backend endi `~/Desktop/attestatsiya-backend` da ishlaydi
+  (`npm run dev`, PORT=3001).
+- **Asosiy repoda:** 44 backend fayli olib tashlandi; README/CI frontend'ga
+  bog'liq emasligi uchun o'zgarmadi; faqat PROJECT_STATE.md va TASKS.md yangilandi.
+
 ## Ochiq masalalar — M01 kontenti
 
 - M01.01 (appendix) ga savol biriktirilmagan: `generate_topic_test` da
@@ -589,7 +618,7 @@ Barcha darslik kontenti: `darsliklar/` katalogida. Ekstraksiyalar `darsliklar/ex
 | Muhit | URL | Database | Holat |
 |-------|-----|----------|-------|
 | Local frontend | `http://localhost:3000` (vite) | Remote Supabase (plyqezulrfowyblsfpzy) | M01 12 dars + 400 savol DB'da; dars testi 20 random/shuffle |
-| Local backend | `http://localhost:3001` | Remote Supabase | /api/admin/attempts faol |
+| Local backend | `http://localhost:3001` (`~/Desktop/attestatsiya-backend`) | Remote Supabase | Alohida repo: `sarvar9417/attestatsiya-backend`; /api/admin/attempts faol |
 | Production (frontend) | https://attestatsiya-five.vercel.app | Remote Supabase | Deploy; login forma ishlaydi, qora ekran yo'q |
 | Production (backend) | https://attestatsiya-backend.vercel.app | Remote Supabase | /api/health healthy; barcha /api/* route'lar Fastify'ga yetib boradi |
 
