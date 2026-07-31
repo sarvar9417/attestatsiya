@@ -2,138 +2,110 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import { Plus, ChevronDown, ChevronRight, GripVertical } from 'lucide-react'
 
-interface Module {
-  id: number
-  code: string
-  title: string
-  description: string | null
-  sort_order: number
-  subtopics: Subtopic[]
-  lessons: Map<number | null, Lesson[]>
-  lessonCount: number
-}
-
-interface Subtopic {
-  id: number
-  title: string
-  description: string | null
-  sort_order: number
-}
-
-interface Lesson {
-  id: number
-  subtopic_id: number | null
-  title: string
-  theory: string | null
-  duration_min: number | null
-  sort_order: number
+interface LessonRow {
+  id: string
+  module_id: string
+  title_uz: string
+  est_minutes: number
+  order_idx: number
+  slug: string
   status: string
-  created_at: string
+}
+
+interface ModuleRow {
+  id: string
+  code: string | null
+  title_uz: string
+  summary_uz: string | null
+  order_idx: number
+  slug: string
+  status: string
+  lessons: LessonRow[]
+}
+
+interface SubjectRow {
+  id: string
+  code: string
+  name_uz: string
+}
+
+const STATUS_META: Record<string, { label: string; dot: string; badge: string }> = {
+  published: { label: "E'lon qilingan", dot: 'bg-green-500', badge: 'bg-green-100 text-green-700' },
+  draft: { label: 'Qoralama', dot: 'bg-yellow-500', badge: 'bg-yellow-100 text-yellow-700' },
+  review: { label: 'Tekshiruvda', dot: 'bg-blue-500', badge: 'bg-blue-100 text-blue-700' },
+  archived: { label: 'Arxivlangan', dot: 'bg-gray-400', badge: 'bg-gray-100 text-gray-600' },
 }
 
 export default function ModulesPage() {
-  const [modules, setModules] = useState<Module[]>([])
+  const [modules, setModules] = useState<ModuleRow[]>([])
+  const [subjects, setSubjects] = useState<SubjectRow[]>([])
   const [loading, setLoading] = useState(true)
-  const [expanded, setExpanded] = useState<Set<number>>(new Set())
+  const [expanded, setExpanded] = useState<Set<string>>(new Set())
   const [showForm, setShowForm] = useState(false)
-  const [form, setForm] = useState({ code: '', title: '', description: '' })
-  const [subForm, setSubForm] = useState<{ moduleId: number; title: string } | null>(null)
+  const [form, setForm] = useState({ code: '', title_uz: '', summary_uz: '', subject_id: '' })
+  const [saveError, setSaveError] = useState<string | null>(null)
 
-  useEffect(() => { load() }, [])
+  useEffect(() => { void load() }, [])
 
   async function load() {
     setLoading(true)
-    const { data: specs } = await supabase.from('specification_versions').select('id').eq('is_active', true).maybeSingle()
-    if (!specs) { setLoading(false); return }
+    setSaveError(null)
+    const [{ data: modulesData }, { data: lessonsData }, { data: subjectsData }] = await Promise.all([
+      supabase.from('modules').select('*').order('order_idx'),
+      supabase.from('lessons').select('*').order('order_idx'),
+      supabase.from('subjects').select('*').order('code'),
+    ])
 
-    const { data: m } = await supabase.from('modules').select('*').eq('spec_id', specs.id).order('sort_order')
-    const { data: s } = await supabase.from('subtopics').select('*').order('sort_order')
-    const { data: l } = await supabase.from('lessons').select('*').order('sort_order')
-
-    if (m) {
-      const subtopicMap = new Map<number, Subtopic[]>()
-      if (s) {
-        s.forEach(st => {
-          const arr = subtopicMap.get(st.module_id) || []
-          arr.push(st)
-          subtopicMap.set(st.module_id, arr)
-        })
+    if (modulesData) {
+      const lessonsByModule = new Map<string, LessonRow[]>()
+      for (const lesson of lessonsData || []) {
+        const arr = lessonsByModule.get(lesson.module_id) || []
+        arr.push(lesson)
+        lessonsByModule.set(lesson.module_id, arr)
       }
-      // Module mapping: code → id
-      const moduleCodeToId = new Map<string, number>()
-      if (m) {
-        m.forEach(mod => moduleCodeToId.set(mod.code, mod.id))
-      }
-
-      const lessonsByModule = new Map<number, { stMap: Map<number | null, Lesson[]>; totalLessons: number }>()
-      if (l) {
-        l.forEach(lesson => {
-          // Find which module this lesson belongs to
-          let modId: number | null = null
-          if (lesson.subtopic_id) {
-            const st = s?.find(s => s.id === lesson.subtopic_id)
-            if (st) modId = st.module_id
-          } else {
-            // NULL subtopic_id → try to extract from title prefix (e.g. "M06 - ...")
-            const codeMatch = lesson.title.match(/^(M\d{2})\s*-/)
-            if (codeMatch && moduleCodeToId.has(codeMatch[1])) {
-              modId = moduleCodeToId.get(codeMatch[1])!
-            }
-          }
-          if (modId != null && m) {
-            if (!lessonsByModule.has(modId)) {
-              lessonsByModule.set(modId, { stMap: new Map(), totalLessons: 0 })
-            }
-            const entry = lessonsByModule.get(modId)!
-            entry.totalLessons++
-            const stId = lesson.subtopic_id ?? 0 // 0 = no subtopic
-            if (!entry.stMap.has(stId)) {
-              entry.stMap.set(stId, [])
-            }
-            entry.stMap.get(stId)!.push(lesson)
-          }
-        })
-      }
-      setModules(m.map(mod => {
-        const entry = lessonsByModule.get(mod.id)
-        return {
-          ...mod,
-          subtopics: subtopicMap.get(mod.id) || [],
-          lessons: entry?.stMap || new Map(),
-          lessonCount: entry?.totalLessons || 0,
-        }
-      }))
+      setModules(modulesData.map(mod => ({
+        ...mod,
+        lessons: lessonsByModule.get(mod.id) || [],
+      })))
     }
+    if (subjectsData) setSubjects(subjectsData)
     setLoading(false)
   }
 
+  function slugify(value: string): string {
+    return value.trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-')
+  }
+
   async function createModule() {
-    const { data: spec } = await supabase.from('specification_versions').select('id').eq('is_active', true).single()
-    if (!spec) return alert('Avval faol spetsifikatsiya yarating')
-    await supabase.from('modules').insert({
-      spec_id: spec.id,
-      code: form.code,
-      title: form.title,
-      description: form.description || null,
-      sort_order: modules.length + 1,
+    setSaveError(null)
+    if (!form.title_uz.trim()) {
+      setSaveError('Modul nomini kiriting')
+      return
+    }
+    if (!form.subject_id) {
+      setSaveError('Fanni tanlang')
+      return
+    }
+    const slug = slugify(form.code || form.title_uz)
+    const { error } = await supabase.from('modules').insert({
+      code: form.code.trim() || null,
+      title_uz: form.title_uz.trim(),
+      summary_uz: form.summary_uz.trim() || null,
+      slug,
+      subject_id: form.subject_id,
+      order_idx: modules.length + 1,
+      status: 'draft',
     })
+    if (error) {
+      setSaveError(error.message)
+      return
+    }
     setShowForm(false)
-    setForm({ code: '', title: '', description: '' })
-    load()
+    setForm({ code: '', title_uz: '', summary_uz: '', subject_id: '' })
+    void load()
   }
 
-  async function createSubtopic(moduleId: number) {
-    if (!subForm) return
-    await supabase.from('subtopics').insert({
-      module_id: moduleId,
-      title: subForm.title,
-      sort_order: (modules.find(m => m.id === moduleId)?.subtopics.length ?? 0) + 1,
-    })
-    setSubForm(null)
-    load()
-  }
-
-  const toggleExpand = (id: number) => {
+  const toggleExpand = (id: string) => {
     const next = new Set(expanded)
     if (next.has(id)) next.delete(id)
     else next.add(id)
@@ -151,11 +123,27 @@ export default function ModulesPage() {
         </button>
       </div>
 
+      {saveError && (
+        <div className="mb-4 p-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-sm text-red-700 dark:text-red-300">
+          {saveError}
+        </div>
+      )}
+
       {showForm && (
         <div className="card p-4 mb-6 space-y-3">
-          <input className="input" placeholder="Kod (M01, M02...)" value={form.code} onChange={e => setForm(f => ({ ...f, code: e.target.value }))} />
-          <input className="input" placeholder="Modul nomi" value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} />
-          <textarea className="input" placeholder="Tavsif" value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} rows={2} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <input className="input" placeholder="Kod (M01, M02...)" value={form.code} onChange={e => setForm(f => ({ ...f, code: e.target.value }))} />
+            <select
+              className="input"
+              value={form.subject_id}
+              onChange={e => setForm(f => ({ ...f, subject_id: e.target.value }))}
+            >
+              <option value="">Fan tanlang...</option>
+              {subjects.map(s => <option key={s.id} value={s.id}>{s.code} — {s.name_uz}</option>)}
+            </select>
+          </div>
+          <input className="input" placeholder="Modul nomi" value={form.title_uz} onChange={e => setForm(f => ({ ...f, title_uz: e.target.value }))} />
+          <textarea className="input" placeholder="Qisqacha tavsif" value={form.summary_uz} onChange={e => setForm(f => ({ ...f, summary_uz: e.target.value }))} rows={2} />
           <div className="flex gap-2">
             <button onClick={createModule} className="btn-primary">Saqlash</button>
             <button onClick={() => setShowForm(false)} className="btn-secondary">Bekor qilish</button>
@@ -164,80 +152,44 @@ export default function ModulesPage() {
       )}
 
       <div className="space-y-2">
-        {modules.map(mod => (
-          <div key={mod.id} className="card overflow-hidden">
-            <button onClick={() => toggleExpand(mod.id)} className="w-full p-4 flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors text-left">
-              <GripVertical size={16} className="text-gray-300 shrink-0" />
-              {expanded.has(mod.id) ? <ChevronDown size={16} className="text-gray-400 shrink-0" /> : <ChevronRight size={16} className="text-gray-400 shrink-0" />}
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <span className="badge bg-primary-100 text-primary-700 text-xs font-mono">{mod.code}</span>
-                  <span className="font-semibold text-gray-900 dark:text-white">{mod.title}</span>
+        {modules.map(mod => {
+          const meta = STATUS_META[mod.status] || { label: mod.status, dot: 'bg-gray-400', badge: 'bg-gray-100 text-gray-600' }
+          return (
+            <div key={mod.id} className="card overflow-hidden">
+              <button onClick={() => toggleExpand(mod.id)} className="w-full p-4 flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors text-left">
+                <GripVertical size={16} className="text-gray-300 shrink-0" />
+                {expanded.has(mod.id) ? <ChevronDown size={16} className="text-gray-400 shrink-0" /> : <ChevronRight size={16} className="text-gray-400 shrink-0" />}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    {mod.code && <span className="badge bg-primary-100 text-primary-700 text-xs font-mono">{mod.code}</span>}
+                    <span className="font-semibold text-gray-900 dark:text-white">{mod.title_uz}</span>
+                    <span className={`badge text-[10px] ${meta.badge}`}>{meta.label}</span>
+                  </div>
+                  {mod.summary_uz && <p className="text-sm text-gray-500 mt-0.5 line-clamp-1">{mod.summary_uz}</p>}
                 </div>
-                {mod.description && <p className="text-sm text-gray-500 mt-0.5">{mod.description}</p>}
-              </div>
-              <span className="text-xs text-gray-400">{mod.subtopics.length} mavzu · {mod.lessonCount} ta dars</span>
-            </button>
+                <span className="text-xs text-gray-400 shrink-0">{mod.lessons.length} ta dars</span>
+              </button>
 
-            {expanded.has(mod.id) && (
-              <div className="px-4 pb-4 pl-14 space-y-3">
-                {/* Subtopics */}
-                {mod.subtopics.map(st => {
-                  const stLessons = mod.lessons.get(st.id) || []
-                  return (
-                    <div key={st.id}>
-                      <div className="flex items-center gap-2 py-1.5 px-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{st.title}</span>
-                        <span className="text-xs text-gray-400 ml-auto">{stLessons.length} ta dars</span>
+              {expanded.has(mod.id) && (
+                <div className="px-4 pb-4 pl-14 space-y-0.5 border-l-2 border-gray-200 dark:border-gray-700 ml-4">
+                  {mod.lessons.map(lesson => {
+                    const lMeta = STATUS_META[lesson.status] || { label: lesson.status, dot: 'bg-gray-400', badge: 'bg-gray-100 text-gray-600' }
+                    return (
+                      <div key={lesson.id} className="flex items-center gap-2 py-1.5 px-2 text-xs rounded hover:bg-gray-50 dark:hover:bg-gray-800/30">
+                        <span className={`w-1.5 h-1.5 rounded-full ${lMeta.dot}`} />
+                        <span className="text-gray-600 dark:text-gray-400 flex-1 truncate">{lesson.title_uz}</span>
+                        {lesson.est_minutes > 0 && <span className="text-gray-400 shrink-0">{lesson.est_minutes} min</span>}
+                        <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${lMeta.badge}`}>{lMeta.label}</span>
                       </div>
-                      {stLessons.length > 0 && (
-                        <div className="ml-4 mt-1 space-y-0.5 border-l-2 border-gray-200 dark:border-gray-700 pl-3">
-                          {stLessons.map(lesson => (
-                            <div key={lesson.id} className="flex items-center gap-2 py-1 px-2 text-xs rounded hover:bg-gray-50 dark:hover:bg-gray-800/30">
-                              <span className={`w-1.5 h-1.5 rounded-full ${lesson.status === 'published' ? 'bg-green-500' : lesson.status === 'draft' ? 'bg-yellow-500' : 'bg-gray-400'}`} />
-                              <span className="text-gray-600 dark:text-gray-400 flex-1 truncate">{lesson.title}</span>
-                              {lesson.duration_min && <span className="text-gray-400 shrink-0">{lesson.duration_min} min</span>}
-                              <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${lesson.status === 'published' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'}`}>{lesson.status}</span>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  )
-                })}
-                {/* Subtopiksiz darslar */}
-                {mod.lessons.has(0) && (
-                  <div>
-                    <p className="text-xs text-gray-400 px-3 py-1">Subtopiksiz darslar</p>
-                    <div className="ml-4 space-y-0.5 border-l-2 border-dashed border-gray-300 dark:border-gray-700 pl-3">
-                      {(mod.lessons.get(0) || []).map(lesson => (
-                        <div key={lesson.id} className="flex items-center gap-2 py-1 px-2 text-xs rounded hover:bg-gray-50 dark:hover:bg-gray-800/30">
-                          <span className={`w-1.5 h-1.5 rounded-full ${lesson.status === 'published' ? 'bg-green-500' : lesson.status === 'draft' ? 'bg-yellow-500' : 'bg-gray-400'}`} />
-                          <span className="text-gray-600 dark:text-gray-400 flex-1 truncate">{lesson.title}</span>
-                          {lesson.duration_min && <span className="text-gray-400 shrink-0">{lesson.duration_min} min</span>}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                <button
-                  onClick={() => setSubForm({ moduleId: mod.id, title: '' })}
-                  className="flex items-center gap-1.5 text-sm text-primary-600 hover:text-primary-700 py-1.5"
-                >
-                  <Plus size={14} /> Mikro-mavzu qo'shish
-                </button>
-                {subForm?.moduleId === mod.id && (
-                  <div className="flex gap-2 mt-1">
-                    <input className="input flex-1" placeholder="Mavzu nomi" value={subForm.title} onChange={e => setSubForm(sf => ({ ...sf!, title: e.target.value }))} autoFocus />
-                    <button onClick={() => createSubtopic(mod.id)} className="btn-primary text-sm">Qo'shish</button>
-                    <button onClick={() => setSubForm(null)} className="btn-secondary text-sm">Bekor</button>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-        ))}
-        {modules.length === 0 && <p className="text-gray-400 text-center py-8">Hali modul yo'q. Avval spetsifikatsiya yarating.</p>}
+                    )
+                  })}
+                  {mod.lessons.length === 0 && <p className="text-xs text-gray-400 py-2">Hali dars yo'q</p>}
+                </div>
+              )}
+            </div>
+          )
+        })}
+        {modules.length === 0 && <p className="text-gray-400 text-center py-8">Hali modul yo'q</p>}
       </div>
     </div>
   )
