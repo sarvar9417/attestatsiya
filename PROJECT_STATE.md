@@ -645,6 +645,27 @@ ochiq. Preview'lar faqat Vercel'ga login bo'lgan tekshiruvchilarga ko'rinadi
   oqim ishlaydi; test foydalanuvchilar tozalandi. Route himoyasi ishlab turibdi
   (bundle'da `auth?returnTo`/`SESSION_EXPIRED`/`expired=1` kodlari bor).
 
+## E2E tekshiruv — mock imtihon cheklovi (2026-07-31)
+
+- **Brauzer render:** login/ro'yxatdan o'tish formasi to'liq ko'rinadi, 0 konsol
+  xato, failed request yo'q (`attestatsiya-five.vercel.app`).
+- **To'liq API oqim ishladi:** register (201) → admin confirm → login (200,
+  access_token) → `/api/auth/me` → `/api/exam/start` (bolim/M01 → 15 savol,
+  1800s) → `/api/exam/submit` (saved:true) → `/api/exam/finish` (breakdown).
+  Test foydalanuvchilari tozalandi.
+- **Ma'lum cheklov — mock imtihon (`kind=mock`) 503 `INSUFFICIENT_POOL`:
+  "Savollar bazasi yetarli emas"** — Dashboard'dagi "Sinov imtihoni — 50 savol ·
+  120 daqiqa" tugmasi shu yo'lni ishlatadi. Ildiz sabab: blueprint 50 savolni
+  13+ guruh bo'yicha (`S1.INFO`, `S2.HW`, `S2.OFFICE`, `S3.LOGIC`, `S3.NUM`,
+  `S3.ALGO`, `S4.BLOCK` …) `bilish`/`qollash`/`mulohaza` taqsimoti bilan talab
+  qiladi; DB'da esa faqat M01 kontenti (`S1.INFO`, 400 savol, hammasi `bilish`)
+  bor, boshqa guruhlarda 0–1 savol. Qaror (foydalanuvchi): **hozircha
+  qoldiriladi** — keyingi modullar (M02–M16) kontenti import qilinganda mock
+  imtihon ishlay boshlaydi. Agar oldinroq kerak bo'lsa: (a) blueprint
+  quota'larini mavjud kontentga moslash (migration + ADR) yoki (b) `start_exam`
+  RPC'sida mock uchun qat'iy 50-savol shartini yumshatish (kod + migration +
+  testlar).
+
 ## Ochiq masalalar — M01 kontenti
 
 - M01.01 (appendix) ga savol biriktirilmagan: `generate_topic_test` da
