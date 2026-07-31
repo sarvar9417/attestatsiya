@@ -87,6 +87,7 @@
 | T-016 | AI sessiya | DONE | 2026-07-31 | task/T-016-auth-frontend |
 | T-017 | AI sessiya | DONE | 2026-07-31 | task/TASK-017-m01-content-db |
 | T-018 | AI sessiya | DONE | 2026-07-31 | task/TASK-018-vercel-env-fix |
+| T-019 | AI sessiya | DONE | 2026-07-31 | task/TASK-020-qora-ekran-tuzatishlar |
 | T-012 | — | READY | — | task/T-012-generators |
 
 ## Auth va learner trafigi backend'ga ko'chirildi (2026-07-31)
@@ -508,12 +509,50 @@ Barcha darslik kontenti: `darsliklar/` katalogida. Ekstraksiyalar `darsliklar/ex
 - **Brauzer e2e (Playwright):** `src/tests/e2e/live-auth.spec.ts` deployed backend'ga
   qarshi yashil (2/2): login → dashboard → profil; muddati o'tgan session reload'da
   auto-refresh; chiqish → barcha sahifalar `/auth`ga qaytaradi.
-- **Eslatma (topilgan bug):** `POST /api/auth/register` noto'g'ri body bilan 400 o'rniga
-  500 qaytaradi (`error instanceof ZodError` async error handler'da mos kelmaydi) —
-  API_CONTRACTS.md'ga mos emas, alohida task sifatida tuzatilishi kerak.
+- **Eslatma (T-019, TASK-020'da yechildi):** `POST /api/auth/register` noto'g'ri body bilan
+  400 o'rniga 500 qaytarar edi — asl sabab `setErrorHandler` route'lardan keyin
+  chaqirilgani (route context'lari default handler'ni ushlab qolgan) + zod 3.25.x
+  `errors` API'si; endi 400 `VALIDATION_ERROR` qaytadi (regressiya testlari bilan).
 - **Xavfsizlik eslatmasi:** Vercel token, Supabase service key chatda yozilgan —
   hammasi ishlagach token va service key'ni rotate qilish tavsiya etiladi (repo toza,
   `check-secrets` o'tdi).
+
+## To'q ko'k ekran va manifest xatosi tuzatish (TASK-020, 2026-07-31)
+
+- **Foydalanuvchi xabari:** konsolda `Manifest: Line 1, column 1, Syntax error`, ekran
+  to'q ko'k (hech narsa ko'rinmaydi). Chuqur tahlil frontend + backend + live serverlar
+  bo'yicha o'tkazildi, 3 ta asosiy sabab topildi:
+- **1) `public/` katalogi umuman yo'q edi** — `/manifest.json`, `/favicon.svg`,
+  `/apple-touch-icon.png`, `/og-image.png` 404 bo'lgan; root `vercel.json` SPA rewrite
+  (`/(.*) → /index.html`) tufayli `/manifest.json` index.html (HTML) qaytargach brauzer
+  "Manifest: Line 1, column 1, Syntax error" bergan. Yechim: `public/` yaratildi —
+  `manifest.json` (Attestatsiya), `favicon.svg`, `robots.txt`, `apple-touch-icon.png`,
+  `og-image.png` (`scripts/gen_assets.mjs` — sof node:zlib PNG encoder, qo'shimcha
+  dependency'siz, qayta generatsiya mumkin). Vercel real statik faylni rewrite'dan oldin
+  beradi.
+- **2) index.html'da EnglishPath brendi qolgan edi** (title/og EnglishPath, `lang="en"`,
+  `theme-color #1a56db` ko'k, noto'g'ri supabase preconnect) — Attestatsiya brendiga
+  almashtirildi: `lang="uz"`, to'g'ri supabase preconnect, `theme-color` #ffffff default
+  (dark rejimda inline skript #030712 qo'yadi; theme.ts ham moslashtirildi).
+- **3) apiClient'da fetch timeout yo'q edi** — backend javob bermasa loading abadiy
+  qolib, to'q ekran ko'rinardi. Endi `fetchWithTimeout` (AbortController, 20s) barcha
+  so'rovlarda (refresh ham); AbortError → aniq "Server javob bermadi" xabari.
+- **T-019 asl ildiz sababi topildi (backend zod 500):** `setErrorHandler` route'lardan
+  KEYIN chaqirilgani uchun Fastify route context'lar yaratilganda default handler'ni
+  snapshot qilib olgan (fastify/lib/context.js — `errorHandler || server[kErrorHandler]`)
+  → global handler hech qachon ishlamagan; qo'shimcha: zod 3.25.x (v4-core transitional)
+  `error.errors` o'rniga `issues` ishlatadi. Yechim: (1) `setErrorHandler` route'lardan
+  oldin ko'chirildi; (2) `errors.ts` ga `getZodIssues()` strukturaviy tekshiruv
+  (`name === 'ZodError'` + `issues`/`errors` massivlari), sendError'da 400
+  VALIDATION_ERROR branch; (3) handler ichi try/catch bilan himoyalandi.
+- **Validatsiya:** frontend tsc + build yashil, 242 test; backend tsc + `tsconfig.api.json`
+  yashil, 102 test (3 ta yangi regressiya — `backend/src/lib/__tests__/error-handler.test.ts`:
+  register {} → 400, login noto'g'ri email → 400, logout tokensiz → 401 global handler
+  orqali). Live `app.inject` tekshiruvida register {} endi 400 VALIDATION_ERROR
+  (avval 500 Fastify default format).
+- **Eslatma:** foydalanuvchi to'q ekranni eski bundle keshidan ham ko'rgan bo'lishi
+  mumkin — yangi deploy yangi asset hash'lar bilan keladi; bitta hard refresh
+  (Cmd+Shift+R) yetarli bo'ladi.
 
 ## Ochiq masalalar — M01 kontenti
 

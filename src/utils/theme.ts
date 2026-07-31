@@ -41,7 +41,7 @@ function applyTheme(theme: Theme) {
     if (meta) meta.setAttribute('content', '#030712')
   } else {
     root.classList.remove('dark')
-    if (meta) meta.setAttribute('content', '#1a56db')
+    if (meta) meta.setAttribute('content', '#ffffff')
   }
 }
 

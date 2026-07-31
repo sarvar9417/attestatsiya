@@ -14,6 +14,13 @@ import { sessionStore, emitSessionExpired } from '../features/auth/sessionStore'
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001'
 
+/**
+ * So'rov uchun maksimal kutish vaqti (ms). Backend javob bermasa yoki
+ * uzilsa fetch AbortError bilan to'xtatiladi — ilova cheksiz
+ * "yuklanmoqda" holatida qolib ketmaydi (qora/to'q ekran oldini oladi).
+ */
+const DEFAULT_TIMEOUT_MS = 20_000
+
 export class ApiError extends Error {
   constructor(
     message: string,
@@ -64,7 +71,7 @@ async function tryRefreshSession(): Promise<{ outcome: RefreshOutcome; token: st
   }
 
   try {
-    const response = await fetch(`${BASE_URL}/api/auth/refresh`, {
+    const response = await fetchWithTimeout(`${BASE_URL}/api/auth/refresh`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ refresh_token: session.refresh_token }),
@@ -96,6 +103,24 @@ function refreshSession(): Promise<{ outcome: RefreshOutcome; token: string | nu
   return refreshPromise
 }
 
+/**
+ * fetch'ni vaqt limiti bilan bajaradi — backend javob bermasa
+ * AbortController signali orqali so'rov bekor qilinadi.
+ */
+async function fetchWithTimeout(
+  url: string,
+  init: RequestInit,
+  timeoutMs: number = DEFAULT_TIMEOUT_MS
+): Promise<Response> {
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), timeoutMs)
+  try {
+    return await fetch(url, { ...init, signal: controller.signal })
+  } finally {
+    clearTimeout(timer)
+  }
+}
+
 async function doRequest(
   method: string,
   path: string,
@@ -110,7 +135,7 @@ async function doRequest(
     headers['Authorization'] = `Bearer ${token}`
   }
 
-  return fetch(`${BASE_URL}${path}`, {
+  return fetchWithTimeout(`${BASE_URL}${path}`, {
     method,
     headers,
     body: body ? JSON.stringify(body) : undefined,
@@ -131,7 +156,9 @@ async function request<T>(
     response = await doRequest(method, path, body, initialToken)
   } catch (err) {
     throw new ApiError(
-      'Server bilan aloqa yo\'q. Backend ishlayotganini tekshiring.',
+      err instanceof Error && err.name === 'AbortError'
+        ? 'Server javob bermadi. Iltimos, qayta urinib ko\'ring.'
+        : 'Server bilan aloqa yo\'q. Backend ishlayotganini tekshiring.',
       0,
       'NETWORK_ERROR',
       err instanceof TypeError ? err.message : undefined
