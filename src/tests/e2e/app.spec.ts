@@ -1,35 +1,48 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Attestatsiya platform E2E', () => {
-
-  test('auth sahifasi ochiladi', async ({ page }) => {
-    await page.goto('/')
-    await expect(page.locator('h1')).toContainText('Attestatsiya')
-    await expect(page.getByText("Informatika attestatsiyasiga tayyorgarlik")).toBeVisible()
+test.describe('Attestatsiya auth E2E', () => {
+  test('auth sahifasi login formasini ko\'rsatadi', async ({ page }) => {
+    await page.goto('/auth')
+    await expect(page.getByLabel('Email')).toBeVisible()
+    await expect(page.getByLabel('Parol', { exact: true })).toBeVisible()
+    await expect(page.locator('form').getByRole('button', { name: 'Kirish' })).toBeVisible()
+    await expect(page.getByText('Parolni unutdingizmi?')).toBeVisible()
   })
 
-  test('kirish va ro\'yxatdan o\'tish tablari ishlaydi', async ({ page }) => {
-    await page.goto('/')
-    const tabKirish = page.getByRole('button', { name: 'Kirish' }).first()
-    const tabRoyxat = page.getByRole('button', { name: "Ro'yxatdan o'tish" })
-    await expect(tabKirish).toBeVisible()
-    await expect(tabRoyxat).toBeVisible()
-    await tabRoyxat.click()
-    await expect(page.getByText('Ism')).toBeVisible()
+  test('ro\'yxatdan o\'tish tabiga o\'tilganda qo\'shimcha maydonlar chiqadi', async ({ page }) => {
+    await page.goto('/auth')
+    await page.getByRole('button', { name: "Ro'yxatdan o'tish" }).first().click()
+    await expect(page.getByLabel('Ism')).toBeVisible()
+    await expect(page.getByLabel('Parolni tasdiqlang')).toBeVisible()
+    await expect(page.locator('form').getByRole('button', { name: "Ro'yxatdan o'tish" })).toBeVisible()
   })
 
-  test('parolni tiklash modalini ochish mumkin', async ({ page }) => {
-    await page.goto('/')
+  test('formaga kirish validatsiyasi backend chaqirmasdan ishlaydi', async ({ page }) => {
+    await page.goto('/auth')
+    await page.getByLabel('Email').fill('test@test.com')
+    await page.getByLabel('Parol', { exact: true }).fill('123')
+    await page.locator('form').getByRole('button', { name: 'Kirish' }).click()
+    await expect(page.getByText('Parol kamida 6 ta belgidan iborat bo\'lishi kerak')).toBeVisible()
+    await expect(page.getByText('Email formati noto\'g\'ri')).toHaveCount(0)
+  })
+
+  test('parolni tiklash modalida email validatsiyasi ishlaydi', async ({ page }) => {
+    await page.goto('/auth')
     await page.getByText('Parolni unutdingizmi?').click()
     await expect(page.getByText('Parolni tiklash')).toBeVisible()
-    await expect(page.getByPlaceholder('email@example.com').first()).toBeVisible()
+    await page.getByLabel('Tiklash emaili').fill('invalid-email')
+    await page.getByRole('button', { name: /Yuborish/ }).click()
+    await expect(page.getByText('Email formati noto\'g\'ri')).toBeVisible()
   })
 
-  test('forma validatsiyasi ishlaydi', async ({ page }) => {
-    await page.goto('/')
-    const emailInput = page.locator('input[type="email"]')
-    const passwordInput = page.locator('input[type="password"]')
-    await expect(emailInput).toBeVisible()
-    await expect(passwordInput).toBeVisible()
+  test('himoyalangan sahifa /auth ga returnTo bilan qaytaradi', async ({ page }) => {
+    await page.goto('/profile')
+    await expect(page).toHaveURL(/\/auth\?returnTo=%2Fprofile/)
+    await expect(page.getByLabel('Email')).toBeVisible()
+  })
+
+  test('expired parametri session tugagan bannerini ko\'rsatadi', async ({ page }) => {
+    await page.goto('/auth?expired=1')
+    await expect(page.getByText(/Session muddati tugadi/i)).toBeVisible()
   })
 })

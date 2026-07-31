@@ -12,6 +12,7 @@ if (SUPABASE_URL && SUPABASE_ANON_KEY) {
 } else {
   _initError =
     'Supabase kalitlari topilmadi. Vercel dashboard\'da VITE_SUPABASE_URL va VITE_SUPABASE_ANON_KEY environment o\'zgaruvchilarini sozlang.'
+  // eslint-disable-next-line no-console
   console.error(_initError)
 }
 

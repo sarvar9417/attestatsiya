@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { MODULES, type Module } from '../data/contentTree'
+import { useCatalog } from '../hooks/useCatalog'
+import type { CatalogModule } from '../features/content/catalog'
 import { useProgressStore } from '../store/progressStore'
 import { 
   BookOpen, Search, GraduationCap, 
@@ -42,26 +43,27 @@ export default function LearningPage() {
   const [hoverCard, setHoverCard] = useState<string | null>(null)
   const navigate = useNavigate()
   const { getModuleProgress } = useProgressStore()
+  const { modules } = useCatalog()
 
   // ─── Search ────────────────────────────────────────────────────
   const filtered = useMemo(() => {
-    if (!search) return MODULES
+    if (!search) return modules
     const q = search.toLowerCase()
-    return MODULES.filter(m =>
+    return modules.filter(m =>
       m.title.toLowerCase().includes(q) ||
       m.description.toLowerCase().includes(q) ||
       m.code.toLowerCase().includes(q) ||
       m.subtopics.some(s => s.title.toLowerCase().includes(q)) ||
       m.section.toLowerCase().includes(q)
     )
-  }, [search])
+  }, [search, modules])
 
   // ─── Stats ─────────────────────────────────────────────────────
   const stats = useMemo(() => {
     let completed = 0
     let totalSubtopics = 0
     let modulesWithProgress = 0
-    for (const mod of MODULES) {
+    for (const mod of modules) {
       const prog = getModuleProgress(mod.id)
       totalSubtopics += mod.subtopics.length
       completed += prog.completedTopics.length
@@ -73,12 +75,11 @@ export default function LearningPage() {
       modulesWithProgress,
       percent: totalSubtopics > 0 ? Math.round((completed / totalSubtopics) * 100) : 0 
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getModuleProgress])
+  }, [getModuleProgress, modules])
 
   // ─── Group modules by section ──────────────────────────────────
   const groupedModules = useMemo(() => {
-    const groups = new Map<string, Module[]>()
+    const groups = new Map<string, CatalogModule[]>()
     for (const sec of SECTION_ORDER) {
       const mods = filtered.filter(m => m.section === sec)
       if (mods.length > 0) groups.set(sec, mods)
@@ -104,7 +105,7 @@ export default function LearningPage() {
               ATTESTATSIYA 2026
             </span>
             <span className="flex items-center gap-1.5 text-xs text-white/50">
-              <Clock size={12} /> 16 modul · 76 mavzu
+              <Clock size={12} /> {modules.length} modul · {stats.totalSubtopics} mavzu
             </span>
           </div>
           
@@ -132,7 +133,7 @@ export default function LearningPage() {
           },
           { 
             label: "Boshlangan modullar", 
-            value: `${stats.modulesWithProgress}/${MODULES.length}`, 
+            value: `${stats.modulesWithProgress}/${modules.length}`, 
             sub: 'ta modul',
             icon: BookOpen,
             color: 'text-blue-600', 

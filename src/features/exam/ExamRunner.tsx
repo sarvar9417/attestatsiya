@@ -1,5 +1,6 @@
 import {
   AlertTriangle,
+  ArrowLeft,
   Check,
   CheckCircle2,
   ChevronDown,
@@ -11,6 +12,7 @@ import {
   ShieldCheck,
   X,
 } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import {
   useCallback,
   useEffect,
@@ -30,70 +32,12 @@ import {
 } from './contracts'
 import {
   type ExamGateway,
-  supabaseExamGateway,
+  type TopicTestPreview,
 } from './examGateway'
 import { backendGateway } from './backendGateway'
 import Y1Choice from './questions/Y1Choice'
 import Y2Match from './questions/Y2Match'
 import Y3Order from './questions/Y3Order'
-
-/**
- * Gateway that prefers the backend but falls back to direct Supabase RPCs
- * if the backend is unreachable (network error or 5xx).
- */
-function createFallbackGateway(preferred: ExamGateway, fallback: ExamGateway): ExamGateway {
-  return {
-    async startMockExam() {
-      try {
-        return await preferred.startMockExam()
-      } catch (error) {
-        if (isNetworkError(error)) return fallback.startMockExam()
-        throw error
-      }
-    },
-    async startModuleExam(moduleId: string) {
-      try {
-        return await preferred.startModuleExam(moduleId)
-      } catch (error) {
-        if (isNetworkError(error)) return fallback.startModuleExam(moduleId)
-        throw error
-      }
-    },
-    async startTopicExam(lessonId: string) {
-      try {
-        return await preferred.startTopicExam(lessonId)
-      } catch (error) {
-        if (isNetworkError(error)) return fallback.startTopicExam(lessonId)
-        throw error
-      }
-    },
-    async submitAnswer(input) {
-      try {
-        return await preferred.submitAnswer(input)
-      } catch (error) {
-        if (isNetworkError(error)) return fallback.submitAnswer(input)
-        throw error
-      }
-    },
-    async finishExam(examId: string) {
-      try {
-        return await preferred.finishExam(examId)
-      } catch (error) {
-        if (isNetworkError(error)) return fallback.finishExam(examId)
-        throw error
-      }
-    },
-  }
-}
-
-function isNetworkError(error: unknown): boolean {
-  if (error instanceof TypeError) return true
-  if (error instanceof Error && error.message.includes('Failed to fetch')) return true
-  if (error instanceof Error && error.message.includes('NetworkError')) return true
-  return false
-}
-
-const fallbackGateway = createFallbackGateway(backendGateway, supabaseExamGateway)
 
 type RunnerPhase =
   | 'intro'
@@ -108,6 +52,10 @@ interface ExamRunnerProps {
   examKind?: 'mock' | 'bolim' | 'mavzu'
   moduleId?: string
   lessonId?: string
+  /** Yakuniy natija ekranidagi "Orqaga" havolasi (masalan, /learn/M01). */
+  backUrl?: string
+  /** Sinov muvaffaqiyatli yakunlanganda chaqiriladi (progress yozish uchun). */
+  onFinished?: (result: FinishExamResponse) => void
 }
 
 function formatDuration(seconds: number): string {
@@ -128,10 +76,12 @@ function errorMessage(error: unknown): string {
 }
 
 export default function ExamRunner({
-  gateway = fallbackGateway,
+  gateway = backendGateway,
   examKind = 'mock',
   moduleId,
   lessonId,
+  backUrl,
+  onFinished,
 }: ExamRunnerProps) {
   const [phase, setPhase] = useState<RunnerPhase>('intro')
   const [session, setSession] = useState<ExamSession | null>(null)
@@ -147,9 +97,20 @@ export default function ExamRunner({
   const [finishArmed, setFinishArmed] = useState(false)
   const [clockNow, setClockNow] = useState(Date.now())
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [topicPreview, setTopicPreview] = useState<TopicTestPreview | null>(null)
   const questionOpenedAtRef = useRef(Date.now())
   const finishInFlightRef = useRef(false)
   const autoFinishAttemptedRef = useRef(false)
+
+  useEffect(() => {
+    if (examKind !== 'mavzu' || !lessonId || phase !== 'intro') return
+    if (gateway.previewTopicTest) {
+      void gateway
+        .previewTopicTest(lessonId)
+        .then(setTopicPreview)
+        .catch(() => setTopicPreview(null))
+    }
+  }, [gateway, examKind, lessonId, phase])
 
   const currentItem = session?.items[currentIndex]
   const total = session?.items.length ?? 0
@@ -260,12 +221,13 @@ export default function ExamRunner({
       const nextResult = await gateway.finishExam(session.exam_id)
       setResult(nextResult)
       setPhase('result')
+      onFinished?.(nextResult)
     } catch (error) {
       setMessage(errorMessage(error))
       setPhase('active')
       finishInFlightRef.current = false
     }
-  }, [gateway, session])
+  }, [gateway, session, onFinished])
 
   useEffect(() => {
     if (
@@ -458,7 +420,14 @@ export default function ExamRunner({
             {examKind === 'mavzu' && (
               <>
                 <li>Mavzu bo‘yicha tezkor test</li>
-                <li>Vaqt cheklovi yo‘q</li>
+                {topicPreview ? (
+                  <li>
+                    {topicPreview.questionCount} ta savol ·{' '}
+                    {topicPreview.durationSec / 60} daqiqa
+                  </li>
+                ) : (
+                  <li>Umumiy vaqt: har bir savol uchun 2 daqiqa</li>
+                )}
               </>
             )}
             <li>Har bir to‘g‘ri javob · 2 ball</li>
@@ -559,6 +528,18 @@ export default function ExamRunner({
           >
             Yangi sinov
           </button>
+
+          {backUrl && (
+            <div className="mt-3">
+              <Link
+                to={backUrl}
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              >
+                <ArrowLeft size={15} />
+                Modulga qaytish
+              </Link>
+            </div>
+          )}
         </section>
       </main>
     )

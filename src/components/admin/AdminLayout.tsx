@@ -1,10 +1,11 @@
 import { NavLink, Routes, Route } from 'react-router-dom'
-import { LayoutDashboard, BookOpen, FileQuestion, Layers, Settings, ArrowLeft } from 'lucide-react'
+import { LayoutDashboard, BookOpen, FileQuestion, Layers, Settings, ArrowLeft, History } from 'lucide-react'
 import AdminDashboard from '../../pages/admin/AdminDashboard'
 import SpecsPage from '../../pages/admin/SpecsPage'
 import ModulesPage from '../../pages/admin/ModulesPage'
 import QuestionsPage from '../../pages/admin/QuestionsPage'
 import SourcesPage from '../../pages/admin/SourcesPage'
+import AttemptsPage from '../../pages/admin/AttemptsPage'
 
 const NAV = [
   { to: '/admin', icon: LayoutDashboard, label: 'Dashboard', end: true },
@@ -12,6 +13,7 @@ const NAV = [
   { to: '/admin/modules', icon: BookOpen, label: 'Modullar' },
   { to: '/admin/questions', icon: FileQuestion, label: 'Savollar' },
   { to: '/admin/sources', icon: Settings, label: 'Manbalar' },
+  { to: '/admin/attempts', icon: History, label: 'Sinov urinishlari' },
 ]
 
 export default function AdminLayout() {
@@ -50,6 +52,7 @@ export default function AdminLayout() {
             <Route path="modules" element={<ModulesPage />} />
             <Route path="questions" element={<QuestionsPage />} />
             <Route path="sources" element={<SourcesPage />} />
+            <Route path="attempts" element={<AttemptsPage />} />
           </Routes>
         </div>
       </main>

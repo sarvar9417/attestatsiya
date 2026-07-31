@@ -121,6 +121,36 @@ export const finishExamResponseSchema = z
   })
   .strict()
 
+export const examReviewItemSchema = z
+  .object({
+    order_idx: z.number().int().positive(),
+    stem_md: z.string().min(1),
+    format: z.enum(['Y1', 'Y2', 'Y3']),
+    construct: z.string().optional(),
+    construct_slug: z.string().optional(),
+    user_answer: z.unknown(),
+    is_correct: z.boolean(),
+    key: z.unknown(),
+    explanation_md: z.string().nullable(),
+  })
+  .strict()
+
+export const examReviewResponseSchema = z.array(examReviewItemSchema)
+
+export const dueReviewItemSchema = z
+  .object({
+    construct_id: z.string().uuid(),
+    title_uz: z.string(),
+    group_code: z.string(),
+    due_at: z.string().nullable(),
+    accuracy: z.number(),
+  })
+  .strict()
+
+export const dueReviewResponseSchema = z.array(dueReviewItemSchema)
+
+export type ExamReviewItem = z.infer<typeof examReviewItemSchema>
+export type DueReviewItem = z.infer<typeof dueReviewItemSchema>
 export type ExamOption = z.infer<typeof examOptionSchema>
 export type ExamItem = z.infer<typeof examItemSchema>
 export type ExamSession = z.infer<typeof examSessionSchema>

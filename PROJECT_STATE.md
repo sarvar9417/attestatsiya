@@ -6,7 +6,7 @@
 
 - Loyiha bosqichi: `DEVELOPMENT`
 - Joriy milestone: `P0 — xavfsizlik va barqarorlashtirish`
-- Oxirgi yangilanish: `2026-07-30`
+- Oxirgi yangilanish: `2026-07-31`
 - Production mavjud: `yo'q`
 - Database project mavjud: `ha (plyqezulrfowyblsfpzy, Singapore)`
 - Deployment mavjud: `yo'q`
@@ -15,7 +15,9 @@
 
 - **Stack:** React + Vite, TypeScript strict, Tailwind CSS, Zustand
 - **Database:** Supabase (PostgreSQL), UUID PK, enum turlari, RLS
-- **Autentifikatsiya:** email/parol ishlaydi; anonymous upgrade hali implement qilinmagan
+- **Autentifikatsiya:** email/parol ishlaydi; barcha auth amallari
+  frontend → Fastify backend → Supabase orqali (browser supabase-js
+  auth ishlatmaydi); anonymous upgrade hali implement qilinmagan
 - **Kontent tuzilmasi:** learner o'qi 16 modul (M01–M16); assessment blueprint alohida o'q
 - **Imtihon kontrakti:** 50 savol, 120 daqiqa, Y1/Y2/Y3 formatlar
 - **Kognitiv kontrakt:** bilish (8) + qo'llash (35) + mulohaza (7) = 50
@@ -82,7 +84,263 @@
 
 | Task | Egasi | Holat | Boshlangan vaqt | Branch |
 |------|-------|-------|-----------------|--------|
-| — | — | T-009 tugadi; kontent taksonomiyasini remote UUID bilan bog‘lash navbatda | — | — |
+| T-016 | AI sessiya | DONE | 2026-07-31 | task/T-016-auth-frontend |
+| T-017 | AI sessiya | CLAIMED | 2026-07-31 | task/TASK-017-m01-content-db |
+| T-012 | — | READY | — | task/T-012-generators |
+
+## Auth va learner trafigi backend'ga ko'chirildi (2026-07-31)
+
+- **To'liq backend auth:** register/login/logout/refresh/parol tiklash/
+  tasdiqlash xati/profile tahrirlash — `backend/src/routes/auth.ts` +
+  `auth.service.ts` (Supabase Auth admin API, service-role, server tomonda).
+  Browser supabase-js auth ishlatmaydi.
+- **Session:** `src/features/auth/sessionStore.ts` — localStorage
+  (`attestatsiya.session.v1`), `storage` event orqali tab'lararo sinxron.
+- **Avtomatik refresh:** `src/lib/apiClient.ts` — 401 bo'lganda mutex bilan
+  `POST /api/auth/refresh`, muvaffaqiyatli bo'lsa qayta urinish; login/refresh
+  endpointlarida refresh chaqirilmaydi; refresh ishlamasa `SESSION_EXPIRED`.
+- **useAuth rewrite:** supabase'siz; recovery link `/reset-password#access_token=`
+  tokenini taniydi va parol yangilangach hash'ni tozalaydi.
+- **AdminGuard:** real rol tekshiruvi (admin/editor ruxsat; boshqalar
+  "Ruxsat yo'q" sahifasi). `Profile.tsx` — ism/familiya tahrirlash formasi.
+- **Learner single-gateway:** `supabaseExamGateway` va `createFallbackGateway`
+  olib tashlandi; ExamRunner faqat `backendGateway` ishlatadi; progressGateway
+  fallbacksiz; `resolveIds.ts` o'chirildi (backend code→UUID resolve qiladi).
+- **Route'lar:** `/auth`, `/reset-password`, `/profile` App.tsx'ga qo'shildi
+  (avval mavjud sahifalar route'siz edi).
+- **Testlar:** +20 backend auth test (jami 78), +40 frontend (sessionStore,
+  authClient, useAuth, AdminGuard rol, apiClient refresh, progress fallback
+  olib tashlangan) — jami 185 frontend test yashil; lint yashil; typecheck'da
+  faqat 66 ta pre-existing admin legacy xato (T-006).
+- **Blocker (o'zgarmagan):** `npm run build` legacy admin TS xatolari sabab
+  yiqiladi (T-006; auth taskdan tashqari).
+
+## Frontend ↔ Backend API integratsiyasi (2026-07-31)
+
+- **Tuzatildi:** `ExamRunner` fallback bug'i — backend tushganda `ApiError`
+  (NETWORK_ERROR) tanimaganligi sababli Supabase RPC fallback hech qachon
+  ishga tushmasdi. Endi `createFallbackGateway`/`isNetworkError`
+  `src/features/exam/examGateway.ts` da, `ApiError` uchun ishlaydi.
+- **Barcha backend endpointlar uchun frontend client:** `getReview` va
+  `getDueReviews` `ExamGateway` kontraktiga qo'shildi (backendGateway HTTP);
+  progress single-gateway `src/features/progress/` da; content API client
+  `src/features/content/contentApi.ts` da.
+- **progressSync.ts** backend orqali (`/api/progress/sync`,
+  `/api/progress/modules`, `/api/exam/due-reviews`) ishlaydi; RPC fallback
+  2026-07-31 da olib tashlandi.
+- **Integration testlar:** barcha backend endpointlar frontend client orqali
+  real payload shakllari bilan tekshiriladi
+  (`src/tests/apiIntegration.test.ts` va b.).
+- **Env hujjati:** `.env.example` ga `VITE_API_BASE_URL`; README'ga backend
+  ishga tushirish va fallback izohi qo'shildi.
+- Lint yashil; typecheck'da 0 ta yangi xato; 185 frontend + 78 backend test o'tadi.
+- **Blocker:** `npm run build` hali admin legacy sahifalaridagi 66 ta
+  pre-existing TS xatosi sabab yiqiladi (T-006 ga bog'liq; bu taskdan tashqari).
+
+## Gibrid katalog — contentTree UUID schema moslashuvi (T-010, 2026-07-31)
+
+- **Gibrid katalog:** statik `contentTree.ts` UI tuzilma manbai bo'lib qoladi;
+  backend published modullari (UUID schema) meta-ma'lumotni qoplaydi.
+  DB to'lguncha UI buzilmaydi, to'lgach rasmiy ma'lumot ko'rsatiladi.
+- **`src/features/content/catalog.ts`:** `mergeCatalog(staticModules, apiModules)`
+  — sof funksiya. Qoidalar: modullar statik tartibda, `code` bo'yicha bog'lanadi;
+  DB topilsa title/description/section/examQuestionCount/uuid/lessonCount
+  qoplanadi; DB `summary_uz` null bo'lsa statik description; DB'da bor, statikda
+  yo'q modul qo'shilmaydi (subtopik tuzilmasi yo'q).
+- **`src/hooks/useCatalog.ts`:** darhol statik katalog bilan render, keyin
+  `GET /api/content/modules` javobi kelgach qoplash; API xatosida statik
+  saqlanadi (`online=false`).
+- **Consumer'lar:** LearningPage, ModulePage, TopicExamPage, DashboardPage
+  `MODULES` o'rniga `useCatalog()` ishlatadi; LearningPage header'i endi
+  dinamik "N modul · M mavzu". Route'siz legacy `TopicLessonPage` o'zgarmadi.
+- **Backend contract kengayishi:** `GET /api/content/modules` va
+  `/modules/:id` endi `exam_question_count` qaytaradi
+  (`backend/src/schemas/content.ts`, `content.service.ts`, frontend
+  `moduleSummarySchema`/`moduleDetailSchema` — strict schema, DB rasmiy manba).
+- **Testlar:** +8 `catalog.test.ts` (merge qoidalari: DB overlay, null fallback,
+  DB-only modul tashlanadi, tartib saqlanadi), +3 `useCatalog.test.tsx`
+  (statik seed, DB overlay, API xatosi), +4 backend `content.test.ts` route
+  testlari (exam_question_count/lesson_count, section filter, lesson_count=0,
+  bo'sh natija). Jami 196 frontend + 82 backend test yashil; lint yashil;
+  typecheck'da 0 yangi xato.
+- **Blocker (o'zgarmagan):** `npm run build` legacy admin TS xatolari sabab
+  yiqiladi (T-006).
+
+## Learning moduli — mavzu o'qish va server testi (T-011, 2026-07-31)
+
+- **Xavfsiz mavzu testi:** `/exam/topic/:moduleId/:subtopicId` (eski static
+  mock imtihon — javob kaliti brauzerga tushardi, timer client'da) o'chirildi;
+  `TopicExamPage.tsx` olib tashlandi. Mavzu testi endi ExamRunner orqali:
+  `navigate('/exam/mavzu/M01?lessonId=M01.01')` — savollar serverda tanlanadi,
+  javoblar serverda baholanadi (`generate_topic_test` RPC, code→UUID resolve).
+- **ExamRunner kengayishi:** `backUrl` prop'i — yakuniy natija ekranida
+  "Modulga qaytish" havolasi; `onFinished(result)` prop'i — sinov yakunida
+  chaqiriladi.
+- **Progress integratsiyasi (ExamPage):** mavzu sinovi yakunida
+  `completeTopic(moduleId, lessonId, correct, total)` + `syncTopicProgress`
+  (serverga `mark_lesson_read`). Savol soni `breakdown` (togri/jami) dan,
+  bo'lmasa 2 ball/savol (blueprint points_per_item) dan chiqariladi.
+- **Kontent oqimi o'zgarmadi:** TopicView nazariya o'qish (BookReader/scroll),
+  "Bilimni tekshirish" → server testi; mavzu savollari bazada bo'lmasa backend
+  NO_QUESTIONS → intro ekranida tushunarli xato xabari.
+- **Testlar:** +2 `ExamPage.test.tsx` (mavzu: `startTopicExam('M01.01')`
+  chaqiruvi, yakunda progressStore'da M01.01 3/3/100 yozilishi, "Modulga
+  qaytish" → `/learn/M01`; lessonId yo'q bo'lsa boshlanmaslik). Jami 198
+  frontend test yashil; lint yashil; typecheck'da 0 yangi xato.
+- **Blocker (o'zgarmagan):** `npm run build` legacy admin TS xatolari sabab
+  yiqiladi (T-006). Mavzu testlari uchun savol bazasi hali to'lmagan
+  (T-012 generatorlar buni to'ldiradi).
+
+## User auth frontend mustahkamlash (T-016, 2026-07-31)
+
+- **Auth sahifasi (`src/pages/Auth.tsx`):** client validatsiya (email format,
+  parol ≥6, signup'da parolni tasdiqlash maydoni, ism ≥2), show/hide parol
+  toggle (Eye/EyeOff), `autocomplete` atributlari (username/current-password/
+  new-password/name), login/signup'da `noValidate` + field-level xatolar.
+  `EMAIL_NOT_CONFIRMED` (ApiError code) → maxsus "Email tasdiqlash" ekrani
+  (resend 60s cooldown bilan, kirishga qaytish). Login muvaffaqiyatida
+  `returnTo` yoki `/` ga redirect; login qilgan foydalanuvchi `/auth` ga
+  kira olmaydi (`<Navigate replace>`). `?expired=1` → "Session muddati tugadi"
+  banner (URL tozalanadi, banner qoladi).
+- **Profil sahifasi (`src/pages/Profile.tsx`):** ism/familiya formasi (mavjud)
+  + email va rol badge; yangi "Parolni o'zgartirish" bo'limi (yangi parol +
+  tasdiqlash, show/hide, autocomplete="new-password", `updatePassword` orqali;
+  maydonlar tozalanishi). Saqlash tasdiqlari 3 soniyada avto-yashirinadi.
+  Chiqish `signOut()` + `navigate('/', { replace: true })` — hard reload
+  olib tashlandi.
+- **Route himoyasi:** yangi `src/components/auth/ProtectedRoute.tsx` — `/profile`
+  login talab qiladi; session yo'q bo'lsa `/auth?returnTo=<manzil>` ga
+  `replace` yo'naltirish, login'dan keyin foydalanuvchi qaytariladi.
+- **Session expiry:** `sessionStore`'da `SESSION_EXPIRED_EVENT`; apiClient
+  refresh muvaffaqiyatsiz bo'lganda hodisani yuboradi; yangi
+  `SessionExpiredHandler` (App darajasida) foydalanuvchini `/auth?expired=1`
+  ga yo'naltiradi (auth/reset-password sahifalaridan tashqari).
+- **useAuth:** `toError` endi `ApiError`ni o'zgartirmasdan uzatadi (code
+  saqlanadi); `signOut` navigatsiyani chaqiruvchiga qoldiradi (toza SPA
+  o'tish, `window.location.assign` olib tashlandi).
+- **Testlar:** +24 frontend — `AuthPage.test.tsx` (10: login redirect,
+  returnTo, EMAIL_NOT_CONFIRMED + resend + qaytish, email validatsiyasi,
+  parol mos kelmasligi, signup success, qisqa parol, expired banner,
+  login bo'lgan foydalanuvchini qaytarish, reset modal), `Profile.test.tsx`
+  (7: email/rol, ism update, qisqa ism, parol update + maydon tozalanishi,
+  mos kelmaslik, qisqa parol, chiqish), `ProtectedRoute.test.tsx` (3),
+  `sessionExpired.test.ts` (3: event + SESSION_EXPIRED, login endpointida
+  hodisa yo'q, sessionsiz 401). useAuth'da signOut/location testlari
+  yangilandi + ApiError code testi. Jami 233 frontend test.
+- **Test holati:** 232/233 o'tadi; yagona muvaffaqiyatsiz `BookReader`
+  diagramma testi pre-existing flaky (git stash bilan toza tree'da ham
+  yiqilishi isbotlandi, yakka holda o'tadi) — T-016'ga aloqasi yo'q.
+  Lint yashil; typecheck'da 0 yangi xato (66 pre-existing admin legacy,
+  T-006).
+- **Eslatma:** backend `update-password` joriy parolni tekshirmaydi (session
+  o'zi isbot) va `me` javobida `email_confirmed` yo'q — shuning uchun parol
+  bo'limida faqat yangi parol + tasdiqlash, email tasdiqlash badge'isi
+  backend kengaytirilgach qo'shiladi.
+
+### T-016 audit tuzatishlari (2026-07-31, 2-bosqich)
+
+- **apiClient refresh semantikasi aniqlandi:** `RefreshOutcome = 'ok' | 'invalid' | 'network'`.
+  Tarmoq uzilishi (fetch reject / NETWORK_ERROR) sessionni **saqlaydi** —
+  foydalanuvchi vaqtincha uzilishda tizimdan chiqarib tashlanmaydi; faqat
+  refresh token rad etilganda session tozalanadi va `SESSION_EXPIRED` hodisasi
+  yuboriladi. useAuth `refreshIfNeeded` ham xuddi shunday (isNetworkError).
+- **Auth.tsx:** `sanitizeReturnTo()` — faqat ichki yo'llarga ruxsat (open
+  redirect yopildi: `//` bilan boshlanadigan tashqi URL reject qilinadi);
+  resend interval `resendIntervalRef`'da saqlanadi va unmount'da tozalanadi;
+  reset modal emaili EMAIL_RE bilan tekshiriladi.
+- **ResetPassword.tsx qayta yozildi:** parolni tasdiqlash maydoni, show/hide
+  parol, ≥6 + moslik validatsiyasi, recovery token bo'lmasa va session bo'lmasa
+  "Parolni tiklash" info ekrani (/auth havolasi bilan), muvaffaqiyatda 3s dan
+  keyin `/` ga auto-navigatsiya, loading holati.
+- **E2E (`src/tests/e2e/app.spec.ts`) yangilandi:** auth `/auth` da ekani uchun
+  barcha 4 eski test o'lik edi; o'rniga 6 yangi backend-independent test
+  (login forma, signup tab, client validatsiya, reset modal validatsiyasi,
+  protected route `/profile` → `/auth?returnTo=%2Fprofile`, `?expired=1` banner).
+  Natija: 6/6 o'tadi.
+- **sessionExpired.test.ts:** +1 test — refresh tarmoq xatosida session
+  saqlanadi va `SESSION_EXPIRED` yuborilmaydi (NETWORK_ERROR, statusCode 0).
+- **Muhit:** `localhost:3001` ni band qilgan stray vite dev-server tozalandi
+  (backendga kirishni to'sardi); backend health = `degraded` —
+  **Supabase service key "Invalid API key"** (backend/.env dagi key loyihaga
+  mos kelmaydi) — live login/register e2e shu sababdan bloklangan.
+  Frontend muammosiz render bo'ladi, barcha frontend testlar o'tadi.
+- **Topilma (T-016 emas):** repo `index.html` EnglishPath brendi bilan
+  commitlangan (HEAD'da ham shunday) — loyiha shellining qolib ketgan nusxasi,
+  src/ va app esa attestatsiya. Alohida task sifatida almashtirilishi kerak.
+
+### Live backend tekshiruvi va tuzatish (2026-07-31, 3-bosqich)
+
+- **Supabase credential tuzatildi:** backend/.env'ga to'g'ri project
+  (`plyqezulrfowyblsfpzy`) secret key yozildi (yangi `sb_secret_` formati;
+  eski JWT va `sbp_` kalitlar "Invalid API key" berardi). Health: `healthy`.
+- **TOPILGAN BUG — shared supabase client ifloslanishi:** `login`
+  (`signInWithPassword`) va `refresh` (`refreshSession`) umumiy service-role
+  client'ida bajarilar edi. Ular client'ning session holatini o'zgartirib,
+  keyingi REST so'rovlarini user-scope qilib yuborardi (service-role o'rniga)
+  → live DB'da RLS update'ni blokladi → **profile update 0 satrga ta'sir
+  qilmasdan "muvaffaqiyatli" qaytardi** (ism hech qachon o'zgarmasdi).
+  Debug: `profData: []` — xato yo'q, lekin yozuv yo'q.
+- **Tuzatish:** `createServiceClient()` (`backend/src/lib/supabase.ts`) —
+  har user-auth operatsiyasi (login/refresh/reset-password) uchun yangi
+  client. Umumiy client faqat admin/DB ishlarida qoladi.
+  Backend testlar: 90/90 o'tadi. Live curl zanjiri endi to'liq ishlaydi:
+  register (display_name yoziladi) → confirm → login → me → **update
+  ("Updated Name" DB'ga yozildi)** → refresh (200) → logout.
+- **Live RLS tekshiruvi:** user-scope UPDATE live DB'da 0 satr qaytaradi
+  (SELECT ishlaydi) — migratsiyadagi `profiles_self_update` bilan farq bor;
+  backend service-role ishlatgani uchun frontend uchun muammo emas, lekin
+  live DB va migratsiya mosligi alohida task sifatida tekshirilishi kerak.
+- **Logout qayd:** logout refresh tokenni revoke qiladi (global), lekin
+  access token 1 soatgacha yaroqli (JWT tabiati) — /me logout'dan keyin ham
+  200 qaytaradi. Frontend session'ni lokal tozalaydi; kritik emas.
+- **Eslatma:** `localhost:3001`'dagi stray vite dev-server tozalandi —
+  backendga kirishni to'sardi (HTML qaytarardi).
+- **Repo tuzatish:** stash incidentida yo'qolgan 29 hujjat HEAD'dan
+  qaytarildi (DATABASE_SCHEMA.md, informatika-attestatsiya-platform-spec/*,
+  roadmap.md va b.). Ataylab o'chirilgan 2 fayl qoldi (resolveIds.ts,
+  TopicExamPage.tsx — PROJECT_STATE'da qayd qilingan).
+
+### Session yuklash bug'i va tuzatish (2026-07-31, 4-bosqich)
+
+- **Foydalanuvchi xabari:** /profile ochilganda `/auth?returnTo=%2Fprofile` ga
+  qaytarilib, login forma chiqardi — login qilingan bo'lsa ham.
+- **Sabab (sessionStore.loadInitial):** localStorage'dagi muddati o'tgan
+  session yuklanishda tashlab yuborilar edi. Shu sababli refresh_token
+  yo'qolib, `refreshIfNeeded` silent-refresh'ni umuman bosa olmas edi →
+  har bir reload'da login talab qilinardi.
+- **Tuzatish:** `loadInitial` endi muddati o'tgan session'ni SAQLAYDI;
+  refresh useAuth mount'ida refresh_token bilan bajariladi (silent re-login).
+- **Qo'shimcha (useAuth):** tab'lararo refresh race — boshqa tab yangi
+  session yozgan bo'lsa, eski token rad etilishi yangi session'ni buzmasi
+  uchun `latest.refresh_token === current.refresh_token` sharti qo'shildi.
+- **Testlar:** sessionStore loadInitial testi qayta yozildi (expired
+  session saqlanadi), useAuth'ga race-guard testi qo'shildi.
+- **Live e2e (`src/tests/e2e/live-auth.spec.ts`):** real backend bilan —
+  UI login → /profile ochiladi; localStorage'da expires_at o'tkazib
+  reload qilinsa, auto-refresh ishlaydi va profil ochiladi (login
+  sahifasiga tushmaydi). 7/7 e2e o'tadi.
+
+### Login'siz "kirilgandek" ko'rinish — demo rejim ildiz sababi (2026-07-31, 5-bosqich)
+
+- **Foydalanuvchi xabari:** /profile → /auth qaytarganda "app ishlayapti,
+  login qilingan bo'lsa ham login so'rayapti" — jiddiy xato deb hisoblandi.
+- **Ildiz sabab:** `DEMO_MODE=true` (faqat lokal .env) — token bo'lmasa
+  backend exam/progress/auth-me'da avtomatik demo token berardi; content
+  route'lari esa ochiq edi (dizayn bo'yicha). App login'siz to'liq ishlab,
+  "kirilgandek" tuyulardi, lekin /profile real session talab qilardi.
+- **1-tuzatish (UX):** Sidebar va mobil header'ga `Demo rejim` belgisi,
+  /auth'ga returnTo bilan kelganda tushuntirish banneri.
+- **2-tuzatish (to'liq qulflash):**
+  - `App.tsx` — `/`, `/learn`, `/learn/:moduleId`, `/exam*` route'lari
+    ProtectedRoute bilan himoyalandi (ilgari faqat /profile).
+  - `backend/.env` — `DEMO_MODE=false` (production default bilan moslashadi).
+  - Demo rejim belgilari olib tashlandi (endi login'siz faqat /auth va
+    /exam-demo ochiq).
+- **Natija:** chiqish bosilganda session tozalanadi → barcha sahifalar
+  `/auth?returnTo=` ga yo'naltiriladi; exam/progress API login'siz 401.
+- **Testlar:** live-auth'ga yangi regressiya testi — login → /learn ochiq →
+  Chiqish → /auth; /learn va / ga qaytilsa yana /auth; localStorage toza.
+- **Baseline:** frontend vitest 239/239, e2e 8/8, backend 99/99, lint/tsc toza.
 
 ## Tugallangan darslik kontenti ekstraksiyasi
 
@@ -149,23 +407,97 @@ Barcha darslik kontenti: `darsliklar/` katalogida. Ekstraksiyalar `darsliklar/ex
 | Unit test audit | 2026-07-30 | PR #5 clean GitHub CI’da 61 Vitest test o‘tadi |
 | E2E smoke audit | 2026-07-30 | 4 auth smoke testi o'tadi; product flow qamrovi hali yo'q |
 
+## M01 kontenti DB → backend → frontend oqimi (T-017, 2026-07-31)
+
+- **Migratsiyalar:** `000012_m01_content_seed.sql` (12 dars + 783 blok +
+  400 savol + 1600 option + 400 key, idempotent, remote'ga push qilingan),
+  `000013_fix_question_keys_rls.sql` (000011 broken policy forward-fix),
+  `000014_source_lesson_links.sql` (schema: `questions.source_lesson_id`),
+  `000015_m01_source_lesson_backfill.sql` (400 slug-based UPDATE).
+- **Backend:** `GET /api/content/lessons/:id/questions` (published savollar,
+  kalitsiz), `POST /api/content/questions/check` (server-authoritative,
+  `question_keys` faqat service-role bilan o'qiladi). `LessonResponse` ga
+  `blocks`/`blocks_kind` qo'shildi (getModule/getLesson).
+- **Frontend:** `contentApi` yangi kontraktlar (zod strict), `lessonContentGateway`
+  (backend-first, tarmoq/xato → statik fallback), `TopicView` test fazasi
+  backend savollari bilan ishlaydi (correctIndex server natijasidan o'rnatiladi).
+- **Testlar:** backend 90/90 (content.test.ts: questions + check endpointlar),
+  frontend 232/233 (contentApi + lessonContentGateway). Faqat pre-existing
+  `BookReader` diagramma timeout testi yiqiladi (clean tree'da ham).
+- **Live tekshiruv:** M01.02 → 60 savol (Y1), key leak yo'q; check to'g'ri
+  javob + izoh qaytardi.
+- **Eslatma:** `backend/.env` dagi eski `SUPABASE_SERVICE_KEY` (sbp_...) noto'g'ri
+  edi — CLI orqali olingan haqiqiy service_role key bilan almashtirildi
+  (.env gitignore'da).
+
+## Dars testi 20 random + shuffle va admin urinishlar (T-018, 2026-07-31)
+
+- **Migratsiya:** `20260731000016_lesson_test_pool_20.sql` (remote'ga push
+  qilingan). `exam_items.option_order uuid[]` — har urinish uchun
+  aralashtirilgan variant tartibi (side guruhi ichida random);
+  `generate_topic_test` — `source_lesson_id` bo'yicha random 20 ta savol,
+  yetmay qolsa dars konstruktlari orqali to'ldirish, darsda <20 bo'lsa —
+  borlari; `exam_payload` — `option_order` tartibini ko'rsatadi va item
+  tartibini integer bo'yicha (eski text-sort xatosi tuzatildi); eski
+  exam'lar (`option_order` null) natural tartibda ko'rsatiladi.
+- **Migratsiya:** `20260731000017_topic_test_duration.sql` — mavzu testi
+  umumiy vaqti: `duration_sec = savollar_soni × 120` (har savolga 2 daqiqa;
+  20 savol → 40 daqiqa). Vaqt umumiy — bitta savolga alohida cheklov yo'q.
+  Deadline server-authoritative: `submit_answer` `vaqt_tugadi` qaytaradi,
+  frontend timer 0 ga yetganda `finish_exam` chaqiradi (ExamRunner line 221).
+  <20 savol bo'lsa vaqt ham haqiqiy sonda hisoblanadi.
+- **Backend:** `GET /api/admin/attempts` (kind/lesson_id/user_id/from/to
+  filter + pagination; email, display_name, lesson_slug, answered_count),
+  `GET /api/admin/attempts/:id` (har bir savol: matn, ko'rsatilgan variant
+  tartibi, user javobi, `correct_option_id` + izoh — faqat admin). Role
+  tekshiruvi: token → `profiles.role = 'admin'`, aks holda 403.
+- **Frontend:** `src/features/admin/attemptsApi.ts` (zod strict kontraktlar),
+  `src/pages/admin/AttemptsPage.tsx` (filter bar, jadval, pagination,
+  detal paneli — to'g'ri/noto'g'ri javoblar rang bilan belgilanadi),
+  AdminLayout NAV + `/admin/attempts` route. ExamRunner o'zgarishsiz —
+  `duration_sec` avtomatik ishlaydi (timer + auto-finish mavjud edi).
+  Mavzu testi intro ekranida "Vaqt cheklovi yo'q" o'rniga haqiqiy cheklov
+  ko'rsatiladi: `ExamGateway.previewTopicTest` (backendGateway) dars
+  pool'idan `min(savollar, 20) × 2 daqiqa` hisoblaydi — "20 ta savol ·
+  40 daqiqa"; preview olib bo'lmasa "Umumiy vaqt: har bir savol uchun
+  2 daqiqa" fallback. (3 ta yangi test: 60 savol → 20×40, <20 → haqiqiy
+  son, xato → null.)
+- **Testlar:** backend 99/99 (admin.test.ts: 9 ta — 401/403/404, list,
+  kod→UUID resolve, 400, detal variant tartibi, eski exam natural tartib);
+  frontend 238/239 (attemptsApi.test.ts: 5 ta). Lint 0 xato, tsc clean
+  (yangi fayllar); faqat pre-existing BookReader timeout.
+- **Live E2E:** ikkita urinish → har birida 20 ta distinct savol, takror
+  urinishda ~5/20 overlap (random); umumiy savolda variant tartibi har
+  urinishda farq qiladi (0/5 bir xil); submit/finish → DB'da `user_answer`,
+  `is_correct`, `score`, `time_spent_sec`, `answered_at` saqlanadi;
+  admin list/detail real ma'lumotlarni qaytardi (answered_count javob
+  berilgan item'lar soni — `.not('answered_at', 'is', null)`).
+  000017 push'idan so'ng: M01.02 exam start → 20 item, `duration_sec 2400`
+  javobda ham, `exams` jadvalida ham (40 daqiqa).
+- **Eslatma:** local docker mavjud emas — migratsiya remote'ga `supabase
+  db push --linked --yes` orqali qo'llandi (sintaksis va xatti-harakat
+  live tekshirildi). Backend `backend/.env` PORT=3001.
+
 ## Ochiq masalalar — M01 kontenti
 
-- M01 ning barcha 12 mavzusida test savoli yo'q: eski 33 savol yangi bob
-  tuzilmasiga mos kelmagani uchun o'chirildi. UI buni "test hali qo'shilmagan"
-  deb ochiq ko'rsatadi; savol banki yangi manba bo'yicha to'ldirilishi kerak.
+- M01.01 (appendix) ga savol biriktirilmagan: `generate_topic_test` da
+  `savol_yoq` xatosi qaytadi, UI buni "Bu mavzu uchun savollar mavjud emas"
+  deb ko'rsatadi. Boshqa 11 mavzuda `source_lesson_id` orqali savol pool'i
+  mavjud (M01.02 → 60).
 - `scripts/` da eski (endi yo'q bo'lgan `chapters/` papkasiga tayangan)
   m01 pipeline qoldiqlari bor: `rebuild_m01*.py`, `fix_m01_content.py`,
   `generate_m01.py`, `clean_m01.py`, `audit_m01.py`, `m01_*.txt`,
   `m01_content.json`. Ular hech qayerdan chaqirilmaydi.
-- `src/pages/ExamDemoPage.tsx` (boshqa agent ishlayotgan, commit qilinmagan)
-  hozir `tsc` ni yiqitadi: 6 xato, shundan biri `"knowlege"` yozuv xatosi.
+- Frontend `tsc` da pre-existing admin sahifa xatolari qolmoqda (66 ta,
+  eski `QuestionFormModal/ModulesPage/QuestionsPage/SourcesPage/SpecsPage`
+  schema nomlaridan) — T-017/T-018 ga tegishli emas.
 
 ## Environment holati
 
 | Muhit | URL | Database | Holat |
 |-------|-----|----------|-------|
-| Local | `http://localhost:5173` | Remote Supabase (plyqezulrfowyblsfpzy) | Secure ExamRunner tayyor; real mock uchun savol banki 5/50 |
+| Local frontend | `http://localhost:3000` (vite) | Remote Supabase (plyqezulrfowyblsfpzy) | M01 12 dars + 400 savol DB'da; dars testi 20 random/shuffle |
+| Local backend | `http://localhost:3001` | Remote Supabase | /api/admin/attempts faol |
 | Production | TBD | TBD | Yaratilmagan |
 
 ## Muhim havolalar

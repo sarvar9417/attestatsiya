@@ -77,6 +77,10 @@ export interface TestQuestion {
   pairs?: PairItem[]
   items?: OrderedItem[]
   correctOrder?: string[]
+  /** Backenddan kelgan savol uchun variantlarning DB id'lari (server check uchun) */
+  optionIds?: string[]
+  /** Savol manbai: statik kontent yoki backend API */
+  source?: 'static' | 'backend'
 }
 
 export interface TopicContent {

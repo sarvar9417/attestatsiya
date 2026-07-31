@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { reportWebVitals } from './lib/performance'
 import { useAuth } from './hooks/useAuth'
 import { monitoring } from './lib/monitoring'
-import { setApiAuthToken } from './lib/apiClient'
 import { supabaseInitError } from './lib/supabase'
 import Sidebar from './components/layout/Sidebar'
 import MobileBottomNav from './components/layout/MobileBottomNav'
@@ -14,12 +13,16 @@ import ErrorBoundary from './components/ErrorBoundary'
 import { useOnlineStatus } from './hooks/useOnlineStatus'
 import AdminLayout from './components/admin/AdminLayout'
 import AdminGuard from './components/auth/AdminGuard'
+import ProtectedRoute from './components/auth/ProtectedRoute'
+import SessionExpiredHandler from './components/auth/SessionExpiredHandler'
+import Auth from './pages/Auth'
+import Profile from './pages/Profile'
+import ResetPassword from './pages/ResetPassword'
 import LearningPage from './pages/LearningPage'
 import ModulePage from './pages/ModulePage'
 import DashboardPage from './pages/DashboardPage'
 import ExamPage from './pages/ExamPage'
 import ExamDemoPage from './pages/ExamDemoPage'
-import TopicExamPage from './pages/TopicExamPage'
 
 const NotFound = lazy(() => import('./pages/NotFound'))
 
@@ -72,6 +75,7 @@ function MainLayout() {
 
   return (
     <>
+      <SessionExpiredHandler />
       <OfflineBanner isOnline={isOnline} />
       <div className="flex h-screen bg-gray-50 dark:bg-gray-950 overflow-hidden">
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary-600 focus:text-white focus:rounded-lg">
@@ -90,14 +94,14 @@ function MainLayout() {
           <Suspense fallback={<SimpleLoadingSkeleton />}>
             <div className="animate-page-enter">
               <Routes>
-                <Route path="/" element={<DashboardPage />} />
-                <Route path="/learn" element={<LearningPage />} />
-                <Route path="/learn/:moduleId" element={<ModulePage />} />
-                <Route path="/exam" element={<ExamPage />} />
-                <Route path="/exam/:kind" element={<ExamPage />} />
-                <Route path="/exam/:kind/:moduleId" element={<ExamPage />} />
+                <Route path="/" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+                <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+                <Route path="/learn" element={<ProtectedRoute><LearningPage /></ProtectedRoute>} />
+                <Route path="/learn/:moduleId" element={<ProtectedRoute><ModulePage /></ProtectedRoute>} />
+                <Route path="/exam" element={<ProtectedRoute><ExamPage /></ProtectedRoute>} />
+                <Route path="/exam/:kind" element={<ProtectedRoute><ExamPage /></ProtectedRoute>} />
+                <Route path="/exam/:kind/:moduleId" element={<ProtectedRoute><ExamPage /></ProtectedRoute>} />
                 <Route path="/exam-demo" element={<ExamDemoPage />} />
-                <Route path="/exam/topic/:moduleId/:subtopicId" element={<TopicExamPage />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </div>
@@ -110,12 +114,7 @@ function MainLayout() {
 }
 
 function AppRouter() {
-  const { session, loading } = useAuth()
-
-  // Sync auth token to API client
-  useEffect(() => {
-    setApiAuthToken(session?.access_token ?? null)
-  }, [session])
+  const { loading } = useAuth()
 
   if (loading) return <SimpleLoadingSkeleton />
 
@@ -124,11 +123,13 @@ function AppRouter() {
       <Route
         path="/admin/*"
         element={
-          <AdminGuard userId={session?.user.id}>
+          <AdminGuard>
             <AdminLayout />
           </AdminGuard>
         }
       />
+      <Route path="/auth" element={<Auth />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/*" element={<MainLayout />} />
     </Routes>
   )

@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useMemo, lazy, Suspense } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getTopicContent, type TestQuestion, type TheoryBlock } from '../../data/topicContent'
+import { getLessonTestQuestions, checkQuestionAnswer } from '../../features/content/lessonContentGateway'
 import { 
   CheckCircle2, XCircle, Lightbulb, BookOpen, ArrowRight, ArrowLeft, 
   Sparkles, ChevronRight, ChevronUp, ChevronDown, BookText, GraduationCap, 
@@ -127,6 +128,8 @@ export default function TopicView({
   const [readProgress, setReadProgress] = useState(0)
   const [currentSection, setCurrentSection] = useState(0)
   const [animComplete, setAnimComplete] = useState(false)
+  const [liveQuestions, setLiveQuestions] = useState<TestQuestion[] | null>(null)
+  const [checking, setChecking] = useState<Record<string, boolean>>({})
   const contentRef = useRef<HTMLDivElement>(null)
 
   const content = getTopicContent(subtopicId)
@@ -140,6 +143,19 @@ export default function TopicView({
     setSubmitted({})
     setReadProgress(0)
     setCurrentSection(0)
+    setLiveQuestions(null)
+    setChecking({})
+  }, [subtopicId])
+
+  // Savollar backend-first: gateway backend xatosida statik kontentga tushadi
+  useEffect(() => {
+    let cancelled = false
+    getLessonTestQuestions(subtopicId).then((qs) => {
+      if (!cancelled) setLiveQuestions(qs)
+    })
+    return () => {
+      cancelled = true
+    }
   }, [subtopicId])
 
   useEffect(() => {
@@ -226,7 +242,7 @@ export default function TopicView({
     }
   }, [phase])
 
-  const questions = content?.questions || []
+  const questions = liveQuestions ?? (content?.questions || [])
   const correctCount = questions.filter(q => submitted[q.id] && isQuestionCorrect(q, answers[q.id])).length
   const allAnswered = questions.every(q => submitted[q.id])
   const score = questions.length > 0 ? Math.round((correctCount / questions.length) * 100) : 0
@@ -258,8 +274,26 @@ export default function TopicView({
     setAnswers(p => ({ ...p, [qId]: answer }))
   }
 
-  const handleSubmit = (qId: string) => {
+  const handleSubmit = async (qId: string) => {
     if (answers[qId] === undefined) return
+    if (submitted[qId] || checking[qId]) return
+    const q = questions.find(x => x.id === qId)
+    if (q?.source === 'backend' && q.type === 'Y1') {
+      // Server-authoritative check: natija kelgach correctIndex o'rnatiladi
+      setChecking(p => ({ ...p, [qId]: true }))
+      try {
+        const result = await checkQuestionAnswer(q, answers[qId] as number)
+        if (result.correctIndex >= 0) {
+          setLiveQuestions(qs =>
+            (qs ?? []).map(x =>
+              x.id === qId ? { ...x, correctIndex: result.correctIndex, explanation: result.explanation } : x
+            )
+          )
+        }
+      } finally {
+        setChecking(p => ({ ...p, [qId]: false }))
+      }
+    }
     setSubmitted(p => ({ ...p, [qId]: true }))
   }
 
@@ -378,7 +412,7 @@ export default function TopicView({
         <div className="flex gap-3">
           {!passed && (
             <button 
-              onClick={() => navigate('/exam/topic/' + moduleId + '/' + subtopicId)} 
+              onClick={() => navigate(`/exam/mavzu/${moduleId}?lessonId=${subtopicId}`)} 
               className="flex-1 flex items-center justify-center gap-2 px-5 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-xl text-sm font-semibold hover:from-amber-600 hover:to-orange-600 transition-all shadow-md shadow-amber-200 dark:shadow-amber-900/30"
             >
               <RotateCcw size={16} /> Qayta urinish
@@ -498,7 +532,7 @@ export default function TopicView({
                   questionCount={questions.length}
                   isAppendix={isAppendix}
                   onProgress={setReadProgress}
-                  onFinishReading={() => (hasTest ? navigate('/exam/topic/' + moduleId + '/' + subtopicId) : handleComplete(0, 0))}
+                  onFinishReading={() => (hasTest ? navigate(`/exam/mavzu/${moduleId}?lessonId=${subtopicId}`) : handleComplete(0, 0))}
                   nextTopic={nextSubtopic ?? null}
                   onOpenNextTopic={nextSubtopic && onOpenTopic
                     ? () => onOpenTopic(nextSubtopic.id)
@@ -587,7 +621,7 @@ export default function TopicView({
                         : "Bu mavzu uchun test hali qo'shilmagan"}
                   </p>
                   <button
-                    onClick={() => (hasTest ? navigate('/exam/topic/' + moduleId + '/' + subtopicId) : handleComplete(0, 0))}
+                    onClick={() => (hasTest ? navigate(`/exam/mavzu/${moduleId}?lessonId=${subtopicId}`) : handleComplete(0, 0))}
                     className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-xl text-sm font-semibold hover:from-primary-700 hover:to-primary-600 transition-all shadow-xl shadow-primary-200 dark:shadow-primary-900/40 hover:shadow-2xl hover:-translate-y-0.5 animate-pop-in"
                   >
                     {hasTest
@@ -635,7 +669,7 @@ export default function TopicView({
                 </div>
               )}
               <button
-                onClick={() => (hasTest ? navigate('/exam/topic/' + moduleId + '/' + subtopicId) : handleComplete(0, 0))}
+                onClick={() => (hasTest ? navigate(`/exam/mavzu/${moduleId}?lessonId=${subtopicId}`) : handleComplete(0, 0))}
                 className="inline-flex items-center gap-3 px-6 py-3.5 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-xl text-sm font-semibold hover:from-primary-700 hover:to-primary-600 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full sm:w-auto justify-center"
               >
                 <span className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">

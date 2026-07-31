@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { MODULES } from '../data/contentTree'
+import { useCatalog } from '../hooks/useCatalog'
+import type { CatalogModule } from '../features/content/catalog'
 import { useProgressStore } from '../store/progressStore'
 import { 
   BookOpen, FileQuestion, BarChart3, ArrowRight, Target, 
@@ -12,8 +13,9 @@ import {
 export default function DashboardPage() {
   const navigate = useNavigate()
   const { getModuleProgress } = useProgressStore()
+  const { modules } = useCatalog()
 
-  const totalSubtopics = MODULES.reduce((acc, m) => acc + m.subtopics.length, 0)
+  const totalSubtopics = modules.reduce((acc, m) => acc + m.subtopics.length, 0)
 
   // ─── Compute real progress ────────────────────────────────────
   const {
@@ -32,9 +34,9 @@ export default function DashboardPage() {
     let scoreCount = 0
     let best = { code: '', score: 0 }
 
-    const withProgress: { mod: typeof MODULES[0]; progress: ReturnType<typeof getModuleProgress> }[] = []
+    const withProgress: { mod: CatalogModule; progress: ReturnType<typeof getModuleProgress> }[] = []
 
-    for (const mod of MODULES) {
+    for (const mod of modules) {
       const prog = getModuleProgress(mod.id)
       const total = mod.subtopics.length
       completed += prog.completedTopics.length
@@ -71,8 +73,7 @@ export default function DashboardPage() {
       avgScore: avg,
       bestModule: best,
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getModuleProgress, totalSubtopics])
+  }, [getModuleProgress, totalSubtopics, modules])
 
   // ─── Stats cards ──────────────────────────────────────────────
   const statsCards = [
@@ -94,7 +95,7 @@ export default function DashboardPage() {
     },
     { 
       label: 'Modullar', 
-      value: `${startedModules}/${MODULES.length}`, 
+      value: `${startedModules}/${modules.length}`, 
       sub: `${completedModules} ta to'liq`,
       icon: BookOpen,
       gradient: 'from-violet-500 to-violet-600',
@@ -141,7 +142,7 @@ export default function DashboardPage() {
           <p className="text-sm text-gray-400 leading-relaxed max-w-2xl">
             Informatika attestatsiyasiga tayyorgarlik platformasi. 
             {overallPercent === 0 
-              ? ' 16 modul, 76 mavzu — boshlashga tayyormisiz?' 
+              ? ` ${modules.length} modul, ${totalSubtopics} mavzu — boshlashga tayyormisiz?` 
               : ` ${completedSubtopics} ta mavzu o'zlashtirilgan, davom eting!`}
           </p>
 
@@ -213,7 +214,7 @@ export default function DashboardPage() {
           {/* Mini section breakdown */}
           <div className="grid grid-cols-4 gap-2 mt-4">
             {(['specialty', 'professional_standard', 'pedagogy', 'methodology'] as const).map(key => {
-              const sectionMods = MODULES.filter(m => m.section === key)
+              const sectionMods = modules.filter(m => m.section === key)
               const sectionTotal = sectionMods.reduce((acc, m) => acc + m.subtopics.length, 0)
               const sectionDone = sectionMods.reduce((acc, m) => {
                 const p = getModuleProgress(m.id)
@@ -244,7 +245,7 @@ export default function DashboardPage() {
               </div>
               <div className="flex-1">
                 <p className="text-sm font-semibold text-gray-900 dark:text-white">O'qishni davom ettirish</p>
-                <p className="text-xs text-gray-400 mt-0.5">{overallPercent === 0 ? 'Birinchi mavzudan boshlang' : `${MODULES.length - completedModules} ta modul qoldi`}</p>
+                <p className="text-xs text-gray-400 mt-0.5">{overallPercent === 0 ? 'Birinchi mavzudan boshlang' : `${modules.length - completedModules} ta modul qoldi`}</p>
               </div>
               <ChevronRight size={18} className="text-gray-300 group-hover:text-primary-500 group-hover:translate-x-1 transition-all" />
             </div>
@@ -285,7 +286,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          {MODULES.map(mod => {
+          {modules.map(mod => {
             const prog = getModuleProgress(mod.id)
             const total = mod.subtopics.length
             const done = prog.completedTopics.length

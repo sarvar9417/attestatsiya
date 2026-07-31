@@ -1,13 +1,13 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import ExamPage from '../pages/ExamPage'
 import type { ExamSession } from '../features/exam/contracts'
 import {
-  ExamGatewayError,
   type ExamGateway,
 } from '../features/exam/examGateway'
+import { useProgressStore } from '../store/progressStore'
 
 const ids = {
   exam: '00000000-0000-4000-8000-000000000001',
@@ -83,6 +83,10 @@ function successfulGateway(): ExamGateway {
     startMockExam: vi.fn().mockResolvedValue(examSession()),
     startModuleExam: vi.fn().mockResolvedValue(examSession()),
     startTopicExam: vi.fn().mockResolvedValue(examSession()),
+    previewTopicTest: vi.fn().mockResolvedValue({
+      questionCount: 20,
+      durationSec: 2400,
+    }),
     submitAnswer: vi.fn().mockResolvedValue({ saved: true }),
     finishExam: vi.fn().mockResolvedValue({
       exam_id: ids.exam,
@@ -98,6 +102,8 @@ function successfulGateway(): ExamGateway {
       ],
       already_finished: false,
     }),
+    getReview: vi.fn().mockResolvedValue([]),
+    getDueReviews: vi.fn().mockResolvedValue([]),
   }
 }
 
@@ -117,6 +123,10 @@ function renderExam(gateway: ExamGateway, path = '/exam') {
 }
 
 describe('secure ExamRunner', () => {
+  beforeEach(() => {
+    useProgressStore.setState({ moduleProgress: {} })
+  })
+
   it('Y1/Y2/Y3 javoblarini UUID payload bilan serverga yuboradi', async () => {
     const user = userEvent.setup()
     const gateway = successfulGateway()
@@ -196,15 +206,14 @@ describe('secure ExamRunner', () => {
     const user = userEvent.setup()
     const gateway: ExamGateway = {
       startMockExam: vi.fn().mockRejectedValue(
-        new ExamGatewayError(
-          'Sinovni boshlash uchun savollar bazasi hali yetarli emas.',
-          'insufficient-pool'
-        )
+        new Error('Sinovni boshlash uchun savollar bazasi hali yetarli emas.')
       ),
       startModuleExam: vi.fn(),
       startTopicExam: vi.fn(),
       submitAnswer: vi.fn(),
       finishExam: vi.fn(),
+      getReview: vi.fn(),
+      getDueReviews: vi.fn(),
     }
 
     renderExam(gateway)
@@ -249,5 +258,65 @@ describe('secure ExamRunner', () => {
     )
     expect(gateway.startMockExam).not.toHaveBeenCalled()
     expect(gateway.startModuleExam).not.toHaveBeenCalled()
+  })
+
+  it('mavzu sinovi lessonId bilan boshlanadi va yakunida progress yoziladi', async () => {
+    const user = userEvent.setup()
+    const gateway = successfulGateway()
+
+    renderExam(gateway, '/exam/mavzu/M01?lessonId=M01.01')
+
+    // Intro ekranda vaqt cheklovi ko'rsatiladi (20 savol · 40 daqiqa)
+    expect(await screen.findByText(/40 daqiqa/)).toBeDefined()
+    expect(gateway.previewTopicTest).toHaveBeenCalledWith('M01.01')
+
+    await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
+
+    expect(gateway.startTopicExam).toHaveBeenCalledWith('M01.01')
+    expect(gateway.startMockExam).not.toHaveBeenCalled()
+
+    // Barcha savollarga javob berib sinovni yakunlash
+    await screen.findByText('Yagona javobni tanlang')
+    await user.click(screen.getByRole('button', { name: /Variant A/ }))
+    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
+    await screen.findByText('Elementlarni moslang')
+    await user.selectOptions(screen.getByLabelText(/Chap bir/), ids.right1)
+    await user.selectOptions(screen.getByLabelText(/Chap ikki/), ids.right2)
+    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
+    await screen.findByText('Qadamlarni tartiblang')
+    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
+    await user.click(screen.getByRole('button', { name: 'Sinovni yakunlash' }))
+
+    expect(
+      await screen.findByRole('heading', { name: 'Sinov yakunlandi' })
+    ).toBeDefined()
+
+    // "Modulga qaytish" — modul sahifasiga havola
+    expect(
+      screen.getByRole('link', { name: 'Modulga qaytish' })
+    ).toHaveAttribute('href', '/learn/M01')
+
+    // Progress: M01.01 mavzusi 3/3 savol bilan bajarilgan deb yoziladi
+    const progress = useProgressStore.getState().moduleProgress['M01']
+    expect(progress?.completedTopics).toContain('M01.01')
+    expect(progress?.topicProgress['M01.01']).toMatchObject({
+      completed: true,
+      correctCount: 3,
+      totalCount: 3,
+      lastScore: 100,
+    })
+  })
+
+  it('mavzu sinovi lessonId bo‘lmasa boshlanmaydi', async () => {
+    const user = userEvent.setup()
+    const gateway = successfulGateway()
+
+    renderExam(gateway, '/exam/mavzu/M01')
+    await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
+
+    expect((await screen.findByRole('alert')).textContent).toContain(
+      'Mavzu testi uchun dars identifikatori topilmadi.'
+    )
+    expect(gateway.startTopicExam).not.toHaveBeenCalled()
   })
 })

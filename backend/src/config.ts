@@ -27,4 +27,9 @@ export const config = {
     userEmail: process.env.DEMO_USER_EMAIL || 'demo@attestatsiya.uz',
     userPassword: process.env.DEMO_USER_PASSWORD || 'demo123456',
   },
+  auth: {
+    redirectUrl:
+      process.env.AUTH_REDIRECT_URL ||
+      `http://localhost:${process.env.FRONTEND_PORT || 3000}`,
+  },
 } as const

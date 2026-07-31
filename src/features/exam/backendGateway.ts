@@ -2,8 +2,8 @@
  * Backend API Gateway
  *
  * Implements ExamGateway interface using the Fastify backend API.
- * Replace `supabaseExamGateway` with `backendGateway` to route
- * all exam traffic through the backend server instead of direct Supabase RPCs.
+ * ExamRunner barcha exam trafigini shu gateway orqali backend
+ * serverga yuboradi (to'g'ridan-to'g'ri Supabase RPC ishlatilmaydi).
  *
  * Benefits:
  * - Server-authoritative timer & validation
@@ -15,13 +15,18 @@ import { z } from 'zod'
 import { api } from '../../lib/apiClient'
 import {
   examSessionSchema,
+  examReviewResponseSchema,
+  dueReviewResponseSchema,
   finishExamResponseSchema,
   submitAnswerResponseSchema,
+  type DueReviewItem,
+  type ExamReviewItem,
   type ExamSession,
   type FinishExamResponse,
   type SubmitAnswerResponse,
 } from './contracts'
-import type { SubmitAnswerInput, ExamGateway } from './examGateway'
+import type { SubmitAnswerInput, ExamGateway, TopicTestPreview } from './examGateway'
+import { getLessonQuestions } from '../content/contentApi'
 
 /**
  * Parse and validate backend API response using Zod schema.
@@ -64,6 +69,19 @@ export const backendGateway: ExamGateway = {
     return parseResponse(examSessionSchema, data, 'start_topic')
   },
 
+  async previewTopicTest(lessonId: string): Promise<TopicTestPreview | null> {
+    try {
+      const questions = await getLessonQuestions(lessonId)
+      if (questions.length === 0) return null
+      // Server RPC bilan bir xil qoida: dars pool'idan max 20 ta,
+      // umumiy vaqt = savollar soni × 2 daqiqa.
+      const count = Math.min(questions.length, 20)
+      return { questionCount: count, durationSec: count * 120 }
+    } catch {
+      return null
+    }
+  },
+
   async submitAnswer({
     examId,
     questionId,
@@ -84,5 +102,15 @@ export const backendGateway: ExamGateway = {
   async finishExam(examId: string): Promise<FinishExamResponse> {
     const data = await api.post<unknown>('/api/exam/finish', { exam_id: examId })
     return parseResponse(finishExamResponseSchema, data, 'finish_exam')
+  },
+
+  async getReview(examId: string): Promise<ExamReviewItem[]> {
+    const data = await api.get<unknown>(`/api/exam/${examId}/review`)
+    return parseResponse(examReviewResponseSchema, data, 'exam_review')
+  },
+
+  async getDueReviews(): Promise<DueReviewItem[]> {
+    const data = await api.get<unknown>('/api/exam/due-reviews')
+    return parseResponse(dueReviewResponseSchema, data, 'due_reviews')
   },
 }

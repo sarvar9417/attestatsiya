@@ -182,6 +182,7 @@ export type Database = {
           flagged: boolean
           id: string
           is_correct: boolean | null
+          option_order: string[] | null
           order_idx: number
           question_id: string
           score: number
@@ -196,6 +197,7 @@ export type Database = {
           flagged?: boolean
           id?: string
           is_correct?: boolean | null
+          option_order?: string[] | null
           order_idx: number
           question_id: string
           score?: number
@@ -210,6 +212,7 @@ export type Database = {
           flagged?: boolean
           id?: string
           is_correct?: boolean | null
+          option_order?: string[] | null
           order_idx?: number
           question_id?: string
           score?: number
@@ -342,6 +345,8 @@ export type Database = {
       }
       lessons: {
         Row: {
+          blocks: Json
+          blocks_kind: string
           body_mdx: string | null
           created_at: string
           est_minutes: number
@@ -354,6 +359,8 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          blocks?: Json
+          blocks_kind?: string
           body_mdx?: string | null
           created_at?: string
           est_minutes?: number
@@ -366,6 +373,8 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          blocks?: Json
+          blocks_kind?: string
           body_mdx?: string | null
           created_at?: string
           est_minutes?: number
@@ -628,6 +637,8 @@ export type Database = {
           group_code: string
           id: string
           is_generated: boolean
+          source_lesson_id: string | null
+          source_reference: string | null
           status: Database["public"]["Enums"]["content_status"]
           stem_md: string
           subject_id: string
@@ -644,6 +655,8 @@ export type Database = {
           group_code: string
           id?: string
           is_generated?: boolean
+          source_lesson_id?: string | null
+          source_reference?: string | null
           status?: Database["public"]["Enums"]["content_status"]
           stem_md: string
           subject_id: string
@@ -660,6 +673,8 @@ export type Database = {
           group_code?: string
           id?: string
           is_generated?: boolean
+          source_lesson_id?: string | null
+          source_reference?: string | null
           status?: Database["public"]["Enums"]["content_status"]
           stem_md?: string
           subject_id?: string
@@ -671,6 +686,13 @@ export type Database = {
             columns: ["construct_id"]
             isOneToOne: false
             referencedRelation: "constructs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "questions_source_lesson_id_fkey"
+            columns: ["source_lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
             referencedColumns: ["id"]
           },
           {

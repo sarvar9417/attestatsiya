@@ -18,6 +18,28 @@ export const supabase = createClient(
 )
 
 /**
+ * Yangi service-role client yaratadi.
+ *
+ * Asosiy `supabase` client'ida `signInWithPassword` / `refreshSession`
+ * kabi auth chaqiruvlari ishlatilmasligi kerak: ular client'ning
+ * session holatini o'zgartirib, keyingi REST so'rovlarini user-scope
+ * qilib yuboradi (RLS qo'llanadi). User auth operatsiyalari uchun
+ * har safar yangi client yaratiladi.
+ */
+export function createServiceClient() {
+  return createClient(
+    config.supabase.url,
+    config.supabase.serviceKey,
+    {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+      },
+    }
+  )
+}
+
+/**
  * Get an authenticated Supabase client for a specific user.
  * Use this for user-scoped RPC calls (start_exam, submit_answer, etc.)
  */

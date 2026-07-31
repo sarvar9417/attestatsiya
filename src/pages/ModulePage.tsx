@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { MODULES } from '../data/contentTree'
+import { useCatalog } from '../hooks/useCatalog'
 import { getSubtopicMeta } from '../data/topicContent'
 import { useProgressStore } from '../store/progressStore'
 import TopicView from '../components/learning/TopicView'
@@ -9,7 +9,8 @@ import { ArrowLeft, CheckCircle2, Play, FileQuestion, BookOpen, ChevronRight, Ta
 export default function ModulePage() {
   const { moduleId } = useParams()
   const navigate = useNavigate()
-  const mod = MODULES.find(m => m.id === moduleId)
+  const { modules } = useCatalog()
+  const mod = modules.find(m => m.id === moduleId)
   const { getModuleProgress, completeTopic } = useProgressStore()
 
   const [activeSubtopicId, setActiveSubtopicId] = useState<string | null>(null)

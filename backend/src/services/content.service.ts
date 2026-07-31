@@ -1,7 +1,13 @@
 import { supabase } from '../lib/supabase.js'
 import { resolveModuleUuid, resolveLessonUuid } from '../lib/resolveIds.js'
-import { NotFoundError } from '../lib/errors.js'
-import type { ModuleResponse, LessonResponse, ConstructResponse } from '../schemas/content.js'
+import { NotFoundError, AppError } from '../lib/errors.js'
+import type {
+  ModuleResponse,
+  LessonResponse,
+  ConstructResponse,
+  LessonQuestion,
+  CheckAnswerResult,
+} from '../schemas/content.js'
 
 /**
  * Content Service
@@ -16,7 +22,7 @@ export const contentService = {
   async listModules(section?: string, status = 'published'): Promise<ModuleResponse[]> {
     let query = supabase
       .from('modules')
-      .select('id, code, title_uz, summary_uz, order_idx, exam_section, status')
+      .select('id, code, title_uz, summary_uz, order_idx, exam_section, status, exam_question_count')
       .eq('status', status)
       .order('order_idx', { ascending: true })
 
@@ -46,6 +52,7 @@ export const contentService = {
       order_idx: mod.order_idx,
       exam_section: mod.exam_section,
       status: mod.status,
+      exam_question_count: mod.exam_question_count,
       lesson_count: lessonCountMap.get(mod.id) || 0,
     }))
   },
@@ -104,6 +111,8 @@ export const contentService = {
         title_uz: lesson.title_uz,
         slug: lesson.slug,
         body_mdx: lesson.body_mdx,
+        blocks: null,
+        blocks_kind: lesson.blocks_kind ?? null,
         est_minutes: lesson.est_minutes,
         order_idx: lesson.order_idx,
         status: lesson.status,
@@ -119,6 +128,7 @@ export const contentService = {
       order_idx: mod.order_idx,
       exam_section: mod.exam_section,
       status: mod.status,
+      exam_question_count: mod.exam_question_count,
       lesson_count: lessonResponses.length,
       lessons: lessonResponses,
     }
@@ -165,10 +175,92 @@ export const contentService = {
       title_uz: lesson.title_uz,
       slug: lesson.slug,
       body_mdx: lesson.body_mdx,
+      blocks: lesson.blocks as unknown[] | null,
+      blocks_kind: lesson.blocks_kind ?? null,
       est_minutes: lesson.est_minutes,
       order_idx: lesson.order_idx,
       status: lesson.status,
       constructs: constructDetails,
+    }
+  },
+
+  /**
+   * Darsga tegishli published savollar (kalitsiz, learner uchun xavfsiz).
+   * Savol egasi darsga source_lesson_id orqali bog'langan.
+   */
+  async listLessonQuestions(id: string): Promise<LessonQuestion[]> {
+    const resolvedId = await resolveLessonUuid(id)
+    if (!resolvedId) throw new NotFoundError('Dars topilmadi')
+
+    const { data: questions } = await supabase
+      .from('questions')
+      .select('id, group_code, format, cognitive, difficulty, stem_md')
+      .eq('source_lesson_id', resolvedId)
+      .eq('status', 'published')
+      .order('source_reference', { ascending: true })
+
+    if (!questions || questions.length === 0) return []
+
+    const questionIds = questions.map(q => q.id)
+    const { data: options } = await supabase
+      .from('question_options')
+      .select('id, question_id, content_md, order_idx')
+      .in('question_id', questionIds)
+      .order('order_idx', { ascending: true })
+
+    const optionsByQuestion = new Map<string, LessonQuestion['options']>()
+    for (const opt of options || []) {
+      const list = optionsByQuestion.get(opt.question_id) ?? []
+      list.push({ id: opt.id, content_md: opt.content_md, order_idx: opt.order_idx })
+      optionsByQuestion.set(opt.question_id, list)
+    }
+
+    return questions.map(q => ({
+      id: q.id,
+      group_code: q.group_code,
+      format: q.format,
+      cognitive: q.cognitive,
+      difficulty: q.difficulty,
+      stem_md: q.stem_md,
+      options: optionsByQuestion.get(q.id) ?? [],
+    }))
+  },
+
+  /**
+   * Savol javobini server tomonda tekshiradi (question_keys client'ga chiqmaydi).
+   */
+  async checkAnswer(questionId: string, optionId: string): Promise<CheckAnswerResult> {
+    const { data: question } = await supabase
+      .from('questions')
+      .select('id')
+      .eq('id', questionId)
+      .eq('status', 'published')
+      .maybeSingle()
+    if (!question) throw new NotFoundError('Savol topilmadi')
+
+    const { data: option } = await supabase
+      .from('question_options')
+      .select('id, question_id')
+      .eq('id', optionId)
+      .eq('question_id', questionId)
+      .maybeSingle()
+    if (!option) throw new AppError('Javob varianti savolga tegishli emas', 400, 'INVALID_OPTION')
+
+    const { data: key } = await supabase
+      .from('question_keys')
+      .select('payload, explanation_md')
+      .eq('question_id', questionId)
+      .maybeSingle()
+    if (!key) throw new AppError('Savol uchun kalit topilmadi', 500, 'KEY_MISSING')
+
+    const payload = key.payload as { correct_option_id?: string } | null
+    const correctOptionId = payload?.correct_option_id ?? ''
+    if (!correctOptionId) throw new AppError('Kalit noto‘g‘ri tuzilgan', 500, 'KEY_INVALID')
+
+    return {
+      correct: optionId === correctOptionId,
+      correct_option_id: correctOptionId,
+      explanation_md: key.explanation_md,
     }
   },
 

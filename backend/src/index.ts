@@ -8,6 +8,8 @@ import { examRoutes } from './routes/exam.js'
 import { progressRoutes } from './routes/progress.js'
 import { contentRoutes } from './routes/content.js'
 import { sendError } from './lib/errors.js'
+import { authRoutes } from './routes/auth.js'
+import { adminRoutes } from './routes/admin.js'
 
 const app = Fastify({
   logger: config.server.nodeEnv !== 'test',
@@ -32,9 +34,11 @@ await app.register(rateLimit, {
 
 // ─── Routes ──────────────────────────────────────────────────
 await app.register(healthRoutes)
+await app.register(authRoutes)
 await app.register(examRoutes)
 await app.register(progressRoutes)
 await app.register(contentRoutes)
+await app.register(adminRoutes)
 
 // ─── Global Error Handler ──────────────────────────────────────
 app.setErrorHandler((error: unknown, _request, reply) => {
@@ -95,6 +99,15 @@ const start = async () => {
 ║                                              ║
 ║  Endpoints:                                  ║
 ║  • GET  /api/health                          ║
+║  • POST /api/auth/register                   ║
+║  • POST /api/auth/login                      ║
+║  • POST /api/auth/refresh                    ║
+║  • POST /api/auth/logout                     ║
+║  • POST /api/auth/reset-password             ║
+║  • POST /api/auth/update-password            ║
+║  • POST /api/auth/resend-confirmation        ║
+║  • GET  /api/auth/me                         ║
+║  • PATCH /api/auth/profile                   ║
 ║  • POST /api/exam/start                      ║
 ║  • POST /api/exam/submit                     ║
 ║  • POST /api/exam/finish                     ║
@@ -106,6 +119,8 @@ const start = async () => {
 ║  • GET  /api/content/modules/:id             ║
 ║  • GET  /api/content/lessons/:id             ║
 ║  • GET  /api/content/constructs              ║
+║  • GET  /api/admin/attempts                   ║
+║  • GET  /api/admin/attempts/:id               ║
 ╚══════════════════════════════════════════════╝
 `)
   } catch (err) {
