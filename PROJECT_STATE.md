@@ -7,9 +7,9 @@
 - Loyiha bosqichi: `DEVELOPMENT`
 - Joriy milestone: `P0 — xavfsizlik va barqarorlashtirish`
 - Oxirgi yangilanish: `2026-07-31`
-- Production mavjud: `yo'q`
+- Production mavjud: `ha`
 - Database project mavjud: `ha (plyqezulrfowyblsfpzy, Singapore)`
-- Deployment mavjud: `yo'q`
+- Deployment mavjud: `ha (frontend: attestatsiya-five.vercel.app; backend: attestatsiya-backend.vercel.app)`
 
 ## Tasdiqlangan asos
 
@@ -478,6 +478,39 @@ Barcha darslik kontenti: `darsliklar/` katalogida. Ekstraksiyalar `darsliklar/ex
   db push --linked --yes` orqali qo'llandi (sintaksis va xatti-harakat
   live tekshirildi). Backend `backend/.env` PORT=3001.
 
+## Vercel deploy va routing tuzatish (TASK-018, 2026-07-31)
+
+- **Deploy:** frontend `attestatsiya` → https://attestatsiya-five.vercel.app (login forma ishlaydi,
+  qora ekran yo'q); backend `attestatsiya-backend` → https://attestatsiya-backend.vercel.app
+  (`/api/health` → `healthy`, DB ulangan). Frontend env: `VITE_SUPABASE_URL`,
+  `VITE_SUPABASE_ANON_KEY`, `VITE_API_BASE_URL` (Production + Preview). Backend env:
+  `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `AUTH_REDIRECT_URL` (Production).
+- **Qora ekran sababi (yechildi):** `vercel.json`'dagi `@` secret reference nomlari kichik
+  harfda, Vercel loyihasida katta harfda edi — nom mos kelmasligi sabab "Secret does not
+  exist" xatosi. Env block olib tashlandi; Vercel env var'lar build'ga to'g'ridan-to'g'ri
+  beriladi.
+- **Backend routing bug (topildi va yechildi, PR #9):** Vercel CLI 58.4.4 (va remote
+  builder) `api/[...all].ts` uchun `^/api/([^/]+)$` — faqat BIR segmentli — route
+  generatsiya qiladi; ko'p segmentli `/api/auth/login` kabi yo'llar platforma 404
+  qaytarardi. Bu fastify preset yoki `outputDirectory`'ga bog'liq emas (3 throwaway
+  loyihada — fastify'li/fastify'siz, outputDirectory'li/li'siz — bir xil natija).
+  Yechim: `backend/vercel.json`'ga
+  `"rewrites": [{"source": "/api/:path*", "destination": "/api/[...all]"}]` qo'shildi.
+  Rewrite asl URL'ni saqlaydi (`req.url = /api/auth/me?path=auth%2Fme`), Fastify
+  pathname bo'yicha to'g'ri route qiladi.
+- **Live tasdiqlash (to'liq oqim):** register → confirm (SDK `admin.updateUserById`,
+  `email_confirmed_at` yoziladi) → login (`access_token`) → `/api/progress/modules` real
+  data (M01, topic_count 12) → `/api/content/modules` 200 → exam start (mavzu M01.02:
+  20 item, `duration_sec` 2400, Y1 format, 4 variant) → finish (`max_score` 40,
+  `S1.INFO` breakdown). `/api/auth/me`, `/api/exam/due-reviews`, `/api/progress/modules`
+  auth'siz 401 (TOKEN_REQUIRED) qaytaradi.
+- **Eslatma (topilgan bug):** `POST /api/auth/register` noto'g'ri body bilan 400 o'rniga
+  500 qaytaradi (`error instanceof ZodError` async error handler'da mos kelmaydi) —
+  API_CONTRACTS.md'ga mos emas, alohida task sifatida tuzatilishi kerak.
+- **Xavfsizlik eslatmasi:** Vercel token, Supabase service key chatda yozilgan —
+  hammasi ishlagach token va service key'ni rotate qilish tavsiya etiladi (repo toza,
+  `check-secrets` o'tdi).
+
 ## Ochiq masalalar — M01 kontenti
 
 - M01.01 (appendix) ga savol biriktirilmagan: `generate_topic_test` da
@@ -498,7 +531,8 @@ Barcha darslik kontenti: `darsliklar/` katalogida. Ekstraksiyalar `darsliklar/ex
 |-------|-----|----------|-------|
 | Local frontend | `http://localhost:3000` (vite) | Remote Supabase (plyqezulrfowyblsfpzy) | M01 12 dars + 400 savol DB'da; dars testi 20 random/shuffle |
 | Local backend | `http://localhost:3001` | Remote Supabase | /api/admin/attempts faol |
-| Production | TBD | TBD | Yaratilmagan |
+| Production (frontend) | https://attestatsiya-five.vercel.app | Remote Supabase | Deploy; login forma ishlaydi, qora ekran yo'q |
+| Production (backend) | https://attestatsiya-backend.vercel.app | Remote Supabase | /api/health healthy; barcha /api/* route'lar Fastify'ga yetib boradi |
 
 ## Muhim havolalar
 
