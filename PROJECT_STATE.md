@@ -609,9 +609,12 @@ yangilash kerak.
 auth talab qiladi; production `attestatsiya-backend.vercel.app` (custom alias)
 ochiq. Preview'lar faqat Vercel'ga login bo'lgan tekshiruvchilarga ko'rinadi
 (standart sozlama; xohlasangiz alohida o'chirish mumkin).
-- **Lokal:** `backend/.env` nusxasi `~/Desktop/attestatsiya-backend/.env` da saqlangan
-  (gitignore'da). Lokal backend endi `~/Desktop/attestatsiya-backend` da ishlaydi
-  (`npm run dev`, PORT=3001).
+- **Lokal (yangi tuzilma, 2026-07-31):** `~/Desktop/attestatsiya` papkasi ichida
+  ikkita alohida repo: `frontend/` (attestatsiya repo — frontend + supabase +
+  hujjatlar) va `backend/` (attestatsiya-backend repo). Backend `.env`
+  `~/Desktop/attestatsiya/backend/.env` da (gitignore'da). Lokal backend
+  `~/Desktop/attestatsiya/backend` da ishlaydi (`npm run dev`, PORT=3001).
+  Har ikkala repo'ning GitHub/Vercel ulanishi o'zgarmadi.
 - **Asosiy repoda:** 44 backend fayli olib tashlandi; README/CI frontend'ga
   bog'liq emasligi uchun o'zgarmadi; faqat PROJECT_STATE.md va TASKS.md yangilandi.
 
@@ -634,7 +637,7 @@ ochiq. Preview'lar faqat Vercel'ga login bo'lgan tekshiruvchilarga ko'rinadi
 | Muhit | URL | Database | Holat |
 |-------|-----|----------|-------|
 | Local frontend | `http://localhost:3000` (vite) | Remote Supabase (plyqezulrfowyblsfpzy) | M01 12 dars + 400 savol DB'da; dars testi 20 random/shuffle |
-| Local backend | `http://localhost:3001` (`~/Desktop/attestatsiya-backend`) | Remote Supabase | Alohida repo: `sarvar9417/attestatsiya-backend`; /api/admin/attempts faol |
+| Local backend | `http://localhost:3001` (`~/Desktop/attestatsiya/backend`) | Remote Supabase | Alohida repo: `sarvar9417/attestatsiya-backend`; /api/admin/attempts faol |
 | Production (frontend) | https://attestatsiya-five.vercel.app | Remote Supabase | Deploy; login forma ishlaydi, qora ekran yo'q |
 | Production (backend) | https://attestatsiya-backend.vercel.app | Remote Supabase | /api/health healthy; barcha /api/* route'lar Fastify'ga yetib boradi |
 

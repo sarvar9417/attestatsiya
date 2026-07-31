@@ -3,8 +3,8 @@
 
 import re
 
-BOOK9_PATH = "/Users/sarvar9417/Desktop/attestatsiya/darsliklar/extracted/9-sinf informatika (Cambridge +).txt"
-BOOK1011_PATH = "/Users/sarvar9417/Desktop/attestatsiya/darsliklar/extracted/10-11-sinf informatika (Cambridge +).txt"
+BOOK9_PATH = "/Users/sarvar9417/Desktop/attestatsiya/frontend/darsliklar/extracted/9-sinf informatika (Cambridge +).txt"
+BOOK1011_PATH = "/Users/sarvar9417/Desktop/attestatsiya/frontend/darsliklar/extracted/10-11-sinf informatika (Cambridge +).txt"
 
 def read_lines(path):
     with open(path) as f:
@@ -252,7 +252,7 @@ def main():
     output = '\n'.join(output_lines)
     
     # Write to file
-    output_path = "/Users/sarvar9417/Desktop/attestatsiya/darsliklar/extracted/barcha_kontent_kodlar_boyicha.txt"
+    output_path = "/Users/sarvar9417/Desktop/attestatsiya/frontend/darsliklar/extracted/barcha_kontent_kodlar_boyicha.txt"
     with open(output_path, 'w') as f:
         f.write(output)
     

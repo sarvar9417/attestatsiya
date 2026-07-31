@@ -3,7 +3,7 @@ Clean up auto-generated M01 content and add questions from existing content.
 """
 import re
 
-with open('/Users/sarvar9417/Desktop/attestatsiya/scripts/m01_generated.txt', 'r') as f:
+with open('/Users/sarvar9417/Desktop/attestatsiya/frontend/scripts/m01_generated.txt', 'r') as f:
     content = f.read()
 
 # Fix LaTeX remnants
@@ -49,7 +49,7 @@ for line in lines:
 content = '\n'.join(fixed_lines)
 
 # Save cleaned version
-with open('/Users/sarvar9417/Desktop/attestatsiya/scripts/m01_cleaned.txt', 'w') as f:
+with open('/Users/sarvar9417/Desktop/attestatsiya/frontend/scripts/m01_cleaned.txt', 'w') as f:
     f.write(content)
 
 print(f"Cleaned: {len(content)} chars")

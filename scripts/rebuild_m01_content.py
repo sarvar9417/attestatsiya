@@ -4,7 +4,7 @@ LaTeX → TypeScript converter for M01 — V4 (with tables, fixed everything).
 """
 import re, os
 
-BASE = '/Users/sarvar9417/Desktop/attestatsiya/Axborot_va_axborot_jarayonlari_LaTeX/chapters'
+BASE = '/Users/sarvar9417/Desktop/attestatsiya/frontend/Axborot_va_axborot_jarayonlari_LaTeX/chapters'
 
 CHAPTER_MAP = {
     '01_fundamentals':         ('M01.01', "Informatika, ma'lumot, axborot va bilim"),
