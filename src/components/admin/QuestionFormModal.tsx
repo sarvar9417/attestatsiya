@@ -2,18 +2,37 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
 import { monitoring } from '../../lib/monitoring'
 import { X } from 'lucide-react'
+import type { Json } from '../../lib/database.types'
+
+type Format = 'Y1' | 'Y2' | 'Y3'
+type Cognitive = 'bilish' | 'qollash' | 'mulohaza'
+type ContentStatus = 'draft' | 'review' | 'published' | 'archived'
+
+interface ConstructRow {
+  id: string
+  code: string
+  title_uz: string
+  subject_id: string
+  group_code: string
+}
+
+interface SubjectRow {
+  id: string
+  code: string
+  name_uz: string
+}
 
 interface Props {
   question?: {
-    id?: number
-    question_text: string
-    test_type: string
+    id?: string
+    stem_md: string
+    format: Format
+    cognitive: Cognitive
     difficulty: number
-    cognitive_level: string
-    module_id: number | null
-    subtopic_id: number | null
-    explanation: string | null
-    stimulus_id: number | null
+    status: ContentStatus
+    construct_id: string | null
+    subject_id: string | null
+    group_code: string
   }
   onClose: () => void
   onSaved: () => void
@@ -22,95 +41,104 @@ interface Props {
 export default function QuestionFormModal({ question, onClose, onSaved }: Props) {
   const isEdit = !!question?.id
   const [saving, setSaving] = useState(false)
-  const [modules, setModules] = useState<{ id: number; code: string; title: string }[]>([])
-  const [subtopics, setSubtopics] = useState<{ id: number; module_id: number; title: string }[]>([])
-  const [specId, setSpecId] = useState<number | null>(null)
+  const [loadError, setLoadError] = useState<string | null>(null)
+
+  const [constructs, setConstructs] = useState<ConstructRow[]>([])
+  const [subjects, setSubjects] = useState<SubjectRow[]>([])
 
   const [form, setForm] = useState({
-    question_text: question?.question_text || '',
-    test_type: question?.test_type || 'Y1',
+    stem_md: question?.stem_md || '',
+    format: question?.format || 'Y1',
+    cognitive: question?.cognitive || 'bilish',
     difficulty: question?.difficulty || 1,
-    cognitive_level: question?.cognitive_level || 'bilish',
-    module_id: question?.module_id || null,
-    subtopic_id: question?.subtopic_id || null,
-    explanation: question?.explanation || '',
-    stimulus_id: question?.stimulus_id || null,
+    construct_id: question?.construct_id || '',
+    explanation_md: '',
   })
 
   // Y1 options
-  const [options, setOptions] = useState<{ text: string; isCorrect: boolean }[]>(
-    Array.from({ length: 4 }, (_, i) => ({ text: '', isCorrect: i === 0 }))
+  const [options, setOptions] = useState<{ content_md: string; isCorrect: boolean }[]>(
+    Array.from({ length: 4 }, (_, i) => ({ content_md: '', isCorrect: i === 0 }))
   )
 
   useEffect(() => {
-    supabase.from('modules').select('id, code, title').order('sort_order').then(({ data }) => {
-      if (data) setModules(data)
-    })
-    supabase.from('subtopics').select('id, module_id, title').order('sort_order').then(({ data }) => {
-      if (data) setSubtopics(data)
-    })
-    supabase.from('specification_versions').select('id').eq('is_active', true).maybeSingle().then(({ data }) => {
-      if (data) setSpecId(data.id)
-    })
-  }, [])
+    let cancelled = false
 
-  const filteredSubtopics = subtopics.filter(st => st.module_id === form.module_id)
+    async function load() {
+      try {
+        const [{ data: constructsData }, { data: subjectsData }] = await Promise.all([
+          supabase.from('constructs').select('id, code, title_uz, subject_id, group_code').order('code'),
+          supabase.from('subjects').select('id, code, name_uz').order('code'),
+        ])
+        if (cancelled) return
+        setConstructs(constructsData || [])
+        setSubjects(subjectsData || [])
+
+        if (question?.id) {
+          const [{ data: optionsData }, { data: keyData }] = await Promise.all([
+            supabase.from('question_options').select('id, content_md, order_idx').eq('question_id', question.id).order('order_idx'),
+            supabase.from('question_keys').select('payload, explanation_md').eq('question_id', question.id).maybeSingle(),
+          ])
+          if (cancelled) return
+          if (optionsData && optionsData.length > 0) {
+            const payload = (keyData?.payload ?? null) as { correct_option_id?: string } | null
+            setOptions(optionsData.map(o => ({
+              content_md: o.content_md,
+              isCorrect: payload?.correct_option_id === o.id,
+            })))
+          }
+          if (keyData) setForm(f => ({ ...f, explanation_md: keyData.explanation_md || '' }))
+        }
+      } catch (err) {
+        if (!cancelled) setLoadError(err instanceof Error ? err.message : 'Yuklashda xatolik')
+      }
+    }
+
+    void load()
+    return () => { cancelled = true }
+  }, [question?.id])
+
+  const selectedConstruct = constructs.find(c => c.id === form.construct_id)
 
   async function handleSave() {
-    if (!form.question_text.trim()) return
-    if (!specId) return alert('Faol spetsifikatsiya yo\'q')
+    if (!form.stem_md.trim()) return
+    const construct = constructs.find(c => c.id === form.construct_id)
+    if (!construct) return alert('Konstrukt tanlang')
     setSaving(true)
 
     try {
       if (isEdit && question?.id) {
-        await supabase.from('questions').update({
-          question_text: form.question_text,
-          test_type: form.test_type,
+        const { error: updateError } = await supabase.from('questions').update({
+          stem_md: form.stem_md.trim(),
+          format: form.format,
+          cognitive: form.cognitive,
           difficulty: form.difficulty,
-          cognitive_level: form.cognitive_level,
-          module_id: form.module_id,
-          subtopic_id: form.subtopic_id,
-          explanation: form.explanation || null,
-          stimulus_id: form.stimulus_id,
+          status: question.status,
+          construct_id: construct.id,
+          subject_id: construct.subject_id,
+          group_code: construct.group_code,
           updated_at: new Date().toISOString(),
         }).eq('id', question.id)
+        if (updateError) throw updateError
 
-        // Delete old options and re-insert
-        await supabase.from('options').delete().eq('question_id', question.id)
-        if (form.test_type === 'Y1') {
-          await supabase.from('options').insert(
-            options.map((o, i) => ({
-              question_id: question.id,
-              option_text: o.text,
-              is_correct: o.isCorrect,
-              sort_order: i,
-            }))
-          )
+        await supabase.from('question_options').delete().eq('question_id', question.id)
+        // Key faqat Y1 da qayta yoziladi; Y2/Y3 da mavjud key'ni o'chirmaymiz.
+        if (form.format === 'Y1') {
+          await supabase.from('question_keys').delete().eq('question_id', question.id)
         }
+        await saveOptionsAndKey(question.id)
       } else {
-        const { data: newQ } = await supabase.from('questions').insert({
-          spec_id: specId,
-          module_id: form.module_id,
-          subtopic_id: form.subtopic_id,
-          test_type: form.test_type,
+        const { data: newQ, error: insertError } = await supabase.from('questions').insert({
+          stem_md: form.stem_md.trim(),
+          format: form.format,
+          cognitive: form.cognitive,
           difficulty: form.difficulty,
-          cognitive_level: form.cognitive_level,
-          question_text: form.question_text,
-          explanation: form.explanation || null,
-          stimulus_id: form.stimulus_id,
           status: 'draft',
+          construct_id: construct.id,
+          subject_id: construct.subject_id,
+          group_code: construct.group_code,
         }).select('id').single()
-
-        if (newQ && form.test_type === 'Y1') {
-          await supabase.from('options').insert(
-            options.map((o, i) => ({
-              question_id: newQ.id,
-              option_text: o.text,
-              is_correct: o.isCorrect,
-              sort_order: i,
-            }))
-          )
-        }
+        if (insertError) throw insertError
+        if (newQ) await saveOptionsAndKey(newQ.id)
       }
       onSaved()
     } catch (err) {
@@ -122,6 +150,37 @@ export default function QuestionFormModal({ question, onClose, onSaved }: Props)
     } finally {
       setSaving(false)
     }
+  }
+
+  async function saveOptionsAndKey(questionId: string) {
+    if (form.format === 'Y1') {
+      const rows = options.map((o, i) => ({
+        question_id: questionId,
+        content_md: o.content_md.trim(),
+        order_idx: i,
+        side: String.fromCharCode(97 + i),
+      }))
+      const { data: inserted, error: optError } = await supabase
+        .from('question_options')
+        .insert(rows)
+        .select('id, order_idx')
+      if (optError) throw optError
+
+      const correctIndex = options.findIndex(o => o.isCorrect)
+      const correctOption = (inserted || []).find(o => o.order_idx === correctIndex)
+      if (!correctOption) throw new Error('To‘g‘ri variant topilmadi')
+
+      const payload: Json = { correct_option_id: correctOption.id }
+      const { error: keyError } = await supabase.from('question_keys').insert({
+        question_id: questionId,
+        payload,
+        explanation_md: form.explanation_md.trim(),
+      })
+      if (keyError) throw keyError
+    }
+    // Y2/Y3: javob shabloni ushbu forma orqali kiritilmaydi.
+    // Kalitni kontent konveyeri (seed/script) yozadi; aks holda javobni
+    // tekshirib bo'lmaydi. Shu sababli bu yerda key yozilmaydi.
   }
 
   function toggleCorrect(idx: number) {
@@ -138,16 +197,33 @@ export default function QuestionFormModal({ question, onClose, onSaved }: Props)
           {isEdit ? 'Savolni tahrirlash' : 'Yangi savol'}
         </h2>
 
+        {loadError && (
+          <div className="mb-4 p-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 text-sm text-red-700 dark:text-red-300">
+            {loadError}
+          </div>
+        )}
+
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Savol matni</label>
-            <textarea className="input" rows={3} value={form.question_text} onChange={e => setForm(f => ({ ...f, question_text: e.target.value }))} placeholder="Savolni kiriting..." />
+            <textarea className="input" rows={3} value={form.stem_md} onChange={e => setForm(f => ({ ...f, stem_md: e.target.value }))} placeholder="Savolni kiriting..." />
           </div>
 
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Konstrukt</label>
+              <select className="input" value={form.construct_id} onChange={e => setForm(f => ({ ...f, construct_id: e.target.value }))}>
+                <option value="">Tanlang...</option>
+                {constructs.map(c => (
+                  <option key={c.id} value={c.id}>
+                    {c.code} — {c.title_uz}
+                  </option>
+                ))}
+              </select>
+            </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Test turi</label>
-              <select className="input" value={form.test_type} onChange={e => setForm(f => ({ ...f, test_type: e.target.value }))}>
+              <select className="input" value={form.format} onChange={e => setForm(f => ({ ...f, format: e.target.value as Format }))}>
                 <option value="Y1">Y1 (Bilish)</option>
                 <option value="Y2">Y2 (Qo'llash)</option>
                 <option value="Y3">Y3 (Mulohaza)</option>
@@ -161,7 +237,7 @@ export default function QuestionFormModal({ question, onClose, onSaved }: Props)
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Kognitiv daraja</label>
-              <select className="input" value={form.cognitive_level} onChange={e => setForm(f => ({ ...f, cognitive_level: e.target.value }))}>
+              <select className="input" value={form.cognitive} onChange={e => setForm(f => ({ ...f, cognitive: e.target.value as Cognitive }))}>
                 <option value="bilish">Bilish</option>
                 <option value="qollash">Qo'llash</option>
                 <option value="mulohaza">Mulohaza</option>
@@ -169,37 +245,26 @@ export default function QuestionFormModal({ question, onClose, onSaved }: Props)
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Modul</label>
-              <select className="input" value={form.module_id ?? ''} onChange={e => setForm(f => ({ ...f, module_id: e.target.value ? +e.target.value : null, subtopic_id: null }))}>
-                <option value="">Tanlang...</option>
-                {modules.map(m => <option key={m.id} value={m.id}>{m.code} — {m.title}</option>)}
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Mikro-mavzu</label>
-              <select className="input" value={form.subtopic_id ?? ''} onChange={e => setForm(f => ({ ...f, subtopic_id: e.target.value ? +e.target.value : null }))}>
-                <option value="">Tanlang...</option>
-                {filteredSubtopics.map(st => <option key={st.id} value={st.id}>{st.title}</option>)}
-              </select>
-            </div>
-          </div>
+          {selectedConstruct && (
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              Fan: {subjects.find(s => s.id === selectedConstruct.subject_id)?.name_uz ?? selectedConstruct.subject_id} · Guruh: {selectedConstruct.group_code}
+            </p>
+          )}
 
-          {form.test_type === 'Y1' && (
+          {form.format === 'Y1' && (
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Variantlar</label>
               <div className="space-y-2">
                 {options.map((opt, i) => (
                   <div key={i} className="flex items-center gap-3">
                     <span className="text-sm font-mono text-gray-400 w-5">{String.fromCharCode(97 + i)})</span>
-                    <input className="input flex-1" placeholder={`Variant ${String.fromCharCode(97 + i)}`} value={opt.text} onChange={e => {
+                    <input className="input flex-1" placeholder={`Variant ${String.fromCharCode(97 + i)}`} value={opt.content_md} onChange={e => {
                       const next = [...options]
-                      next[i] = { ...next[i], text: e.target.value }
+                      next[i] = { ...next[i], content_md: e.target.value }
                       setOptions(next)
                     }} />
                     <button onClick={() => toggleCorrect(i)} className={`p-2 rounded-lg text-sm ${opt.isCorrect ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-400'}`}>
-                      {opt.isCorrect ? 'To\'g\'ri' : 'Noto\'g\'ri'}
+                      {opt.isCorrect ? "To'g'ri" : "Noto'g'ri"}
                     </button>
                   </div>
                 ))}
@@ -209,7 +274,7 @@ export default function QuestionFormModal({ question, onClose, onSaved }: Props)
 
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tushuntirish</label>
-            <textarea className="input" rows={2} value={form.explanation} onChange={e => setForm(f => ({ ...f, explanation: e.target.value }))} placeholder="To'g'ri javob haqida izoh..." />
+            <textarea className="input" rows={2} value={form.explanation_md} onChange={e => setForm(f => ({ ...f, explanation_md: e.target.value }))} placeholder="To'g'ri javob haqida izoh..." />
           </div>
 
           <div className="flex gap-3 pt-2">

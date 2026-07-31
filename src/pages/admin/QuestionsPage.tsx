@@ -3,18 +3,22 @@ import { supabase } from '../../lib/supabase'
 import { Plus, Search, Send, CheckCircle, Globe, Archive, Undo2 } from 'lucide-react'
 import QuestionFormModal from '../../components/admin/QuestionFormModal'
 
-interface Question {
-  id: number
-  question_text: string
-  test_type: string
+type ContentStatus = 'draft' | 'review' | 'published' | 'archived'
+
+interface QuestionRow {
+  id: string
+  stem_md: string
+  format: string
+  cognitive: string
   difficulty: number
-  cognitive_level: string
   status: string
-  module_id: number
-  version: number
+  group_code: string
+  construct_id: string | null
+  subject_id: string | null
+  created_at: string
 }
 
-const STATUS_FLOW: Record<string, { to: string[]; label: string; icon: React.ElementType; color: string }> = {
+const STATUS_FLOW: Record<ContentStatus, { to: ContentStatus[]; label: string; icon: React.ElementType; color: string }> = {
   draft: {
     to: ['review'],
     label: 'Tekshiruvga yuborish',
@@ -22,16 +26,10 @@ const STATUS_FLOW: Record<string, { to: string[]; label: string; icon: React.Ele
     color: 'text-yellow-600 hover:bg-yellow-50',
   },
   review: {
-    to: ['approved', 'draft'],
-    label: 'Tasdiqlash / Rad etish',
+    to: ['published', 'draft'],
+    label: 'Tasdiqlash / Qaytarish',
     icon: CheckCircle,
     color: 'text-green-600 hover:bg-green-50',
-  },
-  approved: {
-    to: ['published', 'draft'],
-    label: 'E\'lon qilish / Qaytarish',
-    icon: Globe,
-    color: 'text-blue-600 hover:bg-blue-50',
   },
   published: {
     to: ['archived'],
@@ -47,30 +45,41 @@ const STATUS_FLOW: Record<string, { to: string[]; label: string; icon: React.Ele
   },
 }
 
-const STATUS_META: Record<string, { label: string; color: string }> = {
+const STATUS_META: Record<ContentStatus, { label: string; color: string }> = {
   draft: { label: 'Qoralama', color: 'bg-gray-100 text-gray-600' },
   review: { label: 'Tekshiruvda', color: 'bg-yellow-100 text-yellow-700' },
-  approved: { label: 'Tasdiqlangan', color: 'bg-green-100 text-green-700' },
-  published: { label: 'E\'lon qilingan', color: 'bg-blue-100 text-blue-700' },
+  published: { label: "E'lon qilingan", color: 'bg-green-100 text-green-700' },
   archived: { label: 'Arxivlangan', color: 'bg-red-100 text-red-600' },
 }
 
+const FORMAT_LABEL: Record<string, string> = {
+  Y1: 'Y1 (Bilish)',
+  Y2: "Y2 (Qo'llash)",
+  Y3: 'Y3 (Mulohaza)',
+}
+
+const COGNITIVE_LABEL: Record<string, string> = {
+  bilish: 'Bilish',
+  qollash: "Qo'llash",
+  mulohaza: 'Mulohaza',
+}
+
 export default function QuestionsPage() {
-  const [questions, setQuestions] = useState<Question[]>([])
+  const [questions, setQuestions] = useState<QuestionRow[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [filterStatus, setFilterStatus] = useState('')
   const [showForm, setShowForm] = useState(false)
-  const [editingId, setEditingId] = useState<number | null>(null)
+  const [editingId, setEditingId] = useState<string | null>(null)
 
   const load = useCallback(async () => {
     setLoading(true)
     let query = supabase
       .from('questions')
-      .select('id, question_text, test_type, difficulty, cognitive_level, status, module_id, version')
+      .select('id, stem_md, format, cognitive, difficulty, status, group_code, construct_id, subject_id, created_at')
       .order('created_at', { ascending: false })
       .limit(100)
-    if (filterStatus) query = query.eq('status', filterStatus)
+    if (filterStatus) query = query.eq('status', filterStatus as ContentStatus)
     const { data } = await query
     if (data) setQuestions(data)
     setLoading(false)
@@ -80,10 +89,9 @@ export default function QuestionsPage() {
     void load()
   }, [load])
 
-  async function transitionStatus(q: Question, nextStatus: string) {
+  async function transitionStatus(q: QuestionRow, nextStatus: ContentStatus) {
     const { error } = await supabase.from('questions').update({
       status: nextStatus,
-      version: q.version + 1,
       updated_at: new Date().toISOString(),
     }).eq('id', q.id)
 
@@ -91,20 +99,11 @@ export default function QuestionsPage() {
       alert('Xatolik: ' + error.message)
       return
     }
-
-    // Save version snapshot
-    await supabase.from('question_versions').insert({
-      question_id: q.id,
-      version: q.version + 1,
-      snapshot: q,
-      change_reason: `status: ${q.status} → ${nextStatus}`,
-    })
-
     load()
   }
 
   const filtered = questions.filter(q =>
-    !search || q.question_text.toLowerCase().includes(search.toLowerCase())
+    !search || q.stem_md.toLowerCase().includes(search.toLowerCase())
   )
 
   const editingQuestion = editingId ? questions.find(q => q.id === editingId) : undefined
@@ -136,21 +135,20 @@ export default function QuestionsPage() {
       ) : (
         <div className="space-y-2">
           {filtered.map(q => {
-            const flow = STATUS_FLOW[q.status]
-            const sm = STATUS_META[q.status] || { label: q.status, color: 'bg-gray-100 text-gray-600' }
+            const status = q.status as ContentStatus
+            const flow = STATUS_FLOW[status]
+            const sm = STATUS_META[status] || { label: q.status, color: 'bg-gray-100 text-gray-600' }
             return (
               <div key={q.id} className="card p-4">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm text-gray-900 dark:text-white line-clamp-2">{q.question_text}</p>
+                    <p className="text-sm text-gray-900 dark:text-white line-clamp-2">{q.stem_md}</p>
                     <div className="flex items-center gap-2 mt-2 flex-wrap">
                       <span className={`badge text-xs ${sm.color}`}>{sm.label}</span>
-                      <span className="badge bg-purple-100 text-purple-700 text-xs">{q.test_type}</span>
-                      <span className="badge bg-gray-100 text-gray-600 text-xs">
-                        {q.cognitive_level === 'bilish' ? 'Bilish' : q.cognitive_level === 'qollash' ? "Qo'llash" : 'Mulohaza'}
-                      </span>
+                      <span className="badge bg-purple-100 text-purple-700 text-xs">{FORMAT_LABEL[q.format] ?? q.format}</span>
+                      <span className="badge bg-gray-100 text-gray-600 text-xs">{COGNITIVE_LABEL[q.cognitive] ?? q.cognitive}</span>
                       <span className="text-xs text-gray-400">Qiyinlik: {q.difficulty}/5</span>
-                      <span className="text-xs text-gray-400">v{q.version}</span>
+                      {q.group_code && <span className="text-xs text-gray-400 font-mono">{q.group_code}</span>}
                     </div>
                   </div>
                   <div className="flex items-center gap-1 shrink-0 flex-wrap justify-end">
@@ -161,11 +159,10 @@ export default function QuestionsPage() {
                         className={`p-1.5 rounded-lg text-xs font-medium transition-colors ${flow.color}`}
                         title={`${flow.label}: ${next}`}
                       >
-                        {next === 'approved' ? <CheckCircle size={14} /> :
-                         next === 'draft' ? <Undo2 size={14} /> :
+                        {next === 'review' ? <Send size={14} /> :
                          next === 'published' ? <Globe size={14} /> :
                          next === 'archived' ? <Archive size={14} /> :
-                         next === 'review' ? <Send size={14} /> :
+                         next === 'draft' ? <Undo2 size={14} /> :
                          <span>{next}</span>}
                       </button>
                     ))}
@@ -195,14 +192,14 @@ export default function QuestionsPage() {
         <QuestionFormModal
           question={{
             id: editingQuestion.id,
-            question_text: editingQuestion.question_text,
-            test_type: editingQuestion.test_type,
+            stem_md: editingQuestion.stem_md,
+            format: editingQuestion.format as 'Y1' | 'Y2' | 'Y3',
+            cognitive: editingQuestion.cognitive as 'bilish' | 'qollash' | 'mulohaza',
             difficulty: editingQuestion.difficulty,
-            cognitive_level: editingQuestion.cognitive_level,
-            module_id: editingQuestion.module_id,
-            subtopic_id: null,
-            explanation: null,
-            stimulus_id: null,
+            status: editingQuestion.status as ContentStatus,
+            construct_id: editingQuestion.construct_id,
+            subject_id: editingQuestion.subject_id,
+            group_code: editingQuestion.group_code,
           }}
           onClose={() => setEditingId(null)}
           onSaved={() => { setEditingId(null); load() }}
