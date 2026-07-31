@@ -11,6 +11,13 @@ import { buildApp } from '../src/app.js'
  *
  * Modul-level cache: har bir instance (cold start) uchun app bir marta
  * yig'iladi va qayta ishlatiladi.
+ *
+ * Izoh (vercel.json rewrite): Vercel CLI 58.4.4 `api/[...all].ts` uchun
+ * faqat bir segmentli route generatsiya qilgani sababli `vercel.json` da
+ * `rewrites: /api/:path* -> /api/[...all]` qo'shilgan. Rewrite asl
+ * pathname'ni saqlaydi, lekin URL'ga `?path=` query param qo'shadi.
+ * Shu sababli kelajakda `path` nomli query param o'qiladigan route
+ * yozilmasligi kerak (zaharlangan qiymat kelishi mumkin).
  */
 let appPromise: Promise<Awaited<ReturnType<typeof buildApp>>> | null = null
 
