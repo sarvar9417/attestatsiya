@@ -595,8 +595,20 @@ Barcha darslik kontenti: `darsliklar/` katalogida. Ekstraksiyalar `darsliklar/ex
   deploy avtomatik (sha: e82a4773, ref: main, target: production, READY). Jonli:
   `/api/health` healthy (DB env'lar ishlayapti), `register {}` → 400 VALIDATION_ERROR.
 - **Env var'lar (Vercel, production):** SUPABASE_URL, SUPABASE_SERVICE_KEY,
-  AUTH_REDIRECT_URL — o'zgarmadi (loyiha darajasida). Preview env hali yo'q
-  (PR preview'lari runtime'da env'siz — hujjatlashtirilgan).
+  AUTH_REDIRECT_URL — o'zgarmadi (loyiha darajasida).
+- **Env var'lar (Vercel, preview, 2026-07-31 qo'shildi):** SUPABASE_URL va
+  SUPABASE_SERVICE_KEY (type sensitive) — production qiymatlari preview
+target'iga ko'chirildi (API orqali; decrypt API bo'sh qaytgani uchun qiymatlar
+lokal `.env`dan olindi — production bilan bir xil manba). Endi PR preview'lari
+runtime'da env'siz 500 bermaydi. `AUTH_REDIRECT_URL` preview'ga ataylab
+qo'shilmadi: ixtiyoriy (config'da default) va preview frontend URL'i har
+deploy'da dinamik. Eslatma: Vercel'da key rotatsiyasi bo'lsa preview'ni ham
+yangilash kerak.
+- **SSO himoyasi:** `ssoProtection: all_except_custom_domains` — barcha custom
+  bo'lmagan domaynlar (preview URL'lari, GitHub PR preview'lari ham) Vercel
+auth talab qiladi; production `attestatsiya-backend.vercel.app` (custom alias)
+ochiq. Preview'lar faqat Vercel'ga login bo'lgan tekshiruvchilarga ko'rinadi
+(standart sozlama; xohlasangiz alohida o'chirish mumkin).
 - **Lokal:** `backend/.env` nusxasi `~/Desktop/attestatsiya-backend/.env` da saqlangan
   (gitignore'da). Lokal backend endi `~/Desktop/attestatsiya-backend` da ishlaydi
   (`npm run dev`, PORT=3001).
