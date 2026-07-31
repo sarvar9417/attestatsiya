@@ -618,6 +618,33 @@ ochiq. Preview'lar faqat Vercel'ga login bo'lgan tekshiruvchilarga ko'rinadi
 - **Asosiy repoda:** 44 backend fayli olib tashlandi; README/CI frontend'ga
   bog'liq emasligi uchun o'zgarmadi; faqat PROJECT_STATE.md va TASKS.md yangilandi.
 
+## Vercel platformani to'liq jonli tekshiruv va tuzatishlar (2026-07-31)
+
+- **Asosiy sabab ("platforma ishlamayapti" shikoyati):** Supabase Auth `site_url`
+  `http://localhost:3000` edi va redirect allow-list bo'sh edi — ro'yxatdan o'tish
+  tasdiqlash xatidagi link localhost'ga yo'nalardi; resend/reset `redirect_to`'lari
+  esa "Invalid redirect" xatosiga uchragan bo'lardi.
+- **Tuzatishlar (Supabase Management API orqali):** `site_url` →
+  `https://attestatsiya-five.vercel.app`; `uri_allow_list` (vergul bilan ajratilgan
+  string) → `https://attestatsiya-five.vercel.app,https://attestatsiya-five.vercel.app/reset-password,http://localhost:3000`.
+  Eslatma: Management API'dagi maydon `additional_redirect_urls` EMAS —
+  `uri_allow_list` (string, vergul bilan ajratiladi); noto'g'ri maydon jimgina
+  qabul qilinmaydi (site_url o'tdi, allow-list qolmadi — shu aniqlangan edi).
+- **AUTH_REDIRECT_URL (Vercel backend, production):** masked/tekshirib
+  bo'lmaydigan qiymat o'chirilib, `https://attestatsiya-five.vercel.app` bilan
+  almashtirildi (sensitive env'da PATCH ishlamaydi — DELETE + POST qilindi);
+  production redeploy qo'llandi. Bu resend-confirmation va reset-password
+  redirect'larida ishlatiladi.
+- **Email strategiya:** Supabase default email provayderi (foydalanuvchi tanlovi).
+  Free-tier chegara: 2 xat/soat — `over_email_send_rate_limit` (429). Backend endi
+  buni aniq `EMAIL_RATE_LIMITED` (429, "Xat yuborish chegarasiga yetildi. Bir necha
+  daqiqadan keyin qayta urinib ko'ring.") xabari bilan qaytaradi (`mapAuthError`
+  yangi branch + 2 test; backend 104/104 yashil).
+- **Jonli tasdiqlash:** frontend 0 konsol xato + himoya kodi bundle'da;
+  backend healthy; register → admin confirm → login → me → progress/modules to'liq
+  oqim ishlaydi; test foydalanuvchilar tozalandi. Route himoyasi ishlab turibdi
+  (bundle'da `auth?returnTo`/`SESSION_EXPIRED`/`expired=1` kodlari bor).
+
 ## Ochiq masalalar — M01 kontenti
 
 - M01.01 (appendix) ga savol biriktirilmagan: `generate_topic_test` da
