@@ -63,6 +63,7 @@
 | T-016 | DONE | — | User auth frontend: login/register/profil/logout UX (validatsiya, EMAIL_NOT_CONFIRMED, redirect), profilga parol o'zgartirish, route himoyasi va session expiry |
 | T-017 | IN_PROGRESS | T-011, T-012 | M01 darslik kontenti va 400 savolni frontend → backend → DB oqimiga ko'chirish (lessons.blocks + questions seed + lessonContentGateway) |
 | T-018 | DONE | T-017 | Dars testi 20 ta random savol (faqat joriy dars pool'idan) + javoblar aralashishi (option_order) + umumiy vaqt savollar×2 daqiqa (server timer) + admin sinov urinishlarini ko'rish (API + admin panel sahifasi); Vercel deploy (frontend + backend) va ko'p segmentli /api/* routing fix (PR #9 — rewrites) |
+| T-019 | READY | T-018 | Zod validatsiya xatolari 400 `VALIDATION_ERROR` qaytaradi — `error instanceof ZodError` async route handler'da ishlamaydi (500 qaytadi); API_CONTRACTS.md formatiga moslash |
 
 ## Blockerlar
 

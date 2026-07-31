@@ -85,7 +85,8 @@
 | Task | Egasi | Holat | Boshlangan vaqt | Branch |
 |------|-------|-------|-----------------|--------|
 | T-016 | AI sessiya | DONE | 2026-07-31 | task/T-016-auth-frontend |
-| T-017 | AI sessiya | CLAIMED | 2026-07-31 | task/TASK-017-m01-content-db |
+| T-017 | AI sessiya | DONE | 2026-07-31 | task/TASK-017-m01-content-db |
+| T-018 | AI sessiya | DONE | 2026-07-31 | task/TASK-018-vercel-env-fix |
 | T-012 | — | READY | — | task/T-012-generators |
 
 ## Auth va learner trafigi backend'ga ko'chirildi (2026-07-31)
@@ -504,6 +505,9 @@ Barcha darslik kontenti: `darsliklar/` katalogida. Ekstraksiyalar `darsliklar/ex
   20 item, `duration_sec` 2400, Y1 format, 4 variant) → finish (`max_score` 40,
   `S1.INFO` breakdown). `/api/auth/me`, `/api/exam/due-reviews`, `/api/progress/modules`
   auth'siz 401 (TOKEN_REQUIRED) qaytaradi.
+- **Brauzer e2e (Playwright):** `src/tests/e2e/live-auth.spec.ts` deployed backend'ga
+  qarshi yashil (2/2): login → dashboard → profil; muddati o'tgan session reload'da
+  auto-refresh; chiqish → barcha sahifalar `/auth`ga qaytaradi.
 - **Eslatma (topilgan bug):** `POST /api/auth/register` noto'g'ri body bilan 400 o'rniga
   500 qaytaradi (`error instanceof ZodError` async error handler'da mos kelmaydi) —
   API_CONTRACTS.md'ga mos emas, alohida task sifatida tuzatilishi kerak.
