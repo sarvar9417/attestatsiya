@@ -386,85 +386,138 @@ export default function ExamRunner({
   // ─── Intro / Starting / Error screens ────────────────────
   if (phase === 'intro' || phase === 'starting' || phase === 'start-error') {
     const starting = phase === 'starting'
+    const questionLabel =
+      examKind === 'mock'
+        ? '50 savol'
+        : examKind === 'bolim'
+          ? '15 savol'
+          : topicPreview
+            ? `${topicPreview.questionCount} savol`
+            : 'Mavzu testi'
+    const durationLabel =
+      examKind === 'mock'
+        ? '120 daqiqa'
+        : examKind === 'bolim'
+          ? '30 daqiqa'
+          : topicPreview
+            ? `${topicPreview.durationSec / 60} daqiqa`
+            : '2 daqiqa / savol'
 
     return (
-      <main className="min-h-[70vh] flex items-center justify-center p-4">
-        <section className="card max-w-xl w-full p-8">
-          <div className="w-16 h-16 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center mx-auto mb-4">
-            <ShieldCheck
-              size={32}
-              className="text-primary-600"
-              aria-hidden="true"
-            />
-          </div>
-          <h1 className="text-2xl font-bold text-center text-gray-900 dark:text-white">
-            {examTitle}
-          </h1>
-          <p className="mt-3 text-center text-gray-500">
-            Savollar serverda tanlanadi, javoblar serverda baholanadi. Javob
-            kaliti brauzerga yuborilmaydi.
-          </p>
-          <ul className="mt-6 grid gap-2 text-sm text-gray-600 dark:text-gray-300">
-            {examKind === 'mock' && (
-              <>
-                <li>50 ta savol · 120 daqiqa</li>
-                <li>8 bilish · 35 qo‘llash · 7 mulohaza</li>
-              </>
-            )}
-            {examKind === 'bolim' && (
-              <>
-                <li>15 ta savol · 30 daqiqa</li>
-                <li>Modul bo‘yicha bilimni tekshirish</li>
-              </>
-            )}
-            {examKind === 'mavzu' && (
-              <>
-                <li>Mavzu bo‘yicha tezkor test</li>
-                {topicPreview ? (
-                  <li>
-                    {topicPreview.questionCount} ta savol ·{' '}
-                    {topicPreview.durationSec / 60} daqiqa
-                  </li>
-                ) : (
-                  <li>Umumiy vaqt: har bir savol uchun 2 daqiqa</li>
-                )}
-              </>
-            )}
-            <li>Har bir to‘g‘ri javob · 2 ball</li>
-          </ul>
-
-          {startError && (
-            <div
-              role="alert"
-              className="mt-5 p-4 rounded-xl border border-amber-200 bg-amber-50 text-sm text-amber-800 dark:border-amber-800/40 dark:bg-amber-900/20 dark:text-amber-200"
-            >
-              <div className="flex items-start gap-2">
-                <AlertTriangle size={18} className="shrink-0 mt-0.5" />
-                <span>{startError}</span>
+      <main className="mx-auto flex min-h-[72vh] w-full max-w-5xl items-center px-4 py-8 sm:px-6">
+        <section className="w-full overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
+          <div className="grid gap-0 lg:grid-cols-[minmax(0,1fr)_320px]">
+            <div className="p-6 sm:p-8">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex rounded-full bg-indigo-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-300">
+                  Attestatsiya 2026
+                </span>
+                <span className="text-xs text-gray-400">Server-authoritative assessment</span>
               </div>
-            </div>
-          )}
 
-          <button
-            type="button"
-            disabled={starting}
-            onClick={() => void startExam()}
-            className="btn-primary w-full mt-6 inline-flex justify-center items-center gap-2 disabled:opacity-60"
-          >
-            {starting ? (
-              <>
-                <LoaderCircle size={18} className="animate-spin" />
-                Sinov yaratilmoqda…
-              </>
-            ) : phase === 'start-error' ? (
-              <>
-                <RefreshCw size={18} />
-                Qayta urinish
-              </>
-            ) : (
-              'Sinovni boshlash'
-            )}
-          </button>
+              <div className="mt-5 flex items-start gap-4">
+                <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-indigo-600 text-white shadow-sm shadow-indigo-600/20">
+                  <ShieldCheck size={23} aria-hidden="true" />
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-3xl">
+                    {examTitle}
+                  </h1>
+                  <p className="mt-2 max-w-2xl text-sm leading-6 text-gray-500 dark:text-gray-400">
+                    Savollar serverda tanlanadi va javoblar serverda baholanadi.
+                    Javob kaliti sinov tugashidan oldin brauzerga yuborilmaydi.
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                <div className="rounded-2xl border border-gray-200 p-4 dark:border-gray-800">
+                  <p className="text-xl font-bold text-gray-950 dark:text-white">{questionLabel}</p>
+                  <p className="mt-1 text-xs text-gray-400">Hajmi</p>
+                </div>
+                <div className="rounded-2xl border border-gray-200 p-4 dark:border-gray-800">
+                  <p className="text-xl font-bold text-gray-950 dark:text-white">{durationLabel}</p>
+                  <p className="mt-1 text-xs text-gray-400">Vaqt</p>
+                </div>
+                <div className="col-span-2 rounded-2xl border border-gray-200 p-4 dark:border-gray-800 sm:col-span-1">
+                  <p className="text-xl font-bold text-gray-950 dark:text-white">2 ball</p>
+                  <p className="mt-1 text-xs text-gray-400">To‘g‘ri javob</p>
+                </div>
+              </div>
+
+              {examKind === 'mock' && (
+                <div className="mt-5 flex flex-wrap gap-2">
+                  <span className="rounded-lg bg-emerald-50 px-2.5 py-1.5 text-xs font-semibold text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">
+                    8 bilish
+                  </span>
+                  <span className="rounded-lg bg-indigo-50 px-2.5 py-1.5 text-xs font-semibold text-indigo-700 dark:bg-indigo-950/50 dark:text-indigo-300">
+                    35 qo‘llash
+                  </span>
+                  <span className="rounded-lg bg-violet-50 px-2.5 py-1.5 text-xs font-semibold text-violet-700 dark:bg-violet-950/50 dark:text-violet-300">
+                    7 mulohaza
+                  </span>
+                </div>
+              )}
+
+              {startError && (
+                <div
+                  role="alert"
+                  className="mt-5 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800 dark:border-amber-800/40 dark:bg-amber-900/20 dark:text-amber-200"
+                >
+                  <div className="flex items-start gap-2">
+                    <AlertTriangle size={18} className="mt-0.5 shrink-0" />
+                    <span>{startError}</span>
+                  </div>
+                </div>
+              )}
+
+              <button
+                type="button"
+                disabled={starting}
+                onClick={() => void startExam()}
+                className="mt-7 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 disabled:opacity-60 sm:w-auto"
+              >
+                {starting ? (
+                  <>
+                    <LoaderCircle size={18} className="animate-spin" />
+                    Sinov yaratilmoqda…
+                  </>
+                ) : phase === 'start-error' ? (
+                  <>
+                    <RefreshCw size={18} />
+                    Qayta urinish
+                  </>
+                ) : (
+                  <>
+                    Sinovni boshlash
+                    <ChevronRight size={17} />
+                  </>
+                )}
+              </button>
+            </div>
+
+            <aside className="border-t border-gray-200 bg-gray-50/80 p-6 dark:border-gray-800 dark:bg-gray-950/40 lg:border-l lg:border-t-0">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gray-400">
+                Sinov qoidalari
+              </p>
+              <div className="mt-5 space-y-4">
+                {[
+                  'Vaqt serverdagi boshlanish vaqti asosida hisoblanadi.',
+                  'Javob saqlangandan keyin birinchi urinish authoritative hisoblanadi.',
+                  'Sinov tugagach natija va guruhlar kesimi serverdan olinadi.',
+                ].map((rule, index) => (
+                  <div key={rule} className="flex gap-3">
+                    <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-indigo-100 text-xs font-bold text-indigo-600 dark:bg-indigo-950 dark:text-indigo-300">
+                      {index + 1}
+                    </span>
+                    <p className="pt-1 text-xs leading-5 text-gray-500 dark:text-gray-400">
+                      {rule}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </aside>
+          </div>
         </section>
       </main>
     )
@@ -479,68 +532,121 @@ export default function ExamRunner({
     const passed = result.passed ?? percentage >= 60
 
     return (
-      <main className="max-w-3xl mx-auto p-4 sm:p-6">
-        <section className="card p-8 text-center">
-          <div
-            className={`w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center ${
-              passed ? 'bg-emerald-100' : 'bg-amber-100'
-            }`}
-          >
-            <CheckCircle2
-              size={38}
-              className={passed ? 'text-emerald-600' : 'text-amber-600'}
-              aria-hidden="true"
-            />
-          </div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+      <main className="mx-auto w-full max-w-5xl space-y-5 px-4 py-6 sm:px-6 lg:py-8">
+        <header>
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-indigo-500">
+            Natijalar
+          </p>
+          <h1 className="mt-1 text-2xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-3xl">
             Sinov yakunlandi
           </h1>
-          <p className="mt-4 text-5xl font-bold text-primary-600">
-            {result.total_score} / {result.max_score}
-          </p>
-          <p className="mt-2 text-gray-500">{percentage}% natija</p>
+          <p className="mt-1 text-sm text-gray-400">{examTitle}</p>
+        </header>
 
-          {result.breakdown && result.breakdown.length > 0 && (
-            <div className="mt-8 text-left">
-              <h2 className="font-semibold text-gray-900 dark:text-white mb-3">
+        <section className="flex flex-col gap-5 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900 sm:p-6 lg:flex-row lg:items-center">
+          <div className="flex shrink-0 items-center gap-4">
+            <div
+              className={`grid h-16 w-16 place-items-center rounded-2xl ${
+                passed
+                  ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-300'
+                  : 'bg-amber-50 text-amber-600 dark:bg-amber-950/60 dark:text-amber-300'
+              }`}
+            >
+              <CheckCircle2 size={30} aria-hidden="true" />
+            </div>
+            <div>
+              <p className={`text-3xl font-bold tracking-tight ${
+                passed
+                  ? 'text-emerald-600 dark:text-emerald-300'
+                  : 'text-amber-600 dark:text-amber-300'
+              }`}>
+                {result.total_score} / {result.max_score}
+              </p>
+              <p className="mt-1 text-sm font-semibold text-gray-700 dark:text-gray-200">
+                {percentage}% natija
+              </p>
+            </div>
+          </div>
+
+          <div className="min-w-0 flex-1 lg:border-l lg:border-gray-200 lg:pl-6 dark:lg:border-gray-800">
+            <h2 className="text-lg font-semibold text-gray-950 dark:text-white">
+              {passed ? 'Natija talab darajasida' : 'Natijani mustahkamlash kerak'}
+            </h2>
+            <p className="mt-1 text-sm leading-6 text-gray-500 dark:text-gray-400">
+              Natija server tomonidan hisoblandi. Quyidagi kesim keyingi tayyorgarlik
+              yo‘nalishini aniqlashga yordam beradi.
+            </p>
+            <div className="mt-4 h-2 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
+              <div
+                className={`h-full rounded-full ${
+                  passed ? 'bg-emerald-500' : 'bg-amber-500'
+                }`}
+                style={{ width: `${Math.min(percentage, 100)}%` }}
+              />
+            </div>
+          </div>
+        </section>
+
+        {result.breakdown && result.breakdown.length > 0 && (
+          <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900 sm:p-6">
+            <div className="mb-4">
+              <h2 className="text-lg font-semibold text-gray-950 dark:text-white">
                 Guruhlar kesimi
               </h2>
-              <div className="grid gap-2">
-                {result.breakdown.map((item) => (
+              <p className="mt-1 text-xs text-gray-400">
+                To‘g‘ri javoblar va jami savollar server natijasi bo‘yicha.
+              </p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {result.breakdown.map((item) => {
+                const itemPercent =
+                  item.jami > 0 ? Math.round((item.togri / item.jami) * 100) : 0
+                return (
                   <div
                     key={item.group_code}
-                    className="flex justify-between rounded-xl bg-gray-50 dark:bg-gray-800 px-4 py-2 text-sm"
+                    className="rounded-xl border border-gray-200 p-4 dark:border-gray-800"
                   >
-                    <span>{item.group_code}</span>
-                    <span className="font-medium">
-                      {item.togri} / {item.jami}
-                    </span>
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="font-mono text-xs font-semibold text-gray-600 dark:text-gray-300">
+                        {item.group_code}
+                      </span>
+                      <span className="text-sm font-bold text-gray-900 dark:text-white">
+                        {item.togri} / {item.jami}
+                      </span>
+                    </div>
+                    <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
+                      <div
+                        className="h-full rounded-full bg-indigo-500"
+                        style={{ width: `${itemPercent}%` }}
+                      />
+                    </div>
                   </div>
-                ))}
-              </div>
+                )
+              })}
             </div>
-          )}
+          </section>
+        )}
 
+        <div className="flex flex-col gap-3 sm:flex-row">
           <button
             type="button"
             onClick={resetToIntro}
-            className="btn-primary mt-8"
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 text-sm font-semibold text-white transition hover:bg-indigo-700"
           >
+            <RefreshCw size={16} aria-hidden="true" />
             Yangi sinov
           </button>
 
           {backUrl && (
-            <div className="mt-3">
-              <Link
-                to={backUrl}
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              >
-                <ArrowLeft size={15} />
-                Modulga qaytish
-              </Link>
-            </div>
+            <Link
+              to={backUrl}
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-5 text-sm font-semibold text-gray-600 transition hover:border-indigo-200 hover:text-indigo-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-indigo-800 dark:hover:text-indigo-300"
+            >
+              <ArrowLeft size={15} aria-hidden="true" />
+              Modulga qaytish
+            </Link>
           )}
-        </section>
+        </div>
       </main>
     )
   }
@@ -841,9 +947,16 @@ export default function ExamRunner({
               </span>
             </div>
           </div>
+          <div className="h-1 shrink-0 bg-gray-100 dark:bg-gray-800">
+            <div
+              className="h-full bg-indigo-500 transition-[width] duration-300"
+              style={{ width: `${total > 0 ? (answeredQuestions / total) * 100 : 0}%` }}
+              aria-label={`Sinov progressi: ${answeredQuestions} / ${total}`}
+            />
+          </div>
 
           {/* Question content wrapper */}
-          <div className="flex-1 p-4 sm:p-6 lg:p-8 max-w-3xl mx-auto w-full">
+          <div className="mx-auto w-full max-w-4xl flex-1 p-4 sm:p-6 lg:p-8">
             {/* Question meta row */}
             <div className="exam-question-meta">
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-xs font-bold font-mono">
@@ -900,7 +1013,7 @@ export default function ExamRunner({
 
           {/* ── Bottom Navigation ─────────────────────────── */}
           <div className="exam-nav-bar">
-            <div className="flex items-center gap-2 max-w-3xl mx-auto w-full">
+            <div className="mx-auto flex w-full max-w-4xl items-center gap-2">
               {/* Previous button */}
               <button
                 type="button"
