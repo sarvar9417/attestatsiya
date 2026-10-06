@@ -93,6 +93,28 @@
 | T-012 | — | READY | — | task/T-012-generators |
 | TASK-UI-001 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-001-figma-dashboard |
 | TASK-UI-005 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-005-admin-dashboard |
+| TASK-UI-006 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-006-admin-content-pages |
+
+## Admin content pages Figma redesign (TASK-UI-006, 2026-10-06)
+
+- **Modules:** modul/dars inventari, statuslar, create form, loading/error/empty holatlari yangi admin design systemga o'tkazildi.
+- **Questions:** search, status filter, status transition, edit/create entry points va savol metadata kartalari redesign qilindi; so'nggi 100 savol chegarasi UI'da aniq ko'rsatildi.
+- **Attempts:** filter paneli, real total/page metrikalari, natijalar jadvali, detail view va pagination redesign qilindi; server-authoritative score ma'lumoti saqlandi.
+- **Behavior:** mavjud CRUD, status transition, attempts API va admin permission oqimlari o'zgartirilmadi.
+- **Test:** AdminContentPages.test.tsx modul+dars render/expand, savol search empty-state, attempts API failure va empty boundary holatlarini qoplaydi.
+- **CI:** GitHub Actions CI #189 da secret scan, lint, typecheck, unit test, production build, Playwright smoke va database job'lari yashil o'tdi.
+
+### Handoff
+
+```text
+Task: TASK-UI-006
+Natija: Modules, Questions, Attempts admin sahifalari Figma design systemga moslashtirildi
+O'zgargan fayllar: src/pages/admin/ModulesPage.tsx; QuestionsPage.tsx; AttemptsPage.tsx; src/tests/AdminContentPages.test.tsx; TASKS.md; PROJECT_STATE.md
+Migratsiyalar: yo'q
+Testlar: GitHub CI #189 — secret scan, lint, typecheck, unit, build, Playwright smoke, database
+Qolgan xavf yoki blocker: QuestionFormModal hali eski vizual tizimda; learner natijalar uchun alohida history/errors route hali yo'q
+Keyingi tavsiya: TASK-UI-007 — QuestionFormModal va admin form komponentlarini redesign qilish
+```
 
 ## Admin dashboard Figma redesign (TASK-UI-005, 2026-10-06)
 

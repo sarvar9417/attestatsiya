@@ -71,6 +71,7 @@
 
 | ID | Status | Dependency | Deliverable |
 |----|--------|------------|-------------|
+| TASK-UI-006 | DONE | TASK-UI-005 | Admin Modules, Questions va Attempts sahifalari Figma design systemga moslashtirildi; mavjud CRUD/status transition/filter/detail behaviori saqlandi; loading/error/empty holatlari birxillashtirildi; regressiya testlari qo‘shildi |
 | TASK-UI-005 | DONE | TASK-UI-004 | Figma admin yo‘nalishiga mos AdminLayout va AdminDashboard redesign qilindi; mavjud typed Supabase count oqimi saqlandi, loading/error/refresh holatlari qo‘shildi, soxta analytics kiritilmadi, regressiya testlari yozildi |
 | TASK-UI-004 | DONE | TASK-UI-003 | Figma assessment yo‘nalishiga mos ExamRunner intro, active status va results UI redesign qilindi; server-authoritative timer/scoring/navigation behaviori saqlandi; regressiya testlari kengaytirildi |
 | TASK-UI-003 | DONE | TASK-UI-002 | Figma lesson yo‘nalishiga mos TopicView shell yaratildi: stage navigator va nazariya/test/result holatlari vizual birlashtirildi; mavjud content, BookReader va server-check behaviori o‘zgartirilmadi; regressiya testlari qo‘shildi |
