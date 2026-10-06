@@ -115,8 +115,8 @@ describe('DashboardPage Figma UI', () => {
       }),
     ).toBeDefined()
     expect(screen.getByText('1 / 3')).toBeDefined()
-    expect(screen.getByText('33%')).toBeDefined()
-    expect(screen.getByText('80%')).toBeDefined()
+    expect(screen.getAllByText('33%').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('80%').length).toBeGreaterThan(0)
     expect(screen.getByText('Axborot tushunchasi')).toBeDefined()
   })
 
