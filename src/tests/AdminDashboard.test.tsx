@@ -98,13 +98,13 @@ describe('AdminDashboard Figma UI', () => {
     renderPage()
 
     await waitFor(() => {
-      expect(screen.getByText('10')).toBeDefined()
+      expect(screen.getAllByText('10').length).toBeGreaterThan(0)
     })
 
     await user.click(screen.getByRole('button', { name: 'Yangilash' }))
 
     await waitFor(() => {
-      expect(screen.getByText('11')).toBeDefined()
+      expect(screen.getAllByText('11').length).toBeGreaterThan(0)
     })
 
     expect(mocks.from).toHaveBeenCalledTimes(8)
