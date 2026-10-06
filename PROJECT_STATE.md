@@ -91,7 +91,36 @@
 | T-021 | AI sessiya | DONE | 2026-07-31 | task/TASK-021-backend-git-deploy |
 | T-022 | AI sessiya | DONE | 2026-07-31 | task/TASK-022-backend-own-repo |
 | T-012 | — | READY | — | task/T-012-generators |
-| TASK-UI-001 | AI sessiya | IN_PROGRESS | 2026-10-06 | task/TASK-UI-001-figma-dashboard |
+| TASK-UI-001 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-001-figma-dashboard |
+
+## Figma dashboard foundation (TASK-UI-001, 2026-10-06)
+
+- **Dashboard:** tasdiqlangan Figma yo'nalishiga mos hero, KPI kartalar,
+  bo'lim progressi, zaif mavzular va kunlik reja UI'i yaratildi.
+- **Real ma'lumot:** katalog, learner progress va auth display name mavjud
+  hook/store'lardan olinadi; yangi client mock yoki hardcoded learner natijasi
+  kiritilmadi.
+- **Sidebar:** Bosh sahifa, O'rganish, Mock test va profil oqimi Figma uslubida
+  responsive/collapsible ko'rinishga o'tkazildi; mavjud route'lar saqlandi.
+- **Framework:** ADR/README qaroriga muvofiq React + Vite saqlandi; Next.js
+  migratsiyasi qilinmadi.
+- **Test:** yangi `DashboardPage.test.tsx` real model renderi, tugallanmagan
+  modulga navigatsiya va bo'sh katalog holatini tekshiradi.
+- **CI:** secret scan, lint, typecheck, unit test, build, Playwright smoke va
+  database job'lari GitHub Actions CI #103 da yashil o'tdi.
+
+### Handoff
+
+```text
+Task: TASK-UI-001
+Natija: Figma dashboard + sidebar foundation implement qilindi
+O'zgargan fayllar: src/pages/DashboardPage.tsx; src/components/layout/Sidebar.tsx; src/tests/DashboardPage.test.tsx; TASKS.md; PROJECT_STATE.md
+Migratsiyalar: yo'q
+Ishga tushirilgan testlar: GitHub CI — secret scan, lint, typecheck, unit, build, Playwright smoke, database
+Qolgan xavf yoki blocker: yangi Figma Learning/Section/Lesson/Assessment ekranlari hali kodga ko'chirilmagan
+Keyingi ochilgan tasklar: TASK-UI-002 tavsiya — Learning + Module page redesign
+```
+
 
 ## Auth va learner trafigi backend'ga ko'chirildi (2026-07-31)
 
