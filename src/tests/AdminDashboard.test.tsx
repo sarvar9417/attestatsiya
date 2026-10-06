@@ -51,10 +51,10 @@ describe('AdminDashboard Figma UI', () => {
     renderPage()
 
     await waitFor(() => {
-      expect(screen.getByText('3,842')).toBeDefined()
+      expect(screen.getByText('3 842')).toBeDefined()
     })
 
-    expect(screen.getByText('1,248')).toBeDefined()
+    expect(screen.getByText('1 248')).toBeDefined()
     expect(screen.getAllByText('16').length).toBeGreaterThan(0)
     expect(screen.getAllByText('1').length).toBeGreaterThan(0)
     expect(mocks.from).toHaveBeenCalledWith('modules')
