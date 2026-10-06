@@ -90,7 +90,7 @@
 | T-019 | AI sessiya | DONE | 2026-07-31 | task/TASK-020-qora-ekran-tuzatishlar |
 | T-021 | AI sessiya | DONE | 2026-07-31 | task/TASK-021-backend-git-deploy |
 | T-022 | AI sessiya | DONE | 2026-07-31 | task/TASK-022-backend-own-repo |
-| T-012 | — | READY | — | task/T-012-generators |
+| T-012 | AI sessiya | IN_PROGRESS | 2026-10-06 | task/T-012-parametric-generators |
 | TASK-UI-001 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-001-figma-dashboard |
 | TASK-UI-005 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-005-admin-dashboard |
 | TASK-UI-006 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-006-admin-content-pages |
