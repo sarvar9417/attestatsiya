@@ -94,6 +94,7 @@
 | TASK-UI-001 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-001-figma-dashboard |
 | TASK-UI-005 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-005-admin-dashboard |
 | TASK-UI-006 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-006-admin-content-pages |
+| TASK-UI-007 | AI sessiya | IN_PROGRESS | 2026-10-06 | task/TASK-UI-007-question-form |
 
 ## Admin content pages Figma redesign (TASK-UI-006, 2026-10-06)
 
