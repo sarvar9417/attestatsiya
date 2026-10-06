@@ -31,7 +31,7 @@ function validateKey(question: GeneratedQuestion): void {
     return
   }
 
-  if (question.key.kind === 'Y2') {
+  if (key.kind === 'Y2') {
     expect(question.format).toBe('Y2')
     const left = new Set(
       question.options.filter(option => option.side === 'a').map(option => option.id),
@@ -166,7 +166,8 @@ describe('sanoqSistema mustaqil hisob tekshiruvlari', () => {
       question = sanoqSistemaGenerator.generate(seed, 'S3.NUM.03')
     }
     expect(question.key.kind).toBe('Y3')
-    if (question.key.kind !== 'Y3') return
+    const key = question.key
+    if (key.kind !== 'Y3') return
 
     const byId = new Map(question.options.map(option => [option.id, option.content]))
     const values = key.order.map(id => {
