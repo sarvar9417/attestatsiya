@@ -93,6 +93,33 @@
 | T-012 | — | READY | — | task/T-012-generators |
 | TASK-UI-001 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-001-figma-dashboard |
 
+## Admin shell Figma redesign (TASK-UI-005, 2026-10-06)
+
+- **AdminLayout:** Figma yo'nalishidagi oq/indigo responsive sidebar, mobile
+  drawer va mavjud Dashboard/Modullar/Savollar/Urinishlar route'lari yaratildi.
+- **AdminDashboard:** KPI kartalar va quick-management bloklari real Supabase
+  countlari bilan ishlaydi; sun'iy content-health foizlari kiritilmadi.
+- **Xavfsizlik:** AdminGuard chegarasi, DB schema va mutation/business qoidalari
+  o'zgarmadi; bu task presentation qatlamida qoldi.
+- **Test:** `AdminUi.test.tsx` real count renderi, database error holati va
+  admin route navigatsiyasini tekshiradi.
+- **CI:** birinchi run duplicate KPI assertion sabab yiqildi; test aniq
+  multi-match assertionga tuzatildi. GitHub Actions CI #154 da secret scan,
+  lint, typecheck, 256 unit test, build, Playwright smoke va database job'lari yashil.
+
+### Handoff
+
+```text
+Task: TASK-UI-005
+Natija: Admin shell va dashboard Figma dizayn tizimiga moslashtirildi
+O'zgargan fayllar: src/components/admin/AdminLayout.tsx; src/pages/admin/AdminDashboard.tsx; src/tests/AdminUi.test.tsx; TASKS.md; PROJECT_STATE.md
+Migratsiyalar: yo'q
+Ishga tushirilgan testlar: GitHub CI #154 — secret scan, lint, typecheck, 256 unit, build, Playwright smoke, database
+Qolgan xavf yoki blocker: Modules/Questions/Attempts ichki sahifalari hali eski card/input uslubining bir qismini ishlatadi; learner error-review uchun alohida authoritative data contract hali aniqlanmagan
+Keyingi ochilgan tasklar: TASK-UI-006 — Admin Modules/Questions/Attempts visual consistency polish
+```
+
+
 ## ExamRunner assessment Figma redesign (TASK-UI-004, 2026-10-06)
 
 - **Intro:** mock/module/topic sinov kirish ekrani Figma assessment yo'nalishiga
