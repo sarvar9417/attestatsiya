@@ -71,7 +71,7 @@
 
 | ID | Status | Dependency | Deliverable |
 |----|--------|------------|-------------|
-| TASK-UI-001 | IN_PROGRESS | T-011, T-016 | Figma tasdiqlangan dashboard va asosiy sidebar vizual tizimini mavjud React+Vite arxitekturasida implement qilish; real catalog/progress/auth ma'lumotlarini saqlash; responsive holat va regressiya testlari |
+| TASK-UI-001 | DONE | T-011, T-016 | Figma tasdiqlangan dashboard va asosiy sidebar vizual tizimi mavjud React+Vite arxitekturasida implement qilindi; real catalog/progress/auth ma'lumotlari saqlandi; responsive holat va regressiya testlari qo'shildi |
 
 ## Blockerlar
 
