@@ -93,6 +93,7 @@
 | T-012 | — | READY | — | task/T-012-generators |
 | TASK-UI-001 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-001-figma-dashboard |
 | TASK-UI-005 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-005-admin-dashboard |
+| TASK-UI-006 | AI sessiya | IN_PROGRESS | 2026-10-06 | task/TASK-UI-006-admin-content-pages |
 
 ## Admin dashboard Figma redesign (TASK-UI-005, 2026-10-06)
 
