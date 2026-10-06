@@ -27,6 +27,10 @@ const EMPTY_STATS: AdminStats = {
   users: 0,
 }
 
+function formatCount(value: number): string {
+  return String(value).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ' ')
+}
+
 export default function AdminDashboard() {
   const [stats, setStats] = useState<AdminStats>(EMPTY_STATS)
   const [loading, setLoading] = useState(true)
@@ -295,7 +299,7 @@ function AdminMetricCard({
         </span>
       </div>
       <p className="mt-3 text-2xl font-bold tracking-tight text-gray-950 dark:text-white">
-        {loading ? '—' : value.toLocaleString('uz-UZ')}
+        {loading ? '—' : formatCount(value)}
       </p>
       <p className="mt-1 text-[11px] text-gray-400">
         {loading ? 'Yuklanmoqda…' : 'Bazadagi joriy son'}
@@ -345,7 +349,7 @@ function InventoryRow({ label, value }: { label: string; value: number }) {
     <div className="flex items-center justify-between gap-4 rounded-xl bg-gray-50 px-3.5 py-3 dark:bg-gray-800/70">
       <span className="text-sm text-gray-500 dark:text-gray-400">{label}</span>
       <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">
-        {value.toLocaleString('uz-UZ')}
+        {formatCount(value)}
       </span>
     </div>
   )
