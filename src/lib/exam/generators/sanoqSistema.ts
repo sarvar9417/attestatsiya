@@ -60,7 +60,7 @@ function generateBaseRecognition(seed: string, rng: SeededRng): GeneratedQuestio
     'S3.NUM.01',
     `${representation} yozuvi uchun mumkin bo‘lgan eng kichik sanoq sistemasi asosi qaysi?`,
     String(minimumBase),
-    [String(minimumBase + 1), String(Math.max(2, minimumBase - 1)), String(base), String(base + 2)],
+    [String(minimumBase + 1), String(minimumBase + 2), String(minimumBase + 3), String(minimumBase + 4)],
     `Eng katta raqam qiymati ${maxDigit}; asos undan katta bo‘lishi kerak. Eng kichik asos — ${minimumBase}.`,
     ['01', representation, minimumBase],
     2,
