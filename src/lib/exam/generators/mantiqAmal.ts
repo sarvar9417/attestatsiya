@@ -7,6 +7,7 @@ type Op = (typeof OPS)[number]
 
 interface LogicExpression {
   text: string
+  variables: readonly [string, string, string]
   evaluate: (a: boolean, b: boolean, c: boolean) => boolean
   fingerprintParts: readonly (string | number)[]
 }
@@ -25,7 +26,19 @@ function atom(name: string, negated: boolean): string {
   return negated ? `¬${name}` : name
 }
 
+const VARIABLE_SETS = [
+  ['A', 'B', 'C'],
+  ['P', 'Q', 'R'],
+  ['X', 'Y', 'Z'],
+  ['A', 'X', 'Y'],
+  ['M', 'N', 'K'],
+  ['U', 'V', 'W'],
+  ['D', 'E', 'F'],
+  ['L', 'M', 'N'],
+] as const
+
 function buildExpression(rng: SeededRng): LogicExpression {
+  const variables = rng.pick(VARIABLE_SETS)
   const op1 = rng.pick(OPS)
   const op2 = rng.pick(OPS)
   const negA = rng.int(0, 1) === 1
@@ -33,32 +46,34 @@ function buildExpression(rng: SeededRng): LogicExpression {
   const negC = rng.int(0, 1) === 1
   const shape = rng.int(0, 1)
 
-  const aText = atom('A', negA)
-  const bText = atom('B', negB)
-  const cText = atom('C', negC)
+  const aText = atom(variables[0], negA)
+  const bText = atom(variables[1], negB)
+  const cText = atom(variables[2], negC)
 
   if (shape === 0) {
     return {
       text: `(${aText} ${op1} ${bText}) ${op2} ${cText}`,
+      variables,
       evaluate: (a, b, c) =>
         applyOp(
           applyOp(maybeNot(a, negA), maybeNot(b, negB), op1),
           maybeNot(c, negC),
           op2,
         ),
-      fingerprintParts: [shape, op1, op2, Number(negA), Number(negB), Number(negC)],
+      fingerprintParts: [variables.join(','), shape, op1, op2, Number(negA), Number(negB), Number(negC)],
     }
   }
 
   return {
     text: `${aText} ${op1} (${bText} ${op2} ${cText})`,
+    variables,
     evaluate: (a, b, c) =>
       applyOp(
         maybeNot(a, negA),
         applyOp(maybeNot(b, negB), maybeNot(c, negC), op2),
         op1,
       ),
-    fingerprintParts: [shape, op1, op2, Number(negA), Number(negB), Number(negC)],
+    fingerprintParts: [variables.join(','), shape, op1, op2, Number(negA), Number(negB), Number(negC)],
   }
 }
 
@@ -114,7 +129,7 @@ function generateOperation(seed: string, rng: SeededRng): GeneratedQuestion {
     seed,
     rng,
     'S3.LOGIC.02',
-    `A = ${boolWord(a)}, B = ${boolWord(b)}, C = ${boolWord(c)} bo‘lsa, ${expression.text} qiymatini toping.`,
+    `${expression.variables[0]} = ${boolWord(a)}, ${expression.variables[1]} = ${boolWord(b)}, ${expression.variables[2]} = ${boolWord(c)} bo‘lsa, ${expression.text} qiymatini toping.`,
     boolWord(result),
     `Amallar qavs va inkor ustuvorligi bo‘yicha bajarilganda natija ${boolWord(result)}.`,
     [
