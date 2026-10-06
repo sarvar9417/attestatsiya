@@ -94,7 +94,29 @@
 | TASK-UI-001 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-001-figma-dashboard |
 | TASK-UI-005 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-005-admin-dashboard |
 | TASK-UI-006 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-006-admin-content-pages |
-| TASK-UI-007 | AI sessiya | IN_PROGRESS | 2026-10-06 | task/TASK-UI-007-question-form |
+| TASK-UI-007 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-007-question-form |
+
+## Question form Figma redesign (TASK-UI-007, 2026-10-06)
+
+- **Modal:** create/edit question form Figma admin design systemga moslashtirildi; responsive dialog, header/footer va construct metadata paneli qo'shildi.
+- **Validation:** savol matni va konstrukt majburiyligi alert o'rniga inline error bilan ko'rsatiladi; Supabase load/save xatolari ham modal ichida ko'rinadi.
+- **Y1:** mavjud single-answer option/key save flow saqlandi; to'g'ri javob tanlash UI'i aniqlandi.
+- **Y2/Y3:** javob shabloni bu forma orqali kiritilmasligi explicit warning bilan ko'rsatildi; mavjud kontent pipeline kontrakti saqlandi.
+- **Monitoring:** save exception monitoring saqlandi; DB permission modeli o'zgartirilmadi.
+- **Test:** QuestionFormModal.test.tsx construct load, Y2 boundary, empty stem va missing construct validationini qoplaydi.
+- **CI:** GitHub Actions CI #199 da secret scan, lint, typecheck, unit test, production build, Playwright smoke va database job'lari yashil o'tdi.
+
+### Handoff
+
+```text
+Task: TASK-UI-007
+Natija: QuestionFormModal Figma design systemga moslashtirildi
+O'zgargan fayllar: src/components/admin/QuestionFormModal.tsx; src/tests/QuestionFormModal.test.tsx; TASKS.md; PROJECT_STATE.md
+Migratsiyalar: yo'q
+Testlar: GitHub CI #199 — secret scan, lint, typecheck, unit, build, Playwright smoke, database
+Qolgan xavf yoki blocker: Y2/Y3 answer-key authoring hali content pipeline orqali; modal buni faqat aniq ko'rsatadi
+Keyingi tavsiya: learner Results/Errors history route va navigationni real backend review data bilan ishlab chiqish
+```
 
 ## Admin content pages Figma redesign (TASK-UI-006, 2026-10-06)
 
