@@ -28,7 +28,7 @@ const EMPTY_STATS: AdminStats = {
 }
 
 function formatCount(value: number): string {
-  return String(value).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ' ')
+  return String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
 }
 
 export default function AdminDashboard() {
