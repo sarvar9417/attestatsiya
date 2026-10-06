@@ -38,7 +38,7 @@ const VARIABLE_SETS = [
 ] as const
 
 function buildExpression(rng: SeededRng): LogicExpression {
-  const variables = rng.pick(VARIABLE_SETS)
+  const variables = rng.shuffle(rng.pick(VARIABLE_SETS)) as [string, string, string]
   const op1 = rng.pick(OPS)
   const op2 = rng.pick(OPS)
   const negA = rng.int(0, 1) === 1
