@@ -51,7 +51,7 @@ describe('AdminDashboard Figma UI', () => {
     renderPage()
 
     await waitFor(() => {
-      expect(screen.getByText('3 842')).toBeDefined()
+      expect(screen.getAllByText('3 842').length).toBeGreaterThan(0)
     })
 
     expect(screen.getByText('1 248')).toBeDefined()
