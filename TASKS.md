@@ -71,6 +71,7 @@
 
 | ID | Status | Dependency | Deliverable |
 |----|--------|------------|-------------|
+| TASK-UI-007 | IN_PROGRESS | TASK-UI-006 | QuestionFormModal va savol yaratish/tahrirlash formasini Figma design systemga moslashtirish; mavjud Y1 save behaviorini saqlash; validation/error holatlarini inline ko‘rsatish; Y2/Y3 cheklovini aniq ko‘rsatish; regressiya testlari qo‘shish |
 | TASK-UI-006 | DONE | TASK-UI-005 | Admin Modules, Questions va Attempts sahifalari Figma design systemga moslashtirildi; mavjud CRUD/status transition/filter/detail behaviori saqlandi; loading/error/empty holatlari birxillashtirildi; regressiya testlari qo‘shildi |
 | TASK-UI-005 | DONE | TASK-UI-004 | Figma admin yo‘nalishiga mos AdminLayout va AdminDashboard redesign qilindi; mavjud typed Supabase count oqimi saqlandi, loading/error/refresh holatlari qo‘shildi, soxta analytics kiritilmadi, regressiya testlari yozildi |
 | TASK-UI-004 | DONE | TASK-UI-003 | Figma assessment yo‘nalishiga mos ExamRunner intro, active status va results UI redesign qilindi; server-authoritative timer/scoring/navigation behaviori saqlandi; regressiya testlari kengaytirildi |
