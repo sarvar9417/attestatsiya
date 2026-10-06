@@ -93,6 +93,32 @@
 | T-012 | — | READY | — | task/T-012-generators |
 | TASK-UI-001 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-001-figma-dashboard |
 
+## Learning va Module Figma redesign (TASK-UI-002, 2026-10-06)
+
+- **Learning:** Figma tasdiqlangan yengil EdTech layoutga o'tkazildi; section grouping,
+  real catalog, qidiruv va progress saqlandi.
+- **Module overview:** modul hero/progress va mavzu ro'yxati soddalashtirildi;
+  tugallangan va joriy mavzu holatlari aniq ajratildi.
+- **Behavior saqlandi:** TopicView orqali nazariya ochish, progress store va
+  server-scored `/exam/bolim/:moduleId` oqimi o'zgarmadi.
+- **Test:** `LearningModulePages.test.tsx` qidiruv, real progress, module
+  navigatsiyasi, topic ochish, module exam va not-found holatini tekshiradi.
+- **CI:** GitHub Actions CI #119 da secret scan, lint, typecheck, 250 unit test,
+  build, Playwright smoke va database job'lari yashil o'tdi.
+
+### Handoff
+
+```text
+Task: TASK-UI-002
+Natija: Learning + Module overview Figma dizayniga moslashtirildi
+O'zgargan fayllar: src/pages/LearningPage.tsx; src/pages/ModulePage.tsx; src/tests/LearningModulePages.test.tsx; TASKS.md; PROJECT_STATE.md
+Migratsiyalar: yo'q
+Ishga tushirilgan testlar: GitHub CI #119 — secret scan, lint, typecheck, unit, build, Playwright smoke, database
+Qolgan xavf yoki blocker: TopicView/lesson va ExamRunner assessment ekranlari hali yangi Figma tizimiga to'liq moslashtirilmagan
+Keyingi ochilgan tasklar: TASK-UI-003 — Lesson/TopicView + Practice/ExamRunner presentation redesign
+```
+
+
 ## Figma dashboard foundation (TASK-UI-001, 2026-10-06)
 
 - **Dashboard:** tasdiqlangan Figma yo'nalishiga mos hero, KPI kartalar,

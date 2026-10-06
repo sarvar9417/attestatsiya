@@ -71,6 +71,7 @@
 
 | ID | Status | Dependency | Deliverable |
 |----|--------|------------|-------------|
+| TASK-UI-002 | DONE | TASK-UI-001 | Figma tasdiqlangan Learning va Module/Section overview ekranlari mavjud catalog/progress oqimi bilan implement qilindi; qidiruv, progress va topic ochish behaviori saqlandi; regressiya testlari qo‘shildi |
 | TASK-UI-001 | DONE | T-011, T-016 | Figma tasdiqlangan dashboard va asosiy sidebar vizual tizimi mavjud React+Vite arxitekturasida implement qilindi; real catalog/progress/auth ma'lumotlari saqlandi; responsive holat va regressiya testlari qo'shildi |
 
 ## Blockerlar
