@@ -6,7 +6,7 @@
 
 - Loyiha bosqichi: `DEVELOPMENT`
 - Joriy milestone: `P0 — xavfsizlik va barqarorlashtirish`
-- Oxirgi yangilanish: `2026-07-31`
+- Oxirgi yangilanish: `2026-10-06`
 - Production mavjud: `ha`
 - Database project mavjud: `ha (plyqezulrfowyblsfpzy, Singapore)`
 - Deployment mavjud: `ha (frontend: attestatsiya-five.vercel.app; backend: attestatsiya-backend.vercel.app)`
@@ -91,6 +91,7 @@
 | T-021 | AI sessiya | DONE | 2026-07-31 | task/TASK-021-backend-git-deploy |
 | T-022 | AI sessiya | DONE | 2026-07-31 | task/TASK-022-backend-own-repo |
 | T-012 | — | READY | — | task/T-012-generators |
+| TASK-UI-001 | AI sessiya | IN_PROGRESS | 2026-10-06 | task/TASK-UI-001-figma-dashboard |
 
 ## Auth va learner trafigi backend'ga ko'chirildi (2026-07-31)
 
