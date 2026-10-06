@@ -84,10 +84,9 @@ describe('T-012 parametrik savol generatorlari', () => {
         const question = generator.generate(seed)
         return JSON.stringify({
           stem: question.stem,
-          options: question.options.map(option => ({
-            side: option.side,
-            content: option.content,
-          })),
+          options: question.options
+            .map(option => `${option.side}:${option.content}`)
+            .sort(),
         })
       })
 
