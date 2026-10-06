@@ -14,7 +14,6 @@ import {
   X,
 } from 'lucide-react'
 import { useCatalog } from '../hooks/useCatalog'
-import type { CatalogModule } from '../features/content/catalog'
 import { useProgressStore } from '../store/progressStore'
 
 type SectionKey =
