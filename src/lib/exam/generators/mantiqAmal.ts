@@ -2,6 +2,65 @@ import type { GeneratedOption, GeneratedQuestion, QuestionGenerator } from './ty
 import { asSeed, ensureConstruct, fingerprint, SeededRng } from './rng'
 
 const CONSTRUCTS = ['S3.LOGIC.02', 'S3.LOGIC.04'] as const
+const OPS = ['AND', 'OR', 'XOR'] as const
+type Op = (typeof OPS)[number]
+
+interface LogicExpression {
+  text: string
+  evaluate: (a: boolean, b: boolean, c: boolean) => boolean
+  fingerprintParts: readonly (string | number)[]
+}
+
+function applyOp(left: boolean, right: boolean, op: Op): boolean {
+  if (op === 'AND') return left && right
+  if (op === 'OR') return left || right
+  return left !== right
+}
+
+function maybeNot(value: boolean, negated: boolean): boolean {
+  return negated ? !value : value
+}
+
+function atom(name: string, negated: boolean): string {
+  return negated ? `¬${name}` : name
+}
+
+function buildExpression(rng: SeededRng): LogicExpression {
+  const op1 = rng.pick(OPS)
+  const op2 = rng.pick(OPS)
+  const negA = rng.int(0, 1) === 1
+  const negB = rng.int(0, 1) === 1
+  const negC = rng.int(0, 1) === 1
+  const shape = rng.int(0, 1)
+
+  const aText = atom('A', negA)
+  const bText = atom('B', negB)
+  const cText = atom('C', negC)
+
+  if (shape === 0) {
+    return {
+      text: `(${aText} ${op1} ${bText}) ${op2} ${cText}`,
+      evaluate: (a, b, c) =>
+        applyOp(
+          applyOp(maybeNot(a, negA), maybeNot(b, negB), op1),
+          maybeNot(c, negC),
+          op2,
+        ),
+      fingerprintParts: [shape, op1, op2, Number(negA), Number(negB), Number(negC)],
+    }
+  }
+
+  return {
+    text: `${aText} ${op1} (${bText} ${op2} ${cText})`,
+    evaluate: (a, b, c) =>
+      applyOp(
+        maybeNot(a, negA),
+        applyOp(maybeNot(b, negB), maybeNot(c, negC), op2),
+        op1,
+      ),
+    fingerprintParts: [shape, op1, op2, Number(negA), Number(negB), Number(negC)],
+  }
+}
 
 function boolWord(value: boolean): string {
   return value ? 'rost' : 'yolg‘on'
@@ -17,9 +76,10 @@ function y1(
   fp: readonly (string | number)[],
   difficulty: 1 | 2 | 3 | 4 | 5,
 ): GeneratedQuestion {
-  const candidates = correct === 'rost'
-    ? ['yolg‘on', 'aniqlab bo‘lmaydi', 'ikkalasi ham']
-    : ['rost', 'aniqlab bo‘lmaydi', 'ikkalasi ham']
+  const candidates =
+    correct === 'rost'
+      ? ['yolg‘on', 'aniqlab bo‘lmaydi', 'ifoda xato']
+      : ['rost', 'aniqlab bo‘lmaydi', 'ifoda xato']
   const values = rng.shuffle([correct, ...candidates])
   const options: GeneratedOption[] = values.map((content, index) => ({
     id: `o${index + 1}`,
@@ -44,47 +104,32 @@ function y1(
 }
 
 function generateOperation(seed: string, rng: SeededRng): GeneratedQuestion {
+  const expression = buildExpression(rng)
   const a = rng.int(0, 1) === 1
   const b = rng.int(0, 1) === 1
-  const op = rng.pick(['AND', 'OR', 'XOR'] as const)
-  const result =
-    op === 'AND' ? a && b :
-    op === 'OR' ? a || b :
-    a !== b
+  const c = rng.int(0, 1) === 1
+  const result = expression.evaluate(a, b, c)
 
   return y1(
     seed,
     rng,
     'S3.LOGIC.02',
-    `A = ${boolWord(a)}, B = ${boolWord(b)} bo‘lsa, A ${op} B qiymatini toping.`,
+    `A = ${boolWord(a)}, B = ${boolWord(b)}, C = ${boolWord(c)} bo‘lsa, ${expression.text} qiymatini toping.`,
     boolWord(result),
-    `${op} amalining rostlik qoidasiga ko‘ra natija ${boolWord(result)}.`,
-    ['02', Number(a), Number(b), op],
-    2,
+    `Amallar qavs va inkor ustuvorligi bo‘yicha bajarilganda natija ${boolWord(result)}.`,
+    [
+      '02',
+      ...expression.fingerprintParts,
+      Number(a),
+      Number(b),
+      Number(c),
+    ],
+    3,
   )
 }
 
 function generateTruthTable(seed: string, rng: SeededRng): GeneratedQuestion {
-  const variant = rng.int(0, 3)
-  const expressions = [
-    {
-      text: '(A ∧ B) ∨ C',
-      evaluate: (a: boolean, b: boolean, c: boolean) => (a && b) || c,
-    },
-    {
-      text: '¬A ∨ (B ∧ C)',
-      evaluate: (a: boolean, b: boolean, c: boolean) => !a || (b && c),
-    },
-    {
-      text: '(A ∨ B) ∧ ¬C',
-      evaluate: (a: boolean, b: boolean, c: boolean) => (a || b) && !c,
-    },
-    {
-      text: '(A ⊕ B) ∨ C',
-      evaluate: (a: boolean, b: boolean, c: boolean) => (a !== b) || c,
-    },
-  ] as const
-  const expression = expressions[variant]
+  const expression = buildExpression(rng)
   let trueRows = 0
 
   for (const a of [false, true]) {
@@ -95,13 +140,11 @@ function generateTruthTable(seed: string, rng: SeededRng): GeneratedQuestion {
     }
   }
 
-  const values = rng.shuffle([trueRows, ...[0, 1, 2, 3, 4, 5, 6, 7, 8]
-    .filter(value => value !== trueRows)
-    .slice(rng.int(0, 3), rng.int(0, 3) + 3)])
-  const normalized = [trueRows, ...values.filter(value => value !== trueRows)]
-    .slice(0, 4)
-  const shuffled = rng.shuffle(normalized)
-  const options: GeneratedOption[] = shuffled.map((value, index) => ({
+  const distractors = rng
+    .shuffle([0, 1, 2, 3, 4, 5, 6, 7, 8].filter(value => value !== trueRows))
+    .slice(0, 3)
+  const values = rng.shuffle([trueRows, ...distractors])
+  const options: GeneratedOption[] = values.map((value, index) => ({
     id: `o${index + 1}`,
     side: 'a',
     content: `${value} ta`,
@@ -117,9 +160,14 @@ function generateTruthTable(seed: string, rng: SeededRng): GeneratedQuestion {
     difficulty: 4,
     stem: `${expression.text} ifodasi uchun 3 o‘zgaruvchili rostlik jadvalida nechta qatorda natija rost bo‘ladi?`,
     options,
-    key: { kind: 'Y1', optionId: options[shuffled.indexOf(trueRows)].id },
+    key: { kind: 'Y1', optionId: options[values.indexOf(trueRows)].id },
     explanation: `8 ta kombinatsiyani tekshirganda ${trueRows} ta qatorda ifoda rost bo‘ladi.`,
-    fingerprint: fingerprint(['mantiqAmal', '04', variant, trueRows]),
+    fingerprint: fingerprint([
+      'mantiqAmal',
+      '04',
+      ...expression.fingerprintParts,
+      trueRows,
+    ]),
   }
 }
 
