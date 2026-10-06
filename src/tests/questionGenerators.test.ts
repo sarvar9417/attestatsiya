@@ -138,7 +138,7 @@ describe('axborotHajmi mustaqil hisob tekshiruvlari', () => {
     expect(selectedY1Text(question)).toBe(`${(chars * bits) / 8} bayt`)
   })
 
-  it('uzatish vaqti: MB × 8 / Mbit\/s', () => {
+  it('uzatish vaqti: MB × 8 / Mbit/s', () => {
     const question = axborotHajmiGenerator.generate(31, 'S1.INFO.06')
     const match = question.stem.match(/([\d.]+) MB fayl (\d+) Mbit\/s/)
     expect(match).not.toBeNull()
