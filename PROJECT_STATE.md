@@ -93,6 +93,34 @@
 | T-012 | — | READY | — | task/T-012-generators |
 | TASK-UI-001 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-001-figma-dashboard |
 
+## ExamRunner assessment Figma redesign (TASK-UI-004, 2026-10-06)
+
+- **Intro:** mock/module/topic sinov kirish ekrani Figma assessment yo'nalishiga
+  mos kartalar, server-authoritative izoh va aniq sinov qoidalari bilan yangilandi.
+- **Active exam:** javoblar progressi header ostida ko'rsatiladi; savol canvas'i
+  kengaytirildi, mavjud navigator va save/finish oqimi saqlandi.
+- **Results:** score hero, foiz progressi va serverdan qaytgan group breakdown
+  kartalari yagona Figma vizual tizimiga o'tkazildi.
+- **Xavfsizlik:** timer `started_at + duration_sec` server haqiqatiga tayangan,
+  answer submission/scoring gatewaylari va answer-key himoyasi o'zgarmadi.
+- **Test:** `ExamPage.test.tsx` yangi assessment UI markerlarini tekshiradi va
+  avvalgi secure ExamRunner regressiya testlari saqlandi.
+- **CI:** GitHub Actions CI #141 da secret scan, lint, typecheck, unit, build,
+  Playwright smoke va database job'lari yashil o'tdi.
+
+### Handoff
+
+```text
+Task: TASK-UI-004
+Natija: ExamRunner intro/active/results Figma assessment dizayniga moslashtirildi
+O'zgargan fayllar: src/features/exam/ExamRunner.tsx; src/tests/ExamPage.test.tsx; TASKS.md; PROJECT_STATE.md
+Migratsiyalar: yo'q
+Ishga tushirilgan testlar: GitHub CI #141 — secret scan, lint, typecheck, unit, build, Playwright smoke, database
+Qolgan xavf yoki blocker: admin/error-review ekranlari Figma tizimiga hali to'liq moslashtirilmagan
+Keyingi ochilgan tasklar: TASK-UI-005 — Admin shell va global visual polish
+```
+
+
 ## Lesson TopicView Figma flow (TASK-UI-003, 2026-10-06)
 
 - **Stage navigator:** O'rganish → Bilimni tekshirish → Natija holatlari yagona
