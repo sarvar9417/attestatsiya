@@ -95,6 +95,7 @@
 | TASK-UI-005 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-005-admin-dashboard |
 | TASK-UI-006 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-006-admin-content-pages |
 | TASK-UI-007 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-007-question-form |
+| TASK-UI-008 | AI sessiya | IN_PROGRESS | 2026-10-06 | task/TASK-UI-008-auth-profile |
 
 ## Question form Figma redesign (TASK-UI-007, 2026-10-06)
 
