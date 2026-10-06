@@ -90,7 +90,7 @@
 | T-019 | AI sessiya | DONE | 2026-07-31 | task/TASK-020-qora-ekran-tuzatishlar |
 | T-021 | AI sessiya | DONE | 2026-07-31 | task/TASK-021-backend-git-deploy |
 | T-022 | AI sessiya | DONE | 2026-07-31 | task/TASK-022-backend-own-repo |
-| T-012 | — | READY | — | task/T-012-generators |
+| T-012 | AI sessiya | DONE | 2026-10-06 | task/T-012-parametric-generators |
 | TASK-UI-001 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-001-figma-dashboard |
 | TASK-UI-005 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-005-admin-dashboard |
 | TASK-UI-006 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-006-admin-content-pages |
@@ -266,6 +266,36 @@ Migratsiyalar: yo'q
 Ishga tushirilgan testlar: GitHub CI — secret scan, lint, typecheck, unit, build, Playwright smoke, database
 Qolgan xavf yoki blocker: yangi Figma Learning/Section/Lesson/Assessment ekranlari hali kodga ko'chirilmagan
 Keyingi ochilgan tasklar: TASK-UI-002 tavsiya — Learning + Module page redesign
+```
+
+
+## Parametrik savol generatorlari (T-012, 2026-10-06)
+
+- **Generatorlar:** `axborotHajmi`, `sanoqSistema`, `mantiqAmal`,
+  `ipMaska` uchun deterministik seeded generator kutubxonasi yaratildi.
+- **Rasmiy konstruktlar:** `S1.INFO.04/.05/.06`, `S3.NUM.01/.02/.03`,
+  `S3.LOGIC.02/.04`, `S6.NET.03` — jami 9 ta generator konstrukt qamrab olindi.
+- **Formatlar:** generator qatlamida Y1, Y2 va Y3 answer-key invariantlari
+  qo‘llab-quvvatlanadi; noma’lum generator yoki konstrukt jim fallback qilmaydi.
+- **Hisob tekshiruvi:** axborot hajmi, sanoq sistemasi va IP maska uchun
+  generator javobidan mustaqil formulaviy testlar qo‘shildi.
+- **Takrorlanmaslik:** har bir generator 0–99 seed oralig‘ida option tartibidan
+  mustaqil 100 ta mazmunan turli savol berishi test bilan isbotlandi.
+- **Xavfsizlik:** generatorlar learner API payloadiga answer key qo‘shmaydi;
+  ular domain/build-time utility sifatida qoladi. DB import alohida task.
+- **CI:** secret scan, lint, typecheck, 277 ta unit test, production build,
+  Playwright smoke va database reconciliation yashil o‘tdi.
+
+### Handoff
+
+```text
+Task: T-012
+Natija: 4 parametrik generator + 9 rasmiy konstrukt + Y1/Y2/Y3 invariantlari tayyor
+O‘zgargan fayllar: src/lib/exam/generators/*; src/tests/questionGenerators.test.ts; TASKS.md; PROJECT_STATE.md
+Migratsiyalar: yo‘q
+Ishga tushirilgan testlar: GitHub CI — secret scan, lint, typecheck, unit, build, Playwright smoke, database
+Qolgan xavf yoki blocker: generator natijalarini draft savol sifatida DBga import qilish bu task scope’iga kirmaydi
+Keyingi task: T-013/T-014/T-015 holatini amaldagi server-scored ExamRunner bilan reconciliation qilish
 ```
 
 
