@@ -93,6 +93,32 @@
 | T-012 | — | READY | — | task/T-012-generators |
 | TASK-UI-001 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-001-figma-dashboard |
 
+## Lesson TopicView Figma flow (TASK-UI-003, 2026-10-06)
+
+- **Stage navigator:** O'rganish → Bilimni tekshirish → Natija holatlari yagona
+  LessonStageBar orqali ko'rsatiladi.
+- **Lesson shell:** modul kodi, modul nomi, mavzu nomi va mavzu tartibi Figma
+  lesson ekranidagi vizual ierarxiyaga yaqinlashtirildi.
+- **Nazariya headeri:** oq card, metadata va o'qish progressi birlashtirildi.
+- **Behavior saqlandi:** BookReader, static theory blocks, backend-first test
+  savollari, secure ExamPage navigatsiyasi va progress sync o'zgarmadi.
+- **Test:** LessonStageBar uchun active/completed/back regressiya testlari.
+- **CI:** GitHub Actions CI #131 — secret scan, lint, typecheck, unit, build,
+  Playwright smoke va database job'lari yashil.
+
+### Handoff
+
+```text
+Task: TASK-UI-003
+Natija: TopicView lesson shell Figma flow bilan birlashtirildi
+O'zgargan fayllar: src/components/learning/LessonStageBar.tsx; src/components/learning/TopicView.tsx; src/tests/LessonStageBar.test.tsx; TASKS.md; PROJECT_STATE.md
+Migratsiyalar: yo'q
+Ishga tushirilgan testlar: GitHub CI #131 — secret scan, lint, typecheck, unit, build, Playwright smoke, database
+Qolgan xavf yoki blocker: secure ExamRunner/Mock/Results UI hali Figma assessment ekranlari bilan to'liq birlashtirilmagan
+Keyingi ochilgan tasklar: TASK-UI-004 — ExamRunner/Mock/Results redesign
+```
+
+
 ## Learning va Module Figma redesign (TASK-UI-002, 2026-10-06)
 
 - **Learning:** Figma tasdiqlangan yengil EdTech layoutga o'tkazildi; section grouping,
