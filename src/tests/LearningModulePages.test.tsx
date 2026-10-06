@@ -145,8 +145,8 @@ describe('Learning va Module Figma UI', () => {
     )
 
     expect(
-      screen.getByRole('heading', { name: 'Informatika o‘qitish metodikasi' }),
-    ).toBeDefined()
+      screen.getAllByRole('heading', { name: 'Informatika o‘qitish metodikasi' }).length,
+    ).toBeGreaterThan(0)
     expect(
       screen.queryByRole('heading', { name: 'Axborot va raqamli savodxonlik' }),
     ).toBeNull()
