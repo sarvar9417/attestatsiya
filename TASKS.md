@@ -71,6 +71,7 @@
 
 | ID | Status | Dependency | Deliverable |
 |----|--------|------------|-------------|
+| TASK-UI-008 | IN_PROGRESS | TASK-UI-007 | Auth, Profile va Reset Password sahifalari platformaning Figma design systemiga moslashtiriladi; mavjud auth/session/validation behaviori o‘zgartirilmaydi; accessibility va regressiya testlari saqlanadi |
 | TASK-UI-007 | DONE | TASK-UI-006 | QuestionFormModal va savol yaratish/tahrirlash formasi Figma design systemga moslashtirildi; mavjud Y1 save behaviori saqlandi; validation/error holatlari inline ko‘rsatildi; Y2/Y3 cheklovi aniq ko‘rsatildi; regressiya testlari qo‘shildi |
 | TASK-UI-006 | DONE | TASK-UI-005 | Admin Modules, Questions va Attempts sahifalari Figma design systemga moslashtirildi; mavjud CRUD/status transition/filter/detail behaviori saqlandi; loading/error/empty holatlari birxillashtirildi; regressiya testlari qo‘shildi |
 | TASK-UI-005 | DONE | TASK-UI-004 | Figma admin yo‘nalishiga mos AdminLayout va AdminDashboard redesign qilindi; mavjud typed Supabase count oqimi saqlandi, loading/error/refresh holatlari qo‘shildi, soxta analytics kiritilmadi, regressiya testlari yozildi |
