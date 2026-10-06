@@ -136,6 +136,8 @@ describe('secure ExamRunner', () => {
     expect(
       screen.getByRole('heading', { name: 'Attestatsiya mock sinovi' })
     ).toBeDefined()
+    expect(screen.getByText('Sinov qoidalari')).toBeDefined()
+    expect(screen.getByText('Attestatsiya 2026')).toBeDefined()
 
     await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
 
@@ -198,6 +200,7 @@ describe('secure ExamRunner', () => {
     expect(
       await screen.findByRole('heading', { name: 'Sinov yakunlandi' })
     ).toBeDefined()
+    expect(screen.getByText('Natijalar')).toBeDefined()
     expect(screen.getByText('6 / 6')).toBeDefined()
     expect(gateway.finishExam).toHaveBeenCalledWith(ids.exam)
   })
