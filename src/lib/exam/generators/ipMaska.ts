@@ -35,7 +35,8 @@ function networkAddress(ip: readonly number[], prefix: number): string {
 }
 
 function generateMatching(seed: string, rng: SeededRng): GeneratedQuestion {
-  const prefixes = rng.shuffle([16, 20, 24, 26, 28]).slice(0, 3).sort((a, b) => a - b)
+  const prefixPool = Array.from({ length: 23 }, (_, index) => index + 8)
+  const prefixes = rng.shuffle(prefixPool).slice(0, 4).sort((a, b) => a - b)
   const left = prefixes.map((prefix, index) => ({
     id: `l${index + 1}`,
     side: 'a' as const,
