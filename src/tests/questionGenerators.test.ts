@@ -11,18 +11,21 @@ import {
 } from '../lib/exam/generators'
 
 function selectedY1Text(question: GeneratedQuestion): string {
-  if (question.key.kind !== 'Y1') throw new Error('expected_y1')
-  const option = question.options.find(item => item.id === question.key.optionId)
+  const key = question.key
+  if (key.kind !== 'Y1') throw new Error('expected_y1')
+  const option = question.options.find(item => item.id === key.optionId)
   if (!option) throw new Error('missing_correct_option')
   return option.content
 }
 
 function validateKey(question: GeneratedQuestion): void {
-  if (question.key.kind === 'Y1') {
+  const key = question.key
+
+  if (key.kind === 'Y1') {
     expect(question.format).toBe('Y1')
     expect(
       question.options.some(
-        option => option.side === 'a' && option.id === question.key.optionId,
+        option => option.side === 'a' && option.id === key.optionId,
       ),
     ).toBe(true)
     return
@@ -36,9 +39,9 @@ function validateKey(question: GeneratedQuestion): void {
     const right = new Set(
       question.options.filter(option => option.side === 'b').map(option => option.id),
     )
-    expect(Object.keys(question.key.pairs).sort()).toEqual([...left].sort())
-    expect(new Set(Object.values(question.key.pairs)).size).toBe(left.size)
-    for (const rightId of Object.values(question.key.pairs)) {
+    expect(Object.keys(key.pairs).sort()).toEqual([...left].sort())
+    expect(new Set(Object.values(key.pairs)).size).toBe(left.size)
+    for (const rightId of Object.values(key.pairs)) {
       expect(right.has(rightId)).toBe(true)
     }
     return
@@ -46,8 +49,8 @@ function validateKey(question: GeneratedQuestion): void {
 
   expect(question.format).toBe('Y3')
   const optionIds = question.options.map(option => option.id).sort()
-  expect([...question.key.order].sort()).toEqual(optionIds)
-  expect(new Set(question.key.order).size).toBe(optionIds.length)
+  expect([...key.order].sort()).toEqual(optionIds)
+  expect(new Set(key.order).size).toBe(optionIds.length)
 }
 
 describe('T-012 parametrik savol generatorlari', () => {
@@ -166,7 +169,7 @@ describe('sanoqSistema mustaqil hisob tekshiruvlari', () => {
     if (question.key.kind !== 'Y3') return
 
     const byId = new Map(question.options.map(option => [option.id, option.content]))
-    const values = question.key.order.map(id => {
+    const values = key.order.map(id => {
       const text = byId.get(id)
       if (!text) throw new Error('missing_order_option')
       const match = text.match(/^([0-9A-F]+)₍(\d+)₎$/)
