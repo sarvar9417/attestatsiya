@@ -5,7 +5,6 @@ import {
   BookOpen,
   CheckCircle2,
   ChevronRight,
-  Clock3,
   GraduationCap,
   Search,
   ShieldCheck,
@@ -455,26 +454,22 @@ type MetricTone = 'indigo' | 'blue' | 'emerald' | 'violet'
 
 const METRIC_TONES: Record<
   MetricTone,
-  { icon: string; badge: string; value: string }
+  { icon: string; value: string }
 > = {
   indigo: {
     icon: 'bg-indigo-50 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-300',
-    badge: 'bg-indigo-50 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-300',
     value: 'text-gray-950 dark:text-white',
   },
   blue: {
     icon: 'bg-blue-50 text-blue-600 dark:bg-blue-950/60 dark:text-blue-300',
-    badge: 'bg-blue-50 text-blue-600 dark:bg-blue-950/60 dark:text-blue-300',
     value: 'text-gray-950 dark:text-white',
   },
   emerald: {
     icon: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-300',
-    badge: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-300',
     value: 'text-gray-950 dark:text-white',
   },
   violet: {
     icon: 'bg-violet-50 text-violet-600 dark:bg-violet-950/60 dark:text-violet-300',
-    badge: 'bg-violet-50 text-violet-600 dark:bg-violet-950/60 dark:text-violet-300',
     value: 'text-gray-950 dark:text-white',
   },
 }
