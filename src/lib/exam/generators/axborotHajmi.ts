@@ -27,7 +27,7 @@ function y1Options(
 }
 
 function generateUnitConversion(seed: string, rng: SeededRng): GeneratedQuestion {
-  const kib = rng.int(2, 255)
+  const kib = rng.int(2, 65_535)
   const correct = kib * 1024
   const { options, correctId } = y1Options(
     rng,
@@ -53,7 +53,7 @@ function generateUnitConversion(seed: string, rng: SeededRng): GeneratedQuestion
 }
 
 function generateTextVolume(seed: string, rng: SeededRng): GeneratedQuestion {
-  const chars = rng.int(120, 980)
+  const chars = rng.int(120, 200_000)
   const bitsPerChar = rng.pick([8, 16, 32] as const)
   const correct = (chars * bitsPerChar) / 8
   const { options, correctId } = y1Options(
@@ -86,8 +86,10 @@ function generateTextVolume(seed: string, rng: SeededRng): GeneratedQuestion {
 }
 
 function generateTransfer(seed: string, rng: SeededRng): GeneratedQuestion {
-  const speedMbps = rng.pick([2, 4, 8, 16, 20, 25, 32, 40] as const)
-  const seconds = rng.int(3, 40)
+  // 8 ga karrali tezlik MB↔Mbit hisobida butun MB qiymatini beradi.
+  // Keng parametr fazosi 100+ seed uchun mazmunan takrorlanishni kamaytiradi.
+  const speedMbps = 8 * rng.int(1, 64)
+  const seconds = rng.int(3, 600)
   const sizeMbit = speedMbps * seconds
   const sizeMb = sizeMbit / 8
   const correct = seconds
