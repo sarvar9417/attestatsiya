@@ -1,460 +1,568 @@
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useCatalog } from '../hooks/useCatalog'
-import type { CatalogModule } from '../features/content/catalog'
-import { useProgressStore } from '../store/progressStore'
-import { 
-  BookOpen, FileQuestion, BarChart3, ArrowRight, Target, 
-  CheckCircle2, Clock, Trophy, Sparkles, Brain, Layers,
-  TrendingUp, BookText,
-  PlayCircle, ChevronRight
+import {
+  ArrowRight,
+  BookOpen,
+  CheckCircle2,
+  ChevronRight,
+  GraduationCap,
+  Search,
+  ShieldCheck,
+  Sparkles,
+  Target,
+  Trophy,
+  UsersRound,
 } from 'lucide-react'
+import { useAuth } from '../hooks/useAuth'
+import { useCatalog } from '../hooks/useCatalog'
+import { useProgressStore, type ModuleProgress } from '../store/progressStore'
+import type { CatalogModule } from '../features/content/catalog'
+
+type SectionKey =
+  | 'specialty'
+  | 'professional_standard'
+  | 'pedagogy'
+  | 'methodology'
+
+interface SectionSummary {
+  key: SectionKey
+  label: string
+  meta: string
+  completed: number
+  total: number
+  percent: number
+  accent: string
+  badge: string
+  icon: typeof BookOpen
+}
+
+interface WeakTopic {
+  id: string
+  title: string
+  moduleTitle: string
+  score: number
+}
+
+const SECTION_ORDER: SectionKey[] = [
+  'specialty',
+  'professional_standard',
+  'pedagogy',
+  'methodology',
+]
+
+const SECTION_META: Record<
+  SectionKey,
+  { label: string; badge: string; accent: string; icon: typeof BookOpen }
+> = {
+  specialty: {
+    label: 'Informatika mutaxassisligi',
+    badge: '01',
+    accent: 'bg-indigo-500',
+    icon: BookOpen,
+  },
+  professional_standard: {
+    label: 'Kasb standarti',
+    badge: '02',
+    accent: 'bg-blue-500',
+    icon: ShieldCheck,
+  },
+  pedagogy: {
+    label: 'Umumiy pedagogika',
+    badge: '03',
+    accent: 'bg-emerald-500',
+    icon: UsersRound,
+  },
+  methodology: {
+    label: 'O‘qitish metodikasi',
+    badge: '04',
+    accent: 'bg-violet-500',
+    icon: GraduationCap,
+  },
+}
+
+function progressPercent(completed: number, total: number): number {
+  if (total <= 0) return 0
+  return Math.round((completed / total) * 100)
+}
+
+function getCompletedCount(progress: ModuleProgress, module: CatalogModule): number {
+  return Math.min(progress.completedTopics.length, module.subtopics.length)
+}
+
+function findContinueModule(
+  modules: CatalogModule[],
+  getModuleProgress: (moduleId: string) => ModuleProgress,
+): CatalogModule | null {
+  if (modules.length === 0) return null
+
+  return (
+    modules.find(module => {
+      const progress = getModuleProgress(module.id)
+      return getCompletedCount(progress, module) < module.subtopics.length
+    }) ?? modules[0]
+  )
+}
+
+function buildWeakTopics(
+  modules: CatalogModule[],
+  getModuleProgress: (moduleId: string) => ModuleProgress,
+): WeakTopic[] {
+  const attempts: WeakTopic[] = []
+
+  for (const module of modules) {
+    const progress = getModuleProgress(module.id)
+    const titles = new Map(module.subtopics.map(topic => [topic.id, topic.title]))
+
+    for (const [topicId, topicProgress] of Object.entries(progress.topicProgress)) {
+      if (topicProgress.totalCount <= 0) continue
+      attempts.push({
+        id: `${module.id}:${topicId}`,
+        title: titles.get(topicId) ?? topicId,
+        moduleTitle: module.title,
+        score: topicProgress.lastScore,
+      })
+    }
+  }
+
+  return attempts
+    .sort((a, b) => a.score - b.score)
+    .slice(0, 3)
+}
 
 export default function DashboardPage() {
   const navigate = useNavigate()
-  const { getModuleProgress } = useProgressStore()
+  const { displayName } = useAuth()
   const { modules } = useCatalog()
+  const { getModuleProgress } = useProgressStore()
 
-  const totalSubtopics = modules.reduce((acc, m) => acc + m.subtopics.length, 0)
-
-  // ─── Compute real progress ────────────────────────────────────
-  const {
-    overallPercent,
-    completedSubtopics,
-    startedModules,
-    completedModules,
-    recentModules,
-    avgScore,
-    bestModule,
-  } = useMemo(() => {
-    let completed = 0
-    let startedMods = 0
-    let completedMods = 0
-    let totalScore = 0
+  const model = useMemo(() => {
+    let completedTopics = 0
+    let totalTopics = 0
+    let startedModules = 0
+    let completedModules = 0
+    let scoreTotal = 0
     let scoreCount = 0
-    let best = { code: '', score: 0 }
 
-    const withProgress: { mod: CatalogModule; progress: ReturnType<typeof getModuleProgress> }[] = []
+    const sectionSummaries = SECTION_ORDER.map(key => {
+      const sectionModules = modules.filter(module => module.section === key)
+      let sectionCompleted = 0
+      let sectionTotal = 0
 
-    for (const mod of modules) {
-      const prog = getModuleProgress(mod.id)
-      const total = mod.subtopics.length
-      completed += prog.completedTopics.length
-      if (prog.completedTopics.length > 0) {
-        startedMods++
-        withProgress.push({ mod, progress: prog })
+      for (const module of sectionModules) {
+        const progress = getModuleProgress(module.id)
+        const completed = getCompletedCount(progress, module)
+
+        sectionCompleted += completed
+        sectionTotal += module.subtopics.length
       }
-      if (prog.completedTopics.length >= total) completedMods++
 
-      // Calculate average score from topic progress
-      const scores = Object.values(prog.topicProgress)
-      for (const tp of scores) {
-        totalScore += tp.lastScore
-        scoreCount++
-        if (tp.lastScore > best.score) {
-          best = { code: mod.code, score: tp.lastScore }
-        }
+      const meta = SECTION_META[key]
+      return {
+        key,
+        label: meta.label,
+        badge: meta.badge,
+        accent: meta.accent,
+        icon: meta.icon,
+        completed: sectionCompleted,
+        total: sectionTotal,
+        percent: progressPercent(sectionCompleted, sectionTotal),
+        meta: `${sectionModules.length} modul`,
+      } satisfies SectionSummary
+    })
 
+    for (const module of modules) {
+      const progress = getModuleProgress(module.id)
+      const completed = getCompletedCount(progress, module)
+
+      completedTopics += completed
+      totalTopics += module.subtopics.length
+
+      if (completed > 0) startedModules += 1
+      if (module.subtopics.length > 0 && completed >= module.subtopics.length) {
+        completedModules += 1
+      }
+
+      for (const topicProgress of Object.values(progress.topicProgress)) {
+        if (topicProgress.totalCount <= 0) continue
+        scoreTotal += topicProgress.lastScore
+        scoreCount += 1
       }
     }
 
-    const percent = totalSubtopics > 0 ? Math.round((completed / totalSubtopics) * 100) : 0
-    const avg = scoreCount > 0 ? Math.round(totalScore / scoreCount) : 0
-
-    // Recent modules (last 4 with any progress)
-    const recent = withProgress.slice(-4).reverse()
+    const continueModule = findContinueModule(modules, getModuleProgress)
+    const continueProgress = continueModule
+      ? getModuleProgress(continueModule.id)
+      : null
+    const continueCompleted =
+      continueModule && continueProgress
+        ? getCompletedCount(continueProgress, continueModule)
+        : 0
+    const continueTotal = continueModule?.subtopics.length ?? 0
 
     return {
-      overallPercent: percent,
-      completedSubtopics: completed,
-      startedModules: startedMods,
-      completedModules: completedMods,
-      recentModules: recent,
-      avgScore: avg,
-      bestModule: best,
+      completedTopics,
+      totalTopics,
+      overallPercent: progressPercent(completedTopics, totalTopics),
+      startedModules,
+      completedModules,
+      averageScore: scoreCount > 0 ? Math.round(scoreTotal / scoreCount) : null,
+      continueModule,
+      continueCompleted,
+      continueTotal,
+      continuePercent: progressPercent(continueCompleted, continueTotal),
+      sectionSummaries,
+      weakTopics: buildWeakTopics(modules, getModuleProgress),
     }
-  }, [getModuleProgress, totalSubtopics, modules])
+  }, [getModuleProgress, modules])
 
-  // ─── Stats cards ──────────────────────────────────────────────
-  const statsCards = [
-    { 
-      label: 'Umumiy progress', 
-      value: `${overallPercent}%`, 
-      sub: `${completedSubtopics}/${totalSubtopics} mavzu`,
-      icon: Target,
-      gradient: 'from-primary-500 to-primary-600',
-      shadow: 'shadow-primary-200',
-    },
-    { 
-      label: 'O\'rtacha ball', 
-      value: avgScore > 0 ? `${avgScore}%` : '—', 
-      sub: avgScore >= 80 ? 'Yuqori natija' : avgScore >= 60 ? 'O\'rta natija' : 'Hali test ishlanmagan',
-      icon: Brain,
-      gradient: avgScore >= 80 ? 'from-emerald-500 to-emerald-600' : avgScore >= 60 ? 'from-amber-500 to-amber-600' : 'from-gray-400 to-gray-500',
-      shadow: 'shadow-emerald-200',
-    },
-    { 
-      label: 'Modullar', 
-      value: `${startedModules}/${modules.length}`, 
-      sub: `${completedModules} ta to'liq`,
-      icon: BookOpen,
-      gradient: 'from-violet-500 to-violet-600',
-      shadow: 'shadow-violet-200',
-    },
-    { 
-      label: 'Eng yaxshi modul', 
-      value: bestModule.code || '—', 
-      sub: bestModule.score > 0 ? `${bestModule.score}% ball` : 'Hali ma\'lumot yo\'q',
-      icon: Trophy,
-      gradient: 'from-amber-500 to-amber-600',
-      shadow: 'shadow-amber-200',
-    },
-  ]
+  const firstName = displayName?.trim().split(/\s+/)[0]
+  const greeting = firstName ? `Xush kelibsiz, ${firstName}!` : 'Xush kelibsiz!'
+
+  const continueLearning = () => {
+    if (model.continueModule) {
+      navigate(`/learn/${model.continueModule.id}`)
+      return
+    }
+    navigate('/learn')
+  }
 
   return (
-    <div className="max-w-5xl mx-auto p-4 sm:p-6 animate-fade-in space-y-6">
-      {/* ═══ HERO HEADER ═══ */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-gray-900 via-gray-800 to-gray-950 text-white p-6 sm:p-8 shadow-xl">
-        {/* Animated background orbs */}
-        <div className="absolute top-0 right-0 w-96 h-96 opacity-5">
-          <div className="absolute top-10 right-10 w-48 h-48 rounded-full bg-white animate-pulse-slow" />
-          <div className="absolute top-28 right-28 w-24 h-24 rounded-full bg-primary-400 animate-pulse-slow" style={{ animationDelay: '1s' }} />
-          <div className="absolute top-40 right-40 w-16 h-16 rounded-full bg-b2-400 animate-pulse-slow" style={{ animationDelay: '2s' }} />
-        </div>
-        {/* Grid pattern overlay */}
-        <div className="absolute inset-0 opacity-[0.03]">
-          <div className="absolute inset-0" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-        </div>
-        
-        <div className="relative">
-          <div className="flex items-center gap-2 mb-4">
-            <span className="px-2.5 py-1 rounded-lg bg-white/10 backdrop-blur-sm text-[11px] font-mono font-semibold tracking-wider text-primary-300">
-              ATTESTATSIYA 2026
-            </span>
-            <span className="flex items-center gap-1.5 text-xs text-white/50">
-              <Clock size={12} /> So'nggi tashrif: bugun
-            </span>
-          </div>
-          
-          <h1 className="text-2xl sm:text-3xl font-bold mb-2 leading-tight">
-            Xush kelibsiz!
+    <div className="mx-auto w-full max-w-[1240px] space-y-5 px-4 py-5 sm:px-6 lg:px-8 lg:py-7">
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-3xl">
+            {greeting}
           </h1>
-          <p className="text-sm text-gray-400 leading-relaxed max-w-2xl">
-            Informatika attestatsiyasiga tayyorgarlik platformasi. 
-            {overallPercent === 0 
-              ? ` ${modules.length} modul, ${totalSubtopics} mavzu — boshlashga tayyormisiz?` 
-              : ` ${completedSubtopics} ta mavzu o'zlashtirilgan, davom eting!`}
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            Attestatsiyaga tayyorgarlik holatingiz va keyingi qadamingiz.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => navigate('/learn')}
+          className="inline-flex min-h-11 items-center gap-2 self-start rounded-xl border border-gray-200 bg-white px-4 text-sm font-medium text-gray-500 shadow-sm transition hover:border-indigo-200 hover:text-indigo-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-400 dark:hover:border-indigo-700 dark:hover:text-indigo-300 sm:self-auto"
+        >
+          <Search size={16} aria-hidden="true" />
+          Mavzu qidirish
+        </button>
+      </header>
+
+      <section className="relative overflow-hidden rounded-[20px] bg-gradient-to-r from-indigo-600 via-indigo-700 to-indigo-900 px-6 py-6 text-white shadow-lg shadow-indigo-900/10 sm:px-7 lg:flex lg:min-h-[178px] lg:items-center lg:justify-between">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-20"
+          aria-hidden="true"
+          style={{
+            backgroundImage:
+              'radial-gradient(circle at 18% 20%, rgba(255,255,255,.28), transparent 26%), radial-gradient(circle at 75% 80%, rgba(255,255,255,.12), transparent 24%)',
+          }}
+        />
+
+        <div className="relative max-w-2xl">
+          <span className="inline-flex rounded-full bg-white/15 px-3 py-1 text-[11px] font-semibold tracking-wide text-indigo-50">
+            DAVOM ETTIRISH
+          </span>
+
+          <h2 className="mt-3 text-xl font-semibold sm:text-2xl">
+            {model.continueModule?.title ?? 'O‘quv rejangiz tayyor'}
+          </h2>
+
+          <p className="mt-2 text-sm text-indigo-100">
+            {model.continueModule
+              ? `${model.continueCompleted} / ${model.continueTotal} mavzu yakunlangan`
+              : 'Birinchi moduldan boshlang va natijalarni shu yerda kuzating.'}
           </p>
 
-          {overallPercent === 0 && (
-            <button
-              onClick={() => navigate('/learn')}
-              className="mt-5 inline-flex items-center gap-2 px-5 py-2.5 bg-white text-gray-900 rounded-xl text-sm font-semibold hover:bg-gray-100 transition-colors shadow-lg"
-            >
-              Tayyorgarlikni boshlash <ArrowRight size={16} />
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* ═══ STATS CARDS ═══ */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        {statsCards.map(s => {
-          const Icon = s.icon
-          return (
-            <div 
-              key={s.label} 
-              className={`bg-white dark:bg-gray-800/80 rounded-2xl p-4 sm:p-5 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-200`}
-            >
-              <div className="flex items-center gap-3 mb-3">
-                <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${s.gradient} flex items-center justify-center shadow-sm`}>
-                  <Icon size={18} className="text-white" />
-                </div>
-              </div>
-              <div className="text-2xl font-bold text-gray-900 dark:text-white">{s.value}</div>
-              <div className="text-xs text-gray-400 mt-0.5">{s.sub}</div>
-              <div className="text-[10px] text-gray-300 dark:text-gray-600 mt-0.5">{s.label}</div>
-            </div>
-          )
-        })}
-      </div>
-
-      {/* ═══ MAIN PROGRESS + QUICK ACTIONS ═══ */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        {/* Overall progress bar */}
-        <div className="lg:col-span-2 bg-white dark:bg-gray-800/80 rounded-2xl p-5 border border-gray-100 dark:border-gray-700 shadow-sm">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-primary-50 dark:bg-primary-900/20 flex items-center justify-center">
-                <BarChart3 size={18} className="text-primary-600" />
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-gray-900 dark:text-white">Umumiy o'zlashtirish</p>
-                <p className="text-xs text-gray-400">{completedSubtopics}/{totalSubtopics} mavzu bajarildi</p>
-              </div>
-            </div>
-            <div className="text-xl font-bold text-primary-600">{overallPercent}%</div>
-          </div>
-          
-          <div className="h-3.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
-            <div 
-              className="h-full rounded-full bg-gradient-to-r from-primary-500 to-primary-400 transition-all duration-1000 ease-out"
-              style={{ width: `${overallPercent}%` }} 
+          <div className="mt-4 h-2 max-w-xl overflow-hidden rounded-full bg-white/20">
+            <div
+              className="h-full rounded-full bg-white transition-[width] duration-500"
+              style={{ width: `${model.continuePercent}%` }}
+              aria-label={`Modul progressi: ${model.continuePercent}%`}
             />
           </div>
-          
-          <div className="flex justify-between text-[10px] text-gray-300 dark:text-gray-600 mt-1 px-0.5">
-            <span>0%</span>
-            <span>25%</span>
-            <span>50%</span>
-            <span>75%</span>
-            <span>100%</span>
-          </div>
-
-          {/* Mini section breakdown */}
-          <div className="grid grid-cols-4 gap-2 mt-4">
-            {(['specialty', 'professional_standard', 'pedagogy', 'methodology'] as const).map(key => {
-              const sectionMods = modules.filter(m => m.section === key)
-              const sectionTotal = sectionMods.reduce((acc, m) => acc + m.subtopics.length, 0)
-              const sectionDone = sectionMods.reduce((acc, m) => {
-                const p = getModuleProgress(m.id)
-                return acc + p.completedTopics.length
-              }, 0)
-              const pct = sectionTotal > 0 ? Math.round((sectionDone / sectionTotal) * 100) : 0
-              const labels: Record<string, string> = { specialty: 'Mutaxassislik', professional_standard: 'Kasb st.', pedagogy: 'Pedagogika', methodology: 'Metodika' }
-              return (
-                <div key={key} className="text-center p-2 rounded-xl bg-gray-50 dark:bg-gray-800/50">
-                  <div className="text-xs font-semibold text-gray-700 dark:text-gray-300">{labels[key]}</div>
-                  <div className="text-sm font-bold mt-0.5" style={{ color: pct >= 80 ? '#059669' : pct > 0 ? '#7c3aed' : '#9ca3af' }}>{pct}%</div>
-                  <div className="text-[10px] text-gray-400">{sectionDone}/{sectionTotal}</div>
-                </div>
-              )
-            })}
-          </div>
         </div>
 
-        {/* Quick actions */}
-        <div className="space-y-3">
-          <button
-            onClick={() => navigate('/learn')}
-            className="w-full bg-white dark:bg-gray-800/80 rounded-2xl p-4 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md hover:border-primary-200 dark:hover:border-primary-700 transition-all text-left group"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center shadow-sm">
-                <PlayCircle size={22} className="text-white" />
-              </div>
-              <div className="flex-1">
-                <p className="text-sm font-semibold text-gray-900 dark:text-white">O'qishni davom ettirish</p>
-                <p className="text-xs text-gray-400 mt-0.5">{overallPercent === 0 ? 'Birinchi mavzudan boshlang' : `${modules.length - completedModules} ta modul qoldi`}</p>
-              </div>
-              <ChevronRight size={18} className="text-gray-300 group-hover:text-primary-500 group-hover:translate-x-1 transition-all" />
+        <button
+          type="button"
+          onClick={continueLearning}
+          className="relative mt-6 inline-flex min-h-11 items-center gap-2 rounded-xl bg-white px-5 text-sm font-semibold text-indigo-900 shadow-sm transition hover:bg-indigo-50 lg:mt-0"
+        >
+          {model.continueModule ? 'Darsni davom ettirish' : 'O‘rganishni boshlash'}
+          <ArrowRight size={17} aria-hidden="true" />
+        </button>
+      </section>
+
+      <section
+        className="grid grid-cols-2 gap-3 lg:grid-cols-4"
+        aria-label="Tayyorgarlik ko‘rsatkichlari"
+      >
+        <MetricCard
+          label="Mavzular"
+          value={`${model.completedTopics} / ${model.totalTopics}`}
+          meta={`${Math.max(model.totalTopics - model.completedTopics, 0)} ta mavzu qoldi`}
+          icon={<CheckCircle2 size={17} />}
+          tone="indigo"
+        />
+        <MetricCard
+          label="Umumiy progress"
+          value={`${model.overallPercent}%`}
+          meta={`${model.completedModules} ta modul to‘liq`}
+          icon={<Target size={17} />}
+          tone="blue"
+        />
+        <MetricCard
+          label="Aniqlik"
+          value={model.averageScore === null ? '—' : `${model.averageScore}%`}
+          meta={
+            model.averageScore === null
+              ? 'Test natijasi hali yo‘q'
+              : 'Mavzu testlari o‘rtachasi'
+          }
+          icon={<Trophy size={17} />}
+          tone="emerald"
+        />
+        <MetricCard
+          label="Boshlangan modul"
+          value={`${model.startedModules} / ${modules.length}`}
+          meta="Faol o‘quv yo‘nalishlari"
+          icon={<BookOpen size={17} />}
+          tone="violet"
+        />
+      </section>
+
+      <section className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_330px]">
+        <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-900 sm:p-5">
+          <div className="mb-4 flex items-start justify-between gap-4">
+            <div>
+              <h2 className="text-lg font-semibold text-gray-950 dark:text-white">
+                Bo‘limlar bo‘yicha progress
+              </h2>
+              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                Tasdiqlangan 2026 taksonomiyasi asosida
+              </p>
             </div>
-          </button>
-
-          <button
-            onClick={() => navigate('/exam')}
-            className="w-full bg-white dark:bg-gray-800/80 rounded-2xl p-4 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md hover:border-primary-200 dark:hover:border-primary-700 transition-all text-left group"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-sm">
-                <FileQuestion size={22} className="text-white" />
-              </div>
-              <div className="flex-1">
-                <p className="text-sm font-semibold text-gray-900 dark:text-white">Sinov imtihoni</p>
-                <p className="text-xs text-gray-400 mt-0.5">50 savol · 120 daqiqa</p>
-              </div>
-              <ChevronRight size={18} className="text-gray-300 group-hover:text-amber-500 group-hover:translate-x-1 transition-all" />
-            </div>
-          </button>
-        </div>
-      </div>
-
-      {/* ═══ MODULE PROGRESS GRID ═══ */}
-      <div>
-        <div className="flex items-center gap-2 mb-4">
-          <div className="w-7 h-7 rounded-lg bg-primary-50 dark:bg-primary-900/20 flex items-center justify-center">
-            <Layers size={14} className="text-primary-600" />
+            <button
+              type="button"
+              onClick={() => navigate('/learn')}
+              className="shrink-0 rounded-lg bg-indigo-50 px-3 py-2 text-xs font-semibold text-indigo-600 transition hover:bg-indigo-100 dark:bg-indigo-950/60 dark:text-indigo-300"
+            >
+              Barchasi →
+            </button>
           </div>
-          <h2 className="text-sm font-semibold text-gray-900 dark:text-white">Modullar bo'yicha progress</h2>
-          <div className="flex-1" />
-          <button
-            onClick={() => navigate('/learn')}
-            className="text-xs text-primary-600 hover:text-primary-700 font-medium flex items-center gap-1"
-          >
-            Barchasi <ArrowRight size={12} />
-          </button>
+
+          <div className="space-y-2.5">
+            {model.sectionSummaries.map(section => (
+              <SectionProgressRow key={section.key} section={section} />
+            ))}
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          {modules.map(mod => {
-            const prog = getModuleProgress(mod.id)
-            const total = mod.subtopics.length
-            const done = prog.completedTopics.length
-            const pct = total > 0 ? Math.round((done / total) * 100) : 0
-            const isComplete = done >= total
-            const hasProgress = done > 0
+        <aside className="space-y-4">
+          <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <span className="inline-flex rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-semibold text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300">
+                  TAYYORLIK
+                </span>
+                <p className="mt-3 text-2xl font-bold text-gray-950 dark:text-white">
+                  {model.overallPercent}%
+                </p>
+                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                  umumiy o‘zlashtirish
+                </p>
+              </div>
+              <div className="grid h-12 w-12 place-items-center rounded-2xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-300">
+                <Sparkles size={22} aria-hidden="true" />
+              </div>
+            </div>
+            <div className="mt-4 h-2 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
+              <div
+                className="h-full rounded-full bg-emerald-500"
+                style={{ width: `${model.overallPercent}%` }}
+              />
+            </div>
+          </div>
 
-            return (
-              <button
-                key={mod.id}
-                onClick={() => navigate(`/learn/${mod.id}`)}
-                className={`bg-white dark:bg-gray-800/80 rounded-2xl border shadow-sm hover:shadow-md transition-all duration-200 text-left overflow-hidden group ${
-                  isComplete 
-                    ? 'border-emerald-200 dark:border-emerald-800/40' 
-                    : hasProgress 
-                      ? 'border-primary-100 dark:border-primary-800/30' 
-                      : 'border-gray-100 dark:border-gray-700 hover:border-gray-200'
-                }`}
-              >
-                {/* Accent bar */}
-                <div className={`h-1 w-full ${
-                  isComplete ? 'bg-emerald-500' : 
-                  hasProgress ? 'bg-gradient-to-r from-primary-400 to-primary-500' : 
-                  'bg-gray-100 dark:bg-gray-700'
-                }`} />
+          <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+            <h2 className="text-sm font-semibold text-gray-950 dark:text-white">
+              Diqqat talab qiladigan mavzular
+            </h2>
 
-                <div className="p-3.5">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
-                      isComplete 
-                        ? 'bg-emerald-100 dark:bg-emerald-900/30' 
-                        : hasProgress 
-                          ? 'bg-primary-100 dark:bg-primary-900/30' 
-                          : 'bg-gray-100 dark:bg-gray-700'
-                    }`}>
-                      {isComplete ? (
-                        <CheckCircle2 size={18} className="text-emerald-600" />
-                      ) : (
-                        <span className={`text-[11px] font-bold font-mono ${hasProgress ? 'text-primary-600' : 'text-gray-400'}`}>
-                          {mod.code.replace('M', '')}
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className={`text-xs font-semibold truncate ${isComplete ? 'text-gray-400 line-through' : 'text-gray-900 dark:text-white'}`}>
-                        {mod.title}
+            {model.weakTopics.length > 0 ? (
+              <div className="mt-4 space-y-3">
+                {model.weakTopics.map(topic => (
+                  <div key={topic.id} className="flex items-center gap-3">
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm text-gray-600 dark:text-gray-300">
+                        {topic.title}
+                      </p>
+                      <p className="truncate text-[10px] text-gray-400">
+                        {topic.moduleTitle}
                       </p>
                     </div>
-                  </div>
-
-                  {/* Progress bar */}
-                  <div className="h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden mb-1.5">
-                    <div 
-                      className={`h-full rounded-full transition-all duration-500 ${
-                        isComplete ? 'bg-emerald-400' : 
-                        hasProgress ? 'bg-gradient-to-r from-primary-400 to-primary-500' : 
-                        'bg-gray-200 dark:bg-gray-600'
-                      }`}
-                      style={{ width: `${pct}%` }} 
-                    />
-                  </div>
-
-                  <div className="flex items-center justify-between text-[10px]">
-                    <span className={isComplete ? 'text-emerald-600 font-medium' : hasProgress ? 'text-primary-600' : 'text-gray-400'}>
-                      {done}/{total} mavzu
+                    <span className="rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-600 dark:bg-amber-950/50 dark:text-amber-300">
+                      {topic.score}%
                     </span>
-                    <span className="text-gray-400">{pct}%</span>
                   </div>
-                </div>
-              </button>
-            )
-          })}
-        </div>
+                ))}
+              </div>
+            ) : (
+              <div className="mt-4 rounded-xl bg-gray-50 p-4 text-sm text-gray-500 dark:bg-gray-800/70 dark:text-gray-400">
+                Test ishlaganingizdan keyin zaif mavzular shu yerda ko‘rinadi.
+              </div>
+            )}
+          </div>
+
+          <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+            <h2 className="text-sm font-semibold text-gray-950 dark:text-white">
+              Bugungi reja
+            </h2>
+            <div className="mt-4 space-y-3">
+              <PlanRow
+                index={1}
+                title="Keyingi mavzuni o‘rganish"
+                meta={model.continueModule?.code ?? 'O‘quv moduli'}
+              />
+              <PlanRow
+                index={2}
+                title="Mavzu testini ishlash"
+                meta="Natijani mustahkamlash"
+              />
+              <PlanRow
+                index={3}
+                title="Mock sinovni tekshirish"
+                meta="50 savol · 120 daqiqa"
+              />
+            </div>
+
+            <button
+              type="button"
+              onClick={() => navigate('/exam')}
+              className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 px-4 py-2.5 text-sm font-semibold text-gray-700 transition hover:border-indigo-200 hover:text-indigo-600 dark:border-gray-700 dark:text-gray-200 dark:hover:border-indigo-700 dark:hover:text-indigo-300"
+            >
+              Mock test
+              <ChevronRight size={16} aria-hidden="true" />
+            </button>
+          </div>
+        </aside>
+      </section>
+    </div>
+  )
+}
+
+type MetricTone = 'indigo' | 'blue' | 'emerald' | 'violet'
+
+const METRIC_TONES: Record<
+  MetricTone,
+  { icon: string; value: string }
+> = {
+  indigo: {
+    icon: 'bg-indigo-50 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-300',
+    value: 'text-gray-950 dark:text-white',
+  },
+  blue: {
+    icon: 'bg-blue-50 text-blue-600 dark:bg-blue-950/60 dark:text-blue-300',
+    value: 'text-gray-950 dark:text-white',
+  },
+  emerald: {
+    icon: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-300',
+    value: 'text-gray-950 dark:text-white',
+  },
+  violet: {
+    icon: 'bg-violet-50 text-violet-600 dark:bg-violet-950/60 dark:text-violet-300',
+    value: 'text-gray-950 dark:text-white',
+  },
+}
+
+function MetricCard({
+  label,
+  value,
+  meta,
+  icon,
+  tone,
+}: {
+  label: string
+  value: string
+  meta: string
+  icon: React.ReactNode
+  tone: MetricTone
+}) {
+  const colors = METRIC_TONES[tone]
+
+  return (
+    <div className="min-w-0 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-900 sm:p-5">
+      <div className="flex items-center justify-between gap-3">
+        <p className="truncate text-xs font-medium text-gray-500 dark:text-gray-400">
+          {label}
+        </p>
+        <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-xl ${colors.icon}`}>
+          {icon}
+        </span>
+      </div>
+      <p className={`mt-3 text-2xl font-bold tracking-tight ${colors.value}`}>
+        {value}
+      </p>
+      <p className="mt-1 truncate text-[11px] text-gray-400">{meta}</p>
+    </div>
+  )
+}
+
+function SectionProgressRow({ section }: { section: SectionSummary }) {
+  const Icon = section.icon
+
+  return (
+    <div className="flex items-center gap-3 rounded-xl border border-gray-200 px-3.5 py-3.5 dark:border-gray-800 sm:gap-4 sm:px-4">
+      <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-300">
+        <Icon size={17} aria-hidden="true" />
       </div>
 
-      {/* ═══ RECENT ACTIVITY ═══ */}
-      {recentModules.length > 0 && (
-        <div>
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-7 h-7 rounded-lg bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center">
-              <TrendingUp size={14} className="text-amber-600" />
-            </div>
-            <h2 className="text-sm font-semibold text-gray-900 dark:text-white">So'nggi faoliyat</h2>
-          </div>
-
-          <div className="space-y-2">
-            {recentModules.map(({ mod, progress }) => {
-              const total = mod.subtopics.length
-              const done = progress.completedTopics.length
-              const scores = Object.values(progress.topicProgress)
-              const lastScore = scores.length > 0 ? scores[scores.length - 1].lastScore : 0
-              const lastTopic = scores.length > 0 ? Object.keys(progress.topicProgress).pop() : ''
-              const lastTopicTitle = lastTopic ? mod.subtopics.find(s => s.id === lastTopic)?.title : ''
-
-              return (
-                <button
-                  key={mod.id}
-                  onClick={() => navigate(`/learn/${mod.id}`)}
-                  className="w-full bg-white dark:bg-gray-800/80 rounded-2xl p-4 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all text-left group"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
-                      lastScore >= 80 ? 'bg-emerald-100 dark:bg-emerald-900/30' : 'bg-amber-100 dark:bg-amber-900/30'
-                    }`}>
-                      <BookText size={20} className={lastScore >= 80 ? 'text-emerald-600' : 'text-amber-600'} />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <span className="badge bg-gray-100 text-gray-600 text-[10px] font-mono">{mod.code}</span>
-                        <span className="text-sm font-semibold text-gray-900 dark:text-white truncate">{mod.title}</span>
-                      </div>
-                      <div className="flex items-center gap-2 mt-1 text-xs text-gray-400">
-                        <span>{done}/{total} mavzu</span>
-                        <span>·</span>
-                        <span>Oxirgi: {lastScore}%</span>
-                        {lastTopicTitle && (
-                          <>
-                            <span>·</span>
-                            <span className="truncate max-w-[120px]">{lastTopicTitle}</span>
-                          </>
-                        )}
-                      </div>
-                      {/* Mini progress */}
-                      <div className="h-1 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden mt-1.5 max-w-[200px]">
-                        <div 
-                          className={`h-full rounded-full ${lastScore >= 80 ? 'bg-emerald-400' : 'bg-amber-400'}`}
-                          style={{ width: `${Math.round((done/total)*100)}%` }} 
-                        />
-                      </div>
-                    </div>
-                    <ChevronRight size={16} className="text-gray-300 group-hover:text-primary-500 transition-all shrink-0" />
-                  </div>
-                </button>
-              )
-            })}
-          </div>
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] font-semibold text-gray-400">{section.badge}</span>
+          <p className="truncate text-sm font-semibold text-gray-800 dark:text-gray-100">
+            {section.label}
+          </p>
         </div>
-      )}
+        <p className="mt-1 text-[11px] text-gray-400">
+          {section.completed} / {section.total} mavzu · {section.meta}
+        </p>
+      </div>
 
-      {/* ═══ EMPTY STATE (no progress) ═══ */}
-      {overallPercent === 0 && (
-        <div className="bg-white dark:bg-gray-800/80 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden">
-          <div className="p-6 sm:p-8 text-center">
-            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-900/30 flex items-center justify-center mx-auto mb-5">
-              <Sparkles size={36} className="text-primary-500" />
-            </div>
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Hali progress yo'q</h2>
-            <p className="text-sm text-gray-500 mb-6 max-w-md mx-auto">
-              Attestatsiyaga tayyorgarlikni boshlang. 16 modul, 76 ta mavzu, 
-              50 ta imtihon savoli — barchasi rasmiy blueprint asosida tuzilgan.
-            </p>
-            <div className="flex flex-wrap gap-3 justify-center">
-              <button
-                onClick={() => navigate('/learn')}
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-xl text-sm font-semibold hover:from-primary-700 hover:to-primary-600 transition-all shadow-lg shadow-primary-200 dark:shadow-primary-900/30"
-              >
-                <PlayCircle size={18} /> O'rganishni boshlash
-              </button>
-              <button
-                onClick={() => navigate('/exam')}
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 rounded-xl text-sm font-semibold hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-all border border-amber-200 dark:border-amber-800/30"
-              >
-                <FileQuestion size={18} /> Sinov imtihoni
-              </button>
-            </div>
-          </div>
+      <div className="w-24 shrink-0 sm:w-36">
+        <div className="mb-2 text-right text-xs font-semibold text-gray-700 dark:text-gray-200">
+          {section.percent}%
         </div>
-      )}
+        <div className="h-1.5 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
+          <div
+            className={`h-full rounded-full ${section.accent}`}
+            style={{ width: `${section.percent}%` }}
+          />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function PlanRow({
+  index,
+  title,
+  meta,
+}: {
+  index: number
+  title: string
+  meta: string
+}) {
+  return (
+    <div className="flex items-center gap-3">
+      <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-indigo-50 text-xs font-semibold text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-300">
+        {index}
+      </span>
+      <div className="min-w-0">
+        <p className="truncate text-sm font-semibold text-gray-800 dark:text-gray-100">
+          {title}
+        </p>
+        <p className="truncate text-[11px] text-gray-400">{meta}</p>
+      </div>
     </div>
   )
 }
