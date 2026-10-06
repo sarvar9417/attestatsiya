@@ -15,6 +15,7 @@ import { syncTopicProgress } from '../../lib/progressSync'
 // Kitob ko'rinishi KaTeX va sxemalarni olib keladi — faqat shu mavzular
 // ochilganda yuklanadi.
 const BookReader = lazy(() => import('./theory/BookReader'))
+import LessonStageBar from './LessonStageBar'
 
 interface Props {
   moduleId: string
@@ -325,6 +326,16 @@ export default function TopicView({
 
     return (
       <div className="space-y-5 animate-fade-in">
+        <LessonStageBar
+          phase="result"
+          moduleTitle={moduleTitle}
+          topicTitle={content.title}
+          moduleCode={moduleId}
+          topicIndex={subtopicIndex}
+          topicCount={subtopicCount}
+          onBack={onBack}
+        />
+
         {/* ═══ Score Hero ═══ */}
         <div className={`relative overflow-hidden rounded-3xl bg-gradient-to-br ${scoreColor} p-7 text-white shadow-lg ${passed ? 'shadow-emerald-200 dark:shadow-emerald-900/30' : 'shadow-red-200 dark:shadow-red-900/30'}`}>
           <div className="absolute top-0 right-0 w-48 h-48 opacity-10">
@@ -453,22 +464,15 @@ export default function TopicView({
         </div>
       )}
 
-      {/* ═══ Breadcrumb ═══ */}
-      <div className="flex items-center gap-2 text-xs text-gray-400 mb-6">
-        <button onClick={onBack} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
-          <ArrowLeft size={12} /> Orqaga
-        </button>
-        <span className="text-gray-300 dark:text-gray-600">/</span>
-        <span className="text-gray-500 dark:text-gray-400 truncate max-w-[120px]">{moduleTitle}</span>
-        <span className="text-gray-300 dark:text-gray-600">/</span>
-        <span className={`font-medium ${
-          phase === 'theory' 
-            ? 'text-primary-600 dark:text-primary-400' 
-            : 'text-gray-400 dark:text-gray-500'
-        }`}>
-          {phase === 'theory' ? 'Nazariya' : 'Test'}
-        </span>
-      </div>
+      <LessonStageBar
+        phase={phase}
+        moduleTitle={moduleTitle}
+        topicTitle={content.title}
+        moduleCode={moduleId}
+        topicIndex={subtopicIndex}
+        topicCount={subtopicCount}
+        onBack={onBack}
+      />
 
       {/* ════════════════════════════════════════════════════════
           THEORY PHASE
@@ -476,7 +480,7 @@ export default function TopicView({
       {phase === 'theory' && (
         <div ref={contentRef}>
           {/* ── Header ── */}
-          <div className="mb-8">
+          <div className="mb-6 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900 sm:p-6">
             <div className="flex items-center gap-2 mb-3 flex-wrap">
               <span className="px-2.5 py-1 rounded-lg bg-gradient-to-r from-primary-500 to-primary-600 text-white text-[10px] font-semibold font-mono shadow-sm">
                 {moduleId}
@@ -514,9 +518,30 @@ export default function TopicView({
                   : isAppendix ? "ma'lumotnoma" : "test tayyorlanmoqda"}
               </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold leading-tight text-gray-900 dark:text-white">
-              {content.title}
-            </h1>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-indigo-500">
+                  Asosiy tushuncha
+                </p>
+                <h2 className="mt-1 text-xl font-bold leading-tight text-gray-900 dark:text-white sm:text-2xl">
+                  {content.title}
+                </h2>
+              </div>
+              {phase === 'theory' && !isBook && (
+                <div className="min-w-[140px]">
+                  <div className="mb-1 flex items-center justify-between text-[10px] font-medium text-gray-400">
+                    <span>O‘qish progressi</span>
+                    <span>{Math.round(readProgress)}%</span>
+                  </div>
+                  <div className="h-1.5 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
+                    <div
+                      className="h-full rounded-full bg-indigo-500 transition-[width] duration-300"
+                      style={{ width: `${Math.round(readProgress)}%` }}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* ── Theory Content Blocks ── */}
