@@ -92,7 +92,28 @@
 | T-022 | AI sessiya | DONE | 2026-07-31 | task/TASK-022-backend-own-repo |
 | T-012 | — | READY | — | task/T-012-generators |
 | TASK-UI-001 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-001-figma-dashboard |
-| TASK-UI-005 | AI sessiya | IN_PROGRESS | 2026-10-06 | task/TASK-UI-005-admin-dashboard |
+| TASK-UI-005 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-005-admin-dashboard |
+
+## Admin dashboard Figma redesign (TASK-UI-005, 2026-10-06)
+
+- **Admin shell:** AdminLayout desktop va mobile navigatsiya Figma approved indigo/white design systemiga moslashtirildi.
+- **Dashboard:** modules/questions/blueprints/profiles count ma'lumotlari mavjud Supabase read-only oqimidan olinadi; loading, error, retry va manual refresh holatlari qo'shildi.
+- **Xavfsizlik:** AdminGuard va permission modeli o'zgartirilmadi; yangi DB write yoki soxta analytics kiritilmadi.
+- **Test:** AdminDashboard regressiya testlari real count renderi, Supabase failure va refresh oqimini tekshiradi.
+- **CI:** GitHub Actions CI #175 da secret scan, lint, typecheck, 256 unit test, production build, Playwright smoke va database job'lari yashil o'tdi.
+- **Preview:** Vercel PR preview muvaffaqiyatli build qilindi.
+
+### Handoff
+
+```text
+Task: TASK-UI-005
+Natija: Figma admin dashboard + responsive admin shell implement qilindi
+O'zgargan fayllar: src/components/admin/AdminLayout.tsx; src/pages/admin/AdminDashboard.tsx; src/tests/AdminDashboard.test.tsx; TASKS.md; PROJECT_STATE.md
+Migratsiyalar: yo'q
+Ishga tushirilgan testlar: GitHub CI #175 — secret scan, lint, typecheck, unit, build, Playwright smoke, database
+Qolgan xavf yoki blocker: Modules/Questions/Attempts admin sahifalari eski vizual tizimda
+Keyingi task: TASK-UI-006 — admin content management sahifalarini redesign qilish
+```
 
 ## ExamRunner assessment Figma redesign (TASK-UI-004, 2026-10-06)
 
