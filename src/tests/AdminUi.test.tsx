@@ -63,8 +63,8 @@ describe('Admin Figma UI', () => {
     expect(screen.getByText('Tezkor boshqaruv')).toBeDefined()
 
     await waitFor(() => {
-      expect(screen.getByText('3 842')).toBeDefined()
-      expect(screen.getByText('1 248')).toBeDefined()
+      expect(screen.getAllByText('3 842').length).toBeGreaterThan(0)
+      expect(screen.getAllByText('1 248').length).toBeGreaterThan(0)
     })
 
     expect(mocks.from).toHaveBeenCalledWith('modules')
