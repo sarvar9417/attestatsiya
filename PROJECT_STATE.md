@@ -1249,3 +1249,18 @@ Keyingi UI yo‘nalish: real backend kontraktini kengaytirmasdan uydirma readine
   weakest-objective ko‘rsatkichlari joriy server kontraktida yo‘q; UI’da uydirilmaydi.
 - **Figma live access:** Starter MCP limit hali faol; mavjud approved visual system
   va repository UX contract source-of-truth sifatida ishlatilmoqda.
+
+
+### T-031 Handoff
+
+```text
+Task: T-031
+Natija: persistent /results/:examId learner natija sahifasi va secure single-result API
+Backend: GET /api/exam/:id/result; id + authenticated user_id filter; finalized-only
+Frontend: ExamResultPage; history → result detail; lazy finalized review
+O‘zgargan asosiy fayllar: backend/src/services/exam.service.ts; backend/src/routes/exam.ts; backend/src/schemas/exam.ts; src/features/exam/contracts.ts; examGateway.ts; backendGateway.ts; src/pages/ExamResultPage.tsx; ExamHistoryPage.tsx; App.tsx
+Migratsiyalar: yo‘q
+Testlar: backend service/route guard; frontend result page; history navigation; API integration
+GitHub CI: quality + backend + database — yashil
+Xavfsizlik: boshqa learner resulti 404; unfinished result 400; answer key faqat finalized review endpointda
+```
