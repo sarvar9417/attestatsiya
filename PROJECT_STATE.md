@@ -1,4 +1,25 @@
-| T-007 | AI sessiya | IN_PROGRESS | 2026-10-07 | task/T-007-domain-rls-product-flow |
+
+## Domain/RLS va product-flow QA (T-007, 2026-10-07)
+
+- **Security gap tuzatildi:** `question_keys` endi learner/anon uchun bevosita o‘qilmaydi; answer key server-authoritative scoring chegarasida qoladi.
+- **Admin/editor boshqaruvi:** `20261007000018_question_keys_staff_only.sql` orqali authenticated table grants berildi, RLS esa faqat `editor/admin` rollariga CRUD ruxsat beradi.
+- **RLS regressiya:** learner hatto o‘z examidagi savol keyini ham 0 qator ko‘radi; boshqa user 0; admin fixture keylarini ko‘ra oladi.
+- **Product-flow E2E:** fake non-expired session bilan Dashboard → O‘rganish yoki resume → M01 modul oqimi Playwright’da tekshiriladi.
+- **CI:** secret scan, lint, typecheck, unit tests, generated-pool invariants, production build, Chromium/Playwright E2E, fresh DB migration chain, generated DB pool va remote drift reconciliation yashil o‘tdi.
+
+### Handoff
+
+```text
+Task: T-007
+Natija: domain/RLS va asosiy learner product-flow QA qamrovi yopildi
+Migration: supabase/migrations/20261007000018_question_keys_staff_only.sql
+Testlar: supabase/tests/security_hardening.test.sql; src/tests/e2e/app.spec.ts
+Security invariant: answer key learner/anon klientga chiqmaydi; admin/editor RLS bilan boshqaradi
+CI: full quality + database jobs green
+Qolgan blocker: TASKS.md dagi T-001..T-024 va TASK-UI-001..008 ichida ochiq task qolmadi
+```
+
+| T-007 | AI sessiya | DONE | 2026-10-07 | task/T-007-domain-rls-product-flow |
 
 ## Admin UUID schema reconciliation (T-006, 2026-10-07)
 
