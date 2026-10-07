@@ -1100,7 +1100,7 @@ Qolgan blocker: T-025 remote Supabase migration history permission
   `Natijalar tarixi / Natijalar` qo‘shildi.
 - **Test qamrovi:** history sahifa server-data, empty, failure→retry va pagination bilan;
   frontend↔backend integration testi `/api/exam/history` URL va payload kontraktini
-  tekshiradi. GitHub CI natijasi kutilmoqda.
+  tekshiradi. GitHub CI quality + database to‘liq yashil.
 - **T-025 holati:** Supabase connector hozir ham `plyqezulrfowyblsfpzy` projectini
   ko‘rsatmayapti; remote migration history reconciliation bloklanganicha qoladi.
 
