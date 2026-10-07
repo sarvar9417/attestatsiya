@@ -41,23 +41,29 @@ Har bir task boshida:
 ## 4. Modul chegaralari
 
 ```text
-src/
+src/                  Frontend React ilovasi
 ├── components/       UI komponentlar (domain qoidalarsiz)
-│   ├── admin/        Admin panel
-│   ├── layout/       Header, sidebar, bottom nav
-│   ├── learning/     Mavzu, test, imtihon
-│   │   └── questions/Y1, Y2, Y3
-│   └── ui/           Umumiy UI primitivlar
 ├── data/             Static kontent (contentTree, topicContent)
-├── hooks/            Custom React hooks (useAuth, useOnlineStatus)
-├── lib/              Utility funksiyalar (monitoring, performance)
+├── hooks/            Custom React hooks
+├── lib/              Frontend utility va client qatlam
 ├── pages/            Route sahifalari
-├── store/            Zustand store (progress)
-├── supabase/         Migrations (append-only SQL)
-├── tests/            Integration/E2E fixture va testlar
+├── store/            Zustand store
+└── tests/            Frontend integration/E2E
+
+backend/
+├── api/              Vercel serverless entry
+├── src/routes/       Fastify HTTP route'lar
+├── src/services/     Server domain/service qatlam
+├── src/schemas/      Zod request/response sxemalari
+└── src/lib/          Server utility/Supabase client
+
+supabase/             Migrations, seed va database testlar
 ```
 
-`domain/` browser yoki Supabase client’ga bog‘lanmasligi kerak.
+Frontend service-role credential ishlatmaydi. Backend kodi `backend/`dan
+tashqariga server secret import qilmaydi. Eski `sarvar9417/attestatsiya-backend`
+repo yangi featurelar uchun source-of-truth emas; asosiy source shu monorepodagi
+`backend/` hisoblanadi.
 
 ## 5. Database o‘zgarishi
 
