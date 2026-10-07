@@ -18,6 +18,13 @@ export const adaptivePracticeSchema = {
 }
 
 
+export const adaptivePracticeSchema = {
+  body: z.object({
+    lesson_id: z.string().min(1),
+  }),
+}
+
+
 // ─── Submit Answer ──────────────────────────────────────────────
 export const submitAnswerSchema = {
   body: z.object({
