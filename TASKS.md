@@ -28,7 +28,7 @@
 | T-004 | DONE | `submit_answer` owner/membership tekshiradi, answer immutable va retry idempotent |
 | T-005 | DONE | Remote seed 16 modul, 15 guruh, 50/120 va 8/35/7 kontraktiga reconcile qilindi |
 | T-006 | DONE | Frontend role guard + admin panel UUID schema/type reconciliation yakunlangan; AdminDashboard/Modules/Questions/Attempts typed oqimda, main CI typecheck/build yashil |
-| T-007 | BLOCKED | 49 unit + 4 smoke E2E o'tadi, ammo domain/RLS va product-flow qamrovi yetarli emas |
+| T-007 | IN_PROGRESS | T-006 | Domain/RLS va product-flow test qamrovini production oqimlari bo‘yicha kengaytirish |
 
 ## Darslik kontenti ekstraksiyasi
 
