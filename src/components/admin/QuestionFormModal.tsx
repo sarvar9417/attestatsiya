@@ -84,7 +84,7 @@ export default function QuestionFormModal({
 
       try {
         const [constructResult, subjectResult] = await Promise.all([
-          supabase
+          typedSupabase
             .from('constructs')
             .select('id, code, title_uz, subject_id, group_code')
             .order('code'),
@@ -100,12 +100,12 @@ export default function QuestionFormModal({
 
         if (question?.id) {
           const [optionResult, keyResult] = await Promise.all([
-            supabase
+            typedSupabase
               .from('question_options')
               .select('id, content_md, order_idx')
               .eq('question_id', question.id)
               .order('order_idx'),
-            supabase
+            typedSupabase
               .from('question_keys')
               .select('payload, explanation_md')
               .eq('question_id', question.id)
@@ -180,7 +180,7 @@ export default function QuestionFormModal({
 
     try {
       if (isEdit && question?.id) {
-        const { error: updateError } = await supabase
+        const { error: updateError } = await typedSupabase
           .from('questions')
           .update({
             stem_md: form.stem_md.trim(),
@@ -197,7 +197,7 @@ export default function QuestionFormModal({
 
         if (updateError) throw updateError
 
-        const { error: optionDeleteError } = await supabase
+        const { error: optionDeleteError } = await typedSupabase
           .from('question_options')
           .delete()
           .eq('question_id', question.id)
@@ -205,7 +205,7 @@ export default function QuestionFormModal({
         if (optionDeleteError) throw optionDeleteError
 
         if (form.format === 'Y1') {
-          const { error: keyDeleteError } = await supabase
+          const { error: keyDeleteError } = await typedSupabase
             .from('question_keys')
             .delete()
             .eq('question_id', question.id)
@@ -215,7 +215,7 @@ export default function QuestionFormModal({
 
         await saveOptionsAndKey(question.id)
       } else {
-        const { data: newQuestion, error: insertError } = await supabase
+        const { data: newQuestion, error: insertError } = await typedSupabase
           .from('questions')
           .insert({
             stem_md: form.stem_md.trim(),
@@ -258,7 +258,7 @@ export default function QuestionFormModal({
       side: String.fromCharCode(97 + index),
     }))
 
-    const { data: inserted, error: optionError } = await supabase
+    const { data: inserted, error: optionError } = await typedSupabase
       .from('question_options')
       .insert(rows)
       .select('id, order_idx')
