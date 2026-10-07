@@ -45,6 +45,17 @@ jobs:
       - name: Parametric generated pool invariants
         run: npm run content:generated:check
 
+      - name: Generate parametric SQL artifact
+        run: npm run content:generated:sql
+
+      - name: Upload parametric SQL artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: parametric-question-sql
+          path: supabase/generated/parametric_questions.sql
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Build
         run: npm run build
 
