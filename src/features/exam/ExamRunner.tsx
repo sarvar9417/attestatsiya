@@ -32,6 +32,7 @@ import {
   stableShuffle,
   type AnswerValue,
   type ExamItem,
+  type ExamReviewItem,
   type ExamSession,
   type FinishExamResponse,
 } from './contracts'
@@ -104,6 +105,9 @@ export default function ExamRunner({
   const [phase, setPhase] = useState<RunnerPhase>('intro')
   const [session, setSession] = useState<ExamSession | null>(null)
   const [result, setResult] = useState<FinishExamResponse | null>(null)
+  const [reviewItems, setReviewItems] = useState<ExamReviewItem[] | null>(null)
+  const [reviewLoading, setReviewLoading] = useState(false)
+  const [reviewError, setReviewError] = useState<string | null>(null)
   const [drafts, setDrafts] = useState<Record<string, AnswerValue>>({})
   const [savedQuestionIds, setSavedQuestionIds] = useState<Set<string>>(
     new Set()
@@ -177,6 +181,9 @@ export default function ExamRunner({
     setPhase('intro')
     setSession(null)
     setResult(null)
+    setReviewItems(null)
+    setReviewLoading(false)
+    setReviewError(null)
     setDrafts({})
     setSavedQuestionIds(new Set())
     setFlaggedQuestionIds(new Set())
@@ -397,6 +404,22 @@ export default function ExamRunner({
         onChange={updateDraft}
       />
     )
+  }
+
+  const loadResultReview = async () => {
+    if (!result || reviewLoading) return
+
+    setReviewLoading(true)
+    setReviewError(null)
+
+    try {
+      const items = await gateway.getReview(result.exam_id)
+      setReviewItems(items)
+    } catch (error) {
+      setReviewError(errorMessage(error))
+    } finally {
+      setReviewLoading(false)
+    }
   }
 
   const examTitle =
@@ -649,6 +672,145 @@ export default function ExamRunner({
             </div>
           </section>
         )}
+
+        <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900 sm:p-6">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 className="text-lg font-semibold text-gray-950 dark:text-white">
+                Keyingi qadam
+              </h2>
+              <p className="mt-1 text-sm leading-6 text-gray-500 dark:text-gray-400">
+                Xatolarni ko‘rib chiqing yoki natijani tarixga saqlangan holatda kuzating.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              <Link
+                to="/review"
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 text-sm font-semibold text-white transition hover:bg-indigo-700"
+              >
+                <RefreshCw size={16} aria-hidden="true" />
+                Xatolarni qayta ishlash
+              </Link>
+              <Link
+                to="/history"
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-4 text-sm font-semibold text-gray-600 transition hover:border-indigo-200 hover:text-indigo-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-indigo-800 dark:hover:text-indigo-300"
+              >
+                Natijalar tarixi
+                <ChevronRight size={15} aria-hidden="true" />
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900 sm:p-6">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 className="text-lg font-semibold text-gray-950 dark:text-white">
+                Savollar tahlili
+              </h2>
+              <p className="mt-1 text-xs leading-5 text-gray-400">
+                Javob holati va izohlar faqat yakunlangan sinov uchun serverdan olinadi.
+              </p>
+            </div>
+
+            {reviewItems === null && (
+              <button
+                type="button"
+                onClick={() => void loadResultReview()}
+                disabled={reviewLoading}
+                className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border border-gray-200 px-4 text-sm font-semibold text-gray-600 transition hover:border-indigo-200 hover:text-indigo-600 disabled:opacity-60 dark:border-gray-700 dark:text-gray-300 dark:hover:border-indigo-800 dark:hover:text-indigo-300"
+              >
+                {reviewLoading ? (
+                  <>
+                    <LoaderCircle size={16} className="animate-spin" aria-hidden="true" />
+                    Yuklanmoqda…
+                  </>
+                ) : (
+                  <>
+                    Tahlilni ochish
+                    <ChevronDown size={16} aria-hidden="true" />
+                  </>
+                )}
+              </button>
+            )}
+          </div>
+
+          {reviewError && (
+            <div
+              role="alert"
+              className="mt-4 flex flex-col gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800 dark:border-amber-800/40 dark:bg-amber-950/20 dark:text-amber-200 sm:flex-row sm:items-center sm:justify-between"
+            >
+              <span>{reviewError}</span>
+              <button
+                type="button"
+                onClick={() => void loadResultReview()}
+                className="inline-flex min-h-9 items-center justify-center gap-2 rounded-lg bg-amber-600 px-3 font-semibold text-white hover:bg-amber-700"
+              >
+                <RefreshCw size={14} aria-hidden="true" />
+                Qayta urinish
+              </button>
+            </div>
+          )}
+
+          {reviewItems && reviewItems.length === 0 && (
+            <p className="mt-4 rounded-xl bg-gray-50 p-4 text-sm text-gray-500 dark:bg-gray-950/50 dark:text-gray-400">
+              Ushbu sinov uchun savollar tahlili mavjud emas.
+            </p>
+          )}
+
+          {reviewItems && reviewItems.length > 0 && (
+            <div className="mt-5 space-y-3" aria-label="Yakunlangan sinov savollari tahlili">
+              {reviewItems.map((item) => (
+                <article
+                  key={item.order_idx}
+                  className="rounded-xl border border-gray-200 p-4 dark:border-gray-800"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="rounded-lg bg-gray-100 px-2 py-1 text-[11px] font-semibold text-gray-600 dark:bg-gray-800 dark:text-gray-300">
+                          Savol {item.order_idx}
+                        </span>
+                        {item.construct && (
+                          <span className="font-mono text-[11px] font-semibold text-indigo-600 dark:text-indigo-300">
+                            {item.construct}
+                          </span>
+                        )}
+                      </div>
+                      <p className="mt-3 whitespace-pre-wrap text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">
+                        {item.stem_md}
+                      </p>
+                    </div>
+
+                    <span
+                      className={[
+                        'inline-flex shrink-0 items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-semibold',
+                        item.is_correct
+                          ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300'
+                          : 'bg-rose-50 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300',
+                      ].join(' ')}
+                    >
+                      {item.is_correct ? (
+                        <Check size={13} aria-hidden="true" />
+                      ) : (
+                        <X size={13} aria-hidden="true" />
+                      )}
+                      {item.is_correct ? 'To‘g‘ri' : 'Xato'}
+                    </span>
+                  </div>
+
+                  {item.explanation_md && (
+                    <div className="mt-4 rounded-xl bg-indigo-50/70 p-3 text-sm leading-6 text-indigo-900 dark:bg-indigo-950/30 dark:text-indigo-100">
+                      <span className="font-semibold">Izoh: </span>
+                      <span className="whitespace-pre-wrap">{item.explanation_md}</span>
+                    </div>
+                  )}
+                </article>
+              ))}
+            </div>
+          )}
+        </section>
 
         <div className="flex flex-col gap-3 sm:flex-row">
           <button
