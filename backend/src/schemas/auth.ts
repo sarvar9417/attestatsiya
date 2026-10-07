@@ -55,6 +55,43 @@ export const updateProfileSchema = {
 }
 export type UpdateProfileInput = z.infer<typeof updateProfileSchema.body>
 
+// ─── Onboarding ─────────────────────────────────────────────────
+const onboardingDateSchema = z
+  .string()
+  .regex(/^\d{4}-\d{2}-\d{2}$/, 'Sana YYYY-MM-DD formatida bo‘lishi kerak')
+
+export const onboardingUpdateSchema = {
+  body: z.object({
+    exam_date: onboardingDateSchema.nullable(),
+    daily_goal_minutes: z.union([
+      z.literal(10),
+      z.literal(20),
+      z.literal(30),
+      z.literal(45),
+      z.literal(60),
+    ]),
+    start_diagnostic: z.boolean(),
+  }),
+}
+
+export type OnboardingUpdateInput = z.infer<typeof onboardingUpdateSchema.body>
+
+export interface OnboardingStateResponse {
+  available: boolean
+  completed: boolean
+  display_name: string | null
+  exam_date: string | null
+  daily_goal_minutes: number
+  timezone: string
+  locale: string
+  onboarding_completed_at: string | null
+}
+
+export interface OnboardingCompleteResponse {
+  state: OnboardingStateResponse
+  next_action: 'diagnostic' | 'dashboard'
+}
+
 // ─── Response Types ───────────────────────────────────────────────
 export interface AuthUserResponse {
   id: string

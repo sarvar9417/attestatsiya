@@ -330,6 +330,27 @@ describe('secure ExamRunner', () => {
     })
   })
 
+  it('diagnostika route mockga fallback qilmasdan server diagnostika sessionini boshlaydi', async () => {
+    const user = userEvent.setup()
+    const gateway = successfulGateway()
+    vi.mocked(gateway.startFocusedExam!).mockResolvedValue({
+      ...examSession(),
+      kind: 'diagnostika',
+      duration_sec: null,
+    })
+
+    renderExam(gateway, '/exam/diagnostika')
+    expect(
+      screen.getByRole('heading', { name: 'Boshlang‘ich diagnostika' })
+    ).toBeDefined()
+
+    await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
+
+    expect(gateway.startFocusedExam).toHaveBeenCalledWith('diagnostika')
+    expect(gateway.startMockExam).not.toHaveBeenCalled()
+    expect(await screen.findByText('Yagona javobni tanlang')).toBeDefined()
+  })
+
   it('takrorlash route mockga fallback qilmasdan server review sessionini boshlaydi', async () => {
     const user = userEvent.setup()
     const gateway = successfulGateway()

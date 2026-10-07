@@ -228,7 +228,7 @@ describe('frontend ↔ backend API integration', () => {
     expect(JSON.parse(init.body as string)).toEqual({ kind: 'mock' })
   })
 
-  it('POST /api/exam/start — bo‘lim, mavzu va takrorlash kind lari', async () => {
+  it('POST /api/exam/start — bo‘lim, mavzu, diagnostika va takrorlash kind lari', async () => {
     fetchMock.mockImplementation(() => Promise.resolve(okJson(sessionPayload)))
 
     await backendGateway.startModuleExam('M01')
@@ -243,8 +243,13 @@ describe('frontend ↔ backend API integration', () => {
       lesson_id: 'M01.01',
     })
 
-    await backendGateway.startFocusedExam?.('takrorlash')
+    await backendGateway.startFocusedExam?.('diagnostika')
     expect(JSON.parse((fetchMock.mock.calls[2][1] as RequestInit).body as string)).toEqual({
+      kind: 'diagnostika',
+    })
+
+    await backendGateway.startFocusedExam?.('takrorlash')
+    expect(JSON.parse((fetchMock.mock.calls[3][1] as RequestInit).body as string)).toEqual({
       kind: 'takrorlash',
     })
   })

@@ -15,6 +15,7 @@ import AdminLayout from './components/admin/AdminLayout'
 import AdminGuard from './components/auth/AdminGuard'
 import ProtectedRoute from './components/auth/ProtectedRoute'
 import SessionExpiredHandler from './components/auth/SessionExpiredHandler'
+import OnboardingGate from './components/auth/OnboardingGate'
 import Auth from './pages/Auth'
 import Profile from './pages/Profile'
 import ResetPassword from './pages/ResetPassword'
@@ -26,6 +27,7 @@ import ExamDemoPage from './pages/ExamDemoPage'
 import ReviewPage from './pages/ReviewPage'
 import ExamHistoryPage from './pages/ExamHistoryPage'
 import ExamResultPage from './pages/ExamResultPage'
+import OnboardingPage from './pages/OnboardingPage'
 
 const NotFound = lazy(() => import('./pages/NotFound'))
 
@@ -144,7 +146,22 @@ function AppRouter() {
       />
       <Route path="/auth" element={<Auth />} />
       <Route path="/reset-password" element={<ResetPassword />} />
-      <Route path="/*" element={<MainLayout />} />
+      <Route
+        path="/onboarding"
+        element={
+          <ProtectedRoute>
+            <OnboardingPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/*"
+        element={
+          <OnboardingGate>
+            <MainLayout />
+          </OnboardingGate>
+        }
+      />
     </Routes>
   )
 }

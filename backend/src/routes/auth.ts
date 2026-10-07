@@ -8,6 +8,7 @@ import {
   updatePasswordSchema,
   resendConfirmationSchema,
   updateProfileSchema,
+  onboardingUpdateSchema,
 } from '../schemas/auth.js'
 import { sendError, AppError } from '../lib/errors.js'
 import { config } from '../config.js'
@@ -151,6 +152,34 @@ export async function authRoutes(app: FastifyInstance) {
     try {
       const token = await requireToken(req)
       const result = await authService.updateProfile(input, token)
+      return reply.send(result)
+    } catch (error) {
+      return sendError(reply, error)
+    }
+  })
+
+
+  /**
+   * GET /api/auth/onboarding — joriy learner onboarding holati.
+   */
+  app.get('/api/auth/onboarding', async (req, reply) => {
+    try {
+      const token = await requireToken(req)
+      const result = await authService.onboarding(token)
+      return reply.send(result)
+    } catch (error) {
+      return sendError(reply, error)
+    }
+  })
+
+  /**
+   * PATCH /api/auth/onboarding — learner sozlamalarini saqlash va onboardingni tugatish.
+   */
+  app.patch('/api/auth/onboarding', async (req, reply) => {
+    const input = onboardingUpdateSchema.body.parse(req.body)
+    try {
+      const token = await requireToken(req)
+      const result = await authService.completeOnboarding(input, token)
       return reply.send(result)
     } catch (error) {
       return sendError(reply, error)

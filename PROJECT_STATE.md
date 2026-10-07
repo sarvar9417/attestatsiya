@@ -1296,3 +1296,23 @@ Merge: PR #53, main commit 647fd36351234e3ae980e54b7a61bdf4a7c375b3
 Migratsiyalar: yo‘q
 Keyingi bajarilmagan blok: onboarding + diagnostika + daily plan
 ```
+
+
+## Onboarding + diagnostika (T-033, 2026-10-07)
+
+- **Plan basis:** UX_SPEC Onboarding va PRODUCT_REQUIREMENTS J-01: ism, imtihon
+  sanasi (noma'lum mumkin), kunlik 10/20/30/45/60 daqiqa va diagnostika taklifi.
+- **DB migration:** `20261007131000_onboarding_profile.sql` profile'ga
+  `timezone`, `locale`, `exam_date`, `daily_goal_minutes`,
+  `onboarding_completed_at`, `updated_at` qo'shadi; daily goal 5–240 DB
+  constraint bilan himoyalanadi.
+- **Backend:** `GET/PATCH /api/auth/onboarding`; o'tgan exam_date rad qilinadi.
+  Remote schema hali eski bo'lsa GET `available=false` fail-open qaytaradi,
+  PATCH esa `ONBOARDING_SCHEMA_PENDING` 503 qaytaradi.
+- **Frontend:** standalone `/onboarding` ekran, learner-only OnboardingGate,
+  diagnostikani boshlash yoki skip qilish. Admin/editor guarddan o'tadi.
+- **Diagnostika:** mavjud DB `start_exam('diagnostika')` RPC'iga frontend/backend
+  route support qo'shildi; mock examga yashirin fallback yo'q.
+- **Remote blocker:** Supabase connector `plyqezulrfowyblsfpzy` projectini hali
+  ko'rsatmaydi. Shu sabab migration productionga bu branchda qo'llanmaydi;
+  feature schema mavjud bo'lmaguncha production oqimini bloklamaydi.
