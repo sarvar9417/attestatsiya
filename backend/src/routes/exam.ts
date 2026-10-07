@@ -128,6 +128,32 @@ export async function examRoutes(app: FastifyInstance) {
   })
 
   /**
+   * GET /api/exam/:id/result
+   * Return one finalized attempt owned by the authenticated learner.
+   */
+  app.get('/api/exam/:id/result', async (req, reply) => {
+    const { id } = reviewParamsSchema.params.parse(req.params)
+    let token = getToken(req)
+
+    if (!token && config.demo.enabled) {
+      try {
+        token = await getDemoToken()
+      } catch (error) {
+        return sendError(reply, error)
+      }
+    }
+
+    if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
+
+    try {
+      const result = await examService.getResult(id, token)
+      return reply.send(result)
+    } catch (error) {
+      return sendError(reply, error)
+    }
+  })
+
+  /**
    * GET /api/exam/:id/review
    * Get full review of a finished exam
    */
