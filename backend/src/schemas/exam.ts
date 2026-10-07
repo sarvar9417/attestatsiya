@@ -3,7 +3,7 @@ import { z } from 'zod'
 // ─── Start Exam ─────────────────────────────────────────────────
 export const startExamSchema = {
   body: z.object({
-    kind: z.enum(['mock', 'bolim', 'mavzu', 'takrorlash', 'zaif']),
+    kind: z.enum(['mock', 'bolim', 'mavzu', 'diagnostika', 'takrorlash', 'zaif']),
     module_id: z.string().min(1).optional(),   // contentTree code (e.g. "M01") or UUID
     lesson_id: z.string().min(1).optional(),   // contentTree code (e.g. "M01.01") or UUID
   }),
