@@ -148,6 +148,7 @@ Keyingi task: T-007 — domain/RLS va product-flow QA qamrovini kengaytirish
 | T-015 | AI sessiya | DONE | 2026-10-07 | task/T-015-mock-flags |
 | T-023 | AI sessiya | DONE | 2026-10-07 | task/T-021-generated-db-pool |
 | T-024 | AI sessiya | DONE | 2026-10-07 | task/T-024-generated-sql-artifact |
+| T-025 | AI sessiya | BLOCKED | 2026-10-07 | task/T-025-versioned-parametric-migration |
 | TASK-UI-001 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-001-figma-dashboard |
 | TASK-UI-005 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-005-admin-dashboard |
 | TASK-UI-006 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-006-admin-content-pages |
@@ -173,6 +174,43 @@ Migratsiyalar: yo'q — generated SQL CI artefakti sifatida runtime yaratiladi
 Tekshiruv: CI database job generated SQL'ni ikki marta apply qiladi va assertion SQL bilan tekshiradi
 Keyingi task: T-025 — Supabase CLI orqali versiyalangan content migration yaratish va remote migration history bilan reconcile qilish
 ```
+
+## Versioned parametric content migration (T-025, 2026-10-07)
+
+- **Supabase CLI tekshiruvi:** pinned CLI `2.119.0` GitHub Actions runnerida
+  `supabase --help`, `supabase migration --help` va
+  `supabase migration new --help` orqali tekshirildi.
+- **Migration Supabase CLI bilan yaratildi:** 
+  `supabase/migrations/20261007052732_parametric_generated_questions.sql`.
+  Fayl nomi qo‘lda ixtiro qilinmadi; `supabase migration new
+  parametric_generated_questions` natijasidir.
+- **Kontent:** T-023 deterministic builder hosil qilgan 270 ta generated savol
+  migration ichiga materializatsiya qilindi; published rows append-only va
+  answer keylar faqat `question_keys` jadvalida qoladi.
+- **Fresh DB verification:** productionga yaqin historical repair/preload
+  semantikasi bilan to‘liq migration chain fresh PostgreSQL 17 ga qo‘llandi,
+  so‘ng `parametric_generated_pool.test.sql` yashil o‘tdi.
+- **Remote blocker:** amaldagi Supabase connector
+  `plyqezulrfowyblsfpzy` projectiga `get_project/list_migrations` uchun
+  permission bermadi. Shu sabab remote migration history bu sessiyada
+  o‘zgartirilmadi va `db push` simulyatsiya qilinmadi.
+- **Xavfsizlik qarori:** remote historyni taxmin qilib repair/apply qilish
+  qilinmadi; connector access tiklangach avval migration list/history audit,
+  keyin dry-run va faqat shundan so‘ng deploy qilinadi.
+
+### Handoff
+
+```text
+Task: T-025
+Holat: BLOCKED (remote permission)
+Tayyor qism: CLI-created versioned 270-question migration + fresh DB verification
+Migration: supabase/migrations/20261007052732_parametric_generated_questions.sql
+Remote o‘zgarish: YO‘Q
+Blocker: Supabase connector plyqezulrfowyblsfpzy projectiga permission bermaydi
+Keyingi remote qadam: migration history audit -> dry-run -> apply/push -> postflight count/advisors
+Parallel davom ettirilishi mumkin: learner Results/Errors history UI yoki M02 source-backed kontent
+```
+
 
 ## Auth va Profile Figma refresh (TASK-UI-008, 2026-10-07)
 
