@@ -25,12 +25,12 @@ function formatDueAt(value: string | null): string {
   }).format(date)
 }
 
-function clampAccuracy(value: number): number {
-  return Math.max(0, Math.min(100, Math.round(value)))
+function accuracyPercent(value: number): number {
+  return Math.max(0, Math.min(100, Math.round(value * 100)))
 }
 
 function ReviewCard({ item }: { item: DueReviewItem }) {
-  const accuracy = clampAccuracy(item.accuracy)
+  const accuracy = accuracyPercent(item.accuracy)
   const needsWork = accuracy < 70
 
   return (
@@ -118,10 +118,10 @@ export default function ReviewPage() {
     }
 
     const average = Math.round(
-      items.reduce((sum, item) => sum + clampAccuracy(item.accuracy), 0) /
+      items.reduce((sum, item) => sum + accuracyPercent(item.accuracy), 0) /
         items.length
     )
-    const weak = items.filter(item => clampAccuracy(item.accuracy) < 70).length
+    const weak = items.filter(item => accuracyPercent(item.accuracy) < 70).length
     return { average, weak }
   }, [items])
 
@@ -267,7 +267,7 @@ export default function ReviewPage() {
       {!loading && !error && items.length > 0 && (
         <section className="grid gap-3 md:grid-cols-2" aria-label="Takrorlash mavzulari">
           {[...items]
-            .sort((a, b) => clampAccuracy(a.accuracy) - clampAccuracy(b.accuracy))
+            .sort((a, b) => accuracyPercent(a.accuracy) - accuracyPercent(b.accuracy))
             .map(item => (
               <ReviewCard key={item.construct_id} item={item} />
             ))}
