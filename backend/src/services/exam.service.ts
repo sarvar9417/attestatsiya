@@ -9,6 +9,7 @@ import type {
   ExamFinishResponse,
   ExamHistoryQuery,
   ExamHistoryResponse,
+  ExamResultDetail,
 } from '../schemas/exam.js'
 
 /**
@@ -240,6 +241,65 @@ export const examService = {
       total: count ?? 0,
       page: query.page,
       page_size: query.page_size,
+    }
+  },
+
+  /**
+   * Return one finalized exam owned by the authenticated learner.
+   */
+  async getResult(examId: string, userToken: string): Promise<ExamResultDetail> {
+    const client = getAuthedClient(userToken)
+    const { data: authData, error: authError } = await client.auth.getUser()
+
+    if (authError || !authData.user) {
+      throw new AppError('Avtorizatsiyadan o‘tmagansiz', 401, 'AUTH_REQUIRED')
+    }
+
+    const { data: exam, error } = await client
+      .from('exams')
+      .select(
+        'id, kind, lesson_id, started_at, finished_at, total_score, max_score, passed, breakdown'
+      )
+      .eq('id', examId)
+      .eq('user_id', authData.user.id)
+      .maybeSingle()
+
+    if (error) {
+      throw new AppError('Natijani olishda xatolik', 500, 'EXAM_RESULT_ERROR')
+    }
+    if (!exam) {
+      throw new NotFoundError('Natija topilmadi')
+    }
+    if (!exam.finished_at) {
+      throw new AppError('Imtihon hali tugamagan', 400, 'EXAM_NOT_FINISHED')
+    }
+
+    let lesson: { slug: string | null; title_uz: string | null } | null = null
+    if (typeof exam.lesson_id === 'string') {
+      const { data: lessonData, error: lessonError } = await client
+        .from('lessons')
+        .select('slug, title_uz')
+        .eq('id', exam.lesson_id)
+        .maybeSingle()
+
+      if (lessonError) {
+        throw new AppError('Natijani olishda xatolik', 500, 'EXAM_RESULT_ERROR')
+      }
+      lesson = lessonData ?? null
+    }
+
+    return {
+      exam_id: exam.id,
+      kind: exam.kind,
+      lesson_id: exam.lesson_id,
+      lesson_slug: lesson?.slug ?? null,
+      lesson_title_uz: lesson?.title_uz ?? null,
+      started_at: exam.started_at,
+      finished_at: exam.finished_at,
+      total_score: exam.total_score ?? 0,
+      max_score: exam.max_score ?? 0,
+      passed: exam.passed ?? null,
+      breakdown: exam.breakdown ?? null,
     }
   },
 
