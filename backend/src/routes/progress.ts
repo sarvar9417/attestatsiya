@@ -56,6 +56,20 @@ export async function progressRoutes(app: FastifyInstance) {
   })
 
   /**
+   * GET /api/progress/mastery
+   * Get construct-level mastery/SRS state for the authenticated learner.
+   */
+  app.get('/api/progress/mastery', async (req, reply) => {
+    try {
+      const { user } = await requireAuth(req)
+      const result = await progressService.getMastery(user.id)
+      return reply.send(result)
+    } catch (error) {
+      return sendError(reply, error)
+    }
+  })
+
+  /**
    * GET /api/progress/modules
    * Get module progress for the authenticated user
    */

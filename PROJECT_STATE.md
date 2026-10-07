@@ -1334,3 +1334,24 @@ Blocker: Supabase connector plyqezulrfowyblsfpzy projectini hali ko‘rsatmaydi
 Safety: schema yo‘q bo‘lsa GET available=false compatibility holati; majburiy gate oddiy network/server xatosida fail-closed
 Parallel keyingi ish: mastery/SRS/adaptive foundation remote schema activationdan mustaqil ravishda migration+CI sifatida tayyorlanishi mumkin
 ```
+
+
+## Mastery/SRS foundation (T-034, 2026-10-07)
+
+- **Plan basis:** PRODUCT_REQUIREMENTS FR-MASTERY: independent evidence, cognitive
+  natijalarni alohida yuritish, explicit mastery status va 1/3/7/14/30 review.
+- **Schema:** `mastery_status`, `mastery_evidence_kind`,
+  append-only `mastery_evidence`; `user_construct_stats`ga review stage,
+  evidence counters va bilish/qollash/mulohaza counterlari qo‘shildi.
+- **Scheduler v1:** to‘g‘ri mustaqil evidence review stage'ni 1→5 oshiradi va
+  1/3/7/14/30 kunlik due interval beradi. Stage 2–4 provisional, stage 5 stable.
+  Provisional/stable'dan xato javob regressed holatiga tushiradi.
+- **Evidence boundary:** accepted first answer `exam_items` transition triggeri orqali
+  aynan bir append-only evidence yaratadi; idempotent retry duplicate evidence
+  yaratmaydi. Learner Data API orqali evidence insert/update/delete qila olmaydi.
+- **Cognitive:** bilish/qollash/mulohaza attempts/correct alohida saqlanadi.
+- **Read model:** authenticated `GET /api/progress/mastery` answer key yoki
+  full question matnini qaytarmasdan construct status, accuracy, SRS stage va
+  cognitive countersni beradi.
+- **Remote:** bu task remote Supabase'ga apply qilmaydi; migration avval fresh DB
+  CI'da isbotlanadi. T-033/T-025 remote permission blockeri bilan parallel.

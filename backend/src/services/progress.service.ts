@@ -1,6 +1,12 @@
 import { supabase, getAuthedClient } from '../lib/supabase.js'
 import { resolveLessonUuid } from '../lib/resolveIds.js'
-import type { SyncProgressInput, ModuleProgressResponse } from '../schemas/progress.js'
+import type {
+  SyncProgressInput,
+  ModuleProgressResponse,
+  MasteryItemResponse,
+  MasteryResponse,
+  MasteryStatus,
+} from '../schemas/progress.js'
 
 /**
  * Progress Service
@@ -72,6 +78,108 @@ export const progressService = {
     }
 
     return results
+  },
+
+
+
+  /**
+   * Server-authoritative construct mastery snapshot.
+   *
+   * Service-role client ishlatilgani uchun userId explicit filter majburiy.
+   * Read model answer key yoki savol matnini qaytarmaydi.
+   */
+  async getMastery(userId: string): Promise<MasteryResponse> {
+    const { data: rows, error } = await supabase
+      .from('user_construct_stats')
+      .select(
+        'construct_id, attempts, correct, mastery_status, review_stage, interval_days, due_at, last_seen_at, independent_attempts, guided_attempts, retry_attempts, bilish_attempts, bilish_correct, qollash_attempts, qollash_correct, mulohaza_attempts, mulohaza_correct'
+      )
+      .eq('user_id', userId)
+      .order('last_seen_at', { ascending: false, nullsFirst: false })
+
+    if (error) {
+      // T-034 migration productionga hali qo'llanmagan bo'lsa eski schema
+      // ustunlarni topa olmaydi. Bu holatni fake mastery bilan yashirmaymiz.
+      throw new Error(`Mastery ma'lumotlarini olishda xatolik: ${error.message}`)
+    }
+
+    const constructIds = (rows ?? []).map(row => row.construct_id)
+    const constructBy = new Map<
+      string,
+      { id: string; code: string; group_code: string; title_uz: string }
+    >()
+
+    if (constructIds.length > 0) {
+      const { data: constructs, error: constructError } = await supabase
+        .from('constructs')
+        .select('id, code, group_code, title_uz')
+        .in('id', constructIds)
+
+      if (constructError) {
+        throw new Error(
+          `Mastery konstruktlarini olishda xatolik: ${constructError.message}`
+        )
+      }
+
+      for (const construct of constructs ?? []) {
+        constructBy.set(construct.id, construct)
+      }
+    }
+
+    const now = Date.now()
+    const items: MasteryItemResponse[] = (rows ?? []).map(row => {
+      const construct = constructBy.get(row.construct_id)
+      const attempts = Number(row.attempts ?? 0)
+      const correct = Number(row.correct ?? 0)
+      const status = row.mastery_status as MasteryStatus
+
+      return {
+        construct_id: row.construct_id,
+        code: construct?.code ?? '',
+        group_code: construct?.group_code ?? '',
+        title_uz: construct?.title_uz ?? '',
+        mastery_status: status,
+        attempts,
+        correct,
+        accuracy_percent:
+          attempts > 0 ? Math.round((correct / attempts) * 100) : 0,
+        review_stage: Number(row.review_stage ?? 0),
+        interval_days: Number(row.interval_days ?? 0),
+        due_at: row.due_at ?? null,
+        last_seen_at: row.last_seen_at ?? null,
+        independent_attempts: Number(row.independent_attempts ?? 0),
+        guided_attempts: Number(row.guided_attempts ?? 0),
+        retry_attempts: Number(row.retry_attempts ?? 0),
+        cognitive: {
+          bilish: {
+            attempts: Number(row.bilish_attempts ?? 0),
+            correct: Number(row.bilish_correct ?? 0),
+          },
+          qollash: {
+            attempts: Number(row.qollash_attempts ?? 0),
+            correct: Number(row.qollash_correct ?? 0),
+          },
+          mulohaza: {
+            attempts: Number(row.mulohaza_attempts ?? 0),
+            correct: Number(row.mulohaza_correct ?? 0),
+          },
+        },
+      }
+    })
+
+    return {
+      items,
+      summary: {
+        tracked: items.length,
+        learning: items.filter(item => item.mastery_status === 'learning').length,
+        provisional: items.filter(item => item.mastery_status === 'provisional').length,
+        stable: items.filter(item => item.mastery_status === 'stable').length,
+        regressed: items.filter(item => item.mastery_status === 'regressed').length,
+        due: items.filter(
+          item => item.due_at !== null && Date.parse(item.due_at) <= now
+        ).length,
+      },
+    }
   },
 
   /**
