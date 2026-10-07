@@ -17,6 +17,7 @@ import { useAuth } from '../hooks/useAuth'
 import { useCatalog } from '../hooks/useCatalog'
 import { useProgressStore, type ModuleProgress } from '../store/progressStore'
 import type { CatalogModule } from '../features/content/catalog'
+import BlueprintStrip from '../components/dashboard/BlueprintStrip'
 
 type SectionKey =
   | 'specialty'
@@ -329,6 +330,8 @@ export default function DashboardPage() {
           tone="violet"
         />
       </section>
+
+      <BlueprintStrip />
 
       <section className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_330px]">
         <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-900 sm:p-5">
