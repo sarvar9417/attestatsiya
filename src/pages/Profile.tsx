@@ -6,7 +6,6 @@ import {
   EyeOff,
   KeyRound,
   LogOut,
-  Mail,
   ShieldCheck,
   UserRound,
 } from 'lucide-react'
@@ -139,10 +138,6 @@ export default function Profile() {
             </div>
             <div className="min-w-0 flex-1">
               <h2 className="truncate text-xl font-semibold">{profileName}</h2>
-              <p className="mt-1 flex items-center gap-1.5 truncate text-sm text-indigo-100">
-                <Mail size={14} aria-hidden="true" />
-                {user?.email}
-              </p>
             </div>
             <span className="inline-flex self-start rounded-full bg-white/15 px-3 py-1.5 text-xs font-semibold text-white ring-1 ring-white/20 sm:self-auto">
               {roleLabel}
