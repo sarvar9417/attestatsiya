@@ -62,7 +62,6 @@ const onboardingDateSchema = z
 
 export const onboardingUpdateSchema = {
   body: z.object({
-    full_name: z.string().trim().min(2).max(100),
     exam_date: onboardingDateSchema.nullable(),
     daily_goal_minutes: z.union([
       z.literal(10),
