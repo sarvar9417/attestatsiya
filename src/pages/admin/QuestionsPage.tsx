@@ -118,7 +118,7 @@ export default function QuestionsPage() {
     setLoading(true)
     setLoadError(null)
 
-    let query = supabase
+    let query = typedSupabase
       .from('questions')
       .select(
         'id, stem_md, format, cognitive, difficulty, status, group_code, construct_id, subject_id, created_at',
@@ -149,7 +149,7 @@ export default function QuestionsPage() {
   async function transitionStatus(q: QuestionRow, nextStatus: ContentStatus) {
     setActionError(null)
 
-    const { error } = await supabase
+    const { error } = await typedSupabase
       .from('questions')
       .update({
         status: nextStatus,
