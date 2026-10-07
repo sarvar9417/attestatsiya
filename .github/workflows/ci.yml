@@ -145,7 +145,8 @@ jobs:
           # ishlatilishi schema/content driftini ham ushlaydi.
           psql -X -v ON_ERROR_STOP=1 -d attestatsiya_test \
             -f supabase/seed.sql \
-            -f supabase/tests/security_hardening.test.sql
+            -f supabase/tests/security_hardening.test.sql \
+            -f supabase/tests/rls_product_access.test.sql
 
       - name: Generate and verify parametric DB pool
         run: |

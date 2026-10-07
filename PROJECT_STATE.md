@@ -1,4 +1,29 @@
 
+## Domain/RLS va product-flow qamrovi (T-007, 2026-10-07)
+
+- **RLS matrix:** learner draft modulni va boshqa foydalanuvchining exam/key ma'lumotini
+  ko‘rmasligi, o‘z exam key'ini ko‘rishi, content yozolmasligi; admin esa staff scope'ni
+  ko‘rishi PostgreSQL regression testi bilan qamrab olindi.
+- **Supabase parity:** standalone PostgreSQL CI fixture Supabase API rol grantlarini transaction
+  ichida emulyatsiya qiladi; policy semantikasi production RLS bilan tekshiriladi va rollback qilinadi.
+- **Protected product flow:** Playwright valid session → mock sinovni boshlash → Y1 javobni
+  saqlash → yakunlash → server-authoritative ball, guruh kesimi va foiz natijasini tekshiradi.
+- **CI:** secret scan, lint, typecheck, unit, parametric generated-pool invariantlari,
+  production build, Playwright E2E, fresh migration chain, generated DB pool va remote drift
+  reconciliation to‘liq yashil.
+
+### Handoff
+
+```text
+Task: T-007
+Natija: domain/RLS va protected product-flow regressiya qamrovi ishlab turibdi
+O‘zgargan fayllar: supabase/tests/rls_product_access.test.sql; src/tests/e2e/exam-product-flow.spec.ts; .github/workflows/ci.yml; TASKS.md; PROJECT_STATE.md
+Migratsiyalar: yo‘q
+CI: quality + database — SUCCESS
+Qolgan blocker: T-001..T-024 foundation registry bo‘yicha ochiq blocker qolmadi
+```
+
+
 ## Admin UUID schema reconciliation (T-006, 2026-10-07)
 
 - **Stale blocker yopildi:** tarixiy T-006 tavsifi admin sahifalari legacy BIGINT/type qatlamiga bog‘langan davrdan qolgan edi.
