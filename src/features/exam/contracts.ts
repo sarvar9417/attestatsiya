@@ -50,6 +50,36 @@ export const examItemSchema = z
     }
   })
 
+const selectorMetaSchema = z
+  .object({
+    version: z.literal(1),
+    target: z
+      .object({
+        weak: z.number().int().nonnegative(),
+        due: z.number().int().nonnegative(),
+        new: z.number().int().nonnegative(),
+        strong: z.number().int().nonnegative(),
+      })
+      .strict(),
+    actual: z
+      .object({
+        weak: z.number().int().nonnegative(),
+        due: z.number().int().nonnegative(),
+        new: z.number().int().nonnegative(),
+        strong: z.number().int().nonnegative(),
+        fallback: z.number().int().nonnegative(),
+        total: z.number().int().positive(),
+      })
+      .strict(),
+    fallback: z
+      .object({
+        used: z.boolean(),
+        reason: z.string().optional(),
+      })
+      .strict(),
+  })
+  .strict()
+
 export const examSessionSchema = z
   .object({
     exam_id: uuidSchema,
@@ -66,6 +96,7 @@ export const examSessionSchema = z
     started_at: z.string().refine((value) => Number.isFinite(Date.parse(value)), {
       message: 'started_at must be an ISO date',
     }),
+    selector_meta: selectorMetaSchema.optional(),
     items: z.array(examItemSchema).min(1),
   })
   .strict()
