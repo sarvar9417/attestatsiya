@@ -83,6 +83,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Node for generated content
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install generator dependencies
+        run: npm ci
+
       - name: Fresh database — complete active migration chain
         run: |
           psql -X -v ON_ERROR_STOP=1 -d attestatsiya_test \
@@ -137,6 +146,15 @@ jobs:
           psql -X -v ON_ERROR_STOP=1 -d attestatsiya_test \
             -f supabase/seed.sql \
             -f supabase/tests/security_hardening.test.sql
+
+      - name: Generate and verify parametric DB pool
+        run: |
+          npm run content:generated:sql
+
+          psql -X -v ON_ERROR_STOP=1 -d attestatsiya_test \
+            -f supabase/generated/parametric_questions.sql \
+            -f supabase/generated/parametric_questions.sql \
+            -f supabase/tests/parametric_generated_pool.test.sql
 
       - name: Remote drift reconciliation
         run: |
