@@ -5,7 +5,8 @@ begin;
 insert into auth.users (id, email)
 values
   ('00000000-0000-4000-8000-000000000001', 'security-user@example.invalid'),
-  ('00000000-0000-4000-8000-000000000002', 'security-admin@example.invalid');
+  ('00000000-0000-4000-8000-000000000002', 'security-admin@example.invalid'),
+  ('00000000-0000-4000-8000-000000000003', 'security-other@example.invalid');
 
 insert into public.questions (
   id,
@@ -176,6 +177,89 @@ $$;
 update public.profiles
    set is_blocked = false
  where id = '00000000-0000-4000-8000-000000000001';
+
+-- question_keys RLS: exam egasi faqat o‘z exam'iga kiritilgan kalitni ko‘radi.
+select set_config(
+  'request.jwt.claim.sub',
+  '00000000-0000-4000-8000-000000000001',
+  false
+);
+set role authenticated;
+
+do $
+declare
+  v_owned int;
+  v_outside int;
+begin
+  select count(*) into v_owned
+    from public.question_keys
+   where question_id = '00000000-0000-4000-8000-000000000101';
+
+  select count(*) into v_outside
+    from public.question_keys
+   where question_id = '00000000-0000-4000-8000-000000000102';
+
+  if v_owned <> 1 or v_outside <> 0 then
+    raise exception 'question_keys owner RLS mismatch: owned %, outside %', v_owned, v_outside;
+  end if;
+end
+$;
+
+reset role;
+
+-- Boshqa oddiy user boshqa foydalanuvchi exam kalitlarini ko‘ra olmaydi.
+select set_config(
+  'request.jwt.claim.sub',
+  '00000000-0000-4000-8000-000000000003',
+  false
+);
+set role authenticated;
+
+do $
+declare
+  v_visible int;
+begin
+  select count(*) into v_visible
+    from public.question_keys
+   where question_id in (
+     '00000000-0000-4000-8000-000000000101',
+     '00000000-0000-4000-8000-000000000102'
+   );
+
+  if v_visible <> 0 then
+    raise exception 'question_keys cross-user leak: % rows visible', v_visible;
+  end if;
+end
+$;
+
+reset role;
+
+-- Admin barcha kalitlarni staff policy orqali ko‘ra oladi.
+select set_config(
+  'request.jwt.claim.sub',
+  '00000000-0000-4000-8000-000000000002',
+  false
+);
+set role authenticated;
+
+do $
+declare
+  v_visible int;
+begin
+  select count(*) into v_visible
+    from public.question_keys
+   where question_id in (
+     '00000000-0000-4000-8000-000000000101',
+     '00000000-0000-4000-8000-000000000102'
+   );
+
+  if v_visible <> 2 then
+    raise exception 'question_keys admin RLS mismatch: % rows visible', v_visible;
+  end if;
+end
+$;
+
+reset role;
 
 -- First answer is accepted. Retries return the stored result and cannot
 -- overwrite the answer or increment spaced-repetition progress twice.
