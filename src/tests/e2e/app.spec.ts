@@ -46,3 +46,51 @@ test.describe('Attestatsiya auth E2E', () => {
     await expect(page.getByText(/Session muddati tugadi/i)).toBeVisible()
   })
 })
+
+
+test.describe('Attestatsiya product-flow E2E', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.addInitScript(() => {
+      localStorage.setItem(
+        'attestatsiya.session.v1',
+        JSON.stringify({
+          access_token: 'e2e-access-token',
+          refresh_token: 'e2e-refresh-token',
+          expires_at: Date.now() + 60 * 60 * 1000,
+          user: {
+            id: '00000000-0000-4000-8000-000000000901',
+            email: 'product-e2e@example.invalid',
+            display_name: 'Product E2E',
+            role: 'user',
+          },
+        })
+      )
+    })
+
+    await page.route('**/api/content/modules**', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: '[]',
+      })
+    })
+  })
+
+  test('dashboard → o‘rganish → birinchi modul oqimi ishlaydi', async ({ page }) => {
+    await page.goto('/')
+
+    const start = page.getByRole('button', { name: 'O‘rganishni boshlash' })
+    await expect(start).toBeVisible()
+    await start.click()
+    await expect(page).toHaveURL(/\/learn$/)
+    await expect(page.getByRole('heading', { name: 'O‘rganish' })).toBeVisible()
+
+    const firstModule = page.locator('main button').filter({ hasText: 'O‘rganish' }).first()
+    await expect(firstModule).toBeVisible()
+    await firstModule.click()
+
+    await expect(page).toHaveURL(/\/learn\/M01$/)
+    await expect(page.getByText('Nazariya → bilimni tekshirish → amaliy qo‘llash')).toBeVisible()
+    await expect(page.getByRole('button', { name: /Nazariya va mavzu testi mavjud/ }).first()).toBeVisible()
+  })
+})
