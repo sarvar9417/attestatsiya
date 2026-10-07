@@ -80,7 +80,9 @@ describe('calculateReadiness', () => {
       regressedConstructs: 0,
     })
 
-    expect(result.readiness_percent).toBe(90)
+    // Xatolar alternating evidence'da G1'ga ko‘proq tushadi; 30:20 blueprint
+    // weighting oddiy global 90% emas, 88% estimate beradi.
+    expect(result.readiness_percent).toBe(88)
     expect(result.coverage_percent).toBe(100)
     expect(result.confidence).toBe('high')
     expect(result.next_action.kind).toBe('learn')
