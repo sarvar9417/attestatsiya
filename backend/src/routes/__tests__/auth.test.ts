@@ -422,4 +422,145 @@ describe('Auth Routes', () => {
       expect(body.error.code).toBe('VALIDATION_ERROR')
     })
   })
+
+  describe('GET /api/auth/onboarding', () => {
+    it('returns 401 without token', async () => {
+      const response = await app.inject({
+        method: 'GET',
+        url: '/api/auth/onboarding',
+      })
+
+      expect(response.statusCode).toBe(401)
+      expect(JSON.parse(response.body).error.code).toBe('TOKEN_REQUIRED')
+    })
+
+    it('returns learner onboarding state', async () => {
+      mockAuth.getUser.mockResolvedValue({ data: { user: SESSION.user }, error: null })
+      mockFrom.mockReturnValue(
+        buildProfileChain({
+          display_name: 'Ali',
+          role: 'user',
+          is_blocked: false,
+          exam_date: '2099-12-31',
+          daily_goal_minutes: 30,
+          timezone: 'Asia/Tashkent',
+          locale: 'uz-Latn',
+          onboarding_completed_at: null,
+        })
+      )
+
+      const response = await app.inject({
+        method: 'GET',
+        url: '/api/auth/onboarding',
+        headers: { authorization: 'Bearer access-1' },
+      })
+
+      expect(response.statusCode).toBe(200)
+      expect(JSON.parse(response.body)).toMatchObject({
+        available: true,
+        completed: false,
+        display_name: 'Ali',
+        exam_date: '2099-12-31',
+        daily_goal_minutes: 30,
+      })
+    })
+
+    it('fails open when onboarding migration is not available yet', async () => {
+      mockAuth.getUser.mockResolvedValue({ data: { user: SESSION.user }, error: null })
+      mockFrom.mockReturnValue({
+        select: vi.fn().mockReturnThis(),
+        eq: vi.fn().mockReturnThis(),
+        maybeSingle: vi.fn().mockResolvedValue({
+          data: null,
+          error: { code: '42703', message: 'column exam_date does not exist' },
+        }),
+      })
+
+      const response = await app.inject({
+        method: 'GET',
+        url: '/api/auth/onboarding',
+        headers: { authorization: 'Bearer access-1' },
+      })
+
+      expect(response.statusCode).toBe(200)
+      expect(JSON.parse(response.body)).toMatchObject({
+        available: false,
+        completed: true,
+      })
+    })
+  })
+
+  describe('PATCH /api/auth/onboarding', () => {
+    it('validates the daily goal choices', async () => {
+      const response = await app.inject({
+        method: 'PATCH',
+        url: '/api/auth/onboarding',
+        headers: { authorization: 'Bearer access-1' },
+        payload: {
+          exam_date: null,
+          daily_goal_minutes: 25,
+          start_diagnostic: false,
+        },
+      })
+
+      expect(response.statusCode).toBe(400)
+      expect(JSON.parse(response.body).error.code).toBe('VALIDATION_ERROR')
+    })
+
+    it('rejects a past exam date', async () => {
+      mockAuth.getUser.mockResolvedValue({ data: { user: SESSION.user }, error: null })
+
+      const response = await app.inject({
+        method: 'PATCH',
+        url: '/api/auth/onboarding',
+        headers: { authorization: 'Bearer access-1' },
+        payload: {
+          exam_date: '2000-01-01',
+          daily_goal_minutes: 30,
+          start_diagnostic: false,
+        },
+      })
+
+      expect(response.statusCode).toBe(400)
+      expect(JSON.parse(response.body).error.code).toBe('VALIDATION_ERROR')
+    })
+
+    it('saves onboarding and returns diagnostic as the next action', async () => {
+      mockAuth.getUser.mockResolvedValue({ data: { user: SESSION.user }, error: null })
+      mockFrom.mockReturnValue(
+        buildProfileChain({
+          display_name: 'Ali',
+          role: 'user',
+          is_blocked: false,
+          exam_date: null,
+          daily_goal_minutes: 45,
+          timezone: 'Asia/Tashkent',
+          locale: 'uz-Latn',
+          onboarding_completed_at: '2099-01-01T00:00:00.000Z',
+        })
+      )
+
+      const response = await app.inject({
+        method: 'PATCH',
+        url: '/api/auth/onboarding',
+        headers: { authorization: 'Bearer access-1' },
+        payload: {
+          exam_date: null,
+          daily_goal_minutes: 45,
+          start_diagnostic: true,
+        },
+      })
+
+      expect(response.statusCode).toBe(200)
+      expect(JSON.parse(response.body)).toMatchObject({
+        next_action: 'diagnostic',
+        state: {
+          available: true,
+          completed: true,
+          daily_goal_minutes: 45,
+        },
+      })
+    })
+  })
+
 })
