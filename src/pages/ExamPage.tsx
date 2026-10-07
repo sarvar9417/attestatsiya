@@ -20,6 +20,7 @@ export default function ExamPage({ gateway }: ExamPageProps) {
     kind === 'bolim' ||
     kind === 'mavzu' ||
     kind === 'mock' ||
+    kind === 'diagnostika' ||
     kind === 'takrorlash' ||
     kind === 'zaif'
       ? kind
@@ -28,9 +29,11 @@ export default function ExamPage({ gateway }: ExamPageProps) {
   const backUrl =
     examKind === 'takrorlash' || examKind === 'zaif'
       ? '/review'
-      : moduleId
-        ? `/learn/${moduleId}`
-        : undefined
+      : examKind === 'diagnostika'
+        ? '/'
+        : moduleId
+          ? `/learn/${moduleId}`
+          : undefined
 
   /**
    * Mavzu sinovi yakunida: progressStore'ga natijani yozadi va serverga
