@@ -79,7 +79,7 @@ test.describe('Attestatsiya product-flow E2E', () => {
   test('dashboard → o‘rganish → birinchi modul oqimi ishlaydi', async ({ page }) => {
     await page.goto('/')
 
-    const start = page.getByRole('button', { name: 'O‘rganishni boshlash' })
+    const start = page.getByRole('button', { name: /O‘rganishni boshlash|Darsni davom ettirish/ })
     await expect(start).toBeVisible()
     await start.click()
     await expect(page).toHaveURL(/\/learn$/)
