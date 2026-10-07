@@ -1264,3 +1264,20 @@ Testlar: backend service/route guard; frontend result page; history navigation; 
 GitHub CI: quality + backend + database — yashil
 Xavfsizlik: boshqa learner resulti 404; unfinished result 400; answer key faqat finalized review endpointda
 ```
+
+
+## Xatolar → qayta tekshirish oqimi (T-032, 2026-10-07)
+
+- **Reja manbasi:** Figma/chat oqimidagi `Natija → Xatolar` bosqichi va
+  `UX_SPEC.md` tamoyili: “Xato jazolash emas, keyingi o‘rganish actioniga aylantiriladi”.
+- **Aniqlangan regressiya:** `ExamPage` faqat `mock/bolim/mavzu` kindlarini
+  tan olgani uchun `/exam/takrorlash` va `/exam/zaif` yashirin ravishda
+  mock examga fallback qilardi.
+- **Yechim:** `ExamRunner` va gateway server qo‘llaydigan `takrorlash/zaif`
+  kindlarini explicit qo‘llaydi; due-review sahifasida real
+  `/exam/takrorlash` CTA mavjud.
+- **Xavfsizlik:** review queue clientda savol yoki answer-key qurmaydi; yangi session
+  mavjud `POST /api/exam/start { kind: 'takrorlash' }` orqali serverda yaratiladi.
+- **Figma live MCP:** Academik Starter plan tool-call limiti hali faol; yangi node
+  read qilib bo‘lmadi. Ish oldin tasdiqlangan visual system va repository UX contractiga
+  tayangan.
