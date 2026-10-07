@@ -89,3 +89,27 @@ export interface MasteryResponse {
   items: MasteryItemResponse[]
   summary: MasterySummaryResponse
 }
+
+
+// ─── Readiness / Next action ───────────────────────────────────
+export type ReadinessConfidence = 'insufficient' | 'low' | 'medium' | 'high'
+export type ReadinessNextActionKind = 'review' | 'weak' | 'diagnostic' | 'learn'
+
+export interface ReadinessResponse {
+  available: boolean
+  readiness_percent: number | null
+  confidence: ReadinessConfidence
+  independent_evidence: number
+  covered_blueprint_questions: number
+  total_blueprint_questions: number
+  coverage_percent: number
+  due_reviews: number
+  regressed_constructs: number
+  next_action: {
+    kind: ReadinessNextActionKind
+    href: string
+    label: string
+    reason: string
+  }
+  unavailable_reason: 'mastery_schema_pending' | 'no_active_blueprint' | null
+}
