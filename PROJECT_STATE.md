@@ -1085,3 +1085,33 @@ Migratsiyalar: yo‘q
 Testlar: GitHub CI full green
 Qolgan blocker: T-025 remote Supabase migration history permission
 ```
+
+
+## Learner natijalar tarixi (T-027, 2026-10-07)
+
+- **Yangi protected route:** `/history`.
+- **Real backend data:** sahifa mavjud `GET /api/exam/history?page=&page_size=`
+  endpointidan faqat autentifikatsiyalangan learnerning yakunlangan urinishlarini oladi.
+- **Frontend kontrakti:** `examHistoryResponseSchema` server javobini strict Zod
+  bilan tekshiradi; answer key yoki client-side qayta scoring kiritilmagan.
+- **UX:** current-page o‘rtacha natija, o‘tgan urinishlar soni, jami urinishlar,
+  loading, empty, API error/retry va 20 talik pagination mavjud.
+- **Navigation:** desktop Sidebar va mobile bottom navigation ichiga
+  `Natijalar tarixi / Natijalar` qo‘shildi.
+- **Test:** history sahifa server-data, empty, failure→retry va pagination bilan;
+  frontend↔backend integration testi `/api/exam/history` URL va payload kontraktini
+  tekshiradi.
+- **T-025 holati:** Supabase connector hozir ham `plyqezulrfowyblsfpzy` projectini
+  ko‘rsatmayapti; remote migration history reconciliation bloklanganicha qoladi.
+
+### Handoff
+
+```text
+Task: T-027
+Natija: server-backed learner Natijalar tarixi UI tayyor
+Route: /history
+Data source: GET /api/exam/history?page=&page_size=
+O‘zgargan asosiy fayllar: contracts.ts; examGateway.ts; backendGateway.ts; ExamHistoryPage.tsx; App.tsx; Sidebar.tsx; MobileBottomNav.tsx; ExamHistoryPage.test.tsx; apiIntegration.test.ts
+Migratsiyalar: yo‘q
+Qolgan blocker: T-025 remote Supabase migration history permission
+```
