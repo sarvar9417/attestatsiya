@@ -132,6 +132,7 @@ export const examReviewItemSchema = z
     is_correct: z.boolean(),
     key: z.unknown(),
     explanation_md: z.string().nullable(),
+    options: z.array(examOptionSchema).optional().default([]),
   })
   .strict()
 
@@ -143,7 +144,8 @@ export const dueReviewItemSchema = z
     title_uz: z.string(),
     group_code: z.string(),
     due_at: z.string().nullable(),
-    accuracy: z.number(),
+    // get_due_reviews RPC 0..1 nisbat qaytaradi; UI foizga o'giradi.
+    accuracy: z.number().min(0).max(1),
   })
   .strict()
 
