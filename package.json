@@ -43,7 +43,11 @@
     "content:generated:check": "tsx scripts/gen_parametric_seed_sql.ts --check",
     "content:generated:sql": "tsx scripts/gen_parametric_seed_sql.ts --write supabase/generated/parametric_questions.sql",
     "corpus:audit": "tsx scripts/audit-topics.ts",
-    "db:sync": "tsx scripts/sync_to_db.ts"
+    "db:sync": "tsx scripts/sync_to_db.ts",
+    "dev:backend": "npm --prefix backend run dev",
+    "test:backend": "npm --prefix backend run test",
+    "typecheck:backend": "npm --prefix backend run typecheck && npm --prefix backend run typecheck:api",
+    "check:backend": "npm --prefix backend run check:secrets && npm --prefix backend run typecheck && npm --prefix backend run typecheck:api && npm --prefix backend run test"
   },
   "dependencies": {
     "@sentry/react": "10.53.1",
