@@ -154,6 +154,7 @@ Keyingi task: T-007 — domain/RLS va product-flow QA qamrovini kengaytirish
 | TASK-UI-006 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-006-admin-content-pages |
 | TASK-UI-007 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-007-question-form |
 | TASK-UI-008 | AI sessiya | DONE | 2026-10-07 | task/TASK-UI-008-auth-profile-refresh |
+| TASK-UI-009 | AI sessiya | IN_PROGRESS | 2026-10-07 | task/TASK-UI-009-error-review |
 
 ## Generated pool PostgreSQL verification (T-024, 2026-10-07)
 
