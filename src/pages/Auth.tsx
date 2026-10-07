@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Navigate, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
-import { MailCheck, RefreshCw, X, Eye, EyeOff } from 'lucide-react'
+import { MailCheck, RefreshCw, X, Eye, EyeOff, ShieldCheck } from 'lucide-react'
 import type { ApiError } from '../lib/apiClient'
 
 type Tab = 'login' | 'signup'
@@ -204,16 +204,19 @@ export default function Auth() {
   const showConfirmScreen = pendingEmail !== null
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-b2-50 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[#f6f8fc] dark:bg-gray-950 flex items-center justify-center p-4 sm:p-6">
       <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Attestatsiya</h1>
-          <p className="text-gray-500 text-sm mt-1">Informatika attestatsiyasiga tayyorgarlik</p>
+        <div className="mb-6 text-center">
+          <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-indigo-600 text-white shadow-lg shadow-indigo-600/20">
+            <ShieldCheck size={21} aria-hidden="true" />
+          </div>
+          <h1 className="mt-4 text-2xl font-bold tracking-tight text-gray-950 dark:text-white">Attestatsiya</h1>
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Informatika attestatsiyasiga tayyorgarlik</p>
         </div>
 
-        <div className="card shadow-xl">
+        <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-xl dark:border-gray-800 dark:bg-gray-900 sm:p-6">
           {returnTo !== '/' && !expired && (
-            <div className="p-3 bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800 rounded-xl text-sm text-primary-700 dark:text-primary-400 mb-4">
+            <div className="p-3 bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 rounded-xl text-sm text-indigo-700 dark:text-indigo-300 mb-4">
               Bu sahifa uchun tizimga kirish kerak. Kirgach, avtomatik qaytib borasiz.
             </div>
           )}
@@ -224,7 +227,7 @@ export default function Auth() {
             </div>
           )}
 
-          <div className="flex gap-1 p-1 bg-gray-100 dark:bg-gray-800 rounded-xl mb-6">
+          <div className="mb-6 flex gap-1 rounded-xl bg-gray-100 p-1 dark:bg-gray-800">
             {(['login', 'signup'] as Tab[]).map((tabItem) => (
               <button
                 key={tabItem}
@@ -262,7 +265,7 @@ export default function Auth() {
               <button
                 onClick={handleResend}
                 disabled={resendCooldown > 0 || loading}
-                className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-primary-200 text-primary-700 font-medium text-sm hover:bg-primary-50 transition-all disabled:opacity-50"
+                className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-indigo-200 px-4 text-sm font-semibold text-indigo-700 transition hover:bg-indigo-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-indigo-800 dark:text-indigo-300 dark:hover:bg-indigo-950/30"
               >
                 <RefreshCw size={16} className={resendCooldown > 0 ? 'animate-spin' : ''} />
                 {resendCooldown > 0 ? `${resendCooldown}s` : 'Qayta yuborish'}
@@ -341,7 +344,7 @@ export default function Auth() {
                   <button
                     type="button"
                     onClick={() => { setShowReset(true); setResetEmail(email); setResetSent(false); setResetError(null) }}
-                    className="text-xs text-primary-600 hover:text-primary-700 hover:underline mt-1.5"
+                    className="text-xs text-indigo-600 hover:text-indigo-700 hover:underline mt-1.5"
                   >
                     Parolni unutdingizmi?
                   </button>
@@ -366,7 +369,7 @@ export default function Auth() {
                 </div>
               )}
               {error && <div className="p-3 bg-red-50 border border-red-100 rounded-xl text-sm text-red-600">{error}</div>}
-              <button type="submit" disabled={loading} className="btn-primary w-full disabled:opacity-60">
+              <button type="submit" disabled={loading} className="inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-indigo-600 px-4 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60">
                 {loading ? 'Yuklanmoqda...' : tab === 'login' ? 'Kirish' : "Ro'yxatdan o'tish"}
               </button>
             </form>
@@ -375,8 +378,8 @@ export default function Auth() {
       </div>
 
       {showReset && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={() => setShowReset(false)}>
-          <div className="w-full max-w-sm bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-6 relative animate-slide-in" onClick={e => e.stopPropagation()}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-950/55 p-4 backdrop-blur-sm" onClick={() => setShowReset(false)}>
+          <div className="relative w-full max-w-sm rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl dark:border-gray-700 dark:bg-gray-900 animate-slide-in" onClick={e => e.stopPropagation()}>
             <button onClick={() => setShowReset(false)} className="absolute top-3 right-3 p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700" aria-label="Yopish">
               <X size={18} />
             </button>
