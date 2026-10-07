@@ -7,6 +7,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Clock3,
+  Flag,
   LoaderCircle,
   RefreshCw,
   ShieldCheck,
@@ -90,6 +91,9 @@ export default function ExamRunner({
   const [savedQuestionIds, setSavedQuestionIds] = useState<Set<string>>(
     new Set()
   )
+  const [flaggedQuestionIds, setFlaggedQuestionIds] = useState<Set<string>>(
+    new Set()
+  )
   const [currentIndex, setCurrentIndex] = useState(0)
   const [submittingId, setSubmittingId] = useState<string | null>(null)
   const [message, setMessage] = useState<string | null>(null)
@@ -158,6 +162,7 @@ export default function ExamRunner({
     setResult(null)
     setDrafts({})
     setSavedQuestionIds(new Set())
+    setFlaggedQuestionIds(new Set())
     setCurrentIndex(0)
     setSubmittingId(null)
     setMessage(null)
@@ -198,6 +203,7 @@ export default function ExamRunner({
       setSession(nextSession)
       setDrafts(initialDrafts)
       setSavedQuestionIds(new Set())
+      setFlaggedQuestionIds(new Set())
       setCurrentIndex(0)
       setClockNow(Date.now())
       questionOpenedAtRef.current = Date.now()
@@ -655,6 +661,8 @@ export default function ExamRunner({
   if (!session || !currentItem) return null
 
   const currentSaved = savedQuestionIds.has(currentItem.question_id)
+  const currentFlagged = flaggedQuestionIds.has(currentItem.question_id)
+  const flaggedCount = flaggedQuestionIds.size
   const currentComplete = isAnswerComplete(
     currentItem,
     drafts[currentItem.question_id]
@@ -664,6 +672,18 @@ export default function ExamRunner({
   const answeredQuestions = session.items.filter(
     (item) => savedQuestionIds.has(item.question_id)
   ).length
+
+  const toggleCurrentFlag = () => {
+    setFlaggedQuestionIds((current) => {
+      const next = new Set(current)
+      if (next.has(currentItem.question_id)) {
+        next.delete(currentItem.question_id)
+      } else {
+        next.add(currentItem.question_id)
+      }
+      return next
+    })
+  }
 
   // Move to a specific question
   const goToQuestion = (index: number) => {
@@ -726,6 +746,12 @@ export default function ExamRunner({
             <p className="text-[11px] text-gray-400 text-center mt-1.5">
               {currentIndex + 1} / {total} · {Math.round((answeredQuestions / total) * 100)}%
             </p>
+            {flaggedCount > 0 && (
+              <p className="mt-2 flex items-center justify-center gap-1 text-[11px] font-semibold text-amber-600 dark:text-amber-400">
+                <Flag size={12} aria-hidden="true" />
+                Belgilangan: {flaggedCount}
+              </p>
+            )}
           </div>
 
           {/* Question navigation grid */}
@@ -736,6 +762,7 @@ export default function ExamRunner({
             <div className="exam-q-grid">
               {session.items.map((item, index) => {
                 const saved = savedQuestionIds.has(item.question_id)
+                const flagged = flaggedQuestionIds.has(item.question_id)
                 const isCurrent = index === currentIndex
 
                 let btnClass = 'exam-q-btn '
@@ -746,13 +773,16 @@ export default function ExamRunner({
                 } else {
                   btnClass += 'exam-q-btn-unanswered'
                 }
+                if (flagged) {
+                  btnClass += ' ring-2 ring-amber-400 ring-offset-1 dark:ring-offset-gray-900'
+                }
 
                 return (
                   <button
                     key={item.question_id}
                     type="button"
                     disabled={interactionBusy}
-                    aria-label={`Savol ${index + 1}${saved ? ', belgilangan' : ''}`}
+                    aria-label={`Savol ${index + 1}${saved ? ', javob saqlangan' : ''}${flagged ? ', keyin ko‘rish uchun belgilangan' : ''}`}
                     aria-current={isCurrent ? 'true' : undefined}
                     onClick={() => goToQuestion(index)}
                     className={btnClass}
@@ -827,6 +857,11 @@ export default function ExamRunner({
                   <div>
                     <p className="text-sm font-semibold text-gray-900 dark:text-white">{examTitle}</p>
                     <p className="text-[11px] text-gray-400">{answeredQuestions}/{total} bajarildi</p>
+                    {flaggedCount > 0 && (
+                      <p className="text-[11px] font-semibold text-amber-600 dark:text-amber-400">
+                        Belgilangan: {flaggedCount}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <button
@@ -860,6 +895,7 @@ export default function ExamRunner({
                 <div className="exam-q-grid">
                   {session.items.map((item, index) => {
                     const saved = savedQuestionIds.has(item.question_id)
+                    const flagged = flaggedQuestionIds.has(item.question_id)
                     const isCurrent = index === currentIndex
 
                     let btnClass = 'exam-q-btn '
@@ -870,13 +906,16 @@ export default function ExamRunner({
                     } else {
                       btnClass += 'exam-q-btn-unanswered'
                     }
+                    if (flagged) {
+                      btnClass += ' ring-2 ring-amber-400 ring-offset-1 dark:ring-offset-gray-900'
+                    }
 
                     return (
                       <button
                         key={item.question_id}
                         type="button"
                         disabled={interactionBusy}
-                        aria-label={`Savol ${index + 1}${saved ? ', belgilangan' : ''}`}
+                        aria-label={`Savol ${index + 1}${saved ? ', javob saqlangan' : ''}${flagged ? ', keyin ko‘rish uchun belgilangan' : ''}`}
                         onClick={() => {
                           setCurrentIndex(index)
                           setSidebarOpen(false)
@@ -977,6 +1016,21 @@ export default function ExamRunner({
                 </span>
               )}
               <div className="flex-1" />
+              <button
+                type="button"
+                onClick={toggleCurrentFlag}
+                disabled={interactionBusy}
+                aria-pressed={currentFlagged}
+                aria-label={currentFlagged ? 'Savoldan belgini olib tashlash' : 'Savolni keyin ko‘rish uchun belgilash'}
+                className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
+                  currentFlagged
+                    ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300'
+                    : 'bg-gray-100 text-gray-600 hover:bg-amber-50 hover:text-amber-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-amber-900/20 dark:hover:text-amber-300'
+                }`}
+              >
+                <Flag size={14} fill={currentFlagged ? 'currentColor' : 'none'} />
+                {currentFlagged ? 'Belgilangan' : 'Keyin ko‘rish'}
+              </button>
               {currentSaved && (
                 <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 px-3 py-1.5 rounded-lg">
                   <Check size={14} />
