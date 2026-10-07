@@ -1334,3 +1334,22 @@ Blocker: Supabase connector plyqezulrfowyblsfpzy projectini hali ko‘rsatmaydi
 Safety: schema yo‘q bo‘lsa GET available=false compatibility holati; majburiy gate oddiy network/server xatosida fail-closed
 Parallel keyingi ish: mastery/SRS/adaptive foundation remote schema activationdan mustaqil ravishda migration+CI sifatida tayyorlanishi mumkin
 ```
+
+
+## Mastery domain foundation (T-034, 2026-10-07)
+
+- **Source of truth:** `DOMAIN_RULES.md` §1–3: mastery faqat independent first
+  attempt evidence'dan oshadi; guided/corrected retry saqlanishi mumkin, lekin score'ga kirmaydi.
+- **Window:** so'nggi 90 kun; bir savoldan faqat birinchi independent evidence;
+  cognitive level boshiga eng so'nggi 20 distinct savol.
+- **Scores:** evidence yo'q level `null`; default weights bilish=0.20,
+  qo'llash=0.50, mulohaza=0.30. Reviewer levelni qo'llanmaydi deb weight=0
+  qilsa qolgan weightlar normallashtiriladi.
+- **Provisional:** 15 distinct, 8 higher-order, overall >=0.90,
+  application+reasoning >=0.80, critical objectives satisfied,
+  misconception remediation satisfied, checkpoint passed.
+- **Regression:** ketma-ket 2 review fail; oxirgi 10 independent accuracy <0.70;
+  critical objective'da 2 ketma-ket yangi xato.
+- **Stable sequence:** 1/3/7/14/30 reviewlarning barchasi passed bo'lishi kerak.
+- **Boundary:** bu task sof domain calculator; DB persistence/scheduler keyingi
+  taskda alohida migration va transaction contract bilan ulanadi.
