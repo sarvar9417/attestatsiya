@@ -873,18 +873,12 @@ export default function ExamRunner({
                 </div>
 
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] font-medium text-gray-500 dark:text-gray-400">
-                  <span>
-                    Javob berilgan:{' '}
-                    <strong className="text-gray-900 dark:text-white">
-                      {answeredQuestions}
-                    </strong>
+                  <span className="text-gray-700 dark:text-gray-200">
+                    {`Javob berilgan: ${answeredQuestions}`}
                   </span>
-                  <span className="inline-flex items-center gap-1">
+                  <span className="inline-flex items-center gap-1 text-gray-700 dark:text-gray-200">
                     <Bookmark size={12} aria-hidden="true" />
-                    Belgilangan:{' '}
-                    <strong className="text-gray-900 dark:text-white">
-                      {flaggedCount}
-                    </strong>
+                    {`Belgilangan: ${flaggedCount}`}
                   </span>
                 </div>
               </div>
@@ -1081,6 +1075,7 @@ export default function ExamRunner({
                     void finishExam()
                   }
                 }}
+                aria-label="Sinovni yakunlash"
                 className="exam-finish-btn hidden lg:inline-flex"
               >
                 <Flag size={15} aria-hidden="true" />
@@ -1097,6 +1092,7 @@ export default function ExamRunner({
                   void finishExam()
                 }
               }}
+              aria-label="Sinovni yakunlash"
               className="exam-finish-btn mt-2 w-full lg:hidden"
             >
               <Flag size={15} aria-hidden="true" />
