@@ -54,6 +54,55 @@ export type ModuleProgressResponse = z.infer<typeof moduleProgressResponseSchema
 
 const moduleProgressListSchema = z.array(moduleProgressResponseSchema)
 
+const masteryStatusSchema = z.enum([
+  'learning',
+  'provisional',
+  'stable',
+  'regressed',
+])
+
+const masteryCognitiveSchema = z.object({
+  attempts: z.number().int().nonnegative(),
+  correct: z.number().int().nonnegative(),
+})
+
+export const masteryItemSchema = z.object({
+  construct_id: z.string().uuid(),
+  code: z.string(),
+  group_code: z.string(),
+  title_uz: z.string(),
+  mastery_status: masteryStatusSchema,
+  attempts: z.number().int().nonnegative(),
+  correct: z.number().int().nonnegative(),
+  accuracy_percent: z.number().int().min(0).max(100),
+  review_stage: z.number().int().min(0).max(5),
+  interval_days: z.number().int().nonnegative(),
+  due_at: z.string().nullable(),
+  last_seen_at: z.string().nullable(),
+  independent_attempts: z.number().int().nonnegative(),
+  guided_attempts: z.number().int().nonnegative(),
+  retry_attempts: z.number().int().nonnegative(),
+  cognitive: z.object({
+    bilish: masteryCognitiveSchema,
+    qollash: masteryCognitiveSchema,
+    mulohaza: masteryCognitiveSchema,
+  }),
+})
+
+export const masteryResponseSchema = z.object({
+  items: z.array(masteryItemSchema),
+  summary: z.object({
+    tracked: z.number().int().nonnegative(),
+    learning: z.number().int().nonnegative(),
+    provisional: z.number().int().nonnegative(),
+    stable: z.number().int().nonnegative(),
+    regressed: z.number().int().nonnegative(),
+    due: z.number().int().nonnegative(),
+  }),
+})
+
+export type MasteryResponse = z.infer<typeof masteryResponseSchema>
+
 // ─── Gateway ─────────────────────────────────────────────────────────
 
 export const progressGateway = {
@@ -77,6 +126,18 @@ export const progressGateway = {
     const parsed = moduleProgressListSchema.safeParse(data)
     if (!parsed.success) {
       throw new Error('Invalid module progress response')
+    }
+    return parsed.data
+  },
+
+  /**
+   * Konstruktlar bo'yicha server-authoritative mastery/SRS holati.
+   */
+  async getMastery(): Promise<MasteryResponse> {
+    const data = await api.get<unknown>('/api/progress/mastery')
+    const parsed = masteryResponseSchema.safeParse(data)
+    if (!parsed.success) {
+      throw new Error('Invalid mastery progress response')
     }
     return parsed.data
   },
