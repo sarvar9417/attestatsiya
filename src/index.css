@@ -1365,7 +1365,7 @@ html.dark .text-gradient {
 .exam-nav-btn-next {
   @apply exam-nav-btn border border-primary-200 bg-primary-50 text-primary-700
          hover:border-primary-300 hover:bg-primary-100
-         dark:border-primary-800 dark:bg-primary-950/50 dark:text-primary-300
+         dark:border-primary-800 dark:bg-primary-900/50 dark:text-primary-300
          dark:hover:bg-primary-900/50;
 }
 
