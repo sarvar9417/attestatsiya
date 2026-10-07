@@ -48,6 +48,9 @@ describe('ReviewPage', () => {
     expect(screen.getByText('1', { selector: 'p' })).toBeDefined()
     expect(screen.getByText('62%')).toBeDefined()
     expect(progressGateway.getDueReviews).toHaveBeenCalledTimes(1)
+    expect(
+      screen.getByRole('link', { name: /Qayta tekshirishni boshlash/ })
+    ).toHaveAttribute('href', '/exam/takrorlash')
   })
 
   it('bo‘sh server ro‘yxatida xavfsiz empty state ko‘rsatadi', async () => {

@@ -57,7 +57,7 @@ type RunnerPhase =
 
 interface ExamRunnerProps {
   gateway?: ExamGateway
-  examKind?: 'mock' | 'bolim' | 'mavzu'
+  examKind?: 'mock' | 'bolim' | 'mavzu' | 'takrorlash' | 'zaif'
   moduleId?: string
   lessonId?: string
   /** Yakuniy natija ekranidagi "Orqaga" havolasi (masalan, /learn/M01). */
@@ -214,6 +214,11 @@ export default function ExamRunner({
           throw new Error('Mavzu testi uchun dars identifikatori topilmadi.')
         }
         nextSession = await gateway.startTopicExam(lessonId)
+      } else if (examKind === 'takrorlash' || examKind === 'zaif') {
+        if (!gateway.startFocusedExam) {
+          throw new Error('Takrorlash sinovini boshlash xizmati mavjud emas.')
+        }
+        nextSession = await gateway.startFocusedExam(examKind)
       } else {
         nextSession = await gateway.startMockExam()
       }
@@ -427,7 +432,11 @@ export default function ExamRunner({
       ? 'Attestatsiya mock sinovi'
       : examKind === 'bolim'
         ? 'Modul sinovi'
-        : 'Mavzu sinovi'
+        : examKind === 'mavzu'
+          ? 'Mavzu sinovi'
+          : examKind === 'takrorlash'
+            ? 'Takrorlash sinovi'
+            : 'Zaif mavzular sinovi'
 
   // ─── Intro / Starting / Error screens ────────────────────
   if (phase === 'intro' || phase === 'starting' || phase === 'start-error') {
@@ -437,17 +446,23 @@ export default function ExamRunner({
         ? '50 savol'
         : examKind === 'bolim'
           ? '15 savol'
-          : topicPreview
-            ? `${topicPreview.questionCount} savol`
-            : 'Mavzu testi'
+          : examKind === 'takrorlash'
+            ? '15 savol'
+            : examKind === 'zaif'
+              ? '10 savol'
+              : topicPreview
+                ? `${topicPreview.questionCount} savol`
+                : 'Mavzu testi'
     const durationLabel =
       examKind === 'mock'
         ? '120 daqiqa'
         : examKind === 'bolim'
           ? '30 daqiqa'
-          : topicPreview
-            ? `${topicPreview.durationSec / 60} daqiqa`
-            : '2 daqiqa / savol'
+          : examKind === 'takrorlash' || examKind === 'zaif'
+            ? 'Server vaqti'
+            : topicPreview
+              ? `${topicPreview.durationSec / 60} daqiqa`
+              : '2 daqiqa / savol'
 
     return (
       <main className="mx-auto flex min-h-[72vh] w-full max-w-5xl items-center px-4 py-8 sm:px-6">

@@ -275,15 +275,33 @@ export default function ReviewPage() {
       )}
 
       {!loading && !error && items.length > 0 && (
-        <div className="flex justify-end">
-          <Link
-            to="/learn"
-            className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 text-sm font-semibold text-gray-600 transition hover:border-indigo-200 hover:text-indigo-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-indigo-700 dark:hover:text-indigo-300"
-          >
-            Mavzularni mustahkamlash
-            <ArrowRight size={15} aria-hidden="true" />
-          </Link>
-        </div>
+        <section className="flex flex-col gap-3 rounded-2xl border border-indigo-100 bg-indigo-50/70 p-4 dark:border-indigo-900/60 dark:bg-indigo-950/20 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h2 className="text-sm font-semibold text-gray-950 dark:text-white">
+              Yangi savollar bilan qayta tekshiring
+            </h2>
+            <p className="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-400">
+              Takrorlash sinovi serverdagi muddati kelgan konstruktlardan yangi session yaratadi.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Link
+              to="/exam/takrorlash"
+              className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-indigo-600 px-4 text-sm font-semibold text-white transition hover:bg-indigo-700"
+            >
+              <RotateCcw size={16} aria-hidden="true" />
+              Qayta tekshirishni boshlash
+              <ArrowRight size={15} aria-hidden="true" />
+            </Link>
+            <Link
+              to="/learn"
+              className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 text-sm font-semibold text-gray-600 transition hover:border-indigo-200 hover:text-indigo-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-indigo-700 dark:hover:text-indigo-300"
+            >
+              Mavzularni mustahkamlash
+              <ArrowRight size={15} aria-hidden="true" />
+            </Link>
+          </div>
+        </section>
       )}
     </div>
   )

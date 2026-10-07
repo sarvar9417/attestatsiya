@@ -83,6 +83,10 @@ function successfulGateway(): ExamGateway {
     startMockExam: vi.fn().mockResolvedValue(examSession()),
     startModuleExam: vi.fn().mockResolvedValue(examSession()),
     startTopicExam: vi.fn().mockResolvedValue(examSession()),
+    startFocusedExam: vi.fn().mockResolvedValue({
+      ...examSession(),
+      kind: 'takrorlash',
+    }),
     previewTopicTest: vi.fn().mockResolvedValue({
       questionCount: 20,
       durationSec: 2400,
@@ -324,6 +328,22 @@ describe('secure ExamRunner', () => {
       totalCount: 3,
       lastScore: 100,
     })
+  })
+
+  it('takrorlash route mockga fallback qilmasdan server review sessionini boshlaydi', async () => {
+    const user = userEvent.setup()
+    const gateway = successfulGateway()
+
+    renderExam(gateway, '/exam/takrorlash')
+    expect(
+      screen.getByRole('heading', { name: 'Takrorlash sinovi' })
+    ).toBeDefined()
+
+    await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
+
+    expect(gateway.startFocusedExam).toHaveBeenCalledWith('takrorlash')
+    expect(gateway.startMockExam).not.toHaveBeenCalled()
+    expect(await screen.findByText('Yagona javobni tanlang')).toBeDefined()
   })
 
   it('mavzu sinovi lessonId bo‘lmasa boshlanmaydi', async () => {

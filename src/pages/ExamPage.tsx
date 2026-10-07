@@ -17,7 +17,20 @@ export default function ExamPage({ gateway }: ExamPageProps) {
   const completeTopic = useProgressStore((s) => s.completeTopic)
 
   const examKind =
-    kind === 'bolim' || kind === 'mavzu' || kind === 'mock' ? kind : 'mock'
+    kind === 'bolim' ||
+    kind === 'mavzu' ||
+    kind === 'mock' ||
+    kind === 'takrorlash' ||
+    kind === 'zaif'
+      ? kind
+      : 'mock'
+
+  const backUrl =
+    examKind === 'takrorlash' || examKind === 'zaif'
+      ? '/review'
+      : moduleId
+        ? `/learn/${moduleId}`
+        : undefined
 
   /**
    * Mavzu sinovi yakunida: progressStore'ga natijani yozadi va serverga
@@ -48,7 +61,7 @@ export default function ExamPage({ gateway }: ExamPageProps) {
       examKind={examKind}
       moduleId={moduleId}
       lessonId={lessonId ?? undefined}
-      backUrl={moduleId ? `/learn/${moduleId}` : undefined}
+      backUrl={backUrl}
       onFinished={handleFinished}
     />
   )
