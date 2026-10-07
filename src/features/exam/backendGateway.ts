@@ -12,7 +12,7 @@
  */
 
 import { z } from 'zod'
-import { api } from '../../lib/apiClient'
+import { api, isNetworkError } from '../../lib/apiClient'
 import {
   examSessionSchema,
   examReviewResponseSchema,
@@ -27,6 +27,11 @@ import {
 } from './contracts'
 import type { SubmitAnswerInput, ExamGateway, TopicTestPreview } from './examGateway'
 import { getLessonQuestions } from '../content/contentApi'
+import {
+  enqueuePendingAnswer,
+  flushPendingAnswers,
+  type FlushPendingAnswersResult,
+} from './offlineAnswerQueue'
 
 /**
  * Parse and validate backend API response using Zod schema.
@@ -45,6 +50,40 @@ function parseResponse<T>(
   // eslint-disable-next-line no-console
   console.error(`[backendGateway] Invalid response for ${operation}:`, issues)
   throw new Error(`Server javobi xavfsizlik tekshiruvidan o‘tmadi: ${issues}`)
+}
+
+async function sendAnswerToServer(
+  input: SubmitAnswerInput
+): Promise<SubmitAnswerResponse> {
+  const data = await api.post<unknown>('/api/exam/submit', {
+    exam_id: input.examId,
+    question_id: input.questionId,
+    answer: input.answer,
+    time_spent_sec: input.timeSpentSec,
+  })
+
+  return parseResponse(submitAnswerResponseSchema, data, 'submit_answer')
+}
+
+let offlineFlushInFlight: Promise<FlushPendingAnswersResult> | null = null
+
+/**
+ * Public helper for app bootstrap/tests. Parallel reconnect events bitta flush
+ * promise'ga birlashtiriladi; shu sabab duplicate burst yuborilmaydi.
+ */
+export function flushOfflineAnswers(): Promise<FlushPendingAnswersResult> {
+  if (!offlineFlushInFlight) {
+    offlineFlushInFlight = flushPendingAnswers(sendAnswerToServer).finally(() => {
+      offlineFlushInFlight = null
+    })
+  }
+  return offlineFlushInFlight
+}
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('online', () => {
+    void flushOfflineAnswers()
+  })
 }
 
 export const backendGateway: ExamGateway = {
@@ -82,21 +121,17 @@ export const backendGateway: ExamGateway = {
     }
   },
 
-  async submitAnswer({
-    examId,
-    questionId,
-    answer,
-    timeSpentSec,
-  }: SubmitAnswerInput): Promise<SubmitAnswerResponse> {
-    const data = await api.post<unknown>('/api/exam/submit', {
-      exam_id: examId,
-      question_id: questionId,
-      answer,
-      time_spent_sec: timeSpentSec,
-    })
-
-    // Backend returns the same union type as Supabase RPC
-    return parseResponse(submitAnswerResponseSchema, data, 'submit_answer')
+  async submitAnswer(input: SubmitAnswerInput): Promise<SubmitAnswerResponse> {
+    try {
+      return await sendAnswerToServer(input)
+    } catch (error) {
+      if (isNetworkError(error)) {
+        // Auth token yoki answer key saqlanmaydi — faqat user answer payload.
+        // Bir savol uchun birinchi offline urinish immutable saqlanadi.
+        enqueuePendingAnswer(input)
+      }
+      throw error
+    }
   },
 
   async finishExam(examId: string): Promise<FinishExamResponse> {
