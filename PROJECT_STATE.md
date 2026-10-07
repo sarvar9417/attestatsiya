@@ -1,3 +1,4 @@
+| T-007 | AI sessiya | IN_PROGRESS | 2026-10-07 | task/T-007-domain-rls-product-flow |
 
 ## Admin UUID schema reconciliation (T-006, 2026-10-07)
 
