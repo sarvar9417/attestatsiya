@@ -75,7 +75,7 @@
 | T-029 | DONE | T-015, TASK-UI-004 | Figma tasdiqlangan test interfeysi parity: `/exam/*` immersive shell, asosiy savol chapda, nomzod/vaqt/savol navigatsiyasi o‘ngda, 10 ustunli holat palitrasi va legend, light/dark boshqaruv; server timer/scoring va explicit answer submit xulqi saqlanadi |
 | T-030 | DONE | T-029, T-027, TASK-UI-009 | Figma/chat post-exam flow: yakuniy Natija ekranidan server-backed savollar tahlili, Natijalar tarixi va Xatolarni qayta ishlashga aniq next-action yo‘llari; answer key faqat finalized sessiondan keyin review endpoint orqali |
 | T-031 | DONE | T-030 | UX_SPEC/Figma persistent Natija route: learner faqat o‘z finalized attemptini `/results/:examId`da qayta ochadi; tarix kartalari detailga olib boradi; result endpoint owner-filtered, review faqat finalized sessiondan olinadi |
-| T-032 | IN_PROGRESS | T-031, TASK-UI-009 | Xatolar notebook → real retest: due-review sahifasidan `/exam/takrorlash` server sessioniga aniq CTA; `takrorlash`/`zaif` route’lari mockga yashirin fallback qilmaydi; mavjud server-authoritative scoring/timer saqlanadi |
+| T-032 | DONE | T-031, TASK-UI-009 | Xatolar notebook → real retest: due-review sahifasidan `/exam/takrorlash` server sessioniga aniq CTA; `takrorlash`/`zaif` route’lari mockga yashirin fallback qilmaydi; mavjud server-authoritative scoring/timer saqlanadi |
 
 ## UI modernizatsiya — Figma approved design
 
