@@ -1,3 +1,15 @@
+
+## Admin UUID schema migration boundary yopildi (T-006, 2026-10-07)
+
+- ModulesPage, QuestionsPage va QuestionFormModal eski migration-boundary `supabase`
+  aliasidan chiqarilib, explicit `typedSupabase` current UUID `Database` schema'ga o'tkazildi.
+- AdminDashboard avvaldan typed client ishlatgani sabab admin panelning asosiy kontent oqimlari
+  endi bir xil typed schema chegarasida.
+- QuestionFormModal test mocki typed clientga moslashtirildi.
+- GitHub CI: secret scan, lint, typecheck, unit tests, generated pool invariantlari,
+  production build, Playwright smoke va fresh database/generated-pool reconciliation yashil o'tdi.
+- T-006 blocker yopildi; T-007 endi READY.
+
 # PROJECT_STATE.md — joriy holat
 
 > Living document. Har coder task boshlaganda va tugatganda yangilaydi.
