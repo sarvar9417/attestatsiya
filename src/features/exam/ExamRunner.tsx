@@ -57,7 +57,7 @@ type RunnerPhase =
 
 interface ExamRunnerProps {
   gateway?: ExamGateway
-  examKind?: 'mock' | 'bolim' | 'mavzu' | 'takrorlash' | 'zaif'
+  examKind?: 'mock' | 'bolim' | 'mavzu' | 'diagnostika' | 'takrorlash' | 'zaif'
   moduleId?: string
   lessonId?: string
   /** Yakuniy natija ekranidagi "Orqaga" havolasi (masalan, /learn/M01). */
@@ -214,9 +214,13 @@ export default function ExamRunner({
           throw new Error('Mavzu testi uchun dars identifikatori topilmadi.')
         }
         nextSession = await gateway.startTopicExam(lessonId)
-      } else if (examKind === 'takrorlash' || examKind === 'zaif') {
+      } else if (
+        examKind === 'diagnostika' ||
+        examKind === 'takrorlash' ||
+        examKind === 'zaif'
+      ) {
         if (!gateway.startFocusedExam) {
-          throw new Error('Takrorlash sinovini boshlash xizmati mavjud emas.')
+          throw new Error('Maxsus sinovni boshlash xizmati mavjud emas.')
         }
         nextSession = await gateway.startFocusedExam(examKind)
       } else {
@@ -434,9 +438,11 @@ export default function ExamRunner({
         ? 'Modul sinovi'
         : examKind === 'mavzu'
           ? 'Mavzu sinovi'
-          : examKind === 'takrorlash'
-            ? 'Takrorlash sinovi'
-            : 'Zaif mavzular sinovi'
+          : examKind === 'diagnostika'
+            ? 'Boshlang‘ich diagnostika'
+            : examKind === 'takrorlash'
+              ? 'Takrorlash sinovi'
+              : 'Zaif mavzular sinovi'
 
   // ─── Intro / Starting / Error screens ────────────────────
   if (phase === 'intro' || phase === 'starting' || phase === 'start-error') {
@@ -446,11 +452,13 @@ export default function ExamRunner({
         ? '50 savol'
         : examKind === 'bolim'
           ? '15 savol'
-          : examKind === 'takrorlash'
-            ? '15 savol'
-            : examKind === 'zaif'
-              ? '10 savol'
-              : topicPreview
+          : examKind === 'diagnostika'
+            ? '30 savol'
+            : examKind === 'takrorlash'
+              ? '15 savol'
+              : examKind === 'zaif'
+                ? '10 savol'
+                : topicPreview
                 ? `${topicPreview.questionCount} savol`
                 : 'Mavzu testi'
     const durationLabel =
@@ -458,9 +466,11 @@ export default function ExamRunner({
         ? '120 daqiqa'
         : examKind === 'bolim'
           ? '30 daqiqa'
-          : examKind === 'takrorlash' || examKind === 'zaif'
-            ? 'Server vaqti'
-            : topicPreview
+          : examKind === 'diagnostika'
+            ? 'Vaqt cheklanmagan'
+            : examKind === 'takrorlash' || examKind === 'zaif'
+              ? 'Server vaqti'
+              : topicPreview
               ? `${topicPreview.durationSec / 60} daqiqa`
               : '2 daqiqa / savol'
 
