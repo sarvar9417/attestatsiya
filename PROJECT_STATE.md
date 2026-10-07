@@ -96,6 +96,7 @@
 | T-015 | AI sessiya | DONE | 2026-10-07 | task/T-015-mock-flags |
 | T-023 | AI sessiya | DONE | 2026-10-07 | task/T-021-generated-db-pool |
 | T-024 | AI sessiya | DONE | 2026-10-07 | task/T-024-generated-sql-artifact |
+| T-006 | AI sessiya | IN_PROGRESS | 2026-10-07 | task/T-006-admin-typed-client |
 | TASK-UI-001 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-001-figma-dashboard |
 | TASK-UI-005 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-005-admin-dashboard |
 | TASK-UI-006 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-006-admin-content-pages |
@@ -121,6 +122,13 @@ Migratsiyalar: yo'q — generated SQL CI artefakti sifatida runtime yaratiladi
 Tekshiruv: CI database job generated SQL'ni ikki marta apply qiladi va assertion SQL bilan tekshiradi
 Keyingi task: T-025 — Supabase CLI orqali versiyalangan content migration yaratish va remote migration history bilan reconcile qilish
 ```
+
+## Admin typed client migration (T-006, 2026-10-07)
+
+- Auditda admin row identifikatorlari allaqachon UUID/string ekani tasdiqlandi; eski BIGINT frontend kontrakti topilmadi.
+- Qolgan migration boundary: `ModulesPage`, `QuestionsPage` va `QuestionFormModal` legacy deb belgilangan `supabase` aliasidan foydalangan.
+- Ushbu uch admin CRUD oqimi `typedSupabase`ga ko‘chirildi; `AdminDashboard` avvaldan typed clientda edi.
+- Maqsad: admin panelni amaldagi UUID `database.types.ts` kontraktiga compile-time bog‘lash va T-006 blockerni real holat bilan yopish.
 
 ## Auth va Profile Figma refresh (TASK-UI-008, 2026-10-07)
 

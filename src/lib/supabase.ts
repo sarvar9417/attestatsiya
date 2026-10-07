@@ -19,6 +19,6 @@ if (SUPABASE_URL && SUPABASE_ANON_KEY) {
 export const supabase = _supabase as SupabaseClient<Database>
 export const supabaseInitError = _initError
 
-// Temporary migration boundary for pre-baseline admin pages. New UUID-schema
-// code must use typedSupabase; both names share one auth/realtime client.
+// Explicit typed alias for database-heavy flows. Both exports share the same
+// UUID-schema Supabase client; `supabase` remains for existing auth/gateway code.
 export const typedSupabase = supabase as SupabaseClient<Database>

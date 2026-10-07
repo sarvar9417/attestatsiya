@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { supabase } from '../../lib/supabase'
+import { typedSupabase } from '../../lib/supabase'
 import {
   BookOpen,
   ChevronDown,
@@ -90,9 +90,9 @@ export default function ModulesPage() {
     setSaveError(null)
 
     const [modulesResult, lessonsResult, subjectsResult] = await Promise.all([
-      supabase.from('modules').select('*').order('order_idx'),
-      supabase.from('lessons').select('*').order('order_idx'),
-      supabase.from('subjects').select('*').order('code'),
+      typedSupabase.from('modules').select('*').order('order_idx'),
+      typedSupabase.from('lessons').select('*').order('order_idx'),
+      typedSupabase.from('subjects').select('*').order('code'),
     ])
 
     const firstError =
@@ -160,7 +160,7 @@ export default function ModulesPage() {
     }
 
     const slug = slugify(form.code || form.title_uz)
-    const { error } = await supabase.from('modules').insert({
+    const { error } = await typedSupabase.from('modules').insert({
       code: form.code.trim() || null,
       title_uz: form.title_uz.trim(),
       summary_uz: form.summary_uz.trim() || null,

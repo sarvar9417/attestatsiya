@@ -27,7 +27,7 @@
 | T-003 | DONE | Eski BIGINT liniya arxivlandi; UUID baseline fresh va drift-upgrade ssenariylarida isbotlandi |
 | T-004 | DONE | `submit_answer` owner/membership tekshiradi, answer immutable va retry idempotent |
 | T-005 | DONE | Remote seed 16 modul, 15 guruh, 50/120 va 8/35/7 kontraktiga reconcile qilindi |
-| T-006 | BLOCKED | Frontend role guard yopilgan, ammo admin panel eski type/schema'ga tayangan |
+| T-006 | IN_PROGRESS | Admin CRUD sahifalarini UUID-schema `typedSupabase` clientiga to‘liq ko‘chirish; eski admin migration boundary’ni yopish |
 | T-007 | BLOCKED | 49 unit + 4 smoke E2E o'tadi, ammo domain/RLS va product-flow qamrovi yetarli emas |
 
 ## Darslik kontenti ekstraksiyasi
