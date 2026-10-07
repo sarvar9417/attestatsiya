@@ -100,7 +100,7 @@
 | TASK-UI-005 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-005-admin-dashboard |
 | TASK-UI-006 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-006-admin-content-pages |
 | TASK-UI-007 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-007-question-form |
-| TASK-UI-008 | AI sessiya | IN_PROGRESS | 2026-10-07 | task/TASK-UI-008-auth-profile-refresh |
+| TASK-UI-008 | AI sessiya | DONE | 2026-10-07 | task/TASK-UI-008-auth-profile-refresh |
 
 ## Generated pool PostgreSQL verification (T-024, 2026-10-07)
 
@@ -129,6 +129,17 @@ Keyingi task: T-025 — Supabase CLI orqali versiyalangan content migration yara
 - Profile sahifasida identity header, account metadata va password security bloklari bir xil design systemga keltirildi.
 - Reset Password sahifasi recovery/session guardini saqlagan holda Figma yo‘nalishiga moslashtirildi.
 - ResetPassword regressiya testlari recovery guard, client validation va backend updatePassword oqimini qoplaydi.
+- **CI:** secret scan, lint, typecheck, unit tests, generated pool invariantlari, build, Playwright smoke va database joblari yashil.
+
+### Handoff
+
+```text
+Task: TASK-UI-008
+Natija: Auth/Profile/ResetPassword redesign current main asosida refresh qilindi va full CI yashil
+O‘zgargan fayllar: src/pages/Auth.tsx; src/pages/Profile.tsx; src/pages/ResetPassword.tsx; src/tests/ResetPassword.test.tsx; TASKS.md; PROJECT_STATE.md
+Migratsiyalar: yo‘q
+Qolgan xavf: yo‘q; eski konfliktli PR #28 merge’dan keyin yopiladi
+```
 
 ## Question form Figma redesign (TASK-UI-007, 2026-10-06)
 
