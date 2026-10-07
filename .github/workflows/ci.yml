@@ -85,10 +85,20 @@ jobs:
           psql -X -v ON_ERROR_STOP=1 -d attestatsiya_test \
             -f supabase/tests/bootstrap_local.sql
 
-          # Production'da faol bo'lgan barcha migratsiyalar nomi bo'yicha
-          # tartibda qo'llanadi. Yangi migration qo'shilsa CI uni avtomatik
-          # ravishda tekshiradi — qo'lda workflow ro'yxatini yangilash shart emas.
+          # 20260730000011 remote'da rollback bo'lgan tarixiy migration;
+          # 20260731000013 uning to'liq idempotent forward-fix'i va migration
+          # history'da 00011 repair-applied deb belgilangan. Fresh install ham
+          # buzilgan 00011'ni emas, 00013 forward-fix'ni qo'llashi kerak.
+          SKIP_MIGRATION='supabase/migrations/20260730000011_sync_source_reference.sql'
+
+          # Production'da faol bo'lgan barcha boshqa migratsiyalar filename
+          # tartibida qo'llanadi. Yangi migration qo'shilsa CI uni avtomatik
+          # ravishda tekshiradi — workflow ro'yxatini qo'lda yangilash shart emas.
           while IFS= read -r migration; do
+            if [ "${migration}" = "${SKIP_MIGRATION}" ]; then
+              echo "Skipping repaired historical migration ${migration}"
+              continue
+            fi
             echo "Applying ${migration}"
             psql -X -v ON_ERROR_STOP=1 -d attestatsiya_test -f "${migration}"
           done < <(find supabase/migrations -maxdepth 1 -type f -name '*.sql' | sort)
