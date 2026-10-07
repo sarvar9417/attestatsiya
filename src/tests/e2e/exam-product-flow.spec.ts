@@ -117,7 +117,7 @@ test.describe('Attestatsiya protected product flow E2E', () => {
     await expect(page.getByText('Nomzod ma’lumotlari')).toBeVisible()
     await expect(page.getByText('E2E User')).toBeVisible()
     await expect(page.getByText('Savollar navigatsiyasi')).toBeVisible()
-    await expect(page.getByText('Javob berilgan')).toBeVisible()
+    await expect(page.getByText('Javob berilgan', { exact: true })).toBeVisible()
     await expect(page.getByText('Joriy savol')).toBeVisible()
     await expect(page.getByText('Javob berilmagan')).toBeVisible()
     await expect(page.getByRole('link', { name: 'Bosh sahifa' })).toHaveCount(0)
