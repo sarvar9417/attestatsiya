@@ -3,9 +3,10 @@ import Fastify, { type FastifyReply, type FastifyRequest } from 'fastify'
 import { progressRoutes } from '../progress.js'
 import { sendError } from '../../lib/errors.js'
 
-const { mockGetUser, mockGetMastery } = vi.hoisted(() => ({
+const { mockGetUser, mockGetMastery, mockGetReadiness } = vi.hoisted(() => ({
   mockGetUser: vi.fn(),
   mockGetMastery: vi.fn(),
+  mockGetReadiness: vi.fn(),
 }))
 
 vi.mock('@supabase/supabase-js', () => ({
@@ -22,6 +23,7 @@ vi.mock('../../services/progress.service.js', () => ({
     sync: vi.fn(),
     getModuleProgress: vi.fn(),
     getMastery: mockGetMastery,
+    getReadiness: mockGetReadiness,
   },
 }))
 
@@ -51,6 +53,24 @@ describe('Progress Routes', () => {
         due: 0,
       },
     })
+    mockGetReadiness.mockResolvedValue({
+      available: true,
+      readiness_percent: 68,
+      confidence: 'medium',
+      independent_evidence: 214,
+      covered_blueprint_questions: 42,
+      total_blueprint_questions: 50,
+      coverage_percent: 84,
+      due_reviews: 0,
+      regressed_constructs: 0,
+      next_action: {
+        kind: 'learn',
+        href: '/learn',
+        label: 'O‘rganishni davom ettirish',
+        reason: 'Navbatdagi mavzu bilan blueprint qamrovini kengaytiring.',
+      },
+      unavailable_reason: null,
+    })
 
     app = Fastify({ logger: false })
     setupGlobalErrorHandler(app)
@@ -60,6 +80,33 @@ describe('Progress Routes', () => {
 
   afterEach(async () => {
     await app.close()
+  })
+
+  it('GET /api/progress/readiness returns 401 without token', async () => {
+    const response = await app.inject({
+      method: 'GET',
+      url: '/api/progress/readiness',
+    })
+
+    expect(response.statusCode).toBe(401)
+    expect(JSON.parse(response.body).error.code).toBe('TOKEN_REQUIRED')
+    expect(mockGetReadiness).not.toHaveBeenCalled()
+  })
+
+  it('GET /api/progress/readiness returns learner-scoped estimate', async () => {
+    const response = await app.inject({
+      method: 'GET',
+      url: '/api/progress/readiness',
+      headers: { authorization: 'Bearer token-abc' },
+    })
+
+    expect(response.statusCode).toBe(200)
+    expect(JSON.parse(response.body)).toMatchObject({
+      readiness_percent: 68,
+      confidence: 'medium',
+      independent_evidence: 214,
+    })
+    expect(mockGetReadiness).toHaveBeenCalledWith('user-1')
   })
 
   it('GET /api/progress/mastery returns 401 without token', async () => {
