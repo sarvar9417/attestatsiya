@@ -69,6 +69,7 @@
 | T-023 | DONE | T-012 | Parametrik generatorlardan deterministik DB seed pipeline: 9 konstrukt × 30 = 270 savol, UUIDv5, Y1/Y2/Y3 key materialization, append-only SQL builder (PR #35) |
 | T-024 | DONE | T-023 | Generated 270-savol SQL fresh PostgreSQL CI’da ikki marta qo‘llandi; idempotency, 9×30 distribution, option/key invariantlari va FK yaxlitligi yashil tasdiqlandi |
 | T-025 | BLOCKED | T-024 | Supabase CLI 2.119.0 `migration new` orqali 270-savol uchun versiyalangan content migration yaratildi va fresh DB’da yashil; remote migration history reconciliation uchun `plyqezulrfowyblsfpzy` projectiga connector permission kerak |
+| T-026 | DONE | — | Dashboard Blueprint strip: 15 rasmiy guruh kengligi 3:2:5:3:2:3:3:3:2:5:2:2:5:7:3 nisbatida, 50 savol va 35/5/7/3 section taqsimoti; CI yashil (PR #46) |
 
 ## UI modernizatsiya — Figma approved design
 
