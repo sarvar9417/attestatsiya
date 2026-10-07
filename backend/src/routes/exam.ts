@@ -2,6 +2,7 @@ import type { FastifyInstance } from 'fastify'
 import { examService } from '../services/exam.service.js'
 import {
   startExamSchema,
+  adaptivePracticeSchema,
   submitAnswerSchema,
   finishExamSchema,
   reviewParamsSchema,
@@ -41,6 +42,32 @@ export async function examRoutes(app: FastifyInstance) {
 
     try {
       const result = await examService.start(kind, token, module_id, lesson_id)
+      return reply.send(result)
+    } catch (error) {
+      return sendError(reply, error)
+    }
+  })
+
+  /**
+   * POST /api/exam/practice
+   * Start a server-assembled adaptive practice session for one lesson.
+   */
+  app.post('/api/exam/practice', async (req, reply) => {
+    const { lesson_id } = adaptivePracticeSchema.body.parse(req.body)
+    let token = getToken(req)
+
+    if (!token && config.demo.enabled) {
+      try {
+        token = await getDemoToken()
+      } catch (error) {
+        return sendError(reply, error)
+      }
+    }
+
+    if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
+
+    try {
+      const result = await examService.startAdaptivePractice(lesson_id, token)
       return reply.send(result)
     } catch (error) {
       return sendError(reply, error)
