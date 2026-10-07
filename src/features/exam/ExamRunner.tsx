@@ -43,6 +43,7 @@ import { backendGateway } from './backendGateway'
 import Y1Choice from './questions/Y1Choice'
 import Y2Match from './questions/Y2Match'
 import Y3Order from './questions/Y3Order'
+import ExamResultPanel from './ExamResultPanel'
 import { useAuth } from '../../hooks/useAuth'
 import { cycleTheme, getThemePreference } from '../../utils/theme'
 
@@ -548,129 +549,15 @@ export default function ExamRunner({
 
   // ─── Result screen ───────────────────────────────────────
   if (phase === 'result' && result) {
-    const percentage =
-      result.max_score > 0
-        ? Math.round((result.total_score / result.max_score) * 100)
-        : 0
-    const passed = result.passed ?? percentage >= 60
-
     return (
-      <main className="mx-auto w-full max-w-5xl space-y-5 px-4 py-6 sm:px-6 lg:py-8">
-        <header>
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-indigo-500">
-            Natijalar
-          </p>
-          <h1 className="mt-1 text-2xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-3xl">
-            Sinov yakunlandi
-          </h1>
-          <p className="mt-1 text-sm text-gray-400">{examTitle}</p>
-        </header>
-
-        <section className="flex flex-col gap-5 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900 sm:p-6 lg:flex-row lg:items-center">
-          <div className="flex shrink-0 items-center gap-4">
-            <div
-              className={`grid h-16 w-16 place-items-center rounded-2xl ${
-                passed
-                  ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-300'
-                  : 'bg-amber-50 text-amber-600 dark:bg-amber-950/60 dark:text-amber-300'
-              }`}
-            >
-              <CheckCircle2 size={30} aria-hidden="true" />
-            </div>
-            <div>
-              <p className={`text-3xl font-bold tracking-tight ${
-                passed
-                  ? 'text-emerald-600 dark:text-emerald-300'
-                  : 'text-amber-600 dark:text-amber-300'
-              }`}>
-                {result.total_score} / {result.max_score}
-              </p>
-              <p className="mt-1 text-sm font-semibold text-gray-700 dark:text-gray-200">
-                {percentage}% natija
-              </p>
-            </div>
-          </div>
-
-          <div className="min-w-0 flex-1 lg:border-l lg:border-gray-200 lg:pl-6 dark:lg:border-gray-800">
-            <h2 className="text-lg font-semibold text-gray-950 dark:text-white">
-              {passed ? 'Natija talab darajasida' : 'Natijani mustahkamlash kerak'}
-            </h2>
-            <p className="mt-1 text-sm leading-6 text-gray-500 dark:text-gray-400">
-              Natija server tomonidan hisoblandi. Quyidagi kesim keyingi tayyorgarlik
-              yo‘nalishini aniqlashga yordam beradi.
-            </p>
-            <div className="mt-4 h-2 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
-              <div
-                className={`h-full rounded-full ${
-                  passed ? 'bg-emerald-500' : 'bg-amber-500'
-                }`}
-                style={{ width: `${Math.min(percentage, 100)}%` }}
-              />
-            </div>
-          </div>
-        </section>
-
-        {result.breakdown && result.breakdown.length > 0 && (
-          <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900 sm:p-6">
-            <div className="mb-4">
-              <h2 className="text-lg font-semibold text-gray-950 dark:text-white">
-                Guruhlar kesimi
-              </h2>
-              <p className="mt-1 text-xs text-gray-400">
-                To‘g‘ri javoblar va jami savollar server natijasi bo‘yicha.
-              </p>
-            </div>
-            <div className="grid gap-3 sm:grid-cols-2">
-              {result.breakdown.map((item) => {
-                const itemPercent =
-                  item.jami > 0 ? Math.round((item.togri / item.jami) * 100) : 0
-                return (
-                  <div
-                    key={item.group_code}
-                    className="rounded-xl border border-gray-200 p-4 dark:border-gray-800"
-                  >
-                    <div className="flex items-center justify-between gap-3">
-                      <span className="font-mono text-xs font-semibold text-gray-600 dark:text-gray-300">
-                        {item.group_code}
-                      </span>
-                      <span className="text-sm font-bold text-gray-900 dark:text-white">
-                        {item.togri} / {item.jami}
-                      </span>
-                    </div>
-                    <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
-                      <div
-                        className="h-full rounded-full bg-indigo-500"
-                        style={{ width: `${itemPercent}%` }}
-                      />
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </section>
-        )}
-
-        <div className="flex flex-col gap-3 sm:flex-row">
-          <button
-            type="button"
-            onClick={resetToIntro}
-            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 text-sm font-semibold text-white transition hover:bg-indigo-700"
-          >
-            <RefreshCw size={16} aria-hidden="true" />
-            Yangi sinov
-          </button>
-
-          {backUrl && (
-            <Link
-              to={backUrl}
-              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-5 text-sm font-semibold text-gray-600 transition hover:border-indigo-200 hover:text-indigo-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-indigo-800 dark:hover:text-indigo-300"
-            >
-              <ArrowLeft size={15} aria-hidden="true" />
-              Modulga qaytish
-            </Link>
-          )}
-        </div>
-      </main>
+      <ExamResultPanel
+        result={result}
+        examTitle={examTitle}
+        examKind={examKind}
+        gateway={gateway}
+        backUrl={backUrl}
+        onNewExam={resetToIntro}
+      />
     )
   }
 
