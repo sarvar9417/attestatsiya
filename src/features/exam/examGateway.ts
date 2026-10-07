@@ -2,6 +2,7 @@ import type { Json } from '../../lib/database.types'
 import type {
   DueReviewItem,
   ExamHistoryResponse,
+  ExamResultDetail,
   ExamReviewItem,
   ExamSession,
   FinishExamResponse,
@@ -36,6 +37,7 @@ export interface ExamGateway {
   submitAnswer(input: SubmitAnswerInput): Promise<SubmitAnswerResponse>
   finishExam(examId: string): Promise<FinishExamResponse>
   getReview(examId: string): Promise<ExamReviewItem[]>
+  getResult(examId: string): Promise<ExamResultDetail>
   getHistory(page?: number, pageSize?: number): Promise<ExamHistoryResponse>
   getDueReviews(): Promise<DueReviewItem[]>
 }
