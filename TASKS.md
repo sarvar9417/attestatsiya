@@ -68,6 +68,7 @@
 | T-022 | DONE | T-021 | Backend alohida `sarvar9417/attestatsiya-backend` (public) repoga ko'chirildi; Vercel qayta ulandi (rootDirectory bekor, repo ildizi); yangi repo CI (tsc + vitest 102 + secrets scan); push → auto-deploy tasdiqlandi; asosiy repodan `backend/` olib tashlandi |
 | T-023 | DONE | T-012 | Parametrik generatorlardan deterministik DB seed pipeline: 9 konstrukt × 30 = 270 savol, UUIDv5, Y1/Y2/Y3 key materialization, append-only SQL builder (PR #35) |
 | T-024 | DONE | T-023 | Generated 270-savol SQL fresh PostgreSQL CI’da ikki marta qo‘llandi; idempotency, 9×30 distribution, option/key invariantlari va FK yaxlitligi yashil tasdiqlandi |
+| T-025 | BLOCKED | T-024 | Supabase CLI 2.119.0 `migration new` orqali 270-savol uchun versiyalangan content migration yaratildi va fresh DB’da yashil; remote migration history reconciliation uchun `plyqezulrfowyblsfpzy` projectiga connector permission kerak |
 
 ## UI modernizatsiya — Figma approved design
 
