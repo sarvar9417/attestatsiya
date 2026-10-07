@@ -1074,4 +1074,14 @@ ochiq. Preview'lar faqat Vercel'ga login bo'lgan tekshiruvchilarga ko'rinadi
 - Segment kengliklari `BLUEPRINT_GROUPS.questionCount` dan olinadi; hardcoded alohida nusxa yo‘q.
 - Acceptance nisbat: `3:2:5:3:2:3:3:3:2:5:2:2:5:7:3`, jami 50 savol.
 - Section legend: mutaxassislik 35, kasb standarti 5, pedagogika 7, metodika 3.
-- Test: segment soni, flexGrow, nisbat va jami savol invariantlari tekshiriladi.
+- Test: segment soni, flexGrow, nisbat va jami savol invariantlari tekshirildi; secret scan, lint, typecheck, unit, generated-pool invariantlari, build, Playwright E2E va database job yashil.
+
+
+```text
+Task: T-026
+Natija: 2026 Blueprint strip dashboardga qo‘shildi va rasmiy 15-guruh nisbatida render qilinadi
+O‘zgargan fayllar: src/components/dashboard/BlueprintStrip.tsx; src/pages/DashboardPage.tsx; src/tests/BlueprintStrip.test.tsx; TASKS.md; PROJECT_STATE.md
+Migratsiyalar: yo‘q
+Testlar: GitHub CI full green
+Qolgan blocker: T-025 remote Supabase migration history permission
+```
