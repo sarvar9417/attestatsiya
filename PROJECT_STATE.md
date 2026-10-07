@@ -95,7 +95,7 @@
 | T-014 | AI sessiya | DONE | 2026-10-07 | task/T-014-result-decision |
 | T-015 | AI sessiya | DONE | 2026-10-07 | task/T-015-mock-flags |
 | T-023 | AI sessiya | DONE | 2026-10-07 | task/T-021-generated-db-pool |
-| T-024 | AI sessiya | IN_PROGRESS | 2026-10-07 | task/T-024-generated-sql-artifact |
+| T-024 | AI sessiya | DONE | 2026-10-07 | task/T-024-generated-sql-artifact |
 | TASK-UI-001 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-001-figma-dashboard |
 | TASK-UI-005 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-005-admin-dashboard |
 | TASK-UI-006 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-006-admin-content-pages |
@@ -114,7 +114,7 @@
 
 ```text
 Task: T-024
-Natija: generated parametrik pool uchun fresh PostgreSQL CI va DB invariant testlari qo'shildi
+Natija: generated parametrik pool fresh PostgreSQL CI’da ikki marta apply qilinib, DB invariantlari yashil tasdiqlandi
 O'zgargan fayllar: .github/workflows/ci.yml; supabase/tests/parametric_generated_pool.test.sql; TASKS.md; PROJECT_STATE.md
 Migratsiyalar: yo'q — generated SQL CI artefakti sifatida runtime yaratiladi
 Tekshiruv: CI database job generated SQL'ni ikki marta apply qiladi va assertion SQL bilan tekshiradi
