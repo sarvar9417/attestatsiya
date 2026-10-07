@@ -1355,3 +1355,19 @@ Parallel keyingi ish: mastery/SRS/adaptive foundation remote schema activationda
   cognitive countersni beradi.
 - **Remote:** bu task remote Supabase'ga apply qilmaydi; migration avval fresh DB
   CI'da isbotlanadi. T-033/T-025 remote permission blockeri bilan parallel.
+
+
+### T-034 Handoff
+
+```text
+Task: T-034
+Natija: mastery evidence + 1/3/7/14/30 SRS foundation va authenticated mastery read model
+Migration: supabase/migrations/20261007184500_mastery_srs_foundation.sql
+Backend: GET /api/progress/mastery
+Frontend: progressGateway.getMastery()
+Security: evidence learner uchun read-only; first-answer idempotency duplicate evidence yaratmaydi
+CI: GitHub Actions #655 — quality + backend + database SUCCESS
+Merge: PR #57, main commit bc2fca87b9600c18293f87a647054486263f813c
+Remote apply: YO'Q; plyqezulrfowyblsfpzy Supabase connector accessi hali yo'q
+Keyingi non-blocked task: adaptive selector + readiness/next-action service
+```
