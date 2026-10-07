@@ -4,6 +4,12 @@ on:
   pull_request:
   push:
 
+# Temporary write permission is used only by the T-022 task branch step below
+# to materialize the exact generator output as a versioned migration. It will
+# be removed from this branch before merge.
+permissions:
+  contents: write
+
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
@@ -55,6 +61,23 @@ jobs:
           path: supabase/generated/parametric_questions.sql
           if-no-files-found: error
           retention-days: 7
+
+      - name: Materialize T-022 generated migration
+        if: github.event_name == 'push' && github.ref == 'refs/heads/task/T-022-generated-db-migration'
+        run: |
+          TARGET='supabase/migrations/20261007000018_generated_question_pool.sql'
+          cp supabase/generated/parametric_questions.sql "${TARGET}"
+          git add "${TARGET}"
+
+          if git diff --cached --quiet; then
+            echo 'Generated migration already matches the deterministic builder output.'
+            exit 0
+          fi
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'T-022: materialize 270-question generated migration'
+          git push origin HEAD:task/T-022-generated-db-migration
 
       - name: Build
         run: npm run build
