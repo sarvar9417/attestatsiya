@@ -76,7 +76,7 @@
 | T-030 | DONE | T-029, T-027, TASK-UI-009 | Figma/chat post-exam flow: yakuniy Natija ekranidan server-backed savollar tahlili, Natijalar tarixi va Xatolarni qayta ishlashga aniq next-action yo‘llari; answer key faqat finalized sessiondan keyin review endpoint orqali |
 | T-031 | DONE | T-030 | UX_SPEC/Figma persistent Natija route: learner faqat o‘z finalized attemptini `/results/:examId`da qayta ochadi; tarix kartalari detailga olib boradi; result endpoint owner-filtered, review faqat finalized sessiondan olinadi |
 | T-032 | DONE | T-031, TASK-UI-009 | Xatolar notebook → real retest: due-review sahifasidan `/exam/takrorlash` server sessioniga aniq CTA; `takrorlash`/`zaif` route’lari mockga yashirin fallback qilmaydi; mavjud server-authoritative scoring/timer saqlanadi |
-| T-033 | IN_PROGRESS | T-032, T-016 | Onboarding + diagnostika: ism/profil, imtihon sanasi (noma’lum mumkin), 10/20/30/45/60 daqiqalik kunlik maqsad, skip yoki server-selected `diagnostika`; schema cutovergacha backward-compatible fail-open guard |
+| T-033 | BLOCKED | T-032, T-016 | Kod/CI tayyor: onboarding + diagnostika, imtihon sanasi, 10/20/30/45/60 daqiqalik kunlik maqsad va learner gate `main`ga merge qilindi; production activation `20261007131000_onboarding_profile.sql` remote Supabase’ga qo‘llanishi uchun `plyqezulrfowyblsfpzy` connector accessini kutmoqda |
 
 ## UI modernizatsiya — Figma approved design
 
