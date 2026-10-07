@@ -90,6 +90,17 @@ describe('Exam Routes', () => {
     expect(body.error.code).toBe('TOKEN_REQUIRED')
   })
 
+  it('POST /api/exam/start accepts diagnostika at validation boundary', async () => {
+    const response = await app.inject({
+      method: 'POST',
+      url: '/api/exam/start',
+      payload: { kind: 'diagnostika' },
+    })
+
+    expect(response.statusCode).toBe(401)
+    expect(JSON.parse(response.body).error.code).toBe('TOKEN_REQUIRED')
+  })
+
   it('POST /api/exam/start returns 400 for invalid body', async () => {
     const response = await app.inject({
       method: 'POST',
