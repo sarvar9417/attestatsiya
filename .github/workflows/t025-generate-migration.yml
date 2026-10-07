@@ -73,9 +73,39 @@ jobs:
             if pg_isready -h localhost -p 5432 -U postgres -d attestatsiya_test; then break; fi
             sleep 1
           done
-          for f in supabase/migrations/*.sql; do
-            psql -X -v ON_ERROR_STOP=1 -d attestatsiya_test -f "$f"
-          done
+
+          psql -X -v ON_ERROR_STOP=1 -d attestatsiya_test -f supabase/tests/bootstrap_local.sql
+
+          BROKEN_MIGRATION='supabase/migrations/20260730000011_sync_source_reference.sql'
+          REPAIR_MIGRATION='supabase/migrations/20260731000013_fix_question_keys_rls.sql'
+          SOURCE_LINK_MIGRATION='supabase/migrations/20260731000014_source_lesson_links.sql'
+          CONTENT_MIGRATION='supabase/migrations/20260731000012_m01_content_seed.sql'
+          REPAIR_APPLIED=false
+          SOURCE_LINK_APPLIED=false
+
+          while IFS= read -r migration; do
+            if [ "$migration" = "$BROKEN_MIGRATION" ]; then
+              psql -X -v ON_ERROR_STOP=1 -d attestatsiya_test -f "$REPAIR_MIGRATION"
+              REPAIR_APPLIED=true
+              continue
+            fi
+
+            if [ "$migration" = "$CONTENT_MIGRATION" ] && [ "$SOURCE_LINK_APPLIED" = false ]; then
+              psql -X -v ON_ERROR_STOP=1 -d attestatsiya_test -f "$SOURCE_LINK_MIGRATION"
+              SOURCE_LINK_APPLIED=true
+            fi
+
+            if [ "$migration" = "$REPAIR_MIGRATION" ] && [ "$REPAIR_APPLIED" = true ]; then
+              continue
+            fi
+
+            if [ "$migration" = "$SOURCE_LINK_MIGRATION" ] && [ "$SOURCE_LINK_APPLIED" = true ]; then
+              continue
+            fi
+
+            psql -X -v ON_ERROR_STOP=1 -d attestatsiya_test -f "$migration"
+          done < <(find supabase/migrations -maxdepth 1 -type f -name '*.sql' | sort)
+
           psql -X -v ON_ERROR_STOP=1 -d attestatsiya_test -f supabase/tests/parametric_generated_pool.test.sql
 
       - name: Commit CLI-created migration
