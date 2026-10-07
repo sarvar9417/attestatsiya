@@ -186,7 +186,7 @@ select set_config(
 );
 set role authenticated;
 
-do $
+do $$
 declare
   v_owned int;
   v_outside int;
@@ -203,7 +203,7 @@ begin
     raise exception 'question_keys owner RLS mismatch: owned %, outside %', v_owned, v_outside;
   end if;
 end
-$;
+$$;
 
 reset role;
 
@@ -215,7 +215,7 @@ select set_config(
 );
 set role authenticated;
 
-do $
+do $$
 declare
   v_visible int;
 begin
@@ -230,7 +230,7 @@ begin
     raise exception 'question_keys cross-user leak: % rows visible', v_visible;
   end if;
 end
-$;
+$$;
 
 reset role;
 
@@ -242,7 +242,7 @@ select set_config(
 );
 set role authenticated;
 
-do $
+do $$
 declare
   v_visible int;
 begin
@@ -257,7 +257,7 @@ begin
     raise exception 'question_keys admin RLS mismatch: % rows visible', v_visible;
   end if;
 end
-$;
+$$;
 
 reset role;
 
