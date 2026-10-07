@@ -106,6 +106,27 @@ const dueReviewsPayload = [
   },
 ]
 
+const historyPayload = {
+  items: [
+    {
+      exam_id: examId,
+      kind: 'mavzu',
+      lesson_id: lessonId,
+      lesson_slug: 'm01-02',
+      lesson_title_uz: 'Axborot hajmi',
+      started_at: '2026-07-30T10:00:00.000Z',
+      finished_at: '2026-07-30T10:20:00.000Z',
+      total_score: 32,
+      max_score: 40,
+      passed: true,
+      breakdown: [{ group_code: 'S1.INFO', jami: 20, togri: 16 }],
+    },
+  ],
+  total: 1,
+  page: 1,
+  page_size: 20,
+}
+
 const moduleListPayload = [
   {
     id: moduleId,
@@ -320,6 +341,20 @@ describe('frontend ↔ backend API integration', () => {
     expect(result[0].format).toBe('Y1')
     const [url] = fetchMock.mock.calls[0] as [string]
     expect(url).toBe(`http://localhost:3001/api/exam/${examId}/review`)
+  })
+
+  it('GET /api/exam/history — learner natijalari kontrakti', async () => {
+    fetchMock.mockResolvedValue(okJson(historyPayload))
+
+    const result = await backendGateway.getHistory()
+
+    expect(result.total).toBe(1)
+    expect(result.items[0].lesson_title_uz).toBe('Axborot hajmi')
+    expect(result.items[0].total_score).toBe(32)
+    const [url] = fetchMock.mock.calls[0] as [string]
+    expect(url).toBe(
+      'http://localhost:3001/api/exam/history?page=1&page_size=20'
+    )
   })
 
   it('GET /api/exam/due-reviews — takrorlash kontrakti', async () => {
