@@ -74,7 +74,7 @@
 
 | ID | Status | Dependency | Deliverable |
 |----|--------|------------|-------------|
-| TASK-UI-009 | IN_PROGRESS | TASK-UI-008 | Server-backed Xatolarni qayta ishlash sahifasi: due-review ro‘yxati, accuracy ustuvorligi, loading/error/empty/retry va desktop/mobile navigation |
+| TASK-UI-009 | DONE | TASK-UI-008 | Server-backed Xatolarni qayta ishlash sahifasi: due-review ro‘yxati, accuracy ustuvorligi, loading/error/empty/retry, desktop/mobile navigation va full CI yashil |
 | TASK-UI-008 | DONE | TASK-UI-007 | Auth, Profile va Reset Password Figma design systemga moslashtirildi; auth/session/validation behaviori saqlandi; duplicate metadata regressiyalari tuzatildi; ResetPassword testlari va full CI yashil |
 | TASK-UI-007 | DONE | TASK-UI-006 | QuestionFormModal va savol yaratish/tahrirlash formasi Figma design systemga moslashtirildi; mavjud Y1 save behaviori saqlandi; validation/error holatlari inline ko‘rsatildi; Y2/Y3 cheklovi aniq ko‘rsatildi; regressiya testlari qo‘shildi |
 | TASK-UI-006 | DONE | TASK-UI-005 | Admin Modules, Questions va Attempts sahifalari Figma design systemga moslashtirildi; mavjud CRUD/status transition/filter/detail behaviori saqlandi; loading/error/empty holatlari birxillashtirildi; regressiya testlari qo‘shildi |
