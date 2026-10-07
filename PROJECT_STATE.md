@@ -1115,3 +1115,23 @@ O‘zgargan asosiy fayllar: contracts.ts; examGateway.ts; backendGateway.ts; Exa
 Migratsiyalar: yo‘q
 Qolgan blocker: T-025 remote Supabase migration history permission
 ```
+
+
+## Monorepo konsolidatsiyasi (T-028, 2026-10-07)
+
+- **Source-of-truth:** `sarvar9417/attestatsiya` endi frontend, Fastify backend,
+  Supabase migrations va loyiha hujjatlarini bitta repositoryda saqlaydi.
+- **Tuzilma:** frontend mavjud rootda qoladi; backend to‘liq `backend/` ostiga
+  ko‘chirildi. Bu frontend Vercel rootini o‘zgartirmasdan monorepo qilishga imkon beradi.
+- **Parity:** eski `sarvar9417/attestatsiya-backend` main branchidagi 46 ta
+  source/config fayl `backend/`ga byte-for-byte mos ko‘chirildi; nested eski GitHub
+  workflow ko‘chirilmadi, chunki root CI uning o‘rnini bosadi.
+- **CI:** root workflowga alohida `backend` job qo‘shildi: `npm ci`,
+  secret scan, server typecheck, Vercel API-entry typecheck va unit testlar.
+- **Local workflow:** root package scriptlari orqali `npm run dev:backend` va
+  `npm run check:backend` qo‘shildi.
+- **Deploy xavfsizligi:** frontend Vercel loyihasi hozircha o‘zgarishsiz.
+  Backend production Vercel loyihasi eski repo bilan linklangan; Git source
+  cutover faqat monorepo PR yashil bo‘lib main'ga merge bo‘lgandan keyin qilinadi.
+- **Legacy repo:** `sarvar9417/attestatsiya-backend` tarixiy/deploy fallback sifatida
+  vaqtincha qoladi; yangi backend featurelar monorepodagi `backend/`da qilinadi.

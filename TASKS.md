@@ -71,6 +71,7 @@
 | T-025 | BLOCKED | T-024 | Supabase CLI 2.119.0 `migration new` orqali 270-savol uchun versiyalangan content migration yaratildi va fresh DB’da yashil; remote migration history reconciliation uchun `plyqezulrfowyblsfpzy` projectiga connector permission kerak |
 | T-026 | DONE | — | Dashboard Blueprint strip: 15 rasmiy guruh kengligi 3:2:5:3:2:3:3:3:2:5:2:2:5:7:3 nisbatida, 50 savol va 35/5/7/3 section taqsimoti; CI yashil (PR #46) |
 | T-027 | DONE | T-014, TASK-UI-009 | Learner `Natijalar tarixi`: backend `/api/exam/history` kontrakti frontend gatewayga ulandi, protected `/history` sahifasi, pagination, loading/error/empty holatlari va desktop/mobile navigation qo‘shildi; server-authoritative ballardan tashqari qayta hisoblash yo‘q |
+| T-028 | IN_PROGRESS | T-027 | Frontend + Fastify backend bitta `sarvar9417/attestatsiya` monorepoda: frontend rootda, backend `backend/` ichida; root CI ikkala qatlamni tekshiradi; Vercel backend deploy source monorepoga xavfsiz cutover qilinadi |
 
 ## UI modernizatsiya — Figma approved design
 

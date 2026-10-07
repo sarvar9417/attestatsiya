@@ -130,3 +130,22 @@ Har yangi muhim qaror `ADR-###` bilan qo‘shiladi. Eski qaror o‘chirilmaydi; 
   bitta konstrukt esa bir necha mikro-mavzuda mustahkamlanishi mumkin.
 - Natija: modul soni yoki tartibi blueprint kvotasini anglatmaydi; mock
   generator faqat versiyalangan assessment blueprint’dan foydalanadi.
+
+
+## ADR-019 — Bitta Git monorepo
+
+- Holat: `ACCEPTED`
+- Qaror: frontend React/Vite, Fastify backend, Supabase migrations va loyiha
+  hujjatlari bitta `sarvar9417/attestatsiya` repositoryda saqlanadi.
+- Fizik tuzilma: frontend mavjud repository rootida, backend `backend/` ichida,
+  database artefaktlari `supabase/` ichida qoladi.
+- Sabab: frontend-backend API kontraktlari, testlar, task handofflari va AI coder
+  ishlari bitta commit/PR chegarasida tekshirilishi kerak; alohida backend repo
+  status drift va deploy/source tafovutini keltirib chiqardi.
+- Deploy: frontend va backend Vercelda alohida project bo‘lib qolishi mumkin;
+  bu source repositoryni ajratishni talab qilmaydi. Backend Vercel project
+  `backend/` rootDirectory bilan deploy qilinadi.
+- Migratsiya: eski `sarvar9417/attestatsiya-backend` repository yangi ishlar uchun
+  source-of-truth emas; cutover tekshirilib bo‘lgunga qadar rollback/deploy fallback.
+- Xavfsizlik: service-role secret faqat backend environmentda qoladi va browser
+  frontend bundle'iga kiritilmaydi.

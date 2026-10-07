@@ -22,7 +22,19 @@ haqiqatiga ko‘chirilmagan. Production deploy mavjud emas.
 
 ## Texnik arxitektura
 
-- React 18 + Vite + TypeScript strict.
+Repository endi **bitta monorepo** sifatida boshqariladi:
+
+```text
+attestatsiya/
+├── src/          # React + Vite frontend
+├── backend/      # Fastify API + Vercel serverless entry
+├── supabase/     # migratsiyalar, seed va DB testlar
+├── scripts/
+└── docs/spec fayllari
+```
+
+- Frontend: React 18 + Vite + TypeScript strict.
+- Backend: Fastify + TypeScript, `backend/` ichida.
 - Supabase Auth, PostgreSQL, Storage va RLS.
 - Yozuv, scoring, exam timer va mastery uchun tekshirilgan RPC/Edge Function
   server chegarasi.
@@ -56,10 +68,21 @@ Talablar:
 - npm
 - Docker Desktop — faqat lokal Supabase kerak bo‘lsa
 
+Frontend va backend bir repository ichida, lekin dependency va env chegaralari
+alohida saqlanadi:
+
 ```bash
 cp .env.example .env
+cp backend/.env.example backend/.env
 npm ci
+npm --prefix backend ci
+```
+
+Ikki terminalda:
+
+```bash
 npm run dev
+npm run dev:backend
 ```
 
 Quality gate:
@@ -69,11 +92,13 @@ npm run lint
 npm run test
 npm run build
 npm run test:e2e
+npm run check:backend
 ```
 
-`.env` ichida faqat browser uchun mo‘ljallangan Supabase URL va anon key
-saqlanadi. DB paroli, personal access token va service-role key repository
-fayllarida saqlanmaydi.
+Root `.env` ichida faqat browser uchun mo‘ljallangan Supabase URL va anon key
+saqlanadi. `backend/.env` server credentiallari uchun va Git’dan chiqarilgan.
+DB paroli, personal access token va service-role key repository fayllarida
+saqlanmaydi.
 
 Remote UUID sxema o‘zgarganda TypeScript kontraktini Supabase CLI loginidan
 quyidagicha qayta generatsiya qiling:

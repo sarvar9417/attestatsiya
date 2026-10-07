@@ -54,6 +54,44 @@ jobs:
       - name: E2E smoke
         run: npm run test:e2e
 
+  backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SUPABASE_URL: https://example.invalid
+      SUPABASE_SERVICE_KEY: ci-placeholder-key
+      AUTH_REDIRECT_URL: http://localhost:3001
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Secret scan
+        run: npm run check:secrets
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Typecheck (api entry)
+        run: npm run typecheck:api
+
+      - name: Unit tests
+        run: npm run test
+
   database:
     runs-on: ubuntu-latest
     timeout-minutes: 10
