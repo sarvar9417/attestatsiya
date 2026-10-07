@@ -112,6 +112,13 @@ export const backendGateway: ExamGateway = {
     return parseResponse(examSessionSchema, data, 'start_topic')
   },
 
+  async startAdaptivePractice(lessonId: string): Promise<ExamSession> {
+    const data = await api.post<unknown>('/api/exam/practice', {
+      lesson_id: lessonId,
+    })
+    return parseResponse(examSessionSchema, data, 'start_adaptive_practice')
+  },
+
   async startFocusedExam(kind: 'diagnostika' | 'takrorlash' | 'zaif'): Promise<ExamSession> {
     const data = await api.post<unknown>('/api/exam/start', { kind })
     return parseResponse(examSessionSchema, data, `start_${kind}`)
