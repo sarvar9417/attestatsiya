@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   ArrowRight,
@@ -18,6 +18,7 @@ import { useCatalog } from '../hooks/useCatalog'
 import { useProgressStore, type ModuleProgress } from '../store/progressStore'
 import type { CatalogModule } from '../features/content/catalog'
 import BlueprintStrip from '../components/dashboard/BlueprintStrip'
+import { progressGateway, type ReadinessResponse } from '../features/progress/progressGateway'
 
 type SectionKey =
   | 'specialty'
@@ -135,6 +136,28 @@ export default function DashboardPage() {
   const { displayName } = useAuth()
   const { modules } = useCatalog()
   const { getModuleProgress } = useProgressStore()
+  const [readiness, setReadiness] = useState<ReadinessResponse | null>(null)
+  const [readinessLoading, setReadinessLoading] = useState(true)
+
+  useEffect(() => {
+    let cancelled = false
+
+    void progressGateway
+      .getReadiness()
+      .then(data => {
+        if (!cancelled) setReadiness(data)
+      })
+      .catch(() => {
+        if (!cancelled) setReadiness(null)
+      })
+      .finally(() => {
+        if (!cancelled) setReadinessLoading(false)
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   const model = useMemo(() => {
     let completedTopics = 0
@@ -365,13 +388,23 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between gap-3">
               <div>
                 <span className="inline-flex rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-semibold text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300">
-                  TAYYORLIK
+                  TAXMINIY TAYYORLIK
                 </span>
                 <p className="mt-3 text-2xl font-bold text-gray-950 dark:text-white">
-                  {model.overallPercent}%
+                  {readinessLoading
+                    ? '…'
+                    : readiness?.readiness_percent === null ||
+                        readiness?.readiness_percent === undefined
+                      ? '—'
+                      : `${readiness.readiness_percent}%`}
                 </p>
-                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                  umumiy o‘zlashtirish
+                <p className="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-400">
+                  {readinessLoading
+                    ? 'Server evidence hisoblanmoqda'
+                    : readiness?.readiness_percent === null ||
+                        readiness?.readiness_percent === undefined
+                      ? 'Boshlang‘ich daraja noma’lum'
+                      : `Ishonchlilik: ${confidenceLabel(readiness.confidence)} · ${readiness.independent_evidence} ta mustaqil javob`}
                 </p>
               </div>
               <div className="grid h-12 w-12 place-items-center rounded-2xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-300">
@@ -380,10 +413,21 @@ export default function DashboardPage() {
             </div>
             <div className="mt-4 h-2 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
               <div
-                className="h-full rounded-full bg-emerald-500"
-                style={{ width: `${model.overallPercent}%` }}
+                className="h-full rounded-full bg-emerald-500 transition-[width]"
+                style={{ width: `${readiness?.readiness_percent ?? 0}%` }}
+                aria-label={
+                  readiness?.readiness_percent === null ||
+                  readiness?.readiness_percent === undefined
+                    ? 'Taxminiy tayyorgarlik uchun evidence yetarli emas'
+                    : `Taxminiy tayyorgarlik: ${readiness.readiness_percent}%`
+                }
               />
             </div>
+            {!readinessLoading && readiness?.available && (
+              <p className="mt-2 text-[11px] text-gray-400">
+                Blueprint qamrovi: {readiness.coverage_percent}% · kafolat emas
+              </p>
+            )}
           </div>
 
           <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900">
@@ -423,8 +467,8 @@ export default function DashboardPage() {
             <div className="mt-4 space-y-3">
               <PlanRow
                 index={1}
-                title="Keyingi mavzuni o‘rganish"
-                meta={model.continueModule?.code ?? 'O‘quv moduli'}
+                title={readiness?.next_action.label ?? 'Keyingi mavzuni o‘rganish'}
+                meta={readiness?.next_action.reason ?? model.continueModule?.code ?? 'O‘quv moduli'}
               />
               <PlanRow
                 index={2}
@@ -440,10 +484,12 @@ export default function DashboardPage() {
 
             <button
               type="button"
-              onClick={() => navigate('/exam')}
+              onClick={() =>
+                navigate(readiness?.next_action.href ?? '/exam')
+              }
               className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 px-4 py-2.5 text-sm font-semibold text-gray-700 transition hover:border-indigo-200 hover:text-indigo-600 dark:border-gray-700 dark:text-gray-200 dark:hover:border-indigo-700 dark:hover:text-indigo-300"
             >
-              Mock test
+              {readiness?.next_action.label ?? 'Mock test'}
               <ChevronRight size={16} aria-hidden="true" />
             </button>
           </div>
@@ -451,6 +497,13 @@ export default function DashboardPage() {
       </section>
     </div>
   )
+}
+
+function confidenceLabel(value: ReadinessResponse['confidence']): string {
+  if (value === 'high') return 'yuqori'
+  if (value === 'medium') return 'o‘rta'
+  if (value === 'low') return 'past'
+  return 'yetarli emas'
 }
 
 type MetricTone = 'indigo' | 'blue' | 'emerald' | 'violet'
