@@ -452,30 +452,48 @@ export type Database = {
       profiles: {
         Row: {
           created_at: string
+          daily_goal_minutes: number
           display_name: string | null
+          exam_date: string | null
           id: string
           is_blocked: boolean
           last_seen_at: string | null
+          locale: string
+          onboarding_completed_at: string | null
           region: string | null
           role: Database["public"]["Enums"]["user_role"]
+          timezone: string
+          updated_at: string
         }
         Insert: {
           created_at?: string
+          daily_goal_minutes?: number
           display_name?: string | null
+          exam_date?: string | null
           id: string
           is_blocked?: boolean
           last_seen_at?: string | null
+          locale?: string
+          onboarding_completed_at?: string | null
           region?: string | null
           role?: Database["public"]["Enums"]["user_role"]
+          timezone?: string
+          updated_at?: string
         }
         Update: {
           created_at?: string
+          daily_goal_minutes?: number
           display_name?: string | null
+          exam_date?: string | null
           id?: string
           is_blocked?: boolean
           last_seen_at?: string | null
+          locale?: string
+          onboarding_completed_at?: string | null
           region?: string | null
           role?: Database["public"]["Enums"]["user_role"]
+          timezone?: string
+          updated_at?: string
         }
         Relationships: []
       }
