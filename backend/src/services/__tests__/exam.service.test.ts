@@ -230,15 +230,94 @@ describe('examService.review', () => {
     vi.clearAllMocks()
   })
 
-  it('returns review data for a finished exam', async () => {
+  it('returns finalized review enriched with readable option text', async () => {
     mockRpc.mockResolvedValue({
-      data: [{ question_id: 'q-1', correct: true }, { question_id: 'q-2', correct: false }],
+      data: [
+        {
+          order_idx: 1,
+          stem_md: 'Savol 1',
+          format: 'Y1',
+          user_answer: { option_id: 'o-2' },
+          is_correct: false,
+          key: { correct_option_id: 'o-1' },
+          explanation_md: 'Izoh',
+        },
+      ],
       error: null,
     })
 
+    const examItemsEq = vi.fn().mockResolvedValue({
+      data: [{ order_idx: 1, question_id: 'q-1' }],
+      error: null,
+    })
+    const optionOrder = vi.fn().mockResolvedValue({
+      data: [
+        {
+          id: 'o-1',
+          question_id: 'q-1',
+          side: 'a',
+          order_idx: 1,
+          content_md: 'Variant A',
+        },
+        {
+          id: 'o-2',
+          question_id: 'q-1',
+          side: 'a',
+          order_idx: 2,
+          content_md: 'Variant B',
+        },
+      ],
+      error: null,
+    })
+    const optionIn = vi.fn(() => ({ order: optionOrder }))
+
+    mockFrom.mockImplementation((table: string) => {
+      if (table === 'exam_items') {
+        return {
+          select: vi.fn(() => ({ eq: examItemsEq })),
+        }
+      }
+      if (table === 'question_options') {
+        return {
+          select: vi.fn(() => ({ in: optionIn })),
+        }
+      }
+      throw new Error(`unexpected table: ${table}`)
+    })
+
     const result = await examService.review('exam-123', 'token-abc')
-    expect(result).toHaveLength(2)
+
+    expect(result).toHaveLength(1)
+    expect(result[0]).toMatchObject({
+      order_idx: 1,
+      options: [
+        { id: 'o-1', side: 'a', content_md: 'Variant A' },
+        { id: 'o-2', side: 'a', content_md: 'Variant B' },
+      ],
+    })
     expect(mockRpc).toHaveBeenCalledWith('get_review', { p_exam_id: 'exam-123' })
+    expect(examItemsEq).toHaveBeenCalledWith('exam_id', 'exam-123')
+    expect(optionIn).toHaveBeenCalledWith('question_id', ['q-1'])
+  })
+
+  it('keeps finalized review usable when option enrichment fails', async () => {
+    mockRpc.mockResolvedValue({
+      data: [{ order_idx: 1, stem_md: 'Savol', format: 'Y1' }],
+      error: null,
+    })
+
+    mockFrom.mockReturnValue({
+      select: vi.fn(() => ({
+        eq: vi.fn().mockResolvedValue({
+          data: null,
+          error: { message: 'rls/read error' },
+        }),
+      })),
+    })
+
+    const result = await examService.review('exam-123', 'token-abc')
+
+    expect(result[0]).toMatchObject({ order_idx: 1, options: [] })
   })
 
   it('throws NotFoundError when exam not found', async () => {
