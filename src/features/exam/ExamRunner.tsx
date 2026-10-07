@@ -1,6 +1,7 @@
 import {
   AlertTriangle,
   ArrowLeft,
+  Bookmark,
   Check,
   CheckCircle2,
   ChevronDown,
@@ -9,8 +10,11 @@ import {
   Clock3,
   Flag,
   LoaderCircle,
+  Monitor,
+  Moon,
   RefreshCw,
   ShieldCheck,
+  Sun,
   X,
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
@@ -39,6 +43,8 @@ import { backendGateway } from './backendGateway'
 import Y1Choice from './questions/Y1Choice'
 import Y2Match from './questions/Y2Match'
 import Y3Order from './questions/Y3Order'
+import { useAuth } from '../../hooks/useAuth'
+import { cycleTheme, getThemePreference } from '../../utils/theme'
 
 type RunnerPhase =
   | 'intro'
@@ -76,6 +82,15 @@ function errorMessage(error: unknown): string {
   return 'Kutilmagan xato yuz berdi. Qayta urinib ko‘ring.'
 }
 
+function initials(value: string | null | undefined): string {
+  const parts = value?.trim().split(/\s+/).filter(Boolean) ?? []
+  if (parts.length === 0) return 'U'
+  return parts
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? '')
+    .join('')
+}
+
 export default function ExamRunner({
   gateway = backendGateway,
   examKind = 'mock',
@@ -84,6 +99,8 @@ export default function ExamRunner({
   backUrl,
   onFinished,
 }: ExamRunnerProps) {
+  const { displayName, user } = useAuth()
+  const [themePref, setThemePref] = useState(getThemePreference())
   const [phase, setPhase] = useState<RunnerPhase>('intro')
   const [session, setSession] = useState<ExamSession | null>(null)
   const [result, setResult] = useState<FinishExamResponse | null>(null)
