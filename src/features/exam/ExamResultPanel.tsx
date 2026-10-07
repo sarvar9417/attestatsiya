@@ -463,9 +463,9 @@ export default function ExamResultPanel({
           </p>
           <h2 className="mt-2 text-lg font-semibold text-gray-950 dark:text-white">
             {status === 'passed'
-              ? 'Talab bajarildi'
+              ? 'Natija talab darajasida'
               : status === 'failed'
-                ? 'Mustahkamlash kerak'
+                ? 'Natijani mustahkamlash kerak'
                 : 'Ball qayd etildi'}
           </h2>
           <p className="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-300">
@@ -509,6 +509,42 @@ export default function ExamResultPanel({
                 <p className="mt-1 text-xs text-gray-400">
                   {percent(item.togri, item.jami)}%
                 </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {orderedBreakdown.length > 0 && (
+        <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900 sm:p-6">
+          <div>
+            <h2 className="text-lg font-semibold text-gray-950 dark:text-white">
+              Guruhlar kesimi
+            </h2>
+            <p className="mt-1 text-xs text-gray-400">
+              To‘g‘ri javoblar va jami savollar server natijasi bo‘yicha.
+            </p>
+          </div>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {orderedBreakdown.map(item => (
+              <div
+                key={item.group_code}
+                className="rounded-xl border border-gray-200 p-4 dark:border-gray-800"
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <span className="font-mono text-xs font-semibold text-gray-600 dark:text-gray-300">
+                    {item.group_code}
+                  </span>
+                  <span className="text-sm font-bold text-gray-900 dark:text-white">
+                    {item.togri} / {item.jami}
+                  </span>
+                </div>
+                <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
+                  <div
+                    className="h-full rounded-full bg-indigo-500"
+                    style={{ width: `${percent(item.togri, item.jami)}%` }}
+                  />
+                </div>
               </div>
             ))}
           </div>
