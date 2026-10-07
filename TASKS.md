@@ -28,7 +28,7 @@
 | T-004 | DONE | `submit_answer` owner/membership tekshiradi, answer immutable va retry idempotent |
 | T-005 | DONE | Remote seed 16 modul, 15 guruh, 50/120 va 8/35/7 kontraktiga reconcile qilindi |
 | T-006 | DONE | Frontend role guard + admin panel UUID schema/type reconciliation yakunlangan; AdminDashboard/Modules/Questions/Attempts typed oqimda, main CI typecheck/build yashil |
-| T-007 | IN_PROGRESS | Domain/RLS va product-flow QA qamrovini kengaytirish: question_keys owner/cross-user/admin RLS + Dashboard→O‘rganish→Modul Playwright flow |
+| T-007 | DONE | Domain/RLS + product-flow QA: question_keys staff-only security boundary, learner/cross-user/admin regressiya testlari, Dashboard→O‘rganish→M01 Playwright E2E; full CI yashil |
 
 ## Darslik kontenti ekstraksiyasi
 
