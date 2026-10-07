@@ -1197,3 +1197,22 @@ Behavior: explicit answer submit, server timer/scoring, local review flag semant
 Figma live read: Starter tool limit sabab bloklangan; saved approved reference + prior screen contract ishlatildi
 Keyingi tavsiya: Natija/Xatolar ekranlarining Figma parity auditini davom ettirish
 ```
+
+
+## Post-exam learner flow (T-030, 2026-10-07)
+
+- **Reja manbasi:** oldingi chatlarda tasdiqlangan Figma oqimi
+  `Mock Test → Natija → Xatolar` va `UX_SPEC.md` Result/Errors talablari.
+- **Figma holati:** `WkjyxZbrAGkolxjYop7VrS` file live o‘qilishi Starter MCP
+  call limit sabab bloklangan; shu task mavjud tasdiqlangan visual system,
+  T-029 exam shell va repositorydagi UX specdan chetga chiqmaydi.
+- **Natija → action:** finalized natija ekranida `Xatolarni qayta ishlash` va
+  `Natijalar tarixi` yo‘llari ko‘rsatiladi.
+- **Item review:** `Tahlilni ochish` learnerning joriy finalized exam idsi bilan
+  `getReview(exam_id)`ni chaqiradi. Savol holati, construct, stem va explanation
+  serverdan keladi; review exam tugashidan oldin yuklanmaydi.
+- **Xavfsizlik:** client scoring qayta hisoblanmaydi; answer key browserga exam
+  tugashidan oldin chiqarilmaydi; mavjud explicit submit va server finish semantikasi
+  o‘zgarmadi.
+- **Ataylab qo‘shilmagan:** UX specdagi vaqt, 4 section, 16 module va cognitive
+  kesimlari joriy finish kontraktida yo‘q, shuning uchun UI’da uydirilmagan.
