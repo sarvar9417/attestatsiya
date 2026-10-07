@@ -1,6 +1,7 @@
 import {
   AlertTriangle,
   ArrowLeft,
+  Bookmark,
   Check,
   CheckCircle2,
   ChevronDown,
@@ -9,8 +10,11 @@ import {
   Clock3,
   Flag,
   LoaderCircle,
+  Monitor,
+  Moon,
   RefreshCw,
   ShieldCheck,
+  Sun,
   X,
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
@@ -39,6 +43,8 @@ import { backendGateway } from './backendGateway'
 import Y1Choice from './questions/Y1Choice'
 import Y2Match from './questions/Y2Match'
 import Y3Order from './questions/Y3Order'
+import { useAuth } from '../../hooks/useAuth'
+import { cycleTheme, getThemePreference } from '../../utils/theme'
 
 type RunnerPhase =
   | 'intro'
@@ -76,6 +82,15 @@ function errorMessage(error: unknown): string {
   return 'Kutilmagan xato yuz berdi. Qayta urinib ko‘ring.'
 }
 
+function initials(value: string | null | undefined): string {
+  const parts = value?.trim().split(/\s+/).filter(Boolean) ?? []
+  if (parts.length === 0) return 'U'
+  return parts
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? '')
+    .join('')
+}
+
 export default function ExamRunner({
   gateway = backendGateway,
   examKind = 'mock',
@@ -84,6 +99,8 @@ export default function ExamRunner({
   backUrl,
   onFinished,
 }: ExamRunnerProps) {
+  const { displayName, user } = useAuth()
+  const [themePref, setThemePref] = useState(getThemePreference())
   const [phase, setPhase] = useState<RunnerPhase>('intro')
   const [session, setSession] = useState<ExamSession | null>(null)
   const [result, setResult] = useState<FinishExamResponse | null>(null)
@@ -672,6 +689,18 @@ export default function ExamRunner({
   const answeredQuestions = session.items.filter(
     (item) => savedQuestionIds.has(item.question_id)
   ).length
+  const progressPercent =
+    total > 0 ? Math.round((answeredQuestions / total) * 100) : 0
+  const candidateName =
+    displayName?.trim() || user?.email || 'Foydalanuvchi'
+  const candidateId = user?.id
+    ? user.id.replace(/-/g, '').slice(0, 8).toUpperCase()
+    : null
+
+  const handleCycleTheme = () => {
+    cycleTheme()
+    setThemePref(getThemePreference())
+  }
 
   const toggleCurrentFlag = () => {
     setFlaggedQuestionIds((current) => {
@@ -685,142 +714,357 @@ export default function ExamRunner({
     })
   }
 
-  // Move to a specific question
-  const goToQuestion = (index: number) => {
+  const goToQuestion = (index: number, closeSidebar = false) => {
     setCurrentIndex(index)
-    setSidebarOpen(false)
+    if (closeSidebar) setSidebarOpen(false)
   }
 
-  return (
-    <main className="flex flex-col h-dvh bg-gray-50 dark:bg-gray-950">
-      {/* ── Body: Sidebar + Main ─────────────────────────── */}
-      <div className="flex flex-1 min-h-0 overflow-hidden">
-        {/* ── LEFT SIDEBAR (Desktop) ──────────────────────── */}
-        <aside className="hidden lg:flex exam-sidebar">
-          {/* User info card */}
-          <div className="exam-sidebar-section border-b border-gray-100 dark:border-gray-800">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-b2-600 flex items-center justify-center text-white font-bold text-sm shadow-sm">
-                {examTitle.charAt(0)}
-              </div>
-              <div className="min-w-0">
-                <p className="text-xs font-semibold text-gray-900 dark:text-white truncate">{examTitle}</p>
-                <p className="text-[11px] text-gray-400">Attestatsiya platformasi</p>
-              </div>
-            </div>
-          </div>
+  const renderQuestionGrid = (closeSidebar = false) => (
+    <div className="exam-q-grid">
+      {session.items.map((item, index) => {
+        const saved = savedQuestionIds.has(item.question_id)
+        const flagged = flaggedQuestionIds.has(item.question_id)
+        const isCurrent = index === currentIndex
 
-          {/* Timer */}
-          <div className="exam-sidebar-section border-b border-gray-100 dark:border-gray-800">
-            <p className="exam-sidebar-section-header">Qolgan vaqt</p>
-            {remainingSeconds !== null ? (
-              <div className={`exam-timer ${remainingSeconds <= 300 ? 'exam-timer-urgent' : ''}`}>
-                <Clock3 size={20} className={remainingSeconds <= 300 ? 'text-red-500' : 'text-primary-500'} />
-                <span className={`exam-timer-display ${remainingSeconds <= 300 ? 'text-red-600 dark:text-red-400' : 'text-gray-900 dark:text-white'}`}>
-                  {formatDuration(remainingSeconds)}
-                </span>
-              </div>
-            ) : (
-              <p className="text-sm text-gray-400">Cheklanmagan</p>
-            )}
-          </div>
+        let btnClass = 'exam-q-btn '
+        if (isCurrent) {
+          btnClass += 'exam-q-btn-current'
+        } else if (flagged) {
+          btnClass += 'exam-q-btn-flagged'
+        } else if (saved) {
+          btnClass += 'exam-q-btn-answered'
+        } else {
+          btnClass += 'exam-q-btn-unanswered'
+        }
 
-          {/* Progress stats */}
-          <div className="exam-sidebar-section border-b border-gray-100 dark:border-gray-800">
-            <div className="flex items-center justify-between gap-4">
-              <div className="exam-stat-chip-answered">
-                <Check size={12} />
-                <span>{answeredQuestions} ta bajarildi</span>
-              </div>
-              <div className="exam-stat-chip-remaining">
-                <span>{unansweredCount} ta qoldi</span>
-              </div>
-            </div>
-            {/* Mini progress bar */}
-            <div className="exam-progress mt-3">
-              <div
-                className="exam-progress-fill bg-gradient-to-r from-emerald-500 to-primary-500"
-                style={{ width: `${total > 0 ? (answeredQuestions / total) * 100 : 0}%` }}
+        return (
+          <button
+            key={item.question_id}
+            type="button"
+            disabled={interactionBusy}
+            aria-label={`Savol ${index + 1}${saved ? ', javob saqlangan' : ''}${flagged ? ', keyin ko‘rish uchun belgilangan' : ''}`}
+            aria-current={isCurrent ? 'true' : undefined}
+            onClick={() => goToQuestion(index, closeSidebar)}
+            className={btnClass}
+          >
+            <span>{index + 1}</span>
+            {flagged && (
+              <Bookmark
+                size={8}
+                fill="currentColor"
+                className="exam-q-bookmark"
+                aria-hidden="true"
               />
-            </div>
-            <p className="text-[11px] text-gray-400 text-center mt-1.5">
-              {currentIndex + 1} / {total} · {Math.round((answeredQuestions / total) * 100)}%
-            </p>
-            {flaggedCount > 0 && (
-              <p className="mt-2 flex items-center justify-center gap-1 text-[11px] font-semibold text-amber-600 dark:text-amber-400">
-                <Flag size={12} aria-hidden="true" />
-                Belgilangan: {flaggedCount}
-              </p>
             )}
-          </div>
+          </button>
+        )
+      })}
+    </div>
+  )
 
-          {/* Question navigation grid */}
-          <div className="exam-sidebar-section flex-1 overflow-y-auto scrollbar-thin">
-            <p className="exam-sidebar-section-header">
-              Savollar ({total})
+  const legend = (
+    <div className="exam-question-legend" aria-label="Savol holatlari">
+      <span>
+        <i className="bg-emerald-500" aria-hidden="true" />
+        Javob berilgan
+      </span>
+      <span>
+        <i className="bg-primary-500" aria-hidden="true" />
+        Joriy savol
+      </span>
+      <span>
+        <i className="bg-amber-400" aria-hidden="true" />
+        Belgilangan
+      </span>
+      <span>
+        <i className="bg-gray-300 dark:bg-gray-600" aria-hidden="true" />
+        Javob berilmagan
+      </span>
+    </div>
+  )
+
+  return (
+    <main className="exam-immersive-shell">
+      <header className="exam-topbar">
+        <div className="flex min-w-0 items-center gap-3">
+          <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary-600 text-white shadow-sm">
+            <ShieldCheck size={20} aria-hidden="true" />
+          </div>
+          <div className="hidden min-w-0 sm:block">
+            <p className="truncate text-sm font-bold text-gray-950 dark:text-white">
+              Attestatsiya
             </p>
-            <div className="exam-q-grid">
-              {session.items.map((item, index) => {
-                const saved = savedQuestionIds.has(item.question_id)
-                const flagged = flaggedQuestionIds.has(item.question_id)
-                const isCurrent = index === currentIndex
+            <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-gray-400">
+              Test platformasi
+            </p>
+          </div>
+          <div className="mx-1 hidden h-7 w-px bg-gray-200 dark:bg-gray-700 md:block" />
+          <div className="min-w-0">
+            <p className="truncate text-sm font-semibold text-gray-800 dark:text-gray-100">
+              {examTitle}
+            </p>
+            <p className="text-[11px] text-gray-400 md:hidden">
+              {currentIndex + 1} / {total}-savol
+            </p>
+          </div>
+        </div>
 
-                let btnClass = 'exam-q-btn '
-                if (isCurrent) {
-                  btnClass += 'exam-q-btn-current'
-                } else if (saved) {
-                  btnClass += 'exam-q-btn-answered'
-                } else {
-                  btnClass += 'exam-q-btn-unanswered'
-                }
-                if (flagged) {
-                  btnClass += ' ring-2 ring-amber-400 ring-offset-1 dark:ring-offset-gray-900'
-                }
-
-                return (
-                  <button
-                    key={item.question_id}
-                    type="button"
-                    disabled={interactionBusy}
-                    aria-label={`Savol ${index + 1}${saved ? ', javob saqlangan' : ''}${flagged ? ', keyin ko‘rish uchun belgilangan' : ''}`}
-                    aria-current={isCurrent ? 'true' : undefined}
-                    onClick={() => goToQuestion(index)}
-                    className={btnClass}
-                  >
-                    {index + 1}
-                  </button>
-                )
-              })}
-            </div>
+        <div className="flex shrink-0 items-center gap-2">
+          <div
+            className={[
+              'hidden items-center gap-1.5 rounded-full px-2.5 py-1.5 text-[11px] font-semibold sm:flex',
+              submittingId
+                ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300'
+                : currentSaved
+                  ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300'
+                  : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-300',
+            ].join(' ')}
+            aria-live="polite"
+          >
+            {submittingId ? (
+              <LoaderCircle size={12} className="animate-spin" aria-hidden="true" />
+            ) : currentSaved ? (
+              <Check size={12} aria-hidden="true" />
+            ) : (
+              <span className="h-1.5 w-1.5 rounded-full bg-gray-400" aria-hidden="true" />
+            )}
+            {submittingId
+              ? 'Saqlanmoqda...'
+              : currentSaved
+                ? 'Saqlandi'
+                : 'Saqlanmagan'}
           </div>
 
-          {/* Finish button + user info at bottom */}
-          <div className="exam-sidebar-section border-t border-gray-100 dark:border-gray-800 mt-auto">
-            {finishArmed ? (
-              <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/40">
-                <p className="text-xs font-medium text-amber-800 dark:text-amber-200 mb-3">
-                  {unansweredCount > 0
-                    ? `${unansweredCount} ta javoblanmagan savol bor. Baribir yakunlaysizmi?`
-                    : 'Barcha savollarga javob berildi. Yakunlaysizmi?'}
-                </p>
-                <div className="flex gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setFinishArmed(false)}
-                    className="exam-nav-btn-prev flex-1 justify-center"
-                  >
-                    Bekor qilish
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => void finishExam()}
-                    className="exam-nav-btn-save flex-1 justify-center"
-                  >
-                    Yakunlash
-                  </button>
+          <button
+            type="button"
+            onClick={handleCycleTheme}
+            className="exam-topbar-icon-btn"
+            aria-label="Rang mavzusini almashtirish"
+            title="Rang mavzusini almashtirish"
+          >
+            {themePref === 'light' && <Sun size={17} aria-hidden="true" />}
+            {themePref === 'dark' && <Moon size={17} aria-hidden="true" />}
+            {themePref === 'system' && <Monitor size={17} aria-hidden="true" />}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setSidebarOpen(true)}
+            className="exam-topbar-icon-btn lg:hidden"
+            aria-label="Savollar panelini ochish"
+          >
+            <ChevronDown size={18} aria-hidden="true" />
+          </button>
+        </div>
+      </header>
+
+      <div className="flex min-h-0 flex-1 overflow-hidden">
+        <section className="flex min-w-0 flex-1 flex-col overflow-y-auto bg-gray-50/70 dark:bg-gray-950">
+          <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col p-4 sm:p-6 lg:p-8">
+            <section className="exam-question-panel" aria-label={`Savol ${currentIndex + 1}`}>
+              <div className="exam-question-summary">
+                <div className="flex min-w-0 flex-wrap items-center gap-2">
+                  <span className="inline-flex rounded-lg bg-primary-50 px-2.5 py-1 text-[11px] font-semibold text-primary-700 dark:bg-primary-900/50 dark:text-primary-300">
+                    Informatika
+                  </span>
+                  <span className="text-sm font-bold text-gray-900 dark:text-white">
+                    {currentIndex + 1} / {total}-savol
+                  </span>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] font-medium text-gray-500 dark:text-gray-400">
+                  <span className="text-gray-700 dark:text-gray-200">
+                    {`Javob berilgan: ${answeredQuestions}`}
+                  </span>
+                  <span className="inline-flex items-center gap-1 text-gray-700 dark:text-gray-200">
+                    <Bookmark size={12} aria-hidden="true" />
+                    {`Belgilangan: ${flaggedCount}`}
+                  </span>
                 </div>
               </div>
-            ) : (
+
+              <div className="exam-question-progress-row">
+                <div className="exam-progress flex-1">
+                  <div
+                    className="exam-progress-fill bg-primary-600"
+                    style={{ width: `${progressPercent}%` }}
+                  />
+                </div>
+                <span className="w-10 text-right text-[11px] font-semibold tabular-nums text-gray-400">
+                  {progressPercent}%
+                </span>
+              </div>
+
+              <div className="exam-question-meta">
+                <span className="inline-flex items-center gap-1.5 rounded-lg bg-primary-50 px-3 py-1.5 font-mono text-xs font-bold text-primary-700 dark:bg-primary-900/30 dark:text-primary-300">
+                  {currentItem.format}
+                </span>
+                {currentItem.cognitive_level && (
+                  <span className="inline-flex items-center gap-1.5 rounded-lg bg-purple-50 px-3 py-1.5 text-xs font-medium text-purple-700 dark:bg-purple-900/30 dark:text-purple-300">
+                    {{
+                      knowledge: 'Bilish',
+                      application: 'Qo‘llash',
+                      reasoning: 'Mulohaza',
+                    }[currentItem.cognitive_level] || currentItem.cognitive_level}
+                  </span>
+                )}
+                {currentItem.difficulty && (
+                  <span className="inline-flex items-center gap-1 rounded-lg bg-amber-50 px-2.5 py-1.5 text-xs font-medium text-amber-600 dark:bg-amber-900/20 dark:text-amber-400">
+                    {'★'.repeat(currentItem.difficulty)}
+                    {'☆'.repeat(5 - currentItem.difficulty)}
+                  </span>
+                )}
+                <div className="flex-1" />
+                <button
+                  type="button"
+                  onClick={toggleCurrentFlag}
+                  disabled={interactionBusy}
+                  aria-pressed={currentFlagged}
+                  aria-label={
+                    currentFlagged
+                      ? 'Savoldan belgini olib tashlash'
+                      : 'Savolni keyin ko‘rish uchun belgilash'
+                  }
+                  className={[
+                    'inline-flex min-h-9 items-center gap-1.5 rounded-lg px-3 text-xs font-semibold transition',
+                    currentFlagged
+                      ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300'
+                      : 'bg-gray-100 text-gray-600 hover:bg-amber-50 hover:text-amber-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-amber-900/20 dark:hover:text-amber-300',
+                  ].join(' ')}
+                >
+                  <Bookmark
+                    size={14}
+                    fill={currentFlagged ? 'currentColor' : 'none'}
+                    aria-hidden="true"
+                  />
+                  <span className="hidden sm:inline">
+                    {currentFlagged ? 'Belgilangan' : 'Belgilash'}
+                  </span>
+                </button>
+              </div>
+
+              <div className="exam-question-card">
+                <div className="exam-question-stem">
+                  {renderQuestion(currentItem)}
+                </div>
+              </div>
+
+              <div aria-live="polite" className="mt-4 min-h-8">
+                {message && (
+                  <div
+                    className={[
+                      'flex items-start gap-3 rounded-xl border p-4',
+                      message.includes('saqlandi') || message.startsWith('To‘g‘ri.')
+                        ? 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800/40 dark:bg-emerald-900/20 dark:text-emerald-300'
+                        : 'border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-800/40 dark:bg-amber-900/20 dark:text-amber-300',
+                    ].join(' ')}
+                  >
+                    {message.includes('saqlandi') || message.startsWith('To‘g‘ri.') ? (
+                      <CheckCircle2
+                        size={18}
+                        className="mt-0.5 shrink-0 text-emerald-500"
+                        aria-hidden="true"
+                      />
+                    ) : (
+                      <AlertTriangle
+                        size={18}
+                        className="mt-0.5 shrink-0 text-amber-500"
+                        aria-hidden="true"
+                      />
+                    )}
+                    <span className="text-sm leading-relaxed">{message}</span>
+                  </div>
+                )}
+              </div>
+            </section>
+          </div>
+
+          {finishArmed && (
+            <div className="exam-finish-confirm">
+              <div>
+                <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                  Sinovni yakunlaysizmi?
+                </p>
+                <p className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">
+                  {unansweredCount > 0
+                    ? `${unansweredCount} ta savol javobsiz qolgan.`
+                    : 'Barcha savollarga javob berilgan.'}
+                </p>
+              </div>
+              <div className="flex shrink-0 gap-2">
+                <button
+                  type="button"
+                  onClick={() => setFinishArmed(false)}
+                  className="exam-nav-btn-prev"
+                >
+                  Bekor qilish
+                </button>
+                <button
+                  type="button"
+                  onClick={() => void finishExam()}
+                  className="exam-finish-confirm-btn"
+                >
+                  Yakunlash
+                </button>
+              </div>
+            </div>
+          )}
+
+          <div className="exam-nav-bar">
+            <div className="mx-auto grid w-full max-w-5xl grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 lg:grid-cols-[auto_1fr_minmax(190px,1.2fr)_1fr_auto]">
+              <button
+                type="button"
+                disabled={currentIndex === 0 || interactionBusy}
+                onClick={() => setCurrentIndex((value) => Math.max(0, value - 1))}
+                className="exam-nav-btn-prev"
+                aria-label="Oldingi"
+              >
+                <ChevronLeft size={17} aria-hidden="true" />
+                <span className="hidden sm:inline">Oldingi</span>
+              </button>
+
+              <span className="hidden text-center text-xs font-semibold tabular-nums text-gray-400 lg:block">
+                {currentIndex + 1} / {total}-savol
+              </span>
+
+              <button
+                type="button"
+                disabled={
+                  !currentComplete ||
+                  currentSaved ||
+                  submittingId === currentItem.question_id ||
+                  interactionBusy
+                }
+                onClick={() => void submitCurrentAnswer()}
+                className="exam-nav-btn-save justify-center"
+              >
+                {submittingId === currentItem.question_id ? (
+                  <LoaderCircle size={17} className="animate-spin" aria-hidden="true" />
+                ) : currentSaved ? (
+                  <Check size={17} aria-hidden="true" />
+                ) : (
+                  <ShieldCheck size={17} aria-hidden="true" />
+                )}
+                {submittingId === currentItem.question_id
+                  ? 'Saqlanmoqda…'
+                  : currentSaved
+                    ? 'Saqlangan'
+                    : 'Javobni saqlash'}
+              </button>
+
+              <button
+                type="button"
+                disabled={currentIndex === total - 1 || interactionBusy}
+                onClick={() =>
+                  setCurrentIndex((value) => Math.min(total - 1, value + 1))
+                }
+                className="exam-nav-btn-next"
+                aria-label="Keyingi"
+              >
+                <span className="hidden sm:inline">Keyingi</span>
+                <ChevronRight size={17} aria-hidden="true" />
+              </button>
+
               <button
                 type="button"
                 disabled={interactionBusy}
@@ -831,304 +1075,174 @@ export default function ExamRunner({
                     void finishExam()
                   }
                 }}
-                className="exam-finish-btn"
+                aria-label="Sinovni yakunlash"
+                className="exam-finish-btn col-span-3 w-full lg:col-auto lg:w-auto"
               >
-                Sinovni yakunlash
-              </button>
-            )}
-          </div>
-        </aside>
-
-        {/* ── Mobile Sidebar Overlay ─────────────────────── */}
-        {sidebarOpen && (
-          <>
-            <div
-              className="exam-sidebar-overlay"
-              onClick={() => setSidebarOpen(false)}
-              aria-hidden="true"
-            />
-            <aside className="exam-sidebar-mobile">
-              {/* Mobile sidebar header */}
-              <div className="flex items-center justify-between px-4 py-3.5 border-b border-gray-100 dark:border-gray-800">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 to-b2-600 flex items-center justify-center text-white font-bold text-xs shadow-sm">
-                    {examTitle.charAt(0)}
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-gray-900 dark:text-white">{examTitle}</p>
-                    <p className="text-[11px] text-gray-400">{answeredQuestions}/{total} bajarildi</p>
-                    {flaggedCount > 0 && (
-                      <p className="text-[11px] font-semibold text-amber-600 dark:text-amber-400">
-                        Belgilangan: {flaggedCount}
-                      </p>
-                    )}
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setSidebarOpen(false)}
-                  className="w-9 h-9 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center text-gray-400"
-                  aria-label="Panelni yopish"
-                >
-                  <X size={18} />
-                </button>
-              </div>
-
-              {/* Mobile timer */}
-              {remainingSeconds !== null && (
-                <div className="px-4 py-3 border-b border-gray-100 dark:border-gray-800">
-                  <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">Qolgan vaqt</p>
-                  <div className={`exam-timer ${remainingSeconds <= 300 ? 'exam-timer-urgent' : ''}`}>
-                    <Clock3 size={18} className={remainingSeconds <= 300 ? 'text-red-500' : 'text-primary-500'} />
-                    <span className={`exam-timer-display text-base ${remainingSeconds <= 300 ? 'text-red-600 dark:text-red-400' : 'text-gray-900 dark:text-white'}`}>
-                      {formatDuration(remainingSeconds)}
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              {/* Mobile question grid */}
-              <div className="flex-1 overflow-y-auto p-4">
-                <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3">
-                  Savollar ({total})
-                </p>
-                <div className="exam-q-grid">
-                  {session.items.map((item, index) => {
-                    const saved = savedQuestionIds.has(item.question_id)
-                    const flagged = flaggedQuestionIds.has(item.question_id)
-                    const isCurrent = index === currentIndex
-
-                    let btnClass = 'exam-q-btn '
-                    if (isCurrent) {
-                      btnClass += 'exam-q-btn-current'
-                    } else if (saved) {
-                      btnClass += 'exam-q-btn-answered'
-                    } else {
-                      btnClass += 'exam-q-btn-unanswered'
-                    }
-                    if (flagged) {
-                      btnClass += ' ring-2 ring-amber-400 ring-offset-1 dark:ring-offset-gray-900'
-                    }
-
-                    return (
-                      <button
-                        key={item.question_id}
-                        type="button"
-                        disabled={interactionBusy}
-                        aria-label={`Savol ${index + 1}${saved ? ', javob saqlangan' : ''}${flagged ? ', keyin ko‘rish uchun belgilangan' : ''}`}
-                        onClick={() => {
-                          setCurrentIndex(index)
-                          setSidebarOpen(false)
-                        }}
-                        className={btnClass}
-                      >
-                        {index + 1}
-                      </button>
-                    )
-                  })}
-                </div>
-              </div>
-
-              {/* Mobile finish button */}
-              <div className="p-4 border-t border-gray-100 dark:border-gray-800">
-                <button
-                  type="button"
-                  disabled={interactionBusy}
-                  onClick={() => {
-                    if (unansweredCount > 0) {
-                      setFinishArmed(true)
-                    } else {
-                      void finishExam()
-                    }
-                    setSidebarOpen(false)
-                  }}
-                  className="exam-finish-btn"
-                >
-                  Sinovni yakunlash
-                </button>
-              </div>
-            </aside>
-          </>
-        )}
-
-        {/* ── MAIN CONTENT AREA ───────────────────────────── */}
-        <section className="flex-1 min-w-0 flex flex-col overflow-y-auto scrollbar-thin">
-          {/* Top header bar */}
-          <div className="flex items-center justify-between gap-3 px-4 sm:px-6 py-3 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-gray-100 dark:border-gray-800 shrink-0">
-            <div className="flex items-center gap-2.5">
-              <button
-                type="button"
-                onClick={() => setSidebarOpen(true)}
-                className="lg:hidden p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500 transition-colors"
-                aria-label="Savollar panelini ochish"
-              >
-                <ChevronDown size={18} />
-              </button>
-              <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider hidden sm:inline">{examTitle}</span>
-              <div className="w-px h-4 bg-gray-200 dark:bg-gray-700 hidden sm:block" />
-              <span className="text-sm font-bold text-gray-900 dark:text-white">
-                Savol {currentIndex + 1}
-              </span>
-            </div>
-            <div className="flex items-center gap-2.5">
-              {remainingSeconds !== null && (
-                <span className={`inline-flex items-center gap-1.5 font-mono font-bold text-sm px-2.5 py-1.5 rounded-lg ${
-                  remainingSeconds <= 300
-                    ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400'
-                    : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'
-                }`}>
-                  <Clock3 size={15} />
-                  {formatDuration(remainingSeconds)}
-                </span>
-              )}
-              <span className="text-xs text-gray-400 hidden sm:inline">
-                {answeredQuestions}/{total}
-              </span>
-            </div>
-          </div>
-          <div className="h-1 shrink-0 bg-gray-100 dark:bg-gray-800">
-            <div
-              className="h-full bg-indigo-500 transition-[width] duration-300"
-              style={{ width: `${total > 0 ? (answeredQuestions / total) * 100 : 0}%` }}
-              aria-label={`Sinov progressi: ${answeredQuestions} / ${total}`}
-            />
-          </div>
-
-          {/* Question content wrapper */}
-          <div className="mx-auto w-full max-w-4xl flex-1 p-4 sm:p-6 lg:p-8">
-            {/* Question meta row */}
-            <div className="exam-question-meta">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-xs font-bold font-mono">
-                {currentItem.format}
-              </span>
-              {currentItem.cognitive_level && (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs font-medium">
-                  {{
-                    knowledge: 'Bilish',
-                    application: 'Qo‘llash',
-                    reasoning: 'Mulohaza',
-                  }[currentItem.cognitive_level] || currentItem.cognitive_level}
-                </span>
-              )}
-              {currentItem.difficulty && (
-                <span className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 text-xs font-medium">
-                  {'★'.repeat(currentItem.difficulty)}{'☆'.repeat(5 - currentItem.difficulty)}
-                </span>
-              )}
-              <div className="flex-1" />
-              <button
-                type="button"
-                onClick={toggleCurrentFlag}
-                disabled={interactionBusy}
-                aria-pressed={currentFlagged}
-                aria-label={currentFlagged ? 'Savoldan belgini olib tashlash' : 'Savolni keyin ko‘rish uchun belgilash'}
-                className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
-                  currentFlagged
-                    ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300'
-                    : 'bg-gray-100 text-gray-600 hover:bg-amber-50 hover:text-amber-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-amber-900/20 dark:hover:text-amber-300'
-                }`}
-              >
-                <Flag size={14} fill={currentFlagged ? 'currentColor' : 'none'} />
-                {currentFlagged ? 'Belgilangan' : 'Keyin ko‘rish'}
-              </button>
-              {currentSaved && (
-                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 px-3 py-1.5 rounded-lg">
-                  <Check size={14} />
-                  Saqlangan
-                </span>
-              )}
-            </div>
-
-            {/* Question card */}
-            <div className="exam-question-card">
-              <div className="exam-question-stem">
-                {renderQuestion(currentItem)}
-              </div>
-            </div>
-
-            {/* Feedback message */}
-            <div aria-live="polite" className="min-h-8 mt-4">
-              {message && (
-                <div className={`flex items-start gap-3 p-4 rounded-xl border ${
-                  message.includes('saqlandi') || message.startsWith('To‘g‘ri.')
-                    ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800/40 text-emerald-700 dark:text-emerald-300'
-                    : 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800/40 text-amber-700 dark:text-amber-300'
-                }`}>
-                  {message.includes('saqlandi') || message.startsWith('To‘g‘ri.') ? (
-                    <CheckCircle2 size={18} className="shrink-0 mt-0.5 text-emerald-500" />
-                  ) : (
-                    <AlertTriangle size={18} className="shrink-0 mt-0.5 text-amber-500" />
-                  )}
-                  <span className="text-sm leading-relaxed">{message}</span>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* ── Bottom Navigation ─────────────────────────── */}
-          <div className="exam-nav-bar">
-            <div className="mx-auto flex w-full max-w-4xl items-center gap-2">
-              {/* Previous button */}
-              <button
-                type="button"
-                disabled={currentIndex === 0 || interactionBusy}
-                onClick={() => setCurrentIndex((i) => Math.max(0, i - 1))}
-                className="exam-nav-btn-prev"
-              >
-                <ChevronLeft size={17} />
-                <span className="hidden sm:inline">Oldingi</span>
-              </button>
-
-              {/* Save button (center) */}
-              <button
-                type="button"
-                disabled={
-                  !currentComplete ||
-                  currentSaved ||
-                  submittingId === currentItem.question_id ||
-                  interactionBusy
-                }
-                onClick={() => void submitCurrentAnswer()}
-                className="exam-nav-btn-save flex-1 justify-center"
-              >
-                {submittingId === currentItem.question_id ? (
-                  <LoaderCircle size={17} className="animate-spin" />
-                ) : currentSaved ? (
-                  <Check size={17} />
-                ) : (
-                  <ShieldCheck size={17} />
-                )}
-                {submittingId === currentItem.question_id
-                  ? 'Saqlanmoqda…'
-                  : currentSaved
-                    ? 'Saqlangan'
-                    : 'Javobni saqlash'}
-              </button>
-
-              {/* Next button */}
-              <button
-                type="button"
-                disabled={currentIndex === total - 1 || interactionBusy}
-                onClick={() => setCurrentIndex((i) => Math.min(total - 1, i + 1))}
-                className="exam-nav-btn-next"
-              >
-                <span className="hidden sm:inline">Keyingi</span>
-                <ChevronRight size={17} />
+                <Flag size={15} aria-hidden="true" />
+                Testni yakunlash
               </button>
             </div>
           </div>
         </section>
+
+        <aside className="exam-sidebar hidden lg:flex">
+          <section className="exam-sidebar-card">
+            <p className="exam-sidebar-section-header">Nomzod ma’lumotlari</p>
+            <div className="flex items-center gap-3">
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-primary-100 text-sm font-bold text-primary-700 dark:bg-primary-900 dark:text-primary-300">
+                {initials(candidateName)}
+              </span>
+              <div className="min-w-0">
+                <p className="truncate text-sm font-semibold text-gray-900 dark:text-white">
+                  {candidateName}
+                </p>
+                {candidateId && (
+                  <p className="mt-0.5 text-[11px] text-gray-400">
+                    ID: {candidateId}
+                  </p>
+                )}
+              </div>
+            </div>
+            <dl className="mt-4 grid grid-cols-[auto_1fr] gap-x-3 gap-y-2 text-xs">
+              <dt className="text-gray-400">Fan</dt>
+              <dd className="font-medium text-gray-700 dark:text-gray-200">Informatika</dd>
+              {user?.email && (
+                <>
+                  <dt className="text-gray-400">Email</dt>
+                  <dd className="truncate font-medium text-gray-700 dark:text-gray-200">
+                    {user.email}
+                  </dd>
+                </>
+              )}
+            </dl>
+          </section>
+
+          <section className="exam-sidebar-card">
+            <p className="exam-sidebar-section-header">Qolgan vaqt</p>
+            {remainingSeconds !== null ? (
+              <>
+                <div className={`exam-timer ${remainingSeconds <= 300 ? 'exam-timer-urgent' : ''}`}>
+                  <Clock3
+                    size={20}
+                    className={
+                      remainingSeconds <= 300
+                        ? 'text-red-500'
+                        : 'text-primary-500'
+                    }
+                    aria-hidden="true"
+                  />
+                  <span
+                    className={[
+                      'exam-timer-display',
+                      remainingSeconds <= 300
+                        ? 'text-red-600 dark:text-red-400'
+                        : 'text-gray-900 dark:text-white',
+                    ].join(' ')}
+                  >
+                    {formatDuration(remainingSeconds)}
+                  </span>
+                </div>
+                <p className="mt-2 text-center text-[11px] text-gray-400">
+                  jami {session.duration_sec ? formatDuration(session.duration_sec) : '—'}
+                </p>
+              </>
+            ) : (
+              <p className="text-sm text-gray-400">Cheklanmagan</p>
+            )}
+          </section>
+
+          <section className="exam-sidebar-card flex min-h-0 flex-1 flex-col">
+            <div className="flex items-center justify-between gap-3">
+              <p className="exam-sidebar-section-header !mb-0">
+                Savollar navigatsiyasi
+              </p>
+              <span className="text-[11px] font-semibold text-gray-400">
+                {answeredQuestions}/{total}
+              </span>
+            </div>
+            <div className="mt-3 min-h-0 overflow-y-auto pr-1 scrollbar-thin">
+              {renderQuestionGrid()}
+            </div>
+            {legend}
+          </section>
+        </aside>
       </div>
 
-      {/* ── Loading Overlay ──────────────────────────────── */}
+      {sidebarOpen && (
+        <>
+          <div
+            className="exam-sidebar-overlay"
+            onClick={() => setSidebarOpen(false)}
+            aria-hidden="true"
+          />
+          <aside className="exam-sidebar-mobile" aria-label="Savollar paneli">
+            <div className="flex items-center justify-between border-b border-gray-100 px-4 py-3.5 dark:border-gray-800">
+              <div className="flex min-w-0 items-center gap-3">
+                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-primary-100 text-xs font-bold text-primary-700 dark:bg-primary-900 dark:text-primary-300">
+                  {initials(candidateName)}
+                </span>
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold text-gray-900 dark:text-white">
+                    {candidateName}
+                  </p>
+                  <p className="text-[11px] text-gray-400">
+                    {answeredQuestions}/{total} javob berilgan
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSidebarOpen(false)}
+                className="exam-topbar-icon-btn"
+                aria-label="Panelni yopish"
+              >
+                <X size={18} aria-hidden="true" />
+              </button>
+            </div>
+
+            {remainingSeconds !== null && (
+              <div className="border-b border-gray-100 px-4 py-3 dark:border-gray-800">
+                <p className="exam-sidebar-section-header">Qolgan vaqt</p>
+                <div className={`exam-timer ${remainingSeconds <= 300 ? 'exam-timer-urgent' : ''}`}>
+                  <Clock3
+                    size={18}
+                    className={
+                      remainingSeconds <= 300
+                        ? 'text-red-500'
+                        : 'text-primary-500'
+                    }
+                    aria-hidden="true"
+                  />
+                  <span className="exam-timer-display text-base text-gray-900 dark:text-white">
+                    {formatDuration(remainingSeconds)}
+                  </span>
+                </div>
+              </div>
+            )}
+
+            <div className="flex-1 overflow-y-auto p-4">
+              <p className="exam-sidebar-section-header">Savollar navigatsiyasi</p>
+              {renderQuestionGrid(true)}
+              {legend}
+            </div>
+          </aside>
+        </>
+      )}
+
       {busy && (
         <div
           role="status"
-          className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4 backdrop-blur-sm"
         >
-          <div className="bg-white dark:bg-gray-900 rounded-2xl px-8 py-6 shadow-2xl border border-gray-100 dark:border-gray-800 inline-flex items-center gap-4">
-            <LoaderCircle size={24} className="animate-spin text-primary-600" />
-            <span className="font-semibold text-gray-900 dark:text-white">Natija serverda hisoblanmoqda…</span>
+          <div className="inline-flex items-center gap-4 rounded-2xl border border-gray-100 bg-white px-8 py-6 shadow-2xl dark:border-gray-800 dark:bg-gray-900">
+            <LoaderCircle
+              size={24}
+              className="animate-spin text-primary-600"
+              aria-hidden="true"
+            />
+            <span className="font-semibold text-gray-900 dark:text-white">
+              Natija serverda hisoblanmoqda…
+            </span>
           </div>
         </div>
       )}

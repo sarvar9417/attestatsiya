@@ -1203,155 +1203,231 @@ html.dark .text-gradient {
    EXAM/RUNNER UI — test sahifasi uchun ixtisoslashgan klasslar
    ════════════════════════════════════════════════════════════════════════════ */
 
-/* ── Exam sidebar ───────────────────────────────────────────────────── */
+/* ── Immersive exam shell ──────────────────────────────────────────────── */
+.exam-immersive-shell {
+  @apply flex h-dvh min-h-0 flex-col overflow-hidden bg-gray-50 dark:bg-gray-950;
+}
+
+.exam-topbar {
+  @apply flex min-h-[64px] shrink-0 items-center justify-between gap-3
+         border-b border-gray-200 bg-white px-4 py-2.5
+         dark:border-gray-800 dark:bg-gray-900 sm:px-5;
+}
+
+.exam-topbar-icon-btn {
+  @apply inline-flex h-10 w-10 items-center justify-center rounded-xl
+         border border-transparent text-gray-500 transition-colors
+         hover:border-gray-200 hover:bg-gray-50 hover:text-primary-600
+         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500
+         focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40
+         dark:text-gray-400 dark:hover:border-gray-700 dark:hover:bg-gray-800
+         dark:hover:text-primary-300 dark:focus-visible:ring-offset-gray-900;
+}
+
+.exam-question-panel {
+  @apply flex min-h-full flex-col rounded-2xl border border-gray-200 bg-white
+         p-4 shadow-sm dark:border-gray-800 dark:bg-gray-900 sm:p-5 lg:p-6;
+}
+
+.exam-question-summary {
+  @apply flex flex-col justify-between gap-3 sm:flex-row sm:items-center;
+}
+
+.exam-question-progress-row {
+  @apply mt-4 flex items-center gap-3 border-b border-gray-100 pb-4
+         dark:border-gray-800;
+}
+
+/* ── Exam sidebar ─────────────────────────────────────────────────────── */
 .exam-sidebar {
-  @apply w-72 flex-shrink-0 flex flex-col border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 overflow-y-auto;
+  @apply w-[360px] shrink-0 flex-col gap-3 overflow-y-auto border-l
+         border-gray-200 bg-gray-50/80 p-4 dark:border-gray-800
+         dark:bg-gray-950/70;
+}
+
+.exam-sidebar-card {
+  @apply rounded-2xl border border-gray-200 bg-white p-4 shadow-sm
+         dark:border-gray-800 dark:bg-gray-900;
 }
 
 .exam-sidebar-mobile {
-  @apply fixed inset-y-0 left-0 z-50 w-80 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 shadow-2xl flex flex-col;
+  @apply fixed inset-y-0 right-0 z-50 flex w-[min(92vw,380px)] flex-col
+         border-l border-gray-200 bg-white shadow-2xl
+         dark:border-gray-700 dark:bg-gray-900;
 }
 
 .exam-sidebar-overlay {
-  @apply fixed inset-0 z-40 bg-black/50 lg:hidden backdrop-blur-sm;
+  @apply fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden;
 }
 
-/* ── Question number grid ────────────────────────────────────────────── */
+/* ── Question number grid ─────────────────────────────────────────────── */
 .exam-q-grid {
-  @apply grid grid-cols-5 gap-2;
+  @apply grid grid-cols-10 gap-1.5;
 }
 
 .exam-q-btn {
-  @apply w-full aspect-square rounded-xl text-xs font-semibold flex items-center justify-center
-         transition-all duration-200 relative overflow-hidden;
+  @apply relative flex h-8 min-w-0 items-center justify-center overflow-hidden
+         rounded-md border text-[11px] font-semibold tabular-nums
+         transition-colors duration-150 focus-visible:outline-none
+         focus-visible:ring-2 focus-visible:ring-primary-500
+         focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60;
 }
 
 .exam-q-btn-answered {
-  @apply bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400
-         shadow-sm border border-emerald-200 dark:border-emerald-800/50;
-}
-.exam-q-btn-answered::after {
-  content: '';
-  @apply absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-500 dark:bg-emerald-400;
+  @apply border-emerald-200 bg-emerald-100 text-emerald-700
+         dark:border-emerald-800/60 dark:bg-emerald-900/40
+         dark:text-emerald-300;
 }
 
 .exam-q-btn-current {
-  @apply ring-2 ring-primary-500 dark:ring-primary-400 bg-primary-50 text-primary-700
-         dark:bg-primary-900/30 dark:text-primary-300 shadow-sm;
+  @apply border-primary-600 bg-primary-600 text-white shadow-sm
+         dark:border-primary-400 dark:bg-primary-500;
 }
 
 .exam-q-btn-unanswered {
-  @apply bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400
-         border border-gray-200 dark:border-gray-700
-         hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300;
+  @apply border-gray-200 bg-gray-100 text-gray-500
+         hover:border-gray-300 hover:bg-gray-200 hover:text-gray-700
+         dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400
+         dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-200;
 }
 
 .exam-q-btn-flagged {
-  @apply bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400
-         border border-amber-200 dark:border-amber-800/40
-         ring-1 ring-amber-300 dark:ring-amber-700;
+  @apply border-amber-300 bg-amber-100 text-amber-700
+         dark:border-amber-700 dark:bg-amber-900/30 dark:text-amber-300;
 }
 
-.exam-q-btn-skipped {
-  @apply bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400
-         border border-orange-200 dark:border-orange-800/40;
+.exam-q-bookmark {
+  @apply absolute right-0.5 top-0.5;
 }
 
-/* ── Timer ────────────────────────────────────────────────────────────── */
+.exam-question-legend {
+  @apply mt-4 grid grid-cols-2 gap-x-3 gap-y-2 border-t border-gray-100
+         pt-3 text-[10px] font-medium text-gray-500 dark:border-gray-800
+         dark:text-gray-400;
+}
+
+.exam-question-legend > span {
+  @apply flex min-w-0 items-center gap-1.5;
+}
+
+.exam-question-legend i {
+  @apply h-2 w-2 shrink-0 rounded-full;
+}
+
+/* ── Timer ───────────────────────────────────────────────────────────── */
 .exam-timer {
-  @apply flex items-center gap-2 px-3 py-2.5 rounded-xl bg-gray-50 dark:bg-gray-800/80 border border-gray-100 dark:border-gray-700;
+  @apply flex items-center justify-center gap-2 rounded-xl border border-gray-100
+         bg-gray-50 px-3 py-2.5 dark:border-gray-700 dark:bg-gray-800/80;
 }
 
 .exam-timer-urgent {
-  @apply bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800/40;
+  @apply border-red-200 bg-red-50 dark:border-red-800/40 dark:bg-red-900/20;
 }
 
 .exam-timer-display {
-  @apply font-mono font-bold text-lg tracking-wider tabular-nums;
+  @apply font-mono text-lg font-bold tracking-wider tabular-nums;
 }
 
-/* ── Question card ────────────────────────────────────────────────────── */
+/* ── Question card ───────────────────────────────────────────────────── */
 .exam-question-card {
-  @apply bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 
-         shadow-sm p-6 sm:p-8 transition-shadow duration-300;
+  @apply mt-1 flex-1 rounded-2xl bg-white py-5 dark:bg-gray-900 sm:py-6;
 }
 
 .exam-question-stem {
-  @apply text-base sm:text-lg leading-relaxed text-gray-900 dark:text-gray-100 mb-6;
+  @apply text-base leading-relaxed text-gray-900 dark:text-gray-100 sm:text-lg;
 }
 
 .exam-question-meta {
-  @apply flex items-center gap-3 mb-5 pb-4 border-b border-gray-100 dark:border-gray-800;
+  @apply mt-4 flex flex-wrap items-center gap-2 border-b border-gray-100
+         pb-4 dark:border-gray-800;
 }
 
-/* ── Navigation bar ─────────────────────────────────────────────────────── */
+/* ── Navigation bar ──────────────────────────────────────────────────── */
 .exam-nav-bar {
-  @apply sticky bottom-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-t border-gray-100 dark:border-gray-800 
-         px-4 py-3 flex items-center justify-between gap-3 safe-area-bottom;
+  @apply shrink-0 border-t border-gray-200 bg-white/95 px-4 py-3
+         backdrop-blur-md dark:border-gray-800 dark:bg-gray-900/95;
 }
 
 .exam-nav-btn {
-  @apply inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-sm
-         transition-all duration-150;
+  @apply inline-flex min-h-10 items-center gap-2 rounded-xl px-4 py-2.5
+         text-sm font-semibold transition-colors duration-150
+         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500
+         focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-35
+         dark:focus-visible:ring-offset-gray-900;
 }
 
 .exam-nav-btn-prev {
-  @apply exam-nav-btn bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300
-         hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-30 disabled:cursor-not-allowed;
+  @apply exam-nav-btn border border-gray-200 bg-white text-gray-700
+         hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800
+         dark:text-gray-300 dark:hover:bg-gray-700;
 }
 
 .exam-nav-btn-next {
-  @apply exam-nav-btn bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300
-         hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-30 disabled:cursor-not-allowed;
+  @apply exam-nav-btn border border-primary-200 bg-primary-50 text-primary-700
+         hover:border-primary-300 hover:bg-primary-100
+         dark:border-primary-800 dark:bg-primary-900/50 dark:text-primary-300
+         dark:hover:bg-primary-900/50;
 }
 
 .exam-nav-btn-save {
-  @apply exam-nav-btn bg-primary-600 hover:bg-primary-700 text-white shadow-sm
-         disabled:opacity-40 disabled:cursor-not-allowed;
+  @apply exam-nav-btn bg-primary-600 text-white shadow-sm
+         hover:bg-primary-700 disabled:bg-primary-400;
 }
 
-/* ── Finish exam button ────────────────────────────────────────────────── */
+/* ── Finish exam ─────────────────────────────────────────────────────── */
 .exam-finish-btn {
-  @apply w-full py-2.5 rounded-xl font-semibold text-sm
-         bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400
-         hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-800 dark:hover:text-gray-200
-         transition-all duration-150 disabled:opacity-40;
+  @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-xl
+         border border-rose-200 bg-white px-4 py-2.5 text-sm font-semibold
+         text-rose-600 transition-colors hover:bg-rose-50
+         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400
+         focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40
+         dark:border-rose-800 dark:bg-gray-900 dark:text-rose-300
+         dark:hover:bg-rose-950/30 dark:focus-visible:ring-offset-gray-900;
 }
 
-/* ── Progress bar (question based) ──────────────────────────────────────── */
+.exam-finish-confirm {
+  @apply flex shrink-0 flex-col gap-3 border-t border-amber-200 bg-amber-50
+         px-4 py-3 dark:border-amber-800/50 dark:bg-amber-950/20
+         sm:flex-row sm:items-center sm:justify-between;
+}
+
+.exam-finish-confirm-btn {
+  @apply exam-nav-btn bg-rose-600 text-white hover:bg-rose-700;
+}
+
+/* ── Progress and compact labels ─────────────────────────────────────── */
 .exam-progress {
-  @apply h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden;
+  @apply h-1.5 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800;
 }
 
 .exam-progress-fill {
-  @apply h-full rounded-full transition-all duration-500 ease-out;
+  @apply h-full rounded-full transition-[width] duration-300 ease-out;
 }
 
-/* ── Stats chips ─────────────────────────────────────────────────────────── */
 .exam-stat-chip {
-  @apply inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium;
+  @apply inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium;
 }
 
 .exam-stat-chip-answered {
-  @apply exam-stat-chip bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400;
+  @apply exam-stat-chip bg-emerald-50 text-emerald-700
+         dark:bg-emerald-900/20 dark:text-emerald-400;
 }
 
 .exam-stat-chip-remaining {
-  @apply exam-stat-chip bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400;
+  @apply exam-stat-chip bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400;
 }
 
-/* ── Sidebar section headings ────────────────────────────────────────────── */
 .exam-sidebar-section {
   @apply px-4 py-3;
 }
 
 .exam-sidebar-section-header {
-  @apply text-[11px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3;
+  @apply mb-3 text-[10px] font-bold uppercase tracking-[0.12em]
+         text-gray-400 dark:text-gray-500;
 }
 
-/* ── Divider line ─────────────────────────────────────────────────────────── */
 .exam-divider {
-  @apply border-t border-gray-100 dark:border-gray-800 my-2;
+  @apply my-2 border-t border-gray-100 dark:border-gray-800;
 }
 
 /* ════════════════════════════════════════════════════════════════════════════

@@ -1157,3 +1157,43 @@ Migratsiyalar: yo‘q
 Qolgan operatsion cheklov: Vercel backend project Git linki dashboard/MCP orqali eski repo'dan monorepoga avtomatik relink qilinmadi
 Keyingi backend source-of-truth: sarvar9417/attestatsiya/backend
 ```
+
+
+## Figma exam shell parity (T-029, 2026-10-07)
+
+- **Maqsad:** oldingi Figma/chat tasdiqlangan test ekraniga faol `ExamRunner`
+  shellini yaqinlashtirish; scoring, timer va answer lifecycle biznes qoidalarini
+  o‘zgartirmaslik.
+- **Design basis:** saqlangan `Dual-Theme Attestatsiya Test Interface` referensi
+  bo‘yicha asosiy savol chapda, nomzod ma’lumoti + vaqt + savollar navigatsiyasi
+  o‘ngda, 10 ustunli number grid va answered/current/flagged/unanswered legend.
+- **Figma MCP:** Academik Starter workspace uchun joriy tool-call limiti tugagan;
+  shu sabab yangi live node read qilinmadi. Ish avval tasdiqlangan Figma yo‘nalishi,
+  saqlangan reference va mavjud TASK-UI-004 behavior contractiga tayangan.
+- **Xavfsizlik:** mavjud auth’da yo‘q `guruh` kabi ma’lumotlar uydirilmaydi;
+  nomzod kartasi faqat display name/email/id va fan kabi real platforma
+  ma’lumotlarini ko‘rsatadi.
+- **Behavior boundary:** answer hali ham explicit `Javobni saqlash` orqali
+  serverga yuboriladi; flag scoring payloadiga kirmaydi; timer va final score
+  server-authoritative qoladi.
+- **Route shell:** `/exam/*` global learner sidebar/mobile bottom navdan ajratilib,
+  sinov vaqtida immersive layout ishlatadi.
+- **Test natijasi:** frontend secret scan, lint, TypeScript, 297 unit test,
+  generated-content invariantlari, production build va Playwright E2E yashil;
+  backend va database CI joblari ham yashil.
+- **Regression:** eski `Sinovni yakunlash` accessibility contracti saqlandi;
+  Figma ko‘rinishida tugma matni `Testni yakunlash`, ammo mavjud test/assistive
+  contract buzilmadi.
+
+### T-029 Handoff
+
+```text
+Task: T-029
+Natija: Figma approved immersive exam shell parity
+O‘zgargan fayllar: src/App.tsx; src/features/exam/ExamRunner.tsx; src/index.css; src/tests/MockExamFlags.test.tsx; src/tests/e2e/exam-product-flow.spec.ts; TASKS.md; PROJECT_STATE.md
+Migratsiyalar: yo‘q
+Testlar: GitHub CI quality + backend + database — yashil
+Behavior: explicit answer submit, server timer/scoring, local review flag semantikasi saqlandi
+Figma live read: Starter tool limit sabab bloklangan; saved approved reference + prior screen contract ishlatildi
+Keyingi tavsiya: Natija/Xatolar ekranlarining Figma parity auditini davom ettirish
+```

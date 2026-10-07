@@ -72,6 +72,7 @@
 | T-026 | DONE | — | Dashboard Blueprint strip: 15 rasmiy guruh kengligi 3:2:5:3:2:3:3:3:2:5:2:2:5:7:3 nisbatida, 50 savol va 35/5/7/3 section taqsimoti; CI yashil (PR #46) |
 | T-027 | DONE | T-014, TASK-UI-009 | Learner `Natijalar tarixi`: backend `/api/exam/history` kontrakti frontend gatewayga ulandi, protected `/history` sahifasi, pagination, loading/error/empty holatlari va desktop/mobile navigation qo‘shildi; server-authoritative ballardan tashqari qayta hisoblash yo‘q |
 | T-028 | DONE | T-027 | Frontend + Fastify backend bitta `sarvar9417/attestatsiya` monorepoda: frontend rootda, backend `backend/` ichida; root CI frontend/backend/database qatlamlarini tekshiradi; production backend monorepo `main` commitidan muvaffaqiyatli deploy qilindi |
+| T-029 | DONE | T-015, TASK-UI-004 | Figma tasdiqlangan test interfeysi parity: `/exam/*` immersive shell, asosiy savol chapda, nomzod/vaqt/savol navigatsiyasi o‘ngda, 10 ustunli holat palitrasi va legend, light/dark boshqaruv; server timer/scoring va explicit answer submit xulqi saqlanadi |
 
 ## UI modernizatsiya — Figma approved design
 
