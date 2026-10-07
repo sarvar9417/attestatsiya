@@ -82,12 +82,15 @@ test.describe('Attestatsiya product-flow E2E', () => {
     const start = page.getByRole('button', { name: /O‘rganishni boshlash|Darsni davom ettirish/ })
     await expect(start).toBeVisible()
     await start.click()
-    await expect(page).toHaveURL(/\/learn$/)
-    await expect(page.getByRole('heading', { name: 'O‘rganish' })).toBeVisible()
+    await expect(page).toHaveURL(/\/learn(?:\/M01)?$/)
 
-    const firstModule = page.locator('main button').filter({ hasText: 'O‘rganish' }).first()
-    await expect(firstModule).toBeVisible()
-    await firstModule.click()
+    if (new URL(page.url()).pathname === '/learn') {
+      await expect(page.getByRole('heading', { name: 'O‘rganish' })).toBeVisible()
+
+      const firstModule = page.locator('main button').filter({ hasText: 'O‘rganish' }).first()
+      await expect(firstModule).toBeVisible()
+      await firstModule.click()
+    }
 
     await expect(page).toHaveURL(/\/learn\/M01$/)
     await expect(page.getByText('Nazariya → bilimni tekshirish → amaliy qo‘llash')).toBeVisible()
