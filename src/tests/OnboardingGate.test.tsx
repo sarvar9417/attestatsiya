@@ -96,12 +96,18 @@ describe('OnboardingGate', () => {
     expect(authClient.getOnboarding).not.toHaveBeenCalled()
   })
 
-  it('onboarding endpointi vaqtincha ishlamasa fail-open qiladi', async () => {
+  it('onboarding endpointi vaqtincha ishlamasa majburiy gate xato holatini ko‘rsatadi', async () => {
     mockUseAuth.mockReturnValue({ user: learner, loading: false })
     vi.mocked(authClient.getOnboarding).mockRejectedValue(new Error('network'))
 
     renderGate()
 
-    await waitFor(() => expect(screen.getByText('Asosiy ilova')).toBeDefined())
+    expect(
+      await screen.findByRole('heading', {
+        name: 'Onboarding holatini tekshirib bo‘lmadi',
+      })
+    ).toBeDefined()
+    expect(screen.queryByText('Asosiy ilova')).toBeNull()
+    expect(screen.getByRole('button', { name: 'Qayta urinish' })).toBeDefined()
   })
 })
