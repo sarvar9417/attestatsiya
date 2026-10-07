@@ -84,7 +84,7 @@ function MainLayout() {
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary-600 focus:text-white focus:rounded-lg">
           Asosiy kontentga o'tish
         </a>
-        {mobileMenuOpen && <div className="fixed inset-0 z-30 bg-black/40 lg:hidden" onClick={() => setMobileMenuOpen(false)} />}
+        {!immersiveExamRoute && mobileMenuOpen && <div className="fixed inset-0 z-30 bg-black/40 lg:hidden" onClick={() => setMobileMenuOpen(false)} />}
         {!immersiveExamRoute && (
           <Sidebar isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
         )}
