@@ -178,7 +178,7 @@ update public.profiles
    set is_blocked = false
  where id = '00000000-0000-4000-8000-000000000001';
 
--- question_keys RLS: exam egasi faqat o‘z exam'iga kiritilgan kalitni ko‘radi.
+-- question_keys RLS: learner exam egasi bo‘lsa ham kalitni bevosita ko‘rmaydi.
 select set_config(
   'request.jwt.claim.sub',
   '00000000-0000-4000-8000-000000000001',
@@ -199,8 +199,8 @@ begin
     from public.question_keys
    where question_id = '00000000-0000-4000-8000-000000000102';
 
-  if v_owned <> 1 or v_outside <> 0 then
-    raise exception 'question_keys owner RLS mismatch: owned %, outside %', v_owned, v_outside;
+  if v_owned <> 0 or v_outside <> 0 then
+    raise exception 'question_keys learner leak: owned %, outside %', v_owned, v_outside;
   end if;
 end
 $$;
