@@ -1316,3 +1316,21 @@ Keyingi bajarilmagan blok: onboarding + diagnostika + daily plan
 - **Remote blocker:** Supabase connector `plyqezulrfowyblsfpzy` projectini hali
   ko'rsatmaydi. Shu sabab migration productionga bu branchda qo'llanmaydi;
   feature schema mavjud bo'lmaguncha production oqimini bloklamaydi.
+
+
+### T-033 Handoff
+
+```text
+Task: T-033
+Kod holati: MERGED
+Merge: PR #55, main commit c7770361738d9e6f65f8a6a80d1178e2268c126b
+CI: GitHub Actions #630 — quality + backend + database SUCCESS
+Frontend: /onboarding + learner OnboardingGate + /exam/diagnostika
+Backend: GET/PATCH /api/auth/onboarding; diagnostika start accepted
+Migration: supabase/migrations/20261007131000_onboarding_profile.sql
+Production migration: YO‘Q
+Status: BLOCKED faqat remote activation bo‘yicha
+Blocker: Supabase connector plyqezulrfowyblsfpzy projectini hali ko‘rsatmaydi
+Safety: schema yo‘q bo‘lsa GET available=false compatibility holati; majburiy gate oddiy network/server xatosida fail-closed
+Parallel keyingi ish: mastery/SRS/adaptive foundation remote schema activationdan mustaqil ravishda migration+CI sifatida tayyorlanishi mumkin
+```
