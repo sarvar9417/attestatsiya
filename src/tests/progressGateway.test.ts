@@ -103,6 +103,70 @@ describe('progressGateway', () => {
     )
   })
 
+  it('getMastery server-authoritative SRS snapshotni parse qiladi', async () => {
+    fetchMock.mockResolvedValue(
+      okJson({
+        items: [
+          {
+            construct_id: constructId,
+            code: 'M01.01.C01',
+            group_code: 'S1.INFO',
+            title_uz: 'Axborot hajmi',
+            mastery_status: 'provisional',
+            attempts: 4,
+            correct: 3,
+            accuracy_percent: 75,
+            review_stage: 3,
+            interval_days: 7,
+            due_at: '2026-10-14T08:00:00.000Z',
+            last_seen_at: '2026-10-07T08:00:00.000Z',
+            independent_attempts: 4,
+            guided_attempts: 0,
+            retry_attempts: 0,
+            cognitive: {
+              bilish: { attempts: 1, correct: 1 },
+              qollash: { attempts: 2, correct: 1 },
+              mulohaza: { attempts: 1, correct: 1 },
+            },
+          },
+        ],
+        summary: {
+          tracked: 1,
+          learning: 0,
+          provisional: 1,
+          stable: 0,
+          regressed: 0,
+          due: 0,
+        },
+      })
+    )
+
+    const result = await progressGateway.getMastery()
+
+    expect(result.items[0].mastery_status).toBe('provisional')
+    expect(result.items[0].cognitive.qollash).toEqual({
+      attempts: 2,
+      correct: 1,
+    })
+    expect(result.summary.provisional).toBe(1)
+
+    const [url] = fetchMock.mock.calls[0] as [string]
+    expect(url).toBe('http://localhost:3001/api/progress/mastery')
+  })
+
+  it('getMastery invalid server javobini rad qiladi', async () => {
+    fetchMock.mockResolvedValue(
+      okJson({
+        items: [{ construct_id: constructId, mastery_status: 'fake' }],
+        summary: {},
+      })
+    )
+
+    await expect(progressGateway.getMastery()).rejects.toThrow(
+      'Invalid mastery progress response'
+    )
+  })
+
   it('getDueReviews backend orqali olinadi va parse qilinadi', async () => {
     const due: DueReviewItem[] = [
       {
