@@ -85,20 +85,28 @@ jobs:
           psql -X -v ON_ERROR_STOP=1 -d attestatsiya_test \
             -f supabase/tests/bootstrap_local.sql
 
-          # 20260730000011 remote'da rollback bo'lgan tarixiy migration;
-          # 20260731000013 uning to'liq idempotent forward-fix'i va migration
-          # history'da 00011 repair-applied deb belgilangan. Fresh install ham
-          # buzilgan 00011'ni emas, 00013 forward-fix'ni qo'llashi kerak.
-          SKIP_MIGRATION='supabase/migrations/20260730000011_sync_source_reference.sql'
+          BROKEN_MIGRATION='supabase/migrations/20260730000011_sync_source_reference.sql'
+          REPAIR_MIGRATION='supabase/migrations/20260731000013_fix_question_keys_rls.sql'
+          REPAIR_APPLIED=false
 
-          # Production'da faol bo'lgan barcha boshqa migratsiyalar filename
-          # tartibida qo'llanadi. Yangi migration qo'shilsa CI uni avtomatik
-          # ravishda tekshiradi — workflow ro'yxatini qo'lda yangilash shart emas.
+          # 00011 remote'da rollback bo'lgan va migration history'da repair-applied
+          # deb belgilangan. 00013 uning idempotent replacement'i, shu bilan birga
+          # 00012 talab qiladigan source_reference ustunini yaratadi. Fresh install
+          # production semantikasini takrorlash uchun 00011 nuqtasida 00013 ni
+          # oldindan qo'llaydi, keyin 00013 normal joyiga kelganda skip qiladi.
           while IFS= read -r migration; do
-            if [ "${migration}" = "${SKIP_MIGRATION}" ]; then
-              echo "Skipping repaired historical migration ${migration}"
+            if [ "${migration}" = "${BROKEN_MIGRATION}" ]; then
+              echo "Replacing repaired historical migration ${migration} with ${REPAIR_MIGRATION}"
+              psql -X -v ON_ERROR_STOP=1 -d attestatsiya_test -f "${REPAIR_MIGRATION}"
+              REPAIR_APPLIED=true
               continue
             fi
+
+            if [ "${migration}" = "${REPAIR_MIGRATION}" ] && [ "${REPAIR_APPLIED}" = true ]; then
+              echo "Skipping already-applied repair ${migration}"
+              continue
+            fi
+
             echo "Applying ${migration}"
             psql -X -v ON_ERROR_STOP=1 -d attestatsiya_test -f "${migration}"
           done < <(find supabase/migrations -maxdepth 1 -type f -name '*.sql' | sort)
