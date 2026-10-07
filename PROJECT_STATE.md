@@ -1,3 +1,22 @@
+
+## Admin UUID schema reconciliation (T-006, 2026-10-07)
+
+- **Stale blocker yopildi:** tarixiy T-006 tavsifi admin sahifalari legacy BIGINT/type qatlamiga bog‘langan davrdan qolgan edi.
+- **Amaldagi holat:** UUID database types allaqachon T-008 bilan joriy qilingan; AdminDashboard typed Supabase count oqimidan, Modules/Questions/Attempts esa amaldagi UUID/content API kontraktlaridan foydalanadi.
+- **Regression evidence:** TASK-UI-005 va TASK-UI-006 admin sahifalari uchun regressiya testlarini qo‘shgan; main branch CI secret scan, lint, typecheck, unit, production build, Playwright smoke va database job bilan yashil.
+- **Legacy isolation:** BIGINT sxema faqat archive/pre-baseline va tarixiy import yordamchilarida qolgan; runtime admin source ichida faol legacy BIGINT schema topilmadi.
+- **Natija:** T-006 endi blocker emas; T-007 QA/domain/RLS product-flow qamrovi keyingi qolgan asosiy task.
+
+### Handoff
+
+```text
+Task: T-006
+Natija: admin panel UUID schema/type bilan reconcile qilingan; stale BLOCKED status DONE ga yangilandi
+Kod o‘zgarishi: yo‘q — oldingi T-008, TASK-UI-005 va TASK-UI-006 ishlari blocker sababini allaqachon bartaraf qilgan
+Tasdiq: main CI success + admin regressiya testlari + runtime source audit
+Keyingi task: T-007 — domain/RLS va product-flow QA qamrovini kengaytirish
+```
+
 # PROJECT_STATE.md — joriy holat
 
 > Living document. Har coder task boshlaganda va tugatganda yangilaydi.
