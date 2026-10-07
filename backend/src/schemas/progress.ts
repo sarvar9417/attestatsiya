@@ -43,3 +43,49 @@ export interface ModuleProgressResponse {
   topic_count: number
   completed_topics: number
 }
+
+
+// ─── Mastery / SRS ─────────────────────────────────────────────
+export type MasteryStatus = 'learning' | 'provisional' | 'stable' | 'regressed'
+
+export interface MasteryCognitiveStats {
+  attempts: number
+  correct: number
+}
+
+export interface MasteryItemResponse {
+  construct_id: string
+  code: string
+  group_code: string
+  title_uz: string
+  mastery_status: MasteryStatus
+  attempts: number
+  correct: number
+  accuracy_percent: number
+  review_stage: number
+  interval_days: number
+  due_at: string | null
+  last_seen_at: string | null
+  independent_attempts: number
+  guided_attempts: number
+  retry_attempts: number
+  cognitive: {
+    bilish: MasteryCognitiveStats
+    qollash: MasteryCognitiveStats
+    mulohaza: MasteryCognitiveStats
+  }
+}
+
+export interface MasterySummaryResponse {
+  tracked: number
+  learning: number
+  provisional: number
+  stable: number
+  regressed: number
+  due: number
+}
+
+export interface MasteryResponse {
+  items: MasteryItemResponse[]
+  summary: MasterySummaryResponse
+}
