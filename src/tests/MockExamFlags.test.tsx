@@ -89,6 +89,17 @@ describe('T-015 mock timer, navigator va flag', () => {
 
     expect(await screen.findByText('Birinchi savol')).toBeDefined()
     expect(screen.getByText('Qolgan vaqt')).toBeDefined()
+    expect(screen.getByText('Nomzod ma’lumotlari')).toBeDefined()
+    expect(screen.getByText('Savollar navigatsiyasi')).toBeDefined()
+    expect(screen.getByText('Javob berilgan')).toBeDefined()
+    expect(screen.getByText('Joriy savol')).toBeDefined()
+    expect(screen.getByText('Javob berilmagan')).toBeDefined()
+    expect(
+      screen.getByRole('button', { name: 'Rang mavzusini almashtirish' })
+    ).toBeDefined()
+    expect(
+      screen.getAllByRole('button', { name: 'Testni yakunlash' }).length
+    ).toBeGreaterThan(0)
     expect(screen.getByRole('button', { name: 'Savol 1' })).toBeDefined()
     expect(screen.getByRole('button', { name: 'Savol 2' })).toBeDefined()
 
