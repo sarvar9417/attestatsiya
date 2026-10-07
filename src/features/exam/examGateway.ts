@@ -32,6 +32,8 @@ export interface ExamGateway {
   startMockExam(): Promise<ExamSession>
   startModuleExam(moduleId: string): Promise<ExamSession>
   startTopicExam(lessonId: string): Promise<ExamSession>
+  /** Server-calculated due-review yoki weak-area sessionini boshlaydi. */
+  startFocusedExam?(kind: 'takrorlash' | 'zaif'): Promise<ExamSession>
   /** Intro ekranda vaqt cheklovini ko'rsatish uchun (mavzu testi). */
   previewTopicTest?(lessonId: string): Promise<TopicTestPreview | null>
   submitAnswer(input: SubmitAnswerInput): Promise<SubmitAnswerResponse>
