@@ -1216,3 +1216,18 @@ Keyingi tavsiya: Natija/Xatolar ekranlarining Figma parity auditini davom ettiri
   o‘zgarmadi.
 - **Ataylab qo‘shilmagan:** UX specdagi vaqt, 4 section, 16 module va cognitive
   kesimlari joriy finish kontraktida yo‘q, shuning uchun UI’da uydirilmagan.
+
+
+### T-030 Handoff
+
+```text
+Task: T-030
+Natija: finalized Natija → savollar tahlili → Xatolar/Natijalar tarixi learner oqimi
+O‘zgargan fayllar: src/features/exam/ExamRunner.tsx; src/tests/ExamResultDecision.test.tsx; TASKS.md; PROJECT_STATE.md
+API: mavjud GET /api/exam/:id/review, /api/exam/history, /api/exam/due-reviews
+Migratsiyalar: yo‘q
+Testlar: GitHub CI quality + backend + database — yashil
+Xavfsizlik: review faqat finalized result ekranidan; scoring va answer submit server-authoritative
+Figma: live read Starter MCP limit sabab bloklangan; approved file/chat flow + UX_SPEC.md ishlatildi
+Keyingi UI yo‘nalish: real backend kontraktini kengaytirmasdan uydirma readiness/section/module/cognitive metrikalarini ko‘rsatmaslik
+```
