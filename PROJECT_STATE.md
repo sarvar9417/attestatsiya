@@ -1231,3 +1231,21 @@ Xavfsizlik: review faqat finalized result ekranidan; scoring va answer submit se
 Figma: live read Starter MCP limit sabab bloklangan; approved file/chat flow + UX_SPEC.md ishlatildi
 Keyingi UI yo‘nalish: real backend kontraktini kengaytirmasdan uydirma readiness/section/module/cognitive metrikalarini ko‘rsatmaslik
 ```
+
+
+## Persistent learner result (T-031, 2026-10-07)
+
+- **Plan basis:** `UX_SPEC.md` dagi `/results/[sessionId]` route va
+  oldingi Figma/chat `Natija → Xatolar` oqimi.
+- **Backend:** `GET /api/exam/:id/result` faqat autentifikatsiyalangan learnerning
+  o‘z finalized attemptini qaytaradi. Query `id` + `user_id` bilan explicit
+  filterlanadi va RLS ham faol qoladi; boshqa learner attempti 404 sifatida yashiriladi.
+- **Frontend:** protected `/results/:examId` sahifasi serverdagi score, passed,
+  lesson metadata va mavjud group breakdownni ko‘rsatadi.
+- **History continuity:** `/history` kartalari persistent result detailga bog‘landi.
+- **Review boundary:** answer/explanation `getReview(examId)` orqali faqat
+  foydalanuvchi finalized result sahifasida `Tahlilni ochish`ni bosganda olinadi.
+- **No fabricated analytics:** vaqt sarfi, 4 section, 16 module, cognitive va
+  weakest-objective ko‘rsatkichlari joriy server kontraktida yo‘q; UI’da uydirilmaydi.
+- **Figma live access:** Starter MCP limit hali faol; mavjud approved visual system
+  va repository UX contract source-of-truth sifatida ishlatilmoqda.
