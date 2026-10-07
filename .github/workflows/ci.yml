@@ -87,13 +87,20 @@ jobs:
 
           BROKEN_MIGRATION='supabase/migrations/20260730000011_sync_source_reference.sql'
           REPAIR_MIGRATION='supabase/migrations/20260731000013_fix_question_keys_rls.sql'
+          SOURCE_LINK_MIGRATION='supabase/migrations/20260731000014_source_lesson_links.sql'
+          CONTENT_MIGRATION='supabase/migrations/20260731000012_m01_content_seed.sql'
           REPAIR_APPLIED=false
+          SOURCE_LINK_APPLIED=false
 
           # 00011 remote'da rollback bo'lgan va migration history'da repair-applied
-          # deb belgilangan. 00013 uning idempotent replacement'i, shu bilan birga
-          # 00012 talab qiladigan source_reference ustunini yaratadi. Fresh install
-          # production semantikasini takrorlash uchun 00011 nuqtasida 00013 ni
-          # oldindan qo'llaydi, keyin 00013 normal joyiga kelganda skip qiladi.
+          # deb belgilangan. 00013 uning idempotent replacement'i. Fresh install
+          # production repair semantikasini takrorlash uchun 00011 nuqtasida
+          # 00013 ni qo'llaydi va normal joyida qayta ishlatmaydi.
+          #
+          # 00012 tarixiy content seed source_lesson_id ustuniga murojaat qiladi,
+          # ustun esa keyingi 00014 da ADD COLUMN IF NOT EXISTS bilan yaratiladi.
+          # Fresh DB uchun 00014 schema prerequisite'ni 00012 dan oldin bir marta
+          # qo'llaymiz; 00014 normal joyiga kelganda uni qayta ishlatmaymiz.
           while IFS= read -r migration; do
             if [ "${migration}" = "${BROKEN_MIGRATION}" ]; then
               echo "Replacing repaired historical migration ${migration} with ${REPAIR_MIGRATION}"
@@ -102,8 +109,19 @@ jobs:
               continue
             fi
 
+            if [ "${migration}" = "${CONTENT_MIGRATION}" ] && [ "${SOURCE_LINK_APPLIED}" = false ]; then
+              echo "Preloading schema prerequisite ${SOURCE_LINK_MIGRATION} before ${CONTENT_MIGRATION}"
+              psql -X -v ON_ERROR_STOP=1 -d attestatsiya_test -f "${SOURCE_LINK_MIGRATION}"
+              SOURCE_LINK_APPLIED=true
+            fi
+
             if [ "${migration}" = "${REPAIR_MIGRATION}" ] && [ "${REPAIR_APPLIED}" = true ]; then
               echo "Skipping already-applied repair ${migration}"
+              continue
+            fi
+
+            if [ "${migration}" = "${SOURCE_LINK_MIGRATION}" ] && [ "${SOURCE_LINK_APPLIED}" = true ]; then
+              echo "Skipping already-applied schema prerequisite ${migration}"
               continue
             fi
 
