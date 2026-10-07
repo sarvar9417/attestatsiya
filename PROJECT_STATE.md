@@ -1157,3 +1157,24 @@ Migratsiyalar: yo‘q
 Qolgan operatsion cheklov: Vercel backend project Git linki dashboard/MCP orqali eski repo'dan monorepoga avtomatik relink qilinmadi
 Keyingi backend source-of-truth: sarvar9417/attestatsiya/backend
 ```
+
+
+## Figma exam shell parity (T-029, 2026-10-07)
+
+- **Maqsad:** oldingi Figma/chat tasdiqlangan test ekraniga faol `ExamRunner`
+  shellini yaqinlashtirish; scoring, timer va answer lifecycle biznes qoidalarini
+  o‘zgartirmaslik.
+- **Design basis:** saqlangan `Dual-Theme Attestatsiya Test Interface` referensi
+  bo‘yicha asosiy savol chapda, nomzod ma’lumoti + vaqt + savollar navigatsiyasi
+  o‘ngda, 10 ustunli number grid va answered/current/flagged/unanswered legend.
+- **Figma MCP:** Academik Starter workspace uchun joriy tool-call limiti tugagan;
+  shu sabab yangi live node read qilinmadi. Ish avval tasdiqlangan Figma yo‘nalishi,
+  saqlangan reference va mavjud TASK-UI-004 behavior contractiga tayangan.
+- **Xavfsizlik:** mavjud auth’da yo‘q `guruh` kabi ma’lumotlar uydirilmaydi;
+  nomzod kartasi faqat display name/email/id va fan kabi real platforma
+  ma’lumotlarini ko‘rsatadi.
+- **Behavior boundary:** answer hali ham explicit `Javobni saqlash` orqali
+  serverga yuboriladi; flag scoring payloadiga kirmaydi; timer va final score
+  server-authoritative qoladi.
+- **Route shell:** `/exam/*` global learner sidebar/mobile bottom navdan ajratilib,
+  sinov vaqtida immersive layout ishlatadi.
