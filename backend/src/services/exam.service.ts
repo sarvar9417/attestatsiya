@@ -129,6 +129,55 @@ export const examService = {
   },
 
   /**
+   * Start a server-assembled adaptive practice session for one lesson.
+   */
+  async startAdaptivePractice(
+    lessonId: string,
+    userToken: string
+  ): Promise<ExamStartResponse> {
+    const client = getAuthedClient(userToken)
+    const resolvedLessonId = await resolveLessonUuid(lessonId)
+
+    if (!resolvedLessonId) {
+      throw new AppError(`"${lessonId}" mavzusi topilmadi`, 404, 'LESSON_NOT_FOUND')
+    }
+
+    const result = await client.rpc('start_adaptive_practice', {
+      p_lesson_id: resolvedLessonId,
+    })
+
+    if (result.error) {
+      if (result.error.message?.includes('savol_yoq')) {
+        throw new AppError(
+          'Bu mavzu uchun adaptiv mashq savollari mavjud emas.',
+          404,
+          'NO_QUESTIONS'
+        )
+      }
+      if (result.error.message?.includes('lesson_topilmadi')) {
+        throw new AppError('Mavzu topilmadi', 404, 'LESSON_NOT_FOUND')
+      }
+      if (
+        result.error.message?.includes('start_adaptive_practice') ||
+        result.error.message?.includes('schema cache')
+      ) {
+        throw new AppError(
+          'Adaptiv mashq hali serverda faollashtirilmagan.',
+          503,
+          'ADAPTIVE_PRACTICE_UNAVAILABLE'
+        )
+      }
+      throw new AppError(
+        'Adaptiv mashqni boshlashda xatolik',
+        500,
+        'ADAPTIVE_PRACTICE_ERROR'
+      )
+    }
+
+    return result.data as unknown as ExamStartResponse
+  },
+
+  /**
    * Submit an answer for a question during an active exam.
    */
   async submit(input: { exam_id: string; question_id: string; answer: Record<string, unknown>; time_spent_sec?: number }, userToken: string): Promise<ExamSubmitResponse> {
