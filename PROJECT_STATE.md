@@ -1178,3 +1178,22 @@ Keyingi backend source-of-truth: sarvar9417/attestatsiya/backend
   server-authoritative qoladi.
 - **Route shell:** `/exam/*` global learner sidebar/mobile bottom navdan ajratilib,
   sinov vaqtida immersive layout ishlatadi.
+- **Test natijasi:** frontend secret scan, lint, TypeScript, 297 unit test,
+  generated-content invariantlari, production build va Playwright E2E yashil;
+  backend va database CI joblari ham yashil.
+- **Regression:** eski `Sinovni yakunlash` accessibility contracti saqlandi;
+  Figma ko‘rinishida tugma matni `Testni yakunlash`, ammo mavjud test/assistive
+  contract buzilmadi.
+
+### T-029 Handoff
+
+```text
+Task: T-029
+Natija: Figma approved immersive exam shell parity
+O‘zgargan fayllar: src/App.tsx; src/features/exam/ExamRunner.tsx; src/index.css; src/tests/MockExamFlags.test.tsx; src/tests/e2e/exam-product-flow.spec.ts; TASKS.md; PROJECT_STATE.md
+Migratsiyalar: yo‘q
+Testlar: GitHub CI quality + backend + database — yashil
+Behavior: explicit answer submit, server timer/scoring, local review flag semantikasi saqlandi
+Figma live read: Starter tool limit sabab bloklangan; saved approved reference + prior screen contract ishlatildi
+Keyingi tavsiya: Natija/Xatolar ekranlarining Figma parity auditini davom ettirish
+```
