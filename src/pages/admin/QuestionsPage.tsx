@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { supabase } from '../../lib/supabase'
+import { typedSupabase } from '../../lib/supabase'
 import {
   Archive,
   CheckCircle,
