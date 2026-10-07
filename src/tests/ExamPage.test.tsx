@@ -218,6 +218,7 @@ describe('secure ExamRunner', () => {
       submitAnswer: vi.fn(),
       finishExam: vi.fn(),
       getReview: vi.fn(),
+      getResult: vi.fn(),
       getHistory: vi.fn(),
       getDueReviews: vi.fn(),
     }
