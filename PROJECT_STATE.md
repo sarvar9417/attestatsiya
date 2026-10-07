@@ -1281,3 +1281,18 @@ Xavfsizlik: boshqa learner resulti 404; unfinished result 400; answer key faqat 
 - **Figma live MCP:** Academik Starter plan tool-call limiti hali faol; yangi node
   read qilib bo‘lmadi. Ish oldin tasdiqlangan visual system va repository UX contractiga
   tayangan.
+
+
+### T-032 Handoff
+
+```text
+Task: T-032
+Natija: /review → /exam/takrorlash real server-selected retest oqimi
+Backend contract: POST /api/exam/start { kind: "takrorlash" | "zaif" }
+Frontend: takrorlash/zaif explicit route; mock fallback yo‘q; backUrl=/review
+Testlar: ReviewPage CTA, ExamPage focused-kind, API integration
+GitHub CI #587: quality + backend + database — SUCCESS
+Merge: PR #53, main commit 647fd36351234e3ae980e54b7a61bdf4a7c375b3
+Migratsiyalar: yo‘q
+Keyingi bajarilmagan blok: onboarding + diagnostika + daily plan
+```
