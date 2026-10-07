@@ -1098,9 +1098,9 @@ Qolgan blocker: T-025 remote Supabase migration history permission
   loading, empty, API error/retry va 20 talik pagination mavjud.
 - **Navigation:** desktop Sidebar va mobile bottom navigation ichiga
   `Natijalar tarixi / Natijalar` qo‘shildi.
-- **Test:** history sahifa server-data, empty, failure→retry va pagination bilan;
+- **Test qamrovi:** history sahifa server-data, empty, failure→retry va pagination bilan;
   frontend↔backend integration testi `/api/exam/history` URL va payload kontraktini
-  tekshiradi.
+  tekshiradi. GitHub CI natijasi kutilmoqda.
 - **T-025 holati:** Supabase connector hozir ham `plyqezulrfowyblsfpzy` projectini
   ko‘rsatmayapti; remote migration history reconciliation bloklanganicha qoladi.
 
