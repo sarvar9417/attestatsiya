@@ -9,7 +9,7 @@ const mocks = vi.hoisted(() => ({
 }))
 
 vi.mock('../lib/supabase', () => ({
-  supabase: {
+  typedSupabase: {
     from: mocks.from,
   },
 }))
