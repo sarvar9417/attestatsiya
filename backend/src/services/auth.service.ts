@@ -8,6 +8,9 @@ import type {
   RegisterInput,
   RegisterResponse,
   UpdateProfileInput,
+  OnboardingUpdateInput,
+  OnboardingStateResponse,
+  OnboardingCompleteResponse,
 } from '../schemas/auth.js'
 
 /**
@@ -74,6 +77,58 @@ function toUserResponse(
     email,
     display_name: profile.display_name,
     role: profile.role,
+  }
+}
+
+function tashkentToday(): string {
+  const offsetMs = 5 * 60 * 60 * 1000
+  return new Date(Date.now() + offsetMs).toISOString().slice(0, 10)
+}
+
+function isMissingOnboardingSchema(error: { code?: string; message?: string } | null): boolean {
+  if (!error) return false
+  const message = (error.message ?? '').toLowerCase()
+  return (
+    error.code === '42703' ||
+    error.code === 'PGRST204' ||
+    (message.includes('exam_date') && (message.includes('does not exist') || message.includes('schema cache')))
+  )
+}
+
+async function getOnboardingStateForUser(userId: string): Promise<OnboardingStateResponse> {
+  const { data, error } = await supabase
+    .from('profiles')
+    .select(
+      'display_name, exam_date, daily_goal_minutes, timezone, locale, onboarding_completed_at'
+    )
+    .eq('id', userId)
+    .maybeSingle()
+
+  if (error) {
+    if (isMissingOnboardingSchema(error)) {
+      return {
+        available: false,
+        completed: true,
+        display_name: null,
+        exam_date: null,
+        daily_goal_minutes: 30,
+        timezone: 'Asia/Tashkent',
+        locale: 'uz-Latn',
+        onboarding_completed_at: null,
+      }
+    }
+    throw new AppError('Onboarding holatini olishda xatolik', 500, 'ONBOARDING_READ_ERROR')
+  }
+
+  return {
+    available: true,
+    completed: Boolean(data?.onboarding_completed_at),
+    display_name: data?.display_name ?? null,
+    exam_date: data?.exam_date ?? null,
+    daily_goal_minutes: data?.daily_goal_minutes ?? 30,
+    timezone: data?.timezone ?? 'Asia/Tashkent',
+    locale: data?.locale ?? 'uz-Latn',
+    onboarding_completed_at: data?.onboarding_completed_at ?? null,
   }
 }
 
@@ -247,5 +302,68 @@ export const authService = {
 
     const profile = await getProfile(user.id)
     return toUserResponse(user.id, user.email ?? '', profile)
+  },
+
+  /**
+   * GET /api/auth/onboarding — joriy learner onboarding holati.
+   *
+   * Migration productionga hali qo'llanmagan bo'lsa available=false qaytaradi;
+   * bu login oqimini buzmasdan deployni backward-compatible saqlaydi.
+   */
+  async onboarding(userToken: string): Promise<OnboardingStateResponse> {
+    const { data: { user }, error } = await supabase.auth.getUser(userToken)
+    if (error || !user) throw new AuthError('Yaroqsiz token')
+
+    return getOnboardingStateForUser(user.id)
+  },
+
+  /**
+   * PATCH /api/auth/onboarding — majburiy onboarding sozlamalarini saqlash.
+   */
+  async completeOnboarding(
+    input: OnboardingUpdateInput,
+    userToken: string
+  ): Promise<OnboardingCompleteResponse> {
+    const { data: { user }, error: userError } = await supabase.auth.getUser(userToken)
+    if (userError || !user) throw new AuthError('Yaroqsiz token')
+
+    if (input.exam_date && input.exam_date < tashkentToday()) {
+      throw new AppError(
+        'Imtihon sanasi o‘tgan sana bo‘lishi mumkin emas',
+        400,
+        'VALIDATION_ERROR'
+      )
+    }
+
+    const { error } = await supabase
+      .from('profiles')
+      .update({
+        exam_date: input.exam_date,
+        daily_goal_minutes: input.daily_goal_minutes,
+        timezone: 'Asia/Tashkent',
+        locale: 'uz-Latn',
+        onboarding_completed_at: new Date().toISOString(),
+      })
+      .eq('id', user.id)
+
+    if (error) {
+      if (isMissingOnboardingSchema(error)) {
+        throw new AppError(
+          'Onboarding bazasi hali productionga qo‘llanmagan',
+          503,
+          'ONBOARDING_SCHEMA_PENDING'
+        )
+      }
+      throw new AppError(
+        'Onboarding ma’lumotlarini saqlashda xatolik',
+        500,
+        'ONBOARDING_UPDATE_ERROR'
+      )
+    }
+
+    return {
+      state: await getOnboardingStateForUser(user.id),
+      next_action: input.start_diagnostic ? 'diagnostic' : 'dashboard',
+    }
   },
 }
