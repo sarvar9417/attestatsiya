@@ -5,9 +5,9 @@ manbasi tekshiriladigan, server-authoritative va mobilga mos o‘quv platformasi
 
 ## Joriy holat
 
-Loyiha `P0 — xavfsizlik va barqarorlashtirish` bosqichida. UI prototipi ishlaydi,
-ammo learner progressi, imtihon scoring’i va mastery hali to‘liq server
-haqiqatiga ko‘chirilmagan. Production deploy mavjud emas.
+Loyiha faol development bosqichida. Frontend va Fastify backend bitta Git monorepoda,
+Supabase/PostgreSQL esa server-authoritative ma’lumot va baholash qatlamini beradi.
+Frontend va backend production deploylari mavjud.
 
 ## O‘zgarmas mahsulot qoidalari
 

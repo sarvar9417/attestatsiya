@@ -1130,8 +1130,30 @@ Qolgan blocker: T-025 remote Supabase migration history permission
   secret scan, server typecheck, Vercel API-entry typecheck va unit testlar.
 - **Local workflow:** root package scriptlari orqali `npm run dev:backend` va
   `npm run check:backend` qo‘shildi.
-- **Deploy xavfsizligi:** frontend Vercel loyihasi hozircha o‘zgarishsiz.
-  Backend production Vercel loyihasi eski repo bilan linklangan; Git source
-  cutover faqat monorepo PR yashil bo‘lib main'ga merge bo‘lgandan keyin qilinadi.
-- **Legacy repo:** `sarvar9417/attestatsiya-backend` tarixiy/deploy fallback sifatida
+- **Deploy:** frontend Vercel loyihasi o‘zgarishsiz. Backend production
+  `attestatsiya-backend` Vercel projectiga monorepo `main` commit
+  `c46437fa6d5e72d6bdd8e638c264e7fcb6fe8ffe` dan `backend/` root bilan
+  production deploy qilindi va READY holatiga keldi; custom alias
+  `attestatsiya-backend.vercel.app` saqlandi.
+- **Legacy repo:** `sarvar9417/attestatsiya-backend` tarixiy/rollback fallback sifatida
   vaqtincha qoladi; yangi backend featurelar monorepodagi `backend/`da qilinadi.
+- **Vercel Git integration cheklovi:** production deploy monorepodan bajarildi, ammo
+  Vercel MCP mavjud `attestatsiya-backend` projectining Git linkini boshqa repoga
+  qayta ulash operatsiyasini bermaydi. Project hali eski repo bilan Git-linked;
+  monorepo backend o‘zgarishlari hozircha explicit Vercel deployment orqali chiqariladi
+  yoki Vercel dashboardda Git repo `sarvar9417/attestatsiya`, Root Directory `backend`
+  qilib bir marta relink qilinadi.
+
+
+### T-028 Handoff
+
+```text
+Task: T-028
+Natija: frontend + backend + Supabase artefaktlari bitta sarvar9417/attestatsiya monorepoda
+Backend path: backend/
+Production backend deploy: READY, source sarvar9417/attestatsiya@c46437f, root backend/
+GitHub CI: frontend quality + backend quality + database — yashil
+Migratsiyalar: yo‘q
+Qolgan operatsion cheklov: Vercel backend project Git linki dashboard/MCP orqali eski repo'dan monorepoga avtomatik relink qilinmadi
+Keyingi backend source-of-truth: sarvar9417/attestatsiya/backend
+```
