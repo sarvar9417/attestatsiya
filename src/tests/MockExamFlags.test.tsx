@@ -98,7 +98,7 @@ describe('T-015 mock timer, navigator va flag', () => {
       screen.getByRole('button', { name: 'Rang mavzusini almashtirish' })
     ).toBeDefined()
     expect(
-      screen.getAllByRole('button', { name: 'Testni yakunlash' }).length
+      screen.getAllByRole('button', { name: 'Sinovni yakunlash' }).length
     ).toBeGreaterThan(0)
     expect(screen.getByRole('button', { name: 'Savol 1' })).toBeDefined()
     expect(screen.getByRole('button', { name: 'Savol 2' })).toBeDefined()
