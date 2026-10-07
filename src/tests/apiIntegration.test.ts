@@ -343,6 +343,18 @@ describe('frontend ↔ backend API integration', () => {
     expect(url).toBe(`http://localhost:3001/api/exam/${examId}/review`)
   })
 
+  it('GET /api/exam/:id/result — persistent learner natijasi kontrakti', async () => {
+    fetchMock.mockResolvedValue(okJson(historyPayload.items[0]))
+
+    const result = await backendGateway.getResult(examId)
+
+    expect(result.exam_id).toBe(examId)
+    expect(result.lesson_title_uz).toBe('Axborot hajmi')
+    expect(result.total_score).toBe(32)
+    const [url] = fetchMock.mock.calls[0] as [string]
+    expect(url).toBe(`http://localhost:3001/api/exam/${examId}/result`)
+  })
+
   it('GET /api/exam/history — learner natijalari kontrakti', async () => {
     fetchMock.mockResolvedValue(okJson(historyPayload))
 
