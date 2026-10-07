@@ -78,6 +78,7 @@
 | T-032 | DONE | T-031, TASK-UI-009 | Xatolar notebook → real retest: due-review sahifasidan `/exam/takrorlash` server sessioniga aniq CTA; `takrorlash`/`zaif` route’lari mockga yashirin fallback qilmaydi; mavjud server-authoritative scoring/timer saqlanadi |
 | T-033 | BLOCKED | T-032, T-016 | Kod/CI tayyor: onboarding + diagnostika, imtihon sanasi, 10/20/30/45/60 daqiqalik kunlik maqsad va learner gate `main`ga merge qilindi; production activation `20261007131000_onboarding_profile.sql` remote Supabase’ga qo‘llanishi uchun `plyqezulrfowyblsfpzy` connector accessini kutmoqda |
 | T-034 | DONE | T-032 | Mastery/SRS foundation: append-only evidence, cognitive counters, learning/provisional/stable/regressed state, deterministic 1/3/7/14/30 interval scheduler va authenticated `/api/progress/mastery` read model; PR #57 full CI yashil |
+| T-035 | IN_PROGRESS | T-034 | Blueprint-weighted readiness v1 + confidence/coverage + server-prioritized next action (`due review → regressed → diagnostic → learn`); Dashboard fake completion-as-readiness o‘rniga evidence-based readiness ko‘rsatadi |
 
 ## UI modernizatsiya — Figma approved design
 

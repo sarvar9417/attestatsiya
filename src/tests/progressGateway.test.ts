@@ -167,6 +167,64 @@ describe('progressGateway', () => {
     )
   })
 
+  it('getReadiness blueprint estimate va next actionni parse qiladi', async () => {
+    fetchMock.mockResolvedValue(
+      okJson({
+        available: true,
+        readiness_percent: 68,
+        confidence: 'medium',
+        independent_evidence: 214,
+        covered_blueprint_questions: 42,
+        total_blueprint_questions: 50,
+        coverage_percent: 84,
+        due_reviews: 2,
+        regressed_constructs: 1,
+        next_action: {
+          kind: 'review',
+          href: '/review',
+          label: 'Takrorlashlarni bajarish',
+          reason: '2 ta konstruktning takrorlash vaqti kelgan.',
+        },
+        unavailable_reason: null,
+      })
+    )
+
+    const result = await progressGateway.getReadiness()
+
+    expect(result.readiness_percent).toBe(68)
+    expect(result.confidence).toBe('medium')
+    expect(result.next_action.kind).toBe('review')
+    const [url] = fetchMock.mock.calls[0] as [string]
+    expect(url).toBe('http://localhost:3001/api/progress/readiness')
+  })
+
+  it('getReadiness invalid confidence ni rad qiladi', async () => {
+    fetchMock.mockResolvedValue(
+      okJson({
+        available: true,
+        readiness_percent: 68,
+        confidence: 'certain',
+        independent_evidence: 214,
+        covered_blueprint_questions: 42,
+        total_blueprint_questions: 50,
+        coverage_percent: 84,
+        due_reviews: 0,
+        regressed_constructs: 0,
+        next_action: {
+          kind: 'learn',
+          href: '/learn',
+          label: 'Davom etish',
+          reason: 'test',
+        },
+        unavailable_reason: null,
+      })
+    )
+
+    await expect(progressGateway.getReadiness()).rejects.toThrow(
+      'Invalid readiness response'
+    )
+  })
+
   it('getDueReviews backend orqali olinadi va parse qilinadi', async () => {
     const due: DueReviewItem[] = [
       {

@@ -70,6 +70,20 @@ export async function progressRoutes(app: FastifyInstance) {
   })
 
   /**
+   * GET /api/progress/readiness
+   * Blueprint-weighted readiness estimate and one prioritized next action.
+   */
+  app.get('/api/progress/readiness', async (req, reply) => {
+    try {
+      const { user } = await requireAuth(req)
+      const result = await progressService.getReadiness(user.id)
+      return reply.send(result)
+    } catch (error) {
+      return sendError(reply, error)
+    }
+  })
+
+  /**
    * GET /api/progress/modules
    * Get module progress for the authenticated user
    */

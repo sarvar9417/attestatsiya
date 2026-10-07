@@ -103,6 +103,26 @@ export const masteryResponseSchema = z.object({
 
 export type MasteryResponse = z.infer<typeof masteryResponseSchema>
 
+export const readinessResponseSchema = z.object({
+  available: z.boolean(),
+  readiness_percent: z.number().int().min(0).max(100).nullable(),
+  confidence: z.enum(['insufficient', 'low', 'medium', 'high']),
+  independent_evidence: z.number().int().nonnegative(),
+  covered_blueprint_questions: z.number().int().nonnegative(),
+  total_blueprint_questions: z.number().int().positive(),
+  coverage_percent: z.number().int().min(0).max(100),
+  due_reviews: z.number().int().nonnegative(),
+  regressed_constructs: z.number().int().nonnegative(),
+  next_action: z.object({
+    kind: z.enum(['review', 'weak', 'diagnostic', 'learn']),
+    href: z.string().min(1),
+    label: z.string().min(1),
+    reason: z.string().min(1),
+  }),
+  unavailable_reason: z.enum(['mastery_schema_pending', 'no_active_blueprint']).nullable(),
+})
+export type ReadinessResponse = z.infer<typeof readinessResponseSchema>
+
 // ─── Gateway ─────────────────────────────────────────────────────────
 
 export const progressGateway = {
@@ -138,6 +158,18 @@ export const progressGateway = {
     const parsed = masteryResponseSchema.safeParse(data)
     if (!parsed.success) {
       throw new Error('Invalid mastery progress response')
+    }
+    return parsed.data
+  },
+
+  /**
+   * Blueprint-weighted readiness va server tavsiya qilgan keyingi action.
+   */
+  async getReadiness(): Promise<ReadinessResponse> {
+    const data = await api.get<unknown>('/api/progress/readiness')
+    const parsed = readinessResponseSchema.safeParse(data)
+    if (!parsed.success) {
+      throw new Error('Invalid readiness response')
     }
     return parsed.data
   },

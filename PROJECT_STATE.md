@@ -1371,3 +1371,27 @@ Merge: PR #57, main commit bc2fca87b9600c18293f87a647054486263f813c
 Remote apply: YO'Q; plyqezulrfowyblsfpzy Supabase connector accessi hali yo'q
 Keyingi non-blocked task: adaptive selector + readiness/next-action service
 ```
+
+
+## Blueprint-weighted readiness + next action (T-035, 2026-10-07)
+
+- **Plan basis:** UX_SPEC Dashboard va PRODUCT_REQUIREMENTS FR-AN-05:
+  readiness blueprint vaznida taxminiy ko‘rsatkich bo‘lishi kerak; “50/50 kafolat”
+  yozilmaydi.
+- **Readiness v1:** faqat `mastery_evidence.evidence_kind=independent` evidence
+  ishlatiladi. Har blueprint group accuracy o‘z `question_count` vazniga ega.
+  Evidence yo‘q group score'ga 0 sifatida qo‘shilmaydi — alohida coverage va
+  confidence orqali ko‘rsatiladi.
+- **Confidence heuristic v1:** insufficient <10 independent yoki <20% coverage;
+  low <50 yoki <50%; medium <200 yoki <80%; high >=200 va >=80%.
+  Bu rasmiy attestatsiya kafolati emas, versioned product heuristic.
+- **Next action priority:** due review → regressed construct → diagnostika
+  (insufficient evidence) → learning.
+- **Backend:** authenticated `GET /api/progress/readiness`; service-role
+  query'lari explicit user_id filter bilan. Answer key yoki full prompt yo‘q.
+- **Compatibility:** T-034 remote schema hali productionga apply qilinmagan bo‘lsa
+  endpoint fake score bermaydi; `available=false`,
+  `unavailable_reason=mastery_schema_pending` qaytaradi.
+- **Dashboard:** eski local completion percent “TAYYORLIK” sifatida ko‘rsatilmaydi;
+  server readiness, confidence, independent evidence va blueprint coverage
+  ko‘rsatiladi; server tavsiya qilgan next action Bugungi reja CTA'iga ulanadi.
