@@ -1076,28 +1076,12 @@ export default function ExamRunner({
                   }
                 }}
                 aria-label="Sinovni yakunlash"
-                className="exam-finish-btn hidden lg:inline-flex"
+                className="exam-finish-btn col-span-3 w-full lg:col-auto lg:w-auto"
               >
                 <Flag size={15} aria-hidden="true" />
                 Testni yakunlash
               </button>
             </div>
-            <button
-              type="button"
-              disabled={interactionBusy}
-              onClick={() => {
-                if (unansweredCount > 0) {
-                  setFinishArmed(true)
-                } else {
-                  void finishExam()
-                }
-              }}
-              aria-label="Sinovni yakunlash"
-              className="exam-finish-btn mt-2 w-full lg:hidden"
-            >
-              <Flag size={15} aria-hidden="true" />
-              Testni yakunlash
-            </button>
           </div>
         </section>
 
