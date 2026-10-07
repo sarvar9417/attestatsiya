@@ -864,7 +864,7 @@ export default function ExamRunner({
             <section className="exam-question-panel" aria-label={`Savol ${currentIndex + 1}`}>
               <div className="exam-question-summary">
                 <div className="flex min-w-0 flex-wrap items-center gap-2">
-                  <span className="inline-flex rounded-lg bg-primary-50 px-2.5 py-1 text-[11px] font-semibold text-primary-700 dark:bg-primary-950/50 dark:text-primary-300">
+                  <span className="inline-flex rounded-lg bg-primary-50 px-2.5 py-1 text-[11px] font-semibold text-primary-700 dark:bg-primary-900/50 dark:text-primary-300">
                     Informatika
                   </span>
                   <span className="text-sm font-bold text-gray-900 dark:text-white">
@@ -1097,7 +1097,7 @@ export default function ExamRunner({
                   void finishExam()
                 }
               }}
-              className="exam-finish-btn mt-2 lg:hidden"
+              className="exam-finish-btn mt-2 w-full lg:hidden"
             >
               <Flag size={15} aria-hidden="true" />
               Testni yakunlash
@@ -1109,7 +1109,7 @@ export default function ExamRunner({
           <section className="exam-sidebar-card">
             <p className="exam-sidebar-section-header">Nomzod ma’lumotlari</p>
             <div className="flex items-center gap-3">
-              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-primary-100 text-sm font-bold text-primary-700 dark:bg-primary-950 dark:text-primary-300">
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-primary-100 text-sm font-bold text-primary-700 dark:bg-primary-900 dark:text-primary-300">
                 {initials(candidateName)}
               </span>
               <div className="min-w-0">
@@ -1198,7 +1198,7 @@ export default function ExamRunner({
           <aside className="exam-sidebar-mobile" aria-label="Savollar paneli">
             <div className="flex items-center justify-between border-b border-gray-100 px-4 py-3.5 dark:border-gray-800">
               <div className="flex min-w-0 items-center gap-3">
-                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-primary-100 text-xs font-bold text-primary-700 dark:bg-primary-950 dark:text-primary-300">
+                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-primary-100 text-xs font-bold text-primary-700 dark:bg-primary-900 dark:text-primary-300">
                   {initials(candidateName)}
                 </span>
                 <div className="min-w-0">
