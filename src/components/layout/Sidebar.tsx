@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import {
+  BarChart3,
   BookOpen,
   ChevronLeft,
   ChevronRight,
@@ -37,6 +38,11 @@ const NAV_ITEMS: NavItem[] = [
     to: '/exam',
     icon: <ClipboardCheck size={18} aria-hidden="true" />,
     label: 'Mock test',
+  },
+  {
+    to: '/history',
+    icon: <BarChart3 size={18} aria-hidden="true" />,
+    label: 'Natijalar tarixi',
   },
   {
     to: '/review',

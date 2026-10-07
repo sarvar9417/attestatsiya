@@ -16,10 +16,12 @@ import { api, isNetworkError } from '../../lib/apiClient'
 import {
   examSessionSchema,
   examReviewResponseSchema,
+  examHistoryResponseSchema,
   dueReviewResponseSchema,
   finishExamResponseSchema,
   submitAnswerResponseSchema,
   type DueReviewItem,
+  type ExamHistoryResponse,
   type ExamReviewItem,
   type ExamSession,
   type FinishExamResponse,
@@ -142,6 +144,13 @@ export const backendGateway: ExamGateway = {
   async getReview(examId: string): Promise<ExamReviewItem[]> {
     const data = await api.get<unknown>(`/api/exam/${examId}/review`)
     return parseResponse(examReviewResponseSchema, data, 'exam_review')
+  },
+
+  async getHistory(page = 1, pageSize = 20): Promise<ExamHistoryResponse> {
+    const data = await api.get<unknown>(
+      `/api/exam/history?page=${page}&page_size=${pageSize}`
+    )
+    return parseResponse(examHistoryResponseSchema, data, 'exam_history')
   },
 
   async getDueReviews(): Promise<DueReviewItem[]> {

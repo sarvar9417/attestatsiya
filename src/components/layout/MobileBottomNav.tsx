@@ -1,9 +1,10 @@
 import { useNavigate, useLocation } from 'react-router-dom'
-import { LayoutDashboard, BookOpen, History, User } from 'lucide-react'
+import { BarChart3, LayoutDashboard, BookOpen, History, User } from 'lucide-react'
 
 const NAV_ITEMS = [
   { to: '/', icon: LayoutDashboard, label: 'Asosiy' },
   { to: '/learn', icon: BookOpen, label: 'O\'rganish' },
+  { to: '/history', icon: BarChart3, label: 'Natijalar' },
   { to: '/review', icon: History, label: 'Xatolar' },
   { to: '/profile', icon: User, label: 'Profil' },
 ]
