@@ -57,7 +57,7 @@
 | T-010 | DONE | T-008, T-009 | contentTree.ts, topicContent.ts ni UUID schema ga moslash |
 | T-011 | DONE | T-010 | Learning moduli (mavzu o'qish, test) |
 | T-012 | DONE | T-010 | Y1/Y2/Y3 generatorlar (axborotHajmi, sanoqSistema, mantiqAmal, ipMaska): 9 rasmiy konstrukt, seeded determinism, 100-seed semantic uniqueness va mustaqil formula testlari |
-| T-013 | BLOCKED | T-011, T-012 | ExamRunner bilan imtihon ishga tushirish (RPC orqali) |
+| T-013 | IN_PROGRESS | T-011, T-012 | ExamRunner bilan imtihon ishga tushirish (server gateway → backend RPC oqimi) |
 | T-014 | BLOCKED | T-013 | Natija ekrani (ball, toifa qarori, guruh kesimi) |
 | T-015 | BLOCKED | T-014 | Mock exam UI (timer, navigator, flag) |
 | T-016 | DONE | — | User auth frontend: login/register/profil/logout UX (validatsiya, EMAIL_NOT_CONFIRMED, redirect), profilga parol o'zgartirish, route himoyasi va session expiry |

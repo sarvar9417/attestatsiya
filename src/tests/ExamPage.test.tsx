@@ -249,6 +249,18 @@ describe('secure ExamRunner', () => {
     expect(gateway.finishExam).toHaveBeenCalledWith(ids.exam)
   })
 
+  it('bo‘lim sinovi modul kodi bilan server gateway orqali boshlanadi', async () => {
+    const user = userEvent.setup()
+    const gateway = successfulGateway()
+
+    renderExam(gateway, '/exam/bolim/M01')
+    await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
+
+    expect(gateway.startModuleExam).toHaveBeenCalledWith('M01')
+    expect(gateway.startMockExam).not.toHaveBeenCalled()
+    expect(await screen.findByText('Yagona javobni tanlang')).toBeDefined()
+  })
+
   it('bo‘lim ID bo‘lmasa mock sinovga yashirin fallback qilmaydi', async () => {
     const user = userEvent.setup()
     const gateway = successfulGateway()
