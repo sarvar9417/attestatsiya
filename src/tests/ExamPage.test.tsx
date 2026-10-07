@@ -103,6 +103,7 @@ function successfulGateway(): ExamGateway {
       already_finished: false,
     }),
     getReview: vi.fn().mockResolvedValue([]),
+    getHistory: vi.fn().mockResolvedValue({ items: [], total: 0, page: 1, page_size: 20 }),
     getDueReviews: vi.fn().mockResolvedValue([]),
   }
 }
@@ -216,6 +217,7 @@ describe('secure ExamRunner', () => {
       submitAnswer: vi.fn(),
       finishExam: vi.fn(),
       getReview: vi.fn(),
+      getHistory: vi.fn(),
       getDueReviews: vi.fn(),
     }
 
