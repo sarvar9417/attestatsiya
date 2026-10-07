@@ -55,7 +55,7 @@ export default function OnboardingGate({ children }: OnboardingGateProps) {
     return () => {
       active = false
     }
-  }, [loading, user?.id, user?.role])
+  }, [loading, user])
 
   if (loading || checking) return <SimpleLoadingSkeleton />
   if (!user || user.role !== 'user' || failed) return <>{children}</>
