@@ -23,6 +23,7 @@ import ModulePage from './pages/ModulePage'
 import DashboardPage from './pages/DashboardPage'
 import ExamPage from './pages/ExamPage'
 import ExamDemoPage from './pages/ExamDemoPage'
+import ReviewPage from './pages/ReviewPage'
 
 const NotFound = lazy(() => import('./pages/NotFound'))
 
@@ -101,6 +102,7 @@ function MainLayout() {
                 <Route path="/exam" element={<ProtectedRoute><ExamPage /></ProtectedRoute>} />
                 <Route path="/exam/:kind" element={<ProtectedRoute><ExamPage /></ProtectedRoute>} />
                 <Route path="/exam/:kind/:moduleId" element={<ProtectedRoute><ExamPage /></ProtectedRoute>} />
+                <Route path="/review" element={<ProtectedRoute><ReviewPage /></ProtectedRoute>} />
                 <Route path="/exam-demo" element={<ExamDemoPage />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
