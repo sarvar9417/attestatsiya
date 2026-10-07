@@ -104,3 +104,5 @@ export interface ExamHistoryResponse {
   page: number
   page_size: number
 }
+
+export type ExamResultDetail = ExamHistoryItem

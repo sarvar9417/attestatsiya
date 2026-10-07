@@ -25,6 +25,7 @@ import ExamPage from './pages/ExamPage'
 import ExamDemoPage from './pages/ExamDemoPage'
 import ReviewPage from './pages/ReviewPage'
 import ExamHistoryPage from './pages/ExamHistoryPage'
+import ExamResultPage from './pages/ExamResultPage'
 
 const NotFound = lazy(() => import('./pages/NotFound'))
 
@@ -113,6 +114,7 @@ function MainLayout() {
                 <Route path="/exam/:kind/:moduleId" element={<ProtectedRoute><ExamPage /></ProtectedRoute>} />
                 <Route path="/review" element={<ProtectedRoute><ReviewPage /></ProtectedRoute>} />
                 <Route path="/history" element={<ProtectedRoute><ExamHistoryPage /></ProtectedRoute>} />
+                <Route path="/results/:examId" element={<ProtectedRoute><ExamResultPage /></ProtectedRoute>} />
                 <Route path="/exam-demo" element={<ExamDemoPage />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>

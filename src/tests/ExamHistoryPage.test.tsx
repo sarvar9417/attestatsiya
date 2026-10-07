@@ -63,6 +63,13 @@ describe('ExamHistoryPage', () => {
     expect(screen.getByText('50%')).toBeDefined()
     expect(screen.getByText('2', { selector: 'p' })).toBeDefined()
     expect(mock).toHaveBeenCalledWith(1, 20)
+    const detailLinks = screen.getAllByRole('link', {
+      name: 'Tahlilni ko‘rish',
+    })
+    expect(detailLinks[0]).toHaveAttribute(
+      'href',
+      '/results/00000000-0000-4000-8000-000000000201'
+    )
   })
 
   it('bo‘sh history xavfsiz empty state ko‘rsatadi', async () => {

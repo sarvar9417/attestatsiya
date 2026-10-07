@@ -153,6 +153,27 @@ describe('Exam Routes', () => {
     expect(body.error.code).toBe('TOKEN_REQUIRED')
   })
 
+  it('GET /api/exam/:id/result returns 401 without auth token', async () => {
+    const response = await app.inject({
+      method: 'GET',
+      url: '/api/exam/550e8400-e29b-41d4-a716-446655440000/result',
+    })
+
+    expect(response.statusCode).toBe(401)
+    const body = JSON.parse(response.body)
+    expect(body.error.code).toBe('TOKEN_REQUIRED')
+  })
+
+  it('GET /api/exam/:id/result validates UUID path params', async () => {
+    const response = await app.inject({
+      method: 'GET',
+      url: '/api/exam/not-a-uuid/result',
+      headers: { authorization: 'Bearer token-abc' },
+    })
+
+    expect(response.statusCode).toBe(400)
+  })
+
   it('GET /api/exam/:id/review returns 401 without auth token', async () => {
     const response = await app.inject({
       method: 'GET',

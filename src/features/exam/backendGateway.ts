@@ -17,11 +17,13 @@ import {
   examSessionSchema,
   examReviewResponseSchema,
   examHistoryResponseSchema,
+  examResultDetailSchema,
   dueReviewResponseSchema,
   finishExamResponseSchema,
   submitAnswerResponseSchema,
   type DueReviewItem,
   type ExamHistoryResponse,
+  type ExamResultDetail,
   type ExamReviewItem,
   type ExamSession,
   type FinishExamResponse,
@@ -144,6 +146,11 @@ export const backendGateway: ExamGateway = {
   async getReview(examId: string): Promise<ExamReviewItem[]> {
     const data = await api.get<unknown>(`/api/exam/${examId}/review`)
     return parseResponse(examReviewResponseSchema, data, 'exam_review')
+  },
+
+  async getResult(examId: string): Promise<ExamResultDetail> {
+    const data = await api.get<unknown>(`/api/exam/${examId}/result`)
+    return parseResponse(examResultDetailSchema, data, 'exam_result_detail')
   },
 
   async getHistory(page = 1, pageSize = 20): Promise<ExamHistoryResponse> {

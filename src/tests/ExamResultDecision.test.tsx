@@ -56,6 +56,7 @@ function gateway(): ExamGateway {
       already_finished: false,
     }),
     getReview: vi.fn().mockResolvedValue([]),
+    getResult: vi.fn(),
     getHistory: vi.fn().mockResolvedValue({ items: [], total: 0, page: 1, page_size: 20 }),
     getDueReviews: vi.fn().mockResolvedValue([]),
   }

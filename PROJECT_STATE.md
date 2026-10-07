@@ -1231,3 +1231,36 @@ Xavfsizlik: review faqat finalized result ekranidan; scoring va answer submit se
 Figma: live read Starter MCP limit sabab bloklangan; approved file/chat flow + UX_SPEC.md ishlatildi
 Keyingi UI yo‘nalish: real backend kontraktini kengaytirmasdan uydirma readiness/section/module/cognitive metrikalarini ko‘rsatmaslik
 ```
+
+
+## Persistent learner result (T-031, 2026-10-07)
+
+- **Plan basis:** `UX_SPEC.md` dagi `/results/[sessionId]` route va
+  oldingi Figma/chat `Natija → Xatolar` oqimi.
+- **Backend:** `GET /api/exam/:id/result` faqat autentifikatsiyalangan learnerning
+  o‘z finalized attemptini qaytaradi. Query `id` + `user_id` bilan explicit
+  filterlanadi va RLS ham faol qoladi; boshqa learner attempti 404 sifatida yashiriladi.
+- **Frontend:** protected `/results/:examId` sahifasi serverdagi score, passed,
+  lesson metadata va mavjud group breakdownni ko‘rsatadi.
+- **History continuity:** `/history` kartalari persistent result detailga bog‘landi.
+- **Review boundary:** answer/explanation `getReview(examId)` orqali faqat
+  foydalanuvchi finalized result sahifasida `Tahlilni ochish`ni bosganda olinadi.
+- **No fabricated analytics:** vaqt sarfi, 4 section, 16 module, cognitive va
+  weakest-objective ko‘rsatkichlari joriy server kontraktida yo‘q; UI’da uydirilmaydi.
+- **Figma live access:** Starter MCP limit hali faol; mavjud approved visual system
+  va repository UX contract source-of-truth sifatida ishlatilmoqda.
+
+
+### T-031 Handoff
+
+```text
+Task: T-031
+Natija: persistent /results/:examId learner natija sahifasi va secure single-result API
+Backend: GET /api/exam/:id/result; id + authenticated user_id filter; finalized-only
+Frontend: ExamResultPage; history → result detail; lazy finalized review
+O‘zgargan asosiy fayllar: backend/src/services/exam.service.ts; backend/src/routes/exam.ts; backend/src/schemas/exam.ts; src/features/exam/contracts.ts; examGateway.ts; backendGateway.ts; src/pages/ExamResultPage.tsx; ExamHistoryPage.tsx; App.tsx
+Migratsiyalar: yo‘q
+Testlar: backend service/route guard; frontend result page; history navigation; API integration
+GitHub CI: quality + backend + database — yashil
+Xavfsizlik: boshqa learner resulti 404; unfinished result 400; answer key faqat finalized review endpointda
+```

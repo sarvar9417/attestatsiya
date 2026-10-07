@@ -262,6 +262,115 @@ describe('examService.review', () => {
   })
 })
 
+describe('examService.getResult', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  it('returns one finalized result owned by authenticated learner', async () => {
+    const examMaybeSingle = vi.fn().mockResolvedValue({
+      data: {
+        id: '550e8400-e29b-41d4-a716-446655440030',
+        kind: 'mavzu',
+        lesson_id: '550e8400-e29b-41d4-a716-446655440031',
+        started_at: '2026-10-07T10:00:00.000Z',
+        finished_at: '2026-10-07T10:20:00.000Z',
+        total_score: 18,
+        max_score: 20,
+        passed: true,
+        breakdown: [{ group_code: 'S1.INFO', jami: 10, togri: 9 }],
+      },
+      error: null,
+    })
+    const examUserEq = vi.fn(() => ({ maybeSingle: examMaybeSingle }))
+    const examIdEq = vi.fn(() => ({ eq: examUserEq }))
+    const examSelect = vi.fn(() => ({ eq: examIdEq }))
+
+    const lessonMaybeSingle = vi.fn().mockResolvedValue({
+      data: { slug: 'M01.02', title_uz: 'Axborot turlari' },
+      error: null,
+    })
+    const lessonEq = vi.fn(() => ({ maybeSingle: lessonMaybeSingle }))
+    const lessonSelect = vi.fn(() => ({ eq: lessonEq }))
+
+    mockFrom.mockImplementation((table: string) => {
+      if (table === 'exams') return { select: examSelect }
+      if (table === 'lessons') return { select: lessonSelect }
+      throw new Error(`unexpected table: ${table}`)
+    })
+
+    const result = await examService.getResult(
+      '550e8400-e29b-41d4-a716-446655440030',
+      'token-abc'
+    )
+
+    expect(examIdEq).toHaveBeenCalledWith(
+      'id',
+      '550e8400-e29b-41d4-a716-446655440030'
+    )
+    expect(examUserEq).toHaveBeenCalledWith('user_id', 'user-1')
+    expect(result).toMatchObject({
+      exam_id: '550e8400-e29b-41d4-a716-446655440030',
+      lesson_title_uz: 'Axborot turlari',
+      total_score: 18,
+      max_score: 20,
+      passed: true,
+    })
+  })
+
+  it('does not expose another learner result', async () => {
+    const maybeSingle = vi.fn().mockResolvedValue({ data: null, error: null })
+    mockFrom.mockReturnValue({
+      select: vi.fn(() => ({
+        eq: vi.fn(() => ({
+          eq: vi.fn(() => ({ maybeSingle })),
+        })),
+      })),
+    })
+
+    await expect(
+      examService.getResult(
+        '550e8400-e29b-41d4-a716-446655440099',
+        'token-abc'
+      )
+    ).rejects.toMatchObject({ statusCode: 404 })
+  })
+
+  it('rejects an unfinished attempt', async () => {
+    const maybeSingle = vi.fn().mockResolvedValue({
+      data: {
+        id: '550e8400-e29b-41d4-a716-446655440030',
+        kind: 'mock',
+        lesson_id: null,
+        started_at: '2026-10-07T10:00:00.000Z',
+        finished_at: null,
+        total_score: null,
+        max_score: 100,
+        passed: null,
+        breakdown: null,
+      },
+      error: null,
+    })
+    mockFrom.mockReturnValue({
+      select: vi.fn(() => ({
+        eq: vi.fn(() => ({
+          eq: vi.fn(() => ({ maybeSingle })),
+        })),
+      })),
+    })
+
+    await expect(
+      examService.getResult(
+        '550e8400-e29b-41d4-a716-446655440030',
+        'token-abc'
+      )
+    ).rejects.toMatchObject({
+      code: 'EXAM_NOT_FINISHED',
+      statusCode: 400,
+    })
+  })
+})
+
 describe('examService.getDueReviews', () => {
   beforeEach(() => {
     vi.clearAllMocks()

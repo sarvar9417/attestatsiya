@@ -103,6 +103,14 @@ function HistoryCard({ item }: { item: ExamHistoryItem }) {
           aria-label={`Natija: ${percent}%`}
         />
       </div>
+
+      <Link
+        to={`/results/${item.exam_id}`}
+        className="mt-4 inline-flex min-h-10 items-center gap-2 rounded-xl border border-gray-200 px-3 text-sm font-semibold text-gray-600 transition hover:border-indigo-200 hover:text-indigo-600 dark:border-gray-700 dark:text-gray-300 dark:hover:border-indigo-800 dark:hover:text-indigo-300"
+      >
+        Tahlilni ko‘rish
+        <ChevronRight size={15} aria-hidden="true" />
+      </Link>
     </article>
   )
 }
