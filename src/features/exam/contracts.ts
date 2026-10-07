@@ -149,8 +149,47 @@ export const dueReviewItemSchema = z
 
 export const dueReviewResponseSchema = z.array(dueReviewItemSchema)
 
+export const examHistoryItemSchema = z
+  .object({
+    exam_id: uuidSchema,
+    kind: z.enum([
+      'diagnostika',
+      'mashq',
+      'mavzu',
+      'bolim',
+      'mock',
+      'takrorlash',
+      'zaif',
+    ]),
+    lesson_id: uuidSchema.nullable(),
+    lesson_slug: z.string().nullable(),
+    lesson_title_uz: z.string().nullable(),
+    started_at: z.string().refine((value) => Number.isFinite(Date.parse(value)), {
+      message: 'started_at must be an ISO date',
+    }),
+    finished_at: z.string().refine((value) => Number.isFinite(Date.parse(value)), {
+      message: 'finished_at must be an ISO date',
+    }),
+    total_score: z.number().int().nonnegative(),
+    max_score: z.number().int().nonnegative(),
+    passed: z.boolean().nullable(),
+    breakdown: z.array(breakdownItemSchema).nullable(),
+  })
+  .strict()
+
+export const examHistoryResponseSchema = z
+  .object({
+    items: z.array(examHistoryItemSchema),
+    total: z.number().int().nonnegative(),
+    page: z.number().int().positive(),
+    page_size: z.number().int().min(1).max(50),
+  })
+  .strict()
+
 export type ExamReviewItem = z.infer<typeof examReviewItemSchema>
 export type DueReviewItem = z.infer<typeof dueReviewItemSchema>
+export type ExamHistoryItem = z.infer<typeof examHistoryItemSchema>
+export type ExamHistoryResponse = z.infer<typeof examHistoryResponseSchema>
 export type ExamOption = z.infer<typeof examOptionSchema>
 export type ExamItem = z.infer<typeof examItemSchema>
 export type ExamSession = z.infer<typeof examSessionSchema>
