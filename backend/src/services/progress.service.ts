@@ -6,7 +6,12 @@ import type {
   MasteryItemResponse,
   MasteryResponse,
   MasteryStatus,
+  ReadinessResponse,
 } from '../schemas/progress.js'
+import {
+  calculateReadiness,
+  type IndependentEvidence,
+} from './readiness.js'
 
 /**
  * Progress Service
@@ -179,6 +184,157 @@ export const progressService = {
           item => item.due_at !== null && Date.parse(item.due_at) <= now
         ).length,
       },
+    }
+  },
+
+
+  /**
+   * Blueprint-weighted readiness estimate and one clear next action.
+   *
+   * Only independent evidence participates in readiness. Missing blueprint
+   * groups lower confidence/coverage instead of being scored as wrong.
+   */
+  async getReadiness(userId: string): Promise<ReadinessResponse> {
+    const unavailable = (
+      reason: ReadinessResponse['unavailable_reason']
+    ): ReadinessResponse => ({
+      available: false,
+      readiness_percent: null,
+      confidence: 'insufficient',
+      independent_evidence: 0,
+      covered_blueprint_questions: 0,
+      total_blueprint_questions: 50,
+      coverage_percent: 0,
+      due_reviews: 0,
+      regressed_constructs: 0,
+      next_action: {
+        kind: 'diagnostic',
+        href: '/exam/diagnostika',
+        label: 'Diagnostikani boshlash',
+        reason: 'Boshlang‘ich tayyorgarlik darajasini aniqlash kerak.',
+      },
+      unavailable_reason: reason,
+    })
+
+    const { data: blueprint, error: blueprintError } = await supabase
+      .from('blueprints')
+      .select('id, total_questions')
+      .eq('is_active', true)
+      .maybeSingle()
+
+    if (blueprintError || !blueprint) {
+      return unavailable('no_active_blueprint')
+    }
+
+    const { data: quotas, error: quotaError } = await supabase
+      .from('blueprint_quotas')
+      .select('group_code, question_count')
+      .eq('blueprint_id', blueprint.id)
+      .order('order_idx', { ascending: true })
+
+    if (quotaError) {
+      throw new Error(`Readiness blueprintini olishda xatolik: ${quotaError.message}`)
+    }
+
+    const { data: evidenceRows, error: evidenceError } = await supabase
+      .from('mastery_evidence')
+      .select('construct_id, is_correct, evidence_kind')
+      .eq('user_id', userId)
+      .eq('evidence_kind', 'independent')
+
+    if (evidenceError) {
+      const message = evidenceError.message.toLowerCase()
+      const schemaPending =
+        evidenceError.code === '42P01' ||
+        evidenceError.code === 'PGRST205' ||
+        message.includes('mastery_evidence') &&
+          (message.includes('does not exist') || message.includes('schema cache'))
+
+      if (schemaPending) return unavailable('mastery_schema_pending')
+
+      throw new Error(
+        `Readiness evidence'ini olishda xatolik: ${evidenceError.message}`
+      )
+    }
+
+    const constructIds = [
+      ...new Set((evidenceRows ?? []).map(row => row.construct_id)),
+    ]
+    const groupByConstruct = new Map<string, string>()
+
+    if (constructIds.length > 0) {
+      const { data: constructs, error: constructError } = await supabase
+        .from('constructs')
+        .select('id, group_code')
+        .in('id', constructIds)
+
+      if (constructError) {
+        throw new Error(
+          `Readiness konstruktlarini olishda xatolik: ${constructError.message}`
+        )
+      }
+
+      for (const construct of constructs ?? []) {
+        groupByConstruct.set(construct.id, construct.group_code)
+      }
+    }
+
+    const evidence: IndependentEvidence[] = (evidenceRows ?? [])
+      .map(row => {
+        const groupCode = groupByConstruct.get(row.construct_id)
+        if (!groupCode) return null
+        return {
+          group_code: groupCode,
+          is_correct: Boolean(row.is_correct),
+        }
+      })
+      .filter((row): row is IndependentEvidence => row !== null)
+
+    const { data: stats, error: statsError } = await supabase
+      .from('user_construct_stats')
+      .select('mastery_status, due_at')
+      .eq('user_id', userId)
+
+    if (statsError) {
+      const message = statsError.message.toLowerCase()
+      if (
+        statsError.code === '42703' ||
+        message.includes('mastery_status') &&
+          (message.includes('does not exist') || message.includes('schema cache'))
+      ) {
+        return unavailable('mastery_schema_pending')
+      }
+      throw new Error(
+        `Readiness progressini olishda xatolik: ${statsError.message}`
+      )
+    }
+
+    const now = Date.now()
+    const dueReviews = (stats ?? []).filter(
+      row => row.due_at !== null && Date.parse(row.due_at) <= now
+    ).length
+    const regressedConstructs = (stats ?? []).filter(
+      row => row.mastery_status === 'regressed'
+    ).length
+
+    const calculation = calculateReadiness({
+      quotas: (quotas ?? []).map(quota => ({
+        group_code: quota.group_code,
+        question_count: Number(quota.question_count),
+      })),
+      evidence,
+      dueReviews,
+      regressedConstructs,
+    })
+
+    return {
+      available: true,
+      ...calculation,
+      due_reviews: dueReviews,
+      regressed_constructs: regressedConstructs,
+      total_blueprint_questions:
+        Number(blueprint.total_questions) || calculation.total_blueprint_questions,
+      unavailable_reason: null,
     }
   },
 
