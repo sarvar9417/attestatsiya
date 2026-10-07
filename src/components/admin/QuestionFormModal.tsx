@@ -7,7 +7,7 @@ import {
   Save,
   X,
 } from 'lucide-react'
-import { supabase } from '../../lib/supabase'
+import { typedSupabase } from '../../lib/supabase'
 import { monitoring } from '../../lib/monitoring'
 import type { Json } from '../../lib/database.types'
 
@@ -88,7 +88,7 @@ export default function QuestionFormModal({
             .from('constructs')
             .select('id, code, title_uz, subject_id, group_code')
             .order('code'),
-          supabase.from('subjects').select('id, code, name_uz').order('code'),
+          typedSupabase.from('subjects').select('id, code, name_uz').order('code'),
         ])
 
         const baseError = constructResult.error ?? subjectResult.error
@@ -273,7 +273,7 @@ export default function QuestionFormModal({
     if (!correctOption) throw new Error('To‘g‘ri variant topilmadi')
 
     const payload: Json = { correct_option_id: correctOption.id }
-    const { error: keyError } = await supabase.from('question_keys').insert({
+    const { error: keyError } = await typedSupabase.from('question_keys').insert({
       question_id: questionId,
       payload,
       explanation_md: form.explanation_md.trim(),
