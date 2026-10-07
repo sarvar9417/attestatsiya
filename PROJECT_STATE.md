@@ -100,6 +100,7 @@
 | TASK-UI-005 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-005-admin-dashboard |
 | TASK-UI-006 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-006-admin-content-pages |
 | TASK-UI-007 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-007-question-form |
+| TASK-UI-008 | AI sessiya | IN_PROGRESS | 2026-10-07 | task/TASK-UI-008-auth-profile-refresh |
 
 ## Generated pool PostgreSQL verification (T-024, 2026-10-07)
 
@@ -120,6 +121,14 @@ Migratsiyalar: yo'q — generated SQL CI artefakti sifatida runtime yaratiladi
 Tekshiruv: CI database job generated SQL'ni ikki marta apply qiladi va assertion SQL bilan tekshiradi
 Keyingi task: T-025 — Supabase CLI orqali versiyalangan content migration yaratish va remote migration history bilan reconcile qilish
 ```
+
+## Auth va Profile Figma refresh (TASK-UI-008, 2026-10-07)
+
+- Eski PR #28 current main bilan tarixiy konfliktga tushganligi sababli dizayn o‘zgarishlari current main’dan ochilgan yangi branchga xavfsiz qayta qo‘llandi.
+- Auth login/signup/session/reset behaviorlari saqlandi; faqat visual hierarchy, indigo design system va responsive states yangilandi.
+- Profile sahifasida identity header, account metadata va password security bloklari bir xil design systemga keltirildi.
+- Reset Password sahifasi recovery/session guardini saqlagan holda Figma yo‘nalishiga moslashtirildi.
+- ResetPassword regressiya testlari recovery guard, client validation va backend updatePassword oqimini qoplaydi.
 
 ## Question form Figma redesign (TASK-UI-007, 2026-10-06)
 
