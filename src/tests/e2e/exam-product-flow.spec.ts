@@ -27,6 +27,36 @@ test.describe('Attestatsiya protected product flow E2E', () => {
       )
     })
 
+    await page.route('http://localhost:3001/api/auth/onboarding', async route => {
+      const request = route.request()
+      const corsHeaders = {
+        'access-control-allow-origin': 'http://localhost:3000',
+        'access-control-allow-headers': 'authorization,content-type',
+        'access-control-allow-methods': 'GET,OPTIONS',
+        'content-type': 'application/json',
+      }
+
+      if (request.method() === 'OPTIONS') {
+        await route.fulfill({ status: 204, headers: corsHeaders, body: '' })
+        return
+      }
+
+      await route.fulfill({
+        status: 200,
+        headers: corsHeaders,
+        body: JSON.stringify({
+          available: true,
+          completed: true,
+          display_name: 'E2E User',
+          exam_date: null,
+          daily_goal_minutes: 30,
+          timezone: 'Asia/Tashkent',
+          locale: 'uz-Latn',
+          onboarding_completed_at: new Date().toISOString(),
+        }),
+      })
+    })
+
     await page.route('http://localhost:3001/api/exam/**', async route => {
       const request = route.request()
       const url = new URL(request.url())
