@@ -129,6 +129,7 @@ export const examService = {
   async review(examId: string, userToken: string): Promise<Record<string, unknown>[]> {
     const client = getAuthedClient(userToken)
 
+    // Javob kaliti faqat finalized-session RPC orqali ochiladi.
     const result = await client.rpc('get_review', { p_exam_id: examId })
 
     if (result.error) {
@@ -141,7 +142,68 @@ export const examService = {
       throw new AppError('Tahlilni olishda xatolik', 500, 'REVIEW_ERROR')
     }
 
-    return result.data as Record<string, unknown>[]
+    const review = (result.data ?? []) as Record<string, unknown>[]
+    if (review.length === 0) return review
+
+    // get_review tarixiy kontrakti option matnlarini qaytarmaydi. Learner RLS
+    // orqali o'z exam_items'ini va published optionlarni o'qiy oladi; shu
+    // ma'lumotni backendda birlashtirib, UUID kalitlarini odam o'qiydigan
+    // variant matniga map qilish imkonini beramiz. Bu enrichment ishlamasa ham
+    // finalized review xavfsiz fallback bilan ishlashda davom etadi.
+    const { data: itemRows, error: itemError } = await client
+      .from('exam_items')
+      .select('order_idx, question_id')
+      .eq('exam_id', examId)
+
+    if (itemError || !itemRows || itemRows.length === 0) {
+      return review.map(item => ({ ...item, options: [] }))
+    }
+
+    const questionIds = itemRows
+      .map(row => row.question_id)
+      .filter((value): value is string => typeof value === 'string')
+
+    if (questionIds.length === 0) {
+      return review.map(item => ({ ...item, options: [] }))
+    }
+
+    const { data: optionRows, error: optionError } = await client
+      .from('question_options')
+      .select('id, question_id, side, order_idx, content_md')
+      .in('question_id', questionIds)
+      .order('order_idx', { ascending: true })
+
+    if (optionError || !optionRows) {
+      return review.map(item => ({ ...item, options: [] }))
+    }
+
+    const questionByOrder = new Map(
+      itemRows.map(row => [row.order_idx, row.question_id])
+    )
+    const optionsByQuestion = new Map<string, Array<Record<string, unknown>>>()
+
+    for (const option of optionRows) {
+      const questionId = option.question_id
+      if (typeof questionId !== 'string') continue
+      const existing = optionsByQuestion.get(questionId) ?? []
+      existing.push({
+        id: option.id,
+        side: option.side,
+        content_md: option.content_md,
+      })
+      optionsByQuestion.set(questionId, existing)
+    }
+
+    return review.map(item => {
+      const orderIdx = item.order_idx
+      const questionId =
+        typeof orderIdx === 'number' ? questionByOrder.get(orderIdx) : undefined
+
+      return {
+        ...item,
+        options: questionId ? optionsByQuestion.get(questionId) ?? [] : [],
+      }
+    })
   },
 
   /**
