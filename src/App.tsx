@@ -66,6 +66,7 @@ function MainLayout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const isOnline = useOnlineStatus()
   const location = useLocation()
+  const immersiveExamRoute = /^\/exam(?:\/|$)/.test(location.pathname)
 
   useEffect(() => {
     monitoring.trackEvent('page.view', {
@@ -84,8 +85,14 @@ function MainLayout() {
           Asosiy kontentga o'tish
         </a>
         {mobileMenuOpen && <div className="fixed inset-0 z-30 bg-black/40 lg:hidden" onClick={() => setMobileMenuOpen(false)} />}
-        <Sidebar isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
-        <main id="main-content" className="flex-1 overflow-y-auto flex flex-col mobile-safe-bottom scrollable">
+        {!immersiveExamRoute && (
+          <Sidebar isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
+        )}
+        <main
+          id="main-content"
+          className={`flex-1 flex flex-col ${immersiveExamRoute ? 'overflow-hidden' : 'overflow-y-auto mobile-safe-bottom scrollable'}`}
+        >
+          {!immersiveExamRoute && (
           <div className="sticky top-0 z-20 flex items-center justify-between px-3 py-2 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-gray-100 dark:border-gray-800 lg:hidden min-h-[48px]">
             <button onClick={() => setMobileMenuOpen(v => !v)} className="p-2 rounded-lg text-gray-500 hover:text-primary-600 hover:bg-primary-50 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center" aria-label="Menyu">
               {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -93,6 +100,7 @@ function MainLayout() {
             <span className="font-bold text-gray-900 dark:text-gray-100 text-sm">Attestatsiya</span>
             <div className="w-10" />
           </div>
+          )}
           <Suspense fallback={<SimpleLoadingSkeleton />}>
             <div className="animate-page-enter">
               <Routes>
@@ -112,7 +120,7 @@ function MainLayout() {
           </Suspense>
         </main>
       </div>
-      <MobileBottomNav />
+      {!immersiveExamRoute && <MobileBottomNav />}
     </>
   )
 }
