@@ -1,9 +1,17 @@
 
+## Answer-key Data API hardening (2026-10-07)
+
+- **Invariant aniqlashtirildi:** `question_keys` learner klient uchun hatto savol uning o‘z examida bo‘lsa ham o‘qilmaydi; baholash server-authoritative bo‘lib qoladi.
+- **Migration:** `20261007000018_question_keys_staff_only.sql` eski learner-own-exam SELECT policy'ni olib tashlaydi va `editor/admin` uchun staff-only CRUD policy yaratadi.
+- **Data API grant:** `authenticated` roliga CRUD privilege beriladi, ammo RLS oddiy learner uchun barcha qatorlarni yopadi; `anon` privilege'lari revoke qilinadi.
+- **Regression:** `rls_product_access.test.sql` learner own-exam key uchun ham 0 qator, admin uchun fixture keylar ko‘rinishini talab qiladi.
+
+
 ## Domain/RLS va product-flow qamrovi (T-007, 2026-10-07)
 
-- **RLS matrix:** learner draft modulni va boshqa foydalanuvchining exam/key ma'lumotini
-  ko‘rmasligi, o‘z exam key'ini ko‘rishi, content yozolmasligi; admin esa staff scope'ni
-  ko‘rishi PostgreSQL regression testi bilan qamrab olindi.
+- **RLS matrix:** learner draft modulni va boshqa foydalanuvchining exam ma'lumotini
+  ko‘rmasligi, faqat o‘z examini ko‘rishi va hech qanday `question_keys` qatorini
+  o‘qimasligi; admin esa staff scope'ni ko‘rishi PostgreSQL regression testi bilan qamrab olindi.
 - **Supabase parity:** standalone PostgreSQL CI fixture Supabase API rol grantlarini transaction
   ichida emulyatsiya qiladi; policy semantikasi production RLS bilan tekshiriladi va rollback qilinadi.
 - **Protected product flow:** Playwright valid session → mock sinovni boshlash → Y1 javobni

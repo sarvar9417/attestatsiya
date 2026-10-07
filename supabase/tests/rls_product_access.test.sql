@@ -111,7 +111,7 @@ from public.questions q
 where q.id = '10000000-0000-4000-8000-000000000201';
 
 -- Learner A: published content is readable, draft content is hidden,
--- only own exam and own-exam key are visible.
+-- only the learner's own exam is visible; answer keys are never client-readable.
 select set_config(
   'request.jwt.claim.sub',
   '10000000-0000-4000-8000-000000000001',
@@ -143,8 +143,8 @@ begin
   select count(*) into v_count
     from public.question_keys
    where question_id = '10000000-0000-4000-8000-000000000201';
-  if v_count <> 1 then
-    raise exception 'learner must read key only for own exam item';
+  if v_count <> 0 then
+    raise exception 'learner must not read answer key even for own exam item';
   end if;
 
   select count(*) into v_count
