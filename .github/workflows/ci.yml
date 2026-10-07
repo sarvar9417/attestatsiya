@@ -42,6 +42,9 @@ jobs:
       - name: Unit tests
         run: npm run test
 
+      - name: Parametric generated pool invariants
+        run: npm run content:generated:check
+
       - name: Build
         run: npm run build
 

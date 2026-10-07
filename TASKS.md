@@ -66,6 +66,7 @@
 | T-019 | DONE | T-018 | Zod validatsiya xatolari 400 `VALIDATION_ERROR` qaytaradi (ilgari 500): ildiz sabab — `setErrorHandler` route'lardan keyin chaqirilgani uchun Fastify route context'lari default handler'ni ushlab qolgan; endi handler route'lardan oldin o'rnatiladi + zod 3.25.x `issues`/`errors` strukturaviy tekshiruvi; regressiya testlari (`error-handler.test.ts`, 3 ta) |
 | T-021 | DONE | T-019 | Backend Vercel loyihasi GitHub'ga ulandi (`POST /link`, productionBranch=main, rootDirectory=backend); auto-deploy tasdiqlandi (push → production deploy, preview ham); PR #13 |
 | T-022 | DONE | T-021 | Backend alohida `sarvar9417/attestatsiya-backend` (public) repoga ko'chirildi; Vercel qayta ulandi (rootDirectory bekor, repo ildizi); yangi repo CI (tsc + vitest 102 + secrets scan); push → auto-deploy tasdiqlandi; asosiy repodan `backend/` olib tashlandi |
+| T-023 | IN_PROGRESS | T-012 | Parametrik generatorlardan deterministik DB seed pipeline: 9 konstrukt × 30 = 270 savol, UUIDv5, Y1/Y2/Y3 key materialization, append-only SQL builder |
 
 ## UI modernizatsiya — Figma approved design
 
