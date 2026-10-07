@@ -112,6 +112,11 @@ export const backendGateway: ExamGateway = {
     return parseResponse(examSessionSchema, data, 'start_topic')
   },
 
+  async startFocusedExam(kind: 'takrorlash' | 'zaif'): Promise<ExamSession> {
+    const data = await api.post<unknown>('/api/exam/start', { kind })
+    return parseResponse(examSessionSchema, data, `start_${kind}`)
+  },
+
   async previewTopicTest(lessonId: string): Promise<TopicTestPreview | null> {
     try {
       const questions = await getLessonQuestions(lessonId)
