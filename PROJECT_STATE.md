@@ -1066,3 +1066,12 @@ ochiq. Preview'lar faqat Vercel'ga login bo'lgan tekshiruvchilarga ko'rinadi
 - **DB connection:** secret manager yoki lokal `.env` orqali boshqariladi
 - **Service Role Token:** repoda saqlanmaydi; Supabase secret manager orqali boshqariladi
 - **files/ spec:** `files/00-README.md` dan boshlanadi
+
+
+## Blueprint strip (T-026, 2026-10-07)
+
+- Dashboardga 2026 rasmiy baholash blueprintining 15 guruhli proportional strip komponenti qo‘shilmoqda.
+- Segment kengliklari `BLUEPRINT_GROUPS.questionCount` dan olinadi; hardcoded alohida nusxa yo‘q.
+- Acceptance nisbat: `3:2:5:3:2:3:3:3:2:5:2:2:5:7:3`, jami 50 savol.
+- Section legend: mutaxassislik 35, kasb standarti 5, pedagogika 7, metodika 3.
+- Test: segment soni, flexGrow, nisbat va jami savol invariantlari tekshiriladi.
