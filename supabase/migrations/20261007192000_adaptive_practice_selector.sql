@@ -88,28 +88,32 @@ begin
   v_weak := coalesce(array_length(v_pick, 1), 0);
 
   -- 2) Due review: one question per due construct, unseen/least-exposed first.
-  select coalesce(array_agg(s.id), '{}') into v_pick
+  select coalesce(array_agg(s.id order by s.exposure_count, s.id), '{}')
+  into v_pick
   from (
-    select distinct on (q.construct_id)
-      q.id,
-      q.construct_id,
-      (
-        select count(*)
-        from public.exam_items exposure_item
-        join public.exams exposure_exam on exposure_exam.id = exposure_item.exam_id
-        where exposure_exam.user_id = v_user
-          and exposure_item.question_id = q.id
-      ) as exposure_count
-    from public.user_construct_stats ucs
-    join public.questions q on q.construct_id = ucs.construct_id
-    where ucs.user_id = v_user
-      and ucs.due_at <= now()
-      and q.status = 'published'
-      and not (q.id = any(v_ids))
-    order by q.construct_id, exposure_count asc, q.id
-  ) s
-  order by s.exposure_count asc, s.id
-  limit 3;
+    select ranked.id, ranked.exposure_count
+    from (
+      select distinct on (q.construct_id)
+        q.id,
+        q.construct_id,
+        (
+          select count(*)
+          from public.exam_items exposure_item
+          join public.exams exposure_exam on exposure_exam.id = exposure_item.exam_id
+          where exposure_exam.user_id = v_user
+            and exposure_item.question_id = q.id
+        ) as exposure_count
+      from public.user_construct_stats ucs
+      join public.questions q on q.construct_id = ucs.construct_id
+      where ucs.user_id = v_user
+        and ucs.due_at <= now()
+        and q.status = 'published'
+        and not (q.id = any(v_ids))
+      order by q.construct_id, exposure_count asc, q.id
+    ) ranked
+    order by ranked.exposure_count asc, ranked.id
+    limit 3
+  ) s;
 
   v_ids := v_ids || v_pick;
   v_due := coalesce(array_length(v_pick, 1), 0);
