@@ -11,14 +11,14 @@ const dueItems: DueReviewItem[] = [
     title_uz: 'Axborot hajmini hisoblash',
     group_code: 'S1.INFO',
     due_at: '2026-10-07T08:00:00.000Z',
-    accuracy: 42,
+    accuracy: 0.42,
   },
   {
     construct_id: '00000000-0000-4000-8000-000000000102',
     title_uz: 'Sanoq sistemalarida amallar',
     group_code: 'S3.NUM',
     due_at: null,
-    accuracy: 81,
+    accuracy: 0.81,
   },
 ]
 
