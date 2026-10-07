@@ -1,4 +1,32 @@
 
+## Xatolarni qayta ishlash UI (TASK-UI-009, 2026-10-07)
+
+- **Yangi learner route:** `/review` protected route sifatida qo‘shildi.
+- **Real backend data:** sahifa `progressGateway.getDueReviews()` orqali
+  `GET /api/exam/due-reviews` endpointidan server-calculated review queue oladi.
+- **Prioritet:** konstruktlar aniqligi bo‘yicha pastdan yuqoriga tartiblanadi;
+  70% dan past natijalar “Mustahkamlash kerak” sifatida ajratiladi.
+- **UX:** loading skeleton, empty state, API error, retry, refresh, summary
+  metrikalari va mavzularni mustahkamlash linki qo‘shildi.
+- **Navigation:** desktop Sidebar va mobile bottom navigation ichiga
+  “Xatolarni qayta ishlash / Xatolar” qo‘shildi.
+- **Xavfsizlik:** learner sahifaga answer key chiqarilmaydi; fake attempt
+  history yaratilmaydi; faqat amaldagi due-review kontrakti ishlatiladi.
+- **Test:** ReviewPage server data, empty state va failure→retry holatlari bilan
+  testlandi; full CI database + quality + Playwright yashil.
+
+### Handoff
+
+```text
+Task: TASK-UI-009
+Natija: real server-backed due-review learner sahifasi tayyor
+Route: /review
+Data source: GET /api/exam/due-reviews
+O‘zgargan asosiy fayllar: ReviewPage.tsx, App.tsx, Sidebar.tsx, MobileBottomNav.tsx, ReviewPage.test.tsx
+Keyingi tavsiya: learner uchun “Natijalar tarixi”ni qurishdan oldin backendda faqat o‘z attemptlarini list qiladigan endpoint qo‘shish; admin attempts endpointini learnerga ochmaslik
+```
+
+
 ## Answer-key Data API hardening (2026-10-07)
 
 - **Invariant aniqlashtirildi:** `question_keys` learner klient uchun hatto savol uning o‘z examida bo‘lsa ham o‘qilmaydi; baholash server-authoritative bo‘lib qoladi.
@@ -154,6 +182,7 @@ Keyingi task: T-007 — domain/RLS va product-flow QA qamrovini kengaytirish
 | TASK-UI-006 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-006-admin-content-pages |
 | TASK-UI-007 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-007-question-form |
 | TASK-UI-008 | AI sessiya | DONE | 2026-10-07 | task/TASK-UI-008-auth-profile-refresh |
+| TASK-UI-009 | AI sessiya | DONE | 2026-10-07 | task/TASK-UI-009-error-review |
 
 ## Generated pool PostgreSQL verification (T-024, 2026-10-07)
 

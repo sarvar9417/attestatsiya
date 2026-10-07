@@ -5,6 +5,7 @@ import {
   ChevronLeft,
   ChevronRight,
   ClipboardCheck,
+  History,
   LayoutDashboard,
   Monitor,
   Moon,
@@ -36,6 +37,11 @@ const NAV_ITEMS: NavItem[] = [
     to: '/exam',
     icon: <ClipboardCheck size={18} aria-hidden="true" />,
     label: 'Mock test',
+  },
+  {
+    to: '/review',
+    icon: <History size={18} aria-hidden="true" />,
+    label: 'Xatolarni qayta ishlash',
   },
 ]
 
