@@ -14,6 +14,28 @@ export interface RegisterResponse {
   requires_confirmation: true
 }
 
+export interface OnboardingState {
+  available: boolean
+  completed: boolean
+  display_name: string | null
+  exam_date: string | null
+  daily_goal_minutes: number
+  timezone: string
+  locale: string
+  onboarding_completed_at: string | null
+}
+
+export interface CompleteOnboardingInput {
+  exam_date: string | null
+  daily_goal_minutes: 10 | 20 | 30 | 45 | 60
+  start_diagnostic: boolean
+}
+
+export interface CompleteOnboardingResponse {
+  state: OnboardingState
+  next_action: 'diagnostic' | 'dashboard'
+}
+
 export const authClient = {
   register(email: string, password: string, full_name: string) {
     return api.post<RegisterResponse>('/api/auth/register', { email, password, full_name })
@@ -37,6 +59,14 @@ export const authClient = {
 
   updateProfile(full_name: string) {
     return api.patch<AuthUser>('/api/auth/profile', { full_name })
+  },
+
+  getOnboarding() {
+    return api.get<OnboardingState>('/api/auth/onboarding')
+  },
+
+  completeOnboarding(input: CompleteOnboardingInput) {
+    return api.patch<CompleteOnboardingResponse>('/api/auth/onboarding', input)
   },
 
   resetPassword(email: string) {
