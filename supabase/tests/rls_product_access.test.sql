@@ -1,6 +1,13 @@
 -- T-007 RLS regression matrix. The fixture is fully rolled back.
 begin;
 
+-- Standalone PostgreSQL CI Supabase platformasining default API grantslarini
+-- avtomatik yaratmaydi. RLS policy'larni aynan authenticated rol sifatida
+-- sinash uchun zarur DML privilege'lar fixture ichida beriladi; ROLLBACK ularni
+-- test oxirida to'liq bekor qiladi.
+grant select on public.modules, public.exams, public.exam_items, public.question_keys to authenticated;
+grant insert on public.modules to authenticated;
+
 insert into auth.users (id, email)
 values
   ('10000000-0000-4000-8000-000000000001', 'rls-user-a@example.invalid'),
