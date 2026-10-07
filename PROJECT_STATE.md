@@ -91,11 +91,35 @@
 | T-021 | AI sessiya | DONE | 2026-07-31 | task/TASK-021-backend-git-deploy |
 | T-022 | AI sessiya | DONE | 2026-07-31 | task/TASK-022-backend-own-repo |
 | T-012 | AI sessiya | DONE | 2026-10-06 | task/T-012-parametric-generators |
-| T-013 | AI sessiya | IN_PROGRESS | 2026-10-06 | task/T-013-exam-runner-start |
+| T-013 | AI sessiya | DONE | 2026-10-06 | task/T-013-exam-runner-start |
+| T-014 | AI sessiya | DONE | 2026-10-07 | task/T-014-result-decision |
+| T-015 | AI sessiya | DONE | 2026-10-07 | task/T-015-mock-flags |
+| T-023 | AI sessiya | DONE | 2026-10-07 | task/T-021-generated-db-pool |
+| T-024 | AI sessiya | DONE | 2026-10-07 | task/T-024-generated-sql-artifact |
 | TASK-UI-001 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-001-figma-dashboard |
 | TASK-UI-005 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-005-admin-dashboard |
 | TASK-UI-006 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-006-admin-content-pages |
 | TASK-UI-007 | AI sessiya | DONE | 2026-10-06 | task/TASK-UI-007-question-form |
+
+## Generated pool PostgreSQL verification (T-024, 2026-10-07)
+
+- **Maqsad:** T-023 builder chiqargan 270 ta parametrik savol SQL'ini real fresh PostgreSQL CI'da bajarib, faqat TypeScript invariantlariga emas, DB kontraktiga ham bog'lash.
+- **CI oqimi:** database job Node 24 + `npm ci` bilan generatorni ishga tushiradi, `supabase/generated/parametric_questions.sql` hosil qiladi va bir xil fresh DB'ga ikki marta qo'llaydi.
+- **Idempotency:** generator SQL deterministic UUIDv5 va `ON CONFLICT DO NOTHING` ishlatgani uchun ikkinchi qo'llash row sonini oshirmasligi shart.
+- **DB assertionlar:** jami 270 savol; 9 rasmiy konstruktning har birida 30 tadan; 270 ta question key; Y1=4, Y2=8, Y3=3 option kontrakti; Y1/Y2/Y3 payload option FK semantikasi tekshiriladi.
+- **Xavfsizlik:** answer key learner-visible `questions` yoki `question_options`ga kiritilmaydi; kalitlar faqat `question_keys`da qoladi va amaldagi RLS siyosati saqlanadi.
+- **Registry reconciliation:** T-013, T-014 va T-015 PR #30–#32 orqali merge qilingan real holatga mos ravishda DONE qilindi; B-001 resolved deb belgilandi.
+
+### Handoff
+
+```text
+Task: T-024
+Natija: generated parametrik pool fresh PostgreSQL CI’da ikki marta apply qilinib, DB invariantlari yashil tasdiqlandi
+O'zgargan fayllar: .github/workflows/ci.yml; supabase/tests/parametric_generated_pool.test.sql; TASKS.md; PROJECT_STATE.md
+Migratsiyalar: yo'q — generated SQL CI artefakti sifatida runtime yaratiladi
+Tekshiruv: CI database job generated SQL'ni ikki marta apply qiladi va assertion SQL bilan tekshiradi
+Keyingi task: T-025 — Supabase CLI orqali versiyalangan content migration yaratish va remote migration history bilan reconcile qilish
+```
 
 ## Question form Figma redesign (TASK-UI-007, 2026-10-06)
 
