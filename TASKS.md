@@ -73,6 +73,7 @@
 | T-027 | DONE | T-014, TASK-UI-009 | Learner `Natijalar tarixi`: backend `/api/exam/history` kontrakti frontend gatewayga ulandi, protected `/history` sahifasi, pagination, loading/error/empty holatlari va desktop/mobile navigation qo‘shildi; server-authoritative ballardan tashqari qayta hisoblash yo‘q |
 | T-028 | DONE | T-027 | Frontend + Fastify backend bitta `sarvar9417/attestatsiya` monorepoda: frontend rootda, backend `backend/` ichida; root CI frontend/backend/database qatlamlarini tekshiradi; production backend monorepo `main` commitidan muvaffaqiyatli deploy qilindi |
 | T-029 | DONE | T-015, TASK-UI-004 | Figma tasdiqlangan test interfeysi parity: `/exam/*` immersive shell, asosiy savol chapda, nomzod/vaqt/savol navigatsiyasi o‘ngda, 10 ustunli holat palitrasi va legend, light/dark boshqaruv; server timer/scoring va explicit answer submit xulqi saqlanadi |
+| T-030 | IN_PROGRESS | T-029, T-027, TASK-UI-009 | Figma/chat post-exam flow: yakuniy Natija ekranidan server-backed savollar tahlili, Natijalar tarixi va Xatolarni qayta ishlashga aniq next-action yo‘llari; answer key faqat finalized sessiondan keyin review endpoint orqali |
 
 ## UI modernizatsiya — Figma approved design
 
