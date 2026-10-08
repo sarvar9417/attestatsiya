@@ -1,13 +1,35 @@
 import type { FastifyInstance } from 'fastify'
 import { adminService } from '../services/admin.service.js'
-import { listAttemptsQuerySchema } from '../schemas/admin.js'
+import { contentCoverageQuerySchema, listAttemptsQuerySchema } from '../schemas/admin.js'
 import { sendError, AppError } from '../lib/errors.js'
+import { contentCoverageService } from '../services/content-coverage.service.js'
 
 function getToken(req: { headers: { authorization?: string } }): string | null {
   return req.headers.authorization?.replace('Bearer ', '') ?? null
 }
 
 export async function adminRoutes(app: FastifyInstance) {
+  /**
+   * GET /api/admin/content-coverage
+   * Published savollarni objective/source/cognitive/difficulty bo‘yicha audit qiladi.
+   * module_code=M01 kabi scope ixtiyoriy.
+   */
+  app.get('/api/admin/content-coverage', async (req, reply) => {
+    const query = contentCoverageQuerySchema.querystring.parse(req.query)
+    const token = getToken(req)
+    if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
+
+    try {
+      const result = await contentCoverageService.getReport(
+        token,
+        query.module_code
+      )
+      return reply.send(result)
+    } catch (error) {
+      return sendError(reply, error)
+    }
+  })
+
   /**
    * GET /api/admin/attempts
    * Barcha sinov urinishlari (admin). Filter: kind, lesson_id, user_id, from, to.
