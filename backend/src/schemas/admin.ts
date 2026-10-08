@@ -7,7 +7,7 @@ import { z } from 'zod'
 export const listAttemptsQuerySchema = {
   querystring: z.object({
     kind: z
-      .enum(['mavzu', 'bolim', 'mock', 'takrorlash', 'zaif', 'diagnostika'])
+      .enum(['mavzu', 'bolim', 'mock', 'mashq', 'takrorlash', 'zaif', 'diagnostika'])
       .optional(),
     lesson_id: z.string().min(1).max(64).optional(),
     user_id: z.string().uuid().optional(),
@@ -88,3 +88,91 @@ export const attemptDetailSchema = z.object({
 })
 
 export type AttemptDetail = z.infer<typeof attemptDetailSchema>
+
+
+export const contentCoverageQuerySchema = {
+  querystring: z.object({
+    module_code: z
+      .string()
+      .regex(/^M\d{2}$/i, 'module_code M01 ko‘rinishida bo‘lishi kerak')
+      .transform(value => value.toUpperCase())
+      .optional(),
+  }),
+}
+
+export const coverageIssueCodeSchema = z.enum([
+  'no_published_questions',
+  'published_without_source_reference',
+  'published_without_source_lesson',
+  'published_without_key',
+  'group_mismatch',
+  'source_lesson_construct_mismatch',
+  'outside_active_blueprint',
+])
+
+export const constructCoverageSchema = z.object({
+  construct_id: z.string().uuid(),
+  construct_code: z.string(),
+  group_code: z.string(),
+  title_uz: z.string(),
+  lesson_slugs: z.array(z.string()),
+  question_count: z.number().int(),
+  status_counts: z.object({
+    draft: z.number().int(),
+    review: z.number().int(),
+    published: z.number().int(),
+    archived: z.number().int(),
+  }),
+  format_counts: z.object({
+    Y1: z.number().int(),
+    Y2: z.number().int(),
+    Y3: z.number().int(),
+  }),
+  cognitive_counts: z.object({
+    bilish: z.number().int(),
+    qollash: z.number().int(),
+    mulohaza: z.number().int(),
+  }),
+  difficulty_counts: z.record(z.string(), z.number().int()),
+  traceability: z.object({
+    with_source_reference: z.number().int(),
+    with_source_lesson: z.number().int(),
+    with_key: z.number().int(),
+  }),
+  issues: z.array(coverageIssueCodeSchema),
+})
+
+export type ConstructCoverage = z.infer<typeof constructCoverageSchema>
+
+export const questionCoverageIssueSchema = z.object({
+  question_id: z.string().uuid(),
+  construct_code: z.string(),
+  group_code: z.string(),
+  source_lesson_slug: z.string().nullable(),
+  stem_preview: z.string(),
+  issues: z.array(coverageIssueCodeSchema),
+})
+
+export type QuestionCoverageIssue = z.infer<typeof questionCoverageIssueSchema>
+
+export const contentCoverageResponseSchema = z.object({
+  module_code: z.string().nullable(),
+  generated_at: z.string(),
+  summary: z.object({
+    construct_count: z.number().int(),
+    question_count: z.number().int(),
+    published_count: z.number().int(),
+    issue_question_count: z.number().int(),
+    no_published_construct_count: z.number().int(),
+    published_without_source_reference: z.number().int(),
+    published_without_source_lesson: z.number().int(),
+    published_without_key: z.number().int(),
+    group_mismatch: z.number().int(),
+    source_lesson_construct_mismatch: z.number().int(),
+    outside_active_blueprint: z.number().int(),
+  }),
+  constructs: z.array(constructCoverageSchema),
+  question_issues: z.array(questionCoverageIssueSchema),
+})
+
+export type ContentCoverageResponse = z.infer<typeof contentCoverageResponseSchema>
