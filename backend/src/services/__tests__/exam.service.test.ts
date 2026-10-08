@@ -58,6 +58,44 @@ describe('examService.start', () => {
     expect(mockRpc).toHaveBeenCalledWith('start_exam', { p_kind: 'mock' })
   })
 
+  it('starts adaptive mashq through the dedicated selector RPC', async () => {
+    mockRpc.mockResolvedValue({
+      data: {
+        exam_id: 'exam-adaptive',
+        kind: 'mashq',
+        duration_sec: null,
+        started_at: new Date().toISOString(),
+        items: [],
+        selection_meta: {
+          selector_version: 'adaptive-v1',
+          fallback_used: false,
+        },
+      },
+      error: null,
+    })
+
+    const result = await examService.start(
+      'mashq',
+      'token-abc',
+      undefined,
+      'M01.01'
+    )
+
+    expect(result.kind).toBe('mashq')
+    expect(result.selection_meta).toMatchObject({
+      selector_version: 'adaptive-v1',
+      fallback_used: false,
+    })
+    expect(mockRpc).toHaveBeenCalledWith('start_adaptive_practice', {
+      p_lesson_id: 'lesson-uuid-0101',
+      p_n: 10,
+    })
+    expect(mockRpc).not.toHaveBeenCalledWith(
+      'start_exam',
+      expect.objectContaining({ p_kind: 'mashq' })
+    )
+  })
+
   it('throws INSUFFICIENT_POOL when pool is insufficient', async () => {
     mockRpc.mockResolvedValue({
       data: null,

@@ -19,6 +19,7 @@ export default function ExamPage({ gateway }: ExamPageProps) {
   const examKind =
     kind === 'bolim' ||
     kind === 'mavzu' ||
+    kind === 'mashq' ||
     kind === 'mock' ||
     kind === 'diagnostika' ||
     kind === 'takrorlash' ||
