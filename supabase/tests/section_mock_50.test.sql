@@ -261,8 +261,10 @@ begin
        order_idx
      limit 45
    );
+
+  perform set_config('t044.first_exam_id', v_exam::text, false);
 end
-$$;
+$;
 
 select set_config(
   'request.jwt.claim.sub',
@@ -270,16 +272,7 @@ select set_config(
   false
 );
 set role authenticated;
-select public.finish_exam(
-  (
-    select id
-    from public.exams
-    where user_id = '72000000-0000-4000-8000-000000000001'
-      and kind = 'bolim'::public.exam_kind
-    order by started_at
-    limit 1
-  )
-);
+select public.finish_exam(current_setting('t044.first_exam_id')::uuid);
 reset role;
 
 do $$
