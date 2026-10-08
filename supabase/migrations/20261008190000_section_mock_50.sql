@@ -198,7 +198,7 @@ begin
      order by l.order_idx, l.slug
   loop
     select q.id
-      into v_pick[1]
+      into v_one
       from public.questions q
       join public.constructs c on c.id = q.construct_id
      where q.source_lesson_id = v_lesson.id
@@ -231,8 +231,8 @@ begin
       raise exception 'section_mock_pool_insufficient: topic=%', v_lesson.slug;
     end if;
 
-    v_ids := v_ids || v_pick[1];
-    v_pick := '{}'::uuid[];
+    v_ids := v_ids || v_one;
+    v_one := null;
   end loop;
 
   -- Critical objective floors; topic slots may already satisfy part/all of them.
