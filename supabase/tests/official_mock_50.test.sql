@@ -243,7 +243,7 @@ begin
     end loop;
   end loop;
 end
-$;
+$$;
 
 do $$
 begin
