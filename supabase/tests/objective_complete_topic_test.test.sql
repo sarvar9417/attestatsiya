@@ -159,7 +159,7 @@ declare
   v_failed boolean := false;
 begin
   select count(*) into v_before from public.exams
-  where user_id=auth.uid()
+  where user_id='60000000-0000-4000-8000-000000000001'::uuid
     and lesson_id='60000000-0000-4000-8000-000000000020';
 
   begin
@@ -172,7 +172,7 @@ begin
   if not v_failed then raise exception 'insufficient pool must fail'; end if;
 
   select count(*) into v_after from public.exams
-  where user_id=auth.uid()
+  where user_id='60000000-0000-4000-8000-000000000001'::uuid
     and lesson_id='60000000-0000-4000-8000-000000000020';
 
   if v_after <> v_before then
