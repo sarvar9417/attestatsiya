@@ -1,6 +1,6 @@
 ## Private 570-item professional bank validation (TASK-046, 2026-10-08)
 
-- **Holat:** IN_PROGRESS.
+- **Holat:** DONE — local 570/570 extraction+validation passed; PR #71 CI #887 yashil.
 - **Branch:** `task/TASK-046-private-bank-validation`.
 - **Maqsad:** 19 bob × 30 = 570 savollik xususiy payloadni Git'ga qo‘ymasdan importdan oldin qat’iy tekshirish.
 - **Validator:** `npm run content:private-bank:validate -- <private.json>`.
