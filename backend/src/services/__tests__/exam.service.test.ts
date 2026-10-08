@@ -96,6 +96,21 @@ describe('examService.start', () => {
     )
   })
 
+  it.each([
+    ['topic_pool_insufficient', 'TOPIC_POOL_INSUFFICIENT'],
+    ['topic_blueprint_invalid', 'TOPIC_BLUEPRINT_INVALID'],
+    ['topic_blueprint_missing', 'TOPIC_BLUEPRINT_MISSING'],
+  ])('maps %s to a 409 feasibility error', async (message, code) => {
+    mockRpc.mockResolvedValue({
+      data: null,
+      error: { message },
+    })
+
+    await expect(
+      examService.start('mavzu', 'token-abc', undefined, 'M01.01')
+    ).rejects.toMatchObject({ code, statusCode: 409 })
+  })
+
   it('throws INSUFFICIENT_POOL when pool is insufficient', async () => {
     mockRpc.mockResolvedValue({
       data: null,
