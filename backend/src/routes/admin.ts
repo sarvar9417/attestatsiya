@@ -1,8 +1,8 @@
 import type { FastifyInstance } from 'fastify'
 import { adminService } from '../services/admin.service.js'
-import { contentCoverageQuerySchema, listAttemptsQuerySchema } from '../schemas/admin.js'
+import { contentCoverageQuerySchema, listAttemptsQuerySchema, professionalBankImportRequestSchema } from '../schemas/admin.js'
 import { sendError, AppError } from '../lib/errors.js'
-import { contentCoverageService } from '../services/content-coverage.service.js'
+import { contentCoverageService } from '../services/content-coverage.service.js'\nimport { questionBankImportService } from '../services/question-bank-import.service.js'
 
 function getToken(req: { headers: { authorization?: string } }): string | null {
   return req.headers.authorization?.replace('Bearer ', '') ?? null
