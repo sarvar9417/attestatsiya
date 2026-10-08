@@ -22,7 +22,7 @@ declare
   v_module public.modules%rowtype;
   v_exam uuid;
   v_ids uuid[] := '{}'::uuid[];
-  v_pick uuid[] := '{}'::uuid[];
+  v_pick uuid[] := '{}'::uuid[];\n  v_one uuid;
   v_target int := 50;
   v_topic_count int := 0;
   v_unassessable_topic_count int := 0;
@@ -226,7 +226,7 @@ begin
        q.id
      limit 1;
 
-    if v_pick[1] is null then
+    if v_one is null then
       raise exception 'section_mock_pool_insufficient: topic=%', v_lesson.slug;
     end if;
 
