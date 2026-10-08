@@ -81,10 +81,10 @@
 | T-035 | DONE | T-034 | Blueprint-weighted readiness v1 + confidence/coverage + server-prioritized next action (`due review → regressed → diagnostic → learn`); Dashboard fake completion-as-readiness o‘rniga evidence-based readiness ko‘rsatadi; PR #59 full CI yashil |
 | T-037 | DONE | T-025, T-033, T-034 | Production Supabase reconcile: 4 pending migration productionga atomik apply qilindi; 270 generated savol, onboarding, mastery/SRS, question-key policy va backend DB health verifikatsiya qilindi |
 | T-038 | DONE | T-037 | Frontend + Fastify backend bitta `attestatsiya` Vercel projectida: root `/api/*`, production same-origin API, bitta env boundary; production deploy READY, `/api/health` va `/api/content/modules` yashil, eski `attestatsiya-backend` project PAUSED |
-| T-039 | IN_REVIEW | T-034, T-035, T-038 | Adaptive practice selector: 10 savol, 50/25/15/10 target, immediate exact retry yo‘q, exposure penalty va fallback audit metadata |
-| T-040 | IN_REVIEW | T-039 | Published savol → objective/source/cognitive/difficulty coverage auditi; M01 matrix, orphan/mis-tagged va traceability issue report, admin `/admin/coverage` |
-| T-041 | IN_REVIEW | T-040 | Objective-complete topic-test assembler: configurable 10–50, required/critical objective hard slots, insufficient-pool no-session guard, key/taxonomy validation va low-exposure preference |
-| T-042 | DONE | T-038 | Single-Vercel cleanup: standalone backend Vercel config olib tashlandi, root `/api/*` entry CI typecheck bilan himoyalandi, production same-origin API regressiya testi qo‘shildi, backend README/project state bitta origin bilan reconcile qilindi; CI #792 yashil |
+| T-039 | DONE | T-034, T-035, T-038 | Adaptive practice selector: 10 savol, 50/25/15/10 target, immediate exact retry yo‘q, exposure penalty va fallback audit metadata |
+| T-040 | DONE | T-039 | Published savol → objective/source/cognitive/difficulty coverage auditi; M01 matrix, orphan/mis-tagged va traceability issue report, admin `/admin/coverage` |
+| T-041 | DONE | T-040 | Objective-complete topic-test assembler: configurable 10–50, required/critical objective hard slots, insufficient-pool no-session guard, key/taxonomy validation va low-exposure preference |
+| T-042 | DONE | T-038 | Single-Vercel cleanup: standalone backend Vercel config olib tashlandi, root `/api/*` entry CI typecheck bilan himoyalandi, production same-origin API regressiya testi qo‘shildi, backend README/project state bitta origin bilan reconcile qilindi; CI #792 yashil |\n| TASK-043 | DONE | T-041, T-042 | Xususiy M01 professional bank import/audit: 570 savolni public Gitga answer key sizdirmasdan admin-only batch import qilish, REVIEW staging, objective/source metadata, idempotency va audit log |
 
 ## UI modernizatsiya — Figma approved design
 

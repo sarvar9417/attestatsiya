@@ -176,3 +176,44 @@ export const contentCoverageResponseSchema = z.object({
 })
 
 export type ContentCoverageResponse = z.infer<typeof contentCoverageResponseSchema>
+
+
+export const professionalBankOptionSchema = z.object({
+  content_md: z.string().trim().min(1).max(4000),
+})
+
+export const professionalBankItemSchema = z.object({
+  external_id: z.string().regex(/^AXB-\d{2}-\d{3}$/),
+  format: z.literal('Y1').default('Y1'),
+  construct_code: z.string().regex(/^S\d+\.[A-Z]+\.\d{2}$/),
+  cognitive: z.enum(['bilish', 'qollash', 'mulohaza']),
+  difficulty: z.number().int().min(1).max(5),
+  stem_md: z.string().trim().min(1).max(12000),
+  options: z.array(professionalBankOptionSchema).length(4),
+  correct_index: z.number().int().min(0).max(3),
+  explanation_md: z.string().trim().min(1).max(12000),
+  source_locator: z.string().trim().max(500).optional().nullable(),
+  bank_pdf_page: z.number().int().min(1).max(1000).optional().nullable(),
+  source_lesson_id: z.string().uuid().optional().nullable(),
+  assets: z.array(z.unknown()).default([]),
+})
+
+export type ProfessionalBankItem = z.infer<typeof professionalBankItemSchema>
+
+export const professionalBankImportRequestSchema = z.object({
+  items: z.array(professionalBankItemSchema).min(1).max(100),
+})
+
+export const professionalBankImportResultSchema = z.object({
+  inserted: z.number().int().nonnegative(),
+  skipped: z.number().int().nonnegative(),
+  rejected: z.number().int().nonnegative(),
+  errors: z.array(
+    z.object({
+      external_id: z.string().nullable().optional(),
+      error: z.string(),
+    })
+  ),
+})
+
+export type ProfessionalBankImportResult = z.infer<typeof professionalBankImportResultSchema>
