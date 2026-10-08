@@ -152,7 +152,7 @@ select set_config('request.jwt.claim.sub',
   '60000000-0000-4000-8000-000000000001', false);
 set role authenticated;
 
-do $
+do $$
 declare
   v_failed boolean := false;
 begin
@@ -165,11 +165,11 @@ begin
 
   if not v_failed then raise exception 'insufficient pool must fail'; end if;
 end
-$;
+$$;
 
 reset role;
 
-do $
+do $$
 declare
   v_count int;
 begin
@@ -182,7 +182,7 @@ begin
     raise exception 'failed assembly created an extra exam; expected 2 rows, got %', v_count;
   end if;
 end
-$;
+$$;
 
 select set_config('request.jwt.claim.sub', '', false);
 select 'objective_complete_topic_test_ok' as result;
