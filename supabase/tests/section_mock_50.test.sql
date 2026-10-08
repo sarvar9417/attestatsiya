@@ -187,19 +187,21 @@ begin
       '72000000-0000-4000-8000-000000000001',
       true
     );
-    set local role authenticated;
     v_payload := public.generate_section_mock(
       '72000000-0000-4000-8000-000000000010'
     );
-    reset role;
 
     v_exam := (v_payload->>'exam_id')::uuid;
 
-    select count(*), max(selection_meta)
-      into v_n, v_meta
-    from public.exam_items ei
-    join public.exams e on e.id = ei.exam_id
-    where ei.exam_id = v_exam;
+    select count(*)
+      into v_n
+    from public.exam_items
+    where exam_id = v_exam;
+
+    select selection_meta
+      into strict v_meta
+    from public.exams
+    where id = v_exam;
 
     if v_n <> 50 then
       raise exception 'assembly %: expected 50 items, got %', i + 1, v_n;
