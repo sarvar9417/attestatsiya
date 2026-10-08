@@ -55,7 +55,25 @@ describe('examService.start', () => {
     const result = await examService.start('mock', 'token-abc')
     expect(result.kind).toBe('mock')
     expect(result.exam_id).toBe('exam-123')
-    expect(mockRpc).toHaveBeenCalledWith('start_exam', { p_kind: 'mock' })
+    expect(mockRpc).toHaveBeenCalledWith('generate_official_mock')
+    expect(mockRpc).not.toHaveBeenCalledWith(
+      'start_exam',
+      expect.objectContaining({ p_kind: 'mock' })
+    )
+  })
+
+  it.each([
+    ['official_mock_pool_insufficient', 'OFFICIAL_MOCK_POOL_INSUFFICIENT'],
+    ['official_mock_blueprint_invalid', 'OFFICIAL_MOCK_BLUEPRINT_INVALID'],
+  ])('maps official mock %s to a 409 feasibility error', async (message, code) => {
+    mockRpc.mockResolvedValue({
+      data: null,
+      error: { message },
+    })
+
+    await expect(
+      examService.start('mock', 'token-abc')
+    ).rejects.toMatchObject({ code, statusCode: 409 })
   })
 
   it('starts a 50-question section mock through the dedicated assembler RPC', async () => {
