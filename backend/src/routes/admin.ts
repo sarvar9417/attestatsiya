@@ -1,8 +1,13 @@
 import type { FastifyInstance } from 'fastify'
 import { adminService } from '../services/admin.service.js'
-import { contentCoverageQuerySchema, listAttemptsQuerySchema, professionalBankImportRequestSchema } from '../schemas/admin.js'
+import {
+  contentCoverageQuerySchema,
+  listAttemptsQuerySchema,
+  professionalBankImportRequestSchema,
+} from '../schemas/admin.js'
 import { sendError, AppError } from '../lib/errors.js'
-import { contentCoverageService } from '../services/content-coverage.service.js'\nimport { questionBankImportService } from '../services/question-bank-import.service.js'
+import { contentCoverageService } from '../services/content-coverage.service.js'
+import { questionBankImportService } from '../services/question-bank-import.service.js'
 
 function getToken(req: { headers: { authorization?: string } }): string | null {
   return req.headers.authorization?.replace('Bearer ', '') ?? null
@@ -24,6 +29,24 @@ export async function adminRoutes(app: FastifyInstance) {
         token,
         query.module_code
       )
+      return reply.send(result)
+    } catch (error) {
+      return sendError(reply, error)
+    }
+  })
+
+  /**
+   * POST /api/admin/question-bank/import
+   * Xususiy professional bankni 100 tagacha batch bilan REVIEW holatida import qiladi.
+   * Raw bank/answer key public Git repoga yozilmaydi.
+   */
+  app.post('/api/admin/question-bank/import', async (req, reply) => {
+    const body = professionalBankImportRequestSchema.parse(req.body)
+    const token = getToken(req)
+    if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
+
+    try {
+      const result = await questionBankImportService.importBatch(body.items, token)
       return reply.send(result)
     } catch (error) {
       return sendError(reply, error)
