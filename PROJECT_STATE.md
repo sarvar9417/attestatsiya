@@ -1353,8 +1353,9 @@ Parallel keyingi ish: mastery/SRS/adaptive foundation remote schema activationda
 - **Read model:** authenticated `GET /api/progress/mastery` answer key yoki
   full question matnini qaytarmasdan construct status, accuracy, SRS stage va
   cognitive countersni beradi.
-- **Remote:** bu task remote Supabase'ga apply qilmaydi; migration avval fresh DB
-  CI'da isbotlanadi. T-033/T-025 remote permission blockeri bilan parallel.
+- **Remote:** `20261007184500_mastery_srs_foundation.sql` production
+  `plyqezulrfowyblsfpzy` Supabase’ga apply qilindi; `mastery_evidence` va
+  `user_construct_stats.mastery_status` mavjudligi remote auditda tasdiqlandi.
 
 
 ### T-034 Handoff
@@ -1368,7 +1369,7 @@ Frontend: progressGateway.getMastery()
 Security: evidence learner uchun read-only; first-answer idempotency duplicate evidence yaratmaydi
 CI: GitHub Actions #655 — quality + backend + database SUCCESS
 Merge: PR #57, main commit bc2fca87b9600c18293f87a647054486263f813c
-Remote apply: YO'Q; plyqezulrfowyblsfpzy Supabase connector accessi hali yo'q
+Remote apply: HA; production schema audit `mastery_evidence=true`, `mastery_status=true`
 Keyingi non-blocked task: adaptive selector + readiness/next-action service
 ```
 
@@ -1395,3 +1396,43 @@ Keyingi non-blocked task: adaptive selector + readiness/next-action service
 - **Dashboard:** eski local completion percent “TAYYORLIK” sifatida ko‘rsatilmaydi;
   server readiness, confidence, independent evidence va blueprint coverage
   ko‘rsatiladi; server tavsiya qilgan next action Bugungi reja CTA'iga ulanadi.
+
+
+### T-035 Handoff
+
+```text
+Task: T-035
+Natija: blueprint-weighted readiness + confidence/coverage + server next-action
+Backend: GET /api/progress/readiness
+Frontend: progressGateway.getReadiness(), DashboardPage evidence-based readiness card
+Heuristic: confidence only; official attestatsiya score/guarantee emas
+CI: GitHub Actions #678 — quality + backend + database SUCCESS
+Merge: PR #59, main commit ef84655a3b8f1cc755733173d636b60ffdd8739c
+Remote activation dependency: RESOLVED — T-034 mastery schema productionda mavjud
+Keyingi non-blocked task: adaptive practice selector (weak + due + new) va revision-repeat himoyasi
+```
+
+## Production Supabase reconciliation (T-037, 2026-10-08)
+
+- **Project:** `plyqezulrfowyblsfpzy` (`attestatsiya100%`, Singapore) Management API orqali
+  `ACTIVE_HEALTHY` ekanligi tasdiqlandi.
+- **Vercel env:** frontend `VITE_SUPABASE_URL/VITE_SUPABASE_ANON_KEY` va backend
+  `SUPABASE_URL/SUPABASE_SERVICE_KEY` to‘g‘ri Attestatsiya projectiga almashtirildi.
+  Frontend va backend production deploymentlari yangi env bilan `READY`.
+- **Remote audit before apply:** 16 modul, 405 savol bor edi; generated savol 0;
+  onboarding/mastery ustunlari yo‘q; eski `question_keys_readable` learner policy mavjud edi.
+- **Applied atomically + tracked in migration history:**
+  `20261007000018_question_keys_staff_only`,
+  `20261007052732_parametric_generated_questions`,
+  `20261007131000_onboarding_profile`,
+  `20261007184500_mastery_srs_foundation`.
+- **Verification after apply:** generated questions = 270; onboarding profile = true;
+  mastery status = true; `mastery_evidence` = true; `question_keys_readable` yo‘q;
+  staff-only policies saqlangan.
+- **Backend production health:** `/api/health` HTTP 200, database = healthy.
+- **Remote drift preserved:** production historyda oldindan mavjud
+  `20260801000018 exam_batch_finish` migrationi o‘chirilmadi yoki qayta yozilmadi.
+  Uni repository migration liniyasiga source-of-truth sifatida qayta olib kirish alohida
+  reconciliation taskida bajarilishi kerak.
+- **Security:** operatsion PAT faqat bir martalik reconcile uchun ishlatildi;
+  runtime frontendga secret key chiqarilmadi.
