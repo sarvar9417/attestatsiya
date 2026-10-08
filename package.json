@@ -48,7 +48,8 @@
     "test:backend": "npm --prefix backend run test",
     "typecheck:backend": "npm --prefix backend run typecheck && npm --prefix backend run typecheck:api",
     "check:backend": "npm --prefix backend run check:secrets && npm --prefix backend run typecheck && npm --prefix backend run typecheck:api && npm --prefix backend run test",
-    "content:private-bank:import": "node scripts/import-private-question-bank.mjs"
+    "content:private-bank:import": "node scripts/import-private-question-bank.mjs",
+    "content:private-bank:validate": "node scripts/validate-private-question-bank.mjs"
   },
   "dependencies": {
     "@sentry/react": "10.53.1",

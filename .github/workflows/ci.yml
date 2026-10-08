@@ -33,6 +33,9 @@ jobs:
       - name: Secret scan
         run: npm run check:secrets
 
+      - name: Private bank validator syntax
+        run: node --check scripts/validate-private-question-bank.mjs
+
       - name: Lint
         run: npm run lint
 
