@@ -24,6 +24,7 @@ export const examService = {
    * - mock → full attestatsiya (50 questions, 120 min)
    * - bolim → module exam (15 questions, 30 min)
    * - mavzu → topic test (unlimited time)
+   * - mashq → adaptive guided practice (10 questions)
    * - takrorlash → due reviews (15 questions)
    * - zaif → weak area focus (10 questions)
    */
@@ -40,7 +41,7 @@ export const examService = {
         throw new AppError(`"${moduleId}" moduli topilmadi`, 404, 'MODULE_NOT_FOUND')
       }
     }
-    if (kind === 'mavzu' && lessonId) {
+    if ((kind === 'mavzu' || kind === 'mashq') && lessonId) {
       resolvedLessonId = await resolveLessonUuid(lessonId)
       if (!resolvedLessonId) {
         throw new AppError(`"${lessonId}" mavzusi topilmadi`, 404, 'LESSON_NOT_FOUND')
@@ -50,6 +51,11 @@ export const examService = {
     let result
     if (kind === 'mavzu' && resolvedLessonId) {
       result = await client.rpc('generate_topic_test', { p_lesson_id: resolvedLessonId })
+    } else if (kind === 'mashq') {
+      result = await client.rpc('start_adaptive_practice', {
+        p_lesson_id: resolvedLessonId,
+        p_n: 10,
+      })
     } else {
       const args: Record<string, unknown> = { p_kind: kind }
       if (resolvedModuleId) args.p_module_id = resolvedModuleId
@@ -65,6 +71,9 @@ export const examService = {
       }
       if (result.error.message?.includes('blueprint_topilmadi')) {
         throw new AppError('Faol blueprint topilmadi. Administrator bilan bog\'laning.', 503, 'NO_BLUEPRINT')
+      }
+      if (result.error.message?.includes('lesson_topilmadi')) {
+        throw new AppError('Mavzu topilmadi yoki nashr qilinmagan.', 404, 'LESSON_NOT_FOUND')
       }
       if (result.error.message?.includes('auth_required')) {
         throw new AppError('Avtorizatsiyadan o\'tmagansiz', 401, 'AUTH_REQUIRED')
