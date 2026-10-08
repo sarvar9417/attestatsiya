@@ -1439,6 +1439,35 @@ Keyingi non-blocked task: adaptive practice selector (weak + due + new) va revis
   Vite output `dist/`, API serverless function shu projectda build qilinadi.
 - **Secret boundary:** `SUPABASE_SERVICE_KEY` yagona Vercel projectda faqat
   server runtime env; client bundle VITE-prefixed secret olmaydi.
-- **Cutover safety:** unified preview/prod `/api/health` + auth/error boundary +
-  frontend smoke yashil bo‘lmaguncha eski `attestatsiya-backend` project
-  rollback sifatida saqlanadi.
+- **Cutover:** production deploy `dpl_GYeUVSG7eStpAPrEoghAj2y24skf` READY.
+  `https://attestatsiya-five.vercel.app` HTTP 200; shu origin ichidagi
+  `/api/health` HTTP 200 va database healthy; `/api/content/modules` HTTP 200.
+  Production JS bundle eski `attestatsiya-backend.vercel.app` yoki
+  `localhost:3001` URLlarini o‘z ichiga olmaydi va relative `/api/*` ishlatadi.
+- **Legacy backend deploy:** `attestatsiya-backend` Vercel project PAUSED;
+  uning `/api/health` endpointi `503 DEPLOYMENT_PAUSED` qaytaradi. Source/history
+  rollback uchun saqlanadi, production traffic unga bog‘liq emas.
+
+
+### T-038 Handoff
+
+```text
+Task: T-038
+Natija: frontend + Fastify backend bitta Vercel project/origin
+Git: PR #62 merged, main commit 319f3d1492be8b4a998fb051f634629b2bc307e4
+Production project: attestatsiya
+Production domain: https://attestatsiya-five.vercel.app
+Frontend: /
+Backend: /api/*
+Production deployment: dpl_GYeUVSG7eStpAPrEoghAj2y24skf — READY
+Smoke:
+  / -> 200
+  /api/health -> 200, database healthy
+  /api/content/modules -> 200
+Bundle audit:
+  attestatsiya-backend.vercel.app -> absent
+  http://localhost:3001 -> absent
+  relative /api/* -> present
+Legacy Vercel project: attestatsiya-backend -> PAUSED
+GitHub CI PR #62: quality + backend + database SUCCESS
+```
