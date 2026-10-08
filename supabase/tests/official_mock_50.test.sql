@@ -115,7 +115,7 @@ select set_config(
 -- Run assertions as the test owner so fixture tables remain readable.
 -- generate_official_mock() still resolves auth.uid() from the JWT claim above;
 -- execute privilege is checked separately below.
-do $
+do $$
 declare
   i int;
   v_payload jsonb;
@@ -245,7 +245,7 @@ begin
 end
 $;
 
-do $
+do $$
 begin
   if has_function_privilege(
     'anon',
