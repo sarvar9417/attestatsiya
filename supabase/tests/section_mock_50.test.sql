@@ -264,7 +264,7 @@ begin
 
   perform set_config('t044.first_exam_id', v_exam::text, false);
 end
-$;
+$$;
 
 select set_config(
   'request.jwt.claim.sub',
