@@ -126,7 +126,7 @@ describe('CoveragePage', () => {
 
     await user.click(screen.getByRole('button', { name: 'Yangilash' }))
 
-    expect(await screen.findByText('S1.INFO.01')).toBeDefined()
+    expect((await screen.findAllByText('S1.INFO.01')).length).toBeGreaterThan(0)
     expect(mockGetCoverage).toHaveBeenCalledTimes(2)
   })
 })
