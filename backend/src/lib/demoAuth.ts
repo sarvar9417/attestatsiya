@@ -36,11 +36,7 @@ export async function getDemoToken(): Promise<string> {
     (u: User) => u.email === config.demo.userEmail
   )
 
-  let userId: string
-
-  if (existing) {
-    userId = existing.id
-  } else {
+  if (!existing) {
     // Create demo user
     const { data: newUser, error: createError } = await adminClient.auth.admin.createUser({
       email: config.demo.userEmail,
@@ -52,7 +48,6 @@ export async function getDemoToken(): Promise<string> {
       throw new Error(`Demo user yaratishda xatolik: ${createError?.message ?? 'unknown'}`)
     }
 
-    userId = newUser.user.id
   }
 
   // Sign in to get a fresh JWT
