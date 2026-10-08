@@ -55,6 +55,8 @@ export const examService = {
       result = await client.rpc('generate_section_mock', {
         p_module_id: resolvedModuleId,
       })
+    } else if (kind === 'mock') {
+      result = await client.rpc('generate_official_mock')
     } else if (kind === 'mashq') {
       result = await client.rpc('start_adaptive_practice', {
         p_lesson_id: resolvedLessonId,
@@ -67,6 +69,20 @@ export const examService = {
     }
 
     if (result.error) {
+      if (result.error.message?.includes('official_mock_pool_insufficient')) {
+        throw new AppError(
+          'Rasmiy 50 savollik mock blueprint kvotalarini to‘liq yig‘ish uchun yetarli tasdiqlangan savol mavjud emas.',
+          409,
+          'OFFICIAL_MOCK_POOL_INSUFFICIENT'
+        )
+      }
+      if (result.error.message?.includes('official_mock_blueprint_invalid')) {
+        throw new AppError(
+          'Rasmiy mock blueprint sozlamasi 50 savollik attestatsiya kontraktiga mos emas.',
+          409,
+          'OFFICIAL_MOCK_BLUEPRINT_INVALID'
+        )
+      }
       if (result.error.message?.includes('section_mock_pool_insufficient')) {
         throw new AppError(
           'Bo‘lim mock testi 50 savol va majburiy qamrovni yig‘ish uchun yetarli tasdiqlangan savolga ega emas.',
