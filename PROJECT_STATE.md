@@ -1395,3 +1395,18 @@ Keyingi non-blocked task: adaptive selector + readiness/next-action service
 - **Dashboard:** eski local completion percent “TAYYORLIK” sifatida ko‘rsatilmaydi;
   server readiness, confidence, independent evidence va blueprint coverage
   ko‘rsatiladi; server tavsiya qilgan next action Bugungi reja CTA'iga ulanadi.
+
+
+### T-035 Handoff
+
+```text
+Task: T-035
+Natija: blueprint-weighted readiness + confidence/coverage + server next-action
+Backend: GET /api/progress/readiness
+Frontend: progressGateway.getReadiness(), DashboardPage evidence-based readiness card
+Heuristic: confidence only; official attestatsiya score/guarantee emas
+CI: GitHub Actions #678 — quality + backend + database SUCCESS
+Merge: PR #59, main commit ef84655a3b8f1cc755733173d636b60ffdd8739c
+Remote activation dependency: T-034 mastery schema productionda apply qilinmaguncha endpoint available=false qaytaradi
+Keyingi non-blocked task: adaptive practice selector (weak + due + new) va revision-repeat himoyasi
+```
