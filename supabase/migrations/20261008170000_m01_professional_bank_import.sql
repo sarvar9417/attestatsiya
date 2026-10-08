@@ -21,6 +21,7 @@ declare
   v_question_id uuid;
   v_source_reference text;
   v_option_ids uuid[];
+  v_option_id uuid;
   v_correct_index int;
   v_inserted int := 0;
   v_skipped int := 0;
@@ -31,8 +32,14 @@ declare
   v_option jsonb;
   v_index int;
 begin
-  if p_actor_id is null then
-    raise exception 'actor_required';
+  if p_actor_id is null or not exists (
+    select 1
+      from public.profiles p
+     where p.id = p_actor_id
+       and p.role = 'admin'::public.user_role
+       and not p.is_blocked
+  ) then
+    raise exception 'admin_actor_required';
   end if;
 
   if jsonb_typeof(p_items) <> 'array' then
@@ -160,8 +167,9 @@ begin
           v_index,
           v_option->>'content_md'
         )
-        returning id into v_option_ids[v_index + 1];
+        returning id into v_option_id;
 
+        v_option_ids := array_append(v_option_ids, v_option_id);
         v_index := v_index + 1;
       end loop;
 
