@@ -51,6 +51,10 @@ export const examService = {
     let result
     if (kind === 'mavzu' && resolvedLessonId) {
       result = await client.rpc('generate_topic_test', { p_lesson_id: resolvedLessonId })
+    } else if (kind === 'bolim' && resolvedModuleId) {
+      result = await client.rpc('generate_section_mock', {
+        p_module_id: resolvedModuleId,
+      })
     } else if (kind === 'mashq') {
       result = await client.rpc('start_adaptive_practice', {
         p_lesson_id: resolvedLessonId,
