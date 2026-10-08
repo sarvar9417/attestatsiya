@@ -12,7 +12,7 @@
 
 ## M01 50-savollik section mock (TASK-044, 2026-10-08)
 
-- **Holat:** IN_PROGRESS.
+- **Holat:** DONE — PR #69 merged; CI #848 yashil.
 - **Branch:** `task/TASK-044-m01-section-mock`.
 - **Assembler:** `generate_section_mock(module_id)` har safar aynan 50 ta published/keyed/taxonomy-valid savol yig‘adi yoki session yaratmasdan feasibility xatosi qaytaradi.
 - **Qamrov:** savol pool'i bor har bir published topic uchun kamida 1 hard slot; har bir critical objective uchun konfiguratsiyadagi `min_questions` hard floor.
