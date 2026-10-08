@@ -1,3 +1,15 @@
+## Official 2026 full mock (TASK-045, 2026-10-08)
+
+- **Holat:** IN_PROGRESS.
+- **Branch:** `task/TASK-045-official-full-mock`.
+- **Assembler:** `generate_official_mock()` active blueprint bo‘yicha group_code × cognitive kvotalarni aynan yig‘adi yoki exam yaratmasdan feasibility xatosi qaytaradi.
+- **Kontrakt:** 50 savol, 120 daqiqa, 8 bilish + 35 qo‘llash + 7 mulohaza; 15 blueprint quota guruhi saqlanadi.
+- **Eligibility:** faqat published + answer-key mavjud + active taxonomy va group-code mos savollar.
+- **Tanlash:** unseen → kam exposure → eng eski exposure → stable ID.
+- **Audit:** `selection_meta` blueprint versiyasi, quota coverage, cognitive totals, pool va unseen statistikani snapshot qiladi.
+- **Xavfsizlik:** start payload answer key chiqarmaydi; RPC faqat authenticated.
+- **QA:** PostgreSQL regressiya 3 ta assemblyda 50 unique, exact kvota, 8/35/7, 7200 s va ACL invariantlarini tekshiradi; backend test mock start dedicated RPC va feasibility mappingni tekshiradi.
+
 ## M01 50-savollik section mock (TASK-044, 2026-10-08)
 
 - **Holat:** IN_PROGRESS.
