@@ -63,6 +63,27 @@ export const examService = {
     }
 
     if (result.error) {
+      if (result.error.message?.includes('topic_pool_insufficient')) {
+        throw new AppError(
+          'Mavzu testi barcha majburiy bilimlarni qamrab olishi uchun savollar yetarli emas.',
+          409,
+          'TOPIC_POOL_INSUFFICIENT'
+        )
+      }
+      if (result.error.message?.includes('topic_blueprint_invalid')) {
+        throw new AppError(
+          'Mavzu testi qamrov sozlamasi noto‘g‘ri: majburiy slotlar test hajmidan ko‘p.',
+          409,
+          'TOPIC_BLUEPRINT_INVALID'
+        )
+      }
+      if (result.error.message?.includes('topic_blueprint_missing')) {
+        throw new AppError(
+          'Mavzu uchun objective qamrov rejasi topilmadi.',
+          409,
+          'TOPIC_BLUEPRINT_MISSING'
+        )
+      }
       if (result.error.message?.includes('savol_yetarli_emas')) {
         throw new AppError('Savollar bazasi yetarli emas. Iltimos, keyinroq urinib ko\'ring.', 503, 'INSUFFICIENT_POOL')
       }

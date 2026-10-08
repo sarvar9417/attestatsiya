@@ -83,6 +83,7 @@
 | T-038 | DONE | T-037 | Frontend + Fastify backend bitta `attestatsiya` Vercel projectida: root `/api/*`, production same-origin API, bitta env boundary; production deploy READY, `/api/health` va `/api/content/modules` yashil, eski `attestatsiya-backend` project PAUSED |
 | T-039 | IN_REVIEW | T-034, T-035, T-038 | Adaptive practice selector: 10 savol, 50/25/15/10 target, immediate exact retry yo‘q, exposure penalty va fallback audit metadata |
 | T-040 | IN_REVIEW | T-039 | Published savol → objective/source/cognitive/difficulty coverage auditi; M01 matrix, orphan/mis-tagged va traceability issue report, admin `/admin/coverage` |
+| T-041 | IN_REVIEW | T-040 | Objective-complete topic-test assembler: configurable 10–50, required/critical objective hard slots, insufficient-pool no-session guard, key/taxonomy validation va low-exposure preference |
 
 ## UI modernizatsiya — Figma approved design
 
