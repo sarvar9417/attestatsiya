@@ -80,7 +80,7 @@
 | T-034 | DONE | T-032 | Mastery/SRS foundation: append-only evidence, cognitive counters, learning/provisional/stable/regressed state, deterministic 1/3/7/14/30 interval scheduler va authenticated `/api/progress/mastery` read model; PR #57 full CI yashil |
 | T-035 | DONE | T-034 | Blueprint-weighted readiness v1 + confidence/coverage + server-prioritized next action (`due review → regressed → diagnostic → learn`); Dashboard fake completion-as-readiness o‘rniga evidence-based readiness ko‘rsatadi; PR #59 full CI yashil |
 | T-037 | DONE | T-025, T-033, T-034 | Production Supabase reconcile: 4 pending migration productionga atomik apply qilindi; 270 generated savol, onboarding, mastery/SRS, question-key policy va backend DB health verifikatsiya qilindi |
-| T-038 | IN_PROGRESS | T-037 | Frontend + Fastify backendni bitta `attestatsiya` Vercel projectiga birlashtirish: root `/api/*`, production same-origin API, bitta env boundary, smoke-testdan keyin eski backend projectni pause qilish |
+| T-038 | DONE | T-037 | Frontend + Fastify backend bitta `attestatsiya` Vercel projectida: root `/api/*`, production same-origin API, bitta env boundary; production deploy READY, `/api/health` va `/api/content/modules` yashil, eski `attestatsiya-backend` project PAUSED |
 
 ## UI modernizatsiya — Figma approved design
 
