@@ -152,16 +152,10 @@ select set_config('request.jwt.claim.sub',
   '60000000-0000-4000-8000-000000000001', false);
 set role authenticated;
 
-do $$
+do $
 declare
-  v_before int;
-  v_after int;
   v_failed boolean := false;
 begin
-  select count(*) into v_before from public.exams
-  where user_id='60000000-0000-4000-8000-000000000001'::uuid
-    and lesson_id='60000000-0000-4000-8000-000000000020';
-
   begin
     perform public.generate_topic_test('60000000-0000-4000-8000-000000000020');
   exception when others then
@@ -170,18 +164,26 @@ begin
   end;
 
   if not v_failed then raise exception 'insufficient pool must fail'; end if;
+end
+$;
 
-  select count(*) into v_after from public.exams
+reset role;
+
+do $
+declare
+  v_count int;
+begin
+  select count(*) into v_count
+  from public.exams
   where user_id='60000000-0000-4000-8000-000000000001'::uuid
     and lesson_id='60000000-0000-4000-8000-000000000020';
 
-  if v_after <> v_before then
-    raise exception 'failed assembly created exam: % -> %', v_before, v_after;
+  if v_count <> 2 then
+    raise exception 'failed assembly created an extra exam; expected 2 rows, got %', v_count;
   end if;
 end
-$$;
+$;
 
-reset role;
 select set_config('request.jwt.claim.sub', '', false);
 select 'objective_complete_topic_test_ok' as result;
 rollback;
