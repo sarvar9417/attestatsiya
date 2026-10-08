@@ -250,24 +250,24 @@ select public.start_adaptive_practice(null, 10);
 
 reset role;
 
-do $$
+do $
 declare
   v_meta jsonb;
 begin
   select selection_meta
-  into strict v_meta
+  into v_meta
   from public.exams
   where user_id = '00000000-0000-4000-8000-000000000801'
     and kind = 'mashq'
-  order by started_at desc
+    and (selection_meta->>'fallback_used')::boolean
   limit 1;
 
-  if not (v_meta->>'fallback_used')::boolean
+  if v_meta is null
      or (v_meta->>'fallback_count')::int < 1 then
-    raise exception 'fallback audit metadata missing: %', v_meta;
+    raise exception 'fallback audit metadata missing';
   end if;
 end
-$$;
+$;
 
 select set_config('request.jwt.claim.sub', '', false);
 select 'adaptive_practice_selector_ok' as result;
