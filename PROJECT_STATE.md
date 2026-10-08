@@ -1489,3 +1489,18 @@ GitHub CI PR #62: quality + backend + database SUCCESS
   uning endpointi 503 `DEPLOYMENT_PAUSED`. Yagona app `/api/health` esa 200.
 - **Permanent deletion:** Vercel project deletion platformda foydalanuvchi
   tasdig‘ini talab qiladi; code/runtime cutover deletiondan mustaqil yakunlangan.
+
+
+### T-042 Handoff
+
+```text
+Task: T-042
+Natija: bitta Vercel project arxitekturasi repo/CI darajasida qat'iylashtirildi
+Production project: attestatsiya
+Origin: https://attestatsiya-five.vercel.app
+Frontend: /
+Backend: /api/*
+Removed: backend/vercel.json
+CI: GitHub Actions #792 — quality + backend + database SUCCESS
+Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user confirmation talab qiladi
+```
