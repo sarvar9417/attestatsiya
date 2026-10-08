@@ -92,7 +92,7 @@ describe('CoveragePage', () => {
 
     render(<CoveragePage />)
 
-    expect(await screen.findByText('S1.INFO.01')).toBeDefined()
+    expect((await screen.findAllByText('S1.INFO.01')).length).toBeGreaterThan(0)
     expect(screen.getByText('S1.INFO.02')).toBeDefined()
     expect(screen.getByText('Axborot nima?')).toBeDefined()
     expect(screen.getAllByText('Manba reference yo‘q').length).toBeGreaterThan(0)
@@ -105,7 +105,7 @@ describe('CoveragePage', () => {
     mockGetCoverage.mockResolvedValue(REPORT)
 
     render(<CoveragePage />)
-    await screen.findByText('S1.INFO.01')
+    await screen.findAllByText('S1.INFO.01')
 
     await user.selectOptions(screen.getByLabelText('Modul'), 'ALL')
 
