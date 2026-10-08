@@ -50,8 +50,10 @@ src/                  Frontend React ilovasi
 ├── store/            Zustand store
 └── tests/            Frontend integration/E2E
 
+api/                  Yagona Vercel /api/* serverless entry
+
 backend/
-├── api/              Vercel serverless entry
+├── api/              Legacy compatibility entry; production root entry emas
 ├── src/routes/       Fastify HTTP route'lar
 ├── src/services/     Server domain/service qatlam
 ├── src/schemas/      Zod request/response sxemalari
@@ -60,10 +62,12 @@ backend/
 supabase/             Migrations, seed va database testlar
 ```
 
-Frontend service-role credential ishlatmaydi. Backend kodi `backend/`dan
-tashqariga server secret import qilmaydi. Eski `sarvar9417/attestatsiya-backend`
-repo yangi featurelar uchun source-of-truth emas; asosiy source shu monorepodagi
-`backend/` hisoblanadi.
+Frontend service-role credential ishlatmaydi. Root `api/` faqat
+`backend/src/app.ts`ni serverless entry sifatida ulaydi; server secretlar faqat
+Vercel runtime env’da mavjud. Eski `sarvar9417/attestatsiya-backend` repo va
+alohida `attestatsiya-backend` Vercel project yangi feature/deploylar uchun
+source-of-truth emas; source shu monorepo va production deploy yagona
+`attestatsiya` Vercel projectidir.
 
 ## 5. Database o‘zgarishi
 
