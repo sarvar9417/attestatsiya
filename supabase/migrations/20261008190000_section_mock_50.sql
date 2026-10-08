@@ -22,7 +22,8 @@ declare
   v_module public.modules%rowtype;
   v_exam uuid;
   v_ids uuid[] := '{}'::uuid[];
-  v_pick uuid[] := '{}'::uuid[];\n  v_one uuid;
+  v_pick uuid[] := '{}'::uuid[];
+  v_one uuid;
   v_target int := 50;
   v_topic_count int := 0;
   v_unassessable_topic_count int := 0;
