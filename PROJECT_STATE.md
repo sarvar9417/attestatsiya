@@ -1,6 +1,16 @@
-## Official 2026 full mock (TASK-045, 2026-10-08)
+## Private 570-item professional bank validation (TASK-046, 2026-10-08)
 
 - **Holat:** IN_PROGRESS.
+- **Branch:** `task/TASK-046-private-bank-validation`.
+- **Maqsad:** 19 bob × 30 = 570 savollik xususiy payloadni Git'ga qo‘ymasdan importdan oldin qat’iy tekshirish.
+- **Validator:** `npm run content:private-bank:validate -- <private.json>`.
+- **Invariantlar:** 570/570 ID, 4 variant, answer-key index, active construct kodi, A–E → cognitive/difficulty kontrakti, source locator va PDF sahifa metadata.
+- **Xavfsizlik:** private payload patternlari `.gitignore`ga qo‘shildi; validator faqat aggregate diagnostika va ID-level warning chiqaradi.
+- **Formula audit:** sanoq sistemasi, birliklar, bit/s/baud kabi tipografiyasi ekstraksiyada buzilishi mumkin bo‘lgan savollar source PDF bilan REVIEW bosqichida tekshirish uchun flag qilinadi.
+
+## Official 2026 full mock (TASK-045, 2026-10-08)
+
+- **Holat:** DONE — PR #70 merged; CI #878 yashil.
 - **Branch:** `task/TASK-045-official-full-mock`.
 - **Assembler:** `generate_official_mock()` active blueprint bo‘yicha group_code × cognitive kvotalarni aynan yig‘adi yoki exam yaratmasdan feasibility xatosi qaytaradi.
 - **Kontrakt:** 50 savol, 120 daqiqa, 8 bilish + 35 qo‘llash + 7 mulohaza; 15 blueprint quota guruhi saqlanadi.
