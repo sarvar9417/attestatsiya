@@ -111,9 +111,11 @@ select set_config(
   '73000000-0000-4000-8000-000000000001',
   false
 );
-set role authenticated;
 
-do $$
+-- Run assertions as the test owner so fixture tables remain readable.
+-- generate_official_mock() still resolves auth.uid() from the JWT claim above;
+-- execute privilege is checked separately below.
+do $
 declare
   i int;
   v_payload jsonb;
@@ -241,11 +243,9 @@ begin
     end loop;
   end loop;
 end
-$$;
+$;
 
-reset role;
-
-do $$
+do $
 begin
   if has_function_privilege(
     'anon',
