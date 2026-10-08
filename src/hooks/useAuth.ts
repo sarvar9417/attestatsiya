@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { authClient } from '../features/auth/authClient'
-import { ApiError, isNetworkError } from '../lib/apiClient'
+import { API_BASE_URL, ApiError, isNetworkError } from '../lib/apiClient'
 import { sessionStore, isExpired, type AuthSession, type AuthUser } from '../features/auth/sessionStore'
 
 export interface AuthState {
@@ -189,8 +189,7 @@ export function useAuth(): AuthState & {
  * tashqari, chunki session'ga yozmasdan token alohida ishlatiladi).
  */
 async function apiPostWithToken<T>(path: string, body: unknown, token: string): Promise<T> {
-  const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001'
-  const response = await fetch(`${baseUrl}${path}`, {
+  const response = await fetch(`${API_BASE_URL}${path}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
