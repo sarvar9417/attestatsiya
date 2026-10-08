@@ -223,7 +223,10 @@ export default function ExamRunner({
         if (!gateway.startFocusedExam) {
           throw new Error('Maxsus sinovni boshlash xizmati mavjud emas.')
         }
-        nextSession = await gateway.startFocusedExam(examKind, lessonId)
+        nextSession =
+          examKind === 'mashq'
+            ? await gateway.startFocusedExam(examKind, lessonId)
+            : await gateway.startFocusedExam(examKind)
       } else {
         nextSession = await gateway.startMockExam()
       }
