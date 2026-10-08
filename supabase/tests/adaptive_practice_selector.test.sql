@@ -250,7 +250,7 @@ select public.start_adaptive_practice(null, 10);
 
 reset role;
 
-do $
+do $$
 declare
   v_meta jsonb;
 begin
@@ -267,7 +267,7 @@ begin
     raise exception 'fallback audit metadata missing';
   end if;
 end
-$;
+$$;
 
 select set_config('request.jwt.claim.sub', '', false);
 select 'adaptive_practice_selector_ok' as result;
