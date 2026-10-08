@@ -1,13 +1,25 @@
+## Official 2026 full mock (TASK-045, 2026-10-08)
+
+- **Holat:** IN_PROGRESS.
+- **Branch:** `task/TASK-045-official-full-mock`.
+- **Assembler:** `generate_official_mock()` active blueprint bo‘yicha group_code × cognitive kvotalarni aynan yig‘adi yoki exam yaratmasdan feasibility xatosi qaytaradi.
+- **Kontrakt:** 50 savol, 120 daqiqa, 8 bilish + 35 qo‘llash + 7 mulohaza; 15 blueprint quota guruhi saqlanadi.
+- **Eligibility:** faqat published + answer-key mavjud + active taxonomy va group-code mos savollar.
+- **Tanlash:** unseen → kam exposure → eng eski exposure → stable ID.
+- **Audit:** `selection_meta` blueprint versiyasi, quota coverage, cognitive totals, pool va unseen statistikani snapshot qiladi.
+- **Xavfsizlik:** start payload answer key chiqarmaydi; RPC faqat authenticated.
+- **QA:** PostgreSQL regressiya 3 ta assemblyda 50 unique, exact kvota, 8/35/7, 7200 s va ACL invariantlarini tekshiradi; backend test mock start dedicated RPC va feasibility mappingni tekshiradi.
+
 ## M01 50-savollik section mock (TASK-044, 2026-10-08)
 
-- **Holat:** DONE — CI quality + backend + database yashil; 20-assembly DB regressiya o‘tdi.
+- **Holat:** DONE — PR #69 merged; CI #848 yashil.
 - **Branch:** `task/TASK-044-m01-section-mock`.
 - **Assembler:** `generate_section_mock(module_id)` har safar aynan 50 ta published/keyed/taxonomy-valid savol yig‘adi yoki session yaratmasdan feasibility xatosi qaytaradi.
 - **Qamrov:** savol pool'i bor har bir published topic uchun kamida 1 hard slot; har bir critical objective uchun konfiguratsiyadagi `min_questions` hard floor.
 - **Tanlash:** unseen → kam exposure → eng eski exposure tartibida; stable ID tie-break bilan auditable.
 - **Pass:** 45/50 va barcha critical objective floor'lari bajarilishi shart; natija `selection_meta.completion`da snapshot qilinadi.
 - **Perfected unseen:** yetarli yangi pool mavjud bo‘lsa birinchi 50/50 unseen selection metadata bilan isbotlanadi.
-- **QA:** DB regressiya testi 20 ta assemblyni tekshiradi: 50 unique item, topic qamrovi, critical qamrov, 45/50 pass boundary, critical-floor fail boundary va RPC permission. CI #848 da quality, backend va database yashil.
+- **QA:** DB regressiya testi 20 ta assemblyni tekshiradi: 50 unique item, topic qamrovi, critical qamrov, 45/50 pass boundary, critical-floor fail boundary va RPC permission.
 - **Vaqt:** section mock uchun 6000 s (100 min); rasmiy attestatsiya mockining 120 daqiqalik va 50 savollik formati alohida full-mock lane’da saqlanadi.
 
 ## M01 professional bank secure import (TASK-043, 2026-10-08)

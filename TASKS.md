@@ -85,6 +85,7 @@
 | T-040 | DONE | T-039 | Published savol → objective/source/cognitive/difficulty coverage auditi; M01 matrix, orphan/mis-tagged va traceability issue report, admin `/admin/coverage` |
 | T-041 | DONE | T-040 | Objective-complete topic-test assembler: configurable 10–50, required/critical objective hard slots, insufficient-pool no-session guard, key/taxonomy validation va low-exposure preference |
 | T-042 | DONE | T-038 | Single-Vercel cleanup: standalone backend Vercel config olib tashlandi, root `/api/*` entry CI typecheck bilan himoyalandi, production same-origin API regressiya testi qo‘shildi, backend README/project state bitta origin bilan reconcile qilindi; CI #792 yashil |\n| TASK-043 | DONE | T-041, T-042 | Xususiy M01 professional bank import/audit: 570 savolni public Gitga answer key sizdirmasdan admin-only batch import qilish, REVIEW staging, objective/source metadata, idempotency va audit log |\n| TASK-044 | DONE | TASK-043 | M01 50-savollik section mock: topic/critical objective coverage, deterministic feasibility, unseen preference, 45/50 + critical floor, audited assembly metadata |
+| TASK-045 | IN_PROGRESS | TASK-044 | Rasmiy 2026 full mock: 50 savol, 120 daqiqa, active blueprint bo‘yicha exact group×cognitive kvota, preflight feasibility, unseen preference, audit metadata |
 
 ## UI modernizatsiya — Figma approved design
 
