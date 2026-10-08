@@ -351,6 +351,32 @@ describe('secure ExamRunner', () => {
     expect(await screen.findByText('Yagona javobni tanlang')).toBeDefined()
   })
 
+  it('mashq route adaptive server sessionini boshlaydi va lesson scope uzatadi', async () => {
+    const user = userEvent.setup()
+    const gateway = successfulGateway()
+    vi.mocked(gateway.startFocusedExam!).mockResolvedValue({
+      ...examSession(),
+      kind: 'mashq',
+      duration_sec: null,
+      selection_meta: {
+        selector_version: 'adaptive-v1',
+        fallback_used: false,
+      },
+    })
+
+    renderExam(gateway, '/exam/mashq?lessonId=M01.01')
+    expect(
+      screen.getByRole('heading', { name: 'Moslashtirilgan mashq' })
+    ).toBeDefined()
+    expect(screen.getByText('10 savol')).toBeDefined()
+
+    await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
+
+    expect(gateway.startFocusedExam).toHaveBeenCalledWith('mashq', 'M01.01')
+    expect(gateway.startMockExam).not.toHaveBeenCalled()
+    expect(await screen.findByText('Yagona javobni tanlang')).toBeDefined()
+  })
+
   it('takrorlash route mockga fallback qilmasdan server review sessionini boshlaydi', async () => {
     const user = userEvent.setup()
     const gateway = successfulGateway()
