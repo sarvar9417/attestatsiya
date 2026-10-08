@@ -1,3 +1,16 @@
+## M01 professional bank secure import (TASK-043, 2026-10-08)
+
+- **Holat:** IN_PROGRESS.
+- **Branch:** `task/TASK-043-m01-professional-bank`.
+- **Maqsad:** 570 savollik xususiy professional bankni public Git tarixiga savol matni/javob kalitlarini kiritmasdan production oqimiga tayyorlash.
+- **Import boundary:** faqat faol admin backend orqali `POST /api/admin/question-bank/import`; backend service-role RPC chaqiradi.
+- **Staging:** import qilingan savollar avtomatik publish qilinmaydi, `review` holatida qoladi.
+- **Idempotency:** `m01-professional-bank:<external_id>` source reference bo‘yicha takroriy import skip qilinadi.
+- **Xavfsizlik:** RPC `anon` va `authenticated` uchun yopiq, faqat `service_role`; RPC ichida actor faol admin ekanini ham qayta tekshiradi.
+- **Audit:** har import qilingan savol `audit_log`ga external ID, construct va source metadata bilan yoziladi.
+- **QA:** schema validation testi va PostgreSQL happy/idempotent/invalid-construct/non-admin/ACL regressiya testi qo‘shildi.
+- **Kontent siyosati:** bank payloadi alohida xususiy import artefakti bo‘ladi; public repo ichiga answer key yoki to‘liq bank yozilmaydi.
+
 
 ## Xatolarni qayta ishlash UI (TASK-UI-009, 2026-10-07)
 
