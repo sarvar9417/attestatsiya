@@ -273,3 +273,6 @@ select set_config('request.jwt.claim.sub', '', false);
 select 'adaptive_practice_selector_ok' as result;
 
 rollback;
+
+-- T-041 stacked regression: keep topic-test invariants in the database CI lane.
+\ir objective_complete_topic_test.test.sql
