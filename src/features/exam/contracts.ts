@@ -67,6 +67,7 @@ export const examSessionSchema = z
       message: 'started_at must be an ISO date',
     }),
     items: z.array(examItemSchema).min(1),
+    selection_meta: z.record(z.string(), z.unknown()).nullable().optional(),
   })
   .strict()
   .transform((session) => ({
