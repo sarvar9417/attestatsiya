@@ -5,17 +5,20 @@ import {
   FileQuestion,
   History,
   LayoutDashboard,
+  SearchCheck,
   ShieldCheck,
 } from 'lucide-react'
 import AdminDashboard from '../../pages/admin/AdminDashboard'
 import ModulesPage from '../../pages/admin/ModulesPage'
 import QuestionsPage from '../../pages/admin/QuestionsPage'
 import AttemptsPage from '../../pages/admin/AttemptsPage'
+import CoveragePage from '../../pages/admin/CoveragePage'
 
 const NAV = [
   { to: '/admin', icon: LayoutDashboard, label: 'Dashboard', end: true },
   { to: '/admin/modules', icon: BookOpen, label: 'Modullar' },
   { to: '/admin/questions', icon: FileQuestion, label: 'Savollar' },
+  { to: '/admin/coverage', icon: SearchCheck, label: 'Qamrov auditi' },
   { to: '/admin/attempts', icon: History, label: 'Sinov urinishlari' },
 ]
 
@@ -114,6 +117,7 @@ export default function AdminLayout() {
             <Route index element={<AdminDashboard />} />
             <Route path="modules" element={<ModulesPage />} />
             <Route path="questions" element={<QuestionsPage />} />
+            <Route path="coverage" element={<CoveragePage />} />
             <Route path="attempts" element={<AttemptsPage />} />
           </Routes>
         </div>
