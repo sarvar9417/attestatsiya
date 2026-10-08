@@ -97,10 +97,9 @@ async function readPaged<T>(
     const { data, error } = await loader(from, from + PAGE_SIZE - 1)
     if (error) {
       throw new AppError(
-        `${label} coverage so‘rovi bajarilmadi`,
+        `${label} coverage so‘rovi bajarilmadi: ${error.message ?? 'unknown error'}`,
         500,
-        'CONTENT_COVERAGE_QUERY_ERROR',
-        { source: label, message: error.message }
+        'CONTENT_COVERAGE_QUERY_ERROR'
       )
     }
     const page = data ?? []
