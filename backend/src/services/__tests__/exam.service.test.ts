@@ -58,6 +58,40 @@ describe('examService.start', () => {
     expect(mockRpc).toHaveBeenCalledWith('start_exam', { p_kind: 'mock' })
   })
 
+  it('starts a 50-question section mock through the dedicated assembler RPC', async () => {
+    mockRpc.mockResolvedValue({
+      data: {
+        exam_id: 'exam-section',
+        kind: 'bolim',
+        duration_sec: 6000,
+        started_at: new Date().toISOString(),
+        items: Array.from({ length: 50 }, (_, index) => ({ order_idx: index + 1 })),
+        selection_meta: {
+          selector_version: 'section-mock-v1',
+          target_count: 50,
+          unseen_selected_count: 50,
+        },
+      },
+      error: null,
+    })
+
+    const result = await examService.start('bolim', 'token-abc', 'M01')
+
+    expect(result.kind).toBe('bolim')
+    expect(result.duration_sec).toBe(6000)
+    expect(result.selection_meta).toMatchObject({
+      selector_version: 'section-mock-v1',
+      target_count: 50,
+    })
+    expect(mockRpc).toHaveBeenCalledWith('generate_section_mock', {
+      p_module_id: 'module-uuid-01',
+    })
+    expect(mockRpc).not.toHaveBeenCalledWith(
+      'start_exam',
+      expect.objectContaining({ p_kind: 'bolim' })
+    )
+  })
+
   it('starts adaptive mashq through the dedicated selector RPC', async () => {
     mockRpc.mockResolvedValue({
       data: {
@@ -94,6 +128,21 @@ describe('examService.start', () => {
       'start_exam',
       expect.objectContaining({ p_kind: 'mashq' })
     )
+  })
+
+  it.each([
+    ['section_mock_pool_insufficient', 'SECTION_MOCK_POOL_INSUFFICIENT'],
+    ['section_mock_blueprint_invalid', 'SECTION_MOCK_BLUEPRINT_INVALID'],
+    ['section_mock_no_topics', 'SECTION_MOCK_NO_TOPICS'],
+  ])('maps section mock %s to a 409 feasibility error', async (message, code) => {
+    mockRpc.mockResolvedValue({
+      data: null,
+      error: { message },
+    })
+
+    await expect(
+      examService.start('bolim', 'token-abc', 'M01')
+    ).rejects.toMatchObject({ code, statusCode: 409 })
   })
 
   it.each([
