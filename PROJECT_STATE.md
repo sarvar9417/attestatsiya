@@ -1,3 +1,15 @@
+## M01 50-savollik section mock (TASK-044, 2026-10-08)
+
+- **Holat:** IN_PROGRESS.
+- **Branch:** `task/TASK-044-m01-section-mock`.
+- **Assembler:** `generate_section_mock(module_id)` har safar aynan 50 ta published/keyed/taxonomy-valid savol yig‘adi yoki session yaratmasdan feasibility xatosi qaytaradi.
+- **Qamrov:** savol pool'i bor har bir published topic uchun kamida 1 hard slot; har bir critical objective uchun konfiguratsiyadagi `min_questions` hard floor.
+- **Tanlash:** unseen → kam exposure → eng eski exposure tartibida; stable ID tie-break bilan auditable.
+- **Pass:** 45/50 va barcha critical objective floor'lari bajarilishi shart; natija `selection_meta.completion`da snapshot qilinadi.
+- **Perfected unseen:** yetarli yangi pool mavjud bo‘lsa birinchi 50/50 unseen selection metadata bilan isbotlanadi.
+- **QA:** DB regressiya testi 20 ta assemblyni tekshiradi: 50 unique item, topic qamrovi, critical qamrov, 45/50 pass boundary, critical-floor fail boundary va RPC permission.
+- **Vaqt:** section mock uchun 6000 s (100 min); rasmiy attestatsiya mockining 120 daqiqalik va 50 savollik formati alohida full-mock lane’da saqlanadi.
+
 ## M01 professional bank secure import (TASK-043, 2026-10-08)
 
 - **Holat:** DONE — CI #817 quality + backend + database yashil.
