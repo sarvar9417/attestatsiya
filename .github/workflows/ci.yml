@@ -188,7 +188,8 @@ jobs:
             -f supabase/tests/onboarding_profile.test.sql \
             -f supabase/tests/mastery_srs_foundation.test.sql \
             -f supabase/tests/adaptive_practice_selector.test.sql \
-            -f supabase/tests/m01_professional_bank_import.test.sql
+            -f supabase/tests/m01_professional_bank_import.test.sql \
+            -f supabase/tests/section_mock_50.test.sql
 
       - name: Generate and verify parametric DB pool
         run: |

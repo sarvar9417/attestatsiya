@@ -22,7 +22,7 @@ export const examService = {
   /**
    * Start a new exam.
    * - mock → full attestatsiya (50 questions, 120 min)
-   * - bolim → module exam (15 questions, 30 min)
+   * - bolim → 50-question section mock (100 min)
    * - mavzu → topic test (unlimited time)
    * - mashq → adaptive guided practice (10 questions)
    * - takrorlash → due reviews (15 questions)
@@ -51,6 +51,10 @@ export const examService = {
     let result
     if (kind === 'mavzu' && resolvedLessonId) {
       result = await client.rpc('generate_topic_test', { p_lesson_id: resolvedLessonId })
+    } else if (kind === 'bolim' && resolvedModuleId) {
+      result = await client.rpc('generate_section_mock', {
+        p_module_id: resolvedModuleId,
+      })
     } else if (kind === 'mashq') {
       result = await client.rpc('start_adaptive_practice', {
         p_lesson_id: resolvedLessonId,
@@ -63,6 +67,27 @@ export const examService = {
     }
 
     if (result.error) {
+      if (result.error.message?.includes('section_mock_pool_insufficient')) {
+        throw new AppError(
+          'Bo‘lim mock testi 50 savol va majburiy qamrovni yig‘ish uchun yetarli tasdiqlangan savolga ega emas.',
+          409,
+          'SECTION_MOCK_POOL_INSUFFICIENT'
+        )
+      }
+      if (result.error.message?.includes('section_mock_blueprint_invalid')) {
+        throw new AppError(
+          'Bo‘lim mock qamrov sozlamasi noto‘g‘ri: topic/critical hard slotlar 50 tadan oshib ketgan.',
+          409,
+          'SECTION_MOCK_BLUEPRINT_INVALID'
+        )
+      }
+      if (result.error.message?.includes('section_mock_no_topics')) {
+        throw new AppError(
+          'Bo‘limda test qilinadigan mavzu topilmadi.',
+          409,
+          'SECTION_MOCK_NO_TOPICS'
+        )
+      }
       if (result.error.message?.includes('topic_pool_insufficient')) {
         throw new AppError(
           'Mavzu testi barcha majburiy bilimlarni qamrab olishi uchun savollar yetarli emas.',
