@@ -89,7 +89,7 @@ Keyingi task: T-007 — domain/RLS va product-flow QA qamrovini kengaytirish
 - Oxirgi yangilanish: `2026-10-06`
 - Production mavjud: `ha`
 - Database project mavjud: `ha (plyqezulrfowyblsfpzy, Singapore)`
-- Deployment mavjud: `ha (frontend: attestatsiya-five.vercel.app; backend: attestatsiya-backend.vercel.app)`
+- Deployment mavjud: `ha — bitta Vercel project/origin: attestatsiya-five.vercel.app; frontend /, backend /api/*`
 
 ## Tasdiqlangan asos
 
@@ -1470,4 +1470,37 @@ Bundle audit:
   relative /api/* -> present
 Legacy Vercel project: attestatsiya-backend -> PAUSED
 GitHub CI PR #62: quality + backend + database SUCCESS
+```
+
+
+## Single Vercel cleanup (T-042, 2026-10-08)
+
+- **Maqsad:** T-038 production cutoverni repository va CI darajasida yakuniy qilish.
+- **Standalone config removed:** `backend/vercel.json` olib tashlandi; backendni
+  tasodifan ikkinchi Vercel project sifatida deploy qilish yo‘li yopildi.
+- **Unified entry checked:** `backend/tsconfig.api.json` endi root
+  `api/[...all].ts` entryni ham typecheck qiladi.
+- **Frontend regression:** `resolveApiBaseUrl` testlari productionda explicit
+  override yo‘q bo‘lsa same-origin `/api/*`, lokalda esa `localhost:3001`
+  ishlatilishini lock qiladi.
+- **Docs:** `backend/README.md` production backend domenini alohida project
+  sifatida ko‘rsatmaydi; yagona production origin `attestatsiya-five.vercel.app`.
+- **Runtime:** eski `attestatsiya-backend` Vercel project allaqachon PAUSED;
+  uning endpointi 503 `DEPLOYMENT_PAUSED`. Yagona app `/api/health` esa 200.
+- **Permanent deletion:** Vercel project deletion platformda foydalanuvchi
+  tasdig‘ini talab qiladi; code/runtime cutover deletiondan mustaqil yakunlangan.
+
+
+### T-042 Handoff
+
+```text
+Task: T-042
+Natija: bitta Vercel project arxitekturasi repo/CI darajasida qat'iylashtirildi
+Production project: attestatsiya
+Origin: https://attestatsiya-five.vercel.app
+Frontend: /
+Backend: /api/*
+Removed: backend/vercel.json
+CI: GitHub Actions #792 — quality + backend + database SUCCESS
+Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user confirmation talab qiladi
 ```
