@@ -47,19 +47,19 @@ begin
   insert into public.questions
     (subject_id, construct_id, group_code, format, cognitive, difficulty,
      stem_md, status, source_reference, source_lesson_id)
-  select v_subject, '60000000-0000-4000-8000-000000000031', v_group,
-         'Y1', 'qollash', 3, 'T041 A' || n, 'published',
-         'T041:A' || n, '60000000-0000-4000-8000-000000000020'
+  select v_subject, '60000000-0000-4000-8000-000000000031'::uuid, v_group,
+         'Y1'::public.question_format, 'qollash'::public.cognitive_level, 3, 'T041 A' || n, 'published'::public.content_status,
+         'T041:A' || n, '60000000-0000-4000-8000-000000000020'::uuid
   from generate_series(1,4) n
   union all
-  select v_subject, '60000000-0000-4000-8000-000000000032', v_group,
-         'Y1', 'qollash', 3, 'T041 B' || n, 'published',
-         'T041:B' || n, '60000000-0000-4000-8000-000000000020'
+  select v_subject, '60000000-0000-4000-8000-000000000032'::uuid, v_group,
+         'Y1'::public.question_format, 'qollash'::public.cognitive_level, 3, 'T041 B' || n, 'published'::public.content_status,
+         'T041:B' || n, '60000000-0000-4000-8000-000000000020'::uuid
   from generate_series(1,3) n
   union all
-  select v_subject, '60000000-0000-4000-8000-000000000033', v_group,
-         'Y1', 'qollash', 3, 'T041 C' || n, 'published',
-         'T041:C' || n, '60000000-0000-4000-8000-000000000020'
+  select v_subject, '60000000-0000-4000-8000-000000000033'::uuid, v_group,
+         'Y1'::public.question_format, 'qollash'::public.cognitive_level, 3, 'T041 C' || n, 'published'::public.content_status,
+         'T041:C' || n, '60000000-0000-4000-8000-000000000020'::uuid
   from generate_series(1,5) n;
 
   insert into public.question_keys (question_id, payload, explanation_md)
@@ -80,9 +80,9 @@ begin
 
   insert into public.exam_items
     (exam_id, question_id, construct_id, order_idx)
-  select '62000000-0000-4000-8000-000000000001',
+  select '62000000-0000-4000-8000-000000000001'::uuid,
          q.id, q.construct_id,
-         row_number() over (order by q.stem_md)
+         row_number() over (order by q.stem_md)::int
   from public.questions q
   where q.stem_md in ('T041 A3', 'T041 A4');
 end
