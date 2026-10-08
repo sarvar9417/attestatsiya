@@ -12,7 +12,22 @@
 
 import { sessionStore, emitSessionExpired } from '../features/auth/sessionStore'
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001'
+export function resolveApiBaseUrl(
+  explicitBaseUrl: string | undefined,
+  isProduction: boolean
+): string {
+  const explicit = explicitBaseUrl?.trim()
+  if (explicit) return explicit.replace(/\/$/, '')
+
+  // Production'da frontend va backend bir xil Vercel origin ichida.
+  // Lokal development'da Fastify 3001 portda alohida ishlaydi.
+  return isProduction ? '' : 'http://localhost:3001'
+}
+
+export const API_BASE_URL = resolveApiBaseUrl(
+  import.meta.env.VITE_API_BASE_URL,
+  import.meta.env.PROD
+)
 
 /**
  * So'rov uchun maksimal kutish vaqti (ms). Backend javob bermasa yoki
@@ -71,7 +86,7 @@ async function tryRefreshSession(): Promise<{ outcome: RefreshOutcome; token: st
   }
 
   try {
-    const response = await fetchWithTimeout(`${BASE_URL}/api/auth/refresh`, {
+    const response = await fetchWithTimeout(`${API_BASE_URL}/api/auth/refresh`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ refresh_token: session.refresh_token }),
@@ -135,7 +150,7 @@ async function doRequest(
     headers['Authorization'] = `Bearer ${token}`
   }
 
-  return fetchWithTimeout(`${BASE_URL}${path}`, {
+  return fetchWithTimeout(`${API_BASE_URL}${path}`, {
     method,
     headers,
     body: body ? JSON.stringify(body) : undefined,

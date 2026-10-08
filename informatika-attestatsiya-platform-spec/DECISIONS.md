@@ -142,10 +142,29 @@ Har yangi muhim qaror `ADR-###` bilan qo‘shiladi. Eski qaror o‘chirilmaydi; 
 - Sabab: frontend-backend API kontraktlari, testlar, task handofflari va AI coder
   ishlari bitta commit/PR chegarasida tekshirilishi kerak; alohida backend repo
   status drift va deploy/source tafovutini keltirib chiqardi.
-- Deploy: frontend va backend Vercelda alohida project bo‘lib qolishi mumkin;
-  bu source repositoryni ajratishni talab qilmaydi. Backend Vercel project
-  `backend/` rootDirectory bilan deploy qilinadi.
+- Deploy: **SUPERSEDED — ADR-020**. Source bir repo bo‘lishi bilan birga
+  production deploy ham bitta Vercel project/origin bo‘lishi kerak.
 - Migratsiya: eski `sarvar9417/attestatsiya-backend` repository yangi ishlar uchun
   source-of-truth emas; cutover tekshirilib bo‘lgunga qadar rollback/deploy fallback.
 - Xavfsizlik: service-role secret faqat backend environmentda qoladi va browser
   frontend bundle'iga kiritilmaydi.
+
+
+## ADR-020 — Bitta Vercel application
+
+- Holat: `ACCEPTED`
+- Qaror: React/Vite frontend va Fastify backend productionda bitta
+  `attestatsiya` Vercel projectidan deploy qilinadi.
+- Routing: frontend `/` va SPA route'larda; server API `/api/*` same-origin.
+  Root `api/[...all].ts` Fastify `backend/src/app.ts`ni serverless entry qiladi.
+- Sabab: loyiha talabi bitta project; alohida frontend/backend Vercel projectlari
+  deploy drift, CORS/base-URL konfiguratsiyasi va operatsion murakkablik yaratadi.
+- Lokal development: Vite 3000 va Fastify 3001 portlarda alohida ishlashi mumkin;
+  bu production arxitekturasini ikki projectga ajratmaydi.
+- Secret boundary: `SUPABASE_SERVICE_KEY` faqat Vercel server runtime env’da.
+  Frontend bundle faqat publishable/anon credentiallarni oladi.
+- Migratsiya: yagona projectdagi `/api/health`, auth, exam, progress va content
+  smoke testlari yashil bo‘lgandan keyin eski `attestatsiya-backend` Vercel
+  project pause qilinadi.
+- Supersedes: ADR-019'ning “frontend/backend alohida Vercel project bo‘lishi mumkin”
+  degan deploy qismi.

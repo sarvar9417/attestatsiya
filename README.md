@@ -5,9 +5,9 @@ manbasi tekshiriladigan, server-authoritative va mobilga mos o‘quv platformasi
 
 ## Joriy holat
 
-Loyiha faol development bosqichida. Frontend va Fastify backend bitta Git monorepoda,
-Supabase/PostgreSQL esa server-authoritative ma’lumot va baholash qatlamini beradi.
-Frontend va backend production deploylari mavjud.
+Loyiha faol development bosqichida. Frontend va Fastify backend bitta Git monorepoda
+va **bitta Vercel project/origin** ichida deploy qilinadi. Supabase/PostgreSQL esa
+server-authoritative ma’lumot va baholash qatlamini beradi.
 
 ## O‘zgarmas mahsulot qoidalari
 
@@ -27,14 +27,16 @@ Repository endi **bitta monorepo** sifatida boshqariladi:
 ```text
 attestatsiya/
 ├── src/          # React + Vite frontend
-├── backend/      # Fastify API + Vercel serverless entry
+├── api/          # yagona Vercel /api/* serverless entry
+├── backend/      # Fastify route/service/schema source
 ├── supabase/     # migratsiyalar, seed va DB testlar
 ├── scripts/
 └── docs/spec fayllari
 ```
 
 - Frontend: React 18 + Vite + TypeScript strict.
-- Backend: Fastify + TypeScript, `backend/` ichida.
+- Backend: Fastify + TypeScript, `backend/` ichida; Vercel entry root `api/`da.
+- Production: bitta `attestatsiya` Vercel project; frontend `/`, backend `/api/*`.
 - Supabase Auth, PostgreSQL, Storage va RLS.
 - Yozuv, scoring, exam timer va mastery uchun tekshirilgan RPC/Edge Function
   server chegarasi.
@@ -95,8 +97,10 @@ npm run test:e2e
 npm run check:backend
 ```
 
-Root `.env` ichida faqat browser uchun mo‘ljallangan Supabase URL va anon key
-saqlanadi. `backend/.env` server credentiallari uchun va Git’dan chiqarilgan.
+Root `.env` browser uchun Supabase URL/anon key va lokal `VITE_API_BASE_URL`ni
+saqlaydi. `backend/.env` lokal server credentiallari uchun va Git’dan chiqarilgan.
+Productionda frontend `/api/*`ga same-origin murojaat qiladi; `SUPABASE_SERVICE_KEY`
+faqat Vercel server runtime env’da bo‘ladi va client bundle’ga kiritilmaydi.
 DB paroli, personal access token va service-role key repository fayllarida
 saqlanmaydi.
 

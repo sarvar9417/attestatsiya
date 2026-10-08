@@ -1353,8 +1353,7 @@ Parallel keyingi ish: mastery/SRS/adaptive foundation remote schema activationda
 - **Read model:** authenticated `GET /api/progress/mastery` answer key yoki
   full question matnini qaytarmasdan construct status, accuracy, SRS stage va
   cognitive countersni beradi.
-- **Remote:** bu task remote Supabase'ga apply qilmaydi; migration avval fresh DB
-  CI'da isbotlanadi. T-033/T-025 remote permission blockeri bilan parallel.
+- **Remote:** mastery/SRS migration production `plyqezulrfowyblsfpzy` Supabase’ga apply qilindi va remote schema audit bilan tasdiqlandi.
 
 
 ### T-034 Handoff
@@ -1368,7 +1367,7 @@ Frontend: progressGateway.getMastery()
 Security: evidence learner uchun read-only; first-answer idempotency duplicate evidence yaratmaydi
 CI: GitHub Actions #655 — quality + backend + database SUCCESS
 Merge: PR #57, main commit bc2fca87b9600c18293f87a647054486263f813c
-Remote apply: YO'Q; plyqezulrfowyblsfpzy Supabase connector accessi hali yo'q
+Remote apply: HA; production schema audit yashil
 Keyingi non-blocked task: adaptive selector + readiness/next-action service
 ```
 
@@ -1407,6 +1406,39 @@ Frontend: progressGateway.getReadiness(), DashboardPage evidence-based readiness
 Heuristic: confidence only; official attestatsiya score/guarantee emas
 CI: GitHub Actions #678 — quality + backend + database SUCCESS
 Merge: PR #59, main commit ef84655a3b8f1cc755733173d636b60ffdd8739c
-Remote activation dependency: T-034 mastery schema productionda apply qilinmaguncha endpoint available=false qaytaradi
+Remote activation dependency: RESOLVED — T-034 mastery schema productionda mavjud
 Keyingi non-blocked task: adaptive practice selector (weak + due + new) va revision-repeat himoyasi
 ```
+
+
+## Production Supabase reconciliation (T-037, 2026-10-08)
+
+- `plyqezulrfowyblsfpzy` project remote auditda healthy.
+- Productionga atomik apply qilindi:
+  `20261007000018_question_keys_staff_only`,
+  `20261007052732_parametric_generated_questions`,
+  `20261007131000_onboarding_profile`,
+  `20261007184500_mastery_srs_foundation`.
+- Verifikatsiya: generated questions = 270; onboarding profile mavjud;
+  mastery status + `mastery_evidence` mavjud; learner-readable eski
+  `question_keys_readable` policy yo‘q.
+- Production backend health audit: database healthy.
+- Remote tarixda oldindan mavjud `20260801000018 exam_batch_finish` migrationi
+  tegilmay saqlandi; source reconciliation alohida task.
+
+
+## Single Vercel application (T-038, 2026-10-08)
+
+- **Talab:** Git monorepo kabi production deploy ham bitta project bo‘lishi shart.
+- **Target:** mavjud `attestatsiya` Vercel project.
+  Frontend `/`, Fastify backend `/api/*`.
+- **Entry:** root `api/[...all].ts` → `backend/src/app.ts`.
+- **Frontend API:** productionda `VITE_API_BASE_URL`siz same-origin `/api/*`;
+  lokal developmentda default `http://localhost:3001`.
+- **Build:** root Vercel install frontend va `backend/` dependenciesni o‘rnatadi;
+  Vite output `dist/`, API serverless function shu projectda build qilinadi.
+- **Secret boundary:** `SUPABASE_SERVICE_KEY` yagona Vercel projectda faqat
+  server runtime env; client bundle VITE-prefixed secret olmaydi.
+- **Cutover safety:** unified preview/prod `/api/health` + auth/error boundary +
+  frontend smoke yashil bo‘lmaguncha eski `attestatsiya-backend` project
+  rollback sifatida saqlanadi.
