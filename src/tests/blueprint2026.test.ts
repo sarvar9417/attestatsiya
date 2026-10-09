@@ -215,18 +215,18 @@ describe('given_generatorlar_when_royxatlanadi_then_9_konstrukt', () => {
   })
 })
 
-describe('given_B001_blokeri_when_manbasiz_guruhlar_when_then_KS_va_PM', () => {
+describe('given_B001_blokeri_when_manbasiz_guruhlar_when_then_PM', () => {
   it("manbasi yo'q guruhlar aniq belgilangan", () => {
-    expect([...SOURCE_BLOCKED_GROUPS].sort()).toEqual(['KS', 'PM.GEN', 'PM.MET'])
+    expect([...SOURCE_BLOCKED_GROUPS].sort()).toEqual(['PM.GEN', 'PM.MET'])
   })
 
-  it("bloklangan guruhlar imtihonning 15 savolini (30%) tashkil qiladi", () => {
+  it("bloklangan guruhlar imtihonning 10 savolini (20%) tashkil qiladi", () => {
     const blocked = BLUEPRINT_GROUPS.filter((g) =>
       (SOURCE_BLOCKED_GROUPS as readonly string[]).includes(g.code),
     )
     const count = blocked.reduce((s, g) => s + g.questionCount, 0)
-    expect(count).toBe(15)
-    expect(count / EXAM_RULES.totalQuestions).toBeCloseTo(0.3, 5)
+    expect(count).toBe(10)
+    expect(count / EXAM_RULES.totalQuestions).toBeCloseTo(0.2, 5)
   })
 
   it('mutaxassislik fani bloklanmagan (35 savol ishlaydi)', () => {
