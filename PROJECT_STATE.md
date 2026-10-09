@@ -1,3 +1,13 @@
+## A4 source-backed programming lessons (TASK-054, 2026-10-09)
+
+- **Holat:** IN_PROGRESS — migration va regressiya branchda tayyor.
+- **Branch:** `task/TASK-054-a4-programming-lessons`.
+- **Qamrov:** M07 Scratch/LOGO (5), M08 Python/JavaScript (5) — jami 10 ta published dars.
+- **Constructlar:** S4.BLOCK.01–05 va S4.CODE.01–05.
+- **Manbalar:** Cambridge+ 8-sinf Scratch; Cambridge+ 9-sinf Toshbaqa grafika; ICT 9-sinf (2020) Python; Cambridge+ 10–11-sinf 19-bob JavaScript.
+- **QA:** 10/10 lesson, exact one-to-one construct mapping, source-trace/body invariant.
+- **Production:** PR merge’dan keyin production Supabase access mavjud bo‘lganda apply qilinadi.
+
 ## A3 source-backed logic, numeral systems and algorithms (TASK-053, 2026-10-09)
 
 - **Holat:** DONE — PR #79 CI backend/database/quality yashil; production migration access tiklanganda apply qilinadi.
