@@ -1,3 +1,14 @@
+## M15 source-backed pedagogy lessons (TASK-050, 2026-10-09)
+
+- **Holat:** IN_PROGRESS.
+- **Branch:** `task/TASK-050-m15-umumiy-pedagogika-lessons`.
+- **Qamrov:** PM.GEN.01–PM.GEN.08 uchun 8 ta published dars.
+- **Manbalar:** Mavlonova va boshq. — “Umumiy pedagogika” (2018); Tolipov, Ro‘ziyeva — “Pedagogik texnologiyalar va pedagogik mahorat” (2019); 2026 attestatsiya spetsifikatsiyasi.
+- **Mapping:** pedagogika/didaktika → tamoyillar → tarbiya → dars/sinf boshqaruvi → sinf rahbari → etika/nutq/texnika/takt → qobiliyatlar → ta’lim texnologiyalari.
+- **Gap:** PM.GEN yopilgach `SOURCE_BLOCKED_GROUPS` bo‘sh; KS, PM.GEN va PM.MET source-backed kontent bilan qamrab olingan.
+- **QA:** DB regressiya 8/8 published lesson, 8/8 construct link, one-to-one mapping va source trace invariantlarini tekshiradi.
+- **Production:** migration merge bo‘lgach production Supabase write access tiklanganda apply qilinadi.
+
 ## M16 source-backed methodology lessons (TASK-049, 2026-10-09)
 
 - **Holat:** DONE — PR #74, CI #930 yashil.
