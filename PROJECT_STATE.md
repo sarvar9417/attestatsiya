@@ -1,6 +1,6 @@
 ## M15 source-backed pedagogy lessons (TASK-050, 2026-10-09)
 
-- **Holat:** IN_PROGRESS.
+- **Holat:** DONE — PR #76, CI #957 yashil.
 - **Branch:** `task/TASK-050-m15-umumiy-pedagogika-lessons`.
 - **Qamrov:** PM.GEN.01–PM.GEN.08 uchun 8 ta published dars.
 - **Manbalar:** Mavlonova va boshq. — “Umumiy pedagogika” (2018); Tolipov, Ro‘ziyeva — “Pedagogik texnologiyalar va pedagogik mahorat” (2019); 2026 attestatsiya spetsifikatsiyasi.
