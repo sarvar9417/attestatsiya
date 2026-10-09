@@ -1,6 +1,6 @@
 ## M03 source-backed Microsoft Office lessons (TASK-052, 2026-10-09)
 
-- **Holat:** IN_PROGRESS — migration va regressiya testi branchda tayyor.
+- **Holat:** DONE — PR #78 CI backend/database/quality yashil; Vercel preview build-rate-limit sabab preview yaratilmagan.
 - **Branch:** `task/TASK-052-m03-office-lessons`.
 - **Qamrov:** S2.OFFICE.01–S2.OFFICE.04 uchun 4 ta published dars.
 - **Manbalar:** ICT 5-sinf (2020) MS Word; Cambridge+ 10–11-sinf 8-bob elektron jadvallar; ICT 6-sinf (2021) PowerPoint.
