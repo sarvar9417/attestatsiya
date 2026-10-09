@@ -1,6 +1,6 @@
 ## M09 source-backed database lessons (TASK-047, 2026-10-09)
 
-- **Holat:** IN_PROGRESS.
+- **Holat:** DONE — PR #72, CI #899 yashil.
 - **Branch:** `task/TASK-047-m09-database-lessons`.
 - **Qamrov:** S4.DB.01–S4.DB.05 uchun 5 ta published dars.
 - **Manbalar:** ICT 11-sinf (2021) ma’lumotlar bazasi darslari va Cambridge+ 10–11-sinf 9-bob; dars matni manbalarni ko‘chirmasdan sintez qilingan, har darsda PDF source trace bor.
