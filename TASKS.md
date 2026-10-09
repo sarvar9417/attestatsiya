@@ -93,6 +93,7 @@
 | TASK-050 | DONE | TASK-049 | M15 umumiy pedagogika uchun PM.GEN.01–08 source-backed darslar, source trace, final source-gap closure va DB regressiya |
 | TASK-051 | DONE | TASK-050 | M02 kompyuter tizimlari uchun S2.HW.01–04 source-backed darslar, source trace va DB regressiya |
 | TASK-052 | DONE | TASK-051 | M03 Microsoft Office uchun S2.OFFICE.01–04 source-backed darslar, source trace va DB regressiya |
+| TASK-053 | IN_PROGRESS | TASK-052 | A3: M04/M05/M06 uchun S3.LOGIC, S3.NUM va S3.ALGO source-backed darslar va DB regressiya |
 
 ## UI modernizatsiya — Figma approved design
 
