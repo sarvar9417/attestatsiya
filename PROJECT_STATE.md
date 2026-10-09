@@ -1,3 +1,14 @@
+## M16 source-backed methodology lessons (TASK-049, 2026-10-09)
+
+- **Holat:** DONE — PR #74, CI #934 yashil.
+- **Branch:** `task/TASK-049-m16-informatika-metodikasi-lessons`.
+- **Qamrov:** PM.MET.01–PM.MET.03 uchun 3 ta published dars.
+- **Manba:** Mamarajabov, Toshtemirov, Yuldashev — “Informatika o‘qitish metodikasi” (2023), rasmiy attestatsiya adabiyoti.
+- **Mapping:** metodik tizim → PM.MET.01; metod/usul farqlash → PM.MET.02; dars va pedagogik qarorni dalil asosida tahlil qilish → PM.MET.03.
+- **Gap:** PM.MET source blocker yopildi; endi faqat PM.GEN source-backed kontenti qoladi.
+- **QA:** DB regressiya 3/3 published lesson, 3/3 construct link, one-to-one mapping va source trace invariantlarini tekshiradi.
+- **Production:** migration merge bo‘lgach production Supabase write access tiklanganda apply qilinadi.
+
 ## M14 professional-standard lessons (TASK-048, 2026-10-09)
 
 - **Holat:** DONE — PR #73, CI #916 yashil.

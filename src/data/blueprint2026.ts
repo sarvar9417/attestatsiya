@@ -231,7 +231,7 @@ export const CONSTRUCTS: readonly Construct[] = [
 ] as const
 
 /** Manbasi hali source-backed kontentga aylantirilmagan guruhlar (B-001). KS rasmiy kasb standarti TASK-048 bilan yopildi. */
-export const SOURCE_BLOCKED_GROUPS = ['PM.GEN', 'PM.MET'] as const
+export const SOURCE_BLOCKED_GROUPS = ['PM.GEN'] as const
 
 /**
  * TEXNOLOGIYA MARKERLARI — guruhga xos, boshqa mavzuda uchramaydigan atamalar.

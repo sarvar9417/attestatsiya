@@ -8,7 +8,7 @@ This registry records the authoritative or recommended sources used to close con
 | PM.GEN | Mavlonova R.A. va boshq., *Umumiy pedagogika*, 2018, 528 b. | VERIFIED_REMOTE / CONTENT_PENDING | https://pedmasterycenter.uz/uploads/files/35d42f75-fff8-47ac-92d3-f0a0f9bd9d6f.pdf |
 | PM.GEN | O‘. Tolipov, D. Ro‘ziyeva, *Pedagogik texnologiyalar va pedagogik mahorat*, 2019, 276 b. | VERIFIED_REMOTE / CONTENT_PENDING | https://pedmasterycenter.uz/uploads/files/03ff4260-7061-49e2-a5d4-9f6ee74eebe7.pdf |
 | PM.GEN | A. Xoliqov, *Pedagogik mahorat* | RECOMMENDED_OFFICIAL / EDITION_REVIEW | https://pedmasterycenter.uz/adabiyotlar |
-| PM.MET | M.E. Mamarajabov, D.E. Toshtemirov, O‘.A. Yuldashev, *Informatika o‘qitish metodikasi*, 2023, 460 b. | VERIFIED_REMOTE / CONTENT_PENDING | https://pedmasterycenter.uz/uploads/files/0896d872-7672-4387-8ca0-b671b0f98b5d.pdf |
+| PM.MET | M.E. Mamarajabov, D.E. Toshtemirov, O‘.A. Yuldashev, *Informatika o‘qitish metodikasi*, 2023, 460 b. | VERIFIED_REMOTE / SOURCE_BACKED | https://pedmasterycenter.uz/uploads/files/0896d872-7672-4387-8ca0-b671b0f98b5d.pdf |
 
 ## Status meanings
 
