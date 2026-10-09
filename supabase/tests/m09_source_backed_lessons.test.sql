@@ -46,19 +46,22 @@ begin
   end if;
 
   select count(*) into v_bad
-  from public.lessons l
-  left join public.lesson_constructs lc on lc.lesson_id = l.id
-  left join public.constructs c on c.id = lc.construct_id
-  where l.module_id = v_module
-    and l.slug in (
-      'malumotlar-bazasi-va-mbbt-asoslari',
-      'access-jadval-va-malumot-kiritish',
-      'kalitlar-va-jadvallarni-boglash',
-      'sorovlar-yaratish',
-      'murakkab-sorovlar-va-natijani-tahlil-qilish'
-    )
-  group by l.id
-  having count(c.id) <> 1;
+  from (
+    select l.id
+    from public.lessons l
+    left join public.lesson_constructs lc on lc.lesson_id = l.id
+    left join public.constructs c on c.id = lc.construct_id
+    where l.module_id = v_module
+      and l.slug in (
+        'malumotlar-bazasi-va-mbbt-asoslari',
+        'access-jadval-va-malumot-kiritish',
+        'kalitlar-va-jadvallarni-boglash',
+        'sorovlar-yaratish',
+        'murakkab-sorovlar-va-natijani-tahlil-qilish'
+      )
+    group by l.id
+    having count(c.id) <> 1
+  ) bad_links;
 
   if v_bad <> 0 then
     raise exception 'M09 each new lesson must map to exactly one construct';
