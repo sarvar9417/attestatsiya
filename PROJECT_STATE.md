@@ -1,3 +1,13 @@
+## M02 source-backed hardware/software lessons (TASK-051, 2026-10-09)
+
+- **Holat:** DONE — PR #77, CI #968 backend/database/quality yashil.
+- **Branch:** `task/TASK-051-m02-hardware-lessons`.
+- **Qamrov:** S2.HW.01–S2.HW.04 uchun 4 ta published dars.
+- **Manbalar:** ICT 5-sinf (2020) kompyuter tuzilishi, boshqaruvchi dasturlar va fayl/papka mavzulari; ICT 10-sinf (2021) operatsion tizimlar, fayl tizimi va xizmat dasturlari; Cambridge+ 10–11-sinf 2-bob.
+- **Mapping:** apparat qurilmalari → S2.HW.01; OT → S2.HW.02; fayl/papka → S2.HW.03; tizimli/amaliy/xizmat dasturlari → S2.HW.04.
+- **QA:** regressiya 4/4 published lesson, 4/4 construct link, one-to-one mapping va source-trace invariantlarini tekshiradi.
+- **Production:** migration PR merge’dan keyin production Supabase access tiklanganda apply qilinadi.
+
 ## M15 source-backed pedagogy lessons (TASK-050, 2026-10-09)
 
 - **Holat:** DONE — PR #76, CI #957 yashil.
