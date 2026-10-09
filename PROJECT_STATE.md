@@ -1,6 +1,6 @@
 ## M14 professional-standard lessons (TASK-048, 2026-10-09)
 
-- **Holat:** IN_PROGRESS.
+- **Holat:** DONE — PR #73, CI #916 yashil.
 - **Branch:** `task/TASK-048-m14-kasb-standarti-lessons`.
 - **Qamrov:** KS.01–KS.07 uchun 7 ta published dars.
 - **Rasmiy manba:** Pedagogik mahorat va xalqaro baholash ilmiy-amaliy markazidagi “Umumiy o‘rta ta’lim maktab o‘qituvchisi” kasb standarti (17 sahifa).
