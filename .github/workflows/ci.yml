@@ -196,7 +196,8 @@ jobs:
             -f supabase/tests/official_mock_50.test.sql \
             -f supabase/tests/m09_source_backed_lessons.test.sql \
             -f supabase/tests/m14_kasb_standarti_lessons.test.sql \
-            -f supabase/tests/m16_informatika_metodikasi_lessons.test.sql
+            -f supabase/tests/m16_informatika_metodikasi_lessons.test.sql \
+            -f supabase/tests/m15_umumiy_pedagogika_lessons.test.sql
 
       - name: Generate and verify parametric DB pool
         run: |
