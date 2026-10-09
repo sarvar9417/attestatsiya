@@ -1,3 +1,13 @@
+## M09 source-backed database lessons (TASK-047, 2026-10-09)
+
+- **Holat:** DONE — PR #72, CI #899 yashil.
+- **Branch:** `task/TASK-047-m09-database-lessons`.
+- **Qamrov:** S4.DB.01–S4.DB.05 uchun 5 ta published dars.
+- **Manbalar:** ICT 11-sinf (2021) ma’lumotlar bazasi darslari va Cambridge+ 10–11-sinf 9-bob; dars matni manbalarni ko‘chirmasdan sintez qilingan, har darsda PDF source trace bor.
+- **Mapping:** har dars aynan bitta active S4.DB konstruktga bog‘lanadi.
+- **QA:** database regressiya 5/5 published lesson, 5/5 construct link va source-trace invariantlarini tekshiradi.
+- **Production:** migration merge bo‘lgach Supabase production access tiklanganda apply qilinishi kerak.
+
 ## Private 570-item professional bank validation (TASK-046, 2026-10-08)
 
 - **Holat:** DONE — local 570/570 extraction+validation passed; PR #71 CI #887 yashil.

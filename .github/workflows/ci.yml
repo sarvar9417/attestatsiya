@@ -193,7 +193,8 @@ jobs:
             -f supabase/tests/adaptive_practice_selector.test.sql \
             -f supabase/tests/m01_professional_bank_import.test.sql \
             -f supabase/tests/section_mock_50.test.sql \
-            -f supabase/tests/official_mock_50.test.sql
+            -f supabase/tests/official_mock_50.test.sql \
+            -f supabase/tests/m09_source_backed_lessons.test.sql
 
       - name: Generate and verify parametric DB pool
         run: |
