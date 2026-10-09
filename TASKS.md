@@ -87,6 +87,7 @@
 | T-042 | DONE | T-038 | Single-Vercel cleanup: standalone backend Vercel config olib tashlandi, root `/api/*` entry CI typecheck bilan himoyalandi, production same-origin API regressiya testi qo‘shildi, backend README/project state bitta origin bilan reconcile qilindi; CI #792 yashil |\n| TASK-043 | DONE | T-041, T-042 | Xususiy M01 professional bank import/audit: 570 savolni public Gitga answer key sizdirmasdan admin-only batch import qilish, REVIEW staging, objective/source metadata, idempotency va audit log |\n| TASK-044 | DONE | TASK-043 | M01 50-savollik section mock: topic/critical objective coverage, deterministic feasibility, unseen preference, 45/50 + critical floor, audited assembly metadata |
 | TASK-045 | DONE | TASK-044 | Rasmiy 2026 full mock: 50 savol, 120 daqiqa, active blueprint bo‘yicha exact group×cognitive kvota, preflight feasibility, unseen preference, audit metadata |
 | TASK-046 | DONE | TASK-045 | Xususiy 570 savollik professional bank payloadini strukturaviy validatsiya, taksonomiya tekshiruvi, formula-risk auditi va xavfsiz importga tayyorlash |
+| TASK-047 | IN_PROGRESS | TASK-046 | M09 ma’lumotlar bazasi bo‘limi uchun 5 ta active S4.DB konstruktni qamrab oluvchi source-backed darslar, source trace va DB regressiya testi |
 
 ## UI modernizatsiya — Figma approved design
 
