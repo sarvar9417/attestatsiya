@@ -1,3 +1,13 @@
+## M03 source-backed Microsoft Office lessons (TASK-052, 2026-10-09)
+
+- **Holat:** DONE — PR #78 CI backend/database/quality yashil; Vercel preview build-rate-limit sabab preview yaratilmagan.
+- **Branch:** `task/TASK-052-m03-office-lessons`.
+- **Qamrov:** S2.OFFICE.01–S2.OFFICE.04 uchun 4 ta published dars.
+- **Manbalar:** ICT 5-sinf (2020) MS Word; Cambridge+ 10–11-sinf 8-bob elektron jadvallar; ICT 6-sinf (2021) PowerPoint.
+- **Mapping:** Word → S2.OFFICE.01; Excel formula/funksiya → S2.OFFICE.02; Excel filter/sort/chart → S2.OFFICE.03; PowerPoint → S2.OFFICE.04.
+- **QA:** 4/4 lesson, 4/4 construct link, one-to-one va source-trace invariantlari.
+- **Production:** PR merge’dan keyin production Supabase access mavjud bo‘lganda apply qilinadi.
+
 ## M02 source-backed hardware/software lessons (TASK-051, 2026-10-09)
 
 - **Holat:** DONE — PR #77, CI #968 backend/database/quality yashil.
