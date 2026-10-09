@@ -1,6 +1,6 @@
 ## M16 source-backed methodology lessons (TASK-049, 2026-10-09)
 
-- **Holat:** IN_PROGRESS.
+- **Holat:** DONE — PR #74, CI #930 yashil.
 - **Branch:** `task/TASK-049-m16-informatika-metodikasi-lessons`.
 - **Qamrov:** PM.MET.01–PM.MET.03 uchun 3 ta published dars.
 - **Manba:** Mamarajabov, Toshtemirov, Yuldashev — “Informatika o‘qitish metodikasi” (2023), rasmiy attestatsiya adabiyoti.
