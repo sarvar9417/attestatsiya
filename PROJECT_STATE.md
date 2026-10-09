@@ -1,3 +1,13 @@
+## A3 source-backed logic, numeral systems and algorithms (TASK-053, 2026-10-09)
+
+- **Holat:** DONE — PR #79 CI backend/database/quality yashil; production migration access tiklanganda apply qilinadi.
+- **Branch:** `task/TASK-053-a3-logic-num-algo-lessons`.
+- **Qamrov:** M04 (4), M05 (3), M06 (4) — jami 11 ta published dars.
+- **Constructlar:** S3.LOGIC.01–04, S3.NUM.01–03, S3.ALGO.01–04.
+- **Manbalar:** ICT 9-sinf (2020) mantiq, modellashtirish va algoritmlash; ICT 7-sinf (2021) sanoq sistemalari; Axborot va axborot jarayonlari qo‘llanmasi 6-bob.
+- **QA:** 11/11 lesson, one-to-one construct mapping, source-trace/body invariant.
+- **Production:** PR merge’dan keyin production Supabase access mavjud bo‘lganda apply qilinadi.
+
 ## M03 source-backed Microsoft Office lessons (TASK-052, 2026-10-09)
 
 - **Holat:** DONE — PR #78 CI backend/database/quality yashil; Vercel preview build-rate-limit sabab preview yaratilmagan.
