@@ -90,6 +90,7 @@
 | TASK-047 | DONE | TASK-046 | M09 ma’lumotlar bazasi bo‘limi uchun 5 ta active S4.DB konstruktni qamrab oluvchi source-backed darslar, source trace va DB regressiya testi |
 | TASK-048 | DONE | TASK-047 | M14 kasb standarti uchun 7 ta KS konstruktga source-backed darslar, rasmiy source registry va DB regressiya |
 | TASK-049 | DONE | TASK-048 | M16 informatika o‘qitish metodikasi uchun PM.MET.01–03 source-backed darslar, source trace va DB regressiya |
+| TASK-050 | IN_PROGRESS | TASK-049 | M15 umumiy pedagogika uchun PM.GEN.01–08 source-backed darslar, source trace, final source-gap closure va DB regressiya |
 
 ## UI modernizatsiya — Figma approved design
 
