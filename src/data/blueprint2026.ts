@@ -230,8 +230,8 @@ export const CONSTRUCTS: readonly Construct[] = [
   { code: 'PM.MET.03', group: 'PM.MET', title: "Ta'limiy vaziyatga oid qarorlarga baho berish", keywords: ["ta'limiy vaziyat", 'pedagogik vaziyat'] },
 ] as const
 
-/** Manbasi hali korpusda yo'q guruhlar (B-001). */
-export const SOURCE_BLOCKED_GROUPS = ['KS', 'PM.GEN', 'PM.MET'] as const
+/** Manbasi hali source-backed kontentga aylantirilmagan guruhlar (B-001). KS rasmiy kasb standarti TASK-048 bilan yopildi. */
+export const SOURCE_BLOCKED_GROUPS = ['PM.GEN', 'PM.MET'] as const
 
 /**
  * TEXNOLOGIYA MARKERLARI — guruhga xos, boshqa mavzuda uchramaydigan atamalar.
