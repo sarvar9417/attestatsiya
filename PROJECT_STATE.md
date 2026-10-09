@@ -1,3 +1,15 @@
+## M14 professional-standard lessons (TASK-048, 2026-10-09)
+
+- **Holat:** IN_PROGRESS.
+- **Branch:** `task/TASK-048-m14-kasb-standarti-lessons`.
+- **Qamrov:** KS.01–KS.07 uchun 7 ta published dars.
+- **Rasmiy manba:** Pedagogik mahorat va xalqaro baholash ilmiy-amaliy markazidagi “Umumiy o‘rta ta’lim maktab o‘qituvchisi” kasb standarti (17 sahifa).
+- **Mapping:** A/01.6–A/05.6, B/01.6–B/02.6 vazifalari platformadagi KS.01–KS.07 konstruktlariga birma-bir bog‘landi.
+- **Provenance:** `docs/ATTESTATION_SOURCE_REGISTRY.md` qo‘shildi; to‘liq copyrighted PDF repoga kiritilmaydi.
+- **Gap:** KS source blocker yopildi; `SOURCE_BLOCKED_GROUPS` endi faqat PM.GEN va PM.MET.
+- **QA:** database regressiya 7/7 published lesson, 7/7 construct link, one-to-one mapping va source trace invariantlarini tekshiradi.
+- **Production:** migration merge bo‘lgach production Supabase write access tiklanganda apply qilinadi.
+
 ## M09 source-backed database lessons (TASK-047, 2026-10-09)
 
 - **Holat:** DONE — PR #72, CI #899 yashil.
