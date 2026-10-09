@@ -1,6 +1,6 @@
 ## A4 source-backed programming lessons (TASK-054, 2026-10-09)
 
-- **Holat:** IN_PROGRESS — migration va regressiya branchda tayyor.
+- **Holat:** DONE — PR #80 CI backend/database/quality yashil; production migration access tiklanganda apply qilinadi.
 - **Branch:** `task/TASK-054-a4-programming-lessons`.
 - **Qamrov:** M07 Scratch/LOGO (5), M08 Python/JavaScript (5) — jami 10 ta published dars.
 - **Constructlar:** S4.BLOCK.01–05 va S4.CODE.01–05.
