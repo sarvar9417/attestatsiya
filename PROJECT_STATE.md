@@ -1,6 +1,6 @@
 ## A3 source-backed logic, numeral systems and algorithms (TASK-053, 2026-10-09)
 
-- **Holat:** IN_PROGRESS — migration va regressiya branchda tayyor.
+- **Holat:** DONE — PR #79 CI backend/database/quality yashil; production migration access tiklanganda apply qilinadi.
 - **Branch:** `task/TASK-053-a3-logic-num-algo-lessons`.
 - **Qamrov:** M04 (4), M05 (3), M06 (4) — jami 11 ta published dars.
 - **Constructlar:** S3.LOGIC.01–04, S3.NUM.01–03, S3.ALGO.01–04.
