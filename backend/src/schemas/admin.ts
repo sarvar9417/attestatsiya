@@ -155,6 +155,36 @@ export const questionCoverageIssueSchema = z.object({
 
 export type QuestionCoverageIssue = z.infer<typeof questionCoverageIssueSchema>
 
+export const assemblyCognitiveCountsSchema = z.object({
+  bilish: z.number().int().nonnegative(),
+  qollash: z.number().int().nonnegative(),
+  mulohaza: z.number().int().nonnegative(),
+})
+
+export const assemblyReadinessGroupSchema = z.object({
+  group_code: z.string(),
+  order_idx: z.number().int(),
+  required_total: z.number().int().nonnegative(),
+  required: assemblyCognitiveCountsSchema,
+  available: assemblyCognitiveCountsSchema,
+  deficits: assemblyCognitiveCountsSchema,
+  release_minimum: assemblyCognitiveCountsSchema,
+  release_deficits: assemblyCognitiveCountsSchema,
+  exact_feasible: z.boolean(),
+  release_ready: z.boolean(),
+})
+
+export const assemblyReadinessSchema = z.object({
+  blueprint_id: z.string().uuid(),
+  blueprint_version: z.number().int(),
+  target_count: z.number().int().positive(),
+  eligible_pool_count: z.number().int().nonnegative(),
+  exact_quota_feasible: z.boolean(),
+  release_ready: z.boolean(),
+  release_target_candidates_per_slot: z.number().int().positive(),
+  groups: z.array(assemblyReadinessGroupSchema),
+})
+
 export const contentCoverageResponseSchema = z.object({
   module_code: z.string().nullable(),
   generated_at: z.string(),
@@ -173,6 +203,7 @@ export const contentCoverageResponseSchema = z.object({
   }),
   constructs: z.array(constructCoverageSchema),
   question_issues: z.array(questionCoverageIssueSchema),
+  assembly_readiness: assemblyReadinessSchema.nullable(),
 })
 
 export type ContentCoverageResponse = z.infer<typeof contentCoverageResponseSchema>
