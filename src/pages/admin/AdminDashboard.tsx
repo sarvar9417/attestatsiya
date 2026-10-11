@@ -11,7 +11,7 @@ import {
   ShieldCheck,
   Users,
 } from 'lucide-react'
-import { typedSupabase } from '../../lib/supabase'
+import { getAdminDashboardStats } from '../../features/admin/adminContentApi'
 
 interface AdminStats {
   modules: number
@@ -44,32 +44,25 @@ export default function AdminDashboard() {
       setLoading(true)
       setErrorMessage(null)
 
-      const results = await Promise.all([
-        typedSupabase.from('modules').select('*', { count: 'exact', head: true }),
-        typedSupabase.from('questions').select('*', { count: 'exact', head: true }),
-        typedSupabase.from('blueprints').select('*', { count: 'exact', head: true }),
-        typedSupabase.from('profiles').select('*', { count: 'exact', head: true }),
-      ])
-
-      if (!active) return
-
-      const firstError = results.find(result => result.error)?.error
-      if (firstError) {
+      try {
+        const data = await getAdminDashboardStats()
+        if (!active) return
+        setStats({
+          modules: data.modules,
+          questions: data.questions,
+          blueprints: data.blueprints,
+          users: data.users,
+        })
+      } catch (error) {
+        if (!active) return
         setErrorMessage(
-          firstError.message || 'Admin statistikasi yuklanmadi. Qayta urinib ko‘ring.',
+          error instanceof Error
+            ? error.message
+            : 'Admin statistikasi yuklanmadi. Qayta urinib ko‘ring.',
         )
-        setLoading(false)
-        return
+      } finally {
+        if (active) setLoading(false)
       }
-
-      const [modules, questions, blueprints, users] = results
-      setStats({
-        modules: modules.count ?? 0,
-        questions: questions.count ?? 0,
-        blueprints: blueprints.count ?? 0,
-        users: users.count ?? 0,
-      })
-      setLoading(false)
     }
 
     void loadStats()
