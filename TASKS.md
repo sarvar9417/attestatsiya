@@ -101,6 +101,7 @@
 | TASK-058 | DONE | TASK-057 | Project state/TASKS reconciliation: auth va production activation blockerlarini, qolgan question-bank coverage ishini aniq qayd etish; PR #86 |
 | TASK-059 | DONE | TASK-057 | Blueprint bo‘yicha real question-pool feasibility auditi: production assembler eligibility bilan bir xil published+keyed+active taxonomy qoidalari, group × cognitive exact deficit, AC-CNT-04 release reserve va admin UI; PR #87 |
 | TASK-060 | BLOCKED | TASK-059 | M01dan tashqari constructlar uchun source-backed professional savol banklarini bosqichma-bosqich yaratish/import qilish; xususiy answer-key payload va Attestatsiya production Supabase access talab qiladi |
+| TASK-061 | DONE | TASK-057 | Yuqori amaliy og‘irlikdagi S5.WEB/S6.NET/S7.SEC darslariga worked code, IP/maska hisoblash, xavfsizlik scenario va Web-Freelance workflow qo‘shildi; 7 ta lesson uchun DB regression invariant |
 
 ## UI modernizatsiya — Figma approved design
 
