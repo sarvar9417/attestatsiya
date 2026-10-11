@@ -5,27 +5,12 @@ import { MemoryRouter } from 'react-router-dom'
 import AdminDashboard from '../pages/admin/AdminDashboard'
 
 const mocks = vi.hoisted(() => ({
-  from: vi.fn(),
+  getAdminDashboardStats: vi.fn(),
 }))
 
-vi.mock('../lib/supabase', () => ({
-  typedSupabase: {
-    from: mocks.from,
-  },
+vi.mock('../features/admin/adminContentApi', () => ({
+  getAdminDashboardStats: mocks.getAdminDashboardStats,
 }))
-
-type CountResult = {
-  count: number | null
-  error: { message: string } | null
-}
-
-function queueResults(results: CountResult[]) {
-  for (const result of results) {
-    mocks.from.mockReturnValueOnce({
-      select: vi.fn().mockResolvedValue(result),
-    })
-  }
-}
 
 function renderPage() {
   return render(
@@ -35,18 +20,19 @@ function renderPage() {
   )
 }
 
-describe('AdminDashboard Figma UI', () => {
+describe('AdminDashboard backend boundary', () => {
   beforeEach(() => {
-    mocks.from.mockReset()
+    mocks.getAdminDashboardStats.mockReset()
   })
 
-  it('Supabase count natijalarini ko‘rsatadi', async () => {
-    queueResults([
-      { count: 16, error: null },
-      { count: 3842, error: null },
-      { count: 1, error: null },
-      { count: 1248, error: null },
-    ])
+  it('backend count natijalarini ko‘rsatadi', async () => {
+    mocks.getAdminDashboardStats.mockResolvedValue({
+      role: 'admin',
+      modules: 16,
+      questions: 3842,
+      blueprints: 1,
+      users: 1248,
+    })
 
     renderPage()
 
@@ -57,43 +43,52 @@ describe('AdminDashboard Figma UI', () => {
     expect(screen.getByText('1 248')).toBeDefined()
     expect(screen.getAllByText('16').length).toBeGreaterThan(0)
     expect(screen.getAllByText('1').length).toBeGreaterThan(0)
-    expect(mocks.from).toHaveBeenCalledWith('modules')
-    expect(mocks.from).toHaveBeenCalledWith('questions')
-    expect(mocks.from).toHaveBeenCalledWith('blueprints')
-    expect(mocks.from).toHaveBeenCalledWith('profiles')
+    expect(mocks.getAdminDashboardStats).toHaveBeenCalledTimes(1)
   })
 
-  it('count so‘rovlaridan biri xato bersa alert chiqaradi', async () => {
-    queueResults([
-      { count: null, error: { message: 'Ruxsat berilmadi' } },
-      { count: 0, error: null },
-      { count: 0, error: null },
-      { count: 0, error: null },
-    ])
+  it('editor uchun private user count ko‘rsatilmaydi', async () => {
+    mocks.getAdminDashboardStats.mockResolvedValue({
+      role: 'editor',
+      modules: 16,
+      questions: 100,
+      blueprints: 1,
+      users: null,
+    })
+
+    renderPage()
+
+    await waitFor(() => {
+      expect(mocks.getAdminDashboardStats).toHaveBeenCalledTimes(1)
+    })
+    expect(screen.getAllByText('—').length).toBeGreaterThan(0)
+  })
+
+  it('backend xatosida alert chiqaradi', async () => {
+    mocks.getAdminDashboardStats.mockRejectedValue(new Error('Ruxsat berilmadi'))
 
     renderPage()
 
     expect(await screen.findByRole('alert')).toHaveTextContent('Ruxsat berilmadi')
-    expect(
-      screen.getByRole('button', { name: 'Qayta urinish' }),
-    ).toBeDefined()
+    expect(screen.getByRole('button', { name: 'Qayta urinish' })).toBeDefined()
   })
 
-  it('Yangilash tugmasi count so‘rovlarini qayta yuboradi', async () => {
+  it('Yangilash tugmasi backend count so‘rovini qayta yuboradi', async () => {
     const user = userEvent.setup()
-
-    queueResults([
-      { count: 16, error: null },
-      { count: 10, error: null },
-      { count: 1, error: null },
-      { count: 3, error: null },
-    ])
-    queueResults([
-      { count: 16, error: null },
-      { count: 11, error: null },
-      { count: 1, error: null },
-      { count: 4, error: null },
-    ])
+    mocks.getAdminDashboardStats
+      .mockResolvedValueOnce({
+        role: 'admin',
+        modules: 16,
+        questions: 10,
+        blueprints: 1,
+        users: 3,
+      })
+      .mockResolvedValueOnce({
+        role: 'admin',
+        modules: 16,
+        questions: 11,
+        blueprints: 1,
+        users: 4,
+      })
 
     renderPage()
 
@@ -107,6 +102,6 @@ describe('AdminDashboard Figma UI', () => {
       expect(screen.getAllByText('11').length).toBeGreaterThan(0)
     })
 
-    expect(mocks.from).toHaveBeenCalledTimes(8)
+    expect(mocks.getAdminDashboardStats).toHaveBeenCalledTimes(2)
   })
 })

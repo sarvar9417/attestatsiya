@@ -8,12 +8,123 @@ import {
 import { sendError, AppError } from '../lib/errors.js'
 import { contentCoverageService } from '../services/content-coverage.service.js'
 import { questionBankImportService } from '../services/question-bank-import.service.js'
+import { adminContentService } from '../services/admin-content.service.js'
+import {
+  adminQuestionsQuerySchema,
+  createAdminModuleSchema,
+  saveAdminQuestionSchema,
+  transitionAdminQuestionSchema,
+} from '../schemas/admin-content.js'
 
 function getToken(req: { headers: { authorization?: string } }): string | null {
   return req.headers.authorization?.replace('Bearer ', '') ?? null
 }
 
 export async function adminRoutes(app: FastifyInstance) {
+  /**
+   * Admin CMS boundary: browser Supabase Data API bilan to‘g‘ridan-to‘g‘ri
+   * ishlamaydi. Barcha content/dashboard amallari shu authenticated backend
+   * boundary orqali service-role Supabase clientga boradi.
+   */
+  app.get('/api/admin/dashboard', async (req, reply) => {
+    const token = getToken(req)
+    if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
+    try {
+      return reply.send(await adminContentService.dashboard(token))
+    } catch (error) {
+      return sendError(reply, error)
+    }
+  })
+
+  app.get('/api/admin/modules', async (req, reply) => {
+    const token = getToken(req)
+    if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
+    try {
+      return reply.send(await adminContentService.listModules(token))
+    } catch (error) {
+      return sendError(reply, error)
+    }
+  })
+
+  app.post('/api/admin/modules', async (req, reply) => {
+    const token = getToken(req)
+    if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
+    const body = createAdminModuleSchema.parse(req.body)
+    try {
+      const result = await adminContentService.createModule(body, token)
+      return reply.status(201).send(result)
+    } catch (error) {
+      return sendError(reply, error)
+    }
+  })
+
+  app.get('/api/admin/questions', async (req, reply) => {
+    const token = getToken(req)
+    if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
+    const query = adminQuestionsQuerySchema.querystring.parse(req.query)
+    try {
+      return reply.send(await adminContentService.listQuestions(query.status, token))
+    } catch (error) {
+      return sendError(reply, error)
+    }
+  })
+
+  app.patch('/api/admin/questions/:id/status', async (req, reply) => {
+    const token = getToken(req)
+    if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
+    const { id } = req.params as { id: string }
+    const body = transitionAdminQuestionSchema.parse(req.body)
+    try {
+      return reply.send(await adminContentService.transitionQuestion(id, body.status, token))
+    } catch (error) {
+      return sendError(reply, error)
+    }
+  })
+
+  app.get('/api/admin/question-editor/meta', async (req, reply) => {
+    const token = getToken(req)
+    if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
+    try {
+      return reply.send(await adminContentService.questionEditorMeta(token))
+    } catch (error) {
+      return sendError(reply, error)
+    }
+  })
+
+  app.get('/api/admin/questions/:id/editor', async (req, reply) => {
+    const token = getToken(req)
+    if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
+    const { id } = req.params as { id: string }
+    try {
+      return reply.send(await adminContentService.questionEditor(id, token))
+    } catch (error) {
+      return sendError(reply, error)
+    }
+  })
+
+  app.post('/api/admin/questions', async (req, reply) => {
+    const token = getToken(req)
+    if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
+    const body = saveAdminQuestionSchema.parse(req.body)
+    try {
+      const result = await adminContentService.createQuestion(body, token)
+      return reply.status(201).send(result)
+    } catch (error) {
+      return sendError(reply, error)
+    }
+  })
+
+  app.put('/api/admin/questions/:id', async (req, reply) => {
+    const token = getToken(req)
+    if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
+    const { id } = req.params as { id: string }
+    const body = saveAdminQuestionSchema.parse(req.body)
+    try {
+      return reply.send(await adminContentService.updateQuestion(id, body, token))
+    } catch (error) {
+      return sendError(reply, error)
+    }
+  })
   /**
    * GET /api/admin/content-coverage
    * Published savollarni objective/source/cognitive/difficulty bo‘yicha audit qiladi.

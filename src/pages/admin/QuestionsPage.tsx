@@ -1,5 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { supabase } from '../../lib/supabase'
+import {
+  listAdminQuestions,
+  transitionAdminQuestionStatus,
+} from '../../features/admin/adminContentApi'
 import {
   Archive,
   CheckCircle,
@@ -118,28 +121,16 @@ export default function QuestionsPage() {
     setLoading(true)
     setLoadError(null)
 
-    let query = supabase
-      .from('questions')
-      .select(
-        'id, stem_md, format, cognitive, difficulty, status, group_code, construct_id, subject_id, created_at',
+    try {
+      const data = await listAdminQuestions(
+        filterStatus ? (filterStatus as ContentStatus) : undefined,
       )
-      .order('created_at', { ascending: false })
-      .limit(100)
-
-    if (filterStatus) {
-      query = query.eq('status', filterStatus as ContentStatus)
-    }
-
-    const { data, error } = await query
-
-    if (error) {
-      setLoadError(error.message)
+      setQuestions(data)
+    } catch (error) {
+      setLoadError(error instanceof Error ? error.message : 'Savollarni yuklashda xatolik')
+    } finally {
       setLoading(false)
-      return
     }
-
-    setQuestions(data ?? [])
-    setLoading(false)
   }, [filterStatus])
 
   useEffect(() => {
@@ -149,20 +140,12 @@ export default function QuestionsPage() {
   async function transitionStatus(q: QuestionRow, nextStatus: ContentStatus) {
     setActionError(null)
 
-    const { error } = await supabase
-      .from('questions')
-      .update({
-        status: nextStatus,
-        updated_at: new Date().toISOString(),
-      })
-      .eq('id', q.id)
-
-    if (error) {
-      setActionError(error.message)
-      return
+    try {
+      await transitionAdminQuestionStatus(q.id, nextStatus)
+      await load()
+    } catch (error) {
+      setActionError(error instanceof Error ? error.message : 'Savol holati yangilanmadi')
     }
-
-    await load()
   }
 
   const filtered = useMemo(() => {
