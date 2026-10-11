@@ -30,6 +30,15 @@ function y2Item(): ExamItem {
 }
 
 describe('exam RPC contracts', () => {
+  it('pedagogik_15 session turini qat’iy tekshiradi va answer keyni rad etadi', () => {
+    const base = {
+      exam_id: examId, kind: 'pedagogik_15', duration_sec: 1800,
+      started_at: new Date().toISOString(), items: [y2Item()],
+    }
+    expect(examSessionSchema.safeParse(base).success).toBe(true)
+    expect(examSessionSchema.safeParse({ ...base, items: [{ ...y2Item(), key: {} }] }).success).toBe(false)
+  })
+
   it('start payloadida javob kaliti yoki tushuntirishni rad etadi', () => {
     const payload = {
       exam_id: examId,
