@@ -210,8 +210,8 @@ describe('buildContentCoverageReport', () => {
       blueprint_id: ids.blueprint,
       blueprint_version: 1,
       target_count: 3,
-      eligible_pool_count: 3,
-      exact_quota_feasible: true,
+      eligible_pool_count: 2,
+      exact_quota_feasible: false,
       release_ready: false,
       release_target_candidates_per_slot: 20,
     })
@@ -220,11 +220,11 @@ describe('buildContentCoverageReport', () => {
         expect.objectContaining({
           group_code: 'S1.INFO',
           required: { bilish: 1, qollash: 1, mulohaza: 0 },
-          available: { bilish: 1, qollash: 1, mulohaza: 0 },
-          deficits: { bilish: 0, qollash: 0, mulohaza: 0 },
+          available: { bilish: 1, qollash: 0, mulohaza: 0 },
+          deficits: { bilish: 0, qollash: 1, mulohaza: 0 },
           release_minimum: { bilish: 20, qollash: 20, mulohaza: 0 },
-          release_deficits: { bilish: 19, qollash: 19, mulohaza: 0 },
-          exact_feasible: true,
+          release_deficits: { bilish: 19, qollash: 20, mulohaza: 0 },
+          exact_feasible: false,
           release_ready: false,
         }),
       ])
