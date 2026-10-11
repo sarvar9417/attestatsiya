@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { supabase } from '../../lib/supabase'
+import { createAdminModule, getAdminModules } from '../../features/admin/adminContentApi'
 import {
   BookOpen,
   ChevronDown,
@@ -89,44 +89,28 @@ export default function ModulesPage() {
     setLoadError(null)
     setSaveError(null)
 
-    const [modulesResult, lessonsResult, subjectsResult] = await Promise.all([
-      supabase.from('modules').select('*').order('order_idx'),
-      supabase.from('lessons').select('*').order('order_idx'),
-      supabase.from('subjects').select('*').order('code'),
-    ])
-
-    const firstError =
-      modulesResult.error ?? lessonsResult.error ?? subjectsResult.error ?? null
-
-    if (firstError) {
-      setLoadError(firstError.message)
-      setLoading(false)
-      return
-    }
-
-    const modulesData = modulesResult.data
-    const lessonsData = lessonsResult.data
-    const subjectsData = subjectsResult.data
-
-    if (modulesData) {
+    try {
+      const data = await getAdminModules()
       const lessonsByModule = new Map<string, LessonRow[]>()
 
-      for (const lesson of lessonsData || []) {
+      for (const lesson of data.lessons) {
         const arr = lessonsByModule.get(lesson.module_id) || []
         arr.push(lesson)
         lessonsByModule.set(lesson.module_id, arr)
       }
 
       setModules(
-        modulesData.map(mod => ({
+        data.modules.map(mod => ({
           ...mod,
           lessons: lessonsByModule.get(mod.id) || [],
         })),
       )
+      setSubjects(data.subjects)
+    } catch (error) {
+      setLoadError(error instanceof Error ? error.message : 'Modullarni yuklashda xatolik')
+    } finally {
+      setLoading(false)
     }
-
-    if (subjectsData) setSubjects(subjectsData)
-    setLoading(false)
   }
 
   const summary = useMemo(() => {
@@ -159,25 +143,19 @@ export default function ModulesPage() {
       return
     }
 
-    const slug = slugify(form.code || form.title_uz)
-    const { error } = await supabase.from('modules').insert({
-      code: form.code.trim() || null,
-      title_uz: form.title_uz.trim(),
-      summary_uz: form.summary_uz.trim() || null,
-      slug,
-      subject_id: form.subject_id,
-      order_idx: modules.length + 1,
-      status: 'draft',
-    })
-
-    if (error) {
-      setSaveError(error.message)
-      return
+    try {
+      await createAdminModule({
+        code: form.code.trim() || null,
+        title_uz: form.title_uz.trim(),
+        summary_uz: form.summary_uz.trim() || null,
+        subject_id: form.subject_id,
+      })
+      setShowForm(false)
+      setForm({ code: '', title_uz: '', summary_uz: '', subject_id: '' })
+      await load()
+    } catch (error) {
+      setSaveError(error instanceof Error ? error.message : 'Modul yaratilmadi')
     }
-
-    setShowForm(false)
-    setForm({ code: '', title_uz: '', summary_uz: '', subject_id: '' })
-    await load()
   }
 
   const toggleExpand = (id: string) => {
