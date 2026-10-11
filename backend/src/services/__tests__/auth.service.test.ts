@@ -4,6 +4,7 @@ import { authService } from '../auth.service.js'
 const { mockAuth, mockFrom } = vi.hoisted(() => {
   const mockAuth = {
     getUser: vi.fn(),
+    signUp: vi.fn(),
     resend: vi.fn(),
     admin: {
       createUser: vi.fn(),
@@ -49,11 +50,11 @@ describe('authService', () => {
       })
     ).rejects.toMatchObject({ code: 'VALIDATION_ERROR', statusCode: 400 })
 
-    expect(mockAuth.admin.createUser).not.toHaveBeenCalled()
+    expect(mockAuth.signUp).not.toHaveBeenCalled()
   })
 
   it('register: copies display_name into profiles on success', async () => {
-    mockAuth.admin.createUser.mockResolvedValue({
+    mockAuth.signUp.mockResolvedValue({
       data: { user: USER },
       error: null,
     })
@@ -66,9 +67,22 @@ describe('authService', () => {
 
     expect(result.user_id).toBe('user-1')
     expect(mockFrom).toHaveBeenCalledWith('profiles')
-    expect(mockAuth.admin.createUser).toHaveBeenCalledWith(
-      expect.objectContaining({ user_metadata: { name: 'Ali Valiyev' } })
+    expect(mockAuth.signUp).toHaveBeenCalledWith(
+      expect.objectContaining({
+        options: { data: { name: 'Ali Valiyev' }, emailRedirectTo: expect.any(String) },
+      })
     )
+  })
+
+  it('register: refuses an obfuscated existing identity without modifying its profile', async () => {
+    mockAuth.signUp.mockResolvedValue({
+      data: { user: { ...USER, identities: [] } },
+      error: null,
+    })
+    await expect(
+      authService.register({ email: 'test@test.com', password: 'secret123', full_name: 'Ali' })
+    ).rejects.toMatchObject({ code: 'EMAIL_TAKEN', statusCode: 409 })
+    expect(mockFrom).not.toHaveBeenCalledWith('profiles')
   })
 
   it('updateProfile: throws PROFILE_UPDATE_ERROR when profiles update fails', async () => {
