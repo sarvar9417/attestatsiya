@@ -155,13 +155,13 @@ export const authService = {
     })
 
     if (error || !data.user) {
-      throw mapAuthError(error, 'Ro\\'yxatdan o\\'tishda xatolik')
+      throw mapAuthError(error, 'Ro\'yxatdan o\'tishda xatolik')
     }
 
     // Email enumeration himoyasi yoqilganda Supabase mavjud email uchun
     // obfuscated user qaytarishi mumkin. Bunday user profilini mutatsiya qilmaymiz.
     if (data.user.identities?.length === 0) {
-      throw new AppError('Bu email allaqachon ro\\'yxatdan o\\'tgan', 409, 'EMAIL_TAKEN')
+      throw new AppError('Bu email allaqachon ro\'yxatdan o\'tgan', 409, 'EMAIL_TAKEN')
     }
 
     // profiles row trigger orqali yaratiladi; display_name metadata dan ko'chiriladi
