@@ -25,7 +25,9 @@ begin
        and (select count(*) from public.question_options o where o.question_id=q.id)=4
        and exists(select 1 from public.question_options o
                    where o.question_id=q.id and o.id::text=k.payload->>'correct_option_id');
-    if v_count < case v_group when 'KS' then 14 when 'PM.GEN' then 16 else 6 end then
+    if (v_group = 'KS' and v_count < 14)
+       or (v_group = 'PM.GEN' and v_count < 16)
+       or (v_group = 'PM.MET' and v_count < 6) then
       raise exception 'invalid authored bank: group=% available=%',v_group,v_count;
     end if;
   end loop;
