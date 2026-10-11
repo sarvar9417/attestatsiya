@@ -15,11 +15,11 @@ begin
       'tarmoqlar-va-qurilmalar','arxitektura-va-topologiyalar','ip-manzil-va-tarmoq-maskasi',
       'internetdan-xavfsiz-va-maqsadli-foydalanish','brauzer-qidiruv-dns',
       'xavfsizlik-tahdidlari-va-himoya','zararli-dastur-va-phishing','antivirus-va-himoya-vositalari',
-      'elektron-hukumat-va-elektron-imzo','smm-cms-lms-mooc'
+      'elektron-hukumat-va-elektron-imzo','smm-cms-lms-mooc','web-freelance-asoslari'
     );
 
-  if v_count <> 10 then
-    raise exception 'TASK-056 expected 10 published lessons, got %', v_count;
+  if v_count <> 11 then
+    raise exception 'TASK-056 expected 11 published lessons, got %', v_count;
   end if;
 
   select count(*) into v_bad
@@ -49,17 +49,17 @@ begin
   join public.lessons l on l.id = lc.lesson_id
   where c.code in (
     'S6.NET.01','S6.NET.02','S6.NET.03','S6.NET.04','S6.NET.05',
-    'S7.SEC.01','S7.SEC.02','S7.SEC.03','S7.SEC.04','S7.SEC.05'
+    'S7.SEC.01','S7.SEC.02','S7.SEC.03','S7.SEC.04','S7.SEC.05','S7.SEC.06'
   )
     and l.slug in (
       'tarmoqlar-va-qurilmalar','arxitektura-va-topologiyalar','ip-manzil-va-tarmoq-maskasi',
       'internetdan-xavfsiz-va-maqsadli-foydalanish','brauzer-qidiruv-dns',
       'xavfsizlik-tahdidlari-va-himoya','zararli-dastur-va-phishing','antivirus-va-himoya-vositalari',
-      'elektron-hukumat-va-elektron-imzo','smm-cms-lms-mooc'
+      'elektron-hukumat-va-elektron-imzo','smm-cms-lms-mooc','web-freelance-asoslari'
     );
 
   if v_count <> 10 then
-    raise exception 'TASK-056 expected 10 exact construct links, got %', v_count;
+    raise exception 'TASK-056 expected 11 exact construct links, got %', v_count;
   end if;
 
   select count(*) into v_bad
