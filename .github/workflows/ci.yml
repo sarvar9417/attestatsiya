@@ -195,6 +195,7 @@ jobs:
             -f supabase/tests/section_mock_50.test.sql \
             -f supabase/tests/official_mock_50.test.sql \
             -f supabase/tests/professional_practice_15.test.sql \
+            -f supabase/tests/pedguli_original_topic_bank.test.sql \
             -f supabase/tests/m02_source_backed_lessons.test.sql \
             -f supabase/tests/m03_office_source_backed_lessons.test.sql \
             -f supabase/tests/a3_logic_num_algo_lessons.test.sql \
