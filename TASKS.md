@@ -95,6 +95,12 @@
 | TASK-052 | DONE | TASK-051 | M03 Microsoft Office uchun S2.OFFICE.01–04 source-backed darslar, source trace va DB regressiya |
 | TASK-053 | DONE | TASK-052 | A3: M04/M05/M06 uchun S3.LOGIC, S3.NUM va S3.ALGO source-backed darslar va DB regressiya |
 | TASK-054 | DONE | TASK-053 | A4: M07/M08 uchun S4.BLOCK va S4.CODE source-backed dasturlash darslari va DB regressiya |
+| TASK-055 | DONE | TASK-054 | M10/M11 uchun S5.WEB.01–06 source-backed grafika va veb darslari, aniq construct mapping va DB regressiya; PR #82 |
+| TASK-056 | DONE | TASK-055 | M12/M13 uchun S6.NET.01–05 va S7.SEC.01–06 source-backed tarmoq, xavfsizlik va raqamli xizmat darslari; PR #84 |
+| TASK-057 | DONE | TASK-056 | 76/76 active official construct uchun published lesson coverage CI invariant; topilgan S1.INFO.06 bo‘shlig‘i source-backed uzatish tezligi darsi bilan yopildi; PR #85 |
+| TASK-058 | IN_PROGRESS | TASK-057 | Project state/TASKS reconciliation: auth va production activation blockerlarini, qolgan question-bank coverage ishini aniq qayd etish |
+| TASK-059 | TODO | TASK-057 | Blueprint bo‘yicha real production question-pool feasibility auditi: har group × cognitive quota uchun published/approved savollar yetarliligini o‘lchash va gap report |
+| TASK-060 | TODO | TASK-059 | M01dan tashqari constructlar uchun source-backed professional savol banklarini bosqichma-bosqich yaratish/import qilish; full mock exact blueprint preflightni real kontent bilan yashil qilish |
 
 ## UI modernizatsiya — Figma approved design
 
@@ -121,6 +127,9 @@
 | B-001 | RESOLVED — T-012/T-023: Y1/Y2/Y3 parametrik generatorlar va deterministik SQL seed pipeline yaratildi |
 | B-002 | RESOLVED — TypeScript types remote UUID schema bo'yicha generatsiya qilindi |
 | B-003 | RESOLVED — server-scored ExamRunner UUID RPC kontraktiga o‘tkazildi |
+| B-AUTH-001 | OPEN — PR #81 kod/CI/Vercel preview yashil, lekin merge oldidan production Supabase redirect allowlist + SMTP/email template va real-email E2E (register → verify → login → forgot → reset → login) talab qilinadi |
+| B-PROD-001 | OPEN — joriy Supabase connector Attestatsiya production project `plyqezulrfowyblsfpzy`ni ko‘rsatmaydi; yangi content migrations remote productionga shu connector orqali apply qilinmaydi |
+| B-CONTENT-001 | OPEN — official 50-question assembler tayyor, ammo M01 + 270 parametrik pooldan tashqari barcha blueprint group/cognitive kesimlari uchun real published savol yetarliligi alohida feasibility audit va bank kengaytirishni talab qiladi |
 
 ## Test talabi
 
