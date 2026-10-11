@@ -27,7 +27,8 @@ const EMPTY_STATS: AdminStats = {
   users: null,
 }
 
-function formatCount(value: number): string {
+function formatCount(value: number | null): string {
+  if (value === null) return '—'
   return String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
 }
 
