@@ -53,7 +53,10 @@ export function useAuth(): AuthState & {
       if (current && isExpired(current) && current.refresh_token) {
         try {
           const data = await authClient.refresh(current.refresh_token)
-          if (mounted) sessionStore.set(data)
+          // Do not resurrect an old session after logout or password recovery.
+          if (mounted && sessionStore.get()?.refresh_token === current.refresh_token) {
+            sessionStore.set(data)
+          }
         } catch (error) {
           // Tarmoq uzilishi (NETWORK_ERROR) sessionni saqlaydi; faqat
           // refresh token rad etilgan bo'lsa tozalaymiz. Ikki tab bir
@@ -140,6 +143,9 @@ export function useAuth(): AuthState & {
       }
 
       if (recoveryToken && typeof window !== 'undefined') {
+        // Password recovery is not a normal login: discard any previous account's
+        // browser session before showing the sign-in page with the new password.
+        sessionStore.clear()
         // Tokenni URL'dan history navigation/hashchange chaqirmasdan olib tashlaymiz.
         window.history.replaceState(
           window.history.state,

@@ -109,7 +109,10 @@ export async function authRoutes(app: FastifyInstance) {
    */
   app.post('/api/auth/update-password', async (req, reply) => {
     const { password } = updatePasswordSchema.body.parse(req.body)
-    const token = await requireToken(req)
+    // Password updates must never inherit the demo-mode token fallback.
+    // Only an explicit bearer token (login or email recovery) is accepted.
+    const token = getToken(req)
+    if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
     try {
       const result = await authService.updatePassword(password, token)
       return reply.send(result)
