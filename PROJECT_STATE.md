@@ -1635,3 +1635,37 @@ Removed: backend/vercel.json
 CI: GitHub Actions #792 — quality + backend + database SUCCESS
 Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user confirmation talab qiladi
 ```
+
+
+## Content coverage reconciliation (TASK-055–TASK-057, 2026-10-11)
+
+- **TASK-055 / PR #82:** M10/M11 source-backed content added and merged.
+  S5.WEB.01–06 now have published lessons for graphics, raster/vector editing,
+  Paint/Photoshop, HTML text/list/image/table/form, and CSS.
+- **TASK-056 / PR #84:** M12/M13 source-backed content added and merged.
+  S6.NET.01–05 and S7.SEC.01–06 now have published lessons for networks,
+  topology, IP/mask, safe internet/search, security, phishing/malware,
+  antivirus, e-government/e-signature, SMM/CMS/LMS/MOOC and Web-Freelance.
+- **TASK-057 / PR #85:** database CI now executes all source-backed lesson
+  regression files and a global official-construct coverage invariant.
+  The first run exposed a real gap at `S1.INFO.06`; a dedicated
+  source-backed “Axborot uzatish tezligi” lesson was added.
+  Fresh PostgreSQL CI then verified **76/76 active constructs covered**.
+- **CI state:** PR #82, #84 and #85 completed GitHub quality/backend/database
+  checks successfully before merge. The coverage invariant is now permanent
+  regression protection.
+
+### Remaining external/product work
+
+1. **Auth production acceptance (PR #81):** code CI and Vercel preview are green,
+   but production Supabase redirect allowlist, SMTP/email template delivery and
+   a real-email end-to-end flow must pass before merge:
+   register → verify email → login → forgot password → reset password → login.
+2. **Production DB activation:** the current Supabase connector does not expose
+   the Attestatsiya production project `plyqezulrfowyblsfpzy`; therefore newly
+   merged content migrations cannot be safely applied through the available
+   connector session.
+3. **Question-bank breadth:** the official/mock assemblers and coverage tooling
+   exist, but real published question sufficiency outside M01 and the existing
+   270 parametric pool must be audited against every blueprint group × cognitive
+   quota before claiming full production mock readiness.
