@@ -7,9 +7,13 @@ import {
   Save,
   X,
 } from 'lucide-react'
-import { supabase } from '../../lib/supabase'
+import {
+  createAdminQuestion,
+  getAdminQuestionEditor,
+  getAdminQuestionEditorMeta,
+  updateAdminQuestion,
+} from '../../features/admin/adminContentApi'
 import { monitoring } from '../../lib/monitoring'
-import type { Json } from '../../lib/database.types'
 
 type Format = 'Y1' | 'Y2' | 'Y3'
 type Cognitive = 'bilish' | 'qollash' | 'mulohaza'
@@ -83,61 +87,29 @@ export default function QuestionFormModal({
       setLoadError(null)
 
       try {
-        const [constructResult, subjectResult] = await Promise.all([
-          supabase
-            .from('constructs')
-            .select('id, code, title_uz, subject_id, group_code')
-            .order('code'),
-          supabase.from('subjects').select('id, code, name_uz').order('code'),
-        ])
-
-        const baseError = constructResult.error ?? subjectResult.error
-        if (baseError) throw baseError
+        const meta = await getAdminQuestionEditorMeta()
         if (cancelled) return
 
-        setConstructs(constructResult.data || [])
-        setSubjects(subjectResult.data || [])
+        setConstructs(meta.constructs)
+        setSubjects(meta.subjects)
 
         if (question?.id) {
-          const [optionResult, keyResult] = await Promise.all([
-            supabase
-              .from('question_options')
-              .select('id, content_md, order_idx')
-              .eq('question_id', question.id)
-              .order('order_idx'),
-            supabase
-              .from('question_keys')
-              .select('payload, explanation_md')
-              .eq('question_id', question.id)
-              .maybeSingle(),
-          ])
-
-          const editError = optionResult.error ?? keyResult.error
-          if (editError) throw editError
+          const editor = await getAdminQuestionEditor(question.id)
           if (cancelled) return
 
-          const optionsData = optionResult.data
-          const keyData = keyResult.data
-
-          if (optionsData && optionsData.length > 0) {
-            const payload = (keyData?.payload ?? null) as {
-              correct_option_id?: string
-            } | null
-
+          if (editor.options.length > 0) {
             setOptions(
-              optionsData.map(option => ({
+              editor.options.map((option, index) => ({
                 content_md: option.content_md,
-                isCorrect: payload?.correct_option_id === option.id,
+                isCorrect: editor.correct_index === index,
               })),
             )
           }
 
-          if (keyData) {
-            setForm(current => ({
-              ...current,
-              explanation_md: keyData.explanation_md || '',
-            }))
-          }
+          setForm(current => ({
+            ...current,
+            explanation_md: editor.explanation_md,
+          }))
         }
       } catch (err) {
         if (!cancelled) {
@@ -176,62 +148,41 @@ export default function QuestionFormModal({
       return
     }
 
+    if (form.format === 'Y1' && options.some(option => !option.content_md.trim())) {
+      setSaveError('Y1 savol uchun 4 ta javob variantini to‘liq kiriting')
+      return
+    }
+
+    const correctIndex = options.findIndex(option => option.isCorrect)
+    if (form.format === 'Y1' && correctIndex < 0) {
+      setSaveError('To‘g‘ri javob variantini belgilang')
+      return
+    }
+
     setSaving(true)
 
     try {
+      const input = {
+        stem_md: form.stem_md.trim(),
+        format: form.format,
+        cognitive: form.cognitive,
+        difficulty: form.difficulty,
+        construct_id: construct.id,
+        explanation_md: form.explanation_md.trim(),
+        ...(form.format === 'Y1'
+          ? {
+              options: options.map(option => ({
+                content_md: option.content_md.trim(),
+              })),
+              correct_index: correctIndex,
+            }
+          : {}),
+      }
+
       if (isEdit && question?.id) {
-        const { error: updateError } = await supabase
-          .from('questions')
-          .update({
-            stem_md: form.stem_md.trim(),
-            format: form.format,
-            cognitive: form.cognitive,
-            difficulty: form.difficulty,
-            status: question.status,
-            construct_id: construct.id,
-            subject_id: construct.subject_id,
-            group_code: construct.group_code,
-            updated_at: new Date().toISOString(),
-          })
-          .eq('id', question.id)
-
-        if (updateError) throw updateError
-
-        const { error: optionDeleteError } = await supabase
-          .from('question_options')
-          .delete()
-          .eq('question_id', question.id)
-
-        if (optionDeleteError) throw optionDeleteError
-
-        if (form.format === 'Y1') {
-          const { error: keyDeleteError } = await supabase
-            .from('question_keys')
-            .delete()
-            .eq('question_id', question.id)
-
-          if (keyDeleteError) throw keyDeleteError
-        }
-
-        await saveOptionsAndKey(question.id)
+        await updateAdminQuestion(question.id, input)
       } else {
-        const { data: newQuestion, error: insertError } = await supabase
-          .from('questions')
-          .insert({
-            stem_md: form.stem_md.trim(),
-            format: form.format,
-            cognitive: form.cognitive,
-            difficulty: form.difficulty,
-            status: 'draft',
-            construct_id: construct.id,
-            subject_id: construct.subject_id,
-            group_code: construct.group_code,
-          })
-          .select('id')
-          .single()
-
-        if (insertError) throw insertError
-        if (newQuestion) await saveOptionsAndKey(newQuestion.id)
+        await createAdminQuestion(input)
       }
 
       onSaved()
@@ -246,40 +197,6 @@ export default function QuestionFormModal({
     } finally {
       setSaving(false)
     }
-  }
-
-  async function saveOptionsAndKey(questionId: string) {
-    if (form.format !== 'Y1') return
-
-    const rows = options.map((option, index) => ({
-      question_id: questionId,
-      content_md: option.content_md.trim(),
-      order_idx: index,
-      side: String.fromCharCode(97 + index),
-    }))
-
-    const { data: inserted, error: optionError } = await supabase
-      .from('question_options')
-      .insert(rows)
-      .select('id, order_idx')
-
-    if (optionError) throw optionError
-
-    const correctIndex = options.findIndex(option => option.isCorrect)
-    const correctOption = (inserted || []).find(
-      option => option.order_idx === correctIndex,
-    )
-
-    if (!correctOption) throw new Error('To‘g‘ri variant topilmadi')
-
-    const payload: Json = { correct_option_id: correctOption.id }
-    const { error: keyError } = await supabase.from('question_keys').insert({
-      question_id: questionId,
-      payload,
-      explanation_md: form.explanation_md.trim(),
-    })
-
-    if (keyError) throw keyError
   }
 
   function toggleCorrect(index: number) {
