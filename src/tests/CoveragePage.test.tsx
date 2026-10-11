@@ -80,6 +80,29 @@ const REPORT = {
       issues: ['published_without_source_reference'],
     },
   ],
+  assembly_readiness: {
+    blueprint_id: '50000000-0000-4000-8000-000000000001',
+    blueprint_version: 1,
+    target_count: 50,
+    eligible_pool_count: 34,
+    exact_quota_feasible: false,
+    release_ready: false,
+    release_target_candidates_per_slot: 20,
+    groups: [
+      {
+        group_code: 'S1.INFO',
+        order_idx: 1,
+        required_total: 3,
+        required: { bilish: 1, qollash: 2, mulohaza: 0 },
+        available: { bilish: 1, qollash: 1, mulohaza: 0 },
+        deficits: { bilish: 0, qollash: 1, mulohaza: 0 },
+        release_minimum: { bilish: 20, qollash: 21, mulohaza: 0 },
+        release_deficits: { bilish: 19, qollash: 20, mulohaza: 0 },
+        exact_feasible: false,
+        release_ready: false,
+      },
+    ],
+  },
 } as const
 
 describe('CoveragePage', () => {
@@ -97,6 +120,10 @@ describe('CoveragePage', () => {
     expect(screen.getByText('Axborot nima?')).toBeDefined()
     expect(screen.getAllByText('Manba reference yo‘q').length).toBeGreaterThan(0)
     expect(screen.getAllByText('Published savol yo‘q').length).toBeGreaterThan(0)
+    expect(screen.getByText('Rasmiy mock pool feasibility')).toBeDefined()
+    expect(screen.getByText('Exact mock: INSUFFICIENT')).toBeDefined()
+    expect(screen.getByText('Release reserve: GAP BOR')).toBeDefined()
+    expect(screen.getByText('34')).toBeDefined()
     expect(mockGetCoverage).toHaveBeenCalledWith('M01')
   })
 
