@@ -257,6 +257,23 @@ describe('secure ExamRunner', () => {
     expect(gateway.finishExam).toHaveBeenCalledWith(ids.exam)
   })
 
+  it('pedagogik 15 route mustaqil 5+7+3 sessionini boshlaydi va mockga fallback qilmaydi', async () => {
+    const user = userEvent.setup()
+    const gateway = successfulGateway()
+    vi.mocked(gateway.startFocusedExam!).mockResolvedValue({
+      ...examSession(),
+      kind: 'pedagogik_15',
+      duration_sec: 1800,
+    })
+    renderExam(gateway, '/exam/pedagogik_15')
+    expect(screen.getByRole('heading', { name: 'Pedagogik mahorat va kasb standarti — 15 savol' })).toBeDefined()
+    expect(screen.getByText('15 savol (5 + 7 + 3)')).toBeDefined()
+    await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
+    expect(gateway.startFocusedExam).toHaveBeenCalledWith('pedagogik_15')
+    expect(gateway.startMockExam).not.toHaveBeenCalled()
+    expect(await screen.findByText('Yagona javobni tanlang')).toBeDefined()
+  })
+
   it('bo‘lim sinovi modul kodi bilan server gateway orqali boshlanadi', async () => {
     const user = userEvent.setup()
     const gateway = successfulGateway()
