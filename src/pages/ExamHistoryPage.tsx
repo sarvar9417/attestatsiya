@@ -74,7 +74,7 @@ function HistoryCard({ item }: { item: ExamHistoryItem }) {
                 ? 'O‘tdi'
                 : item.passed === false
                   ? 'O‘tmadi'
-                  : 'Baholanmagan'}
+                  : item.kind === 'pedagogik_15' ? 'Mashq yakunlandi' : 'Baholanmagan'}
             </span>
           </div>
 
