@@ -98,9 +98,9 @@
 | TASK-055 | DONE | TASK-054 | M10/M11 uchun S5.WEB.01–06 source-backed grafika va veb darslari, aniq construct mapping va DB regressiya; PR #82 |
 | TASK-056 | DONE | TASK-055 | M12/M13 uchun S6.NET.01–05 va S7.SEC.01–06 source-backed tarmoq, xavfsizlik va raqamli xizmat darslari; PR #84 |
 | TASK-057 | DONE | TASK-056 | 76/76 active official construct uchun published lesson coverage CI invariant; topilgan S1.INFO.06 bo‘shlig‘i source-backed uzatish tezligi darsi bilan yopildi; PR #85 |
-| TASK-058 | IN_PROGRESS | TASK-057 | Project state/TASKS reconciliation: auth va production activation blockerlarini, qolgan question-bank coverage ishini aniq qayd etish |
-| TASK-059 | TODO | TASK-057 | Blueprint bo‘yicha real production question-pool feasibility auditi: har group × cognitive quota uchun published/approved savollar yetarliligini o‘lchash va gap report |
-| TASK-060 | TODO | TASK-059 | M01dan tashqari constructlar uchun source-backed professional savol banklarini bosqichma-bosqich yaratish/import qilish; full mock exact blueprint preflightni real kontent bilan yashil qilish |
+| TASK-058 | DONE | TASK-057 | Project state/TASKS reconciliation: auth va production activation blockerlarini, qolgan question-bank coverage ishini aniq qayd etish; PR #86 |
+| TASK-059 | DONE | TASK-057 | Blueprint bo‘yicha real question-pool feasibility auditi: production assembler eligibility bilan bir xil published+keyed+active taxonomy qoidalari, group × cognitive exact deficit, AC-CNT-04 release reserve va admin UI; PR #87 |
+| TASK-060 | BLOCKED | TASK-059 | M01dan tashqari constructlar uchun source-backed professional savol banklarini bosqichma-bosqich yaratish/import qilish; xususiy answer-key payload va Attestatsiya production Supabase access talab qiladi |
 
 ## UI modernizatsiya — Figma approved design
 
