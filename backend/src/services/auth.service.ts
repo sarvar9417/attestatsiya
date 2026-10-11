@@ -142,15 +142,26 @@ export const authService = {
       throw new AppError('Ism juda uzun', 400, 'VALIDATION_ERROR')
     }
 
-    const { data, error } = await supabase.auth.admin.createUser({
+    // Public sign-up semantikasi tasdiqlash emailini yuboradi. Fresh client
+    // shared service client session holatini user session bilan ifloslantirmaydi.
+    const client = createServiceClient()
+    const { data, error } = await client.auth.signUp({
       email: input.email,
       password: input.password,
-      email_confirm: false,
-      user_metadata: { name: input.full_name },
+      options: {
+        data: { name: input.full_name },
+        emailRedirectTo: config.auth.redirectUrl,
+      },
     })
 
     if (error || !data.user) {
       throw mapAuthError(error, 'Ro\'yxatdan o\'tishda xatolik')
+    }
+
+    // Email enumeration himoyasi yoqilganda Supabase mavjud email uchun
+    // obfuscated user qaytarishi mumkin. Bunday user profilini mutatsiya qilmaymiz.
+    if (data.user.identities?.length === 0) {
+      throw new AppError('Bu email allaqachon ro\'yxatdan o\'tgan', 409, 'EMAIL_TAKEN')
     }
 
     // profiles row trigger orqali yaratiladi; display_name metadata dan ko'chiriladi
@@ -258,7 +269,8 @@ export const authService = {
    * POST /api/auth/resend-confirmation — tasdiqlash xatini qayta yuborish.
    */
   async resendConfirmation(email: string): Promise<{ sent: true }> {
-    const { error } = await supabase.auth.resend({
+    const client = createServiceClient()
+    const { error } = await client.auth.resend({
       type: 'signup',
       email,
       options: {
