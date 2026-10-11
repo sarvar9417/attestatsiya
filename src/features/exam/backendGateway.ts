@@ -113,7 +113,7 @@ export const backendGateway: ExamGateway = {
   },
 
   async startFocusedExam(
-    kind: 'diagnostika' | 'mashq' | 'takrorlash' | 'zaif',
+    kind: 'diagnostika' | 'mashq' | 'takrorlash' | 'zaif' | 'pedagogik_15',
     lessonId?: string
   ): Promise<ExamSession> {
     const data = await api.post<unknown>('/api/exam/start', {
