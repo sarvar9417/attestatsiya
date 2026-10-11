@@ -9,6 +9,7 @@ const { mockAuth, mockFrom } = vi.hoisted(() => {
   const mockAuth = {
     getUser: vi.fn(),
     signInWithPassword: vi.fn(),
+    signUp: vi.fn(),
     refreshSession: vi.fn(),
     signOut: vi.fn(),
     resetPasswordForEmail: vi.fn(),
@@ -102,7 +103,7 @@ describe('Auth Routes', () => {
 
   describe('POST /api/auth/register', () => {
     it('returns 201 and creates user + profile on success', async () => {
-      mockAuth.admin.createUser.mockResolvedValue({
+      mockAuth.signUp.mockResolvedValue({
         data: { user: { id: 'user-1', email: 'test@test.com' } },
         error: null,
       })
@@ -120,14 +121,14 @@ describe('Auth Routes', () => {
         email: 'test@test.com',
         requires_confirmation: true,
       })
-      expect(mockAuth.admin.createUser).toHaveBeenCalledWith(
-        expect.objectContaining({ email: 'test@test.com', email_confirm: false })
+      expect(mockAuth.signUp).toHaveBeenCalledWith(
+        expect.objectContaining({ email: 'test@test.com', options: expect.objectContaining({ emailRedirectTo: expect.any(String) }) })
       )
       expect(mockFrom).toHaveBeenCalledWith('profiles')
     })
 
     it('returns 409 EMAIL_TAKEN when email already registered', async () => {
-      mockAuth.admin.createUser.mockResolvedValue({
+      mockAuth.signUp.mockResolvedValue({
         data: null,
         error: { message: 'A user with this email address has already been registered' },
       })
