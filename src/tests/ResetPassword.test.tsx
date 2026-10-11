@@ -41,7 +41,25 @@ describe('ResetPassword sahifasi', () => {
     ).toHaveAttribute('href', '/auth')
   })
 
-  it('session mavjud bo‘lsa parollar mos kelmasligini clientda tekshiradi', () => {
+  it('oddiy login sessiyasi recovery formani ochmaydi', () => {
+    mockUseAuth.mockReturnValue({
+      session: { access_token: 'ordinary-session' },
+      updatePassword: vi.fn(),
+    })
+    renderPage()
+    expect(screen.getByRole('heading', { name: 'Parolni tiklash' })).toBeDefined()
+    expect(screen.queryByLabelText('Yangi parol')).toBeNull()
+  })
+
+  it('signup tokeni recovery formani ochmaydi', () => {
+    window.location.hash = '#access_token=signup-token&type=signup'
+    mockUseAuth.mockReturnValue({ session: null, updatePassword: vi.fn() })
+    renderPage()
+    expect(screen.getByRole('heading', { name: 'Parolni tiklash' })).toBeDefined()
+  })
+
+  it('recovery token mavjud bo‘lsa parollar mos kelmasligini clientda tekshiradi', () => {
+    window.location.hash = '#access_token=recovery-token&type=recovery'
     const updatePassword = vi.fn()
     mockUseAuth.mockReturnValue({
       session: { access_token: 'token' },
@@ -63,6 +81,7 @@ describe('ResetPassword sahifasi', () => {
   })
 
   it('yaroqli yangi parol backend update oqimiga yuboriladi', async () => {
+    window.location.hash = '#access_token=recovery-token&type=recovery'
     const updatePassword = vi.fn().mockResolvedValue({ data: null, error: null })
     mockUseAuth.mockReturnValue({
       session: { access_token: 'token' },
