@@ -121,15 +121,6 @@ export default function ModulesPage() {
     return { lessonCount, publishedCount, draftCount }
   }, [modules])
 
-  function slugify(value: string): string {
-    return value
-      .trim()
-      .toLowerCase()
-      .replace(/\s+/g, '-')
-      .replace(/[^a-z0-9-]/g, '')
-      .replace(/-+/g, '-')
-  }
-
   async function createModule() {
     setSaveError(null)
 
