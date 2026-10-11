@@ -24,6 +24,7 @@ const KIND_LABELS: Record<ExamResultDetail['kind'], string> = {
   mock: 'Mock test',
   takrorlash: 'Takrorlash',
   zaif: 'Zaif mavzular',
+  pedagogik_15: 'Pedagogika va kasb standarti · 15',
 }
 
 function formatDate(value: string): string {
