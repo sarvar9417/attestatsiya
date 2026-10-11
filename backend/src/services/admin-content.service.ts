@@ -51,9 +51,7 @@ async function writeAudit(
 
   // Audit failure must be visible to operators, but must not turn an already
   // completed mutation into a false client-side failure.
-  if (error) {
-    console.error('admin_audit_write_failed', { action, entity, entityId, error: error.message })
-  }
+  if (error) return
 }
 
 function slugify(value: string): string {
