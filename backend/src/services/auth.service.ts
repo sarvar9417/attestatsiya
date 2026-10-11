@@ -142,15 +142,26 @@ export const authService = {
       throw new AppError('Ism juda uzun', 400, 'VALIDATION_ERROR')
     }
 
-    const { data, error } = await supabase.auth.admin.createUser({
+    // signUp (unlike admin.createUser) triggers the configured verification email.
+    // Use a fresh client so this flow cannot mutate the shared service client's session.
+    const client = createServiceClient()
+    const { data, error } = await client.auth.signUp({
       email: input.email,
       password: input.password,
-      email_confirm: false,
-      user_metadata: { name: input.full_name },
+      options: {
+        data: { name: input.full_name },
+        emailRedirectTo: config.auth.redirectUrl,
+      },
     })
 
     if (error || !data.user) {
       throw mapAuthError(error, 'Ro\'yxatdan o\'tishda xatolik')
+    }
+
+    // Supabase may return an obfuscated user for existing email addresses.
+    // Never update its profile or expose an existing user ID from that response.
+    if (data.user.identities?.length === 0) {
+      throw new AppError('Bu email allaqachon ro\'yxatdan o\'tgan', 409, 'EMAIL_TAKEN')
     }
 
     // profiles row trigger orqali yaratiladi; display_name metadata dan ko'chiriladi
