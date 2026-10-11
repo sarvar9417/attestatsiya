@@ -3,6 +3,7 @@ import Fastify, { type FastifyRequest, type FastifyReply } from 'fastify'
 import { ZodError } from 'zod'
 import { authRoutes } from '../auth.js'
 import { sendError } from '../../lib/errors.js'
+import { config } from '../../config.js'
 
 // vi.mock factories are hoisted — use vi.hoisted() for shared mock variables
 const { mockAuth, mockFrom } = vi.hoisted(() => {
@@ -324,6 +325,23 @@ describe('Auth Routes', () => {
       expect(response.statusCode).toBe(200)
       expect(JSON.parse(response.body)).toEqual({ updated: true })
       expect(mockAuth.updateUser).toHaveBeenCalledWith({ password: 'newsecret123' })
+    })
+
+    it('never uses demo-mode credentials to update a password without a bearer token', async () => {
+      const original = config.demo.enabled
+      Object.defineProperty(config.demo, 'enabled', { value: true, configurable: true })
+      try {
+        const response = await app.inject({
+          method: 'POST',
+          url: '/api/auth/update-password',
+          payload: { password: 'newsecret123' },
+        })
+        expect(response.statusCode).toBe(401)
+        expect(JSON.parse(response.body).error.code).toBe('TOKEN_REQUIRED')
+        expect(mockAuth.updateUser).not.toHaveBeenCalled()
+      } finally {
+        Object.defineProperty(config.demo, 'enabled', { value: original, configurable: true })
+      }
     })
 
     it('returns 401 without token', async () => {
