@@ -43,7 +43,7 @@ export function classifyTopic(text) {
   return [...found]
 }
 
-const REVIEW_MARKERS = /\b(test|savol|variant|tushgan|mavzu|metod|dars|standart|pedagog|didaktik|texnologiya|qobiliyat|baholash)\b/i
+const REVIEW_MARKERS = /(test|savol|variant|tushgan|mavzu|metod|dars|standart|pedagog|didakt|texnolog|qobiliyat|baholash|muhit|akvarium|asalari)/i
 
 export function curateTelegramExport(exportData) {
   if (!exportData || !Array.isArray(exportData.messages)) {
