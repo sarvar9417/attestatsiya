@@ -64,6 +64,42 @@ export const questionCoverageIssueSchema = z
   })
   .strict()
 
+export const assemblyCognitiveCountsSchema = z
+  .object({
+    bilish: z.number().int().nonnegative(),
+    qollash: z.number().int().nonnegative(),
+    mulohaza: z.number().int().nonnegative(),
+  })
+  .strict()
+
+export const assemblyReadinessGroupSchema = z
+  .object({
+    group_code: z.string(),
+    order_idx: z.number().int(),
+    required_total: z.number().int().nonnegative(),
+    required: assemblyCognitiveCountsSchema,
+    available: assemblyCognitiveCountsSchema,
+    deficits: assemblyCognitiveCountsSchema,
+    release_minimum: assemblyCognitiveCountsSchema,
+    release_deficits: assemblyCognitiveCountsSchema,
+    exact_feasible: z.boolean(),
+    release_ready: z.boolean(),
+  })
+  .strict()
+
+export const assemblyReadinessSchema = z
+  .object({
+    blueprint_id: z.string(),
+    blueprint_version: z.number().int(),
+    target_count: z.number().int().positive(),
+    eligible_pool_count: z.number().int().nonnegative(),
+    exact_quota_feasible: z.boolean(),
+    release_ready: z.boolean(),
+    release_target_candidates_per_slot: z.number().int().positive(),
+    groups: z.array(assemblyReadinessGroupSchema),
+  })
+  .strict()
+
 export const contentCoverageResponseSchema = z
   .object({
     module_code: z.string().nullable(),
@@ -85,6 +121,7 @@ export const contentCoverageResponseSchema = z
       .strict(),
     constructs: z.array(constructCoverageSchema),
     question_issues: z.array(questionCoverageIssueSchema),
+    assembly_readiness: assemblyReadinessSchema.nullable(),
   })
   .strict()
 
