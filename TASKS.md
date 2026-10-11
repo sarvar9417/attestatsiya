@@ -102,6 +102,7 @@
 | TASK-059 | DONE | TASK-057 | Blueprint bo‘yicha real question-pool feasibility auditi: production assembler eligibility bilan bir xil published+keyed+active taxonomy qoidalari, group × cognitive exact deficit, AC-CNT-04 release reserve va admin UI; PR #87 |
 | TASK-060 | BLOCKED | TASK-059 | M01dan tashqari constructlar uchun source-backed professional savol banklarini bosqichma-bosqich yaratish/import qilish; xususiy answer-key payload va Attestatsiya production Supabase access talab qiladi |
 | TASK-061 | DONE | TASK-057 | Yuqori amaliy og‘irlikdagi S5.WEB/S6.NET/S7.SEC darslariga worked code, IP/maska hisoblash, xavfsizlik scenario va Web-Freelance workflow qo‘shildi; 7 ta lesson uchun DB regression invariant |
+| TASK-062 | DONE | TASK-061 | Post-audit status reconciliation: PR #89 admin auth boundary, PR #90 auth recovery, PR #91 demo route cleanup va PR #92 practical-depth natijalari hujjatlarga reconcile qilindi |
 
 ## UI modernizatsiya — Figma approved design
 
@@ -111,7 +112,7 @@
 | TASK-UI-008 | DONE | TASK-UI-007 | Auth, Profile va Reset Password Figma design systemga moslashtirildi; auth/session/validation behaviori saqlandi; duplicate metadata regressiyalari tuzatildi; ResetPassword testlari va full CI yashil |
 | TASK-UI-007 | DONE | TASK-UI-006 | QuestionFormModal va savol yaratish/tahrirlash formasi Figma design systemga moslashtirildi; mavjud Y1 save behaviori saqlandi; validation/error holatlari inline ko‘rsatildi; Y2/Y3 cheklovi aniq ko‘rsatildi; regressiya testlari qo‘shildi |
 | TASK-UI-006 | DONE | TASK-UI-005 | Admin Modules, Questions va Attempts sahifalari Figma design systemga moslashtirildi; mavjud CRUD/status transition/filter/detail behaviori saqlandi; loading/error/empty holatlari birxillashtirildi; regressiya testlari qo‘shildi |
-| TASK-UI-005 | DONE | TASK-UI-004 | Figma admin yo‘nalishiga mos AdminLayout va AdminDashboard redesign qilindi; mavjud typed Supabase count oqimi saqlandi, loading/error/refresh holatlari qo‘shildi, soxta analytics kiritilmadi, regressiya testlari yozildi |
+| TASK-UI-005 | DONE | TASK-UI-004 | Figma admin yo‘nalishiga mos AdminLayout va AdminDashboard redesign qilindi; loading/error/refresh holatlari qo‘shildi, soxta analytics kiritilmadi; keyinchalik PR #89da count/CRUD oqimi authenticated backend boundaryga ko‘chirildi |
 | TASK-UI-004 | DONE | TASK-UI-003 | Figma assessment yo‘nalishiga mos ExamRunner intro, active status va results UI redesign qilindi; server-authoritative timer/scoring/navigation behaviori saqlandi; regressiya testlari kengaytirildi |
 | TASK-UI-003 | DONE | TASK-UI-002 | Figma lesson yo‘nalishiga mos TopicView shell yaratildi: stage navigator va nazariya/test/result holatlari vizual birlashtirildi; mavjud content, BookReader va server-check behaviori o‘zgartirilmadi; regressiya testlari qo‘shildi |
 | TASK-UI-002 | DONE | TASK-UI-001 | Figma tasdiqlangan Learning va Module/Section overview ekranlari mavjud catalog/progress oqimi bilan implement qilindi; qidiruv, progress va topic ochish behaviori saqlandi; regressiya testlari qo‘shildi |
@@ -128,7 +129,9 @@
 | B-001 | RESOLVED — T-012/T-023: Y1/Y2/Y3 parametrik generatorlar va deterministik SQL seed pipeline yaratildi |
 | B-002 | RESOLVED — TypeScript types remote UUID schema bo'yicha generatsiya qilindi |
 | B-003 | RESOLVED — server-scored ExamRunner UUID RPC kontraktiga o‘tkazildi |
-| B-AUTH-001 | OPEN — PR #81 kod/CI/Vercel preview yashil, lekin merge oldidan production Supabase redirect allowlist + SMTP/email template va real-email E2E (register → verify → login → forgot → reset → login) talab qilinadi |
+| B-AUTH-001 | OPEN — code-level signup/recovery tuzatishlari PR #90 bilan main’ga merge qilindi va GitHub backend/quality/database CI yashil; yakuniy production acceptance uchun Attestatsiya Supabase redirect allowlist + SMTP/template va real-email E2E (register → verify → login → forgot → reset → login) hali talab qilinadi; bu tekshiruv B-PROD-001 sabab bloklangan |
+| B-ADMIN-001 | RESOLVED — PR #89: AdminDashboard/Modules/Questions/QuestionForm browser Data API CRUDidan authenticated backend boundaryga ko‘chirildi; question_keys browser CRUD olib tashlandi |
+| B-DEMO-001 | RESOLVED — PR #91: public `/exam-demo` production route olib tashlandi; real sinov faqat server-backed `/exam/*` orqali |
 | B-PROD-001 | OPEN — joriy Supabase connector Attestatsiya production project `plyqezulrfowyblsfpzy`ni ko‘rsatmaydi; yangi content migrations remote productionga shu connector orqali apply qilinmaydi |
 | B-CONTENT-001 | OPEN — official 50-question assembler tayyor, ammo M01 + 270 parametrik pooldan tashqari barcha blueprint group/cognitive kesimlari uchun real published savol yetarliligi alohida feasibility audit va bank kengaytirishni talab qiladi |
 
