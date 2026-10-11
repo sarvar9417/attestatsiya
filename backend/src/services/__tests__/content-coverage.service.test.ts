@@ -45,24 +45,28 @@ function fixture(): CoverageDataset {
         code: 'S1.INFO.01',
         group_code: 'S1.INFO',
         title_uz: 'Axborot tushunchalari',
+        is_active: true,
       },
       {
         id: ids.c2,
         code: 'S1.INFO.02',
         group_code: 'S1.INFO',
         title_uz: 'Axborot manbalari',
+        is_active: true,
       },
       {
         id: ids.c3,
         code: 'S2.HW.01',
         group_code: 'S2.HW',
         title_uz: 'Qurilmalar',
+        is_active: true,
       },
       {
         id: ids.c4,
         code: 'S1.INFO.03',
         group_code: 'S1.INFO',
         title_uz: 'Kodlash',
+        is_active: true,
       },
     ],
     questions: [
@@ -132,10 +136,28 @@ function fixture(): CoverageDataset {
       { question_id: ids.q2 },
       { question_id: ids.q5 },
     ],
-    activeBlueprints: [{ id: ids.blueprint }],
+    activeBlueprints: [
+      { id: ids.blueprint, version: 1, total_questions: 3 },
+    ],
     blueprintQuotas: [
-      { blueprint_id: ids.blueprint, group_code: 'S1.INFO' },
-      { blueprint_id: ids.blueprint, group_code: 'S2.HW' },
+      {
+        blueprint_id: ids.blueprint,
+        group_code: 'S1.INFO',
+        order_idx: 1,
+        question_count: 2,
+        n_bilish: 1,
+        n_qollash: 1,
+        n_mulohaza: 0,
+      },
+      {
+        blueprint_id: ids.blueprint,
+        group_code: 'S2.HW',
+        order_idx: 2,
+        question_count: 1,
+        n_bilish: 1,
+        n_qollash: 0,
+        n_mulohaza: 0,
+      },
     ],
   }
 }
@@ -183,6 +205,30 @@ describe('buildContentCoverageReport', () => {
     expect(c4?.issues).toContain('no_published_questions')
 
     expect(report.question_issues.map(row => row.question_id)).not.toContain(ids.q5)
+
+    expect(report.assembly_readiness).toMatchObject({
+      blueprint_id: ids.blueprint,
+      blueprint_version: 1,
+      target_count: 3,
+      eligible_pool_count: 3,
+      exact_quota_feasible: true,
+      release_ready: false,
+      release_target_candidates_per_slot: 20,
+    })
+    expect(report.assembly_readiness?.groups).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          group_code: 'S1.INFO',
+          required: { bilish: 1, qollash: 1, mulohaza: 0 },
+          available: { bilish: 1, qollash: 1, mulohaza: 0 },
+          deficits: { bilish: 0, qollash: 0, mulohaza: 0 },
+          release_minimum: { bilish: 20, qollash: 20, mulohaza: 0 },
+          release_deficits: { bilish: 19, qollash: 19, mulohaza: 0 },
+          exact_feasible: true,
+          release_ready: false,
+        }),
+      ])
+    )
   })
 
   it('draft/review savollardagi source kamchiligini published issue sifatida sanamaydi', () => {
@@ -193,6 +239,23 @@ describe('buildContentCoverageReport', () => {
     const c2 = report.constructs.find(row => row.construct_code === 'S1.INFO.02')
     expect(c2?.status_counts.review).toBe(1)
     expect(c2?.format_counts.Y3).toBe(0)
+  })
+
+  it('key yoki active taxonomy bo‘lmasa exact quota deficitini ko‘rsatadi', () => {
+    const data = fixture()
+    data.questionKeys = data.questionKeys.filter(row => row.question_id !== ids.q5)
+
+    const report = buildContentCoverageReport(data)
+    const hardware = report.assembly_readiness?.groups.find(
+      row => row.group_code === 'S2.HW'
+    )
+
+    expect(report.assembly_readiness?.exact_quota_feasible).toBe(false)
+    expect(hardware).toMatchObject({
+      available: { bilish: 0, qollash: 0, mulohaza: 0 },
+      deficits: { bilish: 1, qollash: 0, mulohaza: 0 },
+      exact_feasible: false,
+    })
   })
 
   it('noma’lum module code uchun 404 semantik NotFoundError tashlaydi', () => {
