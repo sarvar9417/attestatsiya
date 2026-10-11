@@ -194,10 +194,17 @@ jobs:
             -f supabase/tests/m01_professional_bank_import.test.sql \
             -f supabase/tests/section_mock_50.test.sql \
             -f supabase/tests/official_mock_50.test.sql \
+            -f supabase/tests/m02_source_backed_lessons.test.sql \
+            -f supabase/tests/m03_office_source_backed_lessons.test.sql \
+            -f supabase/tests/a3_logic_num_algo_lessons.test.sql \
+            -f supabase/tests/a4_programming_lessons.test.sql \
             -f supabase/tests/m09_source_backed_lessons.test.sql \
+            -f supabase/tests/m10_m11_graphics_web_lessons.test.sql \
+            -f supabase/tests/m12_m13_network_security_lessons.test.sql \
             -f supabase/tests/m14_kasb_standarti_lessons.test.sql \
             -f supabase/tests/m16_informatika_metodikasi_lessons.test.sql \
-            -f supabase/tests/m15_umumiy_pedagogika_lessons.test.sql
+            -f supabase/tests/m15_umumiy_pedagogika_lessons.test.sql \
+            -f supabase/tests/source_backed_lesson_coverage.test.sql
 
       - name: Generate and verify parametric DB pool
         run: |
