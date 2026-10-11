@@ -93,6 +93,7 @@ function renderDashboard() {
         <Route path="/learn" element={<div>Learning route</div>} />
         <Route path="/learn/:moduleId" element={<div>Module route</div>} />
         <Route path="/exam" element={<div>Exam route</div>} />
+        <Route path="/professional-practice" element={<div>Professional practice route</div>} />
         <Route path="/review" element={<div>Review route</div>} />
         <Route path="/exam/diagnostika" element={<div>Diagnostic route</div>} />
         <Route path="/exam/zaif" element={<div>Weak route</div>} />
@@ -187,6 +188,14 @@ describe('DashboardPage Figma UI', () => {
     await user.click(action)
 
     expect(await screen.findByText('Review route')).toBeDefined()
+  })
+
+  it('pedagogik 15 praktika bosh sahifadan ochiladi', async () => {
+    const user = userEvent.setup()
+    renderDashboard()
+    expect(screen.getByText('5 ta kasb standarti + 7 ta pedagogika + 3 ta informatika metodikasi.')).toBeDefined()
+    await user.click(screen.getByRole('button', { name: 'Praktikaga o‘tish' }))
+    expect(await screen.findByText('Professional practice route')).toBeDefined()
   })
 
   it('davom ettirish tugmasi birinchi tugallanmagan modulga olib boradi', async () => {
