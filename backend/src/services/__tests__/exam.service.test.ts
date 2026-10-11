@@ -40,6 +40,25 @@ describe('examService.start', () => {
     vi.clearAllMocks()
   })
 
+  it('starts 15-item pedagogy practice via dedicated authenticated RPC', async () => {
+    mockRpc.mockResolvedValue({
+      data: { exam_id: 'ped-15-id', kind: 'pedagogik_15', duration_sec: 1800,
+        started_at: new Date().toISOString(), items: Array.from({ length: 15 }, (_, i) => ({ order_idx: i + 1 })) },
+      error: null,
+    })
+    const session = await examService.start('pedagogik_15', 'token-abc')
+    expect(session.kind).toBe('pedagogik_15')
+    expect(session.items).toHaveLength(15)
+    expect(mockRpc).toHaveBeenCalledWith('generate_professional_practice_15')
+    expect(mockRpc).not.toHaveBeenCalledWith('start_exam', expect.anything())
+  })
+
+  it('returns explicit 409 instead of an incomplete 15-item session if group pool insufficient', async () => {
+    mockRpc.mockResolvedValue({ data: null, error: { message: 'professional_15_pool_insufficient: KS' } })
+    await expect(examService.start('pedagogik_15', 'token-abc'))
+      .rejects.toMatchObject({ code: 'PROFESSIONAL_15_POOL_INSUFFICIENT', statusCode: 409 })
+  })
+
   it('successfully starts a mock exam', async () => {
     mockRpc.mockResolvedValue({
       data: {
