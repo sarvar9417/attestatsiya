@@ -34,8 +34,10 @@ export default function Auth() {
   const [searchParams] = useSearchParams()
   const returnTo = sanitizeReturnTo(searchParams.get('returnTo'))
   const expired = searchParams.get('expired') === '1'
+  const passwordResetSuccess = searchParams.get('passwordReset') === 'success'
 
   const [showExpiredBanner, setShowExpiredBanner] = useState(expired)
+  const [showPasswordResetBanner] = useState(passwordResetSuccess)
 
   const [tab, setTab] = useState<Tab>('login')
   const [name, setName] = useState('')
@@ -61,9 +63,19 @@ export default function Auth() {
   const resendIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   useEffect(() => {
-    if (!expired) return
-    setShowExpiredBanner(true)
-    navigate(location.pathname, { replace: true })
+    if (!expired && !passwordResetSuccess) return
+
+    if (expired) setShowExpiredBanner(true)
+
+    const params = new URLSearchParams(location.search)
+    params.delete('expired')
+    params.delete('passwordReset')
+    const search = params.toString()
+    navigate(
+      { pathname: location.pathname, search: search ? `?${search}` : '' },
+      { replace: true },
+    )
+    // Query flaglar birinchi renderda banner state'ga ko‘chiriladi.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -224,6 +236,12 @@ export default function Auth() {
           {showExpiredBanner && (
             <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl text-sm text-amber-700 mb-4">
               Session muddati tugadi. Iltimos, qayta kiring.
+            </div>
+          )}
+
+          {showPasswordResetBanner && (
+            <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-sm text-emerald-700 mb-4 dark:bg-emerald-950/30 dark:border-emerald-900/60 dark:text-emerald-300">
+              Parolingiz yangilandi. Endi yangi parol bilan kiring.
             </div>
           )}
 
