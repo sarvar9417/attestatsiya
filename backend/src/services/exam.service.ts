@@ -57,6 +57,8 @@ export const examService = {
       })
     } else if (kind === 'mock') {
       result = await client.rpc('generate_official_mock')
+    } else if (kind === 'pedagogik_15') {
+      result = await client.rpc('generate_professional_practice_15')
     } else if (kind === 'mashq') {
       result = await client.rpc('start_adaptive_practice', {
         p_lesson_id: resolvedLessonId,
@@ -69,6 +71,9 @@ export const examService = {
     }
 
     if (result.error) {
+      if (result.error.message?.includes('professional_15_pool_insufficient')) {
+        throw new AppError('5+7+3 ta tekshirilgan savol yetarli emas.', 409, 'PROFESSIONAL_15_POOL_INSUFFICIENT')
+      }
       if (result.error.message?.includes('official_mock_pool_insufficient')) {
         throw new AppError(
           'Rasmiy 50 savollik mock blueprint kvotalarini to‘liq yig‘ish uchun yetarli tasdiqlangan savol mavjud emas.',
