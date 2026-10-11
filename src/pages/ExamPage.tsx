@@ -23,6 +23,7 @@ export default function ExamPage({ gateway }: ExamPageProps) {
     kind === 'mock' ||
     kind === 'diagnostika' ||
     kind === 'takrorlash' ||
+    kind === 'pedagogik_15' ||
     kind === 'zaif'
       ? kind
       : 'mock'
@@ -32,7 +33,9 @@ export default function ExamPage({ gateway }: ExamPageProps) {
       ? '/review'
       : examKind === 'diagnostika'
         ? '/'
-        : moduleId
+        : examKind === 'pedagogik_15'
+          ? '/professional-practice'
+          : moduleId
           ? `/learn/${moduleId}`
           : undefined
 

@@ -24,6 +24,7 @@ const KIND_LABELS: Record<ExamResultDetail['kind'], string> = {
   mock: 'Mock test',
   takrorlash: 'Takrorlash',
   zaif: 'Zaif mavzular',
+  pedagogik_15: 'Pedagogika va kasb standarti · 15',
 }
 
 function formatDate(value: string): string {
@@ -152,7 +153,7 @@ export default function ExamResultPage() {
                     ? 'bg-rose-50 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300'
                     : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-300',
               ].join(' ')}>
-                {result.passed === true ? 'O‘tdi' : result.passed === false ? 'O‘tmadi' : 'Baholanmagan'}
+                {result.passed === true ? 'O‘tdi' : result.passed === false ? 'O‘tmadi' : result.kind === 'pedagogik_15' ? 'Mashq yakunlandi' : 'Baholanmagan'}
               </span>
             </div>
             <div className="mt-4 h-2 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">

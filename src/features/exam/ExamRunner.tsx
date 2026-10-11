@@ -57,7 +57,7 @@ type RunnerPhase =
 
 interface ExamRunnerProps {
   gateway?: ExamGateway
-  examKind?: 'mock' | 'bolim' | 'mavzu' | 'mashq' | 'diagnostika' | 'takrorlash' | 'zaif'
+  examKind?: 'mock' | 'bolim' | 'mavzu' | 'mashq' | 'diagnostika' | 'takrorlash' | 'zaif' | 'pedagogik_15'
   moduleId?: string
   lessonId?: string
   /** Yakuniy natija ekranidagi "Orqaga" havolasi (masalan, /learn/M01). */
@@ -218,6 +218,7 @@ export default function ExamRunner({
         examKind === 'diagnostika' ||
         examKind === 'mashq' ||
         examKind === 'takrorlash' ||
+        examKind === 'pedagogik_15' ||
         examKind === 'zaif'
       ) {
         if (!gateway.startFocusedExam) {
@@ -436,6 +437,7 @@ export default function ExamRunner({
   }
 
   const examTitle =
+    examKind === 'pedagogik_15' ? 'Pedagogik mahorat va kasb standarti — 15 savol' :
     examKind === 'mock'
       ? 'Attestatsiya mock sinovi'
       : examKind === 'bolim'
@@ -454,6 +456,7 @@ export default function ExamRunner({
   if (phase === 'intro' || phase === 'starting' || phase === 'start-error') {
     const starting = phase === 'starting'
     const questionLabel =
+      examKind === 'pedagogik_15' ? '15 savol (5 + 7 + 3)' :
       examKind === 'mock'
         ? '50 savol'
         : examKind === 'bolim'
@@ -470,6 +473,7 @@ export default function ExamRunner({
                 ? `${topicPreview.questionCount} savol`
                 : 'Mavzu testi'
     const durationLabel =
+      examKind === 'pedagogik_15' ? '30 daqiqa (mashq)' :
       examKind === 'mock'
         ? '120 daqiqa'
         : examKind === 'bolim'
@@ -526,6 +530,7 @@ export default function ExamRunner({
                 </div>
               </div>
 
+              {examKind === 'pedagogik_15' && <p className="mt-4 text-sm text-gray-600 dark:text-gray-300">36–40: kasb standarti (5), 41–47: pedagogika (7), 48–50: informatika metodikasi (3). 30 daqiqa faqat mashq uchun.</p>}
               {examKind === 'mock' && (
                 <div className="mt-5 flex flex-wrap gap-2">
                   <span className="rounded-lg bg-emerald-50 px-2.5 py-1.5 text-xs font-semibold text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">
@@ -651,7 +656,7 @@ export default function ExamRunner({
 
           <div className="min-w-0 flex-1 lg:border-l lg:border-gray-200 lg:pl-6 dark:lg:border-gray-800">
             <h2 className="text-lg font-semibold text-gray-950 dark:text-white">
-              {passed ? 'Natija talab darajasida' : 'Natijani mustahkamlash kerak'}
+              {examKind === 'pedagogik_15' ? 'Mashq natijasi hisoblandi' : passed ? 'Natija talab darajasida' : 'Natijani mustahkamlash kerak'}
             </h2>
             <p className="mt-1 text-sm leading-6 text-gray-500 dark:text-gray-400">
               Natija server tomonidan hisoblandi. Quyidagi kesim keyingi tayyorgarlik

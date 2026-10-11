@@ -61,6 +61,7 @@ export const examSessionSchema = z
       'mock',
       'takrorlash',
       'zaif',
+      'pedagogik_15',
     ]),
     duration_sec: z.number().int().positive().nullable(),
     started_at: z.string().refine((value) => Number.isFinite(Date.parse(value)), {
@@ -161,6 +162,7 @@ export const examHistoryItemSchema = z
       'mock',
       'takrorlash',
       'zaif',
+      'pedagogik_15',
     ]),
     lesson_id: uuidSchema.nullable(),
     lesson_slug: z.string().nullable(),

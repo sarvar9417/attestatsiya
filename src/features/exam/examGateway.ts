@@ -17,7 +17,7 @@ export interface SubmitAnswerInput {
   timeSpentSec: number
 }
 
-export type ExamKind = 'mock' | 'bolim' | 'mavzu' | 'mashq' | 'diagnostika' | 'takrorlash' | 'zaif'
+export type ExamKind = 'mock' | 'bolim' | 'mavzu' | 'mashq' | 'diagnostika' | 'takrorlash' | 'zaif' | 'pedagogik_15'
 
 /**
  * Mavzu testi uchun boshlashdan oldin ko'rsatiladigan ma'lumot:
@@ -34,7 +34,7 @@ export interface ExamGateway {
   startTopicExam(lessonId: string): Promise<ExamSession>
   /** Server-calculated diagnostic/adaptive/review/weak-area sessionini boshlaydi. */
   startFocusedExam?(
-    kind: 'diagnostika' | 'mashq' | 'takrorlash' | 'zaif',
+    kind: 'diagnostika' | 'mashq' | 'takrorlash' | 'zaif' | 'pedagogik_15',
     lessonId?: string
   ): Promise<ExamSession>
   /** Intro ekranda vaqt cheklovini ko'rsatish uchun (mavzu testi). */

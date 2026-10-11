@@ -946,6 +946,7 @@ export type Database = {
         | "mock"
         | "takrorlash"
         | "zaif"
+        | "pedagogik_15"
       exam_section:
         | "specialty"
         | "professional_standard"
@@ -1091,6 +1092,7 @@ export const Constants = {
         "mock",
         "takrorlash",
         "zaif",
+        "pedagogik_15",
       ],
       exam_section: [
         "specialty",

@@ -316,6 +316,18 @@ export default function DashboardPage() {
         </button>
       </section>
 
+      <section className="flex flex-col gap-4 rounded-2xl border border-indigo-200 bg-indigo-50 p-5 dark:border-indigo-900 dark:bg-indigo-950/30 sm:flex-row sm:items-center sm:justify-between" aria-label="Pedagogik praktika">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-widest text-indigo-600 dark:text-indigo-300">Maxsus attestatsiya praktikasi</p>
+          <h2 className="mt-1 text-lg font-bold text-gray-950 dark:text-gray-100">Pedagogik mahorat va kasb standarti — 15 savol</h2>
+          <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">5 ta kasb standarti + 7 ta pedagogika + 3 ta informatika metodikasi.</p>
+        </div>
+        <button type="button" onClick={() => navigate('/professional-practice')} className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-xl bg-indigo-600 px-5 text-sm font-semibold text-white hover:bg-indigo-700">
+          Praktikaga o‘tish
+          <ArrowRight size={17} className="ml-2" aria-hidden="true" />
+        </button>
+      </section>
+
       <section
         className="grid grid-cols-2 gap-3 lg:grid-cols-4"
         aria-label="Tayyorgarlik ko‘rsatkichlari"

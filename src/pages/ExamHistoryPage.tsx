@@ -26,6 +26,7 @@ const KIND_LABELS: Record<ExamHistoryItem['kind'], string> = {
   mock: 'Mock test',
   takrorlash: 'Takrorlash',
   zaif: 'Zaif mavzular',
+  pedagogik_15: 'Pedagogika va kasb standarti · 15',
 }
 
 function formatFinishedAt(value: string): string {
@@ -73,7 +74,7 @@ function HistoryCard({ item }: { item: ExamHistoryItem }) {
                 ? 'O‘tdi'
                 : item.passed === false
                   ? 'O‘tmadi'
-                  : 'Baholanmagan'}
+                  : item.kind === 'pedagogik_15' ? 'Mashq yakunlandi' : 'Baholanmagan'}
             </span>
           </div>
 
