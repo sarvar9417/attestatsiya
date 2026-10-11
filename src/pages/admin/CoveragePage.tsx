@@ -171,6 +171,10 @@ export default function CoveragePage() {
 
       {report && (
         <>
+          {report.assembly_readiness && (
+            <AssemblyReadinessPanel readiness={report.assembly_readiness} />
+          )}
+
           <section className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_330px]">
             <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
               <div className="border-b border-gray-100 px-5 py-4 dark:border-gray-800">
@@ -344,6 +348,109 @@ export default function CoveragePage() {
         </>
       )}
     </div>
+  )
+}
+
+function AssemblyReadinessPanel({
+  readiness,
+}: {
+  readiness: NonNullable<ContentCoverageReport['assembly_readiness']>
+}) {
+  const deficitGroups = readiness.groups.filter(
+    row => !row.exact_feasible || !row.release_ready
+  )
+
+  return (
+    <section className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
+      <div className="flex flex-col gap-3 border-b border-gray-100 px-5 py-4 lg:flex-row lg:items-center lg:justify-between dark:border-gray-800">
+        <div>
+          <h2 className="text-sm font-semibold text-gray-950 dark:text-white">
+            Rasmiy mock pool feasibility
+          </h2>
+          <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+            Blueprint v{readiness.blueprint_version}: exact group × cognitive kvota va release reserve auditi.
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-2 text-[11px] font-semibold">
+          <span
+            className={`rounded-full px-3 py-1.5 ${
+              readiness.exact_quota_feasible
+                ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300'
+                : 'bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-300'
+            }`}
+          >
+            Exact mock: {readiness.exact_quota_feasible ? 'FEASIBLE' : 'INSUFFICIENT'}
+          </span>
+          <span
+            className={`rounded-full px-3 py-1.5 ${
+              readiness.release_ready
+                ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300'
+                : 'bg-amber-50 text-amber-700 dark:bg-amber-950/35 dark:text-amber-300'
+            }`}
+          >
+            Release reserve: {readiness.release_ready ? 'READY' : 'GAP BOR'}
+          </span>
+        </div>
+      </div>
+
+      <div className="grid gap-3 px-5 py-4 sm:grid-cols-3">
+        <div>
+          <div className="text-[10px] uppercase tracking-wider text-gray-400">Mock hajmi</div>
+          <div className="mt-1 text-xl font-bold text-gray-950 dark:text-white">
+            {readiness.target_count}
+          </div>
+        </div>
+        <div>
+          <div className="text-[10px] uppercase tracking-wider text-gray-400">Eligible pool</div>
+          <div className="mt-1 text-xl font-bold text-gray-950 dark:text-white">
+            {formatCount(readiness.eligible_pool_count)}
+          </div>
+        </div>
+        <div>
+          <div className="text-[10px] uppercase tracking-wider text-gray-400">Release target</div>
+          <div className="mt-1 text-sm font-semibold text-gray-800 dark:text-gray-200">
+            Har required slotga ≥{readiness.release_target_candidates_per_slot} candidate
+          </div>
+        </div>
+      </div>
+
+      {deficitGroups.length > 0 && (
+        <div className="overflow-x-auto border-t border-gray-100 dark:border-gray-800">
+          <table className="min-w-[900px] w-full text-left text-xs">
+            <thead className="bg-gray-50 text-[10px] uppercase tracking-wider text-gray-400 dark:bg-gray-800/60">
+              <tr>
+                <th className="px-4 py-3">Group</th>
+                <th className="px-4 py-3">Required B/Q/M</th>
+                <th className="px-4 py-3">Available B/Q/M</th>
+                <th className="px-4 py-3">Exact deficit B/Q/M</th>
+                <th className="px-4 py-3">Release deficit B/Q/M</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+              {deficitGroups.map(row => (
+                <tr key={row.group_code}>
+                  <td className="px-4 py-3 font-semibold text-gray-900 dark:text-gray-100">
+                    {row.group_code}
+                  </td>
+                  <td className="px-4 py-3 text-gray-600 dark:text-gray-300">
+                    {row.required.bilish} / {row.required.qollash} / {row.required.mulohaza}
+                  </td>
+                  <td className="px-4 py-3 text-gray-600 dark:text-gray-300">
+                    {row.available.bilish} / {row.available.qollash} / {row.available.mulohaza}
+                  </td>
+                  <td className="px-4 py-3 text-gray-600 dark:text-gray-300">
+                    {row.deficits.bilish} / {row.deficits.qollash} / {row.deficits.mulohaza}
+                  </td>
+                  <td className="px-4 py-3 text-gray-600 dark:text-gray-300">
+                    {row.release_deficits.bilish} / {row.release_deficits.qollash} / {row.release_deficits.mulohaza}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
   )
 }
 
