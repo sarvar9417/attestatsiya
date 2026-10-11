@@ -840,8 +840,8 @@ Keyingi task: T-013/T-014/T-015 holatini amaldagi server-scored ExamRunner bilan
   - `App.tsx` — `/`, `/learn`, `/learn/:moduleId`, `/exam*` route'lari
     ProtectedRoute bilan himoyalandi (ilgari faqat /profile).
   - `backend/.env` — `DEMO_MODE=false` (production default bilan moslashadi).
-  - Demo rejim belgilari olib tashlandi (endi login'siz faqat /auth va
-    /exam-demo ochiq).
+  - Demo rejim belgilari va public `/exam-demo` route olib tashlandi; login'siz
+    faqat auth/recovery oqimlari ochiq.
 - **Natija:** chiqish bosilganda session tozalanadi → barcha sahifalar
   `/auth?returnTo=` ga yo'naltiriladi; exam/progress API login'siz 401.
 - **Testlar:** live-auth'ga yangi regressiya testi — login → /learn ochiq →
