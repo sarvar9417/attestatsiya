@@ -276,6 +276,33 @@ SMM, CMS, LMS va MOOC atamalarini vazifasi va foydalanuvchi maqsadiga ko‘ra fa
 > **Manba izi:** ICT 8-sinf (2020), SMM PDF 5–36, CMS PDF 37–59, LMS PDF 60–76, MOOC PDF 77–93.
 $md$,
     20, 'published'::public.content_status
+  ),
+  (
+    'd1300000-0000-4000-8000-000000000006', v_m13, 6,
+    'web-freelance-asoslari',
+    'Web-freelance: yo‘nalishlar va platformalar',
+    $md$
+## Maqsad
+
+Web-freelance tushunchasini, buyurtmachi va ijrochi o‘rtasidagi masofaviy ish modelini hamda freelance platformasining vazifasini tushunish.
+
+## Freelance nima?
+
+**Freelance** — mutaxassisning doimiy bitta ish beruvchiga bog‘lanmasdan, alohida buyurtma yoki loyiha asosida xizmat ko‘rsatish shakli. Web-freelance internet orqali buyurtma topish, talabni muhokama qilish, ish natijasini topshirish va kelishilgan shartlar asosida hamkorlik qilish imkonini beradi.
+
+Freelance platformasi buyurtmachi bilan ijrochini uchrashtirish, loyiha tavsifi va takliflarni joylashtirish, profil/portfolio ko‘rsatish kabi jarayonlarni tashkil etishi mumkin. Platforma kasbning o‘zi emas; u xizmat bozori uchun vositadir.
+
+## Yo‘nalishlar
+
+Veb-sayt yaratish, grafik dizayn, matn tayyorlash, dasturlash va raqamli kontent bilan ishlash freelance shaklida bajarilishi mumkin. Yo‘nalishni tanlashda mavjud ko‘nikma, buyurtma talabi, muddat va natijani baholash mezonlari hisobga olinadi.
+
+## Xavfsizlik
+
+Noma’lum buyurtmachi bilan ishlashda shaxsiy va moliyaviy ma’lumotni ehtiyot qilish, platforma qoidalarini o‘qish va shubhali havola/fayllarni tekshirish muhim.
+
+> **Manba izi:** ICT 8-sinf (2020), VI bob “Web-Freelance”, PDF 94–104; 2026 attestatsiya taksonomiyasi S7.SEC.06.
+$md$,
+    18, 'published'::public.content_status
   )
   on conflict (module_id, slug) do update
   set order_idx = excluded.order_idx,
@@ -296,7 +323,7 @@ $md$,
       or
       (l.module_id = v_m13 and l.slug in (
         'xavfsizlik-tahdidlari-va-himoya','zararli-dastur-va-phishing','antivirus-va-himoya-vositalari',
-        'elektron-hukumat-va-elektron-imzo','smm-cms-lms-mooc'
+        'elektron-hukumat-va-elektron-imzo','smm-cms-lms-mooc','web-freelance-asoslari'
       ))
     );
 
@@ -313,7 +340,8 @@ $md$,
       ('M13','zararli-dastur-va-phishing','S7.SEC.02'),
       ('M13','antivirus-va-himoya-vositalari','S7.SEC.03'),
       ('M13','elektron-hukumat-va-elektron-imzo','S7.SEC.04'),
-      ('M13','smm-cms-lms-mooc','S7.SEC.05')
+      ('M13','smm-cms-lms-mooc','S7.SEC.05'),
+      ('M13','web-freelance-asoslari','S7.SEC.06')
   ) as mapping(module_code, slug, construct_code)
   join public.modules m on m.code = mapping.module_code
   join public.lessons l on l.module_id = m.id and l.slug = mapping.slug
