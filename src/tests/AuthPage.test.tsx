@@ -163,6 +163,13 @@ describe('Auth sahifasi', () => {
     expect(signUp).not.toHaveBeenCalled()
   })
 
+  it('?passwordReset=success: yangi parol bilan kirish banneri ko‘rsatiladi', () => {
+    renderAuth(['/auth?passwordReset=success'])
+    expect(
+      screen.getByText('Parolingiz yangilandi. Endi yangi parol bilan kiring.'),
+    ).toBeDefined()
+  })
+
   it('?expired=1: session tugagan banner ko\'rsatiladi', () => {
     renderAuth(['/auth?expired=1'])
     expect(screen.getByText('Session muddati tugadi. Iltimos, qayta kiring.')).toBeDefined()
