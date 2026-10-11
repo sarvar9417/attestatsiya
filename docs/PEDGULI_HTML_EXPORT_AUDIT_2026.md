@@ -9,7 +9,7 @@ User-supplied Telegram Desktop HTML export: **20 files**, `messages.html` throug
 | Measured item | Count | Interpretation |
 |---|---:|---|
 | Default channel message records | 19,536 | Unique Telegram record IDs across 20 HTML pages |
-| Text-bearing messages | approx. 14,? | Not a count of distinct pedagogical resources |
+| Text-bearing messages | 15,433 | Not a count of distinct pedagogical resources |
 | Messages containing an A/B/C/D option pattern | **2,408** | **Candidates**; not yet validated question bank |
 | Distinct candidate text after case/whitespace normalization | **1,394** | 1,014 messages had exact normalized text duplicates |
 | Answer-marker-like messages among question candidates | **107** | `✅` or answer-language hints, **NOT** a verified correct key |
