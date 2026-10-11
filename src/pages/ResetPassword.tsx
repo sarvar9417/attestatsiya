@@ -10,16 +10,19 @@ export default function ResetPassword() {
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
-  const { session, updatePassword } = useAuth()
+  const { updatePassword } = useAuth()
   const navigate = useNavigate()
 
   const hasRecoveryToken =
     typeof window !== 'undefined' &&
-    new URLSearchParams(window.location.hash.slice(1)).has('access_token')
+    (() => {
+      const params = new URLSearchParams(window.location.hash.slice(1))
+      return params.get('type') === 'recovery' && Boolean(params.get('access_token'))
+    })()
 
   useEffect(() => {
     if (!success) return
-    const timer = setTimeout(() => navigate('/'), 3000)
+    const timer = setTimeout(() => navigate('/auth?passwordReset=success', { replace: true }), 3000)
     return () => clearTimeout(timer)
   }, [success, navigate])
 
@@ -56,21 +59,21 @@ export default function ResetPassword() {
             Parol yangilandi
           </h1>
           <p className="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-400">
-            Parolingiz muvaffaqiyatli yangilandi. Bosh sahifaga o‘tilmoqda...
+            Parolingiz muvaffaqiyatli yangilandi. Kirish sahifasiga o‘tilmoqda...
           </p>
           <button
             type="button"
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/auth?passwordReset=success', { replace: true })}
             className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-indigo-600 px-4 text-sm font-semibold text-white transition hover:bg-indigo-700"
           >
-            Bosh sahifaga o‘tish
+            Kirish sahifasiga o‘tish
           </button>
         </div>
       </div>
     )
   }
 
-  if (!hasRecoveryToken && !session) {
+  if (!hasRecoveryToken) {
     return (
       <div className="grid min-h-screen place-items-center bg-[#f6f8fc] px-4 dark:bg-gray-950">
         <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-7 text-center shadow-xl dark:border-gray-800 dark:bg-gray-900">
@@ -82,7 +85,7 @@ export default function ResetPassword() {
           </h1>
           <p className="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-400">
             Parolni yangilash uchun email orqali kelgan tiklash havolasini oching
-            yoki tizimga kiring.
+            yoki yangi tiklash xatini so‘rang.
           </p>
           <Link
             to="/auth"
