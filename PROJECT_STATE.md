@@ -1657,10 +1657,12 @@ Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user co
 
 ### Remaining external/product work
 
-1. **Auth production acceptance (PR #81):** code CI and Vercel preview are green,
-   but production Supabase redirect allowlist, SMTP/email template delivery and
-   a real-email end-to-end flow must pass before merge:
+1. **Auth production acceptance:** signup/recovery code fixes were merged in
+   PR #90 and GitHub backend/quality/database CI is green. Remaining acceptance
+   is environment-level: production Supabase redirect allowlist, SMTP/email
+   template delivery and a real-email end-to-end flow:
    register → verify email → login → forgot password → reset password → login.
+   This is currently blocked by the production Supabase connector scope.
 2. **Production DB activation:** the current Supabase connector does not expose
    the Attestatsiya production project `plyqezulrfowyblsfpzy`; therefore newly
    merged content migrations cannot be safely applied through the available
@@ -1679,3 +1681,23 @@ Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user co
 - M12 IP/maska: bitwise AND bilan /26 worked example va ikki mustaqil network-address masalasi.
 - M13 security/freelance: threat-mechanism scenario matrix va profile→portfolio→buyurtma→delivery ish oqimi.
 - Database regressiya 7 ta lesson markerini, HTML/CSS code blocks, IP calculation va freelance workflowni majburiy tekshiradi.
+
+
+## Post-audit stabilization (PR #89–#92, 2026-10-11)
+
+- **PR #89 — admin auth boundary:** AdminDashboard, Modules, Questions and
+  QuestionForm no longer depend on browser Data API CRUD. Authenticated backend
+  routes enforce staff role checks; direct browser `question_keys` CRUD was removed.
+- **PR #90 — signup/recovery:** public `auth.signUp` verification semantics,
+  recovery-only token acceptance, reload-safe token cleanup and explicit
+  password-reset-success login UX were merged. Real-email production acceptance
+  is still pending because the current Supabase connector does not expose
+  `plyqezulrfowyblsfpzy`.
+- **PR #91 — demo cleanup:** public `/exam-demo` was removed from the current
+  product router; real assessments remain under server-backed `/exam/*`.
+- **PR #92 — practical lesson depth:** seven applied lessons received worked
+  HTML/CSS examples, Paint/Photoshop workflow, IP/mask calculation, security
+  scenarios and Web-Freelance workflow; database regression checks are permanent.
+- **CI:** all four PRs passed GitHub backend/quality/database checks before merge.
+  Vercel preview checks were unavailable because the account hit its build-rate
+  limit; GitHub production build and Playwright smoke still passed.
