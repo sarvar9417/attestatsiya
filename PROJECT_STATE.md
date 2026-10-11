@@ -1669,3 +1669,13 @@ Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user co
    exist, but real published question sufficiency outside M01 and the existing
    270 parametric pool must be audited against every blueprint group × cognitive
    quota before claiming full production mock readiness.
+
+
+## Practical lesson depth upgrade (TASK-061, 2026-10-11)
+
+- 76/76 structural coverage’dan keyingi pedagogik audit bo‘yicha applied constructlar chuqurlashtirildi.
+- M10 Paint/Photoshop: crop/resize/layer/transform vaziyatli workflow.
+- M11 HTML/CSS: real code fragmentlari, table/form controls, selector/property/value va external stylesheet tahlili.
+- M12 IP/maska: bitwise AND bilan /26 worked example va ikki mustaqil network-address masalasi.
+- M13 security/freelance: threat-mechanism scenario matrix va profile→portfolio→buyurtma→delivery ish oqimi.
+- Database regressiya 7 ta lesson markerini, HTML/CSS code blocks, IP calculation va freelance workflowni majburiy tekshiradi.
