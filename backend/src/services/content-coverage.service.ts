@@ -29,6 +29,7 @@ interface ConstructRow {
   code: string
   group_code: string
   title_uz: string
+  is_active: boolean
 }
 
 interface QuestionRow {
@@ -50,11 +51,18 @@ interface QuestionKeyRow {
 
 interface BlueprintRow {
   id: string
+  version: number
+  total_questions: number
 }
 
 interface BlueprintQuotaRow {
   blueprint_id: string
   group_code: string
+  order_idx: number
+  question_count: number
+  n_bilish: number
+  n_qollash: number
+  n_mulohaza: number
 }
 
 export interface CoverageDataset {
@@ -132,6 +140,99 @@ function addIssue(target: CoverageIssueCode[], issue: CoverageIssueCode): void {
 function stemPreview(stem: string): string {
   const normalized = stem.replace(/\s+/g, ' ').trim()
   return normalized.length <= 140 ? normalized : `${normalized.slice(0, 137)}…`
+}
+
+const RELEASE_TARGET_CANDIDATES_PER_SLOT = 20
+
+type CognitiveKey = 'bilish' | 'qollash' | 'mulohaza'
+
+function cognitiveCounts() {
+  return { bilish: 0, qollash: 0, mulohaza: 0 }
+}
+
+function buildAssemblyReadiness(dataset: CoverageDataset) {
+  const blueprint = [...dataset.activeBlueprints].sort(
+    (a, b) => b.version - a.version
+  )[0]
+  if (!blueprint) return null
+
+  const quotas = dataset.blueprintQuotas
+    .filter(row => row.blueprint_id === blueprint.id)
+    .sort((a, b) => a.order_idx - b.order_idx || a.group_code.localeCompare(b.group_code))
+
+  const constructById = new Map(dataset.constructs.map(row => [row.id, row]))
+  const keyIds = new Set(dataset.questionKeys.map(row => row.question_id))
+  const activeGroups = new Set(quotas.map(row => row.group_code))
+
+  const eligible = dataset.questions.filter(question => {
+    const construct = constructById.get(question.construct_id)
+    return Boolean(
+      construct?.is_active &&
+      question.status === 'published' &&
+      question.group_code === construct.group_code &&
+      activeGroups.has(question.group_code) &&
+      keyIds.has(question.id)
+    )
+  })
+
+  const groups = quotas.map(quota => {
+    const required = {
+      bilish: quota.n_bilish,
+      qollash: quota.n_qollash,
+      mulohaza: quota.n_mulohaza,
+    }
+    const available = cognitiveCounts()
+
+    for (const question of eligible) {
+      if (question.group_code === quota.group_code) {
+        available[question.cognitive] += 1
+      }
+    }
+
+    const deficits = cognitiveCounts()
+    const releaseMinimum = cognitiveCounts()
+    const releaseDeficits = cognitiveCounts()
+    for (const cognitive of ['bilish', 'qollash', 'mulohaza'] as CognitiveKey[]) {
+      deficits[cognitive] = Math.max(0, required[cognitive] - available[cognitive])
+      // AC-CNT-04: every required blueprint slot should still have at least
+      // 20 distinct candidates. With N no-replacement slots in the same
+      // group/cognitive cell, the starting pool therefore needs N + 19.
+      releaseMinimum[cognitive] =
+        required[cognitive] > 0
+          ? required[cognitive] + RELEASE_TARGET_CANDIDATES_PER_SLOT - 1
+          : 0
+      releaseDeficits[cognitive] = Math.max(
+        0,
+        releaseMinimum[cognitive] - available[cognitive]
+      )
+    }
+
+    return {
+      group_code: quota.group_code,
+      order_idx: quota.order_idx,
+      required_total: quota.question_count,
+      required,
+      available,
+      deficits,
+      release_minimum: releaseMinimum,
+      release_deficits: releaseDeficits,
+      exact_feasible: Object.values(deficits).every(value => value === 0),
+      release_ready: Object.values(releaseDeficits).every(value => value === 0),
+    }
+  })
+
+  return {
+    blueprint_id: blueprint.id,
+    blueprint_version: blueprint.version,
+    target_count: blueprint.total_questions,
+    eligible_pool_count: eligible.length,
+    exact_quota_feasible:
+      groups.length > 0 && groups.every(group => group.exact_feasible),
+    release_ready:
+      groups.length > 0 && groups.every(group => group.release_ready),
+    release_target_candidates_per_slot: RELEASE_TARGET_CANDIDATES_PER_SLOT,
+    groups,
+  }
 }
 
 /**
@@ -336,6 +437,7 @@ export function buildContentCoverageReport(
     question_issues: questionIssues.sort((a, b) =>
       a.construct_code.localeCompare(b.construct_code)
     ),
+    assembly_readiness: buildAssemblyReadiness(dataset),
   }
 }
 
@@ -370,7 +472,7 @@ async function loadCoverageDataset(): Promise<CoverageDataset> {
     readPaged<ConstructRow>('constructs', (from, to) =>
       supabase
         .from('constructs')
-        .select('id, code, group_code, title_uz')
+        .select('id, code, group_code, title_uz, is_active')
         .order('code')
         .range(from, to)
     ),
@@ -393,15 +495,17 @@ async function loadCoverageDataset(): Promise<CoverageDataset> {
     readPaged<BlueprintRow>('blueprints', (from, to) =>
       supabase
         .from('blueprints')
-        .select('id')
+        .select('id, version, total_questions')
         .eq('is_active', true)
-        .order('id')
+        .order('version', { ascending: false })
         .range(from, to)
     ),
     readPaged<BlueprintQuotaRow>('blueprint_quotas', (from, to) =>
       supabase
         .from('blueprint_quotas')
-        .select('blueprint_id, group_code')
+        .select(
+          'blueprint_id, group_code, order_idx, question_count, n_bilish, n_qollash, n_mulohaza'
+        )
         .order('order_idx')
         .range(from, to)
     ),
