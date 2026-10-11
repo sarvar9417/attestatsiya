@@ -189,6 +189,46 @@ describe('useAuth', () => {
     vi.unstubAllGlobals()
   })
 
+  it('updatePassword: recovery succeeds and removes a previously signed-in account session', async () => {
+    sessionStore.set(makeSession({ access_token: 'old-account-token' }))
+    window.location.hash = '#access_token=recovery-token&type=recovery'
+    const fetchMock = vi.fn().mockResolvedValue(new Response(
+      JSON.stringify({ updated: true }),
+      { status: 200, headers: { 'Content-Type': 'application/json' } },
+    ))
+    vi.stubGlobal('fetch', fetchMock)
+
+    const { result } = renderHook(() => useAuth())
+    await act(async () => {
+      const res = await result.current.updatePassword('another-new-password')
+      expect(res.error).toBeNull()
+    })
+
+    expect(sessionStore.get()).toBeNull()
+    expect(result.current.user).toBeNull()
+    expect(window.location.hash).toBe('')
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+    vi.unstubAllGlobals()
+  })
+
+  it('session refresh cannot restore a session removed by logout', async () => {
+    let resolveRefresh: (session: AuthSession) => void = () => undefined
+    sessionStore.set(makeSession({ expires_at: Date.now() - 1000 }))
+    authClientMock.refresh.mockImplementation(() => new Promise<AuthSession>((resolve) => {
+      resolveRefresh = resolve
+    }))
+    authClientMock.logout.mockResolvedValue({ success: true })
+    const { result } = renderHook(() => useAuth())
+
+    await act(async () => {
+      await result.current.signOut()
+      resolveRefresh(makeSession({ access_token: 'stale-refreshed-session' }))
+    })
+    await waitFor(() => expect(result.current.loading).toBe(false))
+    expect(sessionStore.get()).toBeNull()
+    expect(result.current.user).toBeNull()
+  })
+
   it('updatePassword: non-recovery hash token authorization sifatida ishlatilmaydi', async () => {
     window.location.hash = '#access_token=signup-token&type=signup'
     const fetchMock = vi.fn()
