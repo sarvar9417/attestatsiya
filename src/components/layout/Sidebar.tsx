@@ -40,6 +40,11 @@ const NAV_ITEMS: NavItem[] = [
     label: 'Mock test',
   },
   {
+    to: '/professional-practice',
+    icon: <ClipboardCheck size={18} aria-hidden="true" />,
+    label: 'Pedagogik praktika · 15',
+  },
+  {
     to: '/history',
     icon: <BarChart3 size={18} aria-hidden="true" />,
     label: 'Natijalar tarixi',
