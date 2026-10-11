@@ -17,14 +17,14 @@ interface AdminStats {
   modules: number
   questions: number
   blueprints: number
-  users: number
+  users: number | null
 }
 
 const EMPTY_STATS: AdminStats = {
   modules: 0,
   questions: 0,
   blueprints: 0,
-  users: 0,
+  users: null,
 }
 
 function formatCount(value: number): string {
@@ -276,7 +276,7 @@ function AdminMetricCard({
   loading,
 }: {
   label: string
-  value: number
+  value: number | null
   icon: React.ReactNode
   tone: Tone
   loading: boolean
