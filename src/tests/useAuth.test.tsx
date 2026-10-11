@@ -185,6 +185,20 @@ describe('useAuth', () => {
     expect((init.headers as Record<string, string>).Authorization).toBe('Bearer recovery-token')
     expect(JSON.parse(init.body as string)).toEqual({ password: 'newsecret123' })
     expect(window.location.hash).toBe('')
+    expect(window.location.pathname).toBe('/')
+    vi.unstubAllGlobals()
+  })
+
+  it('updatePassword: non-recovery hash token is never accepted as recovery authorization', async () => {
+    window.location.hash = '#access_token=not-a-recovery-token&type=signup'
+    const fetchMock = vi.fn()
+    vi.stubGlobal('fetch', fetchMock)
+
+    const { result } = renderHook(() => useAuth())
+    const res = await act(async () => result.current.updatePassword('newsecret123'))
+
+    expect(res.error?.message).toContain('Qayta kirish')
+    expect(fetchMock).not.toHaveBeenCalled()
     vi.unstubAllGlobals()
   })
 
