@@ -27,6 +27,7 @@ function toError(error: unknown): Error {
 function getRecoveryTokenFromUrl(): string | null {
   if (typeof window === 'undefined') return null
   const params = new URLSearchParams(window.location.hash.slice(1))
+  if (params.get('type') !== 'recovery') return null
   return params.get('access_token')
 }
 
@@ -139,7 +140,12 @@ export function useAuth(): AuthState & {
       }
 
       if (recoveryToken && typeof window !== 'undefined') {
-        window.location.hash = ''
+        // Tokenni URL'dan history navigation/hashchange chaqirmasdan olib tashlaymiz.
+        window.history.replaceState(
+          window.history.state,
+          '',
+          window.location.pathname + window.location.search,
+        )
       }
 
       return { data: null, error: null }
