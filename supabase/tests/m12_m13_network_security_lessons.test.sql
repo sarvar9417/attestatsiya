@@ -33,7 +33,7 @@ begin
         'tarmoqlar-va-qurilmalar','arxitektura-va-topologiyalar','ip-manzil-va-tarmoq-maskasi',
         'internetdan-xavfsiz-va-maqsadli-foydalanish','brauzer-qidiruv-dns',
         'xavfsizlik-tahdidlari-va-himoya','zararli-dastur-va-phishing','antivirus-va-himoya-vositalari',
-        'elektron-hukumat-va-elektron-imzo','smm-cms-lms-mooc'
+        'elektron-hukumat-va-elektron-imzo','smm-cms-lms-mooc','web-freelance-asoslari'
       )
     group by l.id
     having count(lc.construct_id) <> 1
@@ -58,7 +58,7 @@ begin
       'elektron-hukumat-va-elektron-imzo','smm-cms-lms-mooc','web-freelance-asoslari'
     );
 
-  if v_count <> 10 then
+  if v_count <> 11 then
     raise exception 'TASK-056 expected 11 exact construct links, got %', v_count;
   end if;
 
@@ -70,7 +70,7 @@ begin
       'tarmoqlar-va-qurilmalar','arxitektura-va-topologiyalar','ip-manzil-va-tarmoq-maskasi',
       'internetdan-xavfsiz-va-maqsadli-foydalanish','brauzer-qidiruv-dns',
       'xavfsizlik-tahdidlari-va-himoya','zararli-dastur-va-phishing','antivirus-va-himoya-vositalari',
-      'elektron-hukumat-va-elektron-imzo','smm-cms-lms-mooc'
+      'elektron-hukumat-va-elektron-imzo','smm-cms-lms-mooc','web-freelance-asoslari'
     )
     and (
       l.body_mdx is null
