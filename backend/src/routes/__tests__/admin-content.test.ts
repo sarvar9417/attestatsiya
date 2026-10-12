@@ -24,6 +24,7 @@ vi.mock('../../services/admin-content.service.js', () => ({
 const sourceMocks = vi.hoisted(() => ({
   importBatch: vi.fn(),
   list: vi.fn(),
+  review: vi.fn(),
 }))
 vi.mock('../../services/pedguli-candidate.service.js', () => ({
   pedguliCandidateService: sourceMocks,
@@ -291,6 +292,54 @@ describe('admin CMS backend boundary', () => {
     expect(result.statusCode).toBe(200)
     expect(JSON.parse(result.body).published).toBe(0)
     expect(sourceMocks.importBatch).toHaveBeenCalledWith('admin-token',[item])
+    await app.close()
+  })
+
+  it('candidate review requires login and a complete evidence payload',async()=>{
+    const app=makeApp()
+    await app.register(adminRoutes)
+    await app.ready()
+    const id='11111111-1111-4111-8111-111111111111'
+    const noAuth=await app.inject({method:'PATCH',
+      url:'/api/admin/pedguli-candidates/'+id+'/review',
+      payload:{editorial_status:'verified'}})
+    expect(noAuth.statusCode).toBe(401)
+    const invalid=await app.inject({
+      method:'PATCH',url:'/api/admin/pedguli-candidates/'+id+'/review',
+      headers:{authorization:'Bearer admin-token'},
+      payload:{
+        editorial_status:'verified',rights_status:'not_cleared',
+        answer_key_status:'unverified',historical_exam_claim_status:'unverified',
+        suggested_constructs:[],review_notes:'Should not pass without evidence even if long enough for notes.'
+      }
+    })
+    expect(invalid.statusCode).toBe(400)
+    expect(sourceMocks.review).not.toHaveBeenCalled()
+    await app.close()
+  })
+
+  it('review-only candidate moderation sends no answer key or learner publication action',async()=>{
+    const app=makeApp()
+    await app.register(adminRoutes)
+    await app.ready()
+    const id='11111111-1111-4111-8111-111111111111'
+    const input={
+      editorial_status:'needs_source',
+      rights_status:'not_cleared',
+      answer_key_status:'unverified',
+      historical_exam_claim_status:'not_claimed',
+      suggested_constructs:['PM.GEN.07'],
+      review_notes:'The Telegram answer is not independently supported by the cited material.',
+    }
+    sourceMocks.review.mockResolvedValue({id,editorial_status:'needs_source'})
+    const res=await app.inject({
+      method:'PATCH',url:'/api/admin/pedguli-candidates/'+id+'/review',
+      headers:{authorization:'Bearer admin-token'},payload:input
+    })
+    expect(res.statusCode).toBe(200)
+    expect(sourceMocks.review).toHaveBeenCalledWith('admin-token',id,input)
+    expect(res.json()).not.toHaveProperty('correct_option_id')
+    expect(res.json()).not.toHaveProperty('question_id')
     await app.close()
   })
 
