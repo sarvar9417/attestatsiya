@@ -2,8 +2,8 @@ import { createHash } from 'node:crypto'
 import { supabase } from '../lib/supabase.js'
 import { config } from '../config.js'
 import { analyzeCandidateQuality } from './pedguli-quality.service.js'
-import { AppError, AuthError, ForbiddenError } from '../lib/errors.js'
-import type { PedguliCandidateInput, PedguliCandidateListQuery } from '../schemas/pedguli-candidates.js'
+import { AppError, AuthError, ForbiddenError, NotFoundError } from '../lib/errors.js'
+import type { PedguliCandidateInput, PedguliCandidateListQuery, PedguliCandidateReview } from '../schemas/pedguli-candidates.js'
 
 /** Review-only source archive; never inserts into public.questions. */
 async function requireStaff(token: string, adminOnly = false) {
@@ -17,7 +17,7 @@ async function requireStaff(token: string, adminOnly = false) {
     (adminOnly && profile.role!=='admin')) {
     throw new ForbiddenError('Ushbu amal uchun faol administrator huquqi talab etiladi')
   }
-  return data.user.id
+  return {id:data.user.id,role:profile.role}
 }
 
 export function fingerprintCandidate(text: string) {
@@ -94,5 +94,30 @@ export const pedguliCandidateService = {
     const {data,count,error}=await request
     if(error) throw new AppError('Nomzodlarni olishda xatolik',500,'PEDGULI_LIST_FAILED')
     return {items:data??[],total:count??0,page:query.page,page_size:query.page_size}
+  },
+  async review(token: string, id: string, input: PedguliCandidateReview) {
+    const staff=await requireStaff(token, input.editorial_status==='verified')
+    const {data:existing,error:loadError}=await supabase.from('pedguli_source_candidates')
+      .select('id,editorial_status').eq('id',id).maybeSingle()
+    if(loadError)throw new AppError('Nomzodni tekshirib bo‘lmadi',500,'PEDGULI_REVIEW_QUERY_FAILED')
+    if(!existing)throw new NotFoundError('Telegram nomzodi topilmadi')
+    const {data,error}=await supabase.from('pedguli_source_candidates')
+      .update({
+        editorial_status:input.editorial_status,
+        rights_status:input.rights_status,
+        answer_key_status:input.answer_key_status,
+        historical_exam_claim_status:input.historical_exam_claim_status,
+        suggested_constructs:input.suggested_constructs,
+        reviewer_id:staff.id,
+        reviewed_at:new Date().toISOString(),
+        review_notes:input.review_notes,
+      }).eq('id',id)
+      .select('id,source_message_id,source_url,editorial_status,rights_status,answer_key_status,historical_exam_claim_status,suggested_constructs,review_notes,reviewed_at')
+      .single()
+    if(error || !data){
+      throw new AppError('Tahririy qarorni saqlab bo‘lmadi',409,'PEDGULI_REVIEW_SAVE_FAILED')
+    }
+    // Separate from public.questions; no insertion or publication occurs.
+    return data
   },
 }
