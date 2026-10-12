@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto'
 import { supabase } from '../lib/supabase.js'
+import { config } from '../config.js'
 import { AppError, AuthError, ForbiddenError } from '../lib/errors.js'
 import type { PedguliCandidateInput, PedguliCandidateListQuery } from '../schemas/pedguli-candidates.js'
 
@@ -27,6 +28,14 @@ export function fingerprintCandidate(text: string) {
 export const pedguliCandidateService = {
   async importBatch(token:string, items:PedguliCandidateInput[]) {
     await requireStaff(token,true)
+    // Hard release gate: staging API must not write into the known production
+    // Supabase project. Explicit release requires later manual env approval.
+    const productionProjectRef='plyqezulrfowyblsfpzy'
+    if (config.supabase.url.includes(productionProjectRef) &&
+        process.env.PEDGULI_PRODUCTION_IMPORT_RELEASE !== 'EXPLICIT_FINAL_USER_APPROVAL') {
+      throw new AppError('Production import yakuniy foydalanuvchi ruxsatigacha bloklangan',
+        403,'PEDGULI_PRODUCTION_IMPORT_BLOCKED')
+    }
     // Compute all fingerprints server-side; never trust a supplied key or approval.
     const unique = new Map<string,PedguliCandidateInput>()
     for(const item of items) {
