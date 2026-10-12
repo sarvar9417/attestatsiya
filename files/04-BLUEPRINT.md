@@ -90,7 +90,8 @@ S1.INFO.03  Turli ko'rinishdagi axborotni kodlash
 S1.INFO.04  Axborot o'lchov birliklari
 S1.INFO.05  Axborot hajmini hisoblash
 S1.INFO.06  Axborot uzatish tezligini hisoblash
-S1.INFO.07  Raqamli muhitda axloq va mualliflik huquqi\nS1.INFO.08  Axborotni saralash va xulosa chiqarish
+S1.INFO.07  Raqamli muhitda axloq va mualliflik huquqi
+S1.INFO.08  Axborotni saralash va xulosa chiqarish
 ```
 
 ### S2.HW — 4
