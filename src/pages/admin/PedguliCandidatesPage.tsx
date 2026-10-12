@@ -92,6 +92,11 @@ export default function PedguliCandidatesPage() {
             </p>
             <p className="mt-2 text-xs text-gray-500">
               {row.suggested_constructs.length ? row.suggested_constructs.join(', ') : 'Mavzu hali aniqlanmagan'}
+              {!row.suggested_constructs.length && (row.proposed_constructs?.length ?? 0)>0 && (
+                <span className="ml-2 text-indigo-700 dark:text-indigo-300">
+                  Taklif: {row.proposed_constructs.join(', ')} — tasdiqlanmagan
+                </span>
+              )}
             </p>
             {row.quality_flags.length>0 && (
               <p className="mt-2 text-xs text-amber-700 dark:text-amber-300">
