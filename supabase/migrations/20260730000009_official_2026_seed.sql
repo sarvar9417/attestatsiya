@@ -208,6 +208,7 @@ cross join (
     ('S1.INFO.05', 'S1.INFO', 's1-info-05', 'Axborot hajmini hisoblash'),
     ('S1.INFO.06', 'S1.INFO', 's1-info-06', 'Axborot uzatish tezligini hisoblash'),
     ('S1.INFO.07', 'S1.INFO', 's1-info-07', 'Raqamli muhitda axloq va mualliflik huquqi'),
+    ('S1.INFO.08', 'S1.INFO', 's1-info-08', 'Axborotni saralash va xulosa chiqarish'),
     ('S2.HW.01', 'S2.HW', 's2-hw-01', 'Kompyuter qurilmalari va ularning vazifalari'),
     ('S2.HW.02', 'S2.HW', 's2-hw-02', 'Operatsion tizimlar va ularning imkoniyatlari'),
     ('S2.HW.03', 'S2.HW', 's2-hw-03', 'Fayl va papkalar bilan ishlash'),
@@ -346,8 +347,8 @@ begin
       v_mulohaza;
   end if;
 
-  if v_construct_count <> 76 then
-    raise exception 'official_seed_construct_count: expected 76, received %',
+  if v_construct_count <> 77 then
+    raise exception 'official_seed_construct_count: expected 77, received %',
       v_construct_count;
   end if;
 end

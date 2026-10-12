@@ -36,8 +36,8 @@ begin
       v_covered, v_active, coalesce(v_missing, '(unknown)');
   end if;
 
-  if v_active <> 76 then
-    raise exception 'Expected 76 active official constructs, got %', v_active;
+  if v_active <> 77 then
+    raise exception 'Expected 77 active official constructs, got %', v_active;
   end if;
 end
 $$;

@@ -110,8 +110,8 @@ if (MODULES.length !== 16) {
   throw new Error(`Expected 16 modules, received ${MODULES.length}`)
 }
 
-if (constructs.length !== 76) {
-  throw new Error(`Expected 76 constructs, received ${constructs.length}`)
+if (constructs.length !== 77) {
+  throw new Error(`Expected 77 constructs, received ${constructs.length}`)
 }
 
 if (
@@ -375,8 +375,8 @@ begin
       v_mulohaza;
   end if;
 
-  if v_construct_count <> 76 then
-    raise exception 'official_seed_construct_count: expected 76, received %',
+  if v_construct_count <> 77 then
+    raise exception 'official_seed_construct_count: expected 77, received %',
       v_construct_count;
   end if;
 end

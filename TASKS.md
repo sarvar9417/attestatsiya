@@ -97,11 +97,13 @@
 | TASK-054 | DONE | TASK-053 | A4: M07/M08 uchun S4.BLOCK va S4.CODE source-backed dasturlash darslari va DB regressiya |
 | TASK-055 | DONE | TASK-054 | M10/M11 uchun S5.WEB.01–06 source-backed grafika va veb darslari, aniq construct mapping va DB regressiya; PR #82 |
 | TASK-056 | DONE | TASK-055 | M12/M13 uchun S6.NET.01–05 va S7.SEC.01–06 source-backed tarmoq, xavfsizlik va raqamli xizmat darslari; PR #84 |
-| TASK-057 | DONE | TASK-056 | 76/76 active official construct uchun published lesson coverage CI invariant; topilgan S1.INFO.06 bo‘shlig‘i source-backed uzatish tezligi darsi bilan yopildi; PR #85 |
+| TASK-057 | DONE | TASK-056 | 77/77 active official construct uchun published lesson coverage CI invariant; topilgan S1.INFO.06 bo‘shlig‘i source-backed uzatish tezligi darsi bilan yopildi; PR #85 |
 | TASK-058 | DONE | TASK-057 | Project state/TASKS reconciliation: auth va production activation blockerlarini, qolgan question-bank coverage ishini aniq qayd etish; PR #86 |
 | TASK-059 | DONE | TASK-057 | Blueprint bo‘yicha real question-pool feasibility auditi: production assembler eligibility bilan bir xil published+keyed+active taxonomy qoidalari, group × cognitive exact deficit, AC-CNT-04 release reserve va admin UI; PR #87 |
-| TASK-060 | BLOCKED | TASK-059 | M01dan tashqari constructlar uchun source-backed professional savol banklarini bosqichma-bosqich yaratish/import qilish; xususiy answer-key payload va Attestatsiya production Supabase access talab qiladi |
+| TASK-060 | IN_PROGRESS | TASK-059 | Source-backed savol banklarini spetsifikatsiya bo‘yicha kengaytirish: private AXB bankdan 494 savol productionga review sifatida import qilindi; qolgan construct/cognitive/format deficitlari bosqichma-bosqich yopiladi |
 | TASK-061 | DONE | TASK-057 | Yuqori amaliy og‘irlikdagi S5.WEB/S6.NET/S7.SEC darslariga worked code, IP/maska hisoblash, xavfsizlik scenario va Web-Freelance workflow qo‘shildi; 7 ta lesson uchun DB regression invariant |
+| TASK-062 | DONE | TASK-060 | Rasmiy S1.INFO taxonomy reconciliation: yetishmagan “axborotni saralash va xulosa chiqarish” bandi S1.INFO.08 sifatida qo‘shildi; private 570 AXB bank audit qilinib 494 savol productionga review sifatida import qilindi, 76 savol quarantine qilindi |
+| TASK-063 | IN_PROGRESS | TASK-062 | 494 review savolni source-verification, semantik duplicate/distractor auditi va construct × cognitive deficit bo‘yicha publish batchlariga tayyorlash; 6 ta source-lesson gapni yopish va Y2/Y3 bankini kengaytirish |
 
 ## UI modernizatsiya — Figma approved design
 
@@ -129,7 +131,7 @@
 | B-002 | RESOLVED — TypeScript types remote UUID schema bo'yicha generatsiya qilindi |
 | B-003 | RESOLVED — server-scored ExamRunner UUID RPC kontraktiga o‘tkazildi |
 | B-AUTH-001 | OPEN — PR #81 kod/CI/Vercel preview yashil, lekin merge oldidan production Supabase redirect allowlist + SMTP/email template va real-email E2E (register → verify → login → forgot → reset → login) talab qilinadi |
-| B-PROD-001 | OPEN — joriy Supabase connector Attestatsiya production project `plyqezulrfowyblsfpzy`ni ko‘rsatmaydi; yangi content migrations remote productionga shu connector orqali apply qilinmaydi |
+| B-PROD-001 | RESOLVED — Supabase `sarvar9417` connection orqali production project `plyqezulrfowyblsfpzy` ko‘rinadi; 2026-10-12 kuni S1.INFO.08 reconciliation migrationi muvaffaqiyatli apply qilindi va private bank import qilindi |
 | B-CONTENT-001 | OPEN — official 50-question assembler tayyor, ammo M01 + 270 parametrik pooldan tashqari barcha blueprint group/cognitive kesimlari uchun real published savol yetarliligi alohida feasibility audit va bank kengaytirishni talab qiladi |
 
 ## Test talabi
