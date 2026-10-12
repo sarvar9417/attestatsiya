@@ -6,7 +6,8 @@
 --
 -- Format mix: 24 Y1 + 6 Y2 + 6 Y3.
 -- Safety: every item is inserted as REVIEW, never auto-published. Source
--- lessons are resolved through the active construct mapping at migration time.
+-- lessons are resolved through an explicit construct -> canonical lesson slug
+-- mapping; the migration fails closed if that source lesson is absent.
 -- Idempotent by source_reference.
 
 begin;
@@ -59,9 +60,15 @@ $json$::jsonb)
       join public.lessons l on l.id = lc.lesson_id
      where lc.construct_id = v_construct
        and l.status = 'published'::public.content_status
-     order by case when length(coalesce(l.body_mdx,'')) > 0 then 0 else 1 end,
-              l.order_idx, l.id
-     limit 1;
+       and l.slug = case item->>'construct'
+         when 'S3.LOGIC.01' then 'mantiqiy-mulohazalar'
+         when 'S3.LOGIC.03' then 'mantiqiy-xulosa-va-masala'
+         when 'S3.ALGO.03' then 'masala-algoritmini-tuzish'
+         when 'S4.CODE.04' then 'javascript-sintaksis-asoslari'
+         when 'S6.NET.02' then 'arxitektura-va-topologiyalar'
+         when 'S6.NET.04' then 'internetdan-xavfsiz-va-maqsadli-foydalanish'
+         else null
+       end;
 
     if v_lesson is null then
       raise exception 'spec-gap published source lesson not found: %', item->>'construct';
@@ -131,9 +138,15 @@ $json$::jsonb)
       join public.lessons l on l.id = lc.lesson_id
      where lc.construct_id = v_construct
        and l.status = 'published'::public.content_status
-     order by case when length(coalesce(l.body_mdx,'')) > 0 then 0 else 1 end,
-              l.order_idx, l.id
-     limit 1;
+       and l.slug = case item->>'construct'
+         when 'S3.LOGIC.01' then 'mantiqiy-mulohazalar'
+         when 'S3.LOGIC.03' then 'mantiqiy-xulosa-va-masala'
+         when 'S3.ALGO.03' then 'masala-algoritmini-tuzish'
+         when 'S4.CODE.04' then 'javascript-sintaksis-asoslari'
+         when 'S6.NET.02' then 'arxitektura-va-topologiyalar'
+         when 'S6.NET.04' then 'internetdan-xavfsiz-va-maqsadli-foydalanish'
+         else null
+       end;
 
     if v_lesson is null then
       raise exception 'spec-gap Y2 source lesson not found: %', item->>'construct';
@@ -220,9 +233,15 @@ $json$::jsonb)
       join public.lessons l on l.id = lc.lesson_id
      where lc.construct_id = v_construct
        and l.status = 'published'::public.content_status
-     order by case when length(coalesce(l.body_mdx,'')) > 0 then 0 else 1 end,
-              l.order_idx, l.id
-     limit 1;
+       and l.slug = case item->>'construct'
+         when 'S3.LOGIC.01' then 'mantiqiy-mulohazalar'
+         when 'S3.LOGIC.03' then 'mantiqiy-xulosa-va-masala'
+         when 'S3.ALGO.03' then 'masala-algoritmini-tuzish'
+         when 'S4.CODE.04' then 'javascript-sintaksis-asoslari'
+         when 'S6.NET.02' then 'arxitektura-va-topologiyalar'
+         when 'S6.NET.04' then 'internetdan-xavfsiz-va-maqsadli-foydalanish'
+         else null
+       end;
 
     if v_lesson is null then
       raise exception 'spec-gap Y3 source lesson not found: %', item->>'construct';
