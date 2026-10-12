@@ -97,7 +97,7 @@
 | TASK-054 | DONE | TASK-053 | A4: M07/M08 uchun S4.BLOCK va S4.CODE source-backed dasturlash darslari va DB regressiya |
 | TASK-055 | DONE | TASK-054 | M10/M11 uchun S5.WEB.01–06 source-backed grafika va veb darslari, aniq construct mapping va DB regressiya; PR #82 |
 | TASK-056 | DONE | TASK-055 | M12/M13 uchun S6.NET.01–05 va S7.SEC.01–06 source-backed tarmoq, xavfsizlik va raqamli xizmat darslari; PR #84 |
-| TASK-057 | DONE | TASK-056 | 76/76 active official construct uchun published lesson coverage CI invariant; topilgan S1.INFO.06 bo‘shlig‘i source-backed uzatish tezligi darsi bilan yopildi; PR #85 |
+| TASK-057 | DONE | TASK-056 | 77/77 active official construct uchun published lesson coverage CI invariant; topilgan S1.INFO.06 bo‘shlig‘i source-backed uzatish tezligi darsi bilan yopildi; PR #85 |
 | TASK-058 | DONE | TASK-057 | Project state/TASKS reconciliation: auth va production activation blockerlarini, qolgan question-bank coverage ishini aniq qayd etish; PR #86 |
 | TASK-059 | DONE | TASK-057 | Blueprint bo‘yicha real question-pool feasibility auditi: production assembler eligibility bilan bir xil published+keyed+active taxonomy qoidalari, group × cognitive exact deficit, AC-CNT-04 release reserve va admin UI; PR #87 |
 | TASK-060 | IN_PROGRESS | TASK-059 | Source-backed savol banklarini spetsifikatsiya bo‘yicha kengaytirish: private AXB bankdan 494 savol productionga review sifatida import qilindi; qolgan construct/cognitive/format deficitlari bosqichma-bosqich yopiladi |
