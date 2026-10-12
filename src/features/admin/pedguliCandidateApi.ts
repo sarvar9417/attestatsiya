@@ -8,6 +8,9 @@ export interface PedguliSourceCandidate {
   date_local: string | null
   raw_text_private: string
   suggested_constructs: string[]
+  proposed_constructs: string[]
+  topic_suggestion_state: 'strong_keyword' | 'ambiguous' | 'unclassified'
+  topic_suggestion_evidence: string[]
   media_present: boolean
   quality_flags: string[]
   review_priority: 1 | 2 | 3
