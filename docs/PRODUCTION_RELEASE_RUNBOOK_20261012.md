@@ -22,6 +22,13 @@ The seven exact records already present are the M02 hardware/software lessons
 and the three M05 numeral-system lessons. The six canonical source lesson
 slugs required by the new review bank are all still absent in production.
 
+A second production read-only audit found **62 additional published legacy
+lessons** across the canonicalized modules. All 62 have empty `body_mdx`, and
+none currently has user progress, exam, or topic-test-attempt references.
+Because the learner API lists every published lesson, source-backed lesson
+insertion without canonical reconciliation would expose duplicate/empty lessons
+to learners.
+
 This makes an ordered reconciliation feasible, but it does **not** authorize a
 production write.
 
@@ -56,7 +63,9 @@ Run only read-only checks first:
    changed materially;
 5. verify none of the six canonical source lesson slugs already appeared since
    the last audit;
-6. export/retain the platform backup/snapshot available through the normal
+6. verify the 62 non-canonical published lesson baseline: all are still empty
+   and none has learner progress/exam/topic-test references;
+7. export/retain the platform backup/snapshot available through the normal
    Supabase operational process.
 
 Any unexpected difference stops the release.
@@ -84,9 +93,37 @@ After Phase B, require:
 - each is mapped to its expected active construct;
 - no pre-existing ID/slug was silently rebound to a different lesson.
 
-### Phase C — deterministic source-link reconciliation
+### Phase C — canonical lesson drift reconciliation
 
-Only after Phase B:
+Immediately after the prerequisite source-backed lesson rows exist, apply:
+
+`20261012123000_canonical_lesson_drift_reconcile.sql`
+
+This phase is mandatory before the content release is considered usable. It:
+
+- verifies every canonical lesson is published, non-empty and mapped to the
+  expected active construct;
+- aborts if a non-canonical published lesson gained user progress, exam or
+  topic-test-attempt references after the preflight;
+- rebinds questions to the exact canonical lesson for their construct;
+- archives the old empty published lesson rows and removes their construct
+  mappings;
+- never deletes lesson history.
+
+Because learner APIs expose all published module lessons, Phase B and Phase C
+should be executed in one controlled maintenance window with no long pause
+between them. If the reference counts differ from the preflight, stop rather
+than forcing the archive.
+
+After Phase C, require:
+
+- each affected module exposes only its canonical non-empty published lessons;
+- archived legacy rows have no active construct mapping;
+- question source lessons match question constructs.
+
+### Phase D — deterministic source-link reconciliation
+
+Only after canonical lessons are reconciled:
 
 1. apply `20261012115500_task063_fresh_source_lesson_forward_fix.sql`;
 2. run the safe generated source-link maintenance script only under the release
@@ -100,7 +137,7 @@ Expected principle:
 - do not rewrite answer keys, learner attempts, author, status or source
   claims.
 
-### Phase D — historical source-less demo quarantine
+### Phase E — historical source-less demo quarantine
 
 Apply
 `supabase/maintenance/20261012_legacy_source_missing_quarantine.sql`
@@ -109,7 +146,7 @@ linked learner/exam/report/stat data.
 
 This is archive-only. No delete is allowed.
 
-### Phase E — stage the six-construct review bank
+### Phase F — stage the six-construct review bank
 
 Apply
 `20261012120000_spec_zero_construct_review_bank.sql`.
@@ -127,7 +164,7 @@ Expected result:
 Publication of these items is a later editorial decision, not part of the data
 reconciliation step.
 
-### Phase F — RPC permission hardening
+### Phase G — RPC permission hardening
 
 Apply
 `20261012122500_anon_rpc_execute_hardening.sql`.
@@ -140,7 +177,7 @@ Verify:
 - `auth_role()` remains the documented exception required by the current
   public-content RLS design.
 
-### Phase G — post-write validation
+### Phase H — post-write validation
 
 Immediately rerun:
 
@@ -153,7 +190,8 @@ Immediately rerun:
    environment.
 
 Stop and investigate if any count or privilege deviates from the expected
-contract.
+contract. In particular, no legacy empty lesson may remain published in the
+TASK-064 modules after the canonicalization phase.
 
 ## External release gates not solved by SQL
 
