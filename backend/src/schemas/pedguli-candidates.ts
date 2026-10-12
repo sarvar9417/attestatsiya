@@ -39,3 +39,24 @@ export const pedguliCandidateListQuerySchema = z.object({
 
 export type PedguliCandidateInput = z.infer<typeof pedguliCandidateInputSchema>
 export type PedguliCandidateListQuery = z.infer<typeof pedguliCandidateListQuerySchema>
+
+/** Staff review does NOT license a channel, infer a key or publish to exams. */
+export const pedguliCandidateReviewSchema = z.object({
+  editorial_status: z.enum(['needs_review','needs_source','needs_rights','verified','rejected']),
+  rights_status: z.enum(['not_cleared','permission_granted','not_reusable']),
+  answer_key_status: z.enum(['unverified','needs_source','independently_verified']),
+  historical_exam_claim_status: z.enum(['unverified','independently_verified','not_claimed']),
+  suggested_constructs: z.array(z.string().regex(/^(?:KS|PM\.GEN|PM\.MET)\.\d{2}$/)).max(20),
+  review_notes: z.string().trim().min(30).max(4000),
+}).strict().superRefine((v,ctx)=>{
+  if(v.editorial_status==='verified' && (
+    v.rights_status!=='permission_granted' ||
+    v.answer_key_status!=='independently_verified' ||
+    v.suggested_constructs.length===0 ||
+    v.review_notes.length<40
+  )){
+    ctx.addIssue({code:z.ZodIssueCode.custom,
+      message:'Verified uchun manba huquqi, mustaqil javob, mavzu va dalilli izoh zarur'})
+  }
+})
+export type PedguliCandidateReview = z.infer<typeof pedguliCandidateReviewSchema>
