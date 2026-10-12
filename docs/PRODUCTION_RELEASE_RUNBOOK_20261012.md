@@ -70,9 +70,21 @@ Run only read-only checks first:
 
 Any unexpected difference stops the release.
 
-### Phase B — reconcile prerequisite source-backed lessons
+### Phase B — free canonical order slots, then reconcile source-backed lessons
 
-Apply these content migrations in dependency order, one at a time:
+Production currently has a unique `(module_id, order_idx)` constraint and legacy
+published lessons occupy the low order slots needed by canonical lessons.
+Therefore **before replaying any missing source-backed lesson migration**, apply:
+
+`20261012122600_prepare_legacy_lesson_orders.sql`
+
+This guarded migration changes only `order_idx` for non-canonical published
+lessons that occupy reserved canonical slots. It does not archive, rename, or
+change lesson content, and aborts if learner/exam/topic-test references are
+found. Its purpose is only to prevent a unique-key failure during canonical
+lesson insertion.
+
+Then apply these content migrations in dependency order, one at a time:
 
 1. `20261009073000_m02_source_backed_lessons.sql`
 2. `20261009074500_m03_office_source_backed_lessons.sql`
@@ -110,9 +122,9 @@ This phase is mandatory before the content release is considered usable. It:
   mappings;
 - never deletes lesson history.
 
-Because learner APIs expose all published module lessons, Phase B and Phase C
-should be executed in one controlled maintenance window with no long pause
-between them. If the reference counts differ from the preflight, stop rather
+Because learner APIs expose all published module lessons, the Phase B order-slot
+preparation + source-backed inserts and Phase C archive/rebind must be executed
+in one controlled maintenance window with no long pause between them. If the reference counts differ from the preflight, stop rather
 than forcing the archive.
 
 After Phase C, require:
