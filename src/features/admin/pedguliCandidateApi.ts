@@ -9,7 +9,7 @@ export interface PedguliSourceCandidate {
   raw_text_private: string
   suggested_constructs: string[]
   proposed_constructs: string[]
-  topic_suggestion_state: 'strong_keyword' | 'ambiguous' | 'unclassified'
+  topic_suggestion_state: 'strong_keyword' | 'ambiguous' | 'unclassified' | 'editorial_proposal'
   topic_suggestion_evidence: string[]
   media_present: boolean
   quality_flags: string[]
