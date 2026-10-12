@@ -15,7 +15,7 @@ begin
     and source_lesson_id is null and source_reference like 'generated:%';
 
   with unambiguous as (
-    select q.id as question_id, min(l.slug) as slug
+    select q.id as question_id, (array_agg(l.id))[1] as lesson_id
     from public.questions q
     join public.lesson_constructs lc on lc.construct_id=q.construct_id
     join public.lessons l on l.id=lc.lesson_id
@@ -32,7 +32,7 @@ begin
       updated_at=now()
     from unambiguous x, public.lessons l
     where q.id=x.question_id
-      and l.slug=x.slug
+      and l.id=x.lesson_id
       and l.status='published'::public.content_status
       and exists (
         select 1 from public.lesson_constructs lc
