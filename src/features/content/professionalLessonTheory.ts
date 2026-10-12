@@ -25,7 +25,7 @@ export function markdownToTheoryBlocks(markdown: string): TheoryBlock[] {
     const heading = /^(#{1,6})\s+(.+)$/.exec(line)
     if (heading) {
       flush()
-      result.push({ type: heading[1].length <= 2 ? 'heading' : 'subheading', content: heading[2] })
+      result.push({ type: 'text', content: heading[1] + ' ' + heading[2] })
       continue
     }
     if (line.startsWith('|') && i+1 < lines.length && markdownTableSeparator.test(lines[i+1].trim())) {
@@ -38,7 +38,7 @@ export function markdownToTheoryBlocks(markdown: string): TheoryBlock[] {
         if (cells.length === headers.length) rows.push(cells)
       }
       i -= 1
-      result.push({ type:'table', content:'', headers, rows })
+      result.push({ type:'table', content: [headers.join('|'), headers.map(() => '---').join('|'), ...rows.map(cells => cells.join('|'))].join('\n') })
       continue
     }
     if (/^[-*]\s+/.test(line) || /^\d+[.)]\s+/.test(line)) {
@@ -50,12 +50,12 @@ export function markdownToTheoryBlocks(markdown: string): TheoryBlock[] {
         if (!(ordered ? /^\d+[.)]\s+/.test(n) : /^[-*]\s+/.test(n))) break
         items.push(n.replace(/^([-*]|\d+[.)])\s+/, ''))
       }
-      result.push({ type:'list', content:'', items, ordered })
+      result.push({ type:'text', content: items.map((v,n) => ordered ? `${n+1}. ${v}` : `• ${v}`).join('\n') })
       continue
     }
     if (/^\*\*Manba izi:/.test(line) || /^Manba:/.test(line)) {
       flush()
-      result.push({ type:'source', content: line })
+      result.push({ type:'note', content: line })
       continue
     }
     paragraph.push(line)
