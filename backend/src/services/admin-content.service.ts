@@ -266,7 +266,7 @@ export const adminContentService = {
 
     const { data: current, error: readError } = await supabase
       .from('questions')
-      .select('id, status')
+      .select('id, status, author_id, source_reference, construct_id')
       .eq('id', questionId)
       .maybeSingle()
     if (readError) throw new AppError('Savol holatini olishda xatolik', 500, 'ADMIN_QUERY_ERROR')
@@ -279,6 +279,38 @@ export const adminContentService = {
         409,
         'INVALID_STATUS_TRANSITION'
       )
+    }
+
+    if (nextStatus === 'published') {
+      if (staff.role !== 'admin') {
+        throw new ForbiddenError('Savolni nashr qilish uchun admin huquqi kerak')
+      }
+      if (current.author_id && current.author_id === staff.id) {
+        throw new ForbiddenError('Muallif o‘z savolini nashr qila olmaydi')
+      }
+      if (!current.construct_id || !current.source_reference?.trim()) {
+        throw new AppError(
+          'Nashr qilish uchun konstrukt va manba ko‘rsatilgan bo‘lishi kerak',
+          409,
+          'PUBLISH_REQUIREMENTS_FAILED'
+        )
+      }
+
+      const { data: key, error: keyError } = await supabase
+        .from('question_keys')
+        .select('question_id')
+        .eq('question_id', questionId)
+        .maybeSingle()
+      if (keyError) {
+        throw new AppError('Javob kalitini tekshirishda xatolik', 500, 'ADMIN_QUERY_ERROR')
+      }
+      if (!key) {
+        throw new AppError(
+          'Nashr qilish uchun javob kaliti mavjud bo‘lishi kerak',
+          409,
+          'PUBLISH_REQUIREMENTS_FAILED'
+        )
+      }
     }
 
     const { data, error } = await supabase
@@ -395,7 +427,6 @@ export const adminContentService = {
 
   async updateQuestion(questionId: string, input: SaveAdminQuestionInput, userToken: string) {
     const staff = await requireStaff(userToken)
-    const construct = await resolveConstruct(input.construct_id)
 
     const { data: existing, error: existingError } = await supabase
       .from('questions')
@@ -404,6 +435,15 @@ export const adminContentService = {
       .maybeSingle()
     if (existingError) throw new AppError('Savolni tekshirishda xatolik', 500, 'ADMIN_QUERY_ERROR')
     if (!existing) throw new NotFoundError('Savol topilmadi')
+    if (existing.status === 'published') {
+      throw new AppError(
+        'Published savol joyida tahrirlanmaydi; avval arxivlab yangi draft yarating',
+        409,
+        'PUBLISHED_IMMUTABLE'
+      )
+    }
+
+    const construct = await resolveConstruct(input.construct_id)
 
     const { error } = await supabase
       .from('questions')
