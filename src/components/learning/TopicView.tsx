@@ -2,6 +2,9 @@ import { useState, useRef, useEffect, useMemo, lazy, Suspense } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getTopicContent, type TestQuestion, type TheoryBlock } from '../../data/topicContent'
 import { getLessonTestQuestions, checkQuestionAnswer } from '../../features/content/lessonContentGateway'
+import { getLessonDetail } from '../../features/content/contentApi'
+import { overlayPublishedProfessionalLesson } from '../../features/content/professionalLessonTheory'
+import type { TopicContent } from '../../data/topicContent'
 import { 
   CheckCircle2, XCircle, Lightbulb, BookOpen, ArrowRight, ArrowLeft, 
   Sparkles, ChevronRight, ChevronUp, ChevronDown, BookText, GraduationCap, 
@@ -133,7 +136,11 @@ export default function TopicView({
   const [checking, setChecking] = useState<Record<string, boolean>>({})
   const contentRef = useRef<HTMLDivElement>(null)
 
-  const content = getTopicContent(subtopicId)
+  const [publishedTheory, setPublishedTheory] = useState<{ subtopicId: string; content: TopicContent } | null>(null)
+  const staticContent = getTopicContent(subtopicId)
+  const content = publishedTheory?.subtopicId === subtopicId
+    ? publishedTheory.content
+    : staticContent
   /** Kontent qo'llanmadan generatsiya qilinganmi (M01) — bo'limli o'qish rejimi. */
   const isBook = Boolean(content?.source)
 
@@ -146,6 +153,28 @@ export default function TopicView({
     setCurrentSection(0)
     setLiveQuestions(null)
     setChecking({})
+  }, [subtopicId])
+
+  // M14-M16 canonical source-backed lessons must reach the student's theory
+  // view, not just the admin API. Keep static theory as offline fallback.
+  useEffect(() => {
+    if (!/^M1[456]\\.\\d{2}$/.test(subtopicId)) return
+    let cancelled = false
+    const fallback = getTopicContent(subtopicId)
+    if (!fallback) return
+    getLessonDetail(subtopicId)
+      .then(lesson => {
+        if (!cancelled) {
+          setPublishedTheory({
+            subtopicId,
+            content: overlayPublishedProfessionalLesson(fallback, lesson),
+          })
+        }
+      })
+      .catch(() => {
+        // For published lesson API/network errors, preserve existing static content.
+      })
+    return () => { cancelled = true }
   }, [subtopicId])
 
   // Savollar backend-first: gateway backend xatosida statik kontentga tushadi
