@@ -98,6 +98,27 @@ export default function PedguliCandidatesPage() {
                 </span>
               )}
             </p>
+            {row.stage4 && (
+              <div className="mt-2 rounded-lg border border-indigo-100 bg-indigo-50 p-3 text-xs text-indigo-950 dark:border-indigo-900 dark:bg-indigo-950/30 dark:text-indigo-200">
+                <strong>673 ta navbat: {row.stage4.review_bucket === 'model_high_margin'
+                  ? 'kuchliroq, lekin tasdiqlanmagan model taklifi'
+                  : row.stage4.review_bucket === 'model_low_margin'
+                    ? 'past ishonchli model taxmini' : 'rasmli kontekst yetishmaydi'}</strong>
+                {row.stage4.proposed_construct && <span> — {row.stage4.proposed_construct}</span>}
+                <p className="mt-1">Bu tasdiqlangan mavzu ham, to‘g‘ri javob ham emas.</p>
+              </div>
+            )}
+            {row.source_comparison && (
+              <div className="mt-2 rounded-lg border border-sky-200 bg-sky-50 p-3 text-xs text-sky-950 dark:border-sky-900 dark:bg-sky-950/30 dark:text-sky-200">
+                <strong>Darslik bilan solishtirildi — ekspert tasdig‘i kutilmoqda</strong>
+                <p className="mt-1">Taklif: {row.source_comparison.proposed_construct},
+                  javob varianti {row.source_comparison.proposed_option}. {row.source_comparison.evidence_summary}</p>
+                <a className="mt-1 inline-flex items-center gap-1 underline"
+                  href={row.source_comparison.source_url} rel="noopener noreferrer"
+                  target="_blank">{row.source_comparison.source_title} <ExternalLink size={12}/></a>
+                <p className="mt-1">Asl matnni nashr qilish huquqi tasdiqlanmagan.</p>
+              </div>
+            )}
             {row.quality_flags.length>0 && (
               <p className="mt-2 text-xs text-amber-700 dark:text-amber-300">
                 Tekshiruv ogohlantirishlari: {row.quality_flags.join(' · ')}
