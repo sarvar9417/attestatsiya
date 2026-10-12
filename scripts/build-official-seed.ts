@@ -110,8 +110,8 @@ if (MODULES.length !== 16) {
   throw new Error(`Expected 16 modules, received ${MODULES.length}`)
 }
 
-if (constructs.length !== 76) {
-  throw new Error(`Expected 76 constructs, received ${constructs.length}`)
+if (constructs.length !== 77) {
+  throw new Error(`Expected 77 constructs, received ${constructs.length}`)
 }
 
 if (
