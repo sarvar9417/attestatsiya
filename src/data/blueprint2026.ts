@@ -130,7 +130,8 @@ export const CONSTRUCTS: readonly Construct[] = [
   { code: 'S1.INFO.04', group: 'S1.INFO', title: "Axborot o'lchov birliklari", generator: 'axborotHajmi', keywords: ["o'lchov birlik", 'bit', 'bayt', 'kilobayt', 'megabayt'] },
   { code: 'S1.INFO.05', group: 'S1.INFO', title: 'Axborot hajmini hisoblash', generator: 'axborotHajmi', keywords: ['axborot hajmi', 'hajmini hisoblash'] },
   { code: 'S1.INFO.06', group: 'S1.INFO', title: 'Axborot uzatish tezligini hisoblash', generator: 'axborotHajmi', keywords: ['uzatish tezligi', "o'tkazish qobiliyati", 'bit/s'] },
-  { code: 'S1.INFO.07', group: 'S1.INFO', title: 'Raqamli muhitda axloq va mualliflik huquqi', keywords: ['mualliflik huquqi', 'axloq', 'plagiat'] },\n  { code: 'S1.INFO.08', group: 'S1.INFO', title: 'Axborotni saralash va xulosa chiqarish', keywords: ['axborotni saralash', 'xulosa chiqarish', 'fakt', 'fikr', 'manba ishonchliligi'] },
+  { code: 'S1.INFO.07', group: 'S1.INFO', title: 'Raqamli muhitda axloq va mualliflik huquqi', keywords: ['mualliflik huquqi', 'axloq', 'plagiat'] },
+  { code: 'S1.INFO.08', group: 'S1.INFO', title: 'Axborotni saralash va xulosa chiqarish', keywords: ['axborotni saralash', 'xulosa chiqarish', 'fakt', 'fikr', 'manba ishonchliligi'] },
 
   // ── S2.HW — 4 ───────────────────────────────────────────────────────────
   { code: 'S2.HW.01', group: 'S2.HW', title: 'Kompyuter qurilmalari va ularning vazifalari', keywords: ['protsessor', 'asosiy plata', 'kiritish qurilma', 'chiqarish qurilma', 'tizimli blok'] },
