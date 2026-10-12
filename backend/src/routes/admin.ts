@@ -6,6 +6,8 @@ import {
   professionalBankImportRequestSchema,
 } from '../schemas/admin.js'
 import { sendError, AppError } from '../lib/errors.js'
+import { pedguliCandidateService } from '../services/pedguli-candidate.service.js'
+import { pedguliCandidateImportSchema, pedguliCandidateListQuerySchema } from '../schemas/pedguli-candidates.js'
 import { contentCoverageService } from '../services/content-coverage.service.js'
 import { questionBankImportService } from '../services/question-bank-import.service.js'
 import { adminContentService } from '../services/admin-content.service.js'
@@ -27,6 +29,33 @@ export async function adminRoutes(app: FastifyInstance) {
    * ishlamaydi. Barcha content/dashboard amallari shu authenticated backend
    * boundary orqali service-role Supabase clientga boradi.
    */
+  /**
+   * Private review inbox: never returns original Telegram source text to a
+   * non-staff user. Does not expose answers or insert into exam question pool.
+   */
+  app.get('/api/admin/pedguli-candidates', async (req, reply) => {
+    const token=getToken(req)
+    if(!token) throw new AppError('Token kerak',401,'TOKEN_REQUIRED')
+    const query=pedguliCandidateListQuerySchema.parse(req.query)
+    try {
+      return reply.send(await pedguliCandidateService.list(token,query))
+    } catch(error) {
+      return sendError(reply,error)
+    }
+  })
+
+  /** Active admin only; batches <= 50; idempotent and review-only. */
+  app.post('/api/admin/pedguli-candidates/import', async (req, reply) => {
+    const token=getToken(req)
+    if(!token) throw new AppError('Token kerak',401,'TOKEN_REQUIRED')
+    const body=pedguliCandidateImportSchema.parse(req.body)
+    try {
+      return reply.send(await pedguliCandidateService.importBatch(token,body.items))
+    } catch(error) {
+      return sendError(reply,error)
+    }
+  })
+
   app.get('/api/admin/dashboard', async (req, reply) => {
     const token = getToken(req)
     if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
