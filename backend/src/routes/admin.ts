@@ -14,6 +14,7 @@ import {
   createAdminModuleSchema,
   saveAdminQuestionSchema,
   transitionAdminQuestionSchema,
+  savePedguliEditorialReviewSchema,
 } from '../schemas/admin-content.js'
 
 function getToken(req: { headers: { authorization?: string } }): string | null {
@@ -63,7 +64,32 @@ export async function adminRoutes(app: FastifyInstance) {
     if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
     const query = adminQuestionsQuerySchema.querystring.parse(req.query)
     try {
-      return reply.send(await adminContentService.listQuestions(query.status, token))
+      return reply.send(await adminContentService.listQuestions(query.status, token, query.source))
+    } catch (error) {
+      return sendError(reply, error)
+    }
+  })
+
+  /** Editorial checklist visible only to authenticated CMS staff. */
+  app.get('/api/admin/questions/:id/editorial', async (req, reply) => {
+    const token = getToken(req)
+    if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
+    const { id } = req.params as { id: string }
+    try {
+      return reply.send(await adminContentService.getPedguliEditorialReview(id, token))
+    } catch (error) {
+      return sendError(reply, error)
+    }
+  })
+
+  /** Only an authenticated admin can attest independent answer/source review. */
+  app.put('/api/admin/questions/:id/editorial', async (req, reply) => {
+    const token = getToken(req)
+    if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
+    const { id } = req.params as { id: string }
+    const input = savePedguliEditorialReviewSchema.parse(req.body)
+    try {
+      return reply.send(await adminContentService.savePedguliEditorialReview(id, input, token))
     } catch (error) {
       return sendError(reply, error)
     }
