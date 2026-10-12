@@ -19,7 +19,7 @@ async function requireStaff(userToken: string): Promise<StaffIdentity> {
 
   const { data: profile, error: profileError } = await supabase
     .from('profiles')
-    .select('role')
+    .select('role, is_blocked')
     .eq('id', data.user.id)
     .maybeSingle()
 
@@ -27,7 +27,7 @@ async function requireStaff(userToken: string): Promise<StaffIdentity> {
     throw new AppError('Rolni tekshirishda xatolik', 500, 'ADMIN_ROLE_CHECK_ERROR')
   }
 
-  if (!profile || (profile.role !== 'editor' && profile.role !== 'admin')) {
+  if (!profile || profile.is_blocked === true || (profile.role !== 'editor' && profile.role !== 'admin')) {
     throw new ForbiddenError('Bu amal uchun muharrir yoki admin huquqi kerak')
   }
 
