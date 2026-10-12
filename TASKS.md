@@ -103,7 +103,7 @@
 | TASK-060 | DONE | TASK-059 | Source-backed savol banklarini spetsifikatsiya bo‘yicha kengaytirish yakunlandi: private AXB 570/570 productionda (540 published, 30 review quarantine); 17 ta exact gapfill + 334 ta reserve = 351 ta public source-backed Y1 savol qo‘shildi; official 50/50 feasibility va AC-CNT-04 har required group×cognitive slot uchun ≥20 candidate bilan 0-deficit |
 | TASK-061 | DONE | TASK-057 | Yuqori amaliy og‘irlikdagi S5.WEB/S6.NET/S7.SEC darslariga worked code, IP/maska hisoblash, xavfsizlik scenario va Web-Freelance workflow qo‘shildi; 7 ta lesson uchun DB regression invariant |
 | TASK-062 | DONE | TASK-060 | Rasmiy S1.INFO taxonomy reconciliation: “axborotni saralash va xulosa chiqarish” S1.INFO.08 bilan yopildi; private AXB 570/570 strukturaviy auditdan o‘tdi va productionga xavfsiz import qilindi; keyingi source/construct review natijalari TASK-060/TASK-063 da yuritiladi |
-| TASK-063 | IN_PROGRESS | TASK-062 | Private bank review/publish reconciliation: 540 AXB published, 30 supplementary review-only quarantine; TASK-060 bilan exact feasibility va AC-CNT-04 release reserve yopildi. Keyingi ish: Y2/Y3 bankini kengaytirish, production M02/M05 lesson driftini xavfsiz reconcile qilish va regression/CI bilan yakuniy publish pipeline’ni mustahkamlash |
+| TASK-063 | DONE | TASK-062 | Private bank + multi-format reconciliation yakunlandi: 540 AXB published, 30 supplementary review-only quarantine; 24 ta Y2 + 24 ta Y3 source-backed savol productionga published qilindi; M02/M05 canonical stable lesson ID/construct mapping production drifti xavfsiz reconcile qilindi; regression testi Y2/Y3 key shape, check_answer va source-lesson mappingni qoplaydi |
 
 ## UI modernizatsiya — Figma approved design
 
