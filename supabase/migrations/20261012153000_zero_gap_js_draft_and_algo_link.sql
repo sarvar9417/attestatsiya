@@ -56,10 +56,7 @@ Ko‘paytirish qo‘shishdan oldin bajariladi. a = a + 2 qiymatni yangilaydi; = 
 $md$,
    22,'review'::public.content_status
  )
- on conflict (module_id,slug) do update set
-   title_uz=excluded.title_uz,body_mdx=excluded.body_mdx,
-   est_minutes=excluded.est_minutes,status=excluded.status,
-   updated_at=now();
+ on conflict (module_id,slug) do nothing;
 
  select id into strict js_lesson from public.lessons
  where module_id=m08 and slug='javascript-sintaksisi-m08-11-draft';
