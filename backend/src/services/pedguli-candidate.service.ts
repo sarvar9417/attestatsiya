@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto'
 import { supabase } from '../lib/supabase.js'
 import { config } from '../config.js'
+import { analyzeCandidateQuality } from './pedguli-quality.service.js'
 import { AppError, AuthError, ForbiddenError } from '../lib/errors.js'
 import type { PedguliCandidateInput, PedguliCandidateListQuery } from '../schemas/pedguli-candidates.js'
 
@@ -42,7 +43,8 @@ export const pedguliCandidateService = {
       const hash=fingerprintCandidate(item.raw_text_private)
       if(!unique.has(hash)) unique.set(hash,item)
     }
-    const rows=[...unique].map(([hash,item])=>({
+    const rows=[...unique].map(([hash,item])=>{ const quality=analyzeCandidateQuality(item.raw_text_private,item.media_present,item.suggested_constructs)
+      return ({
       source_channel:'@PedMahoratGuli',
       source_message_id:item.message_id,
       source_url:item.source_url,
@@ -53,13 +55,16 @@ export const pedguliCandidateService = {
       suggested_constructs:item.suggested_constructs,
       media_present:item.media_present,
       key_marker_unverified:item.key_marker_unverified,
+      quality_flags:quality.flags,
+      review_priority:quality.priority,
+      four_options_detected:quality.four_options_detected,
       editorial_status:'needs_review',
       rights_status:'not_cleared',
       answer_key_status:'unverified',
       historical_exam_claim_status:'unverified',
       linked_question_id:null,
       reviewer_id:null,
-    }))
+    })})
     const { data, error } = await supabase
       .from('pedguli_source_candidates')
       .upsert(rows,{onConflict:'source_channel,text_sha256',ignoreDuplicates:true})
@@ -79,7 +84,7 @@ export const pedguliCandidateService = {
   async list(token:string, query:PedguliCandidateListQuery) {
     await requireStaff(token)
     let request=supabase.from('pedguli_source_candidates')
-      .select('id,source_message_id,source_url,source_html,date_local,raw_text_private,suggested_constructs,media_present,key_marker_unverified,editorial_status,rights_status,answer_key_status,historical_exam_claim_status,review_notes,created_at',
+      .select('id,source_message_id,source_url,source_html,date_local,raw_text_private,suggested_constructs,media_present,key_marker_unverified,quality_flags,review_priority,four_options_detected,editorial_status,rights_status,answer_key_status,historical_exam_claim_status,review_notes,created_at',
         {count:'exact'})
       .order('source_message_id',{ascending:true})
       .range((query.page-1)*query.page_size,query.page*query.page_size-1)
