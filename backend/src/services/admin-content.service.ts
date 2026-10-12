@@ -4,6 +4,7 @@ import type {
   AdminContentStatus,
   CreateAdminModuleInput,
   SaveAdminQuestionInput,
+  SavePedguliEditorialReview,
 } from '../schemas/admin-content.js'
 
 type StaffRole = 'editor' | 'admin'
@@ -241,20 +242,85 @@ export const adminContentService = {
     return data
   },
 
-  async listQuestions(status: AdminContentStatus | undefined, userToken: string) {
+  async listQuestions(status: AdminContentStatus | undefined, userToken: string, source?: 'pedguli') {
     await requireStaff(userToken)
 
     let query = supabase
       .from('questions')
-      .select('id, stem_md, format, cognitive, difficulty, status, group_code, construct_id, subject_id, created_at')
+      .select('id, stem_md, format, cognitive, difficulty, status, group_code, construct_id, subject_id, source_reference, created_at')
       .order('created_at', { ascending: false })
       .limit(100)
 
     if (status) query = query.eq('status', status)
+    if (source === 'pedguli') query = query.like('source_reference', 'authored:pedguli-%')
 
     const { data, error } = await query
     if (error) throw new AppError('Savollarni yuklashda xatolik', 500, 'ADMIN_QUERY_ERROR')
     return { items: data ?? [] }
+  },
+
+  async getPedguliEditorialReview(questionId: string, userToken: string) {
+    await requireStaff(userToken)
+    const { data: question, error: questionError } = await supabase
+      .from('questions')
+      .select('id, status, source_reference')
+      .eq('id', questionId).maybeSingle()
+    if (questionError) throw new AppError('Savolni olishda xatolik', 500, 'ADMIN_QUERY_ERROR')
+    if (!question) throw new NotFoundError('Savol topilmadi')
+    if (!question.source_reference?.startsWith('authored:pedguli-')) {
+      throw new AppError('Bu tekshiruv faqat Pedmahorat mavzularidagi mualliflik savollari uchun', 400, 'INVALID_EDITORIAL_SOURCE')
+    }
+    const { data, error } = await supabase.from('question_editorial_checks')
+      .select('question_id, reviewer_id, reviewed_at, answer_verified, reference_verified, wording_verified, original_authorship_verified, reviewer_notes')
+      .eq('question_id', questionId).maybeSingle()
+    if (error) throw new AppError('Tahririy tekshiruvni yuklab bo‘lmadi', 500, 'ADMIN_QUERY_ERROR')
+    return { question_id: questionId, status: question.status, checks: data ?? null }
+  },
+
+  async savePedguliEditorialReview(
+    questionId: string,
+    input: SavePedguliEditorialReview,
+    userToken: string
+  ) {
+    const staff = await requireStaff(userToken)
+    if (staff.role !== 'admin') {
+      throw new ForbiddenError('Tekshiruvni faqat administrator tasdiqlashi mumkin')
+    }
+
+    const { data: question, error: questionError } = await supabase
+      .from('questions')
+      .select('id, status, source_reference')
+      .eq('id', questionId).maybeSingle()
+    if (questionError) throw new AppError('Savolni olishda xatolik', 500, 'ADMIN_QUERY_ERROR')
+    if (!question) throw new NotFoundError('Savol topilmadi')
+    if (question.status !== 'review' || !question.source_reference?.startsWith('authored:pedguli-')) {
+      throw new AppError('Faqat Review holatidagi Pedmahorat savolini tekshirish mumkin', 409, 'INVALID_EDITORIAL_STATUS')
+    }
+
+    const { data, error } = await supabase.from('question_editorial_checks')
+      .upsert({
+        question_id: questionId,
+        reviewer_id: staff.id,
+        answer_verified: input.answer_verified,
+        reference_verified: input.reference_verified,
+        wording_verified: input.wording_verified,
+        original_authorship_verified: input.original_authorship_verified,
+        reviewer_notes: input.reviewer_notes,
+      }, { onConflict: 'question_id' })
+      .select('question_id, reviewer_id, reviewed_at, answer_verified, reference_verified, wording_verified, original_authorship_verified, reviewer_notes')
+      .single()
+
+    if (error || !data) {
+      throw new AppError('Tahririy tekshiruv saqlanmadi', 500, 'EDITORIAL_SAVE_ERROR')
+    }
+    await writeAudit(staff.id, 'question.editorial_review', 'questions', questionId, {
+      answer_verified: input.answer_verified,
+      reference_verified: input.reference_verified,
+      wording_verified: input.wording_verified,
+      original_authorship_verified: input.original_authorship_verified,
+      // Do not place potentially sensitive/private review notes in audit log.
+    })
+    return data
   },
 
   async transitionQuestion(
@@ -266,7 +332,7 @@ export const adminContentService = {
 
     const { data: current, error: readError } = await supabase
       .from('questions')
-      .select('id, status')
+      .select('id, status, source_reference')
       .eq('id', questionId)
       .maybeSingle()
     if (readError) throw new AppError('Savol holatini olishda xatolik', 500, 'ADMIN_QUERY_ERROR')
@@ -281,6 +347,22 @@ export const adminContentService = {
       )
     }
 
+    if (nextStatus === 'published' && current.source_reference?.startsWith('authored:pedguli-')) {
+      if (staff.role !== 'admin') {
+        throw new ForbiddenError('Pedmahorat savollarini faqat administrator nashrga tasdiqlaydi')
+      }
+      const { data: approval, error: approvalError } = await supabase
+        .from('question_editorial_checks')
+        .select('answer_verified, reference_verified, wording_verified, original_authorship_verified')
+        .eq('question_id', questionId).maybeSingle()
+      if (approvalError) throw new AppError('Tahririy tekshiruvni olishda xatolik', 500, 'ADMIN_QUERY_ERROR')
+      if (!approval || !approval.answer_verified || !approval.reference_verified ||
+          !approval.wording_verified || !approval.original_authorship_verified) {
+        throw new AppError('Nashrdan oldin javob, manba, matn va mustaqil mualliflikni tasdiqlang', 409, 'EDITORIAL_APPROVAL_REQUIRED')
+      }
+      // SQL publication trigger also verifies notes and question-content fingerprint.
+    }
+
     const { data, error } = await supabase
       .from('questions')
       .update({ status: nextStatus, updated_at: new Date().toISOString() })
@@ -288,6 +370,9 @@ export const adminContentService = {
       .select('id, status')
       .single()
 
+    if (error?.message?.includes('PEDGULI_EDITORIAL_APPROVAL_REQUIRED')) {
+      throw new AppError('Tasdiq eskirgan yoki yetarli emas. Savolni qayta tekshiring', 409, 'EDITORIAL_APPROVAL_REQUIRED')
+    }
     if (error || !data) throw new AppError('Savol holati yangilanmadi', 500, 'ADMIN_SAVE_ERROR')
 
     await writeAudit(staff.id, 'question.status_change', 'questions', questionId, {
