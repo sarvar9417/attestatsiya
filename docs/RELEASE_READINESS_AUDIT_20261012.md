@@ -96,9 +96,10 @@ test asserts the exact source slug for every staged item.
 
 Repository migration history and production migration history are not aligned.
 A read-only comparison initially found 11 repository migrations not represented
-in the current production history. PR #106 now adds one more production-forward
-reconciliation migration, so the integration lane contains **12** repository
-migrations that must be handled deliberately rather than by blind history replay.
+in the current production history. PR #106 now adds two production-forward
+lesson-reconciliation migrations, so the integration lane contains **13**
+repository migrations that must be handled deliberately rather than by blind
+history replay.
 
 Eight pre-existing content migrations are missing from production history:
 
@@ -111,11 +112,12 @@ Eight pre-existing content migrations are missing from production history:
 7. `20261011133000_m01_transfer_rate_lesson.sql`
 8. `20261011150000_practical_lesson_depth.sql`
 
-Four additional migrations belong to the current draft PR:
+Five additional migrations belong to the current draft PR:
 
 - `20261012115500_task063_fresh_source_lesson_forward_fix.sql`
 - `20261012120000_spec_zero_construct_review_bank.sql`
 - `20261012122500_anon_rpc_execute_hardening.sql`
+- `20261012122600_prepare_legacy_lesson_orders.sql`
 - `20261012123000_canonical_lesson_drift_reconcile.sql`
 
 **Do not run a blind production `db push` from this branch.** The production
@@ -151,7 +153,15 @@ The learner content API returns every published lesson in a module. Applying the
 new source-backed lesson rows without reconciling these legacy published rows
 would therefore create learner-visible duplicate/empty lesson entries.
 
-PR #106 now contains
+A separate schema check found a second release hazard: `lessons` has a unique
+constraint on `(module_id, order_idx)`, while the legacy rows occupy the low
+order values that the canonical source-backed migrations need. PR #106
+therefore adds `20261012122600_prepare_legacy_lesson_orders.sql`, a guarded
+preparation step that moves only the conflicting non-canonical published rows
+out of the reserved order slots before canonical insertion. It changes no
+lesson body/slug/status and aborts if learner references appear.
+
+PR #106 also contains
 `20261012123000_canonical_lesson_drift_reconcile.sql`. It fails closed unless
 the canonical source-backed lessons and exact construct mappings already exist,
 rebinds questions by construct, and then **archives rather than deletes** the
