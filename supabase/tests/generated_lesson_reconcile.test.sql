@@ -4,7 +4,6 @@ do $rebind_test$
 declare
   v_remaining int;
   v_invalid int;
-  v_ambiguous_claimed int;
 begin
   with available as (
     select q.id,count(distinct l.id) as published_lesson_count
@@ -33,18 +32,7 @@ begin
     raise exception '% generated questions have mismatched lesson links',v_invalid;
   end if;
 
-  -- It is explicitly forbidden to link a previously unlinked 2-choice lesson
-  -- source just to clear the dashboard. The 60 candidate ambiguity on production
-  -- requires a separate human choice, not the generic SQL repair.
-  select count(*) into v_ambiguous_claimed from public.questions q
-  join public.lesson_constructs lc on lc.construct_id=q.construct_id
-  join public.lessons l on l.id=lc.lesson_id
-  where q.status='published'::public.content_status
-    and q.source_reference like 'generated:%'
-    and q.source_lesson_id is null
-    and l.status='published'::public.content_status
-  group by q.id having count(distinct l.id)>1 limit 1;
-  -- If none remain, the test still passes: only *one-choice* fixes are automatic.
+  -- Two-or-more-published-lesson cases remain subject to separate review.
 end
 $rebind_test$;
 rollback;
