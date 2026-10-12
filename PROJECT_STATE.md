@@ -1,3 +1,12 @@
+## Auth recovery stability (TASK-064, 2026-10-12)
+
+- **Claimed:** login/register/forgot-password oqimini 100% yakunlash prioriteti doirasida password recovery rerender race tekshirilmoqda.
+- **Root cause hardening:** reset sahifasi recovery access tokenni birinchi renderda snapshot qiladi; useAuth/sessionStore URL hashni tozalagach ham forma tokenni yo‘qotmaydi va fallback ekranga “refresh” bo‘lib ketmaydi.
+- **URL safety:** recovery tugagach tokenlar history.replaceState orqali URLdan olib tashlanadi; query yoki hashda faqat `type=recovery` tokeni qabul qilinadi.
+- **Backend redirect:** reset email redirecti string concatenation o‘rniga canonical `/reset-password` URL bilan quriladi, trailing-slash drift yo‘q.
+- **Test scope:** useAuth explicit snapshot token authorization, ResetPassword pending-rerender race va backend reset redirect kontrakti qo‘shildi.
+- **Release gate:** B-AUTH-001 hali OPEN — production Supabase redirect allowlist/SMTP/email template va real-email E2E (register → verify → login → forgot → reset → login) o‘tmasdan auth 100% deb belgilanmaydi.
+
 ## Multi-format bank + lesson drift reconciliation (TASK-063, 2026-10-12)
 
 - **Y2/Y3 source-backed expansion:** 48 ta original savol productionga qo‘shildi va `published` qilindi — **24 Y2 (matching)** + **24 Y3 (ordering)**. Bank specialty, professional-standard va pedagogy/methodology constructlarini qamraydi.
