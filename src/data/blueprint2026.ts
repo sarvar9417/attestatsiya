@@ -123,14 +123,14 @@ export interface Construct {
 }
 
 export const CONSTRUCTS: readonly Construct[] = [
-  // ── S1.INFO — 7 ─────────────────────────────────────────────────────────
+  // ── S1.INFO — 8 ─────────────────────────────────────────────────────────
   { code: 'S1.INFO.01', group: 'S1.INFO', title: "Informatika, axborot, ma'lumot va bilim tushunchalarini farqlash", keywords: ['informatika fani', 'bilim'] },
   { code: 'S1.INFO.02', group: 'S1.INFO', title: 'Axborot turlari va manbalari', keywords: ['axborot turlari', 'axborot manbalari'] },
   { code: 'S1.INFO.03', group: 'S1.INFO', title: "Turli ko'rinishdagi axborotni kodlash", keywords: ['axborotni kodlash', 'matnli axborot', 'grafik axborot', 'ASCII', 'Unicode'] },
   { code: 'S1.INFO.04', group: 'S1.INFO', title: "Axborot o'lchov birliklari", generator: 'axborotHajmi', keywords: ["o'lchov birlik", 'bit', 'bayt', 'kilobayt', 'megabayt'] },
   { code: 'S1.INFO.05', group: 'S1.INFO', title: 'Axborot hajmini hisoblash', generator: 'axborotHajmi', keywords: ['axborot hajmi', 'hajmini hisoblash'] },
   { code: 'S1.INFO.06', group: 'S1.INFO', title: 'Axborot uzatish tezligini hisoblash', generator: 'axborotHajmi', keywords: ['uzatish tezligi', "o'tkazish qobiliyati", 'bit/s'] },
-  { code: 'S1.INFO.07', group: 'S1.INFO', title: 'Raqamli muhitda axloq va mualliflik huquqi', keywords: ['mualliflik huquqi', 'axloq', 'plagiat'] },
+  { code: 'S1.INFO.07', group: 'S1.INFO', title: 'Raqamli muhitda axloq va mualliflik huquqi', keywords: ['mualliflik huquqi', 'axloq', 'plagiat'] },\n  { code: 'S1.INFO.08', group: 'S1.INFO', title: 'Axborotni saralash va xulosa chiqarish', keywords: ['axborotni saralash', 'xulosa chiqarish', 'fakt', 'fikr', 'manba ishonchliligi'] },
 
   // ── S2.HW — 4 ───────────────────────────────────────────────────────────
   { code: 'S2.HW.01', group: 'S2.HW', title: 'Kompyuter qurilmalari va ularning vazifalari', keywords: ['protsessor', 'asosiy plata', 'kiritish qurilma', 'chiqarish qurilma', 'tizimli blok'] },
