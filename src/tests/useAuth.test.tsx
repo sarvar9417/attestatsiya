@@ -189,6 +189,33 @@ describe('useAuth', () => {
     vi.unstubAllGlobals()
   })
 
+  it('updatePassword: explicit recovery token URL tozalanganidan keyin ham ishlaydi', async () => {
+    window.history.replaceState(null, '', '/reset-password')
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(JSON.stringify({ updated: true }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    )
+    vi.stubGlobal('fetch', fetchMock)
+
+    const { result } = renderHook(() => useAuth())
+
+    let error: Error | null = null
+    await act(async () => {
+      const res = await result.current.updatePassword('newsecret123', 'snapshot-recovery-token')
+      error = res.error
+    })
+
+    expect(error).toBeNull()
+    const [, init] = fetchMock.mock.calls[0] as [string, RequestInit]
+    expect((init.headers as Record<string, string>).Authorization)
+      .toBe('Bearer snapshot-recovery-token')
+    expect(window.location.pathname).toBe('/reset-password')
+    expect(window.location.hash).toBe('')
+    vi.unstubAllGlobals()
+  })
+
   it('updatePassword: recovery succeeds and removes a previously signed-in account session', async () => {
     sessionStore.set(makeSession({ access_token: 'old-account-token' }))
     window.location.hash = '#access_token=recovery-token&type=recovery'
