@@ -24,6 +24,7 @@ declare
   v_expected int;
   v_have int;
   v_refs bigint;
+  v_topic_refs bigint;
 begin
   for lane in
     select *
@@ -203,16 +204,25 @@ begin
           and l.status='published'::public.content_status
           and not (l.id=any(lane.canonical_lesson_ids))
       )
-      +
-      (
+      into v_refs;
+
+    -- topic_test_attempts exists in current production but not in the oldest
+    -- fresh bootstrap schema. Guard it dynamically so the migration remains
+    -- compatible with both histories while still refusing real learner refs.
+    v_topic_refs := 0;
+    if to_regclass('public.topic_test_attempts') is not null then
+      execute $sql$
         select count(*)
         from public.topic_test_attempts t
         join public.lessons l on l.id=t.lesson_id
-        where l.module_id=v_module
+        where l.module_id=$1
           and l.status='published'::public.content_status
-          and not (l.id=any(lane.canonical_lesson_ids))
-      )
-      into v_refs;
+          and not (l.id=any($2))
+      $sql$
+      into v_topic_refs
+      using v_module,lane.canonical_lesson_ids;
+    end if;
+    v_refs := v_refs + v_topic_refs;
 
     if v_refs <> 0 then
       raise exception
