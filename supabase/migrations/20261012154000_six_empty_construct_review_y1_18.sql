@@ -15,10 +15,19 @@ begin
   select c.id,c.subject_id,c.group_code into strict v_construct,v_subject,v_group
   from public.constructs c where c.code=item->>'code' and c.is_active;
 
-  select l.id into strict v_lesson from public.lessons l
+  select l.id into v_lesson from public.lessons l
   join public.lesson_constructs lc on lc.lesson_id=l.id
-  where lc.construct_id=v_construct and l.slug=item->>'slug'
-    and l.status in ('review'::public.content_status,'published'::public.content_status);
+  where lc.construct_id=v_construct
+    and l.status in ('review'::public.content_status,'published'::public.content_status)
+    and (item->>'code'<>'S4.CODE.04' or l.slug=item->>'slug')
+  order by
+    case when l.slug=item->>'slug' then 0 else 1 end,
+    case when l.slug ~ '^m[0-9]{2}-' then 1 else 0 end,
+    l.order_idx, l.id
+  limit 1;
+  if v_lesson is null then
+    raise exception 'No lesson mapped to review source construct: %',item->>'code';
+  end if;
 
   if jsonb_array_length(item->'options')<>4 or (item->>'correct')::int not between 0 and 3 then
     raise exception 'Invalid authored question choice shape: %',item->>'ref';
