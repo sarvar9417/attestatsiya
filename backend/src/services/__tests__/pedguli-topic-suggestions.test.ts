@@ -37,4 +37,16 @@ describe('private topical suggestions (never source verification)',()=>{
     expect(item).not.toHaveProperty('rights_status')
     expect(item.proposed_constructs).toEqual(['PM.GEN.01'])
   })
+  it('keeps manually triaged #16752 out of KS.03 unless a reviewer confirms',()=>{
+    const proposal=suggestPedguliTopic('Ta’lim texnologiyalarining makro darajasi haqida savol',16752)
+    expect(proposal.suggestion_state).toBe('editorial_proposal')
+    expect(proposal.proposed_constructs).toEqual(['PM.GEN.08'])
+    expect(proposal).not.toHaveProperty('answer_verified')
+  })
+  it('does not invent a topic for a missing-media matching task #5636',()=>{
+    const proposal=suggestPedguliTopic('A) 1-a, 2-b B) 1-b, 2-c C) 1-c, 2-a D) 1-a, 2-b',5636)
+    expect(proposal.proposed_constructs).toEqual([])
+    expect(proposal.suggestion_state).toBe('unclassified')
+  })
+
 })
