@@ -4,7 +4,9 @@
  * unrelated vocabulary). No answer, publication, licensing, or official-exam
  * authenticity is asserted. Collisions are held for human review.
  */
-export type TopicSuggestionState = 'strong_keyword' | 'ambiguous' | 'unclassified'
+import { pedguliHighPriorityTopicProposals } from './pedguli-high-priority-topic-proposals.js'
+
+export type TopicSuggestionState = 'strong_keyword' | 'ambiguous' | 'unclassified' | 'editorial_proposal'
 
 export interface TopicSuggestion {
   proposed_constructs: string[]
@@ -75,7 +77,14 @@ const rules: ReadonlyArray<[string, readonly RegExp[]]> = [
   ['PM.MET.03', [/informatika darsida .*xato/, /dasturlash.*pedagogik muammo/]],
 ]
 
-export function suggestPedguliTopic(sourceText: string): TopicSuggestion {
+export function suggestPedguliTopic(sourceText: string, messageId?: number): TopicSuggestion {
+  // Initial source-specific content audit is a PROPOSAL, not an independent
+  // pedagogical/source/answer signoff. These hints may correct old heuristic tags.
+  const fromAudit=messageId===undefined ? undefined : pedguliHighPriorityTopicProposals[messageId]
+  if(fromAudit) {
+    return {proposed_constructs:[fromAudit],suggestion_state:'editorial_proposal',
+      evidence_terms:['2026-10-12 source text preliminary review; must be verified by human reviewer']}
+  }
   const question = sourceText.split(optionA, 1)[0] ?? sourceText
   const stem = simplify(question)
   const hits: Array<{code:string;term:string}> = []
