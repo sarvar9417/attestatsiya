@@ -7,7 +7,7 @@ import {
 } from '../schemas/admin.js'
 import { sendError, AppError } from '../lib/errors.js'
 import { pedguliCandidateService } from '../services/pedguli-candidate.service.js'
-import { pedguliCandidateImportSchema, pedguliCandidateListQuerySchema, pedguliCandidateReviewSchema } from '../schemas/pedguli-candidates.js'
+import { pedguliCandidateImportSchema, pedguliCandidateListQuerySchema, pedguliCandidateReviewSchema, pedguliStage4BatchSchema } from '../schemas/pedguli-candidates.js'
 import { contentCoverageService } from '../services/content-coverage.service.js'
 import { questionBankImportService } from '../services/question-bank-import.service.js'
 import { adminContentService } from '../services/admin-content.service.js'
@@ -57,6 +57,15 @@ export async function adminRoutes(app: FastifyInstance) {
     try{
       return reply.send(await pedguliCandidateService.review(token,id,input))
     }catch(error){return sendError(reply,error)}
+  })
+
+  /** Private, admin-only source research upload; no grader/public.question writes. */
+  app.post('/api/admin/pedguli-candidates/stage4', async (req, reply) => {
+    const token=getToken(req)
+    if(!token)throw new AppError('Token kerak',401,'TOKEN_REQUIRED')
+    const body=pedguliStage4BatchSchema.parse(req.body)
+    try {return reply.send(await pedguliCandidateService.importStage4(token,body))}
+    catch(error){return sendError(reply,error)}
   })
 
   app.post('/api/admin/pedguli-candidates/import', async (req, reply) => {
