@@ -32,7 +32,7 @@ begin
     and (k.question_id is null or c.id is null or not c.is_active
       or c.group_code<>q.group_code or l.id is null
       or q.format<>'Y1'::public.question_format
-      or q.status<>'published'::public.content_status
+      or q.status<>'review'::public.content_status
       or (select count(*) from public.question_options o where o.question_id=q.id and o.side='a')<>4
       or not exists(select 1 from public.question_options o
                     where o.question_id=q.id and o.id::text=k.payload->>'correct_option_id')
