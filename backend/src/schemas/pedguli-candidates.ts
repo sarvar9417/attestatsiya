@@ -34,6 +34,7 @@ export const pedguliCandidateListQuerySchema = z.object({
   page: z.coerce.number().int().min(1).default(1),
   page_size: z.coerce.number().int().min(1).max(100).default(25),
   status: z.enum(['needs_review','needs_source','needs_rights','verified','rejected']).optional(),
+  min_priority: z.coerce.number().int().min(1).max(3).optional(),
 }).strict()
 
 export type PedguliCandidateInput = z.infer<typeof pedguliCandidateInputSchema>
