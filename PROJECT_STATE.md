@@ -2,9 +2,11 @@
 
 - **Claimed:** login/register/forgot-password oqimini 100% yakunlash prioriteti doirasida password recovery rerender race tekshirilmoqda.
 - **Root cause hardening:** reset sahifasi recovery access tokenni birinchi renderda snapshot qiladi; useAuth/sessionStore URL hashni tozalagach ham forma tokenni yo‘qotmaydi va fallback ekranga “refresh” bo‘lib ketmaydi.
-- **URL safety:** recovery tugagach tokenlar history.replaceState orqali URLdan olib tashlanadi; query yoki hashda faqat `type=recovery` tokeni qabul qilinadi.
+- **URL safety:** recovery tugagach token fragmenti `history.replaceState` orqali URLdan olib tashlanadi; faqat hashdagi `type=recovery` access token qabul qilinadi. Query-param access token ataylab rad etiladi, chunki u server/proxy/referrer loglariga tushishi mumkin.
 - **Backend redirect:** reset email redirecti string concatenation o‘rniga canonical `/reset-password` URL bilan quriladi, trailing-slash drift yo‘q.
 - **Test scope:** useAuth explicit snapshot token authorization, ResetPassword pending-rerender race va backend reset redirect kontrakti qo‘shildi.
+- **Real email evidence:** ulangan Gmailda 2026-10-11 kuni Supabase Auth'dan haqiqiy `Reset your password` xati yetib kelgani tekshirildi; xatdagi verify link `redirect_to=https://attestatsiya-five.vercel.app/reset-password` ni olib yuradi. Bu delivery va requested redirectni tasdiqlaydi, ammo TASK-064 buildi bilan fresh click→update→login E2E o‘rnini bosmaydi.
+- **Preview blocker:** TASK-064 branch uchun qo‘lda Vercel preview yaratish urinishida Hobby daily deployment limit (`api-deployments-free-per-day`, >100) sabab HTTP 402 qaytdi; Vercel retry oynasi 24 soat deb ko‘rsatdi. Billing/plan avtomatik o‘zgartirilmadi.
 - **Release gate:** B-AUTH-001 hali OPEN — production Supabase redirect allowlist/SMTP/email template va real-email E2E (register → verify → login → forgot → reset → login) o‘tmasdan auth 100% deb belgilanmaydi.
 
 ## Multi-format bank + lesson drift reconciliation (TASK-063, 2026-10-12)
