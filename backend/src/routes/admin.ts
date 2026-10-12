@@ -7,7 +7,7 @@ import {
 } from '../schemas/admin.js'
 import { sendError, AppError } from '../lib/errors.js'
 import { pedguliCandidateService } from '../services/pedguli-candidate.service.js'
-import { pedguliCandidateImportSchema, pedguliCandidateListQuerySchema } from '../schemas/pedguli-candidates.js'
+import { pedguliCandidateImportSchema, pedguliCandidateListQuerySchema, pedguliCandidateReviewSchema } from '../schemas/pedguli-candidates.js'
 import { contentCoverageService } from '../services/content-coverage.service.js'
 import { questionBankImportService } from '../services/question-bank-import.service.js'
 import { adminContentService } from '../services/admin-content.service.js'
@@ -45,6 +45,20 @@ export async function adminRoutes(app: FastifyInstance) {
   })
 
   /** Active admin only; batches <= 50; idempotent and review-only. */
+  /** Staff records a manual source review; only an admin can mark verified. */
+  app.patch('/api/admin/pedguli-candidates/:id/review', async (req, reply) => {
+    const token=getToken(req)
+    if(!token)throw new AppError('Token kerak',401,'TOKEN_REQUIRED')
+    const {id}=req.params as {id:string}
+    if(!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)){
+      throw new AppError('Nomzod ID formati noto‘g‘ri',400,'INVALID_CANDIDATE_ID')
+    }
+    const input=pedguliCandidateReviewSchema.parse(req.body)
+    try{
+      return reply.send(await pedguliCandidateService.review(token,id,input))
+    }catch(error){return sendError(reply,error)}
+  })
+
   app.post('/api/admin/pedguli-candidates/import', async (req, reply) => {
     const token=getToken(req)
     if(!token) throw new AppError('Token kerak',401,'TOKEN_REQUIRED')
