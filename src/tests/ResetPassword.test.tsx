@@ -87,7 +87,7 @@ describe('ResetPassword sahifasi', () => {
 
   it('URL tokeni tozalansa ham pending update vaqtida forma refresh bo‘lib ketmaydi', async () => {
     window.location.hash = '#access_token=recovery-token&type=recovery'
-    let resolveUpdate: ((value: { data: null; error: null }) => void) | null = null
+    let resolveUpdate: (value: { data: null; error: null }) => void = () => undefined
     const updatePassword = vi.fn().mockImplementation(
       () =>
         new Promise<{ data: null; error: null }>((resolve) => {
@@ -130,7 +130,7 @@ describe('ResetPassword sahifasi', () => {
     expect(screen.getByRole('heading', { name: 'Yangi parol kiriting' })).toBeDefined()
     expect(screen.getByRole('button', { name: 'Yuklanmoqda...' })).toBeDisabled()
 
-    resolveUpdate?.({ data: null, error: null })
+    resolveUpdate({ data: null, error: null })
 
     await waitFor(() => {
       expect(screen.getByRole('heading', { name: 'Parol yangilandi' })).toBeDefined()
