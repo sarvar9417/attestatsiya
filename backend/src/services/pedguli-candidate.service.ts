@@ -45,8 +45,11 @@ export const pedguliCandidateService = {
       if(!unique.has(hash)) unique.set(hash,item)
     }
     const rows=[...unique].map(([hash,item])=>{ const quality=analyzeCandidateQuality(item.raw_text_private,item.media_present,item.suggested_constructs)
-      const suggestion=item.suggested_constructs.length===0 ? suggestPedguliTopic(item.raw_text_private)
-        : {proposed_constructs:[],suggestion_state:'unclassified',evidence_terms:[]}
+      const suggestion= suggestPedguliTopic(item.raw_text_private,item.message_id)
+      // Do not auto-overwrite preexisting tags. Only keep topic proposals for
+      // unclassified items or explicitly audited source-ID mismatches.
+      const proposal=(item.suggested_constructs.length===0 || suggestion.suggestion_state==='editorial_proposal')
+        ? suggestion : {proposed_constructs:[],suggestion_state:'unclassified',evidence_terms:[]}
       return ({
       source_channel:'@PedMahoratGuli',
       source_message_id:item.message_id,
@@ -61,9 +64,9 @@ export const pedguliCandidateService = {
       quality_flags:quality.flags,
       review_priority:quality.priority,
       four_options_detected:quality.four_options_detected,
-      proposed_constructs:suggestion.proposed_constructs,
-      topic_suggestion_state:suggestion.suggestion_state,
-      topic_suggestion_evidence:suggestion.evidence_terms,
+      proposed_constructs:proposal.proposed_constructs,
+      topic_suggestion_state:proposal.suggestion_state,
+      topic_suggestion_evidence:proposal.evidence_terms,
       editorial_status:'needs_review',
       rights_status:'not_cleared',
       answer_key_status:'unverified',
