@@ -41,7 +41,8 @@ TOPICS_TO_MODULE_MAP = {
             "S1.INFO.04": ["M01.05"],  # Axborot o'lchov birliklari
             "S1.INFO.05": ["M01.06"],  # Axborot hajmini hisoblash
             "S1.INFO.06": ["M01.06"],  # Uzatish tezligi
-            "S1.INFO.07": ["M01.08", "M01.09"],  # Axloq va mualliflik
+            "S1.INFO.07": ["M01.08"],  # Axloq va mualliflik
+            "S1.INFO.08": ["M01.09"],  # Saralash, manbani baholash va xulosa
         }
     },
     # S2.HW → M02 (Kompyuter tizimlari)

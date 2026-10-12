@@ -149,9 +149,9 @@ describe('given_15_guruh_when_struktura_tekshiriladi_then_kodlar_unikal', () => 
   })
 })
 
-describe('given_konstrukt_katalogi_when_tekshiriladi_then_76_ta_va_guruhga_boglangan', () => {
-  it('76 konstrukt bor', () => {
-    expect(CONSTRUCTS).toHaveLength(76)
+describe('given_konstrukt_katalogi_when_tekshiriladi_then_77_ta_va_guruhga_boglangan', () => {
+  it('77 konstrukt bor', () => {
+    expect(CONSTRUCTS).toHaveLength(77)
   })
 
   it('konstrukt kodlari unikal', () => {
