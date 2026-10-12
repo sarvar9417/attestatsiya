@@ -36,3 +36,17 @@ export function listPedguliSourceCandidates(page: number, status?: string, minPr
   if(minPriority)q.set('min_priority',String(minPriority))
   return api.get<CandidatePage>(`/api/admin/pedguli-candidates?${q}`)
 }
+
+export interface PedguliCandidateReviewInput {
+  editorial_status: PedguliSourceCandidate['editorial_status']
+  rights_status: 'not_cleared' | 'permission_granted' | 'not_reusable'
+  answer_key_status: 'unverified' | 'needs_source' | 'independently_verified'
+  historical_exam_claim_status: 'unverified' | 'independently_verified' | 'not_claimed'
+  suggested_constructs: string[]
+  review_notes: string
+}
+
+export function savePedguliCandidateReview(id:string,input:PedguliCandidateReviewInput) {
+  return api.patch<PedguliSourceCandidate>(
+    `/api/admin/pedguli-candidates/${encodeURIComponent(id)}/review`,input)
+}
