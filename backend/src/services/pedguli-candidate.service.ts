@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto'
 import { supabase } from '../lib/supabase.js'
 import { config } from '../config.js'
 import { analyzeCandidateQuality } from './pedguli-quality.service.js'
+import { suggestPedguliTopic } from './pedguli-topic-suggestions.service.js'
 import { AppError, AuthError, ForbiddenError, NotFoundError } from '../lib/errors.js'
 import type { PedguliCandidateInput, PedguliCandidateListQuery, PedguliCandidateReview } from '../schemas/pedguli-candidates.js'
 
@@ -44,6 +45,8 @@ export const pedguliCandidateService = {
       if(!unique.has(hash)) unique.set(hash,item)
     }
     const rows=[...unique].map(([hash,item])=>{ const quality=analyzeCandidateQuality(item.raw_text_private,item.media_present,item.suggested_constructs)
+      const suggestion=item.suggested_constructs.length===0 ? suggestPedguliTopic(item.raw_text_private)
+        : {proposed_constructs:[],suggestion_state:'unclassified',evidence_terms:[]}
       return ({
       source_channel:'@PedMahoratGuli',
       source_message_id:item.message_id,
@@ -58,6 +61,9 @@ export const pedguliCandidateService = {
       quality_flags:quality.flags,
       review_priority:quality.priority,
       four_options_detected:quality.four_options_detected,
+      proposed_constructs:suggestion.proposed_constructs,
+      topic_suggestion_state:suggestion.suggestion_state,
+      topic_suggestion_evidence:suggestion.evidence_terms,
       editorial_status:'needs_review',
       rights_status:'not_cleared',
       answer_key_status:'unverified',
@@ -84,7 +90,7 @@ export const pedguliCandidateService = {
   async list(token:string, query:PedguliCandidateListQuery) {
     await requireStaff(token)
     let request=supabase.from('pedguli_source_candidates')
-      .select('id,source_message_id,source_url,source_html,date_local,raw_text_private,suggested_constructs,media_present,key_marker_unverified,quality_flags,review_priority,four_options_detected,editorial_status,rights_status,answer_key_status,historical_exam_claim_status,review_notes,created_at',
+      .select('id,source_message_id,source_url,source_html,date_local,raw_text_private,suggested_constructs,media_present,key_marker_unverified,quality_flags,review_priority,four_options_detected,proposed_constructs,topic_suggestion_state,topic_suggestion_evidence,editorial_status,rights_status,answer_key_status,historical_exam_claim_status,review_notes,created_at',
         {count:'exact'})
       .order('review_priority',{ascending:false})
       .order('source_message_id',{ascending:true})
