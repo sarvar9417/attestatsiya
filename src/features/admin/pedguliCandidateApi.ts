@@ -11,6 +11,22 @@ export interface PedguliSourceCandidate {
   proposed_constructs: string[]
   topic_suggestion_state: 'strong_keyword' | 'ambiguous' | 'unclassified' | 'editorial_proposal'
   topic_suggestion_evidence: string[]
+  stage4?: {
+    proposed_construct: string | null
+    alternate_construct: string | null
+    model_margin: number | null
+    review_bucket: 'model_high_margin' | 'model_low_margin' | 'media_blocked'
+    review_warning: string
+  } | null
+  source_comparison?: {
+    proposed_option: string
+    compared_concept: string
+    proposed_construct: string
+    source_title: string
+    source_url: string
+    evidence_summary: string
+    review_state: 'source_correspondence_pending_editor'
+  } | null
   media_present: boolean
   quality_flags: string[]
   review_priority: 1 | 2 | 3
