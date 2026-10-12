@@ -186,6 +186,19 @@ begin
       raise exception 'TASK-064 % canonical construct mapping prerequisite failed', lane.module_code;
     end if;
 
+    if exists (
+      select 1
+      from public.lessons l
+      where l.module_id=v_module
+        and l.status='published'::public.content_status
+        and not (l.id=any(lane.canonical_lesson_ids))
+        and length(coalesce(l.body_mdx,'')) > 0
+    ) then
+      raise exception
+        'TASK-064 refuses % reconcile: non-empty non-canonical published lesson detected',
+        lane.module_code;
+    end if;
+
     select
       (
         select count(*)
