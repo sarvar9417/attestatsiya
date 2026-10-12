@@ -32,7 +32,7 @@ begin
       or not exists(select 1 from public.lesson_constructs lc
                     where lc.lesson_id=l.id and lc.construct_id=q.construct_id)
       or q.format<>'Y1'::public.question_format
-      or q.status<>'published'::public.content_status
+      or q.status<>'review'::public.content_status
       or (select count(*) from public.question_options o where o.question_id=q.id and o.side='a')<>4
       or (select count(distinct content_md) from public.question_options o
           where o.question_id=q.id and o.side='a')<>4
