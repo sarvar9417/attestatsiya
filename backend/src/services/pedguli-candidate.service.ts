@@ -86,9 +86,11 @@ export const pedguliCandidateService = {
     let request=supabase.from('pedguli_source_candidates')
       .select('id,source_message_id,source_url,source_html,date_local,raw_text_private,suggested_constructs,media_present,key_marker_unverified,quality_flags,review_priority,four_options_detected,editorial_status,rights_status,answer_key_status,historical_exam_claim_status,review_notes,created_at',
         {count:'exact'})
+      .order('review_priority',{ascending:false})
       .order('source_message_id',{ascending:true})
       .range((query.page-1)*query.page_size,query.page*query.page_size-1)
     if(query.status) request=request.eq('editorial_status',query.status)
+    if(query.min_priority) request=request.gte('review_priority',query.min_priority)
     const {data,count,error}=await request
     if(error) throw new AppError('Nomzodlarni olishda xatolik',500,'PEDGULI_LIST_FAILED')
     return {items:data??[],total:count??0,page:query.page,page_size:query.page_size}
