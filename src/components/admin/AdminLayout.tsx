@@ -3,6 +3,7 @@ import {
   ArrowLeft,
   BookOpen,
   FileQuestion,
+  Inbox,
   History,
   LayoutDashboard,
   SearchCheck,
@@ -13,11 +14,13 @@ import ModulesPage from '../../pages/admin/ModulesPage'
 import QuestionsPage from '../../pages/admin/QuestionsPage'
 import AttemptsPage from '../../pages/admin/AttemptsPage'
 import CoveragePage from '../../pages/admin/CoveragePage'
+import PedguliCandidatesPage from '../../pages/admin/PedguliCandidatesPage'
 
 const NAV = [
   { to: '/admin', icon: LayoutDashboard, label: 'Dashboard', end: true },
   { to: '/admin/modules', icon: BookOpen, label: 'Modullar' },
   { to: '/admin/questions', icon: FileQuestion, label: 'Savollar' },
+  { to: '/admin/pedguli-candidates', icon: Inbox, label: 'Telegram nomzodlari' },
   { to: '/admin/coverage', icon: SearchCheck, label: 'Qamrov auditi' },
   { to: '/admin/attempts', icon: History, label: 'Sinov urinishlari' },
 ]
@@ -117,6 +120,7 @@ export default function AdminLayout() {
             <Route index element={<AdminDashboard />} />
             <Route path="modules" element={<ModulesPage />} />
             <Route path="questions" element={<QuestionsPage />} />
+            <Route path="pedguli-candidates" element={<PedguliCandidatesPage />} />
             <Route path="coverage" element={<CoveragePage />} />
             <Route path="attempts" element={<AttemptsPage />} />
           </Routes>
