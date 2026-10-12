@@ -39,6 +39,14 @@ describe('adminContentService publish workflow', () => {
     })
   })
 
+  it('blocked admin cannot access the CMS transition service', async () => {
+    mockFrom.mockReturnValueOnce(singleRow({role:'admin',is_blocked:true}))
+    await expect(
+      adminContentService.transitionQuestion(QUESTION_ID,'published','token'),
+    ).rejects.toMatchObject({code:'FORBIDDEN',statusCode:403})
+    expect(mockFrom).toHaveBeenCalledTimes(1)
+  })
+
   it('editor review savolini to‘g‘ridan-to‘g‘ri publish qila olmaydi', async () => {
     mockFrom
       .mockReturnValueOnce(staffProfile('editor'))
