@@ -28,6 +28,23 @@ create table if not exists public.pedguli_answer_source_comparisons (
  candidate_id uuid primary key references public.pedguli_source_candidates(id) on delete cascade,
  proposed_option text not null check(proposed_option in ('A','B','C','D')),
  compared_concept text not null,
+ proposed_construct text not null check(proposed_construct ~ '^(KS|PM[.]GEN|PM[.]MET)[.][0-9]{2}
+ source_url text not null,
+ evidence_summary text not null check(length(evidence_summary) between 35 and 2000),
+ review_state text not null default 'source_correspondence_pending_editor'
+   check(review_state='source_correspondence_pending_editor'),
+ expert_approved boolean not null default false check(expert_approved=false),
+ rights_cleared boolean not null default false check(rights_cleared=false),
+ transferable_answer_key boolean not null default false check(transferable_answer_key=false),
+ created_at timestamptz not null default now()
+);
+alter table public.pedguli_answer_source_comparisons enable row level security;
+revoke all on public.pedguli_answer_source_comparisons from public,anon,authenticated;
+grant select,insert,update,delete on public.pedguli_answer_source_comparisons to service_role;
+
+-- Source comparisons are private education research; they are never referenced
+-- from public.questions or question_keys by triggers, views or exam generators.
+commit;),
  source_title text not null,
  source_url text not null,
  evidence_summary text not null check(length(evidence_summary) between 35 and 2000),
