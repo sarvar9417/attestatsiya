@@ -9,6 +9,7 @@ import {
 export default function PedguliCandidatesPage() {
   const [page,setPage]=useState(1)
   const [status,setStatus]=useState('')
+  const [minPriority,setMinPriority]=useState(0)
   const [result,setResult]=useState<CandidatePage|null>(null)
   const [loading,setLoading]=useState(true)
   const [error,setError]=useState<string|null>(null)
@@ -17,10 +18,10 @@ export default function PedguliCandidatesPage() {
   const load=useCallback(async()=>{
     setLoading(true)
     setError(null)
-    try { setResult(await listPedguliSourceCandidates(page,status||undefined)) }
+    try { setResult(await listPedguliSourceCandidates(page,status||undefined,minPriority||undefined)) }
     catch(err){ setError(err instanceof Error?err.message:'Nomzodlarni yuklab bo‘lmadi') }
     finally{ setLoading(false) }
-  },[page,status])
+  },[page,status,minPriority])
 
   useEffect(()=>{void load()},[load])
 
@@ -50,6 +51,13 @@ export default function PedguliCandidatesPage() {
             <option value="verified">Tekshirilgan</option>
             <option value="rejected">Rad etilgan</option>
           </select>
+          <label htmlFor="candidate-priority" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Ustuvorlik</label>
+          <select id="candidate-priority" className="input min-h-10"
+            value={minPriority} onChange={e=>{setMinPriority(Number(e.target.value));setPage(1)}}>
+            <option value={0}>Barchasi</option>
+            <option value={2}>2–3: ko‘proq tekshirish</option>
+            <option value={3}>3: o‘xshash variantlar</option>
+          </select>
         </div>
         <button type="button" onClick={()=>void load()} disabled={loading}
           className="flex min-h-10 items-center gap-2 rounded-lg border px-4 text-sm dark:border-gray-600">
@@ -70,6 +78,11 @@ export default function PedguliCandidatesPage() {
               <span className="rounded bg-amber-50 px-2 py-1 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300">
                 {row.editorial_status}
               </span>
+              <span className={row.review_priority === 3
+                ? 'rounded bg-red-50 px-2 py-1 font-semibold text-red-700 dark:bg-red-950/40 dark:text-red-300'
+                : 'rounded bg-gray-100 px-2 py-1 font-medium text-gray-700 dark:bg-gray-800 dark:text-gray-200'}>
+                Tekshirish: {row.review_priority}/3
+              </span>
               {row.key_marker_unverified&&<span>✅ belgisi — tekshirilmagan</span>}
               {row.media_present&&<span>Media bilan bog‘liq</span>}
             </div>
@@ -79,6 +92,11 @@ export default function PedguliCandidatesPage() {
             <p className="mt-2 text-xs text-gray-500">
               {row.suggested_constructs.length ? row.suggested_constructs.join(', ') : 'Mavzu hali aniqlanmagan'}
             </p>
+            {row.quality_flags.length>0 && (
+              <p className="mt-2 text-xs text-amber-700 dark:text-amber-300">
+                Tekshiruv ogohlantirishlari: {row.quality_flags.join(' · ')}
+              </p>
+            )}
             <div className="mt-3 flex flex-wrap items-center gap-4 text-sm">
               <button type="button" className="font-semibold text-indigo-600 dark:text-indigo-300"
                 onClick={()=>setSelected(row)}>To‘liq ko‘rish</button>
