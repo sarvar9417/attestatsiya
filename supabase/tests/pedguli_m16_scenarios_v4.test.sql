@@ -23,7 +23,7 @@ begin
    or l.id is null or l.status<>'published'::public.content_status
    or not exists(select 1 from public.lesson_constructs lc
     where lc.lesson_id=l.id and lc.construct_id=q.construct_id)
-   or q.format<>'Y1'::public.question_format or q.status<>'published'::public.content_status
+   or q.format<>'Y1'::public.question_format or q.status<>'review'::public.content_status
    or q.cognitive not in ('bilish','qollash','mulohaza')
    or k.question_id is null
    or length(coalesce(q.stem_md,''))<40
