@@ -64,6 +64,26 @@ begin
   if (select status from public.questions where id=v_question) <> 'published'
   then raise exception 'Complete, unchanged question could not publish'; end if;
 
+  v_failed:=false;
+  begin
+    update public.questions set stem_md=stem_md||' changed' where id=v_question;
+  exception when check_violation then v_failed:=true; end;
+  if not v_failed then raise exception 'Published question stem was unexpectedly editable'; end if;
+
+  v_failed:=false;
+  begin
+    update public.question_keys set explanation_md=explanation_md||' updated'
+    where question_id=v_question;
+  exception when check_violation then v_failed:=true; end;
+  if not v_failed then raise exception 'Published answer key was unexpectedly editable'; end if;
+
+  v_failed:=false;
+  begin
+    update public.question_options set content_md=content_md||' updated'
+    where question_id=v_question and order_idx=1 and side='a';
+  exception when check_violation then v_failed:=true; end;
+  if not v_failed then raise exception 'Published options were unexpectedly editable'; end if;
+
   -- The original practice pool was available before any editorial approvals.
   if (select count(*) from public.questions
       where source_reference like 'authored:professional-15:v1:%'
