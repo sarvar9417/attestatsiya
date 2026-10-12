@@ -9,6 +9,8 @@ const mocks = vi.hoisted(() => ({
   createModule: vi.fn(),
   listQuestions: vi.fn(),
   transitionQuestion: vi.fn(),
+  getPedguliEditorialReview: vi.fn(),
+  savePedguliEditorialReview: vi.fn(),
   questionEditorMeta: vi.fn(),
   questionEditor: vi.fn(),
   createQuestion: vi.fn(),
@@ -172,4 +174,54 @@ describe('admin CMS backend boundary', () => {
     )
     await app.close()
   })
+  it('Pedguli checklist cannot be accessed without auth', async () => {
+    const app=makeApp()
+    await app.register(adminRoutes)
+    await app.ready()
+    const res=await app.inject({
+      method:'GET',url:'/api/admin/questions/11111111-1111-4111-8111-111111111111/editorial'
+    })
+    expect(res.statusCode).toBe(401)
+    expect(mocks.getPedguliEditorialReview).not.toHaveBeenCalled()
+    await app.close()
+  })
+
+  it('rejects Pedguli reviewer checklist without adequate notes', async () => {
+    const app=makeApp()
+    await app.register(adminRoutes)
+    await app.ready()
+    const res=await app.inject({
+      method:'PUT',url:'/api/admin/questions/11111111-1111-4111-8111-111111111111/editorial',
+      headers:{authorization:'Bearer admin-token'},
+      payload:{answer_verified:true,reference_verified:true,wording_verified:true,
+        original_authorship_verified:true,reviewer_notes:'short'},
+    })
+    expect(res.statusCode).toBe(400)
+    expect(mocks.savePedguliEditorialReview).not.toHaveBeenCalled()
+    await app.close()
+  })
+
+  it('passes valid Pedguli reviewer attestations via authenticated backend', async () => {
+    mocks.savePedguliEditorialReview.mockResolvedValue({question_id:'11111111-1111-4111-8111-111111111111'})
+    const app=makeApp()
+    await app.register(adminRoutes)
+    await app.ready()
+    const payload={
+      answer_verified:true,reference_verified:true,
+      wording_verified:true,original_authorship_verified:false,
+      reviewer_notes:'Pedagogical reference checked, original wording requires additional review.'
+    }
+    const res=await app.inject({
+      method:'PUT',url:'/api/admin/questions/11111111-1111-4111-8111-111111111111/editorial',
+      headers:{authorization:'Bearer admin-token'},payload
+    })
+    expect(res.statusCode).toBe(200)
+    expect(mocks.savePedguliEditorialReview).toHaveBeenCalledWith(
+      '11111111-1111-4111-8111-111111111111',
+      payload,
+      'admin-token',
+    )
+    await app.close()
+  })
+
 })
