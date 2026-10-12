@@ -7,7 +7,7 @@ Sana: 2026-10-12
 Oldingi Attestatsiya ishida tayyorlangan 19 bob × 30 = 570 savollik xususiy
 `axborot_question_bank.json` bankini public Git tarixiga joylamasdan, 2026-yil
 Informatika attestatsiya spetsifikatsiyasidagi baholash konstruktlariga qayta
-mapping qilib production Supabase'ga xavfsiz staging qilish.
+mapping qilib production Supabase'ga xavfsiz kiritish.
 
 ## Rasmiy kontrakt
 
@@ -29,79 +29,84 @@ Shuning uchun yangi active konstrukt qo‘shildi:
 - `S1.INFO.08 — Axborotni saralash va xulosa chiqarish`
 
 U mavjud source-backed M01 darsiga bog‘landi. Blueprint guruh kvotasi
-o‘zgarmaydi: `S1.INFO` baribir rasmiy 3 savolni beradi. Faqat ichki
-konstrukt katalogi 76 dan 77 taga to‘g‘rilanadi.
+o‘zgarmaydi: `S1.INFO` baribir rasmiy 3 savolni beradi. Ichki active
+konstrukt katalogi 77 ta.
 
 ## Private bank avtomatik auditi
 
 - Manba savollar: 570.
 - External ID: 570/570 unique.
-- Har savolda: 4 ta variant.
+- 19 bobning har birida aniq 30 tadan savol.
+- Har savolda 4 ta variant.
 - Variantlar bir savol ichida unique.
 - `answer_index` barcha savollarda 0..3 oralig‘ida.
 - Javob harfi va indeks mosligi: 570/570.
 - Majburiy stem/explanation/source/concept/level/type maydonlari mavjud.
 
-Bu tekshiruv semantik javob to‘g‘riligini manba PDF bilan avtomatik isbotlamaydi;
-shu sabab bank to‘g‘ridan-to‘g‘ri `published` qilinmadi.
+2026-10-12 kuni biriktirilgan o‘qituvchi PDF nusxasi ham mustaqil tekshirildi:
+`AXB-01-001` dan `AXB-19-030` gacha 570 ta unique ID va 19 × 30 taqsimot
+tasdiqlandi.
 
-## Mapping natijasi
+## Production reconciliation — joriy holat
 
-- Specification constructiga ishonchli mapping: **494**.
-- Mapping qilinmagan / quarantine: **76**.
-- Import holati: **494/494 `review`**.
-- Published: **0**.
-- Source lesson bilan: **488**.
-- Source lesson hali yo‘q: **6** (`S2.HW.04` — 3, `S3.NUM.02` — 3).
+Private bank qayta import qilinmaydi. Production reconciliation natijasi:
 
-Kognitiv staging:
+- **570/570** AXB savol productionda.
+- **540** savol `published`.
+- **30** savol `review` quarantine.
+- Published AXB savollar active construct, answer key, 4 option va
+  source-lesson/construct mosligi bo‘yicha tekshirilgan.
+- 30 quarantine savol official mock pooliga kirmaydi.
 
-- bilish: 298
-- qo‘llash: 118
-- mulohaza: 78
+Quarantine siyosati:
 
-Bu bankning o‘zi rasmiy 8/35/7 nisbatni ifodalamaydi. Rasmiy mock assembler
-faqat blueprint kvotalari va published pool orqali 8/35/7 kontraktni saqlashi
-kerak. Shu sabab review bank ommaviy publish qilinmaydi.
+- 21 ta validation/verifikatsiya/data-entry savoli source-backed bo‘lsa ham
+  2026 spetsifikatsiyada alohida baholanadigan band sifatida aniq berilmagan;
+- 9 ta parity/checksum/CRC savoli tarmoq prinsiplariga yaqin, ammo 2026 scope’da
+  nomma-nom ko‘rsatilmagan.
 
-## Quarantine — 76 savol
+Shuning uchun ularga sun’iy construct berib publish qilish taqiqlanadi.
 
-Asosiy sabab: savol mazmuni foydali bo‘lsa-da, amaldagi 2026 baholanadigan
-konstrukt matniga bir qiymatli mapping berib bo‘lmaydi.
+## Multi-format va blueprint holati
 
-Boblar kesimi:
+AXB bankning o‘zi Y1 formatda. Spetsifikatsiya Y1/Y2/Y3 formatlarini talab
+qilgani sabab alohida source-backed multi-format bank kengaytirilgan:
 
-- 16-bob — Validatsiya/verifikatsiya/xatolarni aniqlash: 27
-- 3-bob — Axborot jarayonlarining umumiy tushunchalari: 15
-- 1-bob — insoniy ta’minot/obyekt/xabar/signal: 12
-- 2-bob — aniqlik/ishonchlilik/to‘liqlik xossalari: 9
-- 4-bob — umumiy axborot texnologiyasi/raqamli jamiyat tushunchalari: 9
-- 19-bob — validatsiya/verifikatsiya farqi: 3
-- 6-bob — two’s-complement diapazoni: 1
+- production published Y2: 31;
+- production published Y3: 39.
 
-Quarantine savollariga sun’iy construct berilmadi.
+Official 50-savollik assembler production eligibility qoidalari bilan
+50/50 unique savol, 15/15 quota group va exact group × cognitive deficit = 0
+holatiga keltirilgan. Release reserve ham required group × cognitive kataklarida
+kamida 20 candidate talabini qanoatlantiradi.
 
-## Production import invariantlari
+## Import va xavfsizlik invariantlari
 
-Private bank public repoga commit qilinmadi. Import mavjud admin-only
-`import_question_bank_batch` RPC orqali bajarildi. Har import:
+Private AXB savol matni va answer key public Git tarixiga kiritilmaydi.
+Import/reconcile faqat authenticated admin backend va service-role boundary
+orqali bajariladi.
+
+Private bank identifikatsiyasi:
 
 - `source_reference = m01-professional-bank:<external_id>`
-- Y1 format
-- 4 variant
+- Y1
+- 4 option
 - answer key
 - audit log
-- `review` status
+- idempotency: `source_reference`
 
-bilan saqlandi. Idempotency `source_reference` orqali ta’minlanadi.
+Bir xil private bankni qayta import qilib duplicate yaratish taqiqlanadi.
 
 ## Keyingi quality gate
 
-1. 6 ta source-lesson bo‘shligini yopish.
-2. 494 review savolni source locator va javob bo‘yicha source-verificationdan
-   bosqichma-bosqich o‘tkazish.
-3. Dublikat/semantik o‘xshashlik va distractor sifatini audit qilish.
-4. Construct × cognitive deficit bo‘yicha kerakli qismini publish qilish.
-5. Y1 bilan cheklanmay, rasmiy Y2/Y3 banklarini ham alohida yaratish.
-6. Har publish batchidan keyin official 50-question feasibility auditini qayta
-   ishga tushirish.
+1. 540 published AXB savollarni bosqichma-bosqich semantik source-verification
+   bilan qayta audit qilish.
+2. Dublikat/semantik o‘xshashlik va distractor sifatini periodik tekshirish.
+3. 30 quarantine savolni faqat spetsifikatsiya yoki rasmiy manba aniq asos
+   bergandagina qayta ko‘rib chiqish.
+4. Har yangi savol banki uchun construct + cognitive + source + format mapping
+   publishdan oldin majburiy bo‘lishi.
+5. Har publish batchidan keyin official 50-question feasibility va release
+   reserve auditini qayta ishga tushirish.
+6. Barcha keyingi bo‘limlarda `docs/QUESTION_BANK_SPEC_POLICY.md` dagi
+   specification-first workflow majburiy qo‘llanadi.
