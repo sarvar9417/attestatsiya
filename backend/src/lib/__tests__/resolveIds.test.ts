@@ -94,6 +94,11 @@ describe('resolveModuleUuid', () => {
 describe('resolveLessonUuid', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    // clearAllMocks resets call counts, not per-test queued return values.
+    // Canonical lesson tests add two lookups; reset mocks for independence.
+    mockMaybeSingle.mockReset()
+    mockEq.mockReset()
+    mockILike.mockReset()
 
     mockFrom.mockReturnValue({
       select: mockSelect,
