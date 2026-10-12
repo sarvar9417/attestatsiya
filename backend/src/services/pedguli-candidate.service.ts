@@ -5,6 +5,7 @@ import { analyzeCandidateQuality } from './pedguli-quality.service.js'
 import { suggestPedguliTopic } from './pedguli-topic-suggestions.service.js'
 import { AppError, AuthError, ForbiddenError, NotFoundError } from '../lib/errors.js'
 import type { PedguliCandidateInput, PedguliCandidateListQuery, PedguliCandidateReview } from '../schemas/pedguli-candidates.js'
+import type { PedguliStage4Batch } from '../schemas/pedguli-candidates.js'
 
 /** Review-only source archive; never inserts into public.questions. */
 async function requireStaff(token: string, adminOnly = false) {
@@ -90,10 +91,65 @@ export const pedguliCandidateService = {
       published:0,
     }
   },
+  async importStage4(token:string, batch:PedguliStage4Batch) {
+    await requireStaff(token,true)
+    if (config.supabase.url.includes('plyqezulrfowyblsfpzy') &&
+        process.env.PEDGULI_PRODUCTION_IMPORT_RELEASE!=='EXPLICIT_FINAL_USER_APPROVAL') {
+      throw new AppError('Production import foydalanuvchi ruxsatigacha bloklangan',
+        403,'PEDGULI_PRODUCTION_IMPORT_BLOCKED')
+    }
+    const ids=[...new Set([...batch.topics.map(x=>x.telegram_message_id),
+      ...batch.answer_references.map(x=>x.telegram_message_id)])]
+    const {data:candidates,error:fetchError}=await supabase.from('pedguli_source_candidates')
+      .select('id,source_message_id').eq('source_channel','@PedMahoratGuli')
+      .in('source_message_id',ids)
+    if(fetchError)throw new AppError('Nomzodlarni topib bo‘lmadi',500,'PEDGULI_STAGE4_SOURCE_QUERY_FAILED')
+    const index=new Map((candidates??[]).map(r=>[Number(r.source_message_id),r.id]))
+    if(index.size!==ids.length){
+      throw new AppError('Dastlab barcha 1394 ta manba nomzodini stagingga kiriting',
+        409,'PEDGULI_STAGE4_MISSING_CANDIDATES')
+    }
+    if(batch.topics.length){
+      const reviewRows=batch.topics.map(x=>({
+        candidate_id:index.get(x.telegram_message_id)!,
+        proposed_construct:x.suggested_construct||null,
+        alternate_construct:x.second_choice,
+        model_margin:x.model_margin,
+        review_bucket:x.suggestion_mode,
+        review_warning:x.source_scope_warning,
+        expert_approved:false,rights_cleared:false,answer_verified:false,
+        updated_at:new Date().toISOString(),
+      }))
+      const {error}=await supabase.from('pedguli_candidate_stage4_reviews')
+        .upsert(reviewRows,{onConflict:'candidate_id'})
+      if(error)throw new AppError('673 mavzu taklifini saqlashda xatolik',500,'PEDGULI_STAGE4_SAVE_FAILED')
+    }
+    if(batch.answer_references.length){
+      const referenceRows=batch.answer_references.map(x=>({
+        candidate_id:index.get(x.telegram_message_id)!,
+        proposed_option:x.proposed_correct_letter,
+        compared_concept:x.expected_concept,
+        proposed_construct:x.proposed_construct,
+        source_title:x.source_title,
+        source_url:x.source_url,
+        evidence_summary:x.source_support_note,
+        review_state:'source_correspondence_pending_editor',
+        expert_approved:false,rights_cleared:false,transferable_answer_key:false,
+      }))
+      const {error}=await supabase.from('pedguli_answer_source_comparisons')
+        .upsert(referenceRows,{onConflict:'candidate_id'})
+      if(error)throw new AppError('7 manba solishtirmasini saqlashda xatolik',500,'PEDGULI_STAGE4_REFERENCE_FAILED')
+    }
+    return {
+      topic_suggestions_saved:batch.topics.length,
+      private_source_comparisons_saved:batch.answer_references.length,
+      expert_approved:0,published:0,permissions_confirmed:0,
+    }
+  },
   async list(token:string, query:PedguliCandidateListQuery) {
     await requireStaff(token)
     let request=supabase.from('pedguli_source_candidates')
-      .select('id,source_message_id,source_url,source_html,date_local,raw_text_private,suggested_constructs,media_present,key_marker_unverified,quality_flags,review_priority,four_options_detected,proposed_constructs,topic_suggestion_state,topic_suggestion_evidence,editorial_status,rights_status,answer_key_status,historical_exam_claim_status,review_notes,created_at',
+      .select('id,source_message_id,source_url,source_html,date_local,raw_text_private,suggested_constructs,media_present,key_marker_unverified,quality_flags,review_priority,four_options_detected,proposed_constructs,topic_suggestion_state,topic_suggestion_evidence,editorial_status,rights_status,answer_key_status,historical_exam_claim_status,review_notes,created_at,stage4:pedguli_candidate_stage4_reviews(proposed_construct,alternate_construct,model_margin,review_bucket,review_warning),source_comparison:pedguli_answer_source_comparisons(proposed_option,compared_concept,proposed_construct,source_title,source_url,evidence_summary,review_state)',
         {count:'exact'})
       .order('review_priority',{ascending:false})
       .order('source_message_id',{ascending:true})
