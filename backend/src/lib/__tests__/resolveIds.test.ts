@@ -121,6 +121,30 @@ describe('resolveLessonUuid', () => {
     expect(mockFrom).not.toHaveBeenCalled()
   })
 
+  it('M15.08 always prefers canonical published lesson order, never legacy m15-08', async () => {
+    const moduleId = 'bb0da462-a1fa-4c09-8544-7718ebc12ba4'
+    mockMaybeSingle
+      .mockResolvedValueOnce({ data: { id: moduleId }, error: null })
+      .mockResolvedValueOnce({ data: { id: 'lesson-canonical' }, error: null })
+    mockEq.mockImplementation(() => ({ eq: mockEq, maybeSingle: mockMaybeSingle }))
+    const result = await resolveLessonUuid('M15.08')
+    expect(result).toBe('lesson-canonical')
+    expect(mockEq).toHaveBeenCalledWith('module_id', moduleId)
+    expect(mockEq).toHaveBeenCalledWith('order_idx', 8)
+    expect(mockEq).toHaveBeenCalledWith('status', 'published')
+    expect(mockEq).not.toHaveBeenCalledWith('slug', 'm15-08')
+  })
+
+  it('does not return legacy content when canonical professional lesson is absent', async () => {
+    mockMaybeSingle
+      .mockResolvedValueOnce({ data: { id: 'module-m16' }, error: null })
+      .mockResolvedValueOnce({ data: null, error: null })
+    mockEq.mockImplementation(() => ({ eq: mockEq, maybeSingle: mockMaybeSingle }))
+    const result = await resolveLessonUuid('M16.03')
+    expect(result).toBeNull()
+    expect(mockEq).not.toHaveBeenCalledWith('slug', 'm16-03')
+  })
+
   it('tries exact slug match first', async () => {
     mockMaybeSingle.mockResolvedValueOnce({ data: { id: 'lesson-exact' }, error: null })
 
