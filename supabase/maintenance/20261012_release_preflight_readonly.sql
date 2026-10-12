@@ -143,7 +143,87 @@ from legacy x
 left join public.questions q on q.id=x.id
 order by x.id;
 
--- 6) SECURITY DEFINER client-execution exposure.
+-- 6) Learner-visible legacy lesson drift for modules covered by TASK-064.
+-- Canonical source-backed IDs are excluded. Any learner progress/exam/topic-test
+-- reference on a remaining published lesson blocks archive/reconciliation.
+with canonical(module_code, lesson_id) as (
+  values
+    ('M02','92000000-0000-4000-8000-000000000001'::uuid),
+    ('M02','92000000-0000-4000-8000-000000000002'::uuid),
+    ('M02','92000000-0000-4000-8000-000000000003'::uuid),
+    ('M02','92000000-0000-4000-8000-000000000004'::uuid),
+    ('M03','93000000-0000-4000-8000-000000000001'::uuid),
+    ('M03','93000000-0000-4000-8000-000000000002'::uuid),
+    ('M03','93000000-0000-4000-8000-000000000003'::uuid),
+    ('M03','93000000-0000-4000-8000-000000000004'::uuid),
+    ('M04','94000000-0000-4000-8000-000000000001'::uuid),
+    ('M04','94000000-0000-4000-8000-000000000002'::uuid),
+    ('M04','94000000-0000-4000-8000-000000000003'::uuid),
+    ('M04','94000000-0000-4000-8000-000000000004'::uuid),
+    ('M05','95000000-0000-4000-8000-000000000001'::uuid),
+    ('M05','95000000-0000-4000-8000-000000000002'::uuid),
+    ('M05','95000000-0000-4000-8000-000000000003'::uuid),
+    ('M06','96000000-0000-4000-8000-000000000001'::uuid),
+    ('M06','96000000-0000-4000-8000-000000000002'::uuid),
+    ('M06','96000000-0000-4000-8000-000000000003'::uuid),
+    ('M06','96000000-0000-4000-8000-000000000004'::uuid),
+    ('M07','97000000-0000-4000-8000-000000000001'::uuid),
+    ('M07','97000000-0000-4000-8000-000000000002'::uuid),
+    ('M07','97000000-0000-4000-8000-000000000003'::uuid),
+    ('M07','97000000-0000-4000-8000-000000000004'::uuid),
+    ('M07','97000000-0000-4000-8000-000000000005'::uuid),
+    ('M08','98000000-0000-4000-8000-000000000001'::uuid),
+    ('M08','98000000-0000-4000-8000-000000000002'::uuid),
+    ('M08','98000000-0000-4000-8000-000000000003'::uuid),
+    ('M08','98000000-0000-4000-8000-000000000004'::uuid),
+    ('M08','98000000-0000-4000-8000-000000000005'::uuid),
+    ('M10','a1000000-0000-4000-8000-000000000001'::uuid),
+    ('M10','a1000000-0000-4000-8000-000000000002'::uuid),
+    ('M10','a1000000-0000-4000-8000-000000000003'::uuid),
+    ('M11','b1100000-0000-4000-8000-000000000001'::uuid),
+    ('M11','b1100000-0000-4000-8000-000000000002'::uuid),
+    ('M11','b1100000-0000-4000-8000-000000000003'::uuid),
+    ('M12','c1200000-0000-4000-8000-000000000001'::uuid),
+    ('M12','c1200000-0000-4000-8000-000000000002'::uuid),
+    ('M12','c1200000-0000-4000-8000-000000000003'::uuid),
+    ('M12','c1200000-0000-4000-8000-000000000004'::uuid),
+    ('M12','c1200000-0000-4000-8000-000000000005'::uuid),
+    ('M13','d1300000-0000-4000-8000-000000000001'::uuid),
+    ('M13','d1300000-0000-4000-8000-000000000002'::uuid),
+    ('M13','d1300000-0000-4000-8000-000000000003'::uuid),
+    ('M13','d1300000-0000-4000-8000-000000000004'::uuid),
+    ('M13','d1300000-0000-4000-8000-000000000005'::uuid),
+    ('M13','d1300000-0000-4000-8000-000000000006'::uuid)
+),
+legacy as (
+  select l.id,l.module_id,l.body_mdx
+  from public.lessons l
+  join public.modules m on m.id=l.module_id
+  where m.code in ('M02','M03','M04','M05','M06','M07','M08','M10','M11','M12','M13')
+    and l.status='published'::public.content_status
+    and not exists (
+      select 1 from canonical c where c.lesson_id=l.id
+    )
+)
+select
+  m.code as module_code,
+  count(*) as noncanonical_published,
+  count(*) filter (where length(coalesce(l.body_mdx,''))=0) as empty_noncanonical,
+  count(*) filter (
+    where exists(select 1 from public.user_lesson_progress p where p.lesson_id=l.id)
+  ) as with_user_progress,
+  count(*) filter (
+    where exists(select 1 from public.exams e where e.lesson_id=l.id)
+  ) as with_exam,
+  count(*) filter (
+    where exists(select 1 from public.topic_test_attempts t where t.lesson_id=l.id)
+  ) as with_topic_test_attempt
+from legacy l
+join public.modules m on m.id=l.module_id
+group by m.code
+order by m.code;
+
+-- 7) SECURITY DEFINER client-execution exposure.
 select
   p.oid::regprocedure::text as function_signature,
   has_function_privilege('anon', p.oid, 'EXECUTE') as anon_execute,
