@@ -248,8 +248,9 @@ export const authService = {
    */
   async resetPassword(email: string): Promise<{ sent: true }> {
     const client = createServiceClient()
+    const resetRedirect = new URL('/reset-password', config.auth.redirectUrl).toString()
     const { error } = await client.auth.resetPasswordForEmail(email, {
-      redirectTo: `${config.auth.redirectUrl}/reset-password`,
+      redirectTo: resetRedirect,
     })
     if (error) throw mapAuthError(error, 'Tiklash xatini yuborishda xatolik')
     return { sent: true }
