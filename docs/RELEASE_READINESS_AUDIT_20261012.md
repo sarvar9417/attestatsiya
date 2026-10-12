@@ -118,10 +118,16 @@ Three additional migrations belong to the current draft PR:
 **Do not run a blind production `db push` from this branch.** The production
 history must be reconciled deliberately first.
 
-In particular, current production does not yet contain the canonical published
-lesson for `S3.ALGO.03` or `S4.CODE.04`. Therefore the 36-item gap-bank
-migration is intentionally not production-applicable until the required source
-lesson migrations are present.
+A direct read-only slug check shows that current production does not yet contain
+**any of the six canonical source-lesson slugs** used by the review-bank contract:
+`mantiqiy-mulohazalar`, `mantiqiy-xulosa-va-masala`,
+`masala-algoritmini-tuzish`, `javascript-sintaksis-asoslari`,
+`arxitektura-va-topologiyalar`, and
+`internetdan-xavfsiz-va-maqsadli-foydalanish`.
+
+Therefore the 36-item gap-bank migration is intentionally not
+production-applicable until the prerequisite source-backed lesson migrations
+have been reconciled and those six canonical mappings exist.
 
 ## 6. Supabase security-advisor findings
 
