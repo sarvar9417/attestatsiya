@@ -95,8 +95,10 @@ test asserts the exact source slug for every staged item.
 ## 5. Production migration-history drift — release blocker
 
 Repository migration history and production migration history are not aligned.
-A read-only comparison found 11 repository migrations not represented in the
-current production history.
+A read-only comparison initially found 11 repository migrations not represented
+in the current production history. PR #106 now adds one more production-forward
+reconciliation migration, so the integration lane contains **12** repository
+migrations that must be handled deliberately rather than by blind history replay.
 
 Eight pre-existing content migrations are missing from production history:
 
@@ -109,11 +111,12 @@ Eight pre-existing content migrations are missing from production history:
 7. `20261011133000_m01_transfer_rate_lesson.sql`
 8. `20261011150000_practical_lesson_depth.sql`
 
-Three additional migrations belong to the current draft PR:
+Four additional migrations belong to the current draft PR:
 
 - `20261012115500_task063_fresh_source_lesson_forward_fix.sql`
 - `20261012120000_spec_zero_construct_review_bank.sql`
 - `20261012122500_anon_rpc_execute_hardening.sql`
+- `20261012123000_canonical_lesson_drift_reconcile.sql`
 
 **Do not run a blind production `db push` from this branch.** The production
 history must be reconciled deliberately first.
@@ -129,7 +132,39 @@ Therefore the 36-item gap-bank migration is intentionally not
 production-applicable until the prerequisite source-backed lesson migrations
 have been reconciled and those six canonical mappings exist.
 
-## 6. Supabase security-advisor findings
+## 6. Learner-visible lesson drift and canonical reconciliation
+
+A second read-only production audit found a more important content issue behind
+the missing migration history:
+
+- across M02/M03/M04/M05/M06/M07/M08/M10/M11/M12/M13, **62 published
+  non-canonical lessons** remain;
+- **62/62 have empty `body_mdx`**;
+- no non-canonical published lesson in the audited lanes has
+  `user_lesson_progress`;
+- no non-canonical published lesson in the audited lanes has an `exams`
+  reference;
+- the current production `topic_test_attempts` table has no attempts linked to
+  those audited published lessons.
+
+The learner content API returns every published lesson in a module. Applying the
+new source-backed lesson rows without reconciling these legacy published rows
+would therefore create learner-visible duplicate/empty lesson entries.
+
+PR #106 now contains
+`20261012123000_canonical_lesson_drift_reconcile.sql`. It fails closed unless
+the canonical source-backed lessons and exact construct mappings already exist,
+rebinds questions by construct, and then **archives rather than deletes** the
+legacy published lessons. It aborts if learner progress/exam/topic-test
+references are detected. The fresh-DB regression also verifies that only the
+canonical non-empty lessons remain published in the affected modules.
+
+The first CI version exposed a genuine compatibility problem:
+`topic_test_attempts` exists in current production but not in the oldest fresh
+bootstrap schema. The migration was corrected to guard that table dynamically
+with `to_regclass`; the corrected database CI passed.
+
+## 7. Supabase security-advisor findings
 
 Read-only security advisor currently reports:
 
@@ -154,26 +189,27 @@ Performance-advisor items (unindexed foreign keys, duplicate index, multiple
 permissive policies) are recorded as follow-up work; they are not silently
 changed in the P0 release lane.
 
-## 7. Vercel / preview status
+## 8. Vercel / preview status
 
 A prior preview deployment for this branch reached READY on an earlier commit.
 The latest PR head has not received a Vercel deployment while the project/account
 build-rate gate is active. GitHub Actions remains the authoritative branch CI
 for code/database regressions until a current-head preview is available.
 
-## 8. Release gates still required
+## 9. Release gates still required
 
 Before production write or merge:
 
 1. latest PR head GitHub Actions must be green;
 2. reconcile production migration history deliberately — no blind db push;
-3. ensure the three canonical lesson migrations required by the six gap
-   constructs are present before applying the review-bank migration;
-4. run the read-only production integrity query again immediately before write;
-5. real SMTP recovery E2E must pass with a disposable test account;
-6. enable/review Supabase leaked-password protection;
-7. obtain explicit final user authorization for production migration/merge;
-8. after any write, rerun source/key/construct integrity, exact blueprint
+3. reconcile the prerequisite source-backed lesson migrations and run the
+   guarded canonical lesson drift reconciliation before staging the review bank;
+4. confirm the 62 legacy-empty/no-learner-reference baseline has not changed;
+5. run the read-only production integrity query again immediately before write;
+6. real SMTP recovery E2E must pass with a disposable test account;
+7. enable/review Supabase leaked-password protection;
+8. obtain explicit final user authorization for production migration/merge;
+9. after any write, rerun source/key/construct integrity, exact blueprint
    feasibility and Supabase security advisors.
 
 Production remains untouched by this draft.
