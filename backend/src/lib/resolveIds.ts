@@ -63,7 +63,7 @@ export async function resolveLessonUuid(subtopicCode: string): Promise<string | 
   // would quietly route students to the wrong lesson and empty question pool.
   // The canonical migration reserves order_idx 1..8 for published lessons
   // and relocates legacy items to 100+. Resolve by module + order first.
-  const canonicalMatch = /^(M1[456])\\.(0[1-9])$/.exec(subtopicCode.toUpperCase())
+  const canonicalMatch = /^(M1[456])\.(0[1-9])$/.exec(subtopicCode.toUpperCase())
   if (canonicalMatch) {
     const moduleId = await resolveModuleUuid(canonicalMatch[1])
     if (moduleId) {
