@@ -242,3 +242,63 @@ jobs:
             -f supabase/migrations/20260730000009_official_2026_seed.sql \
             -f supabase/migrations/20260730000010_rpc_security_hardening.sql \
             -f supabase/tests/remote_drift_assertions.sql
+
+      - name: Production-like lesson drift reconciliation
+        run: |
+          createdb attestatsiya_lesson_drift_test
+          psql -X -v ON_ERROR_STOP=1 -d attestatsiya_lesson_drift_test \
+            -f supabase/tests/bootstrap_local.sql
+
+          BROKEN_MIGRATION='supabase/migrations/20260730000011_sync_source_reference.sql'
+          REPAIR_MIGRATION='supabase/migrations/20260731000013_fix_question_keys_rls.sql'
+          SOURCE_LINK_MIGRATION='supabase/migrations/20260731000014_source_lesson_links.sql'
+          CONTENT_MIGRATION='supabase/migrations/20260731000012_m01_content_seed.sql'
+          SOURCE_START='supabase/migrations/20261009073000_m02_source_backed_lessons.sql'
+          ORDER_PREP='supabase/migrations/20261012122600_prepare_legacy_lesson_orders.sql'
+          REPAIR_APPLIED=false
+          SOURCE_LINK_APPLIED=false
+          DRIFT_FIXTURE_APPLIED=false
+          ORDER_PREP_APPLIED=false
+
+          while IFS= read -r migration; do
+            if [ "${migration}" = "${BROKEN_MIGRATION}" ]; then
+              psql -X -v ON_ERROR_STOP=1 -d attestatsiya_lesson_drift_test -f "${REPAIR_MIGRATION}"
+              REPAIR_APPLIED=true
+              continue
+            fi
+
+            if [ "${migration}" = "${CONTENT_MIGRATION}" ] && [ "${SOURCE_LINK_APPLIED}" = false ]; then
+              psql -X -v ON_ERROR_STOP=1 -d attestatsiya_lesson_drift_test -f "${SOURCE_LINK_MIGRATION}"
+              SOURCE_LINK_APPLIED=true
+            fi
+
+            if [ "${migration}" = "${REPAIR_MIGRATION}" ] && [ "${REPAIR_APPLIED}" = true ]; then
+              continue
+            fi
+
+            if [ "${migration}" = "${SOURCE_LINK_MIGRATION}" ] && [ "${SOURCE_LINK_APPLIED}" = true ]; then
+              continue
+            fi
+
+            # Reproduce the real production ordering problem before the first
+            # missing source-backed lesson migration: legacy published lessons
+            # occupy canonical order_idx slots. Free those slots first.
+            if [ "${migration}" = "${SOURCE_START}" ] && [ "${DRIFT_FIXTURE_APPLIED}" = false ]; then
+              psql -X -v ON_ERROR_STOP=1 -d attestatsiya_lesson_drift_test \
+                -f supabase/tests/production_lesson_drift_fixture.sql \
+                -f "${ORDER_PREP}"
+              DRIFT_FIXTURE_APPLIED=true
+              ORDER_PREP_APPLIED=true
+            fi
+
+            if [ "${migration}" = "${ORDER_PREP}" ] && [ "${ORDER_PREP_APPLIED}" = true ]; then
+              continue
+            fi
+
+            psql -X -v ON_ERROR_STOP=1 -d attestatsiya_lesson_drift_test -f "${migration}"
+          done < <(find supabase/migrations -maxdepth 1 -type f -name '*.sql' | sort)
+
+          psql -X -v ON_ERROR_STOP=1 -d attestatsiya_lesson_drift_test \
+            -f supabase/tests/canonical_lesson_drift_reconcile.test.sql \
+            -f supabase/tests/spec_zero_construct_review_bank.test.sql \
+            -f supabase/tests/anon_rpc_hardening.test.sql
