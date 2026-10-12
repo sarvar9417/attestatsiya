@@ -94,3 +94,24 @@ where source_reference like 'authored:pedguli-%';
 - Hech qanday kandidatdan foydalanuvchi testiga avtomatik nashr qilish yo‘q.
 
 **Production roziligi:** PR #97 Draft va barcha yangi SQL migratsiyalar production’ga qo‘llanmagan holda saqlanadi.
+
+## Qo‘shimcha sifat nazorati va qo‘lda tahrir (2026-10-12)
+
+Haqiqiy 1 394 ta yozuvda Node.js bilan to‘liq import-validatsiya bajarildi: **1 394 valid ID**, **1 394 noyob SHA256 iz**, **0 noto‘g‘ri manba URL/fayl/teg**, **28 ta 50 tadan paket**. Mavzu yorliqlari: **673 ta mavjud**, **721 ta hali aniqlanmagan**. Media bilan bog‘liq yozuvlar: **35 ta**. «Javob belgisi bor, ammo kalit tasdiqlanmagan» yozuvlar: **105 ta**. Bularning hech biri avtomatik javob emas.
+
+Xususiy SQLite v2 faylida `candidate_quality_review` jadvali paydo bo‘ldi. U **barcha 1 394 nomzodga** konservativ bayroq va tekshiruv ustuvorligi beradi:
+- Ustuvorlik 3: **23 ta** (bir xil yoki juda o‘xshash javob variantlari bo‘lishi mumkin);
+- Ustuvorlik 2: **38 ta** (masalan, media yoki variant strukturasi qo‘shimcha tekshiruv talab qiladi);
+- Ustuvorlik 1: **1 333 ta** (kamroq yuqori xavfli belgilar bilan; javob baribir tekshirilmagan).
+- A–D ketma-ketligi aniq topilgan: **1 389 ta**; qo‘lda ajratilishi kerak: **5 ta**.
+- Ushbu flaglar **faqat ehtimoliy xato** ko‘rsatadi; manbani yoki kalitni tasdiqlamaydi. Bir nomzodda bir nechta flag bo‘lishi mumkin.
+
+Platforma Draft branchiga quyidagilar qo‘shildi:
+- `pedguli_source_candidates.quality_flags`, `review_priority` va `four_options_detected` ustunlari; flaglar server tomonidan hisoblanadi.
+- Admin → **Telegram nomzodlari** sahifasida prioritet bo‘yicha saralash, filtrlash va ogohlantirishlar.
+- **Qo‘lda tekshiruv oynasi**: konstrukt teglarini to‘g‘rilash, ma’lumot manbasi, qayta foydalanish huquqi, javob kaliti ishonchliligi, tarixiy imtihonga oid da’vo va dalil izohlarini kiritish.
+- **Verified** holati faqat faol administrator uchun; pedagogik manba va javobni mustaqil tekshirish, foydalanish huquqi va yetarli qaydlar talab qilinadi. Bu holat ham `public.questions` ga original matnni avtomatik ko‘chirmaydi.
+- Original Telegram matni/ID/URL/SHA256 keyinchalik o‘zgartirilmaydi; faqat tahririy metadata yangilanadi.
+- Backend/SQL/frontend regressiya testlari nashrga chiqish yo‘qligini tekshiradi.
+
+**Tahririy tekshiruv natijalari avtomatik chiqarilmagan**: lokal auditdagi barcha 1 394 nomzod hali odam tomonidan izchil tasdiqlanmagan. Xavfli deb belgilangan 23 ta yozuv uchun alohida *xususiy* ro‘yxat tayyor; bu ro‘yxatda to‘liq original savol matni ommaviy kodda saqlanmaydi.
