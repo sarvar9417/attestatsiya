@@ -103,7 +103,7 @@
 | TASK-060 | DONE | TASK-059 | Source-backed savol banklarini spetsifikatsiya bo‘yicha kengaytirish yakunlandi: private AXB 570/570 productionda (540 published, 30 review quarantine); 17 ta exact gapfill + 334 ta reserve = 351 ta public source-backed Y1 savol qo‘shildi; official 50/50 feasibility va AC-CNT-04 har required group×cognitive slot uchun ≥20 candidate bilan 0-deficit |
 | TASK-061 | DONE | TASK-057 | Yuqori amaliy og‘irlikdagi S5.WEB/S6.NET/S7.SEC darslariga worked code, IP/maska hisoblash, xavfsizlik scenario va Web-Freelance workflow qo‘shildi; 7 ta lesson uchun DB regression invariant |
 | TASK-062 | DONE | TASK-060 | Rasmiy S1.INFO taxonomy reconciliation: “axborotni saralash va xulosa chiqarish” S1.INFO.08 bilan yopildi; private AXB 570/570 strukturaviy auditdan o‘tdi va productionga xavfsiz import qilindi; keyingi source/construct review natijalari TASK-060/TASK-063 da yuritiladi |
-| TASK-063 | IN_PROGRESS | TASK-062 | Private bank review/publish reconciliation: 540 AXB published, 30 supplementary review-only quarantine; TASK-060 bilan exact feasibility va AC-CNT-04 release reserve yopildi. Keyingi ish: Y2/Y3 bankini kengaytirish, production M02/M05 lesson driftini xavfsiz reconcile qilish va regression/CI bilan yakuniy publish pipeline’ni mustahkamlash |
+| TASK-063 | DONE | TASK-062 | Private bank + multi-format reconciliation yakunlandi: 540 AXB published, 30 supplementary review-only quarantine; 24 ta Y2 + 24 ta Y3 source-backed savol productionga published qilindi; M02/M05 canonical stable lesson ID/construct mapping production drifti xavfsiz reconcile qilindi; regression testi Y2/Y3 key shape, check_answer va source-lesson mappingni qoplaydi |
 
 ## UI modernizatsiya — Figma approved design
 
@@ -130,9 +130,9 @@
 | B-001 | RESOLVED — T-012/T-023: Y1/Y2/Y3 parametrik generatorlar va deterministik SQL seed pipeline yaratildi |
 | B-002 | RESOLVED — TypeScript types remote UUID schema bo'yicha generatsiya qilindi |
 | B-003 | RESOLVED — server-scored ExamRunner UUID RPC kontraktiga o‘tkazildi |
-| B-AUTH-001 | OPEN — PR #81 kod/CI/Vercel preview yashil, lekin merge oldidan production Supabase redirect allowlist + SMTP/email template va real-email E2E (register → verify → login → forgot → reset → login) talab qilinadi |
+| B-AUTH-001 | OPEN — signup/recovery code tuzatishlari PR #90/#94 bilan main’ga merge qilingan; yakuniy production acceptance uchun Supabase redirect allowlist + SMTP/email template va real-email E2E (register → verify → login → forgot → reset → login) hali talab qilinadi |
 | B-PROD-001 | RESOLVED — Supabase `sarvar9417` connection orqali production project `plyqezulrfowyblsfpzy` ko‘rinadi; 2026-10-12 kuni S1.INFO.08 reconciliation migrationi muvaffaqiyatli apply qilindi va private bank import qilindi |
-| B-CONTENT-001 | OPEN — official 50-question assembler tayyor, ammo M01 + 270 parametrik pooldan tashqari barcha blueprint group/cognitive kesimlari uchun real published savol yetarliligi alohida feasibility audit va bank kengaytirishni talab qiladi |
+| B-CONTENT-001 | RESOLVED — TASK-060/TASK-063 production auditi: official 50-question exact group×cognitive feasibility 0-deficit; AC-CNT-04 bo‘yicha har required slot uchun ≥20 eligible published+keyed+active-taxonomy candidate; Y1 bank ustiga 24 Y2 + 24 Y3 source-backed item qo‘shildi |
 
 ## Test talabi
 

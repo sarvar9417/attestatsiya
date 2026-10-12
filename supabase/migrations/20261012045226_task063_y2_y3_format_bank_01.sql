@@ -1,0 +1,159 @@
+-- TASK-063: broaden official Y2 (matching) and Y3 (ordering) format bank.
+--
+-- 48 original source-backed questions: 24 Y2 + 24 Y3 across specialty,
+-- professional-standard and pedagogy/methodology constructs.
+-- Idempotent by source_reference. Pair/order keys are built from option UUIDs
+-- generated in the target database, so no environment-specific option IDs leak.
+
+begin;
+
+do $$
+declare
+ item jsonb;
+ v_subject uuid;
+ v_construct uuid;
+ v_group text;
+ v_lesson uuid;
+ v_question uuid;
+ v_option uuid;
+ v_i int;
+ v_j int;
+ v_logical int;
+ v_left_ids uuid[];
+ v_right_ids uuid[];
+ v_step_ids uuid[];
+ v_pairs jsonb;
+ v_perm int[] := array[3,1,4,2];
+begin
+ -- Fresh-clone ordering guard: production received S1.INFO.08 before this batch,
+ -- but this migration's historical timestamp sorts before the dedicated
+ -- 20261012080500 taxonomy migration. Upsert the official construct/link here
+ -- so the complete migration chain is deterministic on an empty database.
+ select id into v_subject
+ from public.subjects
+ where code='informatika'
+ limit 1;
+ if v_subject is null then
+  raise exception 'TASK-063 informatika subject missing';
+ end if;
+
+ insert into public.constructs(
+   subject_id,group_code,code,slug,title_uz,description_uz,is_active
+ )
+ values(
+   v_subject,'S1.INFO','S1.INFO.08','s1-info-08',
+   'Axborotni saralash va xulosa chiqarish',
+   'Axborotni saralash, fakt va fikrni ajratish, manba ishonchliligini baholash va asosli xulosa chiqarish.',
+   true
+ )
+ on conflict(code) do update
+ set subject_id=excluded.subject_id,
+     group_code=excluded.group_code,
+     slug=excluded.slug,
+     title_uz=excluded.title_uz,
+     description_uz=excluded.description_uz,
+     is_active=true
+ returning id into v_construct;
+
+ select l.id into v_lesson
+ from public.lessons l
+ join public.modules m on m.id=l.module_id
+ where m.code='M01'
+   and l.slug='m01-04'
+   and l.status='published'::public.content_status
+ limit 1;
+ if v_lesson is null then
+  raise exception 'TASK-063 S1.INFO.08 source lesson missing';
+ end if;
+
+ insert into public.lesson_constructs(lesson_id,construct_id)
+ values(v_lesson,v_construct)
+ on conflict do nothing;
+
+ for item in select * from jsonb_array_elements('[{"exp":"ASCII — 7 bitli kod; UTF-8 — Unicode encoding; RGB — rang modeli; PCM — raqamli audio namunalarini ifodalash usuli.","ref":"formatbank-2026:T063-Y2-001","stem":"Atamalarni ularga mos raqamli ifodalash tavsifi bilan juftlang.","pairs":[{"l":"ASCII","r":"Asl ko‘rinishida 7 bitli belgilar kodi"},{"l":"UTF-8","r":"Unicode kod nuqtalarini 1–4 baytda kodlash shakli"},{"l":"RGB","r":"Qizil, yashil va ko‘k kanallar orqali rang ifodalash"},{"l":"PCM","r":"Audio namunalarini raqamli qiymatlar ketma-ketligida saqlash"}],"cognitive":"qollash","construct":"S1.INFO.03","difficulty":3},{"exp":"CC belgilarida BY — attribution, SA — share alike, NC — non-commercial, ND — no derivatives.","ref":"formatbank-2026:T063-Y2-002","stem":"Creative Commons qisqartmalarini mos cheklov yoki talab bilan juftlang.","pairs":[{"l":"BY","r":"Muallif/manbani ko‘rsatish talabi"},{"l":"SA","r":"Hosila asarni xuddi shu litsenziya shartida tarqatish"},{"l":"NC","r":"Tijoriy foydalanishni cheklash"},{"l":"ND","r":"O‘zgartirilgan hosila nusxalarni tarqatishni cheklash"}],"cognitive":"qollash","construct":"S1.INFO.07","difficulty":3},{"exp":"CPU — qayta ishlash; RAM — vaqtinchalik xotira; SSD — doimiy saqlash; skaner — kiritish qurilmasi.","ref":"formatbank-2026:T063-Y2-003","stem":"Kompyuter qurilmalarini asosiy vazifalari bilan juftlang.","pairs":[{"l":"CPU","r":"Buyruqlarni bajarish va ma’lumotni qayta ishlash"},{"l":"RAM","r":"Ishlayotgan dastur va ma’lumotni vaqtincha saqlash"},{"l":"SSD","r":"Ma’lumotni uzoq muddat saqlash"},{"l":"Skaner","r":"Qog‘ozdagi tasvirni kompyuterga kiritish"}],"cognitive":"qollash","construct":"S2.HW.01","difficulty":3},{"exp":"Windows — OT; Word — amaliy dastur; antivirus — utility; drayver — apparat bilan ishlashga yordam beruvchi tizimli komponent.","ref":"formatbank-2026:T063-Y2-004","stem":"Dasturiy vositalarni ularning roliga moslang.","pairs":[{"l":"Windows","r":"Operatsion tizim"},{"l":"Microsoft Word","r":"Amaliy matn protsessori"},{"l":"Antivirus","r":"Xizmat ko‘rsatuvchi himoya dasturi"},{"l":"Qurilma drayveri","r":"Operatsion tizimning apparat bilan ishlashini ta’minlovchi tizimli komponent"}],"cognitive":"qollash","construct":"S2.HW.04","difficulty":3},{"exp":"SUM — yig‘indi, AVERAGE — o‘rtacha, MAX — maksimum, IF — shartli natija.","ref":"formatbank-2026:T063-Y2-005","stem":"Excel funksiyalarini ularning vazifalari bilan juftlang.","pairs":[{"l":"SUM","r":"Qiymatlarni qo‘shish"},{"l":"AVERAGE","r":"Arifmetik o‘rtachani hisoblash"},{"l":"MAX","r":"Eng katta qiymatni topish"},{"l":"IF","r":"Shartga qarab turli natija qaytarish"}],"cognitive":"qollash","construct":"S2.OFFICE.02","difficulty":3},{"exp":"Animation obyektga, Transition slaydlar oralig‘iga, Hyperlink/Action navigatsiyaga, Slide Show namoyishga tegishli.","ref":"formatbank-2026:T063-Y2-006","stem":"PowerPoint tushunchalarini mos vazifalari bilan juftlang.","pairs":[{"l":"Animation","r":"Slayd ichidagi obyektning paydo bo‘lishi yoki harakatini boshqarish"},{"l":"Transition","r":"Slaydlar orasidagi o‘tish effektini boshqarish"},{"l":"Hyperlink/Action","r":"Obyekt bosilganda boshqa slayd yoki manzilga o‘tish"},{"l":"Slide Show","r":"Taqdimotni namoyish rejimida ko‘rsatish"}],"cognitive":"qollash","construct":"S2.OFFICE.04","difficulty":3},{"exp":"AND — ikkalasi rost; OR — kamida biri; NOT — inkor; XOR — qiymatlar turlicha.","ref":"formatbank-2026:T063-Y2-007","stem":"Mantiqiy amallarni rost bo‘lish sharti bilan juftlang.","pairs":[{"l":"AND","r":"Ikkala operand ham rost bo‘lsa rost"},{"l":"OR","r":"Kamida bitta operand rost bo‘lsa rost"},{"l":"NOT","r":"Operandning mantiqiy qiymatini teskarilaydi"},{"l":"XOR","r":"Operandlar turlicha bo‘lsa rost"}],"cognitive":"qollash","construct":"S3.LOGIC.02","difficulty":3},{"exp":"Binary=2, octal=8, decimal=10, hexadecimal=16.","ref":"formatbank-2026:T063-Y2-008","stem":"Sanoq sistemalarini ularning asoslari bilan juftlang.","pairs":[{"l":"Ikkilik","r":"Asos 2"},{"l":"Sakkizlik","r":"Asos 8"},{"l":"O‘nlik","r":"Asos 10"},{"l":"O‘n oltilik","r":"Asos 16"}],"cognitive":"qollash","construct":"S3.NUM.01","difficulty":3},{"exp":"Diada 2 bit, triada 3 bit, tetrada 4 bit; qoldiqli bo‘lish o‘nlikdan boshqa asosga o‘tkazish usuli.","ref":"formatbank-2026:T063-Y2-009","stem":"Ikkilik bilan tez o‘tkazish atamalarini mos tavsif bilan juftlang.","pairs":[{"l":"Diada","r":"2 bitli guruh: 2↔4 o‘tkazishda"},{"l":"Triada","r":"3 bitli guruh: 2↔8 o‘tkazishda"},{"l":"Tetrada","r":"4 bitli guruh: 2↔16 o‘tkazishda"},{"l":"Qoldiqli bo‘lish","r":"O‘nlik butun sonni boshqa asosga o‘tkazishda qoldiqlarni olish usuli"}],"cognitive":"qollash","construct":"S3.NUM.02","difficulty":3},{"exp":"Standart blok-sxema: oval — start/end; parallelogram — I/O; rectangle — process; diamond — decision.","ref":"formatbank-2026:T063-Y2-010","stem":"Blok-sxema shakllarini vazifalari bilan juftlang.","pairs":[{"l":"Oval","r":"Boshlash yoki tugatish"},{"l":"Parallelogram","r":"Kiritish yoki chiqarish"},{"l":"To‘g‘ri to‘rtburchak","r":"Hisoblash yoki jarayon"},{"l":"Romb","r":"Shart/qaror"}],"cognitive":"qollash","construct":"S3.ALGO.02","difficulty":3},{"exp":"Chiziqli — ketma-ket; tarmoqlanuvchi — shartli yo‘l; takrorlanuvchi — sikl; ijrochi — buyruqlarni bajaruvchi.","ref":"formatbank-2026:T063-Y2-011","stem":"Algoritmik tuzilmalarni mos tavsif bilan juftlang.","pairs":[{"l":"Chiziqli","r":"Amallar shartsiz ketma-ket bajariladi"},{"l":"Tarmoqlanuvchi","r":"Shartga ko‘ra bajarilish yo‘li tanlanadi"},{"l":"Takrorlanuvchi","r":"Bir yoki bir nechta amal qayta bajariladi"},{"l":"Ijrochi","r":"Algoritm buyruqlarini bajaruvchi obyekt yoki tizim"}],"cognitive":"qollash","construct":"S3.ALGO.01","difficulty":3},{"exp":"Scratch control bloklarining takrorlash va shart xatti-harakatlari shunday farqlanadi.","ref":"formatbank-2026:T063-Y2-012","stem":"Scratch boshqaruv bloklarini ularning xatti-harakati bilan juftlang.","pairs":[{"l":"repeat 10","r":"Tanani aniq 10 marta takrorlaydi"},{"l":"forever","r":"Skript to‘xtatilmaguncha takrorlaydi"},{"l":"if ... then","r":"Shart rost bo‘lsa ichki bloklarni bajaradi"},{"l":"repeat until ...","r":"Shart rost bo‘lguncha tanani takrorlaydi"}],"cognitive":"qollash","construct":"S4.BLOCK.03","difficulty":3},{"exp":"Pen down/up chizish holatini, move siljishni, turn yo‘nalishni o‘zgartiradi.","ref":"formatbank-2026:T063-Y2-013","stem":"Scratch Pen/harakat amallarini mos ta’sir bilan juftlang.","pairs":[{"l":"pen down","r":"Keyingi harakatlarda chiziq chizishni boshlaydi"},{"l":"pen up","r":"Harakatni chiziq qoldirmasdan bajarishga imkon beradi"},{"l":"move 50 steps","r":"Spraytni joriy yo‘nalishda 50 qadam siljitadi"},{"l":"turn 90 degrees","r":"Sprayt yo‘nalishini 90° ga buradi"}],"cognitive":"qollash","construct":"S4.BLOCK.04","difficulty":3},{"exp":"// integer division, % remainder, ** exponentiation, == equality comparison.","ref":"formatbank-2026:T063-Y2-014","stem":"Python operatorlarini vazifalari bilan juftlang.","pairs":[{"l":"//","r":"Butun bo‘lish"},{"l":"%","r":"Bo‘lish qoldig‘i"},{"l":"**","r":"Darajaga oshirish"},{"l":"==","r":"Tenglikni taqqoslash"}],"cognitive":"qollash","construct":"S4.CODE.01","difficulty":3},{"exp":"append — qo‘shish; len — uzunlik; max — maksimum; def — funksiya ta’rifi.","ref":"formatbank-2026:T063-Y2-015","stem":"Python elementlarini ularning vazifalari bilan juftlang.","pairs":[{"l":"append()","r":"Ro‘yxat oxiriga element qo‘shadi"},{"l":"len()","r":"Elementlar sonini qaytaradi"},{"l":"max()","r":"Eng katta qiymatni qaytaradi"},{"l":"def","r":"Funksiya ta’rifini boshlaydi"}],"cognitive":"qollash","construct":"S4.CODE.03","difficulty":3},{"exp":"Primary key — noyob ID; foreign key — reference; one-to-many — 1:N; relationship — jadvallar aloqasi.","ref":"formatbank-2026:T063-Y2-016","stem":"Ma’lumotlar bazasi bog‘lanish atamalarini tavsiflari bilan juftlang.","pairs":[{"l":"Birlamchi kalit","r":"Jadval yozuvini noyob aniqlovchi maydon"},{"l":"Tashqi kalit","r":"Boshqa jadval kalitiga murojaat qiluvchi maydon"},{"l":"Birga-ko‘p","r":"Bitta yozuv boshqa jadvaldagi ko‘p yozuv bilan bog‘lanadi"},{"l":"Bog‘lanish","r":"Jadvallar orasidagi mantiqiy aloqa"}],"cognitive":"qollash","construct":"S4.DB.03","difficulty":3},{"exp":"SELECT — tanlash; WHERE — filter criterion; ORDER BY — sorting; COUNT — sanash.","ref":"formatbank-2026:T063-Y2-017","stem":"SQL elementlarini vazifalari bilan juftlang.","pairs":[{"l":"SELECT","r":"Natijaga olinadigan maydonlarni tanlaydi"},{"l":"WHERE","r":"Yozuvlarga shart/mezon qo‘yadi"},{"l":"ORDER BY","r":"Natijani tartiblaydi"},{"l":"COUNT","r":"Yozuv yoki qiymatlar sonini hisoblaydi"}],"cognitive":"qollash","construct":"S4.DB.04","difficulty":3},{"exp":"h1 — heading, a — anchor, img — image, ul — unordered list.","ref":"formatbank-2026:T063-Y2-018","stem":"HTML teglarini ularning vazifalari bilan juftlang.","pairs":[{"l":"<h1>","r":"Asosiy sarlavha"},{"l":"<a>","r":"Giperhavola"},{"l":"<img>","r":"Rasm joylashtirish"},{"l":"<ul>","r":"Tartibsiz ro‘yxat konteyneri"}],"cognitive":"qollash","construct":"S5.WEB.04","difficulty":3},{"exp":"color — text; background-color — fon; width — kenglik; text-align — tekislash.","ref":"formatbank-2026:T063-Y2-019","stem":"CSS xossalarini ularning ta’siri bilan juftlang.","pairs":[{"l":"color","r":"Matn rangini belgilaydi"},{"l":"background-color","r":"Element fon rangini belgilaydi"},{"l":"width","r":"Element kengligini belgilaydi"},{"l":"text-align","r":"Matnning gorizontal tekislanishini belgilaydi"}],"cognitive":"qollash","construct":"S5.WEB.06","difficulty":3},{"exp":"Router — routing; switch — LAN switching; AP — Wi‑Fi access; NIC — network interface.","ref":"formatbank-2026:T063-Y2-020","stem":"Tarmoq qurilmalarini vazifalari bilan juftlang.","pairs":[{"l":"Router","r":"Turli tarmoqlar orasida paketlarni yo‘naltiradi"},{"l":"Switch","r":"Mahalliy tarmoqdagi qurilmalarni bog‘lab, kadrlarni portlarga uzatadi"},{"l":"Access Point","r":"Simsiz qurilmalarni tarmoqqa ulaydi"},{"l":"NIC","r":"Qurilmaning tarmoq bilan fizik/mantiqiy interfeysini ta’minlaydi"}],"cognitive":"qollash","construct":"S6.NET.01","difficulty":3},{"exp":"Browser — ko‘rish; search engine — qidirish; DNS — name resolution; URL — resource address.","ref":"formatbank-2026:T063-Y2-021","stem":"Internet tushunchalarini vazifalari bilan juftlang.","pairs":[{"l":"Brauzer","r":"Veb-resursni so‘raydi va foydalanuvchiga ko‘rsatadi"},{"l":"Qidiruv tizimi","r":"Indekslangan veb-resurslarni so‘rov bo‘yicha topadi"},{"l":"DNS","r":"Domen nomini IP manzil bilan bog‘lashga yordam beradi"},{"l":"URL","r":"Veb-resursning manzilini ifodalaydi"}],"cognitive":"qollash","construct":"S6.NET.05","difficulty":3},{"exp":"Phishing — aldov; ransomware — extortion; Trojan — disguise; worm — self-propagation.","ref":"formatbank-2026:T063-Y2-022","stem":"Kiberxavfsizlik tahdidlarini mos tavsif bilan juftlang.","pairs":[{"l":"Phishing","r":"Soxta xabar/sahifa orqali maxfiy ma’lumotni qo‘lga kiritishga urinish"},{"l":"Ransomware","r":"Ma’lumotni bloklab yoki shifrlab to‘lov talab qilish"},{"l":"Trojan","r":"Foydali dastur ko‘rinishida yashiringan zararli kod"},{"l":"Worm","r":"Tarmoq bo‘ylab o‘zini-o‘zi tarqatishi mumkin bo‘lgan zararli dastur"}],"cognitive":"qollash","construct":"S7.SEC.02","difficulty":3},{"exp":"Diagnostika — sabab/holat; monitoring — vaqt bo‘yicha; feedback — keyingi qadam; summative — yakuniy natija.","ref":"formatbank-2026:T063-Y2-023","stem":"Baholash va qayta aloqa tushunchalarini mos vazifa bilan juftlang.","pairs":[{"l":"Diagnostika","r":"Boshlang‘ich holat yoki xato sababini aniqlash"},{"l":"Monitoring","r":"Rivojlanishni vaqt davomida muntazam kuzatish"},{"l":"Qayta aloqa","r":"Hozirgi natija va keyingi yaxshilash qadamini ko‘rsatish"},{"l":"Yakuniy baholash","r":"Belgilangan davr oxiridagi o‘zlashtirish natijasini umumlashtirish"}],"cognitive":"qollash","construct":"KS.03","difficulty":3},{"exp":"PBL — product/project; problem-based — problem solving; collaborative — shared work; differentiation — needs-based adaptation.","ref":"formatbank-2026:T063-Y2-024","stem":"Ta’lim yondashuvlarini ularning asosiy belgisi bilan juftlang.","pairs":[{"l":"Loyihaga asoslangan ta’lim","r":"Davomli izlanish va yakuniy mahsulot yaratish"},{"l":"Muammoli ta’lim","r":"Muammoli vaziyatni tahlil qilib yechim izlash"},{"l":"Hamkorlikdagi ta’lim","r":"O‘zaro bog‘liq faoliyat va umumiy mas’uliyat"},{"l":"Differensial ta’lim","r":"Vazifa, yordam yoki murakkablikni ehtiyojga moslashtirish"}],"cognitive":"qollash","construct":"PM.GEN.08","difficulty":3}]'::jsonb)
+ loop
+  if exists(select 1 from public.questions where source_reference=item->>'ref') then continue; end if;
+  select c.id,c.subject_id,c.group_code into v_construct,v_subject,v_group
+    from public.constructs c where c.code=item->>'construct' and c.is_active;
+  select l.id into v_lesson
+    from public.lesson_constructs lc join public.lessons l on l.id=lc.lesson_id
+   where lc.construct_id=v_construct and l.status='published'::public.content_status
+   order by case when coalesce(l.body_mdx,'')<>'' then 0 else 1 end,l.order_idx,l.id limit 1;
+  if v_construct is null or v_lesson is null then
+   raise exception 'TASK-063 Y2 mapping missing: %',item->>'construct';
+  end if;
+
+  v_question:=gen_random_uuid();
+  insert into public.questions(
+    id,subject_id,construct_id,group_code,format,cognitive,difficulty,stem_md,
+    assets,is_generated,status,author_id,source_reference,source_lesson_id
+  ) values (
+    v_question,v_subject,v_construct,v_group,'Y2'::public.question_format,
+    (item->>'cognitive')::public.cognitive_level,(item->>'difficulty')::int,
+    item->>'stem','[]'::jsonb,false,'published'::public.content_status,
+    null,item->>'ref',v_lesson
+  );
+
+  v_left_ids:=array_fill(null::uuid,array[4]);
+  v_right_ids:=array_fill(null::uuid,array[4]);
+  for v_i in 1..4 loop
+   v_option:=gen_random_uuid();
+   v_left_ids[v_i]:=v_option;
+   insert into public.question_options(id,question_id,content_md,order_idx)
+   values(v_option,v_question,item->'pairs'->(v_i-1)->>'l',v_i);
+  end loop;
+  for v_j in 1..4 loop
+   v_logical:=v_perm[v_j];
+   v_option:=gen_random_uuid();
+   v_right_ids[v_logical]:=v_option;
+   insert into public.question_options(id,question_id,content_md,order_idx)
+   values(v_option,v_question,item->'pairs'->(v_logical-1)->>'r',4+v_j);
+  end loop;
+
+  v_pairs:='{}'::jsonb;
+  for v_i in 1..4 loop
+   v_pairs:=v_pairs || jsonb_build_object(v_left_ids[v_i]::text,v_right_ids[v_i]::text);
+  end loop;
+  insert into public.question_keys(question_id,payload,explanation_md)
+  values(v_question,jsonb_build_object('pairs',v_pairs),item->>'exp');
+ end loop;
+
+ for item in select * from jsonb_array_elements('[{"exp":"Avval birliklar aniqlanadi va moslashtiriladi, keyin formula qo‘llanib natija tekshiriladi.","ref":"formatbank-2026:T063-Y3-001","stem":"Fayl uzatish vaqtini hisoblash bosqichlarini to‘g‘ri tartiblang.","steps":["Fayl hajmi va tezlik birliklarini aniqlash","Fayl hajmini tezlik bilan bir xil bit birliklariga keltirish","t = I / v formulasi bo‘yicha vaqtni hisoblash","Natija birligi va mantiqiyligini tekshirish"],"cognitive":"qollash","construct":"S1.INFO.06","difficulty":3},{"exp":"Savol → qidiruv → manbani baholash → dalillardan xulosa.","ref":"formatbank-2026:T063-Y3-002","stem":"Internetdan olingan axborot asosida ishonchli xulosa chiqarish jarayonini tartiblang.","steps":["Axborot ehtiyoji va savolni aniq belgilash","Mos manbalarni qidirib topish","Manba, dalil, sana va muallifni baholash","Tekshirilgan dalillarni solishtirib xulosa chiqarish"],"cognitive":"qollash","construct":"S1.INFO.08","difficulty":3},{"exp":"Avval tuzilma yaratiladi, so‘ng fayllar joylashtiriladi va natija tekshiriladi.","ref":"formatbank-2026:T063-Y3-003","stem":"Yangi loyiha fayllarini tartibli joylashtirish bosqichlarini tartiblang.","steps":["Loyiha uchun asosiy papka yaratish","Kerakli ichki papkalarni nomlash","Fayllarni mos ichki papkalarga saqlash yoki ko‘chirish","Yo‘l va fayl nomlarini tekshirish"],"cognitive":"qollash","construct":"S2.HW.03","difficulty":3},{"exp":"Ma’lumot → formula → reference tekshiruvi → copy va natija nazorati.","ref":"formatbank-2026:T063-Y3-004","stem":"Excel jadvalida bir xil formulani ustun bo‘ylab qo‘llash jarayonini tartiblang.","steps":["Kirish ma’lumotlarini kataklarga joylashtirish","Birinchi natija katagiga formulani yozish","Formuladagi nisbiy/mutlaq murojaatlarni tekshirish","Formulani kerakli kataklarga nusxalab natijani tekshirish"],"cognitive":"qollash","construct":"S2.OFFICE.02","difficulty":3},{"exp":"Maqsad → struktura/mazmun → dizayn/effect → namoyish tekshiruvi.","ref":"formatbank-2026:T063-Y3-005","stem":"Taqdimotni tayyorlashning mantiqiy ketma-ketligini tartiblang.","steps":["Maqsad va auditoriyani aniqlash","Slaydlar tuzilmasi va asosiy mazmunni yaratish","Zarur vizual, animatsiya va o‘tishlarni me’yorida qo‘llash","Slide Show rejimida tekshirib taqdimotni yakunlash"],"cognitive":"qollash","construct":"S2.OFFICE.04","difficulty":3},{"exp":"Kirish kombinatsiyalari → oraliq amallar → yakuniy ustun → tekshiruv.","ref":"formatbank-2026:T063-Y3-006","stem":"Murakkab mantiqiy ifoda uchun rostlik jadvalini tuzish bosqichlarini tartiblang.","steps":["Kirish o‘zgaruvchilari va barcha kombinatsiyalarni yozish","Zarur oraliq mantiqiy amallarni hisoblash","Yakuniy ifoda qiymatini har qator uchun topish","Jadvalni ifoda yoki sxema bilan qayta tekshirish"],"cognitive":"qollash","construct":"S3.LOGIC.04","difficulty":3},{"exp":"Ketma-ket 2 ga bo‘linadi, qoldiqlar qayd etiladi, bo‘linma 0 bo‘lgach qoldiqlar teskari o‘qiladi.","ref":"formatbank-2026:T063-Y3-007","stem":"O‘nlik butun sonni ikkilikka qoldiqli bo‘lish usulida o‘tkazish bosqichlarini tartiblang.","steps":["Sonni 2 ga bo‘lishni boshlash","Har bo‘lishdagi qoldiqni yozib borish","Bo‘linma 0 bo‘lguncha jarayonni takrorlash","Qoldiqlarni oxiridan boshiga o‘qish"],"cognitive":"qollash","construct":"S3.NUM.02","difficulty":3},{"exp":"Kirish → hisoblash → chiqish → tugash.","ref":"formatbank-2026:T063-Y3-008","stem":"To‘g‘ri to‘rtburchak yuzini hisoblovchi algoritm qadamlarini tartiblang.","steps":["a va b tomon qiymatlarini kiritish","S = a × b ni hisoblash","S qiymatini chiqarish","Algoritmni tugatish"],"cognitive":"qollash","construct":"S3.ALGO.02","difficulty":3},{"exp":"Expected result → run → compare → debug/fix.","ref":"formatbank-2026:T063-Y3-009","stem":"Algoritmni testlash va xatoni tuzatish siklini tartiblang.","steps":["Test kirishi va kutiladigan natijani belgilash","Algoritmni shu kirish bilan bajarish","Haqiqiy natijani kutilgan natija bilan solishtirish","Farq bo‘lsa sababni topib algoritmni tuzatish"],"cognitive":"qollash","construct":"S3.ALGO.04","difficulty":3},{"exp":"Boshlang‘ich holat → qalamni tushirish → to‘rt tomon chizish → qalamni ko‘tarish.","ref":"formatbank-2026:T063-Y3-010","stem":"Scratch Pen bilan kvadrat chizish ishini tartiblang.","steps":["Spraytni boshlang‘ich joy va yo‘nalishga keltirish","pen down buyrug‘ini bajarish","repeat 4 ichida move va turn 90° buyruqlarini bajarish","pen up bilan chizishni yakunlash"],"cognitive":"qollash","construct":"S4.BLOCK.04","difficulty":3},{"exp":"Input → type conversion → condition → output.","ref":"formatbank-2026:T063-Y3-011","stem":"Python’da foydalanuvchi sonini olib uning juft/toqligini chiqaruvchi dastur qadamlarini tartiblang.","steps":["input() orqali qiymatni olish","Kiritilgan qiymatni int ga aylantirish","n % 2 == 0 shartini tekshirish","Mos ravishda ''Juft'' yoki ''Toq'' ni chiqarish"],"cognitive":"qollash","construct":"S4.CODE.02","difficulty":3},{"exp":"Function definition → input → call → use returned result.","ref":"formatbank-2026:T063-Y3-012","stem":"Python funksiyasidan foydalanish ketma-ketligini tartiblang.","steps":["Funksiyani def yordamida ta’riflash","Kerakli kirish ma’lumotini tayyorlash","Funksiyani argument bilan chaqirish","Qaytgan natijani saqlash yoki chiqarish"],"cognitive":"qollash","construct":"S4.CODE.03","difficulty":3},{"exp":"Entity/fields → primary key → foreign key → relationship/integrity.","ref":"formatbank-2026:T063-Y3-013","stem":"Ikki bog‘langan jadval uchun munosabatni loyihalash bosqichlarini tartiblang.","steps":["Jadvallarda saqlanadigan obyektlarni va maydonlarni aniqlash","Har jadval uchun birlamchi kalitni belgilash","Kerakli jadvalga tashqi kalit maydonini qo‘shish","Kalitlar orqali bog‘lanishni yaratib yaxlitlikni tekshirish"],"cognitive":"qollash","construct":"S4.DB.03","difficulty":3},{"exp":"Source tables → fields → criteria/sort → execute and verify.","ref":"formatbank-2026:T063-Y3-014","stem":"Tanlash so‘rovini yaratish bosqichlarini tartiblang.","steps":["Kerakli jadval yoki jadvallarni tanlash","Natijada ko‘rinadigan maydonlarni qo‘shish","Zarur mezon va saralash shartlarini kiritish","So‘rovni ishga tushirib natijani tekshirish"],"cognitive":"qollash","construct":"S4.DB.04","difficulty":3},{"exp":"Document root → head → body → close/test.","ref":"formatbank-2026:T063-Y3-015","stem":"Oddiy HTML sahifa tuzilmasini yaratish qadamlarini tartiblang.","steps":["html hujjat konteynerini boshlash","head qismida title kabi metama’lumotni berish","body qismiga ko‘rinadigan mazmunni joylashtirish","Teglarni yopib hujjatni brauzerda tekshirish"],"cognitive":"qollash","construct":"S5.WEB.04","difficulty":3},{"exp":"Target → selector → property/value → verify.","ref":"formatbank-2026:T063-Y3-016","stem":"CSS qoidasini HTML elementga qo‘llash jarayonini tartiblang.","steps":["Uslub beriladigan element yoki guruhni aniqlash","Mos CSS selektorini tanlash","Kerakli xossa va qiymatlarni qoida ichida yozish","Brauzerda natijani tekshirib zarur bo‘lsa tuzatish"],"cognitive":"qollash","construct":"S5.WEB.06","difficulty":3},{"exp":"IP/prefix → mask → network address → host range validation.","ref":"formatbank-2026:T063-Y3-017","stem":"IPv4 tarmoq uchun CIDR bo‘yicha tarmoqni aniqlash bosqichlarini tartiblang.","steps":["IP manzil va CIDR prefiksini ajratish","Prefiksdan tarmoq maskasini aniqlash","IP va maska asosida tarmoq manzilini hisoblash","Host qismi va ruxsat etilgan manzillarni tekshirish"],"cognitive":"qollash","construct":"S6.NET.03","difficulty":3},{"exp":"Query → result → source evaluation → use.","ref":"formatbank-2026:T063-Y3-018","stem":"Qidiruv tizimi orqali topilgan veb-manbadan foydalanish jarayonini tartiblang.","steps":["Aniq kalit so‘z yoki so‘rov tuzish","Qidiruv natijalaridan mos manbani ochish","Muallif, sana, domen va dalillarni baholash","Ishonchli manbadagi kerakli axborotdan maqsadli foydalanish"],"cognitive":"qollash","construct":"S6.NET.05","difficulty":3},{"exp":"Contain → report → remediate → recover/harden.","ref":"formatbank-2026:T063-Y3-019","stem":"Shubhali zararli faoliyat aniqlangan ishchi kompyuterga dastlabki javob choralarini tartiblang.","steps":["Vaziyatni aniqlab, zarar tarqalishini cheklash uchun qurilmani tarmoqdan ajratish","Mas’ul shaxs yoki administratorga hodisa haqida xabar berish","Tasdiqlangan himoya vositalari bilan tekshirish va zararni bartaraf etish","Tiklashdan keyin yangilanish va himoya choralarini qayta tekshirish"],"cognitive":"qollash","construct":"S7.SEC.01","difficulty":3},{"exp":"Document → sign → transmit → verify.","ref":"formatbank-2026:T063-Y3-020","stem":"Elektron hujjatni elektron imzo bilan tasdiqlash va tekshirishning umumiy ketma-ketligini tartiblang.","steps":["Tasdiqlanadigan elektron hujjatni tayyorlash","Imzolovchi o‘z elektron imzo vositasi bilan hujjatni imzolash","Imzolangan hujjatni qabul qiluvchiga yuborish","Qabul qiluvchi imzo va hujjat yaxlitligini tekshirish"],"cognitive":"qollash","construct":"S7.SEC.04","difficulty":3},{"exp":"Diagnose → outcomes → activities/resources → aligned assessment.","ref":"formatbank-2026:T063-Y3-021","stem":"O‘quv jarayonini rejalashtirish bosqichlarini tartiblang.","steps":["Boshlang‘ich holat va o‘quvchi ehtiyojini aniqlash","Kutiladigan o‘quv natijalarini belgilash","Natijaga mos faoliyat va resurslarni rejalashtirish","Natijani tekshiradigan baholash dalilini belgilash"],"cognitive":"qollash","construct":"KS.01","difficulty":3},{"exp":"Evidence → diagnose → feedback → monitor.","ref":"formatbank-2026:T063-Y3-022","stem":"Baholash va qayta aloqa siklini tartiblang.","steps":["O‘quvchi faoliyatidan dalil yig‘ish","Dalil asosida kuchli tomon va bo‘shliqni aniqlash","Aniq keyingi qadamga yo‘naltirilgan qayta aloqa berish","Keyingi faoliyatda progressni qayta kuzatish"],"cognitive":"qollash","construct":"KS.03","difficulty":3},{"exp":"Goal → model → guided/independent practice → assessment/reflection.","ref":"formatbank-2026:T063-Y3-023","stem":"Amaliy ko‘nikma darsining mantiqiy ketma-ketligini tartiblang.","steps":["Maqsad va muvaffaqiyat mezonini tushuntirish","Yangi amalni qisqa namoyish va izoh bilan ko‘rsatish","Boshqariladigan va keyin mustaqil amaliy mashq bajarish","Natijani tekshirib refleksiya va keyingi qadamni belgilash"],"cognitive":"qollash","construct":"PM.GEN.04","difficulty":3},{"exp":"Evidence → compare with goal → diagnose → recommendation.","ref":"formatbank-2026:T063-Y3-024","stem":"Darsni metodik tahlil qilish jarayonini tartiblang.","steps":["Kuzatilgan darsdan aniq dalillarni yig‘ish","Dalillarni dars maqsadi va kutilgan natija bilan solishtirish","Kuchli tomon va muammo sabablarini aniqlash","Dalilga tayangan aniq takomillashtirish tavsiyasini berish"],"cognitive":"qollash","construct":"PM.MET.03","difficulty":3}]'::jsonb)
+ loop
+  if exists(select 1 from public.questions where source_reference=item->>'ref') then continue; end if;
+  select c.id,c.subject_id,c.group_code into v_construct,v_subject,v_group
+    from public.constructs c where c.code=item->>'construct' and c.is_active;
+  select l.id into v_lesson
+    from public.lesson_constructs lc join public.lessons l on l.id=lc.lesson_id
+   where lc.construct_id=v_construct and l.status='published'::public.content_status
+   order by case when coalesce(l.body_mdx,'')<>'' then 0 else 1 end,l.order_idx,l.id limit 1;
+  if v_construct is null or v_lesson is null then
+   raise exception 'TASK-063 Y3 mapping missing: %',item->>'construct';
+  end if;
+
+  v_question:=gen_random_uuid();
+  insert into public.questions(
+    id,subject_id,construct_id,group_code,format,cognitive,difficulty,stem_md,
+    assets,is_generated,status,author_id,source_reference,source_lesson_id
+  ) values (
+    v_question,v_subject,v_construct,v_group,'Y3'::public.question_format,
+    (item->>'cognitive')::public.cognitive_level,(item->>'difficulty')::int,
+    item->>'stem','[]'::jsonb,false,'published'::public.content_status,
+    null,item->>'ref',v_lesson
+  );
+
+  v_step_ids:=array_fill(null::uuid,array[4]);
+  for v_j in 1..4 loop
+   v_logical:=v_perm[v_j];
+   v_option:=gen_random_uuid();
+   v_step_ids[v_logical]:=v_option;
+   insert into public.question_options(id,question_id,content_md,order_idx)
+   values(v_option,v_question,item->'steps'->>(v_logical-1),v_j);
+  end loop;
+  insert into public.question_keys(question_id,payload,explanation_md)
+  values(v_question,jsonb_build_object('order',to_jsonb(v_step_ids)),item->>'exp');
+ end loop;
+end
+$$;
+
+commit;

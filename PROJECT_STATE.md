@@ -1,3 +1,15 @@
+## Multi-format bank + lesson drift reconciliation (TASK-063, 2026-10-12)
+
+- **Y2/Y3 source-backed expansion:** 48 ta original savol productionga qo‘shildi va `published` qilindi — **24 Y2 (matching)** + **24 Y3 (ordering)**. Bank specialty, professional-standard va pedagogy/methodology constructlarini qamraydi.
+- **Format QA:** TASK-063 savollarida Y2 uchun 8 option + 4 valid pair, Y3 uchun 4 option + 4 valid order; barcha key option UUIDlari o‘z savoliga tegishli, `check_answer(format, key, key)` 48/48 o‘tadi, source-lesson/construct mosligi 48/48.
+- **Production format hajmi:** mavjud 7 Y2 va 15 Y3 ustiga yangi batch qo‘shilgach published pool **Y2 = 31**, **Y3 = 39** bo‘ldi.
+- **M02 canonical reconcile:** production legacy M02 lessonlari learner progress/exam/attempt reference = 0 ekanligi tekshirilib, canonical stable lessonlar `92000000-...001..004` (S2.HW.01–.04) published/source-backed holatga keltirildi. Eski production-only lessonlar o‘chirilmadi — `archived` qilindi; savollar construct bo‘yicha canonical lessonlarga qayta bog‘landi.
+- **M05 canonical reconcile:** canonical stable lessonlar `95000000-...001..003` (S3.NUM.01–.03) bilan production moslashtirildi; legacy lessonlar xavfsiz `archived`, savol source-linklari canonical construct lessonlariga ko‘chirildi.
+- **Mock/release invariants:** TASK-063 o‘zgarishlaridan keyin official 50-savollik exact feasibility va TASK-060 AC-CNT-04 reserve talabi saqlanadi; M02/M05 constructlarda null/mismatched source-lesson qolmasligi regression bilan tekshiriladi.
+- **Production migrations:** `20261012045226_task063_y2_y3_format_bank_01` va `task063_m02_m05_lesson_drift_reconcile` production migration historyga kiritildi.
+- **Regression:** `supabase/tests/task063_format_bank_reconcile.test.sql` Y2/Y3 soni, key shape, `check_answer`, canonical M02/M05 lessonlar va question→lesson construct mosligini tekshiradi.
+- **Xavfsizlik:** private AXB payload/public answer-key Git tarixiga ko‘chirilmagan; yangi Y2/Y3 savollar original source-backed content.
+
 ## Production question-bank reconciliation (TASK-060/TASK-063, 2026-10-12)
 
 - **Production Supabase:** `plyqezulrfowyblsfpzy` (`attestatsiya100%`) active/healthy.
@@ -8,7 +20,6 @@
 - **Official mock feasibility:** production eligibility qoidalari bilan 15/15 quota group, 50/50 unique selection va barcha exact group×cognitive deficit = 0 verifikatsiya qilindi. Authenticated RPC xulqi o‘zgartirilmadi.
 - **AC-CNT-04 release reserve:** **DONE** — har bir required blueprint group×cognitive slotda kamida 20 ta eligible published+keyed+active-taxonomy candidate mavjud; production `release_total_deficit = 0`.
 - **Drift ogohlantirishi:** productionda M02/S2.HW.04 va M05/S3.NUM.02 uchun source lesson gaplarini yopish maqsadida canonical stable UUIDlar bilan lessonlar mavjud, biroq production legacy lesson orderlari sabab eski `20261009073000_m02_source_backed_lessons.sql` va `20261009080000_a3_logic_num_algo_lessons.sql` migratsiyalarini productionga ko‘r-ko‘rona qayta qo‘llash mumkin emas. Fresh DB chain va production drift alohida reconcile qilinadi.
-- **Keyingi scope (TASK-063):** Y2/Y3 bankini kengaytirish, M02/M05 production lesson driftini xavfsiz reconcile qilish va regression/CI bilan yakuniy publish pipeline’ni mustahkamlash.
 - **Xavfsizlik:** private AXB savol matni/javob kalitlari public Git tarixiga kiritilmagan. Public Git faqat yangi original source-backed TASK-060 savollarini saqlaydi.
 
 ## A4 source-backed programming lessons (TASK-054, 2026-10-09)
