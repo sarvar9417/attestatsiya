@@ -130,9 +130,9 @@
 | B-001 | RESOLVED — T-012/T-023: Y1/Y2/Y3 parametrik generatorlar va deterministik SQL seed pipeline yaratildi |
 | B-002 | RESOLVED — TypeScript types remote UUID schema bo'yicha generatsiya qilindi |
 | B-003 | RESOLVED — server-scored ExamRunner UUID RPC kontraktiga o‘tkazildi |
-| B-AUTH-001 | OPEN — PR #81 kod/CI/Vercel preview yashil, lekin merge oldidan production Supabase redirect allowlist + SMTP/email template va real-email E2E (register → verify → login → forgot → reset → login) talab qilinadi |
+| B-AUTH-001 | OPEN — signup/recovery code tuzatishlari PR #90/#94 bilan main’ga merge qilingan; yakuniy production acceptance uchun Supabase redirect allowlist + SMTP/email template va real-email E2E (register → verify → login → forgot → reset → login) hali talab qilinadi |
 | B-PROD-001 | RESOLVED — Supabase `sarvar9417` connection orqali production project `plyqezulrfowyblsfpzy` ko‘rinadi; 2026-10-12 kuni S1.INFO.08 reconciliation migrationi muvaffaqiyatli apply qilindi va private bank import qilindi |
-| B-CONTENT-001 | OPEN — official 50-question assembler tayyor, ammo M01 + 270 parametrik pooldan tashqari barcha blueprint group/cognitive kesimlari uchun real published savol yetarliligi alohida feasibility audit va bank kengaytirishni talab qiladi |
+| B-CONTENT-001 | RESOLVED — TASK-060/TASK-063 production auditi: official 50-question exact group×cognitive feasibility 0-deficit; AC-CNT-04 bo‘yicha har required slot uchun ≥20 eligible published+keyed+active-taxonomy candidate; Y1 bank ustiga 24 Y2 + 24 Y3 source-backed item qo‘shildi |
 
 ## Test talabi
 
