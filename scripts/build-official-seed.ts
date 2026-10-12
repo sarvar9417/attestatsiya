@@ -375,8 +375,8 @@ begin
       v_mulohaza;
   end if;
 
-  if v_construct_count <> 76 then
-    raise exception 'official_seed_construct_count: expected 76, received %',
+  if v_construct_count <> 77 then
+    raise exception 'official_seed_construct_count: expected 77, received %',
       v_construct_count;
   end if;
 end
