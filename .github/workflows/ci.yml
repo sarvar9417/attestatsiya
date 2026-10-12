@@ -219,11 +219,13 @@ jobs:
       - name: Source-lesson reconciliation (idempotent, no production writes)
         run: |
           psql -X -v ON_ERROR_STOP=1 -d attestatsiya_test \
+            -f supabase/tests/source_less_demo_fixture.sql \
             -f supabase/maintenance/20261012_legacy_source_missing_quarantine.sql \
             -f supabase/maintenance/20261012_legacy_source_missing_quarantine.sql \
             -f supabase/maintenance/20261012_generated_source_lesson_safe_rebind.sql \
             -f supabase/maintenance/20261012_generated_source_lesson_safe_rebind.sql \
-            -f supabase/tests/generated_lesson_reconcile.test.sql
+            -f supabase/tests/generated_lesson_reconcile.test.sql \
+            -f supabase/tests/source_less_demo_quarantine.test.sql
 
       - name: Remote drift reconciliation
         run: |
