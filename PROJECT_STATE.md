@@ -3,11 +3,13 @@
 - **Production Supabase:** `plyqezulrfowyblsfpzy` (`attestatsiya100%`) active/healthy.
 - **Private AXB bank:** 570/570 savol productionda. 540 ta savol active construct + answer key + 4 option + source-lesson/construct mosligi tekshiruvidan keyin `published`; 30 ta savol `review` quarantine holatida.
 - **Quarantine siyosati:** 21 ta validation/verifikatsiya/data-entry savoli source-backed bo‘lsa ham 2026 spetsifikatsiyada alohida band sifatida aniq ko‘rsatilmaganligi sabab review-only; 9 ta parity/checksum/CRC savoli ham tarmoq prinsiplari bilan yaqin, lekin 2026 scope’da nomma-nom berilmaganligi sabab review-only. Ular official mock pool’iga kirmaydi.
-- **Exact 2026 gapfill:** S2.OFFICE, S3.ALGO, S4.BLOCK, S4.CODE, S4.DB va S5.WEB dagi exact group×cognitive bo‘shliqlar 17 ta original, source-backed Y1 savol bilan yopildi. Production migration history: `20261012042634_task060_exact_blueprint_gapfill`.
-- **Official mock feasibility:** production eligibility qoidalari bilan 15/15 quota group, 50/50 unique selection va barcha group×cognitive exact deficit = 0 verifikatsiya qilindi. Authenticated RPC xulqi o‘zgartirilmadi.
-- **Release reserve:** AC-CNT-04 (har required blueprint slot uchun ≥20 candidate) hali to‘liq yopilmagan; TASK-060/TASK-063 davom etadi.
+- **Public source-backed bank expansion:** TASK-060 doirasida 17 ta exact gapfill va 334 ta release-reserve savol — jami **351 ta original Y1** — productionga qo‘shildi va `published` qilindi. Batchlar S2.HW/OFFICE, S3.ALGO, S4.BLOCK/CODE/DB, S5.WEB, S7.SEC, KS, PM.GEN va PM.MET bo‘shliqlarini yopadi.
+- **Migration history:** `20261012042634_task060_exact_blueprint_gapfill`, `20261012042958_task060_release_reserve_r1`, `20261012043228_task060_release_reserve_r2`, `20261012043749_task060_release_reserve_r3`, `20261012044013_task060_release_reserve_r4`, `20261012044400_task060_release_reserve_r5`, `20261012044425_task060_release_reserve_r6`.
+- **Official mock feasibility:** production eligibility qoidalari bilan 15/15 quota group, 50/50 unique selection va barcha exact group×cognitive deficit = 0 verifikatsiya qilindi. Authenticated RPC xulqi o‘zgartirilmadi.
+- **AC-CNT-04 release reserve:** **DONE** — har bir required blueprint group×cognitive slotda kamida 20 ta eligible published+keyed+active-taxonomy candidate mavjud; production `release_total_deficit = 0`.
 - **Drift ogohlantirishi:** productionda M02/S2.HW.04 va M05/S3.NUM.02 uchun source lesson gaplarini yopish maqsadida canonical stable UUIDlar bilan lessonlar mavjud, biroq production legacy lesson orderlari sabab eski `20261009073000_m02_source_backed_lessons.sql` va `20261009080000_a3_logic_num_algo_lessons.sql` migratsiyalarini productionga ko‘r-ko‘rona qayta qo‘llash mumkin emas. Fresh DB chain va production drift alohida reconcile qilinadi.
-- **Xavfsizlik:** private AXB savol matni/javob kalitlari public Git tarixiga kiritilmagan. Public migration faqat yangi 17 ta original gapfill savolni saqlaydi.
+- **Keyingi scope (TASK-063):** Y2/Y3 bankini kengaytirish, M02/M05 production lesson driftini xavfsiz reconcile qilish va regression/CI bilan yakuniy publish pipeline’ni mustahkamlash.
+- **Xavfsizlik:** private AXB savol matni/javob kalitlari public Git tarixiga kiritilmagan. Public Git faqat yangi original source-backed TASK-060 savollarini saqlaydi.
 
 ## A4 source-backed programming lessons (TASK-054, 2026-10-09)
 
