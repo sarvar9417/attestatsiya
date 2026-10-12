@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { AlertTriangle, ChevronLeft, ChevronRight, ExternalLink, RefreshCw } from 'lucide-react'
+import PedguliCandidateReviewModal from '../../components/admin/PedguliCandidateReviewModal'
 import {
   listPedguliSourceCandidates,
   type CandidatePage,
@@ -121,28 +122,11 @@ export default function PedguliCandidatesPage() {
           Keyingi <ChevronRight size={16}/>
         </button>
       </div>
-      {selected&&(
-        <div className="fixed inset-0 z-[80] flex items-center justify-center bg-gray-950/70 p-3">
-          <section role="dialog" aria-modal="true" aria-labelledby="source-review-title"
-            className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-5 dark:bg-gray-900">
-            <div className="flex items-center justify-between gap-2">
-              <h2 id="source-review-title" className="text-lg font-bold">Manba xabari #{selected.source_message_id}</h2>
-              <button type="button" className="rounded-lg border px-3 py-2 text-sm dark:border-gray-700"
-                onClick={()=>setSelected(null)}>Yopish</button>
-            </div>
-            <p className="mt-3 text-xs text-gray-500">
-              Huquq: {selected.rights_status}; javob: {selected.answer_key_status};
-              tarixiy imtihon: {selected.historical_exam_claim_status}.
-            </p>
-            <div className="mt-3 whitespace-pre-wrap break-words rounded-xl bg-gray-50 p-4 text-sm leading-6 dark:bg-gray-800">
-              {selected.raw_text_private}
-            </div>
-            <a className="mt-3 inline-flex items-center gap-2 text-sm text-indigo-600 underline"
-              href={selected.source_url} target="_blank" rel="noopener noreferrer">
-              Asl xabar <ExternalLink size={15}/>
-            </a>
-          </section>
-        </div>
+      {selected && (
+        <PedguliCandidateReviewModal candidate={selected}
+          onClose={()=>setSelected(null)}
+          onSaved={()=>{setSelected(null);void load()}}
+        />
       )}
     </div>
   )
