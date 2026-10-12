@@ -123,6 +123,20 @@ begin
       continue;
     end if;
 
+    if exists (
+      select 1
+      from public.lessons l
+      where l.module_id=v_module
+        and l.status='published'::public.content_status
+        and not (l.id=any(lane.canonical_lesson_ids))
+        and l.order_idx between 1 and lane.reserved_order_count
+        and length(coalesce(l.body_mdx,'')) > 0
+    ) then
+      raise exception
+        'TASK-064 order prepare refuses %: non-empty non-canonical lesson occupies reserved slot',
+        lane.module_code;
+    end if;
+
     select
       (
         select count(*)
