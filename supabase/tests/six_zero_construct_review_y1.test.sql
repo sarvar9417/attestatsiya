@@ -50,7 +50,7 @@ begin
   select 1 from public.lesson_constructs lc
   join public.lessons l on l.id=lc.lesson_id
   join public.constructs c on c.id=lc.construct_id
-  where c.code='S3.ALGO.03' and l.slug='m06-03'
+  where c.code='S3.ALGO.03' and l.slug in ('m06-03','masala-algoritmini-tuzish')
  ) then raise exception 'Algorithm exercise lesson-objective link missing';end if;
 
 end
