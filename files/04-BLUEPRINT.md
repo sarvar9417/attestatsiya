@@ -78,11 +78,11 @@ qiladi, lekin bozorda material kam. Kontent yozishni shu ikkisidan boshlang.
 
 ---
 
-## Konstruktlar katalogi (76 ta)
+## Konstruktlar katalogi (77 ta)
 
 Format: `code — title_uz`
 
-### S1.INFO — 7
+### S1.INFO — 8
 ```
 S1.INFO.01  Informatika, axborot, ma'lumot va bilim tushunchalarini farqlash
 S1.INFO.02  Axborot turlari va manbalari
@@ -90,7 +90,7 @@ S1.INFO.03  Turli ko'rinishdagi axborotni kodlash
 S1.INFO.04  Axborot o'lchov birliklari
 S1.INFO.05  Axborot hajmini hisoblash
 S1.INFO.06  Axborot uzatish tezligini hisoblash
-S1.INFO.07  Raqamli muhitda axloq va mualliflik huquqi
+S1.INFO.07  Raqamli muhitda axloq va mualliflik huquqi\nS1.INFO.08  Axborotni saralash va xulosa chiqarish
 ```
 
 ### S2.HW — 4
