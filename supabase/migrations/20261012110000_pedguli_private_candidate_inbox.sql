@@ -9,8 +9,8 @@ create table if not exists public.pedguli_source_candidates (
   source_channel text not null default '@PedMahoratGuli'
     check (source_channel='@PedMahoratGuli'),
   source_message_id bigint not null check (source_message_id>0),
-  source_url text not null check (source_url ~ '^https://t\\.me/PedMahoratGuli/[1-9][0-9]*$'),
-  source_html text not null check (source_html ~ '^messages([0-9]+)?\\.html$'),
+  source_url text not null check (source_url ~ '^https://t[.]me/PedMahoratGuli/[1-9][0-9]*$'),
+  source_html text not null check (source_html ~ '^messages([0-9]+)?[.]html$'),
   date_local text,
   text_sha256 char(64) not null check(text_sha256 ~ '^[a-f0-9]{64}$'),
   raw_text_private text not null check(length(raw_text_private) between 20 and 30000),
