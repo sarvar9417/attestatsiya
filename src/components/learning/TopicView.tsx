@@ -158,7 +158,7 @@ export default function TopicView({
   // M14-M16 canonical source-backed lessons must reach the student's theory
   // view, not just the admin API. Keep static theory as offline fallback.
   useEffect(() => {
-    if (!/^M1[456]\\.\\d{2}$/.test(subtopicId)) return
+    if (!/^M1[456]\.\d{2}$/.test(subtopicId)) return
     let cancelled = false
     const fallback = getTopicContent(subtopicId)
     if (!fallback) return
