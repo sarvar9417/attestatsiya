@@ -21,6 +21,14 @@ vi.mock('../../services/admin-content.service.js', () => ({
   adminContentService: mocks,
 }))
 
+const sourceMocks = vi.hoisted(() => ({
+  importBatch: vi.fn(),
+  list: vi.fn(),
+}))
+vi.mock('../../services/pedguli-candidate.service.js', () => ({
+  pedguliCandidateService: sourceMocks,
+}))
+
 vi.mock('../../services/content-coverage.service.js', () => ({
   contentCoverageService: { getReport: vi.fn() },
 }))
@@ -221,6 +229,68 @@ describe('admin CMS backend boundary', () => {
       payload,
       'admin-token',
     )
+    await app.close()
+  })
+
+  it('rejects unauthenticated candidate import and review access', async () => {
+    const app = makeApp()
+    await app.register(adminRoutes)
+    await app.ready()
+    const list = await app.inject({method:'GET',url:'/api/admin/pedguli-candidates'})
+    const imp = await app.inject({method:'POST',url:'/api/admin/pedguli-candidates/import',
+      payload:{items:[]}})
+    expect(list.statusCode).toBe(401)
+    expect(imp.statusCode).toBe(401)
+    expect(sourceMocks.list).not.toHaveBeenCalled()
+    expect(sourceMocks.importBatch).not.toHaveBeenCalled()
+    await app.close()
+  })
+
+  it('forbids spoofed Telegram links and auto-publish fields', async () => {
+    const app = makeApp()
+    await app.register(adminRoutes)
+    await app.ready()
+    const bad = await app.inject({
+      method:'POST',url:'/api/admin/pedguli-candidates/import',
+      headers:{authorization:'Bearer admin-token'},
+      payload:{items:[{
+        message_id:116,
+        source_url:'https://t.me/PedMahoratGuli/999',
+        source_html:'messages.html',
+        date_local:'12.02.2025 10:00:00',
+        raw_text_private:'Unverified text with four multiple-choice options.',
+        suggested_constructs:['PM.GEN.04'],
+        media_present:false,key_marker_unverified:false,
+        correct_answer:'B',editorial_status:'published',
+      }]},
+    })
+    expect(bad.statusCode).toBe(400)
+    expect(sourceMocks.importBatch).not.toHaveBeenCalled()
+    await app.close()
+  })
+
+  it('passes an approved shape to review-only candidate importer', async () => {
+    const item = {
+      message_id:116,
+      source_url:'https://t.me/PedMahoratGuli/116',
+      source_html:'messages.html',
+      date_local:'12.02.2025 10:00:00',
+      raw_text_private:'Pedagogik ta’lim jarayoniga oid yangi test savoli va variantlari.',
+      suggested_constructs:['PM.GEN.04'], media_present:false,
+      key_marker_unverified:true,
+    }
+    sourceMocks.importBatch.mockResolvedValue({
+      submitted:1,unique_in_batch:1,inserted:1,
+      already_present_or_duplicate:0,status:'needs_review',published:0,
+    })
+    const app=makeApp()
+    await app.register(adminRoutes)
+    await app.ready()
+    const result=await app.inject({method:'POST',url:'/api/admin/pedguli-candidates/import',
+      headers:{authorization:'Bearer admin-token'},payload:{items:[item]}})
+    expect(result.statusCode).toBe(200)
+    expect(JSON.parse(result.body).published).toBe(0)
+    expect(sourceMocks.importBatch).toHaveBeenCalledWith('admin-token',[item])
     await app.close()
   })
 
