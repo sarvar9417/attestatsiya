@@ -25,6 +25,7 @@ const sourceMocks = vi.hoisted(() => ({
   importBatch: vi.fn(),
   list: vi.fn(),
   review: vi.fn(),
+  importStage4: vi.fn(),
 }))
 vi.mock('../../services/pedguli-candidate.service.js', () => ({
   pedguliCandidateService: sourceMocks,
@@ -340,6 +341,45 @@ describe('admin CMS backend boundary', () => {
     expect(sourceMocks.review).toHaveBeenCalledWith('admin-token',id,input)
     expect(res.json()).not.toHaveProperty('correct_option_id')
     expect(res.json()).not.toHaveProperty('question_id')
+    await app.close()
+  })
+
+  it('private stage4 import blocks unauthenticated and auto-published payloads',async()=>{
+    const app=makeApp()
+    await app.register(adminRoutes);await app.ready()
+    const url='/api/admin/pedguli-candidates/stage4'
+    const noAuth=await app.inject({method:'POST',url,
+      payload:{topics:[],answer_references:[]}})
+    expect(noAuth.statusCode).toBe(401)
+    const bad=await app.inject({method:'POST',url,
+      headers:{authorization:'Bearer admin-token'},
+      payload:{topics:[{telegram_message_id:127,suggested_construct:'KS.03',
+        suggestion_mode:'model_low_margin',model_margin:0.3,
+        second_choice:'PM.GEN.02',source_scope_warning:'Needs human review',
+        published:true}],answer_references:[]}})
+    expect(bad.statusCode).toBe(400)
+    expect(sourceMocks.importStage4).not.toHaveBeenCalled()
+    await app.close()
+  })
+
+  it('stage4 admin-only endpoint handles a bounded source-research batch without public keys',async()=>{
+    const app=makeApp()
+    await app.register(adminRoutes);await app.ready()
+    const url='/api/admin/pedguli-candidates/stage4'
+    const body={topics:[{
+      telegram_message_id:5636,suggested_construct:'',suggestion_mode:'media_blocked',
+      model_margin:0.01,second_choice:'PM.GEN.02',
+      source_scope_warning:'Missing original image. No correct topic assigned.'
+    }],answer_references:[]}
+    sourceMocks.importStage4.mockResolvedValue({
+      topic_suggestions_saved:1,private_source_comparisons_saved:0,
+      expert_approved:0,published:0,permissions_confirmed:0
+    })
+    const res=await app.inject({method:'POST',url,
+      headers:{authorization:'Bearer admin-token'},payload:body})
+    expect(res.statusCode).toBe(200)
+    expect(res.json().published).toBe(0)
+    expect(sourceMocks.importStage4).toHaveBeenCalledWith('admin-token',body)
     await app.close()
   })
 
