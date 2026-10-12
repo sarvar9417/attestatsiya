@@ -106,6 +106,25 @@ begin
   if exists (
     select 1
     from public.questions q
+    join public.constructs c on c.id = q.construct_id
+    join public.lessons l on l.id = q.source_lesson_id
+    where q.source_reference like 'specgap-2026:ZC-%'
+      and l.slug <> case c.code
+        when 'S3.LOGIC.01' then 'mantiqiy-mulohazalar'
+        when 'S3.LOGIC.03' then 'mantiqiy-xulosa-va-masala'
+        when 'S3.ALGO.03' then 'masala-algoritmini-tuzish'
+        when 'S4.CODE.04' then 'javascript-sintaksis-asoslari'
+        when 'S6.NET.02' then 'arxitektura-va-topologiyalar'
+        when 'S6.NET.04' then 'internetdan-xavfsiz-va-maqsadli-foydalanish'
+        else '__unexpected_construct__'
+      end
+  ) then
+    raise exception 'spec-gap canonical source lesson mismatch';
+  end if;
+
+  if exists (
+    select 1
+    from public.questions q
     join public.question_keys qk on qk.question_id = q.id
     where q.source_reference like 'specgap-2026:ZC-%'
       and q.format = 'Y1'::public.question_format
