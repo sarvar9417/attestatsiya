@@ -60,3 +60,44 @@ export const pedguliCandidateReviewSchema = z.object({
   }
 })
 export type PedguliCandidateReview = z.infer<typeof pedguliCandidateReviewSchema>
+
+/**
+ * Purely private Stage-4 machine/topic research. Assertions of human review,
+ * publication status and reuse rights are intentionally absent from schema.
+ */
+export const pedguliStage4TopicSchema = z.object({
+ telegram_message_id:z.number().int().positive(),
+ suggested_construct:z.string().regex(/^(?:KS|PM\.GEN|PM\.MET)\.\d{2}$/).or(z.literal('')),
+ suggestion_mode:z.enum(['model_high_margin','model_low_margin','media_blocked']),
+ model_margin:z.number().min(0).max(8),
+ second_choice:z.string().regex(/^(?:KS|PM\.GEN|PM\.MET)\.\d{2}$/),
+ source_scope_warning:z.string().max(1000),
+}).strict().superRefine((v,ctx)=>{
+ if((v.suggestion_mode==='media_blocked')!==(v.suggested_construct==='')){
+  ctx.addIssue({code:z.ZodIssueCode.custom,message:'Missing-media source may not receive a subject code'})
+ }
+})
+export const pedguliStage4ReferenceSchema = z.object({
+ telegram_message_id:z.number().int().positive(),
+ proposed_correct_letter:z.enum(['A','B','C','D']),
+ expected_concept:z.string().min(2).max(200),
+ source_support_note:z.string().min(35).max(2000),
+ source_title:z.string().min(5).max(250),
+ source_url:z.string().url().refine(v=>v.startsWith('https://'), 'HTTPS source required'),
+ proposed_construct:z.string().regex(/^(?:KS|PM\.GEN|PM\.MET)\.\d{2}$/),
+}).strict()
+export const pedguliStage4BatchSchema=z.object({
+ topics:z.array(pedguliStage4TopicSchema).max(50),
+ answer_references:z.array(pedguliStage4ReferenceSchema).max(10),
+}).strict().superRefine((v,ctx)=>{
+ if(v.topics.length+v.answer_references.length===0){
+  ctx.addIssue({code:z.ZodIssueCode.custom,message:'Empty research batch'})
+ }
+ if(new Set(v.topics.map(x=>x.telegram_message_id)).size!==v.topics.length){
+  ctx.addIssue({code:z.ZodIssueCode.custom,message:'Repeated source id in topic batch'})
+ }
+ if(new Set(v.answer_references.map(x=>x.telegram_message_id)).size!==v.answer_references.length){
+  ctx.addIssue({code:z.ZodIssueCode.custom,message:'Repeated source id in answer evidence'})
+ }
+})
+export type PedguliStage4Batch=z.infer<typeof pedguliStage4BatchSchema>
