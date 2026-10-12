@@ -11,10 +11,16 @@ begin
  select id into strict js_construct from public.constructs
    where code='S4.CODE.04' and is_active;
 
- select l.id into strict algo_lesson
+ select l.id into algo_lesson
  from public.lessons l join public.modules m on m.id=l.module_id
- where m.code='M06' and l.slug='m06-03'
-   and l.status='published'::public.content_status;
+ where m.code='M06'
+   and l.slug in ('masala-algoritmini-tuzish','m06-03')
+   and l.status='published'::public.content_status
+ order by case when l.slug='masala-algoritmini-tuzish' then 0 else 1 end
+ limit 1;
+ if algo_lesson is null then
+   raise exception 'No canonical/source-backed algorithm problem lesson for S3.ALGO.03';
+ end if;
  insert into public.lesson_constructs(lesson_id,construct_id)
  values(algo_lesson,algo_construct)
  on conflict do nothing;
