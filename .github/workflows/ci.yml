@@ -206,6 +206,7 @@ jobs:
             -f supabase/tests/m16_informatika_metodikasi_lessons.test.sql \
             -f supabase/tests/m15_umumiy_pedagogika_lessons.test.sql \
             -f supabase/tests/pedagogy_theory_corpus_expand.test.sql \
+            -f supabase/tests/pedagogy_theory_corpus_complete.test.sql \
             -f supabase/tests/source_backed_lesson_coverage.test.sql \
             -f supabase/tests/task063_format_bank_reconcile.test.sql \
             -f supabase/tests/spec_zero_construct_review_bank.test.sql \
