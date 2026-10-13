@@ -70,6 +70,23 @@ update public.pedagogy_pdf_source_candidates p
   join public.constructs c on c.code=v.construct_code and c.is_active
  where p.id=v.candidate_id;
 
+-- Keep editorial status consistent with already-established provenance:
+-- a source candidate that has an independently verified answer and is linked to a
+-- review question can be marked VERIFIED without publishing anything.
+update public.pedagogy_pdf_source_candidates
+   set editorial_status='verified',
+       reviewed_at=coalesce(reviewed_at,now()),
+       review_notes=case
+         when review_notes='' then 'Independent answer verification and review-question provenance are complete.'
+         when review_notes not like '%Independent answer verification and review-question provenance are complete.%'
+           then review_notes || E'\nIndependent answer verification and review-question provenance are complete.'
+         else review_notes
+       end
+ where answer_key_status='independently_verified'
+   and linked_question_id is not null
+   and duplicate_of_candidate_id is null
+   and answer_key_status<>'conflict';
+
 do $wave2_assert$
 begin
   if (
