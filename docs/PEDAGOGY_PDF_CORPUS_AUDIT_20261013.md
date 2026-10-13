@@ -88,3 +88,40 @@ Masalan, 2026 tarixiy to‘plamda “talab qilinayotgan kattalikdan boshlab beri
 ## 7. Muhim cheklov
 
 “Tarixiy test to‘plamida javob yozilgan” = “rasmiy tekshirilgan kalit” emas. Platforma manbaga zid yoki tekshirilmagan javobni faqat tezroq bankni kattalashtirish uchun publish qilmaydi. Maqsad son emas, spetsifikatsiya bo‘yicha **to‘liq qamrov + to‘g‘ri manba + ishonchli kalit**.
+
+## 8. Review-pipeline holati — 2026-10-13
+
+649 ta private source candidate productionda strukturaviy triage qilindi. Mapping faqat aniq source signal mavjud bo‘lganda `mapped_construct_id`ga yoziladi; weighted qoidalar qolganlari uchun faqat `suggested_constructs` beradi.
+
+- hard-safe mapped: **175**
+- medium suggestion: **192**
+- ambiguous: **46**
+- low/unmapped: **236**
+- exact duplicate links: **27**
+- conservative near-duplicate review links: **22**
+- parser bleed flag: **42**
+- negative-wording review flag: **15**
+- known answer/terminology conflicts: **2**
+- independently source-lesson bilan tekshirilgan historical answer marker: **12**
+
+Muhim fail-closed misol: 2026 manbadagi jismoniy tarbiya haqidagi, lekin javobida baholash natijasiga ko‘ra rejani moslashtirish aytilgan savol avtomatik `PM.GEN.03` ga bog‘lanmadi; hard-safe gate uni `mapped_construct_id = NULL` holatiga qaytardi. Shuningdek, 2026 q14 analitik/sintetik terminologiyasi va q144 bullying savoli source-key conflict sifatida avtomatik learner keydan chiqarilgan.
+
+Raw candidate jadvali learner rollariga ochilmagan: `anon SELECT = false`, `authenticated SELECT = false`.
+
+### Original review bank v1
+
+PDF korpusi va canonical M14/M15/M16 nazariyasidan foydalanib **36 ta yangi, original Y1 savol** yozildi:
+
+- 18 ta rasmiy pedagogika constructining har biriga aynan 2 tadan;
+- 36/36 `review`, **0 published**;
+- 36 server-side key;
+- 144 variant;
+- source lesson/construct mismatch = 0;
+- 12 ta tarixiy source marker canonical dars bilan mustaqil tekshirilib source candidate bilan provenance link olgan.
+
+Bu bank historical savol matnlarini ko‘chirmaydi. Ular mavzu/vaziyat signali sifatida ishlatilgan, learner savollari esa canonical nazariya asosida qayta, original yozilgan.
+
+Production holati shu bosqichdan keyin: **1645 published (o‘zgarmagan), 186 review, 5 archived; published integrity issues = 0.**
+
+Keyingi editorial ish: medium/ambiguous/low candidate-larni semantik guruhlash va source bilan tekshirish; review bankni inson editorial tasdig‘isiz publish qilmaslik.
+

@@ -208,6 +208,8 @@ jobs:
             -f supabase/tests/pedagogy_theory_corpus_expand.test.sql \
             -f supabase/tests/pedagogy_theory_corpus_complete.test.sql \
             -f supabase/tests/pedagogy_pdf_private_candidate_inbox.test.sql \
+            -f supabase/tests/pedagogy_pdf_candidate_triage.test.sql \
+            -f supabase/tests/pedagogy_pdf_corpus_review_bank_v1.test.sql \
             -f supabase/tests/source_backed_lesson_coverage.test.sql \
             -f supabase/tests/task063_format_bank_reconcile.test.sql \
             -f supabase/tests/spec_zero_construct_review_bank.test.sql \
@@ -215,6 +217,15 @@ jobs:
             -f supabase/tests/m01_exact_source_lesson_reconcile.test.sql \
             -f supabase/tests/canonical_lesson_drift_reconcile.test.sql \
             -f supabase/tests/m01_exact_source_lesson_reconcile.test.sql
+
+      - name: Pedagogy PDF candidate triage rules
+        run: |
+          psql -X -v ON_ERROR_STOP=1 -d attestatsiya_test \
+            -f supabase/tests/pedagogy_pdf_candidate_triage_fixture.sql \
+            -f supabase/maintenance/20261013_pedagogy_pdf_candidate_triage.sql \
+            -f supabase/maintenance/20261013_pedagogy_pdf_candidate_triage.sql \
+            -f supabase/maintenance/20261013_pedagogy_pdf_near_duplicate_review.sql \
+            -f supabase/tests/pedagogy_pdf_candidate_triage_rules.test.sql
 
       - name: Generate and verify parametric DB pool
         run: |
