@@ -32,6 +32,20 @@ const NAMESPACE = 'a11e57a5-2026-4a77-9a10-000000000021'
 const DEFAULT_PER_CONSTRUCT = 30
 const MAX_ATTEMPTS_PER_CONSTRUCT = 20_000
 
+const EXACT_SOURCE_LESSON_BY_CONSTRUCT: Readonly<
+  Record<string, { moduleCode: string; lessonSlug: string }>
+> = {
+  'S1.INFO.04': { moduleCode: 'M01', lessonSlug: 'm01-05' },
+  'S1.INFO.05': { moduleCode: 'M01', lessonSlug: 'm01-07' },
+  'S1.INFO.06': { moduleCode: 'M01', lessonSlug: 'axborot-uzatish-tezligi' },
+  'S3.NUM.01': { moduleCode: 'M05', lessonSlug: 'sanoq-sistemalari-asoslari' },
+  'S3.NUM.02': { moduleCode: 'M05', lessonSlug: 'sanoq-sistemalari-otkazish' },
+  'S3.NUM.03': { moduleCode: 'M05', lessonSlug: 'sanoq-sistemalari-arifmetika' },
+  'S3.LOGIC.02': { moduleCode: 'M04', lessonSlug: 'mantiqiy-amallar' },
+  'S3.LOGIC.04': { moduleCode: 'M04', lessonSlug: 'rostlik-jadvali-va-mantiqiy-sxema' },
+  'S6.NET.03': { moduleCode: 'M12', lessonSlug: 'ip-manzil-va-tarmoq-maskasi' },
+}
+
 interface MaterializedOption {
   localId: string
   id: string
@@ -50,6 +64,20 @@ interface MaterializedQuestion {
 
 function sqlText(value: string): string {
   return `'${value.replaceAll("'", "''")}'`
+}
+
+function sourceLessonSql(constructCode: string): string {
+  const source = EXACT_SOURCE_LESSON_BY_CONSTRUCT[constructCode]
+  if (!source) return 'null'
+
+  return `(
+    select l.id
+    from public.lessons l
+    join public.modules m on m.id = l.module_id
+    where m.code = ${sqlText(source.moduleCode)}
+      and l.slug = ${sqlText(source.lessonSlug)}
+      and l.status = 'published'::public.content_status
+  )`
 }
 
 function uuidBytes(uuid: string): Buffer {
@@ -180,7 +208,7 @@ function questionSql(item: MaterializedQuestion): string {
   const q = item.source
   return `insert into public.questions (
   id, subject_id, construct_id, group_code, format, cognitive, difficulty,
-  stem_md, assets, is_generated, status, source_reference
+  stem_md, assets, is_generated, status, source_reference, source_lesson_id
 )
 values (
   ${sqlText(item.questionId)},
@@ -194,7 +222,8 @@ values (
   '[]'::jsonb,
   true,
   'published'::public.content_status,
-  ${sqlText(item.sourceReference)}
+  ${sqlText(item.sourceReference)},
+  ${sourceLessonSql(q.constructCode)}
 )
 on conflict (id) do nothing;`
 }
