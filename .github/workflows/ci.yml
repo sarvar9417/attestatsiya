@@ -244,6 +244,14 @@ jobs:
             -f supabase/maintenance/20261013_pedagogy_pdf_exhaustive_review.sql \
             -f supabase/tests/pedagogy_pdf_exhaustive_review.test.sql
 
+      - name: General pedagogy attestation candidate bucket
+        run: |
+          psql -X -v ON_ERROR_STOP=1 -d attestatsiya_test \
+            -f supabase/tests/general_pedagogy_attestation_bucket_fixture.sql \
+            -f supabase/migrations/20261013170000_general_pedagogy_attestation_bucket.sql \
+            -f supabase/migrations/20261013170000_general_pedagogy_attestation_bucket.sql \
+            -f supabase/tests/general_pedagogy_attestation_bucket.test.sql
+
       - name: Generate and verify parametric DB pool
         run: |
           npm run content:generated:sql
