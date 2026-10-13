@@ -34,7 +34,7 @@ update public.pedagogy_pdf_source_candidates c
          from unnest(c.source_quality_flags || array['near_duplicate_review']) x
        ),
        review_notes=case
-         when c.review_notes='' then format('Near-duplicate review candidate; normalized bigram similarity %.3f.',p.similarity)
+         when c.review_notes='' then 'Near-duplicate review candidate; normalized bigram similarity ' || round(p.similarity,3)::text || '.'
          when c.review_notes not like '%Near-duplicate review candidate%'
            then c.review_notes || E'\n' || format('Near-duplicate review candidate; normalized bigram similarity %.3f.',p.similarity)
          else c.review_notes
