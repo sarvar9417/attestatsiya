@@ -125,3 +125,28 @@ Production holati shu bosqichdan keyin: **1645 published (o‘zgarmagan), 186 re
 
 Keyingi editorial ish: medium/ambiguous/low candidate-larni semantik guruhlash va source bilan tekshirish; review bankni inson editorial tasdig‘isiz publish qilmaslik.
 
+## 9. Review wave 2 — 2026-10-13
+
+Keyingi editorial wave productionda fail-closed tartibda bajarildi.
+
+### Source candidate verification
+- **13 ta yangi candidate** canonical M14/M15/M16 nazariyasi bilan individual tekshirildi.
+- Oldingi v1 provenance bilan birga hozir **25 ta candidate** `answer_key_status = independently_verified`, `editorial_status = verified` va review-question provenance linkiga ega.
+- `mapped_construct_id` soni **186** ga yetdi.
+- **2 ta source conflict** o‘zgarishsiz quarantine holatda qoldi.
+- exact duplicate = **27**, near-duplicate review = **22**.
+
+Verification faqat raw manbadagi javob canonical nazariya bilan aniq mos kelganda beriladi. Medium/ambiguous signalning o‘zi verification hisoblanmaydi.
+
+### Original review bank v2
+Yana **18 ta original review-only savol** yaratildi:
+- **9 ta Y2 matching**;
+- **9 ta Y3 ordering**;
+- 18 rasmiy KS/PM constructining **har biriga bittadan**;
+- source lesson/construct mismatch = **0**;
+- published = **0**.
+
+v1 + v2 bo‘yicha PDF-korpusdan kelib chiqqan original review savollar jami **54 ta** bo‘ldi. Production umumiy holati: **1645 published, 204 review, 5 archived**; published integrity issue = **0**.
+
+Raw tarixiy savol va javoblar learnerga ochilmagan. Review bank historical wordingni ko‘chirmaydi; source candidate mavzu/provenance signali, canonical nazariya esa javob va izoh uchun release contract sifatida ishlatiladi.
+
