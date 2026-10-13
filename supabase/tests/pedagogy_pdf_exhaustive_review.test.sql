@@ -17,8 +17,8 @@ begin
       and editorial_status='verified'
       and answer_key_status='independently_verified'
       and mapped_construct_id is not null
-  )<>2 then
-    raise exception 'expected two canonically verified exhaustive-review fixtures';
+  )<>3 then
+    raise exception 'expected three canonically verified exhaustive-review fixtures';
   end if;
 
   if (
@@ -26,8 +26,8 @@ begin
     from public.pedagogy_pdf_source_candidates
     where source_file_name='exhaustive-review-fixture.pdf'
       and editorial_status='rejected'
-  )<>7 then
-    raise exception 'expected seven rejected/quarantined exhaustive-review fixtures';
+  )<>6 then
+    raise exception 'expected six rejected/quarantined exhaustive-review fixtures';
   end if;
 
   if not exists(
