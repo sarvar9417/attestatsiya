@@ -72,10 +72,15 @@ join _ped_exhaustive_rule r
  );
 
 create temporary table _ped_exhaustive_safe on commit drop as
-select id,min(construct_code) as construct_code
-from _ped_exhaustive_hit
-group by id
-having count(distinct construct_code)=1;
+select h.id,min(h.construct_code) as construct_code
+from _ped_exhaustive_hit h
+join public.pedagogy_pdf_source_candidates p on p.id=h.id
+where p.answer_key_status<>'conflict'
+  and p.duplicate_of_candidate_id is null
+  and p.near_duplicate_of_candidate_id is null
+  and not (p.source_quality_flags @> array['answer_parse_bleed'])
+group by h.id
+having count(distinct h.construct_code)=1;
 
 do $guard$
 begin
@@ -87,17 +92,6 @@ begin
     where c.id is null
   ) then
     raise exception 'exhaustive review rule points to missing/inactive construct';
-  end if;
-
-  -- A candidate with a known source conflict, duplicate link or parser bleed may never
-  -- be promoted merely because a text rule also happens to match.
-  if exists(
-    select 1
-    from _ped_exhaustive_safe s
-    join public.pedagogy_pdf_source_candidates p on p.id=s.id
-    where p.answer_key_status='conflict'
-  ) then
-    raise exception 'conflict candidate reached safe verification set';
   end if;
 end
 $guard$;
