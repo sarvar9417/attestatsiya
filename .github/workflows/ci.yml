@@ -208,6 +208,7 @@ jobs:
             -f supabase/tests/pedagogy_theory_corpus_expand.test.sql \
             -f supabase/tests/pedagogy_theory_corpus_complete.test.sql \
             -f supabase/tests/pedagogy_pdf_private_candidate_inbox.test.sql \
+            -f supabase/tests/pedagogy_pdf_candidate_triage.test.sql \
             -f supabase/tests/source_backed_lesson_coverage.test.sql \
             -f supabase/tests/task063_format_bank_reconcile.test.sql \
             -f supabase/tests/spec_zero_construct_review_bank.test.sql \
