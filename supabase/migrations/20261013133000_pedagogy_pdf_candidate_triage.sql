@@ -13,7 +13,7 @@ alter table public.pedagogy_pdf_source_candidates
     check(length(verification_basis)<=4000),
   add column if not exists source_quality_flags text[] not null default '{}'::text[];
 
-do $
+do $triage_constraints$
 begin
   if not exists (
     select 1 from pg_constraint
@@ -35,7 +35,7 @@ begin
       check(near_duplicate_of_candidate_id is null or near_duplicate_of_candidate_id<>id);
   end if;
 end
-$;
+$triage_constraints$;
 
 create index if not exists idx_pedagogy_pdf_candidate_mapped_construct
   on public.pedagogy_pdf_source_candidates(mapped_construct_id, mapping_confidence);
