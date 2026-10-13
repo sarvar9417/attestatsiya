@@ -224,6 +224,7 @@ jobs:
             -f supabase/tests/pedagogy_pdf_candidate_triage_fixture.sql \
             -f supabase/maintenance/20261013_pedagogy_pdf_candidate_triage.sql \
             -f supabase/maintenance/20261013_pedagogy_pdf_candidate_triage.sql \
+            -f supabase/maintenance/20261013_pedagogy_pdf_near_duplicate_review.sql \
             -f supabase/tests/pedagogy_pdf_candidate_triage_rules.test.sql
 
       - name: Generate and verify parametric DB pool
