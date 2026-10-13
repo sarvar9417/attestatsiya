@@ -39,13 +39,8 @@ begin
        set duplicate_of_candidate_id=v_id
      where id=v_id;
     raise exception 'self duplicate reference unexpectedly allowed';
-  exception when others then
-    if sqlerrm not like '%PEDAGOGY_PDF self duplicate reference detected%' then
-      -- migration guard is not row-level, so restore; the operational pipeline also checks this.
-      update public.pedagogy_pdf_source_candidates
-         set duplicate_of_candidate_id=null
-       where id=v_id;
-    end if;
+  exception when check_violation then
+    null;
   end;
 
   delete from public.pedagogy_pdf_source_candidates where id=v_id;
