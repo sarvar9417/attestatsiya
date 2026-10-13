@@ -328,6 +328,90 @@ update public.pedagogy_pdf_source_candidates c
  where c.id=classified.id
    and c.editorial_status='needs_review';
 
+-- 4) Hard-safe mapping gate.
+-- Weighted scoring proposes topics, but mapped_construct_id is only retained when
+-- the source wording/answer contains a uniquely identifying construct signal.
+with src as (
+  select c.id,
+         lower(coalesce(c.raw_question_private,'')) q,
+         lower(coalesce(c.raw_answer_private,'')) a,
+         c.answer_key_status
+  from public.pedagogy_pdf_source_candidates c
+),
+title_hits as (
+  select s.*,
+         ((q ~* 'o.?quv jarayonini rejalashtirish')::int
+         +(q ~* 'ta.?lim samaradorligini ta.?minlash')::int
+         +(q ~* 'o.?zlashtirishni baholash.*qayta aloqa')::int
+         +(q ~* 'tarbiyaviy faoliyatni tashkil')::int
+         +(q ~* 'xavfsiz.*rivojlantiruvchi.*muhit')::int
+         +(q ~* 'o.?z.?o.?zini rivojlantirish.*kasbiy o.?sish')::int
+         +(q ~* 'hamkasb.*ota.?ona.*hamkorlik')::int) as ks_title_count
+  from src s
+),
+safe as (
+  select t.id,
+         case
+           when t.answer_key_status='conflict' then null
+           when a ~* 'o.?quv jarayonini rejalashtirish' then 'KS.01'
+           when a ~* 'ta.?lim samaradorligini ta.?minlash' then 'KS.02'
+           when a ~* 'o.?zlashtirishni baholash.*qayta aloqa' then 'KS.03'
+           when a ~* 'tarbiyaviy faoliyatni tashkil' then 'KS.04'
+           when a ~* 'xavfsiz.*rivojlantiruvchi.*muhit' then 'KS.05'
+           when a ~* 'o.?z.?o.?zini rivojlantirish.*kasbiy o.?sish' then 'KS.06'
+           when a ~* 'hamkasb.*ota.?ona.*hamkorlik' then 'KS.07'
+           when ks_title_count=1 and q ~* 'o.?quv jarayonini rejalashtirish' then 'KS.01'
+           when ks_title_count=1 and q ~* 'ta.?lim samaradorligini ta.?minlash' then 'KS.02'
+           when ks_title_count=1 and q ~* 'o.?zlashtirishni baholash.*qayta aloqa' then 'KS.03'
+           when ks_title_count=1 and q ~* 'tarbiyaviy faoliyatni tashkil' then 'KS.04'
+           when ks_title_count=1 and q ~* 'xavfsiz.*rivojlantiruvchi.*muhit' then 'KS.05'
+           when ks_title_count=1 and q ~* 'o.?z.?o.?zini rivojlantirish.*kasbiy o.?sish' then 'KS.06'
+           when ks_title_count=1 and q ~* 'hamkasb.*ota.?ona.*hamkorlik' then 'KS.07'
+           when a ~* 'ota.?onalar(ini)? .*ta.?lim jarayoniga jalb' then 'KS.07'
+           when a ~* '(aralash|ekskursiya|konferensiya|sinov|tekshiruv|mustahkamlash).*dars'
+             or a ~* '(avtoritar|demokratik|liberal)( uslub)?
+   set mapping_confidence='low',
+       suggested_constructs='{}'::text[],
+       mapped_construct_id=null
+ where c.editorial_status='needs_review'
+   and not exists(select 1 from _ped_score s where s.id=c.id)
+   and c.mapping_confidence='untriaged';
+
+commit;
+ then 'PM.GEN.04'
+           when a ~* 'pedagogik (etika|takt|texnika|nazokat)' then 'PM.GEN.06'
+           when a ~* '(akademik|didaktik|kommunikativ|perseptiv|empatik|tashkilotchilik|konstruktiv|kinestetik|avtoritar).*qob' then 'PM.GEN.07'
+           when a ~* '(estetik|aqliy|axloqiy|jismoniy|ekologik|huquqiy|iqtisodiy|fuqarolik|gigiyenik).*tarbiya' then 'PM.GEN.03'
+           when a ~* '(onglilik.*faollik|ko.?rgazmalilik|tizimlilik|ilmiylik|tushunarlilik|nazariya.*amaliyot).*tamoyil' then 'PM.GEN.02'
+           when a ~* '(gumanistik|noinstitutsional|ratsionalistik).*paradigma'
+             or a ~* '(didaktik|psixologik|metodologik) tahlil'
+             or a ~* '(pedagogik kuzatish|anketa|intervyu|test|pedagogik tajriba|matematik.?statistik) metodi?' then 'PM.GEN.01'
+           when a ~* '(muammoli|interfaol|modulli|integratsion|masofaviy|evristik).*ta.?lim'
+             or a ~* 'loyiha.*ta.?lim' then 'PM.GEN.08'
+           when a ~* '(bosh g.?oyani ajratish|amaliy metod|muammoli bayon|suhbat metodi|evristik metod|sintetik usul|analitik usul)' then 'PM.MET.02'
+           when q ~* 'sinf rahbar' and q ~* '(vazifa|majburiyat|yordamchi shakl)' then 'PM.GEN.05'
+           else null
+         end safe_code
+  from title_hits t
+)
+update public.pedagogy_pdf_source_candidates c
+   set mapped_construct_id=case when s.safe_code is null then null else (
+         select id from public.constructs where code=s.safe_code and is_active limit 1
+       ) end,
+       mapping_confidence=case
+         when s.safe_code is not null then 'high'
+         when c.mapping_confidence='high' then 'medium'
+         else c.mapping_confidence
+       end,
+       verification_basis=case
+         when s.safe_code is not null then
+           'Hard-safe construct mapping from explicit source wording/answer; historical answer key is still not independently verified.'
+         else c.verification_basis
+       end
+  from safe s
+ where c.id=s.id
+   and c.editorial_status='needs_review';
+
 -- Any still-unscored record remains explicitly low/unmapped, not silently assigned.
 update public.pedagogy_pdf_source_candidates c
    set mapping_confidence='low',
