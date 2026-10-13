@@ -1,0 +1,85 @@
+# Pedagogika PDF korpusi auditi — 2026-10-13
+
+**Status:** faol import/review ishlari. Ushbu hujjat foydalanuvchi taqdim etgan pedagogik mahorat, kasb standarti va diagnostika PDFlarini platformadagi M14/M15/M16 nazariya hamda savol bankiga xavfsiz aylantirish uchun inventar hisobidir.
+
+## 1. Rasmiy release kontrakti
+
+2026 Informatika attestatsiya spetsifikatsiyasi platforma uchun ustuvor kontrakt bo‘lib qoladi:
+
+- jami 50 test, 120 daqiqa;
+- 35 ta fan, 5 ta kasb standarti, 10 ta pedagogik mahorat;
+- pedagogik qismda 5 KS + 7 umumiy pedagogika + 3 informatika o‘qitish metodikasi sloti;
+- Y1/Y2/Y3 formatlari;
+- test topshiriqlari tavsiya etilgan manbalardagi tamoyil va yondashuvlarga mos bo‘lishi, ammo manba matnini mexanik nusxalamasligi kerak.
+
+Tarixiy “tushgan testlar” to‘plami rasmiy spetsifikatsiyani almashtirmaydi. Ular mavzu chastotasi, savol vaziyati va terminologiya signali sifatida ishlatiladi; javob kaliti birlamchi nazariy manba bilan moslashtirilmaguncha mustaqil haqiqat deb qabul qilinmaydi.
+
+## 2. Savol korpusi inventari
+
+| Fayl | Sahifa | Kuzatilgan yuqori raqam / hajm | Holat |
+|---|---:|---:|---|
+| Attestatsiya to'plam ped mahorat @PedMahoratGuli.pdf | 81 | 345 gacha | 2024 bahorgi tarixiy savollar + nazariya ilovalari |
+| Pedagogik mahorat to'plam 2025.pdf | 43 | 200 gacha | 2025 bahorgi tarixiy savollar + nazariya ilovalari |
+| Pedmahorat to'plam 2025 kuzgi.pdf | 23 | 49 gacha | 2025 kuzgi tarixiy savollar + qobiliyat nazariyasi |
+| PedKasb tushgan testlar PedMahoratGuli (1) (1) (1).pdf | 40 | 192 gacha | 2026 bahorgi tarixiy savollar |
+| Pedagogika testi 3.pdf | 5 | 15 | amaliy/diagnostik savollar |
+| Pedmahorat 4.pdf | 7 | 15 | amaliy/diagnostik savollar |
+| pedagogika6.pdf | 6 | 15 | amaliy/diagnostik savollar |
+| diagnostika.pdf | 6 | 15 | amaliy/diagnostik savollar |
+
+Nominal raqamlangan slotlar yig‘indisi **taxminan 846**. Bu **846 ta noyob va tekshirilgan savol degani emas**: yillar orasida takrorlar, qayta ifodalangan savollar, bir savol ichidagi raqamlangan bandlar va ayrim raqamlash/OCR anomaliyalari mavjud. Yakuniy unique bank soni deduplikatsiya va editorial tekshiruvdan keyin chiqadi.
+
+## 3. Nazariya uchun asosiy manbalar
+
+### Pedagogning kasbiy standarti - qollanma.pdf — 13 sahifa
+Kasbiy standartning 7 doirasini to‘liq qamrab oladi:
+1. O‘quv jarayonini rejalashtirish.
+2. Ta’lim samaradorligini ta’minlash.
+3. O‘zlashtirishni baholash va qayta aloqani taqdim etish.
+4. Tarbiyaviy faoliyatni tashkil etish.
+5. Xavfsiz rivojlantiruvchi ta’lim muhitini yaratish va ta’minlash.
+6. O‘z-o‘zini rivojlantirish va kasbiy o‘sish.
+7. Hamkasblar va ota-onalar bilan hamkorlik.
+
+Har bir sohada mehnat vazifalari, zarur ko‘nikmalar va zarur bilimlar platformadagi M14 nazariyasiga source-grounded tarzda kiritiladi.
+
+### Xoliqov Pedagogik mahorat.pdf — 28 sahifa
+Korpus pedagogik mahoratning mohiyati, komponentlari, kasbiy tayyorgarlik, pedagogik qobiliyatlar, ijodkorlik, muloqot madaniyati, sinfni boshqarish uslublari, pedagogik nazokat, pedagogik texnika, mimika/pantomimika va nutq xususiyatlarini qamrab oladi. M15 nazariyasining asosiy manbalaridan biri.
+
+### Tarixiy to‘plamlardagi nazariya ilovalari
+2024–2025 to‘plamlarning oxirgi qismlarida pedagogik tadqiqot metodlari, DTS tarkibi, pedagogik texnologiya darajalari, pedagogik qobiliyatlar va boshqa terminologik jadvallar mavjud. Ular tegishli canonical darslarga manba izi bilan qo‘shiladi.
+
+## 4. Importdan chiqarilgan materiallar
+
+- **pdf_6aa7467ea6c64_2026-09-14_00-57-34.pdf** — test natijalari jadvali; savol/nazariya korpusiga kiritilmaydi va undagi shaxsiy natijalar savol bankiga ko‘chirilmaydi.
+- **Xodiyev Academy Turbo Marafon- 2026.pdf** — asosan marketing va marafon tashkiliy materiali. Faqat spetsifikatsiya yoki o‘qish jarayoniga oid mazmunli pedagogik konsept bo‘lsa signal sifatida ishlatiladi; reklama matni import qilinmaydi.
+
+## 5. Savol bankiga aylantirish qoidasi
+
+Har bir tarixiy yoki diagnostik savol quyidagi bosqichlardan o‘tadi:
+
+1. source file + sahifa/raqam identifikatsiyasi;
+2. normallashtirish va dublikat/rephrase aniqlash;
+3. official construct (KS / PM.GEN / PM.MET) bilan mapping;
+4. historical answer markerini birlamchi nazariya bilan tekshirish;
+5. qarama-qarshi yoki terminologik noaniq javobni **review/quarantine**da qoldirish;
+6. original, copyright-safe learner wordingini yaratish;
+7. 4 variant/format invariantlari, server-side key va explanation;
+8. source_lesson va source_reference;
+9. editorial review;
+10. shundan keyingina publish.
+
+Masalan, 2026 tarixiy to‘plamda “talab qilinayotgan kattalikdan boshlab berilgan kattaliklarga tomon borish” uchun “sintetik usul” javobi berilgan. Bu atama mustaqil manba bilan tasdiqlanmaguncha platformada avtomatik canonical kalitga aylantirilmaydi.
+
+## 6. Hozirgi bajarilgan ish
+
+- 84 ta mustaqil yozilgan, PedGuli mavzu signallaridan kelib chiqqan savol productionda **review** holatida.
+- M14 dagi barcha 7 canonical kasb-standarti darsi to‘liq manba asosida kengaytirildi.
+- M15 pedagogik mahorat darslarining asosiy qismi Xoliqov va yuklangan attestatsiya nazariyasi bilan kengaytirildi.
+- 10 ta bo‘sh, ishlatilmaydigan M14/M15 legacy dars learner-visible holatdan chiqarilib archived qilindi.
+- Published savollar integrity: missing key = 0, missing source reference = 0, missing source lesson = 0, construct/source lesson mismatch = 0.
+- Keyingi bosqich: M15ning qolgan nazariy qamrovini va M16 metodika nazariyasini yakunlash, so‘ng ~846 nominal tarixiy/diagnostik slotni deduplikatsiya va editorial review pipeline orqali qayta ishlash.
+
+## 7. Muhim cheklov
+
+“Tarixiy test to‘plamida javob yozilgan” = “rasmiy tekshirilgan kalit” emas. Platforma manbaga zid yoki tekshirilmagan javobni faqat tezroq bankni kattalashtirish uchun publish qilmaydi. Maqsad son emas, spetsifikatsiya bo‘yicha **to‘liq qamrov + to‘g‘ri manba + ishonchli kalit**.
