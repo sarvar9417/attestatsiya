@@ -55,10 +55,10 @@ begin
     raise exception 'parametric_construct_count_invalid';
   end if;
 end
-$;
+$$;
 
 -- Har bir generated construct aniq canonical source lesson'ga bog'langan.
-do $
+do $$
 begin
   if exists (
     with expected(construct_code,module_code,lesson_slug) as (
@@ -95,7 +95,7 @@ begin
     raise exception 'parametric_source_lesson_mapping_invalid';
   end if;
 end
-$;
+$$;
 
 -- Har savol formati uchun option soni generator kontraktiga mos.
 do $$
