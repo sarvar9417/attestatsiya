@@ -150,3 +150,43 @@ v1 + v2 bo‘yicha PDF-korpusdan kelib chiqqan original review savollar jami **5
 
 Raw tarixiy savol va javoblar learnerga ochilmagan. Review bank historical wordingni ko‘chirmaydi; source candidate mavzu/provenance signali, canonical nazariya esa javob va izoh uchun release contract sifatida ishlatiladi.
 
+## 10. Exhaustive 624-candidate editorial disposition — 2026-10-13
+
+Foydalanuvchi ko‘rsatmasiga binoan qolgan **624 ta `needs_review` candidate** to‘liq yakuniy dispositiondan o‘tkazildi. Raw source qatorlari o‘chirilmagan; har biri private provenance sifatida bazada saqlanadi.
+
+### Yakuniy natija
+- oldindan verified: **25**
+- ushbu exhaustive wave’da canonical M14/M15/M16 nazariyasi bilan qoida asosida mustaqil tekshirilgan: **170**
+- jami verified source candidate: **195**
+- rejected/quarantine: **454**
+- qolgan `needs_review`: **0**
+- jami private candidate: **649**
+- mapped construct mavjud: **265**
+
+### 454 rejected/quarantine tarkibi
+Bu qatorlar **o‘chirilmagan** va “foydasiz” deb hisoblanmaydi. Ular learner savoliga avtomatik aylantirish xavfsiz bo‘lmagani uchun yakuniy review disposition oldi:
+
+- no safe official construct mapping: **335**
+- historical answer canonical nazariya bilan mustaqil tasdiqlanmadi: **29**
+- parser bleed / non-atomic extraction: **39**
+- exact duplicate provenance: **27**
+- near-duplicate provenance: **22**
+- known source-answer/terminology conflict: **2**
+
+Bu kategoriyalar jami **454**. Parser-bleed umumiy flagi 42 qatorda mavjud, lekin 3 qator yuqoriroq ustuvor duplicate/conflict dispositioniga tushgani sabab alohida parse-reject soni 39.
+
+### Verified gate
+`verified` status faqat quyidagi shartlarda berildi:
+1. source answer marker canonical nazariyadagi aniq tushuncha bilan mos;
+2. bitta active official KS/PM constructga bir ma’noli mapping bor;
+3. conflict yo‘q;
+4. exact/near duplicate emas;
+5. parser bleed yo‘q.
+
+Verified qatorlarda duplicate = 0, near-duplicate = 0, parser-bleed = 0, conflict = 0, unmapped = 0, unverified answer = 0.
+
+### Learner-bank holati
+Exhaustive source review learner savollarini avtomatik publish qilmaydi. Savollar soni o‘zgarmadi: **1645 published, 204 review, 5 archived**; published integrity issue = **0**.
+
+Shu bilan private PDF candidate inboxda **`needs_review = 0`** ga erishildi. Keyingi savol-bank kengayishi faqat verified source signal + canonical lesson asosida original wording bilan bajariladi; rejected/quarantine qatorlaridan tasdiqlanmagan key olinmaydi.
+
