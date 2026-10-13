@@ -217,6 +217,14 @@ jobs:
             -f supabase/tests/canonical_lesson_drift_reconcile.test.sql \
             -f supabase/tests/m01_exact_source_lesson_reconcile.test.sql
 
+      - name: Pedagogy PDF candidate triage rules
+        run: |
+          psql -X -v ON_ERROR_STOP=1 -d attestatsiya_test \
+            -f supabase/tests/pedagogy_pdf_candidate_triage_fixture.sql \
+            -f supabase/maintenance/20261013_pedagogy_pdf_candidate_triage.sql \
+            -f supabase/maintenance/20261013_pedagogy_pdf_candidate_triage.sql \
+            -f supabase/tests/pedagogy_pdf_candidate_triage_rules.test.sql
+
       - name: Generate and verify parametric DB pool
         run: |
           npm run content:generated:sql
