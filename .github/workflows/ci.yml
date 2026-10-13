@@ -227,6 +227,14 @@ jobs:
             -f supabase/maintenance/20261013_pedagogy_pdf_near_duplicate_review.sql \
             -f supabase/tests/pedagogy_pdf_candidate_triage_rules.test.sql
 
+      - name: Pedagogy PDF wave 2 verification
+        run: |
+          psql -X -v ON_ERROR_STOP=1 -d attestatsiya_test \
+            -f supabase/tests/pedagogy_pdf_wave2_verify_fixture.sql \
+            -f supabase/maintenance/20261013_pedagogy_pdf_wave2_verify.sql \
+            -f supabase/maintenance/20261013_pedagogy_pdf_wave2_verify.sql \
+            -f supabase/tests/pedagogy_pdf_wave2_verify.test.sql
+
       - name: Generate and verify parametric DB pool
         run: |
           npm run content:generated:sql
