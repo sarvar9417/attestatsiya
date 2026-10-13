@@ -78,7 +78,12 @@ Masalan, 2026 tarixiy to‘plamda “talab qilinayotgan kattalikdan boshlab beri
 - M15 pedagogik mahorat darslarining asosiy qismi Xoliqov va yuklangan attestatsiya nazariyasi bilan kengaytirildi.
 - 10 ta bo‘sh, ishlatilmaydigan M14/M15 legacy dars learner-visible holatdan chiqarilib archived qilindi.
 - Published savollar integrity: missing key = 0, missing source reference = 0, missing source lesson = 0, construct/source lesson mismatch = 0.
-- Keyingi bosqich: M15ning qolgan nazariy qamrovini va M16 metodika nazariyasini yakunlash, so‘ng ~846 nominal tarixiy/diagnostik slotni deduplikatsiya va editorial review pipeline orqali qayta ishlash.
+- M15ning qolgan nazariy qamrovi va barcha 3 ta M16 metodika darsi ham source-grounded nazariya bilan kengaytirildi.
+- Productionda service-role-only `pedagogy_pdf_source_candidates` inbox yaratildi; raw tarixiy matn learner APIga ochilmaydi.
+- Hozir private inboxga **649 ta yuqori/o‘rta ishonchli ajratilgan source candidate** kiritildi: 2024 bahor 273, 2025 bahor 150, 2025 kuz 36, 2026 bahor 190.
+- 649 qatorda **622 ta exact-text fingerprint** bor; 26 ta exact dublikat guruhida jami 53 qator qatnashadi. Bu faqat aynan bir xil matnni ushlaydi; rephrase dublikatlar keyingi semantik reviewda ajratiladi.
+- 2026 faylida numbering bo‘yicha 122 va 143 yo‘q: manbada 121 dan 123 ga, 142 dan 144 ga o‘tadi. Shu sabab bu ikkisi “parser yo‘qotgan savol” deb avtomatik to‘ldirilmaydi.
+- Qolgan nominal slotlar avtomatik ravishda “yetishmayotgan savol” deb hisoblanmaydi: ayrim PDFlarda raqamlash sakrashi, bir savol ichidagi raqamlangan bandlar, nazariya jadvallari va layout/parsing anomaliyalari bor. Ular manual/semantic parsing navbatida.
 
 ## 7. Muhim cheklov
 
