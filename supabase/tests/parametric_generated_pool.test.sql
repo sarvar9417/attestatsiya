@@ -55,7 +55,47 @@ begin
     raise exception 'parametric_construct_count_invalid';
   end if;
 end
-$$;
+$;
+
+-- Har bir generated construct aniq canonical source lesson'ga bog'langan.
+do $
+begin
+  if exists (
+    with expected(construct_code,module_code,lesson_slug) as (
+      values
+        ('S1.INFO.04','M01','m01-05'),
+        ('S1.INFO.05','M01','m01-07'),
+        ('S1.INFO.06','M01','axborot-uzatish-tezligi'),
+        ('S3.NUM.01','M05','sanoq-sistemalari-asoslari'),
+        ('S3.NUM.02','M05','sanoq-sistemalari-otkazish'),
+        ('S3.NUM.03','M05','sanoq-sistemalari-arifmetika'),
+        ('S3.LOGIC.02','M04','mantiqiy-amallar'),
+        ('S3.LOGIC.04','M04','rostlik-jadvali-va-mantiqiy-sxema'),
+        ('S6.NET.03','M12','ip-manzil-va-tarmoq-maskasi')
+    )
+    select 1
+    from public.questions q
+    join public.constructs c on c.id=q.construct_id
+    join expected e on e.construct_code=c.code
+    left join public.modules m on m.code=e.module_code
+    left join public.lessons l
+      on l.module_id=m.id
+     and l.slug=e.lesson_slug
+     and l.status='published'::public.content_status
+    left join public.lesson_constructs lc
+      on lc.lesson_id=l.id
+     and lc.construct_id=c.id
+    where q.source_reference like 'generated:%'
+      and (
+        l.id is null
+        or lc.lesson_id is null
+        or q.source_lesson_id is distinct from l.id
+      )
+  ) then
+    raise exception 'parametric_source_lesson_mapping_invalid';
+  end if;
+end
+$;
 
 -- Har savol formati uchun option soni generator kontraktiga mos.
 do $$
