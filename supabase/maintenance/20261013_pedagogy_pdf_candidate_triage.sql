@@ -369,16 +369,7 @@ safe as (
            when ks_title_count=1 and q ~* 'hamkasb.*ota.?ona.*hamkorlik' then 'KS.07'
            when a ~* 'ota.?onalar(ini)? .*ta.?lim jarayoniga jalb' then 'KS.07'
            when a ~* '(aralash|ekskursiya|konferensiya|sinov|tekshiruv|mustahkamlash).*dars'
-             or a ~* '(avtoritar|demokratik|liberal)( uslub)?
-   set mapping_confidence='low',
-       suggested_constructs='{}'::text[],
-       mapped_construct_id=null
- where c.editorial_status='needs_review'
-   and not exists(select 1 from _ped_score s where s.id=c.id)
-   and c.mapping_confidence='untriaged';
-
-commit;
- then 'PM.GEN.04'
+             or a ~* '^(avtoritar|demokratik|liberal)( uslub)?' then 'PM.GEN.04'
            when a ~* 'pedagogik (etika|takt|texnika|nazokat)' then 'PM.GEN.06'
            when a ~* '(akademik|didaktik|kommunikativ|perseptiv|empatik|tashkilotchilik|konstruktiv|kinestetik|avtoritar).*qob' then 'PM.GEN.07'
            when a ~* '(estetik|aqliy|axloqiy|jismoniy|ekologik|huquqiy|iqtisodiy|fuqarolik|gigiyenik).*tarbiya' then 'PM.GEN.03'
