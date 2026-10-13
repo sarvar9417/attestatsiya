@@ -190,3 +190,23 @@ Exhaustive source review learner savollarini avtomatik publish qilmaydi. Savolla
 
 Shu bilan private PDF candidate inboxda **`needs_review = 0`** ga erishildi. Keyingi savol-bank kengayishi faqat verified source signal + canonical lesson asosida original wording bilan bajariladi; rejected/quarantine qatorlaridan tasdiqlanmagan key olinmaydi.
 
+## 11. General pedagogy attestation bucket — 2026-10-13
+
+Foydalanuvchi ko‘rsatmasiga binoan oldin faqat “single official construct topilmadi” sababi bilan quarantine qilingan **335 ta source candidate** pedagogik attestatsiya materiali sifatida qayta tasniflanadi.
+
+Muhim ajratish:
+- bu 335 qator **mavzudan tashqari** deb hisoblanmaydi;
+- ular real attestatsiyada uchrashi mumkin bo‘lgan umumiy, chalg‘ituvchi, tarixiy, terminologik yoki cross-construct pedagogik savollar korpusi sifatida saqlanadi;
+- official KS/PM construct sun’iy ravishda o‘ylab topilmaydi;
+- historical answer marker avtomatik verified qilinmaydi;
+- learner savol avtomatik publish qilinmaydi.
+
+Texnik holat:
+- `editorial_status = accepted_general`;
+- `attestation_bucket = general_pedagogy`;
+- `mapped_construct_id = NULL`;
+- `answer_key_status = source_marker_unverified`;
+- `general_pedagogy_attestation` quality flag.
+
+Bu yondashuv rasmiy constructlar statistikasi va exam-generation contractini buzmasdan, real attestatsiya uslubidagi umumiy pedagogik materialni bankdan chiqarib yubormaslikka imkon beradi.
+
