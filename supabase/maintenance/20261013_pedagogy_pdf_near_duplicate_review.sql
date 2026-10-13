@@ -36,7 +36,7 @@ update public.pedagogy_pdf_source_candidates c
        review_notes=case
          when c.review_notes='' then 'Near-duplicate review candidate; normalized bigram similarity ' || round(p.similarity,3)::text || '.'
          when c.review_notes not like '%Near-duplicate review candidate%'
-           then c.review_notes || E'\n' || format('Near-duplicate review candidate; normalized bigram similarity %.3f.',p.similarity)
+           then c.review_notes || E'\n' || 'Near-duplicate review candidate; normalized bigram similarity ' || round(p.similarity,3)::text || '.'
          else c.review_notes
        end
   from pairs p
