@@ -27,6 +27,20 @@ alter table public.pedagogy_pdf_source_candidates
   add constraint pedagogy_pdf_source_candidates_editorial_status_check
   check(editorial_status in ('needs_review','verified','accepted_general','rejected'));
 
+-- Snapshot exactly the rows eligible for general-pedagogy acceptance in this run.
+create temporary table _general_pedagogy_target(id uuid primary key) on commit drop;
+
+insert into _general_pedagogy_target(id)
+select id
+from public.pedagogy_pdf_source_candidates
+where editorial_status='rejected'
+  and source_quality_flags @> array['editorial_reject_no_safe_mapping']
+  and answer_key_status='source_marker_unverified'
+  and duplicate_of_candidate_id is null
+  and near_duplicate_of_candidate_id is null
+  and not (source_quality_flags @> array['answer_parse_bleed'])
+  and not (source_quality_flags @> array['known_source_key_conflict']);
+
 -- Existing rows with a safe construct remain official-construct records.
 update public.pedagogy_pdf_source_candidates
    set attestation_bucket='official_construct'
@@ -60,13 +74,7 @@ update public.pedagogy_pdf_source_candidates
            then trim(both E'\n' from review_notes || E'\nFinal disposition revised by user instruction: ACCEPTED as general pedagogy attestation material. No single official construct is invented; historical answer remains unverified until separately checked.')
          else review_notes
        end
- where editorial_status='rejected'
-   and source_quality_flags @> array['editorial_reject_no_safe_mapping']
-   and answer_key_status='source_marker_unverified'
-   and duplicate_of_candidate_id is null
-   and near_duplicate_of_candidate_id is null
-   and not (source_quality_flags @> array['answer_parse_bleed'])
-   and not (source_quality_flags @> array['known_source_key_conflict']);
+ where id in (select id from _general_pedagogy_target);
 
 -- Other rejected/quarantined provenance rows remain quarantine.
 update public.pedagogy_pdf_source_candidates
@@ -76,15 +84,19 @@ update public.pedagogy_pdf_source_candidates
 
 do $assert$
 declare
+  v_target int;
   v_general int;
 begin
-  select count(*) into v_general
-  from public.pedagogy_pdf_source_candidates
-  where editorial_status='accepted_general'
-    and attestation_bucket='general_pedagogy';
+  select count(*) into v_target from _general_pedagogy_target;
 
-  if v_general<>335 then
-    raise exception 'expected 335 accepted general pedagogy candidates, found %',v_general;
+  select count(*) into v_general
+  from public.pedagogy_pdf_source_candidates p
+  join _general_pedagogy_target t on t.id=p.id
+  where p.editorial_status='accepted_general'
+    and p.attestation_bucket='general_pedagogy';
+
+  if v_general<>v_target then
+    raise exception 'general-pedagogy acceptance mismatch: target %, accepted %',v_target,v_general;
   end if;
 
   if exists(
