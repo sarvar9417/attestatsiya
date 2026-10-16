@@ -94,7 +94,7 @@ begin
     end if;
 
     if (select selection_meta->>'selector_version' from public.exams where id=v_exam)
-       <> 'professional-15-v2-objective-diverse' then raise exception 'missing audit selection meta'; end if;
+       <> 'professional-15-v3-diverse-random-ties' then raise exception 'missing audit selection meta'; end if;
   end loop;
 end
 $qa$;
