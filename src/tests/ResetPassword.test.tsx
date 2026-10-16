@@ -113,9 +113,6 @@ describe('ResetPassword sahifasi', () => {
       expect(updatePassword).toHaveBeenCalledWith('secret123', 'recovery-token')
     })
 
-    // useAuth muvaffaqiyatli recovery'da URL tokenini history.replaceState bilan
-    // tozalaydi. Shu paytda sessionStore rerender bersa ham forma token snapshoti
-    // sabab fallback ekranga tushmasligi kerak.
     window.history.replaceState(null, '', '/reset-password')
     view.rerender(
       <MemoryRouter initialEntries={['/reset-password']}>
@@ -165,4 +162,31 @@ describe('ResetPassword sahifasi', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Kirish sahifasiga o‘tish' }))
     expect(await screen.findByText('Kirish sahifasi')).toBeDefined()
   })
+  it('recovery havolasida hard refresh bo‘lsa ham forma va token saqlanadi', () => {
+    window.location.hash = '#access_token=recovery-opaque-token&refresh_token=opaque&type=recovery'
+    mockUseAuth.mockReturnValue({ session: null, updatePassword: vi.fn() })
+
+    const beforeRefresh = renderPage()
+    expect(screen.getByLabelText('Yangi parol')).toBeInTheDocument()
+    beforeRefresh.unmount()
+    // Browser reloads the document while keeping the recovery URL fragment.
+    renderPage()
+    expect(screen.getByLabelText('Yangi parol')).toBeInTheDocument()
+    expect(window.location.hash).toContain('type=recovery')
+  })
+
+  it('server recovery tokenni rad etsa, muvaffaqiyat haqida yolg‘on xabar chiqmaydi', async () => {
+    window.location.hash='#access_token=expired-recovery-token&type=recovery'
+    const updatePassword=vi.fn().mockResolvedValue({
+      data:null, error:new Error('Tiklash havolasi muddati tugagan')
+    })
+    mockUseAuth.mockReturnValue({session:null,updatePassword})
+    renderPage()
+    fireEvent.change(screen.getByLabelText('Yangi parol'),{target:{value:'NewStrong123!'}})
+    fireEvent.change(screen.getByLabelText('Parolni tasdiqlang'),{target:{value:'NewStrong123!'}})
+    fireEvent.submit(screen.getByLabelText('Yangi parol').closest('form')!)
+    expect(await screen.findByRole('alert')).toHaveTextContent('muddati tugagan')
+    expect(screen.queryByText('Parol yangilandi')).not.toBeInTheDocument()
+  })
+
 })
