@@ -45,6 +45,9 @@ jobs:
       - name: Unit tests
         run: npm run test
 
+      - name: Pedmahorat Guli offline curation safeguards
+        run: node --test scripts/tests/curate-pedguli-export.test.mjs scripts/tests/curate-pedguli-html.test.mjs scripts/tests/import-pedguli-candidates.test.mjs scripts/tests/import-pedguli-stage4.test.mjs
+
       - name: Parametric generated pool invariants
         run: npm run content:generated:check
 
@@ -195,6 +198,15 @@ jobs:
             -f supabase/tests/section_mock_50.test.sql \
             -f supabase/tests/official_mock_50.test.sql \
             -f supabase/tests/professional_practice_15.test.sql \
+            -f supabase/tests/pedguli_original_topic_bank.test.sql \
+            -f supabase/tests/pedguli_html_original_24.test.sql \
+            -f supabase/tests/pedguli_m16_scenarios_v4.test.sql \
+            -f supabase/tests/professional_120_canonical_links.test.sql \
+            -f supabase/tests/pedguli_editorial_fingerprint_gate.test.sql \
+            -f supabase/tests/pedguli_private_candidate_inbox.test.sql \
+            -f supabase/tests/pedguli_candidate_human_review.test.sql \
+            -f supabase/tests/pedguli_topic_suggestion_queue.test.sql \
+            -f supabase/tests/pedguli_stage4_private_triage.test.sql \
             -f supabase/tests/m02_source_backed_lessons.test.sql \
             -f supabase/tests/m03_office_source_backed_lessons.test.sql \
             -f supabase/tests/a3_logic_num_algo_lessons.test.sql \

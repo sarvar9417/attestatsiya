@@ -74,6 +74,14 @@ begin
       if v_actual <> v_expected then
         raise exception 'wrong % quota: expected %, got %',v_group,v_expected,v_actual;
       end if;
+      select count(distinct q.construct_id) into v_actual
+        from public.exam_items ei
+        join public.questions q on q.id=ei.question_id
+       where ei.exam_id=v_exam and q.group_code=v_group;
+      if v_actual <> v_expected then
+        raise exception 'objective diversity violated for %: expected % distinct, got %',
+          v_group,v_expected,v_actual;
+      end if;
     end loop;
 
     if (select string_agg(q.group_code,',' order by ei.order_idx)
@@ -86,7 +94,7 @@ begin
     end if;
 
     if (select selection_meta->>'selector_version' from public.exams where id=v_exam)
-       <> 'professional-15-v1' then raise exception 'missing audit selection meta'; end if;
+       <> 'professional-15-v2-objective-diverse' then raise exception 'missing audit selection meta'; end if;
   end loop;
 end
 $qa$;

@@ -6,6 +6,8 @@ import {
   professionalBankImportRequestSchema,
 } from '../schemas/admin.js'
 import { sendError, AppError } from '../lib/errors.js'
+import { pedguliCandidateService } from '../services/pedguli-candidate.service.js'
+import { pedguliCandidateImportSchema, pedguliCandidateListQuerySchema, pedguliCandidateReviewSchema, pedguliStage4BatchSchema } from '../schemas/pedguli-candidates.js'
 import { contentCoverageService } from '../services/content-coverage.service.js'
 import { questionBankImportService } from '../services/question-bank-import.service.js'
 import { adminContentService } from '../services/admin-content.service.js'
@@ -14,6 +16,7 @@ import {
   createAdminModuleSchema,
   saveAdminQuestionSchema,
   transitionAdminQuestionSchema,
+  savePedguliEditorialReviewSchema,
 } from '../schemas/admin-content.js'
 
 function getToken(req: { headers: { authorization?: string } }): string | null {
@@ -26,6 +29,56 @@ export async function adminRoutes(app: FastifyInstance) {
    * ishlamaydi. Barcha content/dashboard amallari shu authenticated backend
    * boundary orqali service-role Supabase clientga boradi.
    */
+  /**
+   * Private review inbox: never returns original Telegram source text to a
+   * non-staff user. Does not expose answers or insert into exam question pool.
+   */
+  app.get('/api/admin/pedguli-candidates', async (req, reply) => {
+    const token=getToken(req)
+    if(!token) throw new AppError('Token kerak',401,'TOKEN_REQUIRED')
+    const query=pedguliCandidateListQuerySchema.parse(req.query)
+    try {
+      return reply.send(await pedguliCandidateService.list(token,query))
+    } catch(error) {
+      return sendError(reply,error)
+    }
+  })
+
+  /** Active admin only; batches <= 50; idempotent and review-only. */
+  /** Staff records a manual source review; only an admin can mark verified. */
+  app.patch('/api/admin/pedguli-candidates/:id/review', async (req, reply) => {
+    const token=getToken(req)
+    if(!token)throw new AppError('Token kerak',401,'TOKEN_REQUIRED')
+    const {id}=req.params as {id:string}
+    if(!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)){
+      throw new AppError('Nomzod ID formati noto‘g‘ri',400,'INVALID_CANDIDATE_ID')
+    }
+    const input=pedguliCandidateReviewSchema.parse(req.body)
+    try{
+      return reply.send(await pedguliCandidateService.review(token,id,input))
+    }catch(error){return sendError(reply,error)}
+  })
+
+  /** Private, admin-only source research upload; no grader/public.question writes. */
+  app.post('/api/admin/pedguli-candidates/stage4', async (req, reply) => {
+    const token=getToken(req)
+    if(!token)throw new AppError('Token kerak',401,'TOKEN_REQUIRED')
+    const body=pedguliStage4BatchSchema.parse(req.body)
+    try {return reply.send(await pedguliCandidateService.importStage4(token,body))}
+    catch(error){return sendError(reply,error)}
+  })
+
+  app.post('/api/admin/pedguli-candidates/import', async (req, reply) => {
+    const token=getToken(req)
+    if(!token) throw new AppError('Token kerak',401,'TOKEN_REQUIRED')
+    const body=pedguliCandidateImportSchema.parse(req.body)
+    try {
+      return reply.send(await pedguliCandidateService.importBatch(token,body.items))
+    } catch(error) {
+      return sendError(reply,error)
+    }
+  })
+
   app.get('/api/admin/dashboard', async (req, reply) => {
     const token = getToken(req)
     if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
@@ -63,7 +116,32 @@ export async function adminRoutes(app: FastifyInstance) {
     if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
     const query = adminQuestionsQuerySchema.querystring.parse(req.query)
     try {
-      return reply.send(await adminContentService.listQuestions(query.status, token))
+      return reply.send(await adminContentService.listQuestions(query.status, token, query.source))
+    } catch (error) {
+      return sendError(reply, error)
+    }
+  })
+
+  /** Editorial checklist visible only to authenticated CMS staff. */
+  app.get('/api/admin/questions/:id/editorial', async (req, reply) => {
+    const token = getToken(req)
+    if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
+    const { id } = req.params as { id: string }
+    try {
+      return reply.send(await adminContentService.getPedguliEditorialReview(id, token))
+    } catch (error) {
+      return sendError(reply, error)
+    }
+  })
+
+  /** Only an authenticated admin can attest independent answer/source review. */
+  app.put('/api/admin/questions/:id/editorial', async (req, reply) => {
+    const token = getToken(req)
+    if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
+    const { id } = req.params as { id: string }
+    const input = savePedguliEditorialReviewSchema.parse(req.body)
+    try {
+      return reply.send(await adminContentService.savePedguliEditorialReview(id, input, token))
     } catch (error) {
       return sendError(reply, error)
     }

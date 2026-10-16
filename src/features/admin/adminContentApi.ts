@@ -55,6 +55,7 @@ export interface AdminQuestionRow {
   construct_id: string | null
   subject_id: string | null
   created_at: string
+  source_reference: string | null
 }
 
 export interface AdminConstructRow {
@@ -109,10 +110,12 @@ export function createAdminModule(input: {
 }
 
 export async function listAdminQuestions(
-  status?: AdminContentStatus
+  status?: AdminContentStatus,
+  source?: 'pedguli',
 ): Promise<AdminQuestionRow[]> {
   const params = new URLSearchParams()
   if (status) params.set('status', status)
+  if (source) params.set('source', source)
   const suffix = params.size ? `?${params.toString()}` : ''
   const data = await api.get<{ items: AdminQuestionRow[] }>(
     `/api/admin/questions${suffix}`
@@ -155,5 +158,41 @@ export function updateAdminQuestion(
   return api.put<{ id: string }>(
     `/api/admin/questions/${encodeURIComponent(questionId)}`,
     input
+  )
+}
+
+export interface PedguliEditorialCheckInput {
+  answer_verified: boolean
+  reference_verified: boolean
+  wording_verified: boolean
+  original_authorship_verified: boolean
+  reviewer_notes: string
+}
+
+export interface PedguliEditorialCheck extends PedguliEditorialCheckInput {
+  question_id: string
+  reviewer_id: string
+  reviewed_at: string
+}
+
+export interface PedguliEditorialReviewResponse {
+  question_id: string
+  status: AdminContentStatus
+  checks: PedguliEditorialCheck | null
+}
+
+export function getPedguliEditorialReview(questionId: string) {
+  return api.get<PedguliEditorialReviewResponse>(
+    `/api/admin/questions/${encodeURIComponent(questionId)}/editorial`,
+  )
+}
+
+export function savePedguliEditorialReview(
+  questionId: string,
+  input: PedguliEditorialCheckInput,
+) {
+  return api.put<PedguliEditorialCheck>(
+    `/api/admin/questions/${encodeURIComponent(questionId)}/editorial`,
+    input,
   )
 }

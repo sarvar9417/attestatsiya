@@ -5,6 +5,7 @@ import {
 } from '../../features/admin/adminContentApi'
 import {
   Archive,
+  ClipboardCheck,
   CheckCircle,
   FileQuestion,
   Filter,
@@ -17,6 +18,7 @@ import {
   X,
 } from 'lucide-react'
 import QuestionFormModal from '../../components/admin/QuestionFormModal'
+import PedguliEditorialModal from '../../components/admin/PedguliEditorialModal'
 
 type ContentStatus = 'draft' | 'review' | 'published' | 'archived'
 
@@ -31,6 +33,7 @@ interface QuestionRow {
   construct_id: string | null
   subject_id: string | null
   created_at: string
+  source_reference: string | null
 }
 
 const STATUS_FLOW: Record<
@@ -114,6 +117,8 @@ export default function QuestionsPage() {
   const [actionError, setActionError] = useState<string | null>(null)
   const [search, setSearch] = useState('')
   const [filterStatus, setFilterStatus] = useState('')
+  const [filterSource, setFilterSource] = useState('')
+  const [editorialQuestion, setEditorialQuestion] = useState<QuestionRow | null>(null)
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
 
@@ -124,6 +129,7 @@ export default function QuestionsPage() {
     try {
       const data = await listAdminQuestions(
         filterStatus ? (filterStatus as ContentStatus) : undefined,
+        filterSource === 'pedguli' ? 'pedguli' : undefined,
       )
       setQuestions(data)
     } catch (error) {
@@ -131,7 +137,7 @@ export default function QuestionsPage() {
     } finally {
       setLoading(false)
     }
-  }, [filterStatus])
+  }, [filterStatus, filterSource])
 
   useEffect(() => {
     void load()
@@ -259,6 +265,15 @@ export default function QuestionsPage() {
             )}
           </div>
 
+          <select
+            className="input min-h-11 w-full lg:w-56"
+            value={filterSource}
+            onChange={event => setFilterSource(event.target.value)}
+            aria-label="Savol manbasi filtri"
+          >
+            <option value="">Barcha manbalar</option>
+            <option value="pedguli">Pedmahorat — original mashqlar</option>
+          </select>
           <div className="flex items-center gap-2">
             <Filter size={15} className="text-gray-400" aria-hidden="true" />
             <select
@@ -382,6 +397,17 @@ export default function QuestionsPage() {
                         </button>
                       ))}
 
+                      {status === 'review' && question.source_reference?.startsWith('authored:pedguli-') && (
+                        <button
+                          type="button"
+                          onClick={() => setEditorialQuestion(question)}
+                          className="inline-flex min-h-9 items-center gap-1.5 rounded-lg border border-amber-300 px-3 text-xs font-semibold text-amber-700 hover:bg-amber-50 dark:border-amber-800 dark:text-amber-300"
+                          title="Javob, manba va mualliflik tekshiruvini qayd etish"
+                        >
+                          <ClipboardCheck size={14} aria-hidden="true" />
+                          Tahririy tekshiruv
+                        </button>
+                      )}
                       <button
                         type="button"
                         onClick={() => setEditingId(question.id)}
@@ -397,6 +423,14 @@ export default function QuestionsPage() {
           </div>
         )}
       </section>
+
+      {editorialQuestion && (
+        <PedguliEditorialModal
+          question={editorialQuestion}
+          onClose={() => setEditorialQuestion(null)}
+          onSaved={() => { void load() }}
+        />
+      )}
 
       {showForm && (
         <QuestionFormModal
