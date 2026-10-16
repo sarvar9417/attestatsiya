@@ -7,7 +7,7 @@ values ('00000000-0000-4000-8000-000000000701', 'mastery-user@example.invalid');
 with target as (
   select id, subject_id, group_code
   from public.constructs
-  where is_active
+  where is_active and group_code not in ('KS','PM.GEN','PM.MET')
   order by code
   limit 1
 )
