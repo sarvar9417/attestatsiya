@@ -26,6 +26,7 @@ import ExamPage from './pages/ExamPage'
 import ReviewPage from './pages/ReviewPage'
 import ExamHistoryPage from './pages/ExamHistoryPage'
 import ProfessionalPracticePage from './pages/ProfessionalPracticePage'
+import AxborotPracticePage from './pages/AxborotPracticePage'
 import ExamResultPage from './pages/ExamResultPage'
 import OnboardingPage from './pages/OnboardingPage'
 
@@ -112,6 +113,7 @@ function MainLayout() {
                 <Route path="/learn" element={<ProtectedRoute><LearningPage /></ProtectedRoute>} />
                 <Route path="/learn/:moduleId" element={<ProtectedRoute><ModulePage /></ProtectedRoute>} />
                 <Route path="/professional-practice" element={<ProtectedRoute><ProfessionalPracticePage /></ProtectedRoute>} />
+                <Route path="/practice/axb" element={<ProtectedRoute><AxborotPracticePage /></ProtectedRoute>} />
                 <Route path="/exam" element={<ProtectedRoute><ExamPage /></ProtectedRoute>} />
                 <Route path="/exam/:kind" element={<ProtectedRoute><ExamPage /></ProtectedRoute>} />
                 <Route path="/exam/:kind/:moduleId" element={<ProtectedRoute><ExamPage /></ProtectedRoute>} />
