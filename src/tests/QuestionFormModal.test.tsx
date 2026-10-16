@@ -64,6 +64,12 @@ describe('QuestionFormModal backend boundary', () => {
       await screen.findByRole('option', { name: 'AX-01 — Axborot tushunchasi' }),
     ).toBeDefined()
 
+    expect(screen.getByRole('option', { name: 'Y1 · Bitta to‘g‘ri javob' })).toBeDefined()
+    expect(screen.getByRole('option', { name: 'Y2 · Moslashtirish' })).toBeDefined()
+    expect(screen.getByRole('option', { name: 'Y3 · Ketma-ketlik' })).toBeDefined()
+    // Response format and cognitive difficulty are independent specification axes.
+    expect(screen.getByRole('combobox', { name: 'Kognitiv daraja' })).toBeDefined()
+
     await user.selectOptions(
       screen.getByRole('combobox', { name: 'Test turi' }),
       'Y2',
