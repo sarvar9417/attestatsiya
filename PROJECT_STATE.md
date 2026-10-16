@@ -1,3 +1,11 @@
+## Pedagogika release security va practice fairness (TASK-201, 2026-10-16)
+
+- **Status:** IN_PROGRESS — 328 KS/PM bank: 175 published, 153 review; no editorial-check approvals. 649 PDF candidate, 195 verified, 335 accepted_general, 119 rejected.
+- **Audit:** 169 published pedagogika Y1 savolidan 118 tasida correct variant >30% longer than all wrong. Existing published content immutable, no auto rewrite.
+- **Patch:** new server-side publish gate for PDF-derived and all KS/PM, fingerprint locked to source/options/answers; immutable published snapshots survive archive; 15-item practice tie randomization keeps 5+7+3 and distinct constructs.
+- **No auto-publish:** 153 review savolga expert signoff talab; source key alone not definitive official truth.
+- **Remaining:** expert/editorial approval UX, 118 legacy questions replacement-by-new-revision, 155 verified unlinked source candidates, general-pedagogy non-official lane; see `docs/TASK201_PEDAGOGY_DEEP_AUDIT.md`.
+
 ## Pedagogika distractor sifati — TASK-200 (2026-10-16)
 
 - **Status:** IN_PROGRESS. Private PDF candidate inbox (649) saqlangan, 15 ta original Y1 pedagogika/kasb standarti savoli yangi batch sifatida production DBda `review` holatda (KS 7, PM.GEN 8); 0 auto-published.
