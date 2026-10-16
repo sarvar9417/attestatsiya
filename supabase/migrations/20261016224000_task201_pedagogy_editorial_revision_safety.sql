@@ -42,8 +42,8 @@ begin
  select group_code,source_reference,status into v_group,v_source,v_status
  from public.questions where id=new.question_id;
  if v_group is null or not (
-    v_group in ('KS','PM.GEN','PM.MET') or v_source like 'authored:pedguli-%'
-    or v_source like 'authored:pedagogy-pdf-corpus:%'
+    v_group in ('KS','PM.GEN','PM.MET') or coalesce(v_source,'') like 'authored:pedguli-%'
+    or coalesce(v_source,'') like 'authored:pedagogy-pdf-corpus:%'
  ) then
    raise exception using errcode='23514',
      message='PEDAGOGY_EDITORIAL_SCOPE_INVALID';
@@ -69,8 +69,8 @@ declare
 begin
  if new.status<>'published'::public.content_status then return new;end if;
  if not (new.group_code in ('KS','PM.GEN','PM.MET')
-   or new.source_reference like 'authored:pedguli-%'
-   or new.source_reference like 'authored:pedagogy-pdf-corpus:%')
+   or coalesce(new.source_reference,'') like 'authored:pedguli-%'
+   or coalesce(new.source_reference,'') like 'authored:pedagogy-pdf-corpus:%')
  then return new; end if;
  if tg_op='UPDATE'
    and old.status='published'::public.content_status
@@ -193,8 +193,8 @@ as $register$
 begin
  if new.status='published'::public.content_status
    and (new.group_code in ('KS','PM.GEN','PM.MET')
-     or new.source_reference like 'authored:pedguli-%'
-     or new.source_reference like 'authored:pedagogy-pdf-corpus:%')
+     or coalesce(new.source_reference,'') like 'authored:pedguli-%'
+     or coalesce(new.source_reference,'') like 'authored:pedagogy-pdf-corpus:%')
  then
    insert into public.pedagogy_published_revisions(question_id,content_fingerprint)
    values(new.id,public.professional_question_fingerprint(new.id))
