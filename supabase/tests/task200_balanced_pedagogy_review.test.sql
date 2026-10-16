@@ -2,6 +2,13 @@
 do $test200$
 declare n int;
 begin
+ if not exists(select 1 from public.pedagogy_pdf_source_candidates) then
+   if exists(select 1 from public.questions where source_reference like 'authored:pedagogy-pdf-corpus:v3:%') then
+     raise exception 'TASK-200: orphan review batch without private source records';
+   end if;
+   raise notice 'TASK-200: no private PDF inbox in clean CI database; review batch QA deferred';
+   return;
+ end if;
  select count(*) into n from public.questions
  where source_reference like 'authored:pedagogy-pdf-corpus:v3:%';
  if n<>15 then raise exception 'TASK-200: expected 15, got %',n; end if;
