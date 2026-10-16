@@ -900,7 +900,7 @@ export default function ExamRunner({
               className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-5 text-sm font-semibold text-gray-600 transition hover:border-indigo-200 hover:text-indigo-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-indigo-800 dark:hover:text-indigo-300"
             >
               <ArrowLeft size={15} aria-hidden="true" />
-              {examKind === 'pedagogik_15' ? 'Pedagogik mashqlarga qaytish' : 'Oldingi sahifaga qaytish'}
+              {examKind === 'pedagogik_15' ? 'Pedagogik mashqlarga qaytish' : moduleId ? 'Modulga qaytish' : 'Oldingi sahifaga qaytish'}
             </Link>
           )}
         </div>
