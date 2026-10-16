@@ -141,3 +141,8 @@ Har task uchun kamida:
 - happy path
 - permission/validation failure
 - chegaraviy holat
+## Pedagogika source-bank sifat nazorati — 2026-10-16
+
+| ID | Status | Dependency | Deliverable |
+|----|--------|------------|-------------|
+| TASK-200 | IN_PROGRESS | TASK-050, TASK-060 | 4 tarixiy PDFdan 15 ta yangi, uzunligi mutanosib, manbasi verified Y1 savol production REVIEWga import qilindi (7 KS + 8 PM.GEN); SQL regressiya passed; 649 candidate qolgan qamrov, published bank bias remediation, expert approval va Testlar/Maxsus pedagogika UI acceptance hali OPEN. Batafsil: docs/TASK200_PEDAGOGY_BALANCED_BATCH.md |

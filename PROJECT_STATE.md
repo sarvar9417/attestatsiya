@@ -1,3 +1,11 @@
+## Pedagogika distractor sifati — TASK-200 (2026-10-16)
+
+- **Status:** IN_PROGRESS. Private PDF candidate inbox (649) saqlangan, 15 ta original Y1 pedagogika/kasb standarti savoli yangi batch sifatida production DBda `review` holatda (KS 7, PM.GEN 8); 0 auto-published.
+- **Manba:** 2024 bahor, 2025 bahor, 2025 kuz va 2026 bahor PDFlaridagi `verified + independently_verified` candidate-lar. 15/15 provenance/answer key/4 option va option-length SQL regressiya muvaffaqiyatli.
+- **Jiddiy bias:** 169 published Y1 pedagogika savolining 118 tasida to‘g‘ri javob boshqa barcha variantlardan >30% uzun. Published revision immutable: expert approval, new revision va attempt snapshot preservation talab etiladi.
+- **Remaining:** 649 source candidate to‘liq savolga aylantirilmagan; 335 general-pedagogy candidate alohida practice bucket; 15 yangi savol expert approval kutmoqda; Testlar/Maxsus pedagogikadan tayyorlanish learner E2E qabul tekshiruvi va PR CI tugamagan.
+- **Files:** `docs/TASK200_PEDAGOGY_BALANCED_BATCH.md`, SQL migration, SQL QA regressiya, admin-only audit query.
+
 ## Auth recovery stability (TASK-064, 2026-10-16)
 
 - **Status:** DONE — implementation, regression coverage, preview validation, merge va production deploy yakunlandi.
