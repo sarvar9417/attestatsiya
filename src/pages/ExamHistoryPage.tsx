@@ -27,6 +27,7 @@ const KIND_LABELS: Record<ExamHistoryItem['kind'], string> = {
   takrorlash: 'Takrorlash',
   zaif: 'Zaif mavzular',
   pedagogik_15: 'Pedagogika va kasb standarti · 15',
+  axb_bob: 'Axborot bobi · practice',
 }
 
 function formatFinishedAt(value: string): string {
