@@ -29,7 +29,7 @@ begin
   if jsonb_array_length(item->'options')<>4 or (item->>'correct')::int not between 0 and 3 then
     raise exception 'TASK-200 option shape invalid %',item->>'ref';
   end if;
-  select array_agg(array_length(regexp_split_to_array(btrim(value),'\\s+'),1) order by ordinality)
+  select array_agg(array_length(regexp_split_to_array(btrim(value),'[[:space:]]+'),1) order by ordinality)
     into lengths from jsonb_array_elements_text(item->'options') with ordinality t(value,ordinality);
   select max(v),min(v) into maxlen,minlen from unnest(lengths) as v;
   v_correct:=(item->>'correct')::int;
