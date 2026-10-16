@@ -216,6 +216,29 @@ describe('useAuth', () => {
     vi.unstubAllGlobals()
   })
 
+  it('updatePassword: recovery serverda rad etilsa token va old session saqlanadi', async () => {
+    const oldSession = makeSession({ access_token: 'old-account-token' })
+    sessionStore.set(oldSession)
+    window.location.hash = '#access_token=expired-recovery-token&refresh_token=opaque&type=recovery'
+    const fetchMock = vi.fn().mockResolvedValue(new Response(
+      JSON.stringify({ error: { message: 'Tiklash havolasi muddati tugagan' } }),
+      { status: 401, headers: { 'Content-Type': 'application/json' } },
+    ))
+    vi.stubGlobal('fetch', fetchMock)
+
+    const { result } = renderHook(() => useAuth())
+
+    const res = await act(async () => result.current.updatePassword('another-new-password'))
+
+    expect(res.error?.message).toContain('muddati tugagan')
+    expect(window.location.hash).toBe(
+      '#access_token=expired-recovery-token&refresh_token=opaque&type=recovery',
+    )
+    expect(sessionStore.get()?.access_token).toBe('old-account-token')
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+    vi.unstubAllGlobals()
+  })
+
   it('updatePassword: recovery succeeds and removes a previously signed-in account session', async () => {
     sessionStore.set(makeSession({ access_token: 'old-account-token' }))
     window.location.hash = '#access_token=recovery-token&type=recovery'
