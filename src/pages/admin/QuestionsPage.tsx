@@ -99,9 +99,9 @@ const STATUS_META: Record<ContentStatus, { label: string; color: string }> = {
 }
 
 const FORMAT_LABEL: Record<string, string> = {
-  Y1: 'Y1 · Bilish',
-  Y2: "Y2 · Qo'llash",
-  Y3: 'Y3 · Mulohaza',
+  Y1: 'Y1 · Bitta javob',
+  Y2: 'Y2 · Moslashtirish',
+  Y3: 'Y3 · Ketma-ketlik',
 }
 
 const COGNITIVE_LABEL: Record<string, string> = {

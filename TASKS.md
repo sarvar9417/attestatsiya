@@ -146,3 +146,5 @@ Har task uchun kamida:
 | ID | Status | Dependency | Deliverable |
 |----|--------|------------|-------------|
 | TASK-200 | IN_PROGRESS | TASK-050, TASK-060 | 4 tarixiy PDFdan 15 ta yangi, uzunligi mutanosib, manbasi verified Y1 savol production REVIEWga import qilindi (7 KS + 8 PM.GEN); SQL regressiya passed; 649 candidate qolgan qamrov, published bank bias remediation, expert approval va Testlar/Maxsus pedagogika UI acceptance hali OPEN. Batafsil: docs/TASK200_PEDAGOGY_BALANCED_BATCH.md |
+
+| TASK-201 | IN_PROGRESS | TASK-200 | Pedagogika chuqur audit: KS/PM editorial publication gate, immutable published question snapshotlari, 15-item distinct construct/random tie-break, yangi SQL security regressiya va production verifikatsiya. 118 biased legacy Y1 hamda editorial review UI alohida OPEN. Audit: docs/TASK201_PEDAGOGY_DEEP_AUDIT.md |

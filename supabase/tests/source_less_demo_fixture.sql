@@ -12,6 +12,7 @@ select
  'published'::public.content_status,null,null
 from public.questions q
 where q.status='published'::public.content_status and q.source_reference is not null
+  and q.group_code not in ('KS','PM.GEN','PM.MET')
 order by q.id
 limit 1
 on conflict (id) do nothing;
