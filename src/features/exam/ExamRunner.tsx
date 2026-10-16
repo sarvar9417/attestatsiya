@@ -616,17 +616,41 @@ export default function ExamRunner({
         ? Math.round((result.total_score / result.max_score) * 100)
         : 0
     const passed = result.passed ?? percentage >= 60
+    const questionCounts = result.breakdown?.reduce(
+      (counts, group) => ({
+        correct: counts.correct + group.togri,
+        total: counts.total + group.jami,
+      }),
+      { correct: 0, total: 0 }
+    )
 
     return (
       <main className="mx-auto w-full max-w-5xl space-y-5 px-4 py-6 sm:px-6 lg:py-8">
-        <header>
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-indigo-500">
-            Natijalar
-          </p>
-          <h1 className="mt-1 text-2xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-3xl">
-            Sinov yakunlandi
-          </h1>
-          <p className="mt-1 text-sm text-gray-400">{examTitle}</p>
+        <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-indigo-500">
+              Natijalar
+            </p>
+            <h1 className="mt-1 text-2xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-3xl">
+              Sinov yakunlandi
+            </h1>
+            <p className="mt-1 text-sm text-gray-400">{examTitle}</p>
+          </div>
+          <nav aria-label="Natija sahifasi navigatsiyasi" className="flex flex-wrap gap-2">
+            <Link
+              to={backUrl ?? '/exam'}
+              className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-xl border border-gray-200 bg-white px-3 text-sm font-semibold text-gray-700 transition hover:border-indigo-300 hover:text-indigo-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200"
+            >
+              <ArrowLeft size={15} aria-hidden="true" />
+              {examKind === 'pedagogik_15' ? 'Pedagogik mashqlarga qaytish' : 'Orqaga qaytish'}
+            </Link>
+            <Link
+              to="/"
+              className="inline-flex min-h-10 items-center justify-center rounded-xl border border-gray-200 bg-white px-3 text-sm font-semibold text-gray-700 transition hover:border-indigo-300 hover:text-indigo-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200"
+            >
+              Bosh sahifa
+            </Link>
+          </nav>
         </header>
 
         <section className="flex flex-col gap-5 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900 sm:p-6 lg:flex-row lg:items-center">
@@ -648,6 +672,14 @@ export default function ExamRunner({
               }`}>
                 {result.total_score} / {result.max_score}
               </p>
+              <p className="mt-1 text-xs font-medium text-gray-500 dark:text-gray-400">
+                Ball: olingan / maksimal
+              </p>
+              {questionCounts && questionCounts.total > 0 && (
+                <p className="mt-1 text-sm font-semibold text-gray-700 dark:text-gray-200">
+                  {questionCounts.correct} / {questionCounts.total} ta savol to‘g‘ri
+                </p>
+              )}
               <p className="mt-1 text-sm font-semibold text-gray-700 dark:text-gray-200">
                 {percentage}% natija
               </p>
@@ -868,7 +900,7 @@ export default function ExamRunner({
               className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-5 text-sm font-semibold text-gray-600 transition hover:border-indigo-200 hover:text-indigo-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-indigo-800 dark:hover:text-indigo-300"
             >
               <ArrowLeft size={15} aria-hidden="true" />
-              Modulga qaytish
+              {examKind === 'pedagogik_15' ? 'Pedagogik mashqlarga qaytish' : 'Oldingi sahifaga qaytish'}
             </Link>
           )}
         </div>
