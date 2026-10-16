@@ -1,15 +1,16 @@
-## Auth recovery stability (TASK-064, 2026-10-12)
+## Auth recovery stability (TASK-064, 2026-10-16)
 
-- **Claimed:** login/register/forgot-password oqimini 100% yakunlash prioriteti doirasida password recovery rerender race tekshirilmoqda.
+- **Status:** DONE — implementation, regression coverage, preview validation, merge va production deploy yakunlandi.
 - **Root cause hardening:** reset sahifasi recovery access tokenni birinchi renderda snapshot qiladi; useAuth/sessionStore URL hashni tozalagach ham forma tokenni yo‘qotmaydi va fallback ekranga “refresh” bo‘lib ketmaydi.
 - **URL safety:** recovery tugagach token fragmenti `history.replaceState` orqali URLdan olib tashlanadi; faqat hashdagi `type=recovery` access token qabul qilinadi. Query-param access token ataylab rad etiladi, chunki u server/proxy/referrer loglariga tushishi mumkin.
-- **Backend redirect:** reset email redirecti string concatenation o‘rniga canonical `/reset-password` URL bilan quriladi, trailing-slash drift yo‘q.
-- **Test scope:** useAuth explicit snapshot token authorization, ResetPassword pending-rerender race va backend reset redirect kontrakti qo‘shildi.
-- **CI:** latest TASK-064 head’da backend, database va quality jobs to‘liq yashil; quality ichida secret scan, lint, TypeScript, unit, generated-pool invariantlari, production build va Playwright smoke hammasi muvaffaqiyatli.
-- **Production auth evidence:** production `auth.users` auditi test qilinayotgan hisob uchun email tasdiqlanganini va avval muvaffaqiyatli sign-in bo‘lganini ko‘rsatadi. Demak register → verify → login tarixiy oqimi ishlagan; fresh TASK-064 acceptance uchun faqat yangi recovery update + yangi parol bilan login bosqichi qoladi.
-- **Real email evidence:** ulangan Gmailda 2026-10-11 kuni Supabase Auth'dan haqiqiy `Reset your password` xati yetib kelgani tekshirildi; xatdagi verify link `redirect_to=https://attestatsiya-five.vercel.app/reset-password` ni olib yuradi. Bu delivery va requested redirectni tasdiqlaydi, ammo TASK-064 buildi bilan fresh click→update→login E2E o‘rnini bosmaydi.
-- **Preview blocker:** TASK-064 branch uchun qo‘lda Vercel preview yaratish urinishida Hobby daily deployment limit (`api-deployments-free-per-day`, >100) sabab HTTP 402 qaytdi; Vercel retry oynasi 24 soat deb ko‘rsatdi. Billing/plan avtomatik o‘zgartirilmadi.
-- **Release gate:** B-AUTH-001/TASK-064 hali OPEN/BLOCKED — historical register/verify/login va real reset-email delivery tasdiqlangan, lekin TASK-064 kodi deploy bo‘lgan muhitda fresh recovery link → parolni yangilash → yangi parol bilan login E2E o‘tmasdan auth 100% deb belgilanmaydi.
+- **Backend redirect:** reset email redirecti canonical `/reset-password` URL bilan quriladi; trailing-slash drift yo‘q.
+- **Regression preservation:** current main’dagi hard-refresh va rejected/expired recovery testlari saqlanib, pending-submit rerender race hamda explicit snapshot-token testlari qo‘shildi.
+- **CI:** PR #112 backend, database va quality jobs to‘liq yashil; quality ichida secret scan, lint, TypeScript, unit, generated-pool invariantlari, production build va Playwright smoke muvaffaqiyatli.
+- **Preview:** `dpl_G6SNfdAHZX4wKUWdRVFujqMk6iyv` READY; `/api/health`, `/reset-password` va `/auth` HTTP 200.
+- **Merge:** PR #112 → main commit `0e818437fa0dd9564cb830f04ce17ca00a57f35f`.
+- **Production:** Vercel deployment `dpl_8uzytLVAJKAReW7zrWbr8Rs6gNz5` READY va `attestatsiya-five.vercel.app` aliasiga ulangan; production `/api/health`, `/reset-password` va `/auth` HTTP 200.
+- **Real email evidence:** oldingi haqiqiy Supabase Auth reset xati Gmailga yetib kelgan va verify link `redirect_to=https://attestatsiya-five.vercel.app/reset-password` ni olib yurgan.
+- **Acceptance boundary:** B-AUTH-001 hali OPEN — yangi production buildda fresh real-email `forgot → email → recovery link → yangi parol → yangi parol bilan login` E2E hali qo‘lda tasdiqlanishi kerak. Bu TASK-064 deploy yakunlanganini o‘zgartirmaydi, lekin authni 100% acceptance deb e’lon qilishga to‘sqinlik qiladi.
 
 ## Multi-format bank + lesson drift reconciliation (TASK-063, 2026-10-12)
 

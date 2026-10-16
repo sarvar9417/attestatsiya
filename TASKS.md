@@ -104,7 +104,7 @@
 | TASK-061 | DONE | TASK-057 | Yuqori amaliy og‘irlikdagi S5.WEB/S6.NET/S7.SEC darslariga worked code, IP/maska hisoblash, xavfsizlik scenario va Web-Freelance workflow qo‘shildi; 7 ta lesson uchun DB regression invariant |
 | TASK-062 | DONE | TASK-060 | Rasmiy S1.INFO taxonomy reconciliation: “axborotni saralash va xulosa chiqarish” S1.INFO.08 bilan yopildi; private AXB 570/570 strukturaviy auditdan o‘tdi va productionga xavfsiz import qilindi; keyingi source/construct review natijalari TASK-060/TASK-063 da yuritiladi |
 | TASK-063 | DONE | TASK-062 | Private bank + multi-format reconciliation yakunlandi: 540 AXB published, 30 supplementary review-only quarantine; 24 ta Y2 + 24 ta Y3 source-backed savol productionga published qilindi; M02/M05 canonical stable lesson ID/construct mapping production drifti xavfsiz reconcile qilindi; regression testi Y2/Y3 key shape, check_answer va source-lesson mappingni qoplaydi |
-| TASK-064 | BLOCKED | T-016 | Password recovery stability kodi va CI yashil: recovery token snapshoti rerender/fallback race’ni yopadi, reset redirect canonical va URL secret boundary qattiqlashtirilgan. Qolgan gate: TASK-064 preview/prod build mavjud bo‘lgach fresh real-email recovery → yangi parol → yangi parol bilan login E2E; Vercel Hobby daily deployment limiti hozir bloklamoqda |
+| TASK-064 | DONE | T-016 | Password recovery stability kodi current main’ga PR #112 bilan merge qilindi va production Vercel deployment `dpl_8uzytLVAJKAReW7zrWbr8Rs6gNz5` READY; recovery token snapshoti rerender/fallback race’ni yopadi, reset redirect canonical va URL secret boundary qattiqlashtirilgan. Final real-email acceptance B-AUTH-001 da alohida qoladi |
 
 ## UI modernizatsiya — Figma approved design
 
