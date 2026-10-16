@@ -46,11 +46,37 @@ describe('ExamResultPage', () => {
       await screen.findByRole('heading', { name: 'Axborot hajmini hisoblash' })
     ).toBeDefined()
     expect(screen.getByText('32 / 40')).toBeDefined()
+    expect(screen.getByText('Ball: olingan / maksimal')).toBeDefined()
+    expect(screen.getByText('16 / 20 ta savol to‘g‘ri')).toBeDefined()
     expect(screen.getByText('80% natija')).toBeDefined()
     expect(screen.getByText('S1.INFO')).toBeDefined()
     expect(screen.getByText('16 / 20')).toBeDefined()
     expect(getResult).toHaveBeenCalledWith(examId)
     expect(getReview).not.toHaveBeenCalled()
+  })
+
+  it('pedagogik mashq tarixida 15 savol va 30 ballni alohida ko‘rsatadi', async () => {
+    vi.spyOn(backendGateway, 'getResult').mockResolvedValue({
+      ...result,
+      kind: 'pedagogik_15',
+      lesson_id: null,
+      lesson_slug: null,
+      lesson_title_uz: null,
+      total_score: 30,
+      max_score: 30,
+      passed: null,
+      breakdown: [
+        { group_code: 'KS', jami: 5, togri: 5 },
+        { group_code: 'PM.GEN', jami: 7, togri: 7 },
+        { group_code: 'PM.MET', jami: 3, togri: 3 },
+      ],
+    })
+
+    renderPage()
+    expect(await screen.findByText('30 / 30')).toBeDefined()
+    expect(screen.getByText('Ball: olingan / maksimal')).toBeDefined()
+    expect(screen.getByText('15 / 15 ta savol to‘g‘ri')).toBeDefined()
+    expect(screen.getByRole('link', { name: 'Pedagogik mashqlarga qaytish' }).getAttribute('href')).toBe('/professional-practice')
   })
 
   it('savollar tahlilini faqat foydalanuvchi ochganda serverdan oladi', async () => {

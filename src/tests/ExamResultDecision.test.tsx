@@ -62,9 +62,9 @@ function gateway(): ExamGateway {
   }
 }
 
-function renderMock(examGateway: ExamGateway) {
+function renderMock(examGateway: ExamGateway, path = '/exam/mock') {
   return render(
-    <MemoryRouter initialEntries={['/exam/mock']}>
+    <MemoryRouter initialEntries={[path]}>
       <Routes>
         <Route path="/exam/:kind" element={<ExamPage gateway={examGateway} />} />
       </Routes>
@@ -89,7 +89,11 @@ describe('T-014 server-authoritative natija ekrani', () => {
     ).toBeDefined()
 
     expect(screen.getByText('2 / 2')).toBeDefined()
+    expect(screen.getByText('Ball: olingan / maksimal')).toBeDefined()
+    expect(screen.getByText('1 / 1 ta savol to‘g‘ri')).toBeDefined()
     expect(screen.getByText('100% natija')).toBeDefined()
+    expect(screen.getByRole('link', { name: 'Orqaga qaytish' }).getAttribute('href')).toBe('/exam')
+    expect(screen.getByRole('link', { name: 'Bosh sahifa' }).getAttribute('href')).toBe('/')
 
     // 100% bo'lsa ham server passed=false bergani uchun frontend qarorni
     // qayta hisoblamaydi.
@@ -99,6 +103,52 @@ describe('T-014 server-authoritative natija ekrani', () => {
     expect(screen.getByText('S1.INFO')).toBeDefined()
     expect(screen.getByText('1 / 1')).toBeDefined()
     expect(examGateway.finishExam).toHaveBeenCalledWith(ids.exam)
+  })
+
+  it('pedagogik 15 natijada 30 ball va 15 savolni adashtirmaydi hamda qaytish yo‘lini ko‘rsatadi', async () => {
+    const user = userEvent.setup()
+    const examGateway = gateway()
+    const baseSession = session()
+    examGateway.startFocusedExam = vi.fn().mockResolvedValue({
+      ...baseSession,
+      kind: 'pedagogik_15',
+      duration_sec: 1800,
+      items: Array.from({ length: 15 }, (_, index) => ({
+        ...baseSession.items[0],
+        order_idx: index + 1,
+        item_id: `10000000-0000-4000-8000-${String(index + 100).padStart(12, '0')}`,
+        question_id: `10000000-0000-4000-8000-${String(index + 200).padStart(12, '0')}`,
+      })),
+    })
+    examGateway.finishExam = vi.fn().mockResolvedValue({
+      exam_id: ids.exam,
+      total_score: 30,
+      max_score: 30,
+      passed: null,
+      breakdown: [
+        { group_code: 'KS', jami: 5, togri: 5 },
+        { group_code: 'PM.GEN', jami: 7, togri: 7 },
+        { group_code: 'PM.MET', jami: 3, togri: 3 },
+      ],
+      already_finished: false,
+    })
+
+    renderMock(examGateway, '/exam/pedagogik_15')
+    await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
+    await user.click(await screen.findByRole('button', { name: /Variant A/ }))
+    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
+    await user.click(screen.getByRole('button', { name: 'Sinovni yakunlash' }))
+    await user.click(screen.getByRole('button', { name: 'Yakunlash' }))
+
+    expect(await screen.findByRole('heading', { name: 'Sinov yakunlandi' })).toBeDefined()
+    expect(screen.getByText('30 / 30')).toBeDefined()
+    expect(screen.getByText('Ball: olingan / maksimal')).toBeDefined()
+    expect(screen.getByText('15 / 15 ta savol to‘g‘ri')).toBeDefined()
+    expect(screen.getByText('100% natija')).toBeDefined()
+    const returnLinks = screen.getAllByRole('link', { name: 'Pedagogik mashqlarga qaytish' })
+    expect(returnLinks.length).toBeGreaterThan(0)
+    expect(returnLinks[0].getAttribute('href')).toBe('/professional-practice')
+    expect(screen.getByRole('link', { name: 'Bosh sahifa' }).getAttribute('href')).toBe('/')
   })
 
   it('finalized sinovdan keyin server reviewini ochadi va next actionlarni ko‘rsatadi', async () => {
