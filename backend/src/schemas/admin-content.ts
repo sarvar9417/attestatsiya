@@ -7,6 +7,7 @@ export const adminCognitiveSchema = z.enum(['bilish', 'qollash', 'mulohaza'])
 export const adminQuestionsQuerySchema = {
   querystring: z.object({
     status: adminContentStatusSchema.optional(),
+    source: z.enum(['pedguli']).optional(),
   }),
 }
 
@@ -59,3 +60,13 @@ export const saveAdminQuestionSchema = z
 export type CreateAdminModuleInput = z.infer<typeof createAdminModuleSchema>
 export type SaveAdminQuestionInput = z.infer<typeof saveAdminQuestionSchema>
 export type AdminContentStatus = z.infer<typeof adminContentStatusSchema>
+
+/** These values are assertions by a real admin reviewer, not AI-generated keys. */
+export const savePedguliEditorialReviewSchema = z.object({
+  answer_verified: z.boolean(),
+  reference_verified: z.boolean(),
+  wording_verified: z.boolean(),
+  original_authorship_verified: z.boolean(),
+  reviewer_notes: z.string().trim().min(20).max(4000),
+}).strict()
+export type SavePedguliEditorialReview = z.infer<typeof savePedguliEditorialReviewSchema>
