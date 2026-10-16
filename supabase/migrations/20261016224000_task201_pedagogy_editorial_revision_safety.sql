@@ -83,6 +83,13 @@ begin
  if tg_op='INSERT' then
    raise exception using errcode='23514', message='PEDAGOGY_REVIEW_BEFORE_PUBLICATION_REQUIRED';
  end if;
+ -- A combined status+wording update must not reuse a fingerprint of OLD data.
+ -- Publish may only change the status of the exact reviewed revision.
+ if (to_jsonb(new)-'status'-'updated_at') <>
+    (to_jsonb(old)-'status'-'updated_at') then
+   raise exception using errcode='23514',
+     message='PEDAGOGY_EDIT_AND_PUBLISH_SEPARATELY';
+ end if;
  if new.source_reference is null or new.source_lesson_id is null
    or not exists(select 1 from public.constructs c where c.id=new.construct_id
       and c.group_code=new.group_code and c.is_active)
