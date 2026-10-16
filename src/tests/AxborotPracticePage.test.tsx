@@ -28,7 +28,7 @@ describe('19 chapter AXB practice', () => {
     render(<MemoryRouter><AxborotPracticePage /></MemoryRouter>)
     expect(await screen.findByText('16-bob')).toBeDefined()
     expect(screen.getByRole('link', {name:/3 savol/}).getAttribute('href')).toBe('/exam/axb_bob?chapter=16&count=3')
-    expect(screen.getByRole('link', {name:/30 savol/}).getAttribute('href')).not.toContain('chapter=16')
+    expect(screen.getAllByRole('link', {name:/30 savol/}).every(link => !link.getAttribute('href')?.includes('chapter=16'))).toBe(true)
     expect(screen.getByText('Attestatsiyadagi nozik farqlar va diagnostika')).toBeDefined()
   })
 })
