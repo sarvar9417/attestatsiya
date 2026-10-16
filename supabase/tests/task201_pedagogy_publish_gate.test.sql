@@ -72,6 +72,15 @@ begin
   if not v_failed then raise exception 'TASK201 stale fingerprint passed';end if;
   update public.questions set stem_md=v_stem where id=v_q;
 
+  -- Atomic edit+publish cannot reuse the signed fingerprint of previous text.
+  v_failed:=false;
+  begin
+    update public.questions
+      set stem_md=stem_md||' same-statement-change',
+          status='published'::public.content_status where id=v_q;
+  exception when check_violation then v_failed:=true;end;
+  if not v_failed then raise exception 'TASK201 atomic edit-and-publish bypassed review';end if;
+
   -- Balanced question + intact fingerprint may be approved by independent reviewer.
   update public.questions set status='published'::public.content_status where id=v_q;
   if not exists(select 1 from public.pedagogy_published_revisions where question_id=v_q)
