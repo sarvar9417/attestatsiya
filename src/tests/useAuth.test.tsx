@@ -189,26 +189,30 @@ describe('useAuth', () => {
     vi.unstubAllGlobals()
   })
 
-  it('updatePassword: recovery serverda rad etilsa token va old session saqlanadi', async () => {
-    const oldSession = makeSession({ access_token: 'old-account-token' })
-    sessionStore.set(oldSession)
-    window.location.hash = '#access_token=expired-recovery-token&refresh_token=opaque&type=recovery'
-    const fetchMock = vi.fn().mockResolvedValue(new Response(
-      JSON.stringify({ error: { message: 'Tiklash havolasi muddati tugagan' } }),
-      { status: 401, headers: { 'Content-Type': 'application/json' } },
-    ))
+  it('updatePassword: explicit recovery token URL tozalanganidan keyin ham ishlaydi', async () => {
+    window.history.replaceState(null, '', '/reset-password')
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(JSON.stringify({ updated: true }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    )
     vi.stubGlobal('fetch', fetchMock)
 
     const { result } = renderHook(() => useAuth())
 
-    const res = await act(async () => result.current.updatePassword('another-new-password'))
+    let error: Error | null = null
+    await act(async () => {
+      const res = await result.current.updatePassword('newsecret123', 'snapshot-recovery-token')
+      error = res.error
+    })
 
-    expect(res.error?.message).toContain('muddati tugagan')
-    expect(window.location.hash).toBe(
-      '#access_token=expired-recovery-token&refresh_token=opaque&type=recovery',
-    )
-    expect(sessionStore.get()?.access_token).toBe('old-account-token')
-    expect(fetchMock).toHaveBeenCalledTimes(1)
+    expect(error).toBeNull()
+    const [, init] = fetchMock.mock.calls[0] as [string, RequestInit]
+    expect((init.headers as Record<string, string>).Authorization)
+      .toBe('Bearer snapshot-recovery-token')
+    expect(window.location.pathname).toBe('/reset-password')
+    expect(window.location.hash).toBe('')
     vi.unstubAllGlobals()
   })
 
