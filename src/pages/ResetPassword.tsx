@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { CheckCircle2, Eye, EyeOff, KeyRound, ShieldCheck } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
+import { readRecoveryAccessToken } from '../features/auth/recoveryUrl'
 
 export default function ResetPassword() {
   const [password, setPassword] = useState('')
@@ -10,15 +11,12 @@ export default function ResetPassword() {
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
+  // Recovery URL tokeni keyingi session/update rerenderlarida yo'qolib ketmasligi
+  // uchun faqat birinchi renderda snapshot qilinadi.
+  const [recoveryToken] = useState<string | null>(() => readRecoveryAccessToken())
   const { updatePassword } = useAuth()
   const navigate = useNavigate()
-
-  const hasRecoveryToken =
-    typeof window !== 'undefined' &&
-    (() => {
-      const params = new URLSearchParams(window.location.hash.slice(1))
-      return params.get('type') === 'recovery' && Boolean(params.get('access_token'))
-    })()
+  const hasRecoveryToken = Boolean(recoveryToken)
 
   useEffect(() => {
     if (!success) return
@@ -41,7 +39,7 @@ export default function ResetPassword() {
     }
 
     setLoading(true)
-    const { error: updateError } = await updatePassword(password)
+    const { error: updateError } = await updatePassword(password, recoveryToken)
     setLoading(false)
 
     if (updateError) setError(updateError.message)

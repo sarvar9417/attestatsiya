@@ -85,6 +85,55 @@ describe('ResetPassword sahifasi', () => {
     expect(updatePassword).not.toHaveBeenCalled()
   })
 
+  it('URL tokeni tozalansa ham pending update vaqtida forma refresh bo‘lib ketmaydi', async () => {
+    window.location.hash = '#access_token=recovery-token&type=recovery'
+    let resolveUpdate: (value: { data: null; error: null }) => void = () => undefined
+    const updatePassword = vi.fn().mockImplementation(
+      () =>
+        new Promise<{ data: null; error: null }>((resolve) => {
+          resolveUpdate = resolve
+        }),
+    )
+    mockUseAuth.mockReturnValue({
+      session: null,
+      updatePassword,
+    })
+
+    const view = renderPage()
+
+    fireEvent.change(screen.getByLabelText('Yangi parol'), {
+      target: { value: 'secret123' },
+    })
+    fireEvent.change(screen.getByLabelText('Parolni tasdiqlang'), {
+      target: { value: 'secret123' },
+    })
+    fireEvent.submit(screen.getByLabelText('Yangi parol').closest('form')!)
+
+    await waitFor(() => {
+      expect(updatePassword).toHaveBeenCalledWith('secret123', 'recovery-token')
+    })
+
+    window.history.replaceState(null, '', '/reset-password')
+    view.rerender(
+      <MemoryRouter initialEntries={['/reset-password']}>
+        <Routes>
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/auth" element={<div>Kirish sahifasi</div>} />
+          <Route path="/" element={<div>Bosh sahifa</div>} />
+        </Routes>
+      </MemoryRouter>,
+    )
+
+    expect(screen.getByRole('heading', { name: 'Yangi parol kiriting' })).toBeDefined()
+    expect(screen.getByRole('button', { name: 'Yuklanmoqda...' })).toBeDisabled()
+
+    resolveUpdate({ data: null, error: null })
+
+    await waitFor(() => {
+      expect(screen.getByRole('heading', { name: 'Parol yangilandi' })).toBeDefined()
+    })
+  })
+
   it('yaroqli yangi parol backend update oqimiga yuboriladi', async () => {
     window.location.hash = '#access_token=recovery-token&type=recovery'
     const updatePassword = vi.fn().mockResolvedValue({ data: null, error: null })
@@ -108,7 +157,7 @@ describe('ResetPassword sahifasi', () => {
         screen.getByRole('heading', { name: 'Parol yangilandi' }),
       ).toBeDefined()
     })
-    expect(updatePassword).toHaveBeenCalledWith('secret123')
+    expect(updatePassword).toHaveBeenCalledWith('secret123', 'recovery-token')
 
     fireEvent.click(screen.getByRole('button', { name: 'Kirish sahifasiga o‘tish' }))
     expect(await screen.findByText('Kirish sahifasi')).toBeDefined()

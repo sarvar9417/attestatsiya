@@ -305,7 +305,9 @@ describe('Auth Routes', () => {
       expect(JSON.parse(response.body)).toEqual({ sent: true })
       expect(mockAuth.resetPasswordForEmail).toHaveBeenCalledWith(
         'test@test.com',
-        expect.objectContaining({ redirectTo: expect.stringContaining('/reset-password') })
+        {
+          redirectTo: new URL('/reset-password', config.auth.redirectUrl).toString(),
+        }
       )
     })
   })

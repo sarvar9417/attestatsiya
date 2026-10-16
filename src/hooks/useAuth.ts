@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { authClient } from '../features/auth/authClient'
 import { API_BASE_URL, ApiError, isNetworkError } from '../lib/apiClient'
 import { sessionStore, isExpired, type AuthSession, type AuthUser } from '../features/auth/sessionStore'
+import { clearRecoveryParamsFromUrl, readRecoveryAccessToken } from '../features/auth/recoveryUrl'
 
 export interface AuthState {
   session: AuthSession | null
@@ -20,23 +21,12 @@ function toError(error: unknown): Error {
   return error instanceof Error ? error : new Error('Noma\'lum xatolik yuz berdi')
 }
 
-/**
- * URL hash'dan Supabase recovery tokenini oladi:
- * /reset-password#access_token=...&refresh_token=...&type=recovery
- */
-function getRecoveryTokenFromUrl(): string | null {
-  if (typeof window === 'undefined') return null
-  const params = new URLSearchParams(window.location.hash.slice(1))
-  if (params.get('type') !== 'recovery') return null
-  return params.get('access_token')
-}
-
 export function useAuth(): AuthState & {
   signUp: (email: string, password: string, name: string) => Promise<AuthResult<{ user_id: string }>>
   signIn: (email: string, password: string) => Promise<AuthResult<null>>
   signOut: () => Promise<void>
   resetPassword: (email: string) => Promise<AuthResult<null>>
-  updatePassword: (password: string) => Promise<AuthResult<null>>
+  updatePassword: (password: string, recoveryToken?: string | null) => Promise<AuthResult<null>>
   resendConfirmation: (email: string) => Promise<AuthResult<null>>
   updateProfile: (fullName: string) => Promise<AuthResult<null>>
   displayName: string | null
@@ -125,33 +115,37 @@ export function useAuth(): AuthState & {
     }
   }
 
-  async function updatePassword(password: string): Promise<AuthResult<null>> {
+  async function updatePassword(
+    password: string,
+    recoveryToken?: string | null,
+  ): Promise<AuthResult<null>> {
     try {
-      const recoveryToken = getRecoveryTokenFromUrl()
+      // ResetPassword recovery tokenni birinchi renderda snapshot qiladi.
+      // Optional fallback eski caller/testlar uchun URL'dan tokenni o'qiydi.
+      const effectiveRecoveryToken =
+        recoveryToken === undefined ? readRecoveryAccessToken() : recoveryToken
       const current = sessionStore.get()
-      const token = recoveryToken ?? current?.access_token ?? null
+      const token = effectiveRecoveryToken ?? current?.access_token ?? null
 
       if (!token) {
         return { data: null, error: new Error('Yaroqli session topilmadi. Qayta kirish kerak.') }
       }
 
-      // Recovery link holatida hash'ni tozalaymiz va session'ni saqlamaymiz
-      if (recoveryToken) {
-        await apiPostWithToken('/api/auth/update-password', { password }, recoveryToken)
+      if (effectiveRecoveryToken) {
+        await apiPostWithToken(
+          '/api/auth/update-password',
+          { password },
+          effectiveRecoveryToken,
+        )
       } else {
         await authClient.updatePassword(password)
       }
 
-      if (recoveryToken && typeof window !== 'undefined') {
-        // Password recovery is not a normal login: discard any previous account's
-        // browser session before showing the sign-in page with the new password.
+      if (effectiveRecoveryToken) {
+        // Recovery oddiy login emas: avvalgi account sessionini tiklamaymiz.
+        // URL tozalansa ham ResetPassword snapshot tokeni renderlar orasida saqlanadi.
         sessionStore.clear()
-        // Tokenni URL'dan history navigation/hashchange chaqirmasdan olib tashlaymiz.
-        window.history.replaceState(
-          window.history.state,
-          '',
-          window.location.pathname + window.location.search,
-        )
+        clearRecoveryParamsFromUrl()
       }
 
       return { data: null, error: null }
