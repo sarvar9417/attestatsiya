@@ -328,9 +328,9 @@ export default function QuestionFormModal({
                 }
                 aria-label="Test turi"
               >
-                <option value="Y1">Y1 · Bilish</option>
-                <option value="Y2">Y2 · Qo‘llash</option>
-                <option value="Y3">Y3 · Mulohaza</option>
+                <option value="Y1">Y1 · Bitta to‘g‘ri javob</option>
+                <option value="Y2">Y2 · Moslashtirish</option>
+                <option value="Y3">Y3 · Ketma-ketlik</option>
               </select>
             </FormField>
 
