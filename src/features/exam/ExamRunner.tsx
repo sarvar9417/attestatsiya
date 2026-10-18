@@ -474,6 +474,10 @@ export default function ExamRunner({
                 : topicPreview
                 ? `${topicPreview.questionCount} savol`
                 : 'Mavzu testi'
+    const previewBlocked = examKind === 'mavzu' && topicPreview !== null && topicPreview.questionCount === 0
+    const previewReduced = examKind === 'mavzu' && topicPreview !== null &&
+      (topicPreview.configuredCount ?? topicPreview.questionCount) > topicPreview.questionCount
+
     const durationLabel =
       examKind === 'pedagogik_15' ? '30 daqiqa (mashq)' :
       examKind === 'mock'
@@ -547,6 +551,17 @@ export default function ExamRunner({
                 </div>
               )}
 
+              {previewBlocked && (
+                <div role="alert" className="mt-5 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800 dark:border-amber-800/40 dark:bg-amber-900/20 dark:text-amber-200">
+                  Hozir bu mavzuda tasdiqlangan savollar yetarli emas. Mavzu nazariyasini o‘rganishingiz mumkin, test savollari tayyorlangach sinovni boshlaysiz.
+                </div>
+              )}
+              {previewReduced && !previewBlocked && (
+                <p className="mt-4 text-sm text-amber-700 dark:text-amber-300">
+                  Bu mavzuda hozir {topicPreview.questionCount} ta tasdiqlangan savol bor. Test mavjud savollar asosida tuziladi.
+                </p>
+              )}
+
               {startError && (
                 <div
                   role="alert"
@@ -561,7 +576,7 @@ export default function ExamRunner({
 
               <button
                 type="button"
-                disabled={starting}
+                disabled={starting || previewBlocked}
                 onClick={() => void startExam()}
                 className="mt-7 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 disabled:opacity-60 sm:w-auto"
               >
