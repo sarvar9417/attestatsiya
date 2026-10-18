@@ -153,6 +153,18 @@ describe('resolveLessonUuid', () => {
     expect(mockEq).toHaveBeenCalledWith('status', 'published')
   })
 
+  it('M08.04 also resolves the published lesson by module and order', async () => {
+    mockMaybeSingle
+      .mockResolvedValueOnce({ data: { id: 'module-m08' }, error: null })
+      .mockResolvedValueOnce({ data: { id: 'lesson-js-m08-04' }, error: null })
+    mockEq.mockImplementation(() => ({ eq: mockEq, maybeSingle: mockMaybeSingle }))
+    const resolved = await resolveLessonUuid('M08.04')
+    expect(resolved).toBe('lesson-js-m08-04')
+    expect(mockEq).toHaveBeenCalledWith('module_id', 'module-m08')
+    expect(mockEq).toHaveBeenCalledWith('order_idx', 4)
+    expect(mockEq).toHaveBeenCalledWith('status', 'published')
+  })
+
   it('M05 missing canonical published lesson never falls back to another lesson', async () => {
     // M05 module is already cached by the M05.01 test above.
     mockMaybeSingle.mockResolvedValueOnce({ data: null, error: null })
