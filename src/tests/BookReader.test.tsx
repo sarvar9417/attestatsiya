@@ -267,7 +267,7 @@ describe('M07 source-backed reader', () => {
     '',
     '## Yakuniy amaliy topshiriq',
     'LOGO va Pen bo‘yicha mashq.',
-  ].join('\\n')
+  ].join('\n')
   const content = {
     subtopicId: '97000000-0000-4000-8000-000000000001',
     title: 'Scratch sahnasi',
