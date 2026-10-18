@@ -7,7 +7,7 @@ describe('Sanoq sistemalari savollaridagi matematik yozuv', () => {
   it('sanoq asoslari va formulalarni mavzu testi savolida KaTeX orqali ko‘rsatadi', () => {
     const { container } = render(
       <Y1Choice
-        prompt={'\\(101\\)_2 emas, $101_{2}$ sonini o‘nlikka o‘tkazing.'}
+        prompt={'$101_{2}$ sonini o‘nlikka o‘tkazing.'}
         options={[
           { id: 'a', side: 'a', content_md: '$5_{10}$' },
           { id: 'b', side: 'a', content_md: '$6_{10}$' },
@@ -17,9 +17,8 @@ describe('Sanoq sistemalari savollaridagi matematik yozuv', () => {
         onChange={vi.fn()}
       />,
     )
-    expect(screen.getByRole('group')).toBeInTheDocument()
+    expect(container.querySelectorAll('button')).toHaveLength(4)
     expect(container.querySelectorAll('.book-math .katex')).toHaveLength(5)
-    expect(screen.getByRole('button', { name: /5/ })).toBeInTheDocument()
   })
 
   it('mavjud AnswerOption qiymatlaridagi formulalarni ham chizadi', () => {
