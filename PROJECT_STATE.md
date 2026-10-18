@@ -1,11 +1,12 @@
-## TASK-210 — Universal shaxsiy test konstruktori (2026-10-18)
+## TASK-210 — Universal shaxsiy test konstruktori (2026-10-18, functional branch verified)
 
-- **Egasi:** ChatGPT development session; **Status:** IN_PROGRESS (branch, production emas).
-- **Branch:** `task/TASK-210-custom-test-builder`, `main` asosida.
-- **Bajarilgan:** arxitektura/RFC `docs/TASK210_UNIVERSAL_CUSTOM_TEST_BUILDER.md`; `backend/src/schemas/custom-exam.ts` — qat'iy Zod konfiguratsiya/kvotalar; `backend/src/services/custom-exam-planner.ts` — aniq slot va deterministic largest-remainder; `backend/src/services/__tests__/custom-exam-planner.test.ts` — validatsiya/chegara regressiyalar.
-- **Joriy gate:** GitHub CI tekshirilishi kerak; local Node 24 / Supabase stack mavjud bo‘lmagani sabab unit/typecheck/lint hali tasdiqlanmagan. **Bu hali ishchi learner feature emas.**
-- **Qolgan:** DB migration + RLS + atomic generator + exact preflight; HTTP API; frontend `/custom-test`, navigation, history, presets, 50/120 regressiya va live E2E.
-- **Release restriction:** main, production yoki production DBga yozuv yo‘q; alohida tasdiqsiz merge/deploy qilmang.
+- **Status:** IN_PROGRESS — draft PR #144; main/production o‘zgarmagan.
+- **Branch:** `task/TASK-210-custom-test-builder`; change scope: RFC, Zod quota parser/planner, safe catalog/preflight, atomic `custom` exam RPC and key-leak guard, frontend wizard and shared ExamRunner, history/result labels, SQL/backend/E2E tests.
+- **Validatsiya:** latest functional commit `68adea436e46` da CI backend, fresh PostgreSQL/database (jumladan `supabase/tests/custom_exam.test.sql`), quality/lint/typecheck/build/Playwright E2E = **SUCCESS**. Shu hujjat commitidan keyin CI qayta tekshirilsin.
+- **DB:** `20261018230000_task210_custom_exam.sql` va `20261018231000_task210_custom_exam_feedback_guard.sql` — productionga qo‘llanmagan. `exam_kind='custom'`, public `custom_exam_preflight(jsonb)`, `generate_custom_exam(jsonb)`; user auth, exact per-lesson A–E quotas, published/keyed/source-backed filters va all-or-nothing.
+- **UI:** `/custom-test` protected wizard → `/exam/custom`, ko‘p modul, qo‘lda A–E kvota, Y1/Y2/Y3, exposure, mode, timer. All results in same server-authoritative history flow. Learning mode hozir feedbackni **yakunda** ko‘rsatadi.
+- **Qolgan va `DONE` uchun majburiy:** shaxsiy preset saqlash CRUD + RLS; construct-level microtopic selection; domain analytics/result breakdown by selected topic; active attempt resume/idempotent start; migration remote rollout / production acceptance, accessibility va UX smoke. Yakunlanmagan bo‘limlarni “Completed” deb belgilamang.
+- **Release restriction:** iznsiz `main` merge, Vercel production deploy yoki production DB migration yo‘q. PR #144 Draft qoladi.
 
 ## TASK-203 — Pedagogika 249 owner-approved production bank Git parity (2026-10-18)
 

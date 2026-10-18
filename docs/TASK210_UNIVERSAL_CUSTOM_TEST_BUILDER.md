@@ -1,6 +1,6 @@
 # TASK-210 — Universal shaxsiy test konstruktori (2026-10-18)
 
-**Holat:** IN_PROGRESS — arxitektura kelishildi; server va UI implementatsiyasi bosqichma-bosqich.  
+**Holat:** IN_PROGRESS — server generator + konfigurator UI + SQL/backend/Playwright verification Draft PR #144 da ishlab chiqildi; presets/construct microtopic/results analytics/resume/release hali OPEN.  
 **Repository:** `sarvar9417/attestatsiya` · **branch:** `task/TASK-210-custom-test-builder`  
 **Product owner talabi:** foydalanuvchi o‘zi bo‘lim / topic / subtopic, son, qiyinchilik va vaqtni belgilab test tuzadi. Informatika va pedagogika / kasb standartlari bir testda bo‘lishi mumkin.  
 **Source of truth:** `AGENTS.md`, `informatika-attestatsiya-platform-spec/{DECISIONS,DOMAIN_RULES,PRODUCT_REQUIREMENTS,API_CONTRACTS,DATABASE_SCHEMA}.md`, amaldagi migratsiyalar, `backend/src/services/exam.service.ts`, `src/features/exam/*`.
@@ -91,11 +91,11 @@ Birinchi navbatda **fail-closed**; yetishmasa 409 + `CUSTOM_POOL_INSUFFICIENT` v
 
 | Bosqich | Status | Deliverable va tugallanish sharti |
 |---|---|---|
-| A. Projekt + validatsiya | **IN_PROGRESS** | Mazkur RFC, Zod contract, deterministic quota/domain validation va unit testlar |
-| B. Preflight + DB | PLANNED | Timestamped migration, RLS, safe catalog, exact pool queries, SQL/RPC atomic start, role tests |
-| C. UI + full flow | PLANNED | `/custom-test` page, per-topic counts, A–E + Y1–Y3, checkable preflight, actual start, mobile UX, resume |
-| D. Natijalar va preset | PLANNED | Breakdown, saved presets, history, error-review integration |
-| E. QA va release | BLOCKED until tests | Fresh DB migration, pgTAP, backend/frontend tests, Playwright E2E, lint/typecheck/build, branch check + PR review |
+| A. Projekt + validatsiya | **DONE (branch)** | Mazkur RFC, Zod contract, deterministic quota/domain validation va unit testlar |
+| B. Preflight + DB | **DONE (branch, CI verified)** | Timestamped migration, RLS, safe catalog, exact pool queries, SQL/RPC atomic start, role tests |
+| C. UI + full flow | **MVP DONE (branch, E2E verified)** | `/custom-test` page, per-topic counts, A–E + Y1–Y3, checkable preflight, actual start, mobile UX, resume |
+| D. Natijalar va preset | **PARTIAL** | Breakdown, saved presets, history, error-review integration |
+| E. QA va release | **CI GREEN; deployment BLOCKED** | Fresh DB migration, pgTAP, backend/frontend tests, Playwright E2E, lint/typecheck/build, branch check + PR review |
 
 **Test matrix:**
 - happy: 2 bo‘lim, 3 mavzu, 3 daraja, aniq savollar;
@@ -120,3 +120,12 @@ Birinchi navbatda **fail-closed**; yetishmasa 409 + `CUSTOM_POOL_INSUFFICIENT` v
 ## 7. Definition of done
 
 Barcha A–E bosqichlarda kod, migratsiya, E2E test va dokumentatsiya tekshirilib, yangi test foydalanuvchida haqiqatan ishlamaguncha TASK-210 `DONE` emas. Pull request `draft` qoladi va production o‘zgarmaydi.
+
+## 2026-10-18 handoff: amalga oshirilgan qismlar
+
+- `src/pages/CustomTestPage.tsx`: multi-module lesson + 5-level quotas, format, exposure, mode, time, exact preflight and race-safe preview gating.
+- `/api/custom-tests/catalog`, `preflight`, `start` server token bilan; Fastify/Zod boundary.
+- PostgreSQL `custom_exam_preflight` + `generate_custom_exam`: question answer key payload yuborilmaydi; `submit_answer` custom exam mode’ida completion oldidan feedback chiqarmaydi.
+- Shared `ExamRunner`, history/results enum, sidebar/mobile navigation va frontend type contract.
+- CI SQL test `supabase/tests/custom_exam.test.sql`, backend `custom-exam-planner.test.ts` va `routes/__tests__/custom-exam.test.ts`, Playwright `custom-test.spec.ts`.
+- **Cheklov:** hozirgi learning rejimi immediate hint emas, faqat yakuniy feedback. Preset CRUD, microtopic/construct filter, resume, analytics, remote migration va production smoke keyingi tasklarga qolgan. Branch main/prodga merge qilinmagan.
