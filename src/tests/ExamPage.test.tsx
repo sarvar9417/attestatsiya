@@ -89,7 +89,7 @@ function successfulGateway(): ExamGateway {
     }),
     previewTopicTest: vi.fn().mockResolvedValue({
       questionCount: 20, durationSec: 2400,
-      ready: true, available: 22, reason: 'ready', criticalObjectiveGaps: [],
+      ready: true, available: 22, reason: 'ready', criticalObjectiveGaps: [], missingRequiredObjectives: [],
     }),
     submitAnswer: vi.fn().mockResolvedValue({ saved: true }),
     finishExam: vi.fn().mockResolvedValue({
@@ -216,7 +216,7 @@ describe('secure ExamRunner', () => {
     const gateway = successfulGateway()
     vi.mocked(gateway.previewTopicTest!).mockResolvedValue({
       questionCount: 20, durationSec: 2400, ready: false,
-      available: 8, reason: 'pool_insufficient', criticalObjectiveGaps: [],
+      available: 8, reason: 'pool_insufficient', criticalObjectiveGaps: [], missingRequiredObjectives: [],
     })
     renderExam(gateway, '/exam/mavzu/M15?lessonId=M15.01')
     expect(await screen.findByText(/8\/20 ta mos savol/)).toBeDefined()
