@@ -37,7 +37,7 @@ BEGIN
   v_seed := 'm15-y1-20261018:'||r.topic_order::text||':'||r.seed_no::text;
   v_qid := md5(v_seed)::uuid;
   INSERT INTO public.questions (id,subject_id,construct_id,group_code,format,cognitive,difficulty,stem_md,status,source_reference,source_lesson_id,is_generated)
-  VALUES(v_qid,v_sub,v_con,v_group,'Y1'::public.question_format,r.cognitive::public.cognitive_level,3,r.stem,'published'::public.content_status,'authored:m15-topictest-20261018:'||r.topic_order::text||':'||r.seed_no::text,v_lesson,false)
+  VALUES(v_qid,v_sub,v_con,v_group,'Y1'::public.question_format,r.cognitive::public.cognitive_level,3,r.stem,'review'::public.content_status,'authored:m15-topictest-20261018:'||r.topic_order::text||':'||r.seed_no::text,v_lesson,false)
   ON CONFLICT (id) DO NOTHING;
   v_choices := ARRAY[r.answer,r.wrong_1,r.wrong_2,r.wrong_3];
   FOR v_n IN 1..4 LOOP
