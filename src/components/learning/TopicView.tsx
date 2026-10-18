@@ -144,7 +144,7 @@ export default function TopicView({
   const [topicReadiness, setTopicReadiness] = useState<{ subtopicId: string; data: TopicTestPreflight } | null>(null)
   const [readinessRetry, setReadinessRetry] = useState(0)
   const [checkErrors, setCheckErrors] = useState<Record<string, string>>({})
-  const isProfessionalLesson = /^M1[456]\.\d{2}$/.test(subtopicId)
+  const isProfessionalLesson = /^(?:M04|M1[456])\.\d{2}$/.test(subtopicId)
   const staticContent = getTopicContent(subtopicId)
   const isPedagogyTopic = moduleId === 'M15' && /^M15\.\d{2}$/.test(subtopicId)
   const loadedContent = publishedTheory?.subtopicId === subtopicId
@@ -179,10 +179,10 @@ export default function TopicView({
     setCheckErrors({})
   }, [subtopicId])
 
-  // M14-M16 canonical source-backed lessons must reach the student's theory
+  // M04 and M14-M16 canonical source-backed lessons must reach the student's theory
   // view, not just the admin API. Keep static theory as offline fallback.
   useEffect(() => {
-    if (!/^M1[456]\.\d{2}$/.test(subtopicId)) return
+    if (!/^(?:M04|M1[456])\.\d{2}$/.test(subtopicId)) return
     let cancelled = false
     const fallback = getTopicContent(subtopicId)
     if (!fallback) return
