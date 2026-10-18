@@ -18,6 +18,28 @@ describe('topic progress is awarded only for valid answered tests', () => {
     expect(useProgressStore.getState().isModuleComplete('M03', 0)).toBe(false)
   })
 
+  it('ignores historical persisted 0/0 completions while keeping genuine attempts', () => {
+    useProgressStore.setState({
+      moduleProgress: {
+        M03: {
+          completedTopics: ['M03.01', 'M03.02'],
+          topicProgress: {
+            'M03.01': { completed: true, correctCount: 0, totalCount: 0, lastScore: 100 },
+            'M03.02': { completed: true, correctCount: 16, totalCount: 20, lastScore: 80 },
+          },
+          mockExamScore: 40,
+          mockExamCompleted: true,
+          mockExamAnswers: {},
+        },
+      },
+    })
+    expect(useProgressStore.getState().getModuleProgress('M03').completedTopics).toEqual(['M03.02'])
+    expect(useProgressStore.getState().isModuleComplete('M03', 2)).toBe(false)
+    expect(useProgressStore.getState().isModuleComplete('M03', 1)).toBe(true)
+    // Original stored record preserved for possible later reconciliation.
+    expect(useProgressStore.getState().moduleProgress.M03.completedTopics).toEqual(['M03.01', 'M03.02'])
+  })
+
   it('still saves valid tested topic scores without overcounting', () => {
     const complete = useProgressStore.getState().completeTopic
     complete('M03', 'M03.01', 16, 20)
