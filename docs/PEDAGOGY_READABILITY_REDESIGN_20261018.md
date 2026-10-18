@@ -8,6 +8,16 @@
 2. `professionalLessonTheory.ts` serverdan kelgan M14–M16 MDX mazmunining `##` sarlavhasini `text`ga aylantirar, qalin termin va manba belgilarini ko‘rsata olmas, ro‘yxatni oddiy matnga yig‘ib yuborar edi. Bu ko‘rgazmali, tushunarli nazariyani bir xil matn bloklariga aylantirib yuborgan.
 3. 2026-10-18 yangidan yozilgan nazariya SQL migratsiyalari oldingi release doirasida **kodga merge bo‘lgan, lekin production DBga qo‘llanmagan**. Qachon qo‘llansa ham foydalanuvchini uzun izohlar bilan chalg‘itmaslik zarur.
 
+## Real foydalanuvchi ko‘rsatgan muammo — 09:11 (2026-10-18)
+
+Foydalanuvchining birinchi skrinshotida `/learn/M15` ichidagi an'anaviy **rangli jadval va misol** ko‘rinadi, birozdan so‘ng ikkinchi skrinshotda oddiy matn kartalari va katta oraliqlar qolgan.
+
+**Tasdiqlangan sabab:** `TopicView.tsx` birinchi renderda `getTopicContent(subtopicId)` ni ishlatgan, keyin asinxron `getLessonDetail()` tugashi bilan `publishedTheory.content`ga almashtirgan. Ikkala manba uchun boshqa blok dizayni ishlagani sabab ko‘rinish almashgan. `liveQuestions` backenddan kelgach savollar sonining 2→8 bo‘lib o‘zgarishi ham skrinshotda ko‘rinadi, bu boshqa data-fetch oqimi va test kalitiga tegmasdan saqlangan.
+
+**Yakuniy tuzatish:** `resolveLearnerTheoryContent()` M15 uchun server qaytganda ham **bir xil statik, eski chiroyli asosiy nazariya obyektini** qaytaradi; shu sabab ko‘rinish va progress kuzatuvchisining `content` dependencysi o‘zgarmaydi. Serverdagi mazmun alohida yopiq `Batafsil nazariya — qo‘shimcha manba` bo‘limida mavjud. M14/M16 canonical backend-first oqimi o‘zgarmaydi.
+
+**Regressiya testi:** `professionalLessonTheory.test.ts` M15.08ning server so‘rovidan oldin va keyin *bir xil ma'lumot obyektini*, rangli `definition` bloki va o‘zgarmagan savollarni ishlatayotganini tekshiradi; M14/M16 backend policy saqlanadi.
+
 ## Tuzatish
 
 - M14–M16 published darslari sarlavha, ro‘yxat, taqqoslash jadvali, maqsad va manba bo‘yicha **semantik bloklarga** aylantiriladi.
