@@ -14,12 +14,12 @@ insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distra
 'Moslashtirilgan yordam ayrim o‘quvchilar uchun natija talabini butunlay bekor qilishni anglatadi',
 'Tenglik uchun har bir o‘quvchi individual ehtiyojidan qat’i nazar bir xil vazifani bajarishi zarur']),
 ('da2c892a-0780-4aca-aa90-768eb8128e81',array[
-'Asosan o‘quvchining baholari va nazorat ishlaridagi umumiy reytingini',
+'Asosan o‘quvchining baholari va nazorat ishlaridagi umumiy reytingini hisobga olishni',
 'Faqat dars davomida o‘qituvchi nutqi va material hajmini',
 'Faqat fan dasturining mavzular ketma-ketligi va nazorat sanalarini']),
 ('df67c78d-910d-4fe3-b366-7acff36c2966',array[
 'O‘quvchilarga materialni izlashni mustaqil topshirib, guruhga bo‘linishni tasodifga qoldirish',
-'Har bir faoliyat uchun vaqtni ko‘paytirib, kerakli jihozlarni dars paytida izlashni davom ettirish',
+'Har bir faoliyat uchun vaqtni ko‘paytirib, jihoz izlashni davom ettirish',
 'Guruh rollarini kelishmasdan, mavzu tugagach ularning ishlash tartibini baholash']),
 ('e56b4a41-b455-4942-a8b6-2e6047e68abb',array[
 'Topshiriq bajarilmaganini darhol xulq muammosi deb hisoblab umumiy ogohlantirish berish',
