@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { MODULES } from '../data/contentTree'
 import { getModuleDetail, listModules } from '../features/content/contentApi'
 import { mergeCatalog, type CatalogModule } from '../features/content/catalog'
+import { withPublishedPyjsV2Lessons } from '../features/content/pyjsV2Catalog'
 
 export interface CatalogState {
   modules: CatalogModule[]
@@ -48,6 +49,20 @@ export function useCatalog(): CatalogState {
           }
         } catch {
           // Offline or incomplete rollout: retain the previously published M06.
+        }
+        // M08: only switch from legacy subjects to the 14 expert-approved
+        // Python/JavaScript chapters when every core lesson is published.
+        // No preview/review rows or answer keys enter the learner catalogue.
+        try {
+          const m08 = base.find(module => module.code === 'M08')
+          if (m08) {
+            const detail = await getModuleDetail('M08')
+            const next = withPublishedPyjsV2Lessons(m08, detail.lessons)
+            const index = base.indexOf(m08)
+            base[index] = next
+          }
+        } catch {
+          // Incomplete rollout or offline backend: keep the legacy M08 topics.
         }
         if (!cancelled) setState({ modules: base, loading: false, online: true })
       })
