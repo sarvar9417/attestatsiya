@@ -29,7 +29,7 @@ export default function CustomTestPage() {
   const [exposure, setExposure] = useState<CustomExamConfig['exposure']>('all')
   const [mode, setMode] = useState<CustomExamConfig['mode']>('exam')
   const [duration, setDuration] = useState<number | null>(1800)
-  const [preview, setPreview] = useState<CustomExamPreview | null>(null)
+  const [previewSnapshot, setPreview] = useState<{ configKey: string; data: CustomExamPreview } | null>(null)
   const [checking, setChecking] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -93,6 +93,9 @@ export default function CustomTestPage() {
     }
   }, [selected, formats, exposure, mode, duration])
 
+  // Stale network responses may never authorize a changed test configuration.
+  const configKey = JSON.stringify(config)
+  const preview = previewSnapshot?.configKey === configKey ? previewSnapshot.data : null
   const count = config.total_count
   const invalid =
     config.topics.length === 0 || config.topics.length > 30 ||
@@ -110,7 +113,8 @@ export default function CustomTestPage() {
     setPreview(null)
     setError(null)
     try {
-      setPreview(await previewCustomTest(config))
+      const result = await previewCustomTest(config)
+      setPreview({ configKey, data: result })
     } catch (failure) {
       setError(failure instanceof Error ? failure.message : 'Savollarni tekshirib bo‘lmadi')
     } finally {
