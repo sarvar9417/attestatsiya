@@ -45,7 +45,9 @@ BEGIN
  SELECT c.id,c.subject_id,l.id INTO v_construct_id,v_subject_id,v_lesson_id
  FROM public.constructs c JOIN public.lesson_constructs lc ON lc.construct_id=c.id
  JOIN public.lessons l ON l.id=lc.lesson_id
- WHERE c.code='S2.HW.01' AND l.status='published'::public FOR v_candidate_source IN
+ WHERE c.code='S2.HW.01' AND l.status='published'::public.content_status LIMIT 1;
+
+ FOR v_candidate_source IN
    SELECT unnest(ARRAY[
      'ktd-540-2026:CI-PUBLICATION-GUARD',
      'authored:m02-source-20261018:CI-PUBLICATION-GUARD'
