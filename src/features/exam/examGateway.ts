@@ -26,6 +26,11 @@ export type ExamKind = 'mock' | 'bolim' | 'mavzu' | 'mashq' | 'diagnostika' | 't
 export interface TopicTestPreview {
   questionCount: number
   durationSec: number
+  /** True only when the server verified the full blueprint, not merely sample count. */
+  ready: boolean
+  available: number
+  reason: 'ready' | 'pool_insufficient' | 'objective_gap' | 'blueprint_missing' | 'blueprint_invalid'
+  criticalObjectiveGaps: string[]
 }
 
 export interface ExamGateway {
