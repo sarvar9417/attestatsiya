@@ -101,13 +101,25 @@ export const useProgressStore = create<ProgressState>()(
       },
 
       getModuleProgress: (moduleId) => {
-        return get().moduleProgress[moduleId] ?? defaultModuleProgress()
+        const mp = get().moduleProgress[moduleId] ?? defaultModuleProgress()
+        // Older client releases persisted "completed 0/0 = 100%" records.
+        // Ignore those on read without deleting localStorage or real exam history.
+        return {
+          ...mp,
+          completedTopics: mp.completedTopics.filter(id => {
+            const record = mp.topicProgress[id]
+            return record?.completed === true &&
+              Number.isFinite(record.totalCount) && record.totalCount > 0 &&
+              Number.isFinite(record.correctCount) &&
+              record.correctCount >= 0 && record.correctCount <= record.totalCount
+          }),
+        }
       },
 
       isModuleComplete: (moduleId, totalTopics) => {
-        const mp = get().moduleProgress[moduleId]
-        if (!mp) return false
-        return mp.completedTopics.length >= totalTopics && mp.mockExamCompleted
+        const mp = get().getModuleProgress(moduleId)
+        return totalTopics > 0 &&
+          mp.completedTopics.length >= totalTopics && mp.mockExamCompleted
       },
     }),
     {
