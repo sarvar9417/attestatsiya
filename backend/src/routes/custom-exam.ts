@@ -15,6 +15,11 @@ function requireToken(request: { headers: { authorization?: string } }): string 
 }
 
 export async function customExamRoutes(app: FastifyInstance) {
+  app.get('/api/custom-tests/active', async (request, reply) => {
+    try { return reply.send(await customExamService.active(requireToken(request))) }
+    catch (error) { return sendError(reply, error) }
+  })
+
   app.get('/api/custom-tests/:id/analysis', async (request, reply) => {
     try {
       const { id } = z.object({ id: z.string().uuid() }).parse(request.params)

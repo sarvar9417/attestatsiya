@@ -132,3 +132,20 @@ export async function getCustomExamAnalysis(examId: string): Promise<CustomExamA
     await api.get<unknown>(`/api/custom-tests/${encodeURIComponent(examId)}/analysis`)
   )
 }
+
+const activeCustomSessionSchema = z.object({
+  exam_id: z.string().uuid(),
+  kind: z.literal('custom'),
+  duration_sec: z.number().int().positive().nullable(),
+  started_at: z.string(),
+  selection_meta: z.object({ config: customExamConfigSchema }).passthrough(),
+  items: z.array(z.unknown()).min(1),
+  answered_question_ids: z.array(postgresUuidSchema),
+  saved_answers: z.record(z.string(),z.unknown()),
+})
+export type ActiveCustomSession = z.infer<typeof activeCustomSessionSchema>
+
+export async function getActiveCustomSession(): Promise<ActiveCustomSession | null> {
+  const value = await api.get<unknown>('/api/custom-tests/active')
+  return activeCustomSessionSchema.nullable().parse(value)
+}

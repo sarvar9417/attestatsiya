@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ArrowLeft, BookOpen, ChevronDown, ChevronRight, ClipboardCheck, LoaderCircle, ShieldCheck } from 'lucide-react'
 import {
   getCustomTestCatalog,
+  getActiveCustomSession,
+  type ActiveCustomSession,
   previewCustomTest,
   type CatalogModule,
   type CustomExamConfig,
@@ -22,6 +24,7 @@ const LEVEL_LABELS: Record<Level, string> = {
 export default function CustomTestPage() {
   const navigate = useNavigate()
   const [catalog, setCatalog] = useState<CatalogModule[]>([])
+  const [activeSession, setActiveSession] = useState<ActiveCustomSession | null>(null)
   const [loading, setLoading] = useState(true)
   const [catalogError, setCatalogError] = useState<string | null>(null)
   const [openModules, setOpenModules] = useState<string[]>([])
@@ -49,6 +52,13 @@ export default function CustomTestPage() {
   }, [])
 
   useEffect(() => { void loadCatalog() }, [loadCatalog])
+  useEffect(() => {
+    let mounted = true
+    void getActiveCustomSession().then(value => {
+      if (mounted) setActiveSession(value)
+    }).catch(() => { /* No active session information: manual start stays available. */ })
+    return () => { mounted = false }
+  }, [])
 
   const update = (next: Selection) => {
     setSelected(next)
@@ -265,6 +275,20 @@ export default function CustomTestPage() {
         </section>
 
         <aside className="space-y-4 lg:sticky lg:top-6">
+          {activeSession && (
+            <section aria-label="Davom ettiriladigan test" className="space-y-2 rounded-2xl border border-indigo-300 bg-white p-5 dark:bg-gray-900">
+              <h2 className="font-semibold text-indigo-700 dark:text-indigo-300">Tugallanmagan shaxsiy test</h2>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                {activeSession.answered_question_ids.length}/{activeSession.items.length} savolga javob saqlangan.
+                Test vaqti serverdagi boshlanish vaqtiga bog‘liq.
+              </p>
+              <button type="button" onClick={() =>
+                navigate('/exam/custom', { state: { customConfig: activeSession.selection_meta.config } })
+              } className="min-h-11 w-full rounded-xl bg-indigo-600 px-3 py-2 font-semibold text-white">
+                Testni davom ettirish
+              </button>
+            </section>
+          )}
           <SavedPresetsPanel config={config} invalid={invalid} onLoad={loadPreset}/>
           <section className="space-y-4 rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-900">
             <h2 className="text-lg font-bold text-gray-900 dark:text-white">2. Test sozlamalari</h2>

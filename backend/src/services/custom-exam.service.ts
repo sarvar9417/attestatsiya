@@ -121,6 +121,13 @@ export const customExamService = {
     return data as unknown as CustomExamPreview
   },
 
+  async active(userToken: string): Promise<unknown> {
+    const client = getAuthedClient(userToken)
+    const { data, error } = await client.rpc('get_active_custom_exam')
+    if (error) throw new AppError('Davom ettiriladigan testni tekshirib bo‘lmadi', 503, 'CUSTOM_RESUME_UNAVAILABLE')
+    return data
+  },
+
   async analysis(examId: string, userToken: string): Promise<unknown> {
     const client = getAuthedClient(userToken)
     const { data, error } = await client.rpc('get_custom_exam_analysis', { p_exam_id: examId })

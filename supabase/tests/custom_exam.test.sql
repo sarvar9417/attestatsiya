@@ -167,6 +167,9 @@ begin
   end;
   if not v_failed then raise exception 'insufficient pool must fail before writing'; end if;
   v_finish := public.finish_exam(v_exam);
+  if public.get_active_custom_exam() is not null then
+    raise exception 'finished exam must not be returned as active';
+  end if;
   if (v_finish->>'max_score')::int<>14 then raise exception 'custom scoring invalid: %',v_finish; end if;
   v_analysis := public.get_custom_exam_analysis(v_exam);
   if (v_analysis->>'total')::int <> 7 or (v_analysis->>'answered')::int <> 1
