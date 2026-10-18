@@ -60,6 +60,15 @@ export const lessonQuestionOptionSchema = z
   .strict()
 export type LessonQuestionOption = z.infer<typeof lessonQuestionOptionSchema>
 
+export const topicTestPreviewSchema = z.object({
+  question_count: z.number().int().nonnegative(),
+  duration_sec: z.number().int().nonnegative(),
+  configured_count: z.number().int().nonnegative(),
+  available_count: z.number().int().nonnegative(),
+  reason: z.string().nullable(),
+}).strict()
+export type TopicTestPreviewResponse = z.infer<typeof topicTestPreviewSchema>
+
 export const lessonQuestionSchema = z
   .object({
     id: z.string(),
@@ -154,6 +163,14 @@ export async function getModuleDetail(id: string): Promise<ModuleDetail> {
 export async function getLessonDetail(id: string): Promise<LessonSummary> {
   const data = await api.get<unknown>(`/api/content/lessons/${encodeURIComponent(id)}`)
   return parse(lessonDetailResponseSchema, data, 'get_lesson_detail')
+}
+
+/** Lesson testining haqiqiy poolidan hisoblangan hajm va vaqt. */
+export async function getLessonTopicTestPreview(id: string): Promise<TopicTestPreviewResponse> {
+  const data = await api.get<unknown>(
+    `/api/content/lessons/${encodeURIComponent(id)}/test-preview`
+  )
+  return parse(topicTestPreviewSchema, data, 'get_lesson_topic_test_preview')
 }
 
 /**
