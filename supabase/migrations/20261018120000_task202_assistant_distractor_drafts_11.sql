@@ -1,6 +1,7 @@
 -- TASK-202: applied-computing pedagogy distractor drafts; no learner release.
 begin;
-insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distractors) values
+insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distractors)
+select source_question_id::uuid, proposed_distractors from (values
 ('75000000-0000-4000-8000-000000000032',array[
 'Algoritm tuzishni keyinga qoldirib, tayyor kod buyruqlarini yodlash',
 'Mavzuni faqat blok-sxema atamalarini yozdirish orqali yakunlash',
@@ -41,5 +42,8 @@ insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distra
 'Faqat mavzu nomi va dars sanasini',
 'O‘qituvchi maoshi va sinf jihozlari ro‘yxatini',
 'Yillik ta’til jadvali va davomat shaklini'])
+) as proposed(source_question_id, proposed_distractors)
+where exists(select 1 from public.questions q where q.id=proposed.source_question_id::uuid
+  and q.status='published'::public.content_status and q.format='Y1'::public.question_format)
 on conflict(source_question_id) do nothing;
 commit;
