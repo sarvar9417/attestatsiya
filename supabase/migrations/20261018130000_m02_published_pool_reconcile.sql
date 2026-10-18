@@ -1,3 +1,19 @@
+-- Permit a smaller honest temporary practice only for M02 canonical
+-- operating-system and file-management lessons, where 8 published questions
+-- exist today. Preserve the 10..50 invariant for all OTHER platform lessons.
+ALTER TABLE public.lessons DROP CONSTRAINT IF EXISTS lessons_topic_test_question_count_check;
+ALTER TABLE public.lessons ADD CONSTRAINT lessons_topic_test_question_count_check
+CHECK (
+  topic_test_question_count BETWEEN 10 AND 50
+  OR (
+    id IN (
+      '92000000-0000-4000-8000-000000000002'::uuid,
+      '92000000-0000-4000-8000-000000000003'::uuid
+    )
+    AND topic_test_question_count BETWEEN 5 AND 50
+  )
+);
+
 -- M02 released question pools: never request more questions than are
 -- currently independently published, keyed and mapped to active constructs.
 -- This maintains honest 8/11/16-question practice while KTD-528 stays REVIEW.
