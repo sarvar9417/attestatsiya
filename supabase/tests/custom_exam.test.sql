@@ -176,7 +176,7 @@ reset role;
 
 do $admincheck$
 declare v_exam uuid;
-declare v_total int;
+        v_total int;
 begin
   select id into v_exam from public.exams
   where user_id='92100000-0000-4000-8000-000000000001' and kind='custom';
