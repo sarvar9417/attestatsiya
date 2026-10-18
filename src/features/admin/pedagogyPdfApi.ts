@@ -43,3 +43,15 @@ export function listPedagogyPdfCandidates(input: {
     `/api/admin/pedagogy-pdf-candidates?${params.toString()}`
   )
 }
+
+export function stagePedagogyPdfQuestion(candidateId:string,input:{
+  stem_md:string
+  options:string[]
+  correct_index:number
+  explanation_md:string
+}):Promise<{id:string;status:'review'}>{
+  return api.post<{id:string;status:'review'}>(
+    `/api/admin/pedagogy-pdf-candidates/${encodeURIComponent(candidateId)}/stage-question`,
+    input,
+  )
+}
