@@ -7,7 +7,11 @@ export const adminCognitiveSchema = z.enum(['bilish', 'qollash', 'mulohaza'])
 export const adminQuestionsQuerySchema = {
   querystring: z.object({
     status: adminContentStatusSchema.optional(),
-    source: z.enum(['pedguli']).optional(),
+    source: z.enum(['pedguli', 'pedagogy_pdf']).optional(),
+    group_code: z.enum(['KS', 'PM.GEN', 'PM.MET']).optional(),
+    query: z.string().trim().max(120).optional(),
+    page: z.coerce.number().int().min(1).max(100000).default(1),
+    page_size: z.coerce.number().int().min(1).max(100).default(25),
   }),
 }
 
