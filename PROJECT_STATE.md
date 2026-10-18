@@ -1768,3 +1768,13 @@ Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user co
 - **Format caveat:** source marks 7 Y2 + 7 Y3 but all 14 are Y1 multiple-choice combinations; DB format is Y1 until true native interaction is separately authored. `source_reference` preserves original kind.
 - **Regression:** new `task211_m13_axr_review_contract.test.sql`, plus exact review-corpus exemption to TASK-064 M13 canonical drift check while published drift remains rejected.
 - **Incomplete:** human source/key editorial review, local disposable PostgreSQL migration QA, frontend reader/resolver navigation/topic-preflight E2E, future expert-approved publication; merge, live Supabase migration and Vercel production deploy require separate user signoff.
+
+
+## TASK-220 — M12 Kompyuter tarmoqlari V2 — 2026-10-18
+- Owner: ChatGPT integration session; status IN_PROGRESS / admin-review staging complete.
+- Branch: task/TASK-220-m12-network-v2; GitHub draft PR #155: https://github.com/sarvar9417/attestatsiya/pull/155
+- Database: Supabase plyqezulrfowyblsfpzy ga tracked migration 20261018220000_task220_m12_network_v2_review_import.sql qo'llandi. Oldingi M12 5 published dars va 91 S6.NET savol o'zgarmadi.
+- Staging: 10 draft bob, 300 review savol, 1200 variant, 300 protected key; har bir bobda 30 savol; 0 yangi published.
+- Verification: GitHub CI run 39131096051 backend/database/quality PASS; rollback dry run PASS; live SQL contract PASS.
+- OPEN: expert signoff, visual/math/table render, M12 frontend learner topic routing, topic preflight/E2E, PR review/merge, learner release.
+- Handoff: docs/TASK220_M12_NETWORK_V2_INTEGRATION.md. Do not publish AI-generated content without independent human approval.
