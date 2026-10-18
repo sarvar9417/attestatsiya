@@ -143,7 +143,7 @@ export default function TopicView({
   const [publishedTheory, setPublishedTheory] = useState<{ subtopicId: string; content: TopicContent } | null>(null)
   const [topicReadiness, setTopicReadiness] = useState<{ subtopicId: string; data: TopicTestPreflight } | null>(null)
   const [readinessRetry, setReadinessRetry] = useState(0)
-  const isProfessionalLesson = /^M1[456]\.\d{2}$/.test(subtopicId)
+  const isProfessionalLesson = /^(?:M04|M1[456])\.\d{2}$/.test(subtopicId)
   const staticContent = getTopicContent(subtopicId)
   const isPedagogyTopic = moduleId === 'M15' && /^M15\.\d{2}$/.test(subtopicId)
   const loadedContent = publishedTheory?.subtopicId === subtopicId
