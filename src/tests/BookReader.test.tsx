@@ -187,7 +187,7 @@ describe('BookReader', () => {
 
   it('ilovada test o‘rniga “Mavzuni yakunlash” chiqadi', () => {
     render(<BookReader content={M01_CONTENT['M01.11']} questionCount={0} isAppendix onFinishReading={() => undefined} />)
-    expect(screen.getByRole('button', { name: /mavzuni yakunlash/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /mavzuni yakunlash/i })).toBeEnabled()
     expect(screen.getByText(/test ko‘zda tutilmagan/i)).toBeInTheDocument()
     expect(screen.queryByRole('tab')).not.toBeInTheDocument()
   })
@@ -201,7 +201,9 @@ describe('BookReader', () => {
       await user.click(screen.getByRole('button', { name: /keyingi/i }))
     }
     expect(screen.getByText(/test hali qo‘shilmagan/i)).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /mavzuni yakunlash/i })).toBeInTheDocument()
+    const disabled = screen.getByRole('button', { name: /test hali tayyor emas/i })
+    expect(disabled).toBeDisabled()
+    expect(screen.queryByRole('button', { name: /mavzuni yakunlash/i })).not.toBeInTheDocument()
   })
 
   it('keyingi mavzuni taklif qiladi', async () => {
