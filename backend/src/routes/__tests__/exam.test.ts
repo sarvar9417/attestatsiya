@@ -78,6 +78,18 @@ describe('Exam Routes', () => {
     await app.close()
   })
 
+  it('rejects Basic, empty, and malformed bearer credentials at the exam boundary', async () => {
+    for (const authorization of ['Basic abc', 'Bearer ', 'Bearer alpha beta']) {
+      const response = await app.inject({
+        method: 'GET',
+        url: '/api/exam/axb/chapters',
+        headers: { authorization },
+      })
+      expect(response.statusCode).toBe(401)
+      expect(response.json().error.code).toBe('TOKEN_REQUIRED')
+    }
+  })
+
   it('GET /api/exam/axb/chapters requires a bearer token', async () => {
     const response = await app.inject({
       method: 'GET',
