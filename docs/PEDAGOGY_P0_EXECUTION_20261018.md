@@ -2,6 +2,19 @@
 
 **Asos:** foydalanuvchi tasdiqlagan `PEDAGOGIKA_YAKUNIY_TANQIDIY_AUDIT_VA_TALABLAR_2026-10-18.md` (11 bo‘lim). O‘zgartirishlar faqat `work/pedagogy-p0-audit-execution-20261018`, [Draft PR #127](https://github.com/sarvar9417/attestatsiya/pull/127)da. **Merge / production deploy / production Supabase SQL yozish: YO‘Q.**
 
+## 0. YANGILANGAN production holati — TASK203 bilan paritet (2026-10-18)
+
+Dastlabki 175 published / 249 review hisoboti tarixiy snapshot bo‘lib qoldi. Owner-approved TASK203 release yakunida 249 savol alohida workflow orqali nashr qilindi; bu P0 branchida amalga oshirilmagan.
+
+- **Current production (read-only verification):** KS=114, PM.GEN=233, PM.MET=77 → **424 published, 0 review**.
+- 249 ta yangi owner-batch tasdiqlari mustaqil uchinchi tomon ekspert xulosasi deb ko‘rsatilmaydi. 82 distractor set AI yordamida keyinroq qayta yozilganligi TASK203 hujjatida ochiq qayd etilgan.
+- 18 kanonik mavzu qamrovi: **M15.01–08 va M16.01–03 uchun ≥20 published/keyed**; **M14.01–07 uchun 14–18 oralig‘ida**, shuning uchun 7 ta M14 mavzusi 20 talik strict testni hali o‘tkaza olmaydi.
+- `pedagogy_review_provenance` yangi `review` mavjud bo‘lsa qayd etadi; joriy productionda review=0, shu sabab owner-approved 249 ta tarixiy savolni qaytadan soxta `review` qilmaydi.
+- `topic_test_preflight` database RPC ruxsat berilgan production migration kelmaguncha backend published/keyed constructive countni **faqat SELECT orqali** qayta hisoblaydi. Generatorni chetlab o‘tmaydi, session yaratmaydi.
+- `pedagogy_option_quality_flags` view ham productionda hali mavjud bo‘lmasligi mumkin. Admin savollar sahifasi bu paytda oddiy ro‘yxatni ochadi, lekin risk badge’larni ko‘rsatmaydi.
+- Quyidagi §1 jadvali dastlabki auditga tegishli, joriy ishlab turgan database ko‘rsatkichi emas.
+- TASK203 manba: `docs/TASK203_PEDAGOGY_OWNER_APPROVAL_PARITY.md`.
+
 ## 1. Tekshirilgan baza snapshoti (production, faqat SELECT)
 
 - M14: 7 published canonical lessons, 65 published keyed questions / 140 target.
