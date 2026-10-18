@@ -147,6 +147,8 @@ export default function TopicView({
   const isProfessionalLesson = /^(?:M04|M1[456])\.\d{2}$/.test(subtopicId)
   const isAlgoritmlashV2 = moduleId === 'M06' &&
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
+  const isPublishedScratchLogoLesson = moduleId === 'M07' &&
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
   const isAxrM13 = moduleId === 'M13' &&
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
   const staticContent = getTopicContent(subtopicId)
@@ -231,6 +233,33 @@ export default function TopicView({
       .catch(() => { /* Fail closed on unpublished or unavailable theory. */ })
     return () => { cancelled = true }
   }, [isAlgoritmlashV2, isAxrM13, subtopicId])
+
+  // M07 previously rendered only six short static topics. The twelve source-
+  // backed published lessons now load their complete body_mdx into BookReader.
+  useEffect(() => {
+    if (!isPublishedScratchLogoLesson) return
+    let cancelled = false
+    getLessonDetail(subtopicId)
+      .then(lesson => {
+        if (cancelled || lesson.status !== 'published' || !lesson.body_mdx?.trim()
+          || !/^(?:scratch|logo)/i.test(lesson.slug)) return
+        const theory = markdownToTheoryBlocks(lesson.body_mdx)
+        if (theory.length === 0) return
+        setPublishedTheory({
+          subtopicId,
+          content: {
+            subtopicId,
+            title: lesson.title_uz,
+            source: 'Scratch/LOGO — 2026',
+            kind: 'chapter',
+            theory,
+            questions: [],
+          },
+        })
+      })
+      .catch(() => { /* Fail closed: do not display incomplete draft theory. */ })
+    return () => { cancelled = true }
+  }, [isPublishedScratchLogoLesson, subtopicId])
 
   // Published/keyed lesson coverage must be checked by the authoritative
   // backend generator preflight, not by the number of visible learning questions.
@@ -351,7 +380,7 @@ export default function TopicView({
   const displayedTestCount = currentReadiness?.required ?? 0
   const handleTopicTestAction = () => {
     if (hasTest) navigate(`/exam/mavzu/${moduleId}?lessonId=${subtopicId}`)
-    else if (!isProfessionalLesson && (!isAlgoritmlashV2 || isAppendix)) handleComplete(0, 0)
+    else if (!isProfessionalLesson && !isPublishedScratchLogoLesson && (!isAlgoritmlashV2 || isAppendix)) handleComplete(0, 0)
   }
 
   // Theory type distribution
@@ -681,6 +710,7 @@ export default function TopicView({
                   content={content}
                   questionCount={hasTest ? displayedTestCount : 0}
                   isAppendix={isAppendix}
+                  requireTest={isPublishedScratchLogoLesson}
                   onProgress={setReadProgress}
                   onFinishReading={handleTopicTestAction}
                   nextTopic={nextSubtopic ?? null}
