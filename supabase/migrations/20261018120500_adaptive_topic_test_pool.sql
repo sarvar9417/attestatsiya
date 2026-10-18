@@ -255,7 +255,8 @@ begin
     and c.is_active;
 
   v_meta := jsonb_build_object(
-    'selector_version', 'objective-complete-adaptive-v2',
+    'selector_version', 'objective-complete-v1',
+    'adaptive_pool_version', 2,
     'target_count', v_target,
     'configured_count', v_lesson.topic_test_question_count,
     'available_count', (
