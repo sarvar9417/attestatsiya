@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { ArrowRight, BookOpen, ClipboardCheck, FileText, ShieldCheck } from 'lucide-react'
 import { MODULES } from '../data/contentTree'
 import { PEDAGOGY_SPEC_OBJECTIVES } from '../data/pedagogySpec2026'
+import { KASB_SOURCE_CARDS, KASB_PDF_EDITORIAL_CAUTION } from '../data/pedagogyKasbSourceCards'
 
 /**
  * Official 2026 distribution: KS=5, PM.GEN=7, PM.MET=3.
@@ -82,10 +83,27 @@ export default function ProfessionalPracticePage() {
                         <span className="mt-0.5 block text-gray-500 dark:text-gray-400">
                           {PEDAGOGY_SPEC_OBJECTIVES[topic.id]?.skill ?? 'Rasmiy spetsifikatsiya bilan moslik tekshirilmoqda'}
                         </span>
+                        {KASB_SOURCE_CARDS[topic.id] && (
+                          <details className="mt-2 rounded-lg border border-indigo-100 bg-white px-2.5 py-2 dark:border-indigo-900/70 dark:bg-gray-900">
+                            <summary className="cursor-pointer text-[11px] font-semibold text-indigo-700 dark:text-indigo-300">
+                              Kasb standarti qo‘llanmasi, {KASB_SOURCE_CARDS[topic.id].pages}-betlar · izohli manba
+                            </summary>
+                            <div className="mt-2 space-y-1.5 text-[11px] leading-5 text-gray-600 dark:text-gray-300">
+                              <p><strong>Asosiy mezon:</strong> {KASB_SOURCE_CARDS[topic.id].evidence}</p>
+                              <p><strong>Vaziyatda qo‘llash:</strong> {KASB_SOURCE_CARDS[topic.id].practice}</p>
+                              <p><strong>Adashmang:</strong> {KASB_SOURCE_CARDS[topic.id].distinction}</p>
+                            </div>
+                          </details>
+                        )}
                       </span>
                     </li>
                   ))}
                 </ol>
+                {section.code === 'M14' && (
+                  <p className="border-t border-amber-200 bg-amber-50 px-3 py-2 text-[11px] leading-5 text-amber-800 dark:border-amber-900 dark:bg-amber-950/20 dark:text-amber-200">
+                    <strong>Manbadagi tuzatish:</strong> {KASB_PDF_EDITORIAL_CAUTION}
+                  </p>
+                )}
                 <p className="border-t border-gray-200 px-3 py-2 text-[11px] leading-5 text-gray-500 dark:border-gray-700 dark:text-gray-400">
                   Ko‘nikmalar: 2026-yilgi informatika attestatsiyasi spetsifikatsiyasi, 2-jadval, 6–7-betlar. Bu mavzu boshiga alohida savol kvotasi emas.
                 </p>
