@@ -1,7 +1,7 @@
 -- TASK-202: additional original alternatives, private editorial proposals only.
 begin;
 insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distractors)
-values
+select source_question_id::uuid, proposed_distractors from (values
 ('75000000-0000-4000-8000-000000000004',array[
 'Guruhga umumiy topshiriqni qayta berib, yordamni keyinga qoldirish',
 'Barcha guruhlar uchun bir xil murakkablikdagi misollar sonini ko‘paytirish',
@@ -42,5 +42,8 @@ values
 'Ha, batafsil rejada har bir faoliyat yozilsa, baholash mosligi shart bo‘lmaydi',
 'Yo‘q, rejadagi baholashni faqat yakuniy sinovga ko‘chirishning o‘zi yetarli',
 'Ha, rejalashtirish sifati faqat vaqt taqsimoti va mavzu soni bilan o‘lchanadi'])
+) as proposed(source_question_id, proposed_distractors)
+where exists(select 1 from public.questions q where q.id=proposed.source_question_id::uuid
+  and q.status='published'::public.content_status and q.format='Y1'::public.question_format)
 on conflict(source_question_id) do nothing;
 commit;
