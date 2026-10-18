@@ -48,3 +48,12 @@ Qolgan ish: human review, real render/diagram audit, topic frontend routing, E2E
 - `src/features/content/professionalLessonTheory.ts` va `BookDiagrams.tsx`: formula/jadval/diagram bloklari native reader bilan render qilinadi.
 - Alohida release checklist: `docs/TASK220_M12_PREPRODUCTION_RELEASE_QA.md`.
 - **Hali nashr qilinmagan:** original 91 ta S6.NET savol va 5 published dars saqlangan. Inson eksperti approval + real learner E2E bo‘lmaguncha `published` migratsiyasi qilinmaydi.
+
+
+## 2026-10-18: Y2/Y3 bo‘yicha 80 yangi savol
+- Manba: `src/content/tarmoq/Kompyuter_tarmoqlari_Y2_Y3_qoshimcha_80_V3.json`.
+- 40 ta yangi native Y2 (3×3 matching), 40 ta yangi native Y3 (4 bosqichli ordering), o‘nta bobning har birida 4 tadan yangi Y2 + 4 tadan yangi Y3.
+- Rejalashtirilgan umumiy bank: 280 Y1 + 50 Y2 + 50 Y3 = **380**. Har bobda 38 ta savol, ammo bob testida avvalgi 30 savollik limit saqlanadi.
+- Migratsiya: `20261020230000_task220_m12_y2_y3_extra_80_review.sql` (append-only, yangi UUID, faqat review; avvalgi 300 savol o‘zgarmaydi).
+- Regression: `supabase/tests/task220_m12_extra_80_native_formats.test.sql` va `src/tests/m12NetworkNative80Source.test.ts`.
+- Manbalar darsliklar va V2 qo‘llanmasining tematik qamrovi asosida sintez; har bir yangi savolning to‘g‘riligi inson eksperti tomonidan tasdiqlanmaguncha published qilinmaydi.
