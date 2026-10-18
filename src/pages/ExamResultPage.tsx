@@ -11,6 +11,7 @@ import {
   X,
 } from 'lucide-react'
 import { backendGateway } from '../features/exam/backendGateway'
+import CustomExamAnalysis from '../features/custom-test/CustomExamAnalysis'
 import type {
   ExamResultDetail,
   ExamReviewItem,
@@ -25,6 +26,8 @@ const KIND_LABELS: Record<ExamResultDetail['kind'], string> = {
   takrorlash: 'Takrorlash',
   zaif: 'Zaif mavzular',
   pedagogik_15: 'Pedagogika va kasb standarti · 15',
+  axb_bob: 'Axborot boblari · qo‘shimcha mashq',
+  custom: 'Shaxsiy test',
 }
 
 function formatDate(value: string): string {
@@ -117,6 +120,14 @@ export default function ExamResultPage() {
     )
   }
 
+  const questionCounts = result.breakdown?.reduce(
+    (counts, group) => ({
+      correct: counts.correct + group.togri,
+      total: counts.total + group.jami,
+    }),
+    { correct: 0, total: 0 }
+  )
+
   const title =
     result.lesson_title_uz?.trim() ||
     result.lesson_slug?.trim() ||
@@ -141,6 +152,12 @@ export default function ExamResultPage() {
         <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
           <div className="shrink-0">
             <p className="text-4xl font-bold tracking-tight text-gray-950 dark:text-white">{result.total_score} / {result.max_score}</p>
+            <p className="mt-1 text-xs font-medium text-gray-500 dark:text-gray-400">Ball: olingan / maksimal</p>
+            {questionCounts && questionCounts.total > 0 && (
+              <p className="mt-1 text-sm font-semibold text-gray-700 dark:text-gray-200">
+                {questionCounts.correct} / {questionCounts.total} ta savol to‘g‘ri
+              </p>
+            )}
             <p className="mt-1 text-sm font-semibold text-indigo-600 dark:text-indigo-300">{percentage}% natija</p>
           </div>
           <div className="min-w-0 flex-1 sm:border-l sm:border-gray-200 sm:pl-6 dark:sm:border-gray-800">
@@ -162,6 +179,8 @@ export default function ExamResultPage() {
           </div>
         </div>
       </section>
+
+      {result.kind === 'custom' && examId && <CustomExamAnalysis examId={examId} />}
 
       {result.breakdown && result.breakdown.length > 0 && (
         <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900 sm:p-6">
@@ -237,6 +256,12 @@ export default function ExamResultPage() {
       </section>
 
       <div className="flex flex-wrap gap-2">
+        {result.kind === 'pedagogik_15' && (
+          <Link to="/professional-practice" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-5 text-sm font-semibold text-gray-700 hover:text-indigo-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200">
+            <ArrowLeft size={15} aria-hidden="true" /> Pedagogik mashqlarga qaytish
+          </Link>
+        )}
+        <Link to="/" className="inline-flex min-h-11 items-center justify-center rounded-xl border border-gray-200 bg-white px-5 text-sm font-semibold text-gray-700 hover:text-indigo-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200">Bosh sahifa</Link>
         <Link to="/review" className="inline-flex min-h-11 items-center justify-center rounded-xl bg-indigo-600 px-5 text-sm font-semibold text-white hover:bg-indigo-700">Xatolarni qayta ishlash</Link>
         <Link to="/exam" className="inline-flex min-h-11 items-center justify-center rounded-xl border border-gray-200 bg-white px-5 text-sm font-semibold text-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">Yangi sinov</Link>
       </div>

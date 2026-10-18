@@ -1,5 +1,9 @@
 import { z } from 'zod'
 
+// DB imported question/option identifiers may use arbitrary UUID variant bits.
+// PostgreSQL uuid accepts the full canonical 128-bit format; z.uuid() does not.
+const postgresUuidSchema = z.string().regex(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)
+
 // ─── Module List ────────────────────────────────────────────────
 export const moduleListSchema = {
   querystring: z.object({
@@ -32,8 +36,8 @@ export const lessonQuestionsSchema = {
 // ─── Check Answer ───────────────────────────────────────────────
 export const checkAnswerSchema = {
   body: z.object({
-    question_id: z.string().uuid(),
-    option_id: z.string().uuid(),
+    question_id: postgresUuidSchema,
+    option_id: postgresUuidSchema,
   }),
 }
 

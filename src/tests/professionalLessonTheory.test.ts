@@ -90,6 +90,52 @@ describe('professional source-backed lesson to learner UI', () => {
     expect(after.questions).toBe(fallback.questions)
   })
 
+  it('M02 preserves complete offline content and appends only the verified DB addendum', () => {
+    const m02: TopicContent = {
+      ...fallback,
+      subtopicId: 'M02.01',
+      title: 'Kompyuter qurilmalari',
+      theory: [
+        { type: 'heading', content: 'Asosiy darslik nazariyasi' },
+        { type: 'definition', content: 'Sensorli ekran ikki yo‘nalishda ishlaydi.' },
+      ],
+    }
+    const dbLesson: LessonSummary = {
+      ...lesson,
+      status: 'published',
+      body_mdx: [
+        '## Maqsad',
+        'Qisqa maqsad matni.',
+        '## Apparat qismlari',
+        'Bu qisqa server konspekti, asosiy nazariyaning o‘rnini bosa olmaydi.',
+        '## Tekshirilgan qo‘shimcha: vaziyatli qurilmalar',
+        'OMR oldindan belgilangan javob katakchalarini tekshiradi.',
+        '## Manba',
+        'Cambridge+ 9-sinf, PDF 30.',
+      ].join('\n'),
+    }
+    const remote = overlayPublishedProfessionalLesson(m02, dbLesson)
+    const visible = resolveLearnerTheoryContent('M02.01', m02, remote)
+    expect(visible.theory[0]).toEqual(m02.theory[0])
+    expect(visible.theory[1]).toEqual(m02.theory[1])
+    expect(visible.theory.some(block => block.content.includes('OMR oldindan'))).toBe(true)
+    expect(visible.theory.some(block => block.content.includes('Bu qisqa server konspekti'))).toBe(false)
+    expect(visible.questions).toBe(m02.questions)
+    expect(resolveLearnerTheoryContent('M02.01', m02, null)).toBe(m02)
+  })
+
+  it('M02 never displays unmarked or unpublished DB summary instead of official theory', () => {
+    const m02: TopicContent = { ...fallback, subtopicId: 'M02.02' }
+    const noAddendum = overlayPublishedProfessionalLesson(
+      m02, { ...lesson, status: 'published', body_mdx: '## Maqsad\nQisqa yangi konspekt.' },
+    )
+    expect(resolveLearnerTheoryContent('M02.02', m02, noAddendum)).toBe(m02)
+    const draft = overlayPublishedProfessionalLesson(
+      m02, { ...lesson, status: 'draft', body_mdx: '## Tekshirilgan qo‘shimcha: mumkin emas\nTahrir' },
+    )
+    expect(resolveLearnerTheoryContent('M02.02', m02, draft)).toBe(m02)
+  })
+
   it('does not change M14/M16 canonical backend-first lesson policy', () => {
     const remote = overlayPublishedProfessionalLesson(fallback, lesson)
     expect(resolveLearnerTheoryContent('M14.01', fallback, remote)).toBe(remote)

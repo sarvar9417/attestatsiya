@@ -111,6 +111,16 @@ const STATUS_TRANSITIONS: Record<AdminContentStatus, AdminContentStatus[]> = {
 }
 
 export const adminContentService = {
+  async customTestCoverage(userToken: string) {
+    const staff = await requireStaff(userToken)
+    if (staff.role !== 'admin') {
+      throw new ForbiddenError('Faqat administrator ko‘ra oladi')
+    }
+    const { data, error } = await supabase.rpc('admin_custom_exam_pool_coverage')
+    if (error) throw new AppError('Shaxsiy testlar qamrovi olinmadi', 503, 'CUSTOM_COVERAGE_UNAVAILABLE')
+    return data
+  },
+
   async dashboard(userToken: string) {
     const staff = await requireStaff(userToken)
 
@@ -248,11 +258,35 @@ export const adminContentService = {
       if (queueError) throw new AppError('Pedagogika sifat navbati ochilmadi', 500, 'ADMIN_QUERY_ERROR')
       queued = new Map((candidates ?? []).map(c => [c.source_question_id, c.revision_question_id]))
     }
+
+    // Staff-only, key-derived diagnosis. Never surface this to learner routes.
+    type QualityFlag = {
+      question_id: string
+      answer_length_signal: boolean
+      publish_word_balance_risk: boolean
+      absolute_word_cue: boolean
+      invalid_y1_contract: boolean
+      authorship_unknown: boolean
+    }
+    let quality = new Map<string, QualityFlag>()
+    if (professionalIds.length > 0) {
+      const { data: flags, error: flagError } = await supabase
+        .from('pedagogy_option_quality_flags')
+        .select('question_id, answer_length_signal, publish_word_balance_risk, absolute_word_cue, invalid_y1_contract, authorship_unknown')
+        .in('question_id', professionalIds)
+      if (flagError && !['PGRST205', '42P01'].includes(flagError.code ?? '')) {
+        throw new AppError('Pedagogika sifat ko‘rsatkichlari yuklanmadi', 503, 'EDITORIAL_QUALITY_UNAVAILABLE')
+      }
+      // The staff-only view may not yet exist in production until the separate
+      // database migration is authorized. Preserve CMS access; render no badges.
+      quality = new Map(((flags ?? []) as QualityFlag[]).map(flag => [flag.question_id, flag]))
+    }
     return {
       items: items.map(item => ({
         ...item,
         length_bias_flag: queued.has(item.id),
         revision_question_id: queued.get(item.id) ?? null,
+        quality_flags: quality.get(item.id) ?? null,
       })),
       total: count ?? 0, page, page_size: pageSize,
     }

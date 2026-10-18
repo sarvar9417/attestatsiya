@@ -1,4 +1,6 @@
 -- Regression for TASK-064 canonical lesson reconciliation.
+-- TASK-204 keeps the old published M06 edition as an immutable historical lane;
+-- separately versioned Algoritmlash V2 lessons/questions are intentionally exempt.
 
 do $$
 declare
@@ -87,7 +89,9 @@ begin
 
     select count(*) into v_published
     from public.lessons l
-    where l.module_id=v_module and l.status='published'::public.content_status;
+    where l.module_id=v_module and l.status='published'::public.content_status
+      and (lane.module_code <> 'M06' or l.slug not like 'algoritmlash-v2-%')
+      and (lane.module_code <> 'M13' or l.slug !~ '^m13-axr-0[1-7]$');
 
     if v_published <> cardinality(lane.canonical_lesson_ids) then
       raise exception
@@ -100,6 +104,8 @@ begin
       from public.lessons l
       where l.module_id=v_module
         and l.status='published'::public.content_status
+        and (lane.module_code <> 'M06' or l.slug not like 'algoritmlash-v2-%')
+        and (lane.module_code <> 'M13' or l.slug !~ '^m13-axr-0[1-7]$')
         and (
           not (l.id=any(lane.canonical_lesson_ids))
           or length(coalesce(l.body_mdx,''))=0
@@ -132,6 +138,42 @@ begin
         from generate_subscripts(lane.canonical_lesson_ids,1) s(i)
       ) m on m.construct_code=c.code
       where q.source_lesson_id is distinct from m.lesson_id
+        -- TASK-204 introduces a separate audited V2 edition with its own
+        -- immutable source lesson snapshots, not a TASK-064 drift.
+        and (lane.module_code <> 'M06'
+             or coalesce(q.source_reference,'') not like 'algoritmlash-v2:%')
+        -- TASK-211/212/213 version the seven M13 AXR lessons.
+        -- Only the exact AXR bank may use its independent source-lesson ID.
+        and not (lane.module_code = 'M13'
+                 and q.status in ('review'::public.content_status,'published'::public.content_status)
+                 and (
+                   coalesce(q.source_reference,'') like 'm13-axr-v1:%:AXR-%'
+                   or (coalesce(q.source_reference,'') like 'm13-axr-native-v1:Y2:AXRN-%'
+                       and q.format='Y2'::public.question_format)
+                   or (coalesce(q.source_reference,'') like 'm13-axr-native-v1:Y3:AXRN-%'
+                       and q.format='Y3'::public.question_format)
+                 )
+                 and exists (
+                   select 1 from public.lessons edition
+                   join public.modules em on em.id=edition.module_id
+                   join public.lesson_constructs edlink
+                     on edlink.lesson_id=edition.id and edlink.construct_id=q.construct_id
+                   where edition.id=q.source_lesson_id
+                     and em.code='M13'
+                     and edition.slug ~ '^m13-axr-0[1-7]$'
+                 ))
+        -- TASK-213 graphics/web V2 is a separate unpublished content edition.
+        -- Do not exempt published items or non-V2 sources from drift checks.
+        and not (lane.module_code IN ('M10','M11')
+                 and q.status = 'review'::public.content_status
+                 and (coalesce(q.source_reference,'') like 'GV2:GV-%'
+                      or coalesce(q.source_reference,'') like '%GV2-EXT-%')
+                 and EXISTS (
+                    SELECT 1 FROM public.lessons v2
+                    WHERE v2.id=q.source_lesson_id
+                      AND v2.status='review'::public.content_status
+                      AND v2.slug LIKE '%-v2-review'
+                 ))
     ) then
       raise exception 'TASK-064 % question source lesson drift remains',lane.module_code;
     end if;

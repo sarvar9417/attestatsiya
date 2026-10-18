@@ -1,0 +1,413 @@
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { ArrowLeft, BookOpen, ChevronDown, ChevronRight, ClipboardCheck, LoaderCircle, ShieldCheck } from 'lucide-react'
+import {
+  getCustomTestCatalog,
+  getActiveCustomSession,
+  type ActiveCustomSession,
+  previewCustomTest,
+  type CatalogModule,
+  type CustomExamConfig,
+  type CustomExamPreview,
+} from '../features/custom-test/customTestApi'
+import SavedPresetsPanel from '../features/custom-test/SavedPresetsPanel'
+import { suggestEqualQuotas } from '../features/custom-test/quotaSuggestion'
+
+type Level = 1 | 2 | 3 | 4 | 5
+type QuantityMap = Partial<Record<Level, number>>
+type Selection = Record<string, QuantityMap>
+const LEVELS: Level[] = [1, 2, 3, 4, 5]
+const LEVEL_LABELS: Record<Level, string> = {
+  1: 'A · Ta’rif', 2: 'B · Farqlash', 3: 'C · Qo‘llash',
+  4: 'D · Tahlil', 5: 'E · Murakkab',
+}
+
+export default function CustomTestPage() {
+  const navigate = useNavigate()
+  const [catalog, setCatalog] = useState<CatalogModule[]>([])
+  const [activeSession, setActiveSession] = useState<ActiveCustomSession | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [catalogError, setCatalogError] = useState<string | null>(null)
+  const [openModules, setOpenModules] = useState<string[]>([])
+  const [selected, setSelected] = useState<Selection>({})
+  const [suggestedTotal, setSuggestedTotal] = useState(20)
+  const [constructByLesson, setConstructByLesson] = useState<Record<string, string>>({})
+  const [formats, setFormats] = useState<Array<'Y1' | 'Y2' | 'Y3'>>(['Y1','Y2','Y3'])
+  const [exposure, setExposure] = useState<CustomExamConfig['exposure']>('all')
+  const [mode, setMode] = useState<CustomExamConfig['mode']>('exam')
+  const [duration, setDuration] = useState<number | null>(1800)
+  const [previewSnapshot, setPreview] = useState<{ configKey: string; data: CustomExamPreview } | null>(null)
+  const [checking, setChecking] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const loadCatalog = useCallback(async () => {
+    setLoading(true)
+    setCatalogError(null)
+    try {
+      const items = await getCustomTestCatalog()
+      setCatalog(items)
+    } catch (failure) {
+      setCatalogError(failure instanceof Error ? failure.message : 'Mavzularni yuklab bo‘lmadi')
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  useEffect(() => { void loadCatalog() }, [loadCatalog])
+  useEffect(() => {
+    let mounted = true
+    void getActiveCustomSession().then(value => {
+      if (mounted) setActiveSession(value)
+    }).catch(() => { /* No active session information: manual start stays available. */ })
+    return () => { mounted = false }
+  }, [])
+
+  const update = (next: Selection) => {
+    setSelected(next)
+    setPreview(null)
+    setError(null)
+  }
+
+  const toggleLesson = (id: string) => {
+    const next = { ...selected }
+    if (next[id]) {
+      delete next[id]
+      setConstructByLesson(old => {
+        const copy = { ...old }
+        delete copy[id]
+        return copy
+      })
+    } else next[id] = { 3: 5 }
+    update(next)
+  }
+
+  const updateLevel = (id: string, level: Level, amount: number) => {
+    const old = selected[id]
+    if (!old) return
+    const next = { ...old }
+    if (amount <= 0) delete next[level]
+    else next[level] = amount
+    update({ ...selected, [id]: next })
+  }
+
+  const config = useMemo<CustomExamConfig>(() => {
+    const topics = Object.entries(selected)
+      .map(([lesson_id, counts]) => {
+        const difficulty_counts = LEVELS
+          .map(difficulty => ({ difficulty, count: counts[difficulty] ?? 0 }))
+          .filter(item => item.count > 0)
+        return {
+          lesson_id,
+          ...(constructByLesson[lesson_id] ? { construct_id: constructByLesson[lesson_id] } : {}),
+          count: difficulty_counts.reduce((sum, item) => sum + item.count, 0),
+          difficulty_counts,
+        }
+      })
+      .filter(item => item.count > 0)
+    return {
+      total_count: topics.reduce((sum, topic) => sum + topic.count, 0),
+      topics,
+      formats,
+      exposure,
+      mode,
+      duration_sec: duration,
+    }
+  }, [selected, constructByLesson, formats, exposure, mode, duration])
+
+  // Stale network responses may never authorize a changed test configuration.
+  const configKey = JSON.stringify(config)
+  const preview = previewSnapshot?.configKey === configKey ? previewSnapshot.data : null
+  const count = config.total_count
+  const invalid =
+    config.topics.length === 0 || config.topics.length > 30 ||
+    count < 1 || count > 100 || formats.length === 0 ||
+    Object.values(selected).some(counts => !LEVELS.some(level => (counts[level] ?? 0) > 0))
+  const lessonNames = useMemo(
+    () => new Map<string, string>(catalog.flatMap(module => module.lessons.map(lesson => [lesson.id, lesson.title_uz] as const))),
+    [catalog]
+  )
+  const changeSetting = () => { setPreview(null); setError(null) }
+
+  const loadPreset = (next: CustomExamConfig) => {
+    const nextSelection: Selection = {}
+    for (const topic of next.topics) {
+      const levels: QuantityMap = {}
+      for (const level of topic.difficulty_counts) {
+        levels[level.difficulty as Level] = level.count
+      }
+      nextSelection[topic.lesson_id] = levels
+    }
+    setSelected(nextSelection)
+    setConstructByLesson(Object.fromEntries(next.topics
+      .filter(topic => Boolean(topic.construct_id))
+      .map(topic => [topic.lesson_id, topic.construct_id!])))
+    setFormats([...next.formats])
+    setExposure(next.exposure)
+    setMode(next.mode)
+    setDuration(next.duration_sec)
+    setPreview(null)
+    setError(null)
+    const parents = catalog
+      .filter(module => module.lessons.some(lesson => Boolean(nextSelection[lesson.id])))
+      .map(module => module.id)
+    setOpenModules(previous => [...new Set([...previous, ...parents])])
+  }
+
+  const checkPool = async () => {
+    if (invalid) return
+    setChecking(true)
+    setPreview(null)
+    setError(null)
+    try {
+      const result = await previewCustomTest(config)
+      setPreview({ configKey, data: result })
+    } catch (failure) {
+      setError(failure instanceof Error ? failure.message : 'Savollarni tekshirib bo‘lmadi')
+    } finally {
+      setChecking(false)
+    }
+  }
+
+  return (
+    <main className="mx-auto w-full max-w-6xl space-y-6 px-4 py-8 sm:px-6">
+      <header className="rounded-3xl bg-indigo-700 p-6 text-white sm:p-8">
+        <Link to="/exam" className="inline-flex items-center gap-2 text-sm text-indigo-100 hover:text-white">
+          <ArrowLeft size={16}/> Testlar bo‘limiga qaytish
+        </Link>
+        <h1 className="mt-3 text-3xl font-bold">Shaxsiy test konstruktori</h1>
+        <p className="mt-2 max-w-3xl text-indigo-100">
+          Informatika, kasb standartlari va pedagogik mahorat mavzularini birlashtiring.
+          Savollar soni va A–E darajalarni o‘zingiz belgilang. Rasmiy mock imtihon rejimi o‘zgarmaydi.
+        </p>
+      </header>
+
+      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <section className="space-y-4" aria-label="Mavzular">
+          <div className="flex items-center gap-3">
+            <BookOpen size={20} className="text-indigo-600"/>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">1. Mavzular va qiyinchilik kvotalari</h2>
+          </div>
+
+          {loading && <p role="status" className="rounded-xl bg-gray-100 p-4 text-sm dark:bg-gray-800">Mavzular yuklanmoqda...</p>}
+          {catalogError && (
+            <div role="alert" className="rounded-xl border border-red-300 p-4 text-sm text-red-700 dark:text-red-300">
+              {catalogError}
+              <button type="button" onClick={() => void loadCatalog()} className="ml-3 underline">Qayta yuklash</button>
+            </div>
+          )}
+          {!loading && !catalogError && catalog.length === 0 && (
+            <p className="rounded-xl bg-gray-100 p-4 text-sm dark:bg-gray-800">Nashr etilgan mavzular topilmadi.</p>
+          )}
+
+          {Object.keys(selected).length > 0 && (
+            <div className="flex flex-wrap items-end gap-3 rounded-xl border border-indigo-200 p-4 dark:border-indigo-800">
+              <label className="space-y-1 text-sm dark:text-gray-200">
+                <span className="block font-semibold">Umumiy savollar soni (1–100)</span>
+                <input type="number" min={1} max={100} value={suggestedTotal}
+                  aria-label="Avtomatik taqsimot savollari"
+                  onChange={event => setSuggestedTotal(Math.min(100, Math.max(1,Number(event.target.value)||1)))}
+                  className="w-24 rounded-lg border border-gray-300 bg-white px-3 py-2 dark:border-gray-700 dark:bg-gray-800"/>
+              </label>
+              <button type="button" disabled={suggestedTotal < Object.keys(selected).length}
+                onClick={() => update(suggestEqualQuotas(suggestedTotal,selected))}
+                className="min-h-10 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50">
+                Mavzular bo‘yicha teng taqsimlash
+              </button>
+              <p className="w-full text-xs text-gray-500 dark:text-gray-300">
+                Tanlangan A–E darajalar nisbati iloji boricha saqlanadi; barcha kvotalar tekshirishdan oldin ko‘rsatiladi.
+              </p>
+            </div>
+          )}
+          {catalog.map(module => {
+            const expanded = openModules.includes(module.id)
+            const moduleSelected = module.lessons.filter(lesson => selected[lesson.id]).length
+            return (
+              <article key={module.id} className="overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
+                <button
+                  type="button"
+                  aria-expanded={expanded}
+                  onClick={() => setOpenModules(current => expanded
+                    ? current.filter(id => id !== module.id) : [...current, module.id])}
+                  className="flex min-h-14 w-full items-center justify-between gap-3 px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-800"
+                >
+                  <span className="font-semibold text-gray-900 dark:text-white">{module.code} · {module.title_uz}</span>
+                  <span className="flex shrink-0 items-center gap-2 text-xs text-gray-500">
+                    {moduleSelected > 0 ? moduleSelected + ' tanlangan' : module.lessons.length + ' mavzu'}
+                    {expanded ? <ChevronDown size={18}/> : <ChevronRight size={18}/>}
+                  </span>
+                </button>
+                {expanded && (
+                  <div className="space-y-3 border-t border-gray-200 p-4 dark:border-gray-800">
+                    {module.lessons.map(lesson => {
+                      const enabled = Boolean(selected[lesson.id])
+                      const amounts = selected[lesson.id] ?? {}
+                      const total = LEVELS.reduce((sum, level) => sum + (amounts[level] ?? 0), 0)
+                      return (
+                        <div key={lesson.id} className="rounded-xl bg-gray-50 p-3 dark:bg-gray-800">
+                          <label className="flex cursor-pointer items-center gap-3 text-sm font-semibold text-gray-900 dark:text-white">
+                            <input type="checkbox" checked={enabled} onChange={() => toggleLesson(lesson.id)}
+                              className="h-4 w-4 accent-indigo-600"/>
+                            <span className="flex-1">{lesson.title_uz}</span>
+                            {enabled && <span className="text-xs text-indigo-600 dark:text-indigo-300">{total} ta</span>}
+                          </label>
+                          {enabled && lesson.constructs.length > 0 && (
+                            <label className="mt-3 block space-y-1 pl-7 text-xs text-gray-700 dark:text-gray-200">
+                              <span>Kichik mavzu (kompetensiya)</span>
+                              <select value={constructByLesson[lesson.id] ?? ''}
+                                aria-label={lesson.title_uz + ' kichik mavzusi'}
+                                onChange={event => {
+                                  setConstructByLesson(old => ({ ...old, [lesson.id]: event.target.value }))
+                                  setPreview(null)
+                                  setError(null)
+                                }}
+                                className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 dark:border-gray-600 dark:bg-gray-900">
+                                <option value="">Barcha kichik mavzular</option>
+                                {lesson.constructs.map(construct => (
+                                  <option key={construct.id} value={construct.id}>
+                                    {construct.code} — {construct.title_uz}
+                                  </option>
+                                ))}
+                              </select>
+                            </label>
+                          )}
+                          {enabled && (
+                            <div className="mt-3 grid grid-cols-2 gap-2 pl-7 sm:grid-cols-5">
+                              {LEVELS.map(level => (
+                                <label key={level} className="space-y-1 text-xs text-gray-600 dark:text-gray-300">
+                                  <span className="block">{LEVEL_LABELS[level]}</span>
+                                  <input aria-label={lesson.title_uz + ' ' + LEVEL_LABELS[level]}
+                                    type="number" min={0} max={100} step={1}
+                                    value={amounts[level] ?? 0}
+                                    onChange={event => updateLevel(lesson.id,level,
+                                      Math.max(0,Math.min(100,Math.floor(Number(event.target.value) || 0))))}
+                                    className="w-full rounded-lg border border-gray-300 bg-white px-2 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-900 dark:text-white"/>
+                                </label>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )
+                    })}
+                  </div>
+                )}
+              </article>
+            )
+          })}
+        </section>
+
+        <aside className="space-y-4 lg:sticky lg:top-6">
+          {activeSession && (
+            <section aria-label="Davom ettiriladigan test" className="space-y-2 rounded-2xl border border-indigo-300 bg-white p-5 dark:bg-gray-900">
+              <h2 className="font-semibold text-indigo-700 dark:text-indigo-300">Tugallanmagan shaxsiy test</h2>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                {activeSession.answered_question_ids.length}/{activeSession.items.length} savolga javob saqlangan.
+                Test vaqti serverdagi boshlanish vaqtiga bog‘liq.
+              </p>
+              <button type="button" onClick={() =>
+                navigate('/exam/custom', { state: { customConfig: activeSession.selection_meta.config } })
+              } className="min-h-11 w-full rounded-xl bg-indigo-600 px-3 py-2 font-semibold text-white">
+                Testni davom ettirish
+              </button>
+            </section>
+          )}
+          <SavedPresetsPanel config={config} invalid={invalid} onLoad={loadPreset}/>
+          <section className="space-y-4 rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-900">
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white">2. Test sozlamalari</h2>
+            <fieldset className="space-y-2">
+              <legend className="text-sm font-semibold text-gray-700 dark:text-gray-200">Savol formatlari</legend>
+              <div className="flex gap-4">
+                {(['Y1','Y2','Y3'] as const).map(format => (
+                  <label key={format} className="flex items-center gap-1.5 text-sm dark:text-gray-200">
+                    <input type="checkbox" checked={formats.includes(format)} onChange={() => {
+                      setFormats(old => old.includes(format) ? old.filter(f => f !== format) : [...old,format])
+                      changeSetting()
+                    }}/> {format}
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+            <label className="block space-y-1 text-sm text-gray-700 dark:text-gray-200">
+              <span className="font-semibold">Savollar holati</span>
+              <select value={exposure} onChange={event => {
+                setExposure(event.target.value as CustomExamConfig['exposure']);changeSetting()
+              }} className="w-full rounded-lg border border-gray-300 bg-white p-2.5 dark:border-gray-700 dark:bg-gray-800">
+                <option value="all">Barcha savollar</option>
+                <option value="unseen">Avval ko‘rilmagan</option>
+                <option value="incorrect">Oldin xato ishlangan</option>
+              </select>
+            </label>
+            <label className="block space-y-1 text-sm text-gray-700 dark:text-gray-200">
+              <span className="font-semibold">Test rejimi</span>
+              <select value={mode} onChange={event => {
+                setMode(event.target.value as CustomExamConfig['mode']);changeSetting()
+              }} className="w-full rounded-lg border border-gray-300 bg-white p-2.5 dark:border-gray-700 dark:bg-gray-800">
+                <option value="exam">Imtihon</option>
+                <option value="learning">O‘rganish (yakunda tahlil)</option>
+                <option value="diagnostic">Diagnostika</option>
+                <option value="mistakes">Xatolar ustida ishlash</option>
+              </select>
+            </label>
+            <label className="block space-y-1 text-sm text-gray-700 dark:text-gray-200">
+              <span className="font-semibold">Vaqt chegarasi</span>
+              <select value={duration === null ? 'none' : String(duration)}
+                onChange={event => {setDuration(event.target.value === 'none' ? null : Number(event.target.value));changeSetting()}}
+                className="w-full rounded-lg border border-gray-300 bg-white p-2.5 dark:border-gray-700 dark:bg-gray-800">
+                <option value="none">Cheklanmagan</option>
+                <option value="900">15 daqiqa</option>
+                <option value="1800">30 daqiqa</option>
+                <option value="3600">60 daqiqa</option>
+                <option value="7200">120 daqiqa</option>
+              </select>
+            </label>
+          </section>
+          <section className="space-y-3 rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-900">
+            <h2 className="flex items-center gap-2 font-bold dark:text-white"><ClipboardCheck size={20}/> 3. Testni tayyorlash</h2>
+            <div className="flex justify-between text-sm dark:text-gray-200">
+              <span>Mavzular</span><strong>{config.topics.length} ta</strong>
+            </div>
+            <div className="flex justify-between text-sm dark:text-gray-200">
+              <span>Savollar</span><strong>{count} ta</strong>
+            </div>
+            {invalid && <p role="alert" className="text-xs text-amber-700 dark:text-amber-300">
+              1–30 mavzu, 1–100 savol va kamida bitta format tanlang. Har mavzuda kamida 1 ta savol bo‘lsin.
+            </p>}
+            <button type="button" disabled={invalid || checking}
+              onClick={() => void checkPool()}
+              className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-50">
+              {checking && <LoaderCircle size={17} className="animate-spin"/>}
+              Savollar yetarliligini tekshirish
+            </button>
+            {error && <p role="alert" className="text-sm text-red-600 dark:text-red-400">{error}</p>}
+            {preview && (
+              <div role="status" className="space-y-2 border-t border-gray-200 pt-3 text-sm dark:border-gray-700">
+                <p className={preview.ready ? 'text-emerald-700 dark:text-emerald-300' : 'text-amber-700 dark:text-amber-300'}>
+                  {preview.ready ? 'Tanlangan barcha kvotalar bajariladi.' :
+                    'Ayrim mavzu yoki qiyinchilik darajasida savollar yetarli emas.'}
+                </p>
+                <p className="text-gray-600 dark:text-gray-300">
+                  Mos savollar: {preview.available}/{preview.requested}
+                </p>
+                {preview.gaps.map(gap => (
+                  <p key={gap.lesson_id + gap.difficulty} className="text-xs text-amber-800 dark:text-amber-200">
+                    {lessonNames.get(gap.lesson_id) ?? 'Mavzu'} · {LEVEL_LABELS[gap.difficulty as Level]}:
+                    {gap.available}/{gap.requested}
+                  </p>
+                ))}
+              </div>
+            )}
+            <button type="button" disabled={!preview?.ready || checking || invalid}
+              onClick={() => navigate('/exam/custom', { state: { customConfig: config } })}
+              className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-40">
+              Testni boshlash <ChevronRight size={17}/>
+            </button>
+            <p className="flex gap-2 text-xs leading-5 text-gray-500 dark:text-gray-400">
+              <ShieldCheck size={16} className="shrink-0"/>
+              Savollar soni o‘zgartirilmaydi. Test ishlash oynasida yakuniy boshlash tasdiqlanadi.
+              Natija rasmiy attestatsiya balidan alohida saqlanadi.
+            </p>
+          </section>
+        </aside>
+      </div>
+    </main>
+  )
+}

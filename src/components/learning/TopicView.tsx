@@ -2,15 +2,16 @@ import { useState, useRef, useEffect, useMemo, lazy, Suspense } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getTopicContent, type TestQuestion, type TheoryBlock } from '../../data/topicContent'
 import { getLessonTestQuestions, checkQuestionAnswer } from '../../features/content/lessonContentGateway'
+import { getTopicTestPreflight, type TopicTestPreflight } from '../../features/content/contentApi'
 import { getLessonDetail } from '../../features/content/contentApi'
-import { overlayPublishedProfessionalLesson, resolveLearnerTheoryContent } from '../../features/content/professionalLessonTheory'
+import { markdownToTheoryBlocks, overlayPublishedProfessionalLesson, resolveLearnerTheoryContent } from '../../features/content/professionalLessonTheory'
 import PedagogyTheoryBlock from './PedagogyTheoryBlock'
 import { getPedagogyStudyNotes } from '../../data/pedagogyStudyNotes'
 import type { TopicContent } from '../../data/topicContent'
 import { 
   CheckCircle2, XCircle, Lightbulb, BookOpen, ArrowRight, ArrowLeft, 
   Sparkles, ChevronRight, ChevronUp, ChevronDown, BookText, GraduationCap, 
-  Brain, FileQuestion, Target, RotateCcw, ListChecks,
+  Brain, FileQuestion, Target, RotateCcw, RefreshCw, ListChecks,
   Sigma, Table2, Quote, FileCode, BadgeInfo,
   BookMarked, Layers, Trophy, Eye,
   Fingerprint, Minus
@@ -140,6 +141,14 @@ export default function TopicView({
   const contentRef = useRef<HTMLDivElement>(null)
 
   const [publishedTheory, setPublishedTheory] = useState<{ subtopicId: string; content: TopicContent } | null>(null)
+  const [topicReadiness, setTopicReadiness] = useState<{ subtopicId: string; data: TopicTestPreflight } | null>(null)
+  const [readinessRetry, setReadinessRetry] = useState(0)
+  const [checkErrors, setCheckErrors] = useState<Record<string, string>>({})
+  const isProfessionalLesson = /^(?:M04|M1[456])\.\d{2}$/.test(subtopicId)
+  const isAlgoritmlashV2 = moduleId === 'M06' &&
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
+  const isAxrM13 = moduleId === 'M13' &&
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
   const staticContent = getTopicContent(subtopicId)
   const isPedagogyTopic = moduleId === 'M15' && /^M15\.\d{2}$/.test(subtopicId)
   const loadedContent = publishedTheory?.subtopicId === subtopicId
@@ -171,12 +180,13 @@ export default function TopicView({
     setCurrentSection(0)
     setLiveQuestions(null)
     setChecking({})
+    setCheckErrors({})
   }, [subtopicId])
 
-  // M14-M16 canonical source-backed lessons must reach the student's theory
+  // M04 and M14-M16 canonical source-backed lessons must reach the student's theory
   // view, not just the admin API. Keep static theory as offline fallback.
   useEffect(() => {
-    if (!/^M1[456]\.\d{2}$/.test(subtopicId)) return
+    if (!/^(?:M02|M04|M1[456])\.\d{2}$/.test(subtopicId)) return
     let cancelled = false
     const fallback = getTopicContent(subtopicId)
     if (!fallback) return
@@ -194,6 +204,43 @@ export default function TopicView({
       })
     return () => { cancelled = true }
   }, [subtopicId])
+
+  // M06 V2 and M13 AXR learner theory come strictly from published DB records.
+  // Catalog links edition UUIDs only when all relevant chapters are published.
+  useEffect(() => {
+    if (!isAlgoritmlashV2 && !isAxrM13) return
+    let cancelled = false
+    getLessonDetail(subtopicId)
+      .then(lesson => {
+        if (cancelled || lesson.status !== 'published' || !lesson.body_mdx?.trim() ||
+            !(isAlgoritmlashV2
+              ? lesson.slug.startsWith('algoritmlash-v2-')
+              : /^m13-axr-0[1-7]$/.test(lesson.slug))) return
+        setPublishedTheory({
+          subtopicId,
+          content: {
+            subtopicId,
+            title: lesson.title_uz,
+            source: isAlgoritmlashV2 ? 'Algoritmlash V2' : 'Axborot xavfsizligi — 2026',
+            kind: lesson.blocks_kind === 'appendix' ? 'appendix' : 'chapter',
+            theory: markdownToTheoryBlocks(lesson.body_mdx),
+            questions: [],
+          },
+        })
+      })
+      .catch(() => { /* Fail closed on unpublished or unavailable theory. */ })
+    return () => { cancelled = true }
+  }, [isAlgoritmlashV2, isAxrM13, subtopicId])
+
+  // Published/keyed lesson coverage must be checked by the authoritative
+  // backend generator preflight, not by the number of visible learning questions.
+  useEffect(() => {
+    let active = true
+    getTopicTestPreflight(subtopicId)
+      .then(data => { if (active) setTopicReadiness({ subtopicId, data }) })
+      .catch(() => { if (active) setTopicReadiness(null) })
+    return () => { active = false }
+  }, [subtopicId, isProfessionalLesson, isAlgoritmlashV2, isAxrM13, readinessRetry])
 
   // Savollar backend-first: gateway backend xatosida statik kontentga tushadi
   useEffect(() => {
@@ -299,7 +346,13 @@ export default function TopicView({
   /** Qo'llanma ilovasi (formulalar varag'i, lug'at, manbalar) — testi yo'q. */
   const isAppendix = content?.kind === 'appendix'
   /** Testga o'tish imkoni bormi. */
-  const hasTest = questions.length > 0
+  const currentReadiness = topicReadiness?.subtopicId === subtopicId ? topicReadiness.data : null
+  const hasTest = currentReadiness?.ready === true
+  const displayedTestCount = currentReadiness?.required ?? 0
+  const handleTopicTestAction = () => {
+    if (hasTest) navigate(`/exam/mavzu/${moduleId}?lessonId=${subtopicId}`)
+    else if (!isProfessionalLesson && (!isAlgoritmlashV2 || isAppendix)) handleComplete(0, 0)
+  }
 
   // Theory type distribution
   const theoryTypeCount = useMemo(() => {
@@ -319,6 +372,7 @@ export default function TopicView({
 
   const handleAnswer = (qId: string, answer: unknown) => {
     if (submitted[qId]) return
+    setCheckErrors(p => ({ ...p, [qId]: '' }))
     setAnswers(p => ({ ...p, [qId]: answer }))
   }
 
@@ -331,6 +385,13 @@ export default function TopicView({
       setChecking(p => ({ ...p, [qId]: true }))
       try {
         const result = await checkQuestionAnswer(q, answers[qId] as number)
+        if (result.correctIndex < 0) {
+          setCheckErrors(p => ({
+            ...p,
+            [qId]: 'Javobni tekshirib bo‘lmadi. Internetni tekshirib qayta urining.',
+          }))
+          return // Never misgrade a failed server check.
+        }
         if (result.correctIndex >= 0) {
           setLiveQuestions(qs =>
             (qs ?? []).map(x =>
@@ -561,7 +622,7 @@ export default function TopicView({
               {/* Question count */}
               <span className="flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-md bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400">
                 <FileQuestion size={10} /> {hasTest
-                  ? `${questions.length} ta savol`
+                  ? `${displayedTestCount} ta savol`
                   : isAppendix ? "ma'lumotnoma" : "test tayyorlanmoqda"}
               </span>
             </div>
@@ -591,6 +652,23 @@ export default function TopicView({
             </div>
           </div>
 
+          {!isAppendix && !hasTest && (
+            <div role="status" aria-live="polite"
+              className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-amber-200 bg-amber-50/70 px-4 py-3 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950/20 dark:text-amber-100">
+              <div>
+                <strong>Mavzu testi hali tayyor emas.</strong>{' '}
+                {currentReadiness
+                  ? `Hozir ${currentReadiness.available}/${currentReadiness.required} ta mos savol mavjud. Nazariyani o‘rganishda davom etishingiz mumkin.`
+                  : 'Test holatini serverdan olib bo‘lmadi. Nazariyani o‘rganishda davom etishingiz mumkin.'}
+              </div>
+              <button type="button"
+                onClick={() => setReadinessRetry(n => n + 1)}
+                className="min-h-10 shrink-0 rounded-lg border border-amber-400 px-3 font-semibold hover:bg-amber-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-600 dark:border-amber-700 dark:hover:bg-amber-900/30">
+                Holatni qayta tekshirish
+              </button>
+            </div>
+          )}
+
           {/* ── Theory Content Blocks ── */}
           {isBook ? (
             <div className="mb-6">
@@ -601,10 +679,10 @@ export default function TopicView({
               }>
                 <BookReader
                   content={content}
-                  questionCount={questions.length}
+                  questionCount={hasTest ? displayedTestCount : 0}
                   isAppendix={isAppendix}
                   onProgress={setReadProgress}
-                  onFinishReading={() => (hasTest ? navigate(`/exam/mavzu/${moduleId}?lessonId=${subtopicId}`) : handleComplete(0, 0))}
+                  onFinishReading={handleTopicTestAction}
                   nextTopic={nextSubtopic ?? null}
                   onOpenNextTopic={nextSubtopic && onOpenTopic
                     ? () => onOpenTopic(nextSubtopic.id)
@@ -719,17 +797,23 @@ export default function TopicView({
                   <p className="font-bold text-gray-900 dark:text-white text-lg">Nazariy qism yakunlandi</p>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 mb-4">
                     {hasTest
-                      ? `Endi bilimingizni sinab ko'ring — ${questions.length} ta savol`
-                      : isAppendix
+                      ? `Endi bilimingizni sinab ko'ring — ${displayedTestCount} ta savol`
+                      : isProfessionalLesson
+                        ? currentReadiness
+                          ? `Mavzu testi tayyorlanmoqda: ${currentReadiness.available}/${currentReadiness.required} mos savol.`
+                          : 'Testning tayyorligini tekshirib bo‘lmadi.'
+                        : isAppendix
                         ? "Bu ilova takrorlash uchun — test ko'zda tutilmagan"
                         : "Bu mavzu uchun test hali qo'shilmagan"}
                   </p>
                   <button
-                    onClick={() => (hasTest ? navigate(`/exam/mavzu/${moduleId}?lessonId=${subtopicId}`) : handleComplete(0, 0))}
+                    onClick={handleTopicTestAction}
+                disabled={(isProfessionalLesson || (isAlgoritmlashV2 && !isAppendix)) && !hasTest}
                     className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-xl text-sm font-semibold hover:from-primary-700 hover:to-primary-600 transition-all shadow-xl shadow-primary-200 dark:shadow-primary-900/40 hover:shadow-2xl hover:-translate-y-0.5 animate-pop-in"
                   >
                     {hasTest
                       ? <><Target size={16} /> Bilimni tekshirish <ArrowRight size={16} /></>
+                      : (isProfessionalLesson || isAlgoritmlashV2) ? <><RefreshCw size={16} /> Test hali tayyor emas</>
                       : <><CheckCircle2 size={16} /> Mavzuni yakunlash <ArrowRight size={16} /></>}
                   </button>
                 </div>
@@ -773,7 +857,8 @@ export default function TopicView({
                 </div>
               )}
               <button
-                onClick={() => (hasTest ? navigate(`/exam/mavzu/${moduleId}?lessonId=${subtopicId}`) : handleComplete(0, 0))}
+                onClick={handleTopicTestAction}
+                disabled={(isProfessionalLesson || (isAlgoritmlashV2 && !isAppendix)) && !hasTest}
                 className="inline-flex items-center gap-3 px-6 py-3.5 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-xl text-sm font-semibold hover:from-primary-700 hover:to-primary-600 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full sm:w-auto justify-center"
               >
                 <span className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
@@ -781,9 +866,9 @@ export default function TopicView({
                     ? <Target size={16} className="text-white" />
                     : <CheckCircle2 size={16} className="text-white" />}
                 </span>
-                <span>{hasTest ? 'Bilimni tekshirish' : 'Mavzuni yakunlash'}</span>
+                <span>{hasTest ? 'Bilimni tekshirish' : (isProfessionalLesson || isAlgoritmlashV2) ? 'Mavzu testi tayyorlanmoqda' : 'Mavzuni yakunlash'}</span>
                 {hasTest && (
-                  <span className="text-[11px] bg-white/20 px-2.5 py-1 rounded-lg whitespace-nowrap">{questions.length} ta savol</span>
+                  <span className="text-[11px] bg-white/20 px-2.5 py-1 rounded-lg whitespace-nowrap">{displayedTestCount} ta savol</span>
                 )}
                 <ChevronRight size={18} />
               </button>
@@ -832,8 +917,8 @@ export default function TopicView({
           {/* ── Questions ── */}
           <div className="space-y-5">
             {questions.map((q, idx) => (
+              <div key={q.id}>
               <QuestionCard
-                key={q.id}
                 question={q}
                 index={idx}
                 total={questions.length}
@@ -842,6 +927,12 @@ export default function TopicView({
                 onSelect={(a) => handleAnswer(q.id, a)}
                 onSubmit={() => handleSubmit(q.id)}
               />
+              {checkErrors[q.id] && (
+                <p role="alert" className="mt-2 rounded-xl border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800 dark:bg-amber-950/30 dark:text-amber-200">
+                  {checkErrors[q.id]}
+                </p>
+              )}
+              </div>
             ))}
           </div>
 

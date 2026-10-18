@@ -45,13 +45,15 @@ export function markdownToTheoryBlocks(markdown: string): TheoryBlock[] {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim()
     if (!line) { flush(); continue }
+    // Migration markers and Markdown comments are metadata, not learner-facing prose.
+    if (/^<!--.*-->$/.test(line)) { flush(); continue }
 
-    const heading = /^(#{2,4})\s+(.+)$/.exec(line)
+    const heading = /^(#{1,4})\s+(.+)$/.exec(line)
     if (heading) {
       flush()
       currentSection = heading[2].trim()
       result.push({
-        type: heading[1].length === 2 ? 'heading' : 'subheading',
+        type: heading[1].length <= 2 ? 'heading' : 'subheading',
         content: currentSection,
       })
       continue
@@ -142,6 +144,22 @@ export function resolveLearnerTheoryContent(
   staticContent: TopicContent,
   publishedContent?: TopicContent | null,
 ): TopicContent {
+  // M02 keeps its full, hand-curated 9-part static theory as the canonical core.
+  // Only the explicitly identified source-checked DB addendum may be appended.
+  // This prevents a short DB summary from replacing the learner's theory,
+  // while allowing approved additions edited in the database to reach the UI.
+  if (subtopicId.startsWith('M02.')) {
+    if (!publishedContent || publishedContent === staticContent) return staticContent
+    const newSection = publishedContent.theory.findIndex(
+      block => block.type === 'heading'
+        && block.content.startsWith('Tekshirilgan qo‘shimcha:'),
+    )
+    if (newSection < 0) return staticContent
+    return {
+      ...staticContent,
+      theory: [...staticContent.theory, ...publishedContent.theory.slice(newSection)],
+    }
+  }
   if (subtopicId.startsWith('M15.')) return staticContent
   return publishedContent ?? staticContent
 }
