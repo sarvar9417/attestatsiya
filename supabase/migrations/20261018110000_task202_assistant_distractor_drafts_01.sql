@@ -39,7 +39,7 @@ values
 'Ko‘rsatmani barcha o‘quvchilarga faqat videoda taqdim etish',
 'Ko‘makni mashg‘ulot oxirigacha boshqa o‘quvchiga topshirish']),
 ('142da6d9-625c-455a-90d2-98227d04e5b9',array[
-'Kasbiy o‘sish kurslarda qatnashilgan soatlar va berilgan sertifikatlar bilan baholanadi',
+'Kasbiy o‘sishni kurs davomatini hisoblash va sertifikatlar ro‘yxatini yuritish orqali baholash maqsadga muvofiq',
 'Amaliyot o‘zgarmasa ham yangi kurslarga qatnashish pedagogik mahoratning oshganini isbotlaydi',
 'Dars natijalari tahlilidan ko‘ra o‘qituvchining qoniqishi kasbiy o‘sishning dalilidir']),
 ('1a3b7a49-3aa5-4209-bea1-83c82b319f32',array[
