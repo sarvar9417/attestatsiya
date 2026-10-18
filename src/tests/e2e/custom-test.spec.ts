@@ -64,6 +64,10 @@ test.describe('TASK-210 custom test construction', () => {
         ]) })
         return
       }
+      if (pathname.endsWith('/active')) {
+        await route.fulfill({ status: 200, headers, body: 'null' })
+        return
+      }
       if (pathname.endsWith('/presets') && route.request().method() === 'GET') {
         await route.fulfill({ status: 200, headers, body: JSON.stringify(presets) })
         return
@@ -148,6 +152,61 @@ test.describe('TASK-210 custom test construction', () => {
 
     await expect(page).toHaveURL(/\/exam\/custom/)
     await expect(page.getByRole('heading', { name: 'Shaxsiy test' })).toBeVisible()
+    await page.getByRole('button', { name: 'Sinovni boshlash' }).click()
+    await expect(page.getByText('TASK210 savol 1')).toBeVisible()
+  })
+
+  test('proposes equal quotas and preserves exact total', async ({ page }) => {
+    await page.goto('/custom-test')
+    await page.getByRole('button', { name: /M01 · Informatika/ }).click()
+    await page.getByLabel('Axborot va kodlash', { exact: true }).check()
+    await page.getByRole('button', { name: /M15 · Pedagogika/ }).click()
+    await page.getByLabel('Pedagogik metodlar', { exact: true }).check()
+
+    await page.getByRole('spinbutton', { name: 'Avtomatik taqsimot savollari' }).fill('11')
+    await page.getByRole('button', { name: 'Mavzular bo‘yicha teng taqsimlash' }).click()
+    await expect(page.getByText('11 ta', { exact: true }).last()).toBeVisible()
+    await page.getByRole('button', { name: 'Savollar yetarliligini tekshirish' }).click()
+    await expect(page.getByText('Mos savollar: 11/11')).toBeVisible()
+  })
+
+  test('offers resumable custom exam after refresh through the server', async ({ page }) => {
+    const firstQuestion = '50000000-0000-4000-8000-000000000001'
+    const config = {
+      total_count: 1,
+      topics: [{ lesson_id: ids.l1, count: 1,
+        difficulty_counts: [{ difficulty: 3, count: 1 }] }],
+      formats: ['Y1'], exposure: 'all', mode: 'exam', duration_sec: 900,
+    }
+    const active = {
+      exam_id: ids.exam, kind: 'custom', duration_sec: 900,
+      started_at: new Date().toISOString(), selection_meta: { config },
+      items: [{
+        item_id: '40000000-0000-4000-8000-000000000001',
+        order_idx: 1, question_id: firstQuestion, format: 'Y1',
+        stem_md: 'TASK210 savol 1', assets: [],
+        options: [
+          { id: '60000000-0000-4000-8000-000000000001', side: 'a', content_md: 'Birinchi' },
+          { id: '70000000-0000-4000-8000-000000000001', side: 'a', content_md: 'Ikkinchi' },
+        ],
+      }],
+      answered_question_ids: [firstQuestion],
+      saved_answers: { [firstQuestion]: { option_id: '60000000-0000-4000-8000-000000000001' } },
+    }
+    const headers = {
+      'content-type': 'application/json',
+      'access-control-allow-origin': 'http://localhost:3000',
+      'access-control-allow-headers': 'authorization,content-type',
+    }
+    await page.route('http://localhost:3001/api/custom-tests/active', route =>
+      route.fulfill({ status: 200, body: JSON.stringify(active), headers }))
+    await page.route('http://localhost:3001/api/custom-tests/start', route =>
+      route.fulfill({ status: 200, body: JSON.stringify(active), headers }))
+
+    await page.goto('/custom-test')
+    await expect(page.getByText('1/1 savolga javob saqlangan.')).toBeVisible()
+    await page.getByRole('button', { name: 'Testni davom ettirish' }).click()
+    await expect(page).toHaveURL(/\/exam\/custom/)
     await page.getByRole('button', { name: 'Sinovni boshlash' }).click()
     await expect(page.getByText('TASK210 savol 1')).toBeVisible()
   })

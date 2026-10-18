@@ -116,6 +116,19 @@ begin
     'exposure','all','mode','exam','duration_sec',900
   );
 
+  -- An objective not mapped to the selected lesson is rejected without creating an exam.
+  v_bad := jsonb_set(v_config,'{topics,0,construct_id}',
+    '"00000000-0000-4000-8000-000000000099"'::jsonb);
+  v_failed := false;
+  begin
+    perform public.custom_exam_preflight(v_bad);
+  exception when others then
+    if sqlerrm like '%custom_construct_unavailable%' then v_failed := true;
+    else raise;
+    end if;
+  end;
+  if not v_failed then raise exception 'unmapped construct was accepted'; end if;
+
   v_preview := public.custom_exam_preflight(v_config);
   if v_preview->>'ready'<>'true' or (v_preview->>'requested')::int<>7
      or (v_preview->>'available')::int<>7
