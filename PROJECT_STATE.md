@@ -1813,3 +1813,21 @@ Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user co
 - **Supabase:** project `plyqezulrfowyblsfpzy`, applied `20261018130412_task211_m13_axr_review_content_20261019`.
 - **Production read-only audit:** 7/7 new review lessons; 210/210 review questions; each chapter 30; 840 options; 210 keys; 210 correct lesson associations; 0 missing/invalid keys. Pre-existing 60 published S7.SEC questions remained.
 - **Release gate OPEN:** new lessons and questions are `review`, NOT visible to learners. Require expert signoff, promotion in a separate version-safe migration, topic-test preflight, API scoring and UI smoke test. Do not treat merge/import as publication approval.
+
+## TASK-212 — pedagogika yagona o‘quv sahifasi va manba auditi (2026-10-18)
+
+- **Owner:** ChatGPT assistenti (foydalanuvchining shu suhbatdagi tasdig‘i bilan); branch: task/TASK-212-pedagogy-learning-hub-audit-20261018; DRAFT PR #149.
+- **Ish turi:** frontend landing/navigatsiya va mavjud manbalarning audit reyestri; backend, production DB va published kontent o‘zgartirilmaydi.
+- **Bajarildi:** 18 kanonik M14/M15/M16 mavzu keltirilgan hub, manba va sinov havolalari, Vitest regressiyalar; M16.02dagi manbasi tasdiqlanmagan 70% kompyuter-vaqti me’yori chiqarildi.
+- **Holat:** IN_PROGRESS; QA (exact head SHA), 18/18 nazariya-source-validity, professional savollar editorial review, mobile live smoke, production quota/security parity va yangi release ruxsati OCHIQ.
+- **Cheklov:** PEDAGOGY_RELEASE_FREEZE saqlanadi; no merge / no production deployment. Detallar: docs/TASK212_PEDAGOGY_UNIFIED_READINESS_AUDIT_20261018.md.
+
+## TASK-212 — 2026-10-18 production read-only update
+
+- Supabase ACTIVE_HEALTHY project: attestatsiya100%; only SELECT queries performed.
+- KS: 114 published/keyed + 26 review/keyed; PM.GEN 233 published; PM.MET 77 published; professional total 424 published / 26 review.
+- M14 7 canonical lessons each 20-question target, published-keyed source deficits [3,3,2,6,4,4,4] = 26; 26 review items have mechanical structure/key-reference/source/explanation/length flags all zero, but no semantic approval.
+- 18 official competence map (2-jadval, physical pp. 6–7), null pass verdict fix, textual source caution corrections and regression tests staged in DRAFT PR #149.
+- CI must be reverified against final SHA. Main advanced after branch creation; future rebase/conflict and production parity review required.
+- **DO NOT MERGE/DEPLOY**; user approval, editorial expert review, authenticated E2E and release checklist remain OPEN.
+

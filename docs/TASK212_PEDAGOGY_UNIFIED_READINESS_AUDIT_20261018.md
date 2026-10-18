@@ -1,0 +1,206 @@
+# TASK-212 — Pedagogikaga tayyorlanish: yagona manba va release-readiness auditi
+**Sana:** 2026-10-18  
+**Ishchi branch:** task/TASK-212-pedagogy-learning-hub-audit-20261018  
+**Status:** PARTIAL / DRAFT; production release tasdiqlanmagan.  
+**Doira:** M14 kasb standarti, M15 umumiy pedagogika, M16 informatika o‘qitish metodikasi.
+
+## 1. Asosiy tekshirilgan talab
+2026-yil informatika attestatsiyasi: 50 test, 120 daqiqa; 35 mutaxassislik, 5 KS, 7 PM.GEN va 3 PM.MET. Jami professional/pedagogik blok 15 savol. M14 (7), M15 (8), M16 (3) — 18 kanonik o‘quv mavzu. Test konstruktlari va mavzular soni bir xil kattalik emas.
+
+Yagona o‘quv ssenariysi: M14/M15/M16 bo‘limini tanlash → kanonik mavzu nazariyasi → shu mavzu uchun serverdagi test-preflight → haqiqiy test → natija/xatolar → 15 savollik umumlashtiruvchi mashq. Rasmiy 50 savollik mock bundan alohida.
+
+## 2. Asosiy source-of-truth va kirilgan manbalar
+- Git monorepo: https://github.com/sarvar9417/attestatsiya (source, docs, schema, regressiya).
+- Legacy only: sarvar9417/attestatsiya-backend — mustaqil production manbasi emas.
+- Google Drive: https://drive.google.com/drive/folders/139UU38VTM85dcWJ8FFtgFK7KTCzsfJ7A
+- Normativ exam manba: “Informatika Testlar spesifikatsiyasi.pdf”, 2026, III bo‘lim.
+- Drive tarixiy korpusi: “Attestatsiya to'plam ped mahorat @PedMahoratGuli.pdf”, “PedKasb tushgan testlar PedMahoratGuli ...pdf”, “Pedagogik mahorat to'plam 2025.pdf”, “Pedmahorat to'plam 2025 kuzgi.pdf”.
+- Oldingi nazariya inventari: Xoliqov — Pedagogik mahorat, Qodirova/Pulatova — Inklyuziv ta’lim, “Dars turlari”, “dars tahlili turlari”, “Pedagogik qobiliyatlar” hamda o‘qituvchi kasb standarti, Mamarajabov va boshqalar — Informatika o‘qitish metodikasi.
+- Tarixiy PDFda yozilgan “to‘g‘ri javob” rasmiy/ekspert tasdig‘i emas; original darslik va me’yoriy hujjat bilan xolis tekshirish majburiy.
+
+## 3. Dalil va xavf reyestri (oldingi audit sanalarini saqlab ko‘rsatish)
+| ID | Holat va aniq dalil | Ta’sir | Qabul sharti |
+|---|---|---|---|
+| PED-01 | TASK203 2026-10-18 read-only production snapshot: 424 published (KS 114, PM.GEN 233, PM.MET 77), 0 review; bugungi live DB qayta tekshirilmadi | Noto‘g‘ri son bilan tayyorgarlik tayyorligini oshirib ko‘rsatish xavfi | 18/18 published/keyed pool va revision holatini qayta tekshirish |
+| PED-02 | M14 7 mavzu avval 14–18 tadan available; strict mavzu imtihoni 20 savol talab qiladi (oldingi TASK127 P0 snapshot) | Boshlash tugmasi ishlamasligi | Har bir kanonik M14 mavzu 20 ta valid, active, keyed unique savol bilan preflight PASS |
+| PED-03 | Legacy 118 published Y1 correct-option-length bias; TASK203 global 400 Y1 ichida 144 mexanik sifat flag | Javob variantlari shaklidan taxmin qilish, validlik pasayadi | Semantik ekspert review, immutable revision + atomic archive; alohida UX/variant testi |
+| PED-04 | 249 owner-batch approvals, 82 AI qayta yozgan noto‘g‘ri variant; owner tasdig‘i mustaqil tashqi ekspert xulosasi emas | Bir ma’noli javob, distractor sifati isbotlanmagan | Source-page va independent key/option editorial signoff |
+| PED-05 | Tarixiy testlardan 649 private candidate; 195 tekshirilgan, 335 umumiy qabul qilingan lekin source-key mustaqil tekshirilmagan, 119 rad/qorantin (TASK202/203 tarixiy kesimi) | Ishonchsiz savolni nashr qilish xavfi | Private provenance; xato kalitlar karantinda; publishedga avtomatik o'tish yo‘q |
+| PED-06 | P0 docs: 78 objective draft, fakt/source_page va question-objective mapping to‘liq emas | 18 keng mavzu spetsifikatsiyaning barcha bandlarini qamrab olganini isbotlamaydi | O‘quv maqsadi → manba-bet → kanonik nazariya → savol mapping va konstrukt qamrov testi |
+| PED-07 | Natija uchun ExamRunner natija bosqichida overflow-y-auto, ExamResultActions bor; live authenticated mobile/desktop E2E ko‘rilmagan | Scroll/uyga qaytish regressiyasi ehtimoli | 15-sinov full completion, 320px/desktop scroll, history/home/theory restart E2E |
+| PED-08 | PEDAGOGY_RELEASE_FREEZE.md hamda ayrim task docs “PR #121/#127 DRAFT” deydi, biroq 2026-10-18 GitHub API ularning merged ekanini ko‘rsatdi | Hujjat va real Git holati farqi | Release-status xronologiyasini yangilash; GitHub + Vercel + prod DB SHA/parity tekshirilsin |
+| PED-09 | M14–16 learner API quick-check va leaked answer xavfi oldingi P0da qayd etilgan, kod himoyasi merge qilingan | Asl baholashni oldindan bilib olish | API, JS assets, anon/auth RLS, checkAnswer oracle regressiya |
+| PED-10 | Professional practice boshlang‘ich sahifa avval faqat 3 umumiy karta edi, konkret 18 mavzu va manbalar bitta sahifada ko‘rinmasdi | Materiallar tarqoq seziladi, foydalanuvchi yo‘l topolmaydi | Yagona M14/M15/M16 start UI, kanonik mavzu ro‘yxati, manbalar, history/review yo‘llari |
+| PED-11 | M16.02 statik nazariyasi o‘quvchi vaqtining 70% kompyuterda o‘tishi **shart** deya aniq me’yor belgilagan, bu qoida tekshirilgan spetsifikatsiyada topilmadi | Manbasi ko‘rsatilmagan qat’iy ko‘rsatma | Shu aniq raqamli iddao statik nazariyadan chiqarildi; mustaqil QA qo‘shildi; production DBdagi boshqa nusxalar auditda |
+
+**Ehtiyotkorlik:** yuqoridagi production bank sonlari shu sessiyada live database-dan o‘qilmadi; ular GitHubdagi tarixiy monitoring/audit xulosalaridir.
+
+## 4. TASK-212 doirasida bajarilgan xavfsiz ish
+- src/pages/ProfessionalPracticePage.tsx — kanonik katalogdan hosil qilinadigan 18 mavzuli yig‘ma boshlang‘ich sahifa; 5/7/3, 15 mashq, nazariya, history/review, asosiy manbalar va turli source-key ishonchliligi haqida eslatma.
+- src/tests/ProfessionalPracticePage.test.tsx — modul kvotalari, 18 mavzu, manba caveat va yo‘nalishlar uchun regression test.
+- src/data/topicContent.ts — M16.02dagi manbada tasdiqlanmagan majburiy 70% kompyuter-vaqti iddaosi o‘rniga sharoit/maqsadga mos rejalashtirish matni.
+- src/tests/PedagogySourceIntegrity.test.ts — no-asossiz 70% va 18 pedagogika static professional mini-quiz kalitlarining yopiq bo‘lishi.
+- Xavfsizlik chegarasi o‘zgarmadi: backend scoring, published bank, PDF candidate review holatlari va prod DB o‘zgarmaydi.
+- O‘zgarishlar faqat TASK-212 feature branchida. Merge, production Vercel deploy va database migration bajarilmadi.
+
+## 5. Qolgan majburiy release gate
+- [ ] Hub uchun vitest + typecheck + lint + build + preview UI tekshiruvi (pass log bilan).
+- [ ] Har bir M14/M15/M16 mavzusi nazariyasini haqiqiy 2026 konstrukti va manba sahifalari bilan audit (18/18).
+- [ ] Barcha 15-question va 50-question generator kvotalari, Y1/Y2/Y3, server-side scoring, RLS, no key leakage E2E.
+- [ ] 18/18 real test preflight; yetishmagan verified published pool ustidan alohida editorial ish.
+- [ ] Tarixiy ziddiyatli kalit va 118/144 variant flaglarini mustaqil tahrir bilan to‘g‘rilash.
+- [ ] 649 candidate provenance/duplicate/source checks va expertsiz nashrga chiqmasligi tekshiruvi.
+- [ ] 320px, 768px, desktop, keyboard hamda 15-question natija scroll/navigatsiya smoke.
+- [ ] Exact Git commit + Vercel deployment ID/READY + DB schema/migration revision parity.
+- [ ] Published/archived/review holatlarni buzmagan holda oldingi attempts saqlanganligi.
+- [ ] Foydalanuvchining yakuniy release bo‘yicha alohida aniq tasdig‘i.
+
+## 6. Qaror
+“100% tayyor” statusini berish uchun asos hozircha **yo‘q**. TASK-212 o‘quv navigatsiyasi foundation va audit reyestri; semantik ekspert tekshiruvi va production acceptance majburiy qoladi. PR faqat DRAFT bo‘lsin. Loyiha egasining PEDAGOGY_RELEASE_FREEZE talabi saqlanadi.
+
+
+## 7. Rasmiy spetsifikatsiya bo‘yicha mavzu-maqsad xaritasi
+
+**Birlamchi tekshirilgan fayl:** “Informatika Testlar spesifikatsiyasi.pdf” (Toshkent, 2026, 10 sahifa). Fizik PDFning 6–7-betlari, 2-jadval va 10-betidagi adabiyotlar ro‘yxati. 6-bet: KS 5 savol va yettita ko‘nikma; 7-bet: umumiy pedagogika 7 savol va sakkizta mazmun bullet, informatika metodikasi 3 savol va uchta bullet. 18 ta kanonik mavzu kodi rasmiy spetsifikatsiyada belgilanmagan — platformaning tahririy moslashtirishidir.
+
+- **Yangi fayl:** src/data/pedagogySpec2026.ts — 7 KS, 8 PM.GEN, 3 PM.MET mavzusi uchun maqsad, guruh va rasmiy PDF sahifasi. Bu spetsifikatsiya qamrovi xaritasi, savollar banki yoki ekspert xulosasi emas.
+- **UI:** pedagogika sahifasida har mavzu ostida o‘quvchi nimani bilishi va qo‘llashi kerakligi ko‘rsatiladi. Mavzu va bitta test savoli o‘rtasida majburiy 1:1 kvota yo‘q.
+- **Test:** src/tests/PedagogySpec2026.test.ts — 18 mavzu, guruh/sahifa va mavjud nazariya bilan mapping regressioni.
+- **Xavfsiz chegara:** mazkur mapping manba-bet, tekshiruvchi imzosi yoki har savolning maqsad bilan bog‘lanishi tekshirilganini bildirmaydi. Baza ichidagi per-question mapping alohida auditdan o‘tishi kerak.
+
+### Natija bahosining serverga bog‘liqligi
+- ExamRunner natija ekranida serverning passed=null javobini 60 foiz chegarasi bilan avtomatik “o‘tdi”ga aylantirish to‘xtatildi. 100 foizli pedagogik_15 mashq ham rasmiy attestatsiyadan o‘tganlik hukmi emas.
+- src/tests/ExamResultDecision.test.tsx: pedagogik_15 va oddiy mock uchun 100% + passed=null holatlari yangi regressiya; passed=false server qarori mavjud regressiya bilan himoyalangan.
+
+### Dalil chegarasi
+- 18 mavzuning rasmiy 2-jadvalga mos nazariy qamrov xaritasi bo‘lishi barcha dars va barcha test kalitlari mustaqil ekspertizadan o‘tgan degani emas.
+- Kasbiy adabiyotlarning to‘liq nusxalari bu bosqichda fizik betma-bet solishtirilmadi. Joriy Drive qidiruvida ayrim kitoblar topilmadi; yangi source-page ekspert tasdig‘i yozilmadi.
+- M16.02dagi “70% kompyuterda bo‘lishi shart” jumlasi spetsifikatsiya 2-jadval metodika bandida ko‘rsatilmagan; normativ iddao sifatida olib tashlangan. Bu boshqa normativ hujjatlarda hech qanday foizli qoida yo‘q degan da’vo emas.
+
+### CI
+Birinchi commit 3edaca5 uchun backend/database/quality PASS tasdiqlangan. Yangi commit uchun CI qayta PASS bo‘lmasa release gate yopilgan hisoblanmaydi.
+
+
+## 8. Mahalliy statik pedagogika matnining tanqidiy sathi — ikkinchi tuzatish
+
+**Qayta tekshirilgan M15.05:** avvalgi misolda “haftalik sinf soati” va “ota-onalar yig‘ilishi chorakda 1–2 marta” aniq chastota sifatida yozilgan. Bunday me’yor rasmiy 2026 attestatsiya spetsifikatsiyasi 2-jadvalida belgilanmagan. Matn chastotasiz, ehtiyoj va ta’lim maqsadiga mos ish shakllarini tanlash ko‘rinishiga keltirildi. Bu maktablarning amaldagi boshqa tartib-qoidalarini rad etmaydi.
+
+**Qayta tekshirilgan M15.07:** “qobiliyatlar tug‘ma emas” kategorik iborasi rivojlanish tajribasiga asoslangan ehtiyotkor ifodaga almashtirildi. Bu barcha biologik/psixologik nazariyalar uzil-kesil hal etilganini da’vo qilmaydi.
+
+**Terminologiya M16.02:** “Fishing” (baliq skeleti) ifodasi “Fishbone (Ishikava diagrammasi)”ga tuzatildi. Bu rasmiy 2026 PDFdagi aynan bir termin emas; mazkur aniqlashtirish tashqi terminologik manba bo‘yicha verifikatsiya qilindi: American Society for Quality, Fishbone Cause and Effect Diagram, https://asq.org/quality-resources/fishbone. Qo‘llash vazifasi — muammoning mumkin bo‘lgan sabablarini toifalab tahlil qilish.
+
+**Tegishli regressiya:** src/tests/PedagogySourceIntegrity.test.ts M15.05 chastota va M15.07 kategorik da’voni qaytmasligini, M16.02 “Fishing” noto‘g‘ri atama bilan qaytmasligini tekshiradi.
+
+**Cheklov:** static topicContent.ts va production DBdagi published lesson body bir xil emas. Bu tahrir local/static fallbackni to‘g‘rilaydi; production DBdagi muqobil matnlarni qo‘llash uchun alohida read-only/source-versiya auditi, idempotent migratsiya, keyingi release tasdig‘i kerak. Boshqa 15+ statik darslar semantic auditdan o‘tgani haqida da’vo yo‘q.
+
+
+## 9. 2026-10-18 — production Supabase read-only qayta audit (yangi dalil)
+
+**Verified live project:** Supabase account sarvar9417, project “attestatsiya100%” (project ref: plyqezulrfowyblsfpzy, ACTIVE_HEALTHY). Bu safar jadvallar bevosita SELECT orqali tekshirildi. Hech qanday production INSERT/UPDATE/DELETE, migratsiya, RPC-write yoki release bajarilmadi. Oldingi 2026-10-18 hisobotidagi 424 published / 0 review endi joriy holatga mos kelmaydi: 26 ta M14 savoli REVIEWda.
+
+### Joriy professional bank statusi
+
+| Guruh | Published keyed | Review keyed | Published formatlari |
+|---|---:|---:|---|
+| KS | 114 | 26 | 104 Y1, 8 Y2, 2 Y3 |
+| PM.GEN | 233 | 0 | 223 Y1, 3 Y2, 7 Y3 |
+| PM.MET | 77 | 0 | 73 Y1, 4 Y3 |
+| **Jami** | **424** | **26** | **400 Y1, 11 Y2, 13 Y3** |
+
+Mavzu sinovi uchun belgilangan 20 ta published/keyed source-linked savol bo‘yicha dastlabki SELECT tekshiruvi:
+
+| Mavzu | Published keyed | Yetishmaydi | Review keyed |
+|---|---:|---:|---:|
+| M14.01 | 17 | 3 | 3 |
+| M14.02 | 17 | 3 | 3 |
+| M14.03 | 18 | 2 | 2 |
+| M14.04 | 14 | 6 | 6 |
+| M14.05 | 16 | 4 | 4 |
+| M14.06 | 16 | 4 | 4 |
+| M14.07 | 16 | 4 | 4 |
+| **Jami** | **114** | **26** | **26** |
+
+**M15 published-keyed per-topic:** M15.01–M15.08 = 28, 29, 25, 30, 25, 29, 30, 37.  
+**M16:** M16.01–M16.03 = 25, 25, 27.
+
+**Natija:** 7/18 kanonik pedagogika mavzusi 20 talik minimumni published/keyed source-linked soni bo‘yicha qondirmaydi. Qolgan 11/18 uchun bu faqat son tekshiruvi: serverning haqiqiy preflight, objective coverage, role-specific access, Y1/Y2/Y3 mosligi, backend E2E alohida tekshirilishi kerak. REVIEW savollar hech qachon mavjud published quota sifatida hisoblanmaydi.
+
+### 26 ta M14 REVIEW savoli bo‘yicha mexanik sifat triage
+Faqat aggregate SELECT (savol matni va kalitlarni chiqarmasdan) tekshirildi:
+- 26/26 Y1: to‘rtta variant va 4 ta farqli variant bor;
+- 26/26: key to‘g‘ri variant identifikatoriga bog‘langan;
+- 26/26: source_reference va explanation_md bo‘sh emas;
+- 0: bo‘sh stem;
+- 0: to‘g‘ri javobdagi so‘zlar soni noto‘g‘ri variantlarning eng uzunidan 30% dan ortiq uzun bo‘lgan mexanik cue.
+
+**Ushbu natija semantik javob, ishonchli normativ manba, bir ma’noli to‘g‘rilik, ekspert imzosi yoki nashrga tayyorlikning tasdig‘i emas.** 26/26 professional expert review talab qilinadi. Reviewer savolni to‘g‘rilasa immutable version/archive kontrakti saqlanadi.
+
+### Reproduksiya va release bloker
+- Yangi fail-safe read-only audit: supabase/audits/20261018_task212_pedagogy_readonly_pool.sql.
+- Maxfiy kalitlar yoki shaxsiy natijalarni hisobotga kiritish taqiqlanadi.
+- **M14 P0 bloker:** 26 ta savolni har birini alohida manba va semantik tekshiruvdan o‘tkazib, authorized owner/independent editor approval, DB publication gate, 7/7 topic preflight va barcha 15/50 mock regressionlaridan keyingina release masalasi qayta ko‘riladi.
+
+
+## 10. M14 26 REVIEW material uchun haqiqiy source-PDF bilan dastlabki fakt/variant auditi
+
+**Manba endi mavjud:** shaxsiy ChatGPT Librarydan “Pedagogning kasbiy standarti - qollanma.pdf” asl 13-betlik fayli topildi va o‘qildi. Google Drive qidiruvida ko‘rinmagan bu faylning mavzu sahifalari: M14.01 p2, M14.02 pp4–5, M14.03 pp6–7, M14.04 pp8–9, M14.05 p10, M14.06 p12, M14.07 p13. Shu lokal PDFda 26 REVIEW source locatoridagi soha, belgilangan javoblar va izohlar AI yordamida birma-bir dastlabki solishtirildi; learnerga raw kalitlar tarqatilmadi.
+
+**Muhim aniqlik:** PDF mazmuni bilan dastlabki mavzuviy moslik professional mustaqil ekspert imzosi EMAS va rasmiy davlat original normativ hujjat bilan tasdiqlanganlikni anglatmaydi. Hech bir REVIEW savol statusi o‘zgartirilmadi.
+
+**Dastlabki sifat tahlili:** 26 savoldan **kamida 8 ta aniq nomzod** quyidagi masalalar uchun alohida editorial navbatga qo‘yildi: 1 ta rasmiy atama aniqligi va bir nechtasida oson aniqlanuvchi, mavzudan uzoq yoki qaytariluvchi distractorlar. Mexanik 0 length-cue holatiga qaramasdan semantik cue mavjudligi kuzatildi. Barcha savollar PENDING va ularga “approved/correct” deb yozilmadi. To‘liq read-only locator reyestri va tahrir flaglari: docs/TASK212_M14_26_EDITORIAL_REVIEW_QUEUE.md.
+
+**Yakuniy ish qoldig‘i:** authorised expert manba/PDFdagi aniq mehnat vazifasi bilan mustaqil tasdiqlashi; har bir Y1 variantining mazmuniy yaroqliligi va uniquenessni tekshirishi; 8 ta flagged lokatorni redraft qilish; 26/26 imzoli signoff; tarix va immutable revisionsni saqlash; ishlab turgan 7 M14 mavzu strict preflight PASS va 15/50 E2E. Bu jarayon yakunlanmaguncha 26 ta savol REVIEWda qoladi.
+
+## 11. 2026-10-18: KS manbasi asosida yettita amaliy tayyorlanish kartasi
+
+- Yangi source file: src/data/pedagogyKasbSourceCards.ts.
+- /professional-practice sahifasida M14.01–M14.07 uchun kitob beti, asosiy kompetensiya, pedagogik vaziyat va ko‘p adashtiriladigan qarorlarni izohlovchi yopiq kartalar bor. Matn AI yordamida ikkilamchi metodik qo‘llanmadagi bandlardan qayta bayon qilingan; o‘quvchi uchun rasmiy qonun kuchiga ega deb ko‘rsatilmaydi.
+- **Manbaning ichki ziddiyati:** 13-betlik “Pedagogning kasbiy standarti — metodik qo‘llanma”ning 1-betidagi ro‘yxatda 05-o‘rinda kasbiy o‘sish, 06-o‘rinda xavfsiz muhit berilgan. Biroq haqiqiy asosiy sarlavhalar: **5-SOHA = xavfsiz rivojlantiruvchi muhit, PDF 10–11-betlar** va **6-SOHA = kasbiy o‘sish, PDF 12-bet**. O‘quv kartalari bobning o‘zidagi sarlavha va betga tayanadi, noaniqlik UI ichida ham ogohlantiriladi.
+- Test: src/tests/PedagogyKasbSourceCards.test.tsx 7/7 katalog qamrovi, asosiy bob betlari va xatolik haqidagi ogohlantirishni tekshiradi.
+- Yangi kartalar learner uchun tezkor o‘rganish materialidir, live DB body_mdx migratsiyasini va uning to‘liq o‘qib tasdiqlanganini bildirmaydi.
+
+## 12. 2026-10-18: published Y1 quality cue ikkinchi mustaqil SQL auditi
+
+**Faqat production SELECT**; 400 published Y1 (KS=104, PM.GEN=223, PM.MET=73) va 26 KS review uchun to‘rtta variant, source_reference, explanation, key-option identifikatori, bo‘sh stem, normallashtirilgan ayni savol va to‘g‘ri javobning uzunlik flaglari tekshirildi.
+
+| Guruh | Published Y1 | Correct > longest wrong × 1.3 | Correct ≥ longest wrong +4 so‘z |
+|---|---:|---:|---:|
+| KS | 104 | 48 | 19 |
+| PM.GEN | 223 | 41 | 19 |
+| PM.MET | 73 | 29 | 17 |
+| **Published jami** | **400** | **118** | **55** |
+| KS REVIEW | 26 | 0 | 0 |
+
+- 426 Y1 savol bo‘yicha aynan bir xil normalizatsiyalangan stem, 4 variant strukturasining buzilishi, response-key UUID havolasi yo‘qligi, bo‘sh source-reference, bo‘sh explanation va bo‘sh savol matni **0** bo‘ldi.
+- 118 ta heuristic length-cue flag **avtomatik noto‘g‘ri javob** degani emas; u variantlarni qayta muvozanatlash uchun editorial prioritet. Semantik dublikat, variant grammatikasi, rasmiy normativ to‘g‘rilik, tarixiy reference beti yoki savol murakkabligi bu query bilan tekshirilmaydi.
+- Reproduksiya: supabase/audits/20261018_task212_pedagogy_option_cues_readonly.sql; SELECT natijasida javob matnlari, private keys, shaxsiy attempt ma’lumotlari olinmaydi.
+- **Release gate:** Published 118 cue nomzodini expert navbatiga ajratish, har bir qabul qilingan tahrirda immutable archived snapshot va tarixni saqlash, qayta testlash.
+
+
+## 13. 2026-10-18 · OWNER-WAIVED STRICT-LONGEST PEDAGOGY OPTIONS: LIVE COMPLETED
+
+**Owner instruction:** separate external expert signoff is waived for this release. This is NOT an independent professional endorsement. All option rewrites are AI-assisted, tracked as owner-waived, and preserve the original correct-answer string and explanation.
+
+### Production changes, independently rechecked in live Supabase
+
+- Earlier owner-authorized release: 26 KS new original questions published; 118 long-correct published Y1 replaced with balanced immutable revisions; 118 source versions archived.
+- The stricter requirement was that the correct answer not be strictly longer than EVERY distractor. Initial stricter audit detected **75** remaining: KS 26, PM.GEN 29, PM.MET 20.
+- Further controlled batches: KS **10+10+6**, PM.GEN **15+14**, PM.MET **10+10** = **75 source-specific corrections**. Each complete SQL transaction first passed a production ROLLBACK rehearsal before its actual COMMIT. Every new version has new UUID/answer-option IDs; archived original preserves historic attempts, original correct answer text and original rationale.
+- Final live SELECT verifies **426 published Y1** (KS 130; PM.GEN 223; PM.MET 73) and **0 cases of strictly-longest correct choice**, **0 cases >30%**, **0 4-choice/non-distinct option failures** for all three groups. Counts and groups are snapshot-specific; no blanket semantic assurance or Y2/Y3 alteration is implied.
+
+### Reproducible maintenance transactions
+
+- supabase/maintenance/task212_strict_longest_first10_safe_revisions.sql — KS 10
+- supabase/maintenance/task212_strict_longest_second10_safe_revisions.sql — KS 10
+- supabase/maintenance/task212_strict_longest_last6_KS_safe_revisions.sql — KS 6
+- supabase/maintenance/task212_strict_longest_pmgen_first15_safe_revisions.sql — PM.GEN 15
+- supabase/maintenance/task212_strict_longest_pmgen_last14_safe_revisions.sql — PM.GEN 14
+- supabase/maintenance/task212_strict_longest_pmmet_first10_safe_revisions.sql — PM.MET 10
+- supabase/maintenance/task212_strict_longest_pmmet_last10_safe_revisions.sql — PM.MET 10
+- supabase/audits/20261018_task212_strict_longest_residual_readonly.sql — independent group count and remaining-cue auditor.
+
+The SQL maintenance files are **historical one-shot, non-idempotent records** and must never be rerun after success; they fail closed on source/status mismatches. Manual owner-authorization provenance is stored in private RLS-protected pedagogy_owner_release_waivers. Do not invent reviewer signatures or expose answer keys to learners.
+
+### Still separate from production UI deployment
+
+Database revisions ARE LIVE. Unified pedagogy landing UI and other TASK-212 React changes are staged in GitHub PR #149 until its exact latest-head CI and one Vercel production deployment/READY verification. GitHub merge can trigger Vercel automatically; separate manual second deployments should not be started. Vercel last checked build-rate-limit; a passed GitHub CI does not certify frontend release or live authenticated mobile experience.

@@ -1288,7 +1288,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'definition', content: 'Sinf rahbari — sinfdagi o\'quv-tarbiyaviy ishlarni tashkil etuvchi o\'qituvchi. Ota-onalar bilan ish — ta\'lim jarayonining muhim qismi.' },
     { type: 'text', content: 'Sinf rahbarining vazifalari: o\'quvchilarni o\'rganish, sinf jamoasini shakllantirish, o\'quvchilar bilan individual ish, ota-onalar bilan hamkorlik, hujjatlar yuritish (sinf jurnali, shaxsiy ish).' },
     { type: 'table', content: '| Hujjat | Vazifasi |\n|--------|---------|\n| Sinf jurnali | O\'zlashtirish va davomatni qayd etish |\n| O\'quvchi shaxsiy ishi | Shaxsiy ma\'lumotlar |\n| Ota-onalar bilan ish rejasi | Hamkorlik tadbirlari |\n| Sinf soati rejasi | Tarbiyaviy ish rejasi |\n| Kundalik | Uyga vazifa va baholar |' },
-    { type: 'example', content: 'Sinf rahbari faoliyati:\n- Haftalik sinf soati o\'tkazish\n- Ota-onalar yig\'ilishi (chorakda 1-2 marta)\n- O\'quvchilar bilan individual suhbat\n- Davomatni kuzatish\n- Fan o\'qituvchilari bilan hamkorlik' },
+    { type: 'example', content: 'Sinf rahbari faoliyati:\n- Sinf soati va tarbiyaviy tadbirlarni rejalashtirish\n- Ota-onalar yig\'ilishi va individual suhbatni ehtiyojga ko\'ra tashkil etish\n- O\'quvchilar bilan individual suhbat\n- Davomatni kuzatish\n- Fan o\'qituvchilari bilan hamkorlik' },
   ], []),
 
   'M15.06': t('M15.06', 'Pedagogik etika, nutq va refleksiya', [
@@ -1301,7 +1301,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   'M15.07': t('M15.07', 'Pedagogik qobiliyatlar', [
     { type: 'definition', content: 'Pedagogik qobiliyat — o\'qituvchining ta\'lim-tarbiyaviy ishni samarali amalga oshirish imkonini beruvchi individual psixologik xususiyatlar majmui.' },
     { type: 'table', content: '| Qobiliyat turi | Mazmuni |\n|--------------|--------|\n| Didaktik | Materialni tushunarli bayon qilish |\n| Akademik | Fan bilimlari va tadqiqot qobiliyati |\n| Persiptiv | O\'quvchini tushunish, ichki dunyosini his qilish |\n| Nutq | Tushunarli, ifodali nutq |\n| Tashkilotchilik | O\'quvchilar va jarayonni tashkil etish |\n| Kommunikativ | Muloqot o\'rnatish qobiliyati |\n| Avtoritar | O\'quvchilarga ta\'sir o\'tkazish |\n| Pedagogik tasavvur | Natijalarni oldindan ko\'ra bilish |\n| Diqqatni taqsimlash | Bir vaqtda bir necha ishni boshqarish |' },
-    { type: 'text', content: 'Qobiliyatlar tug\'ma emas — ular rivojlantiriladi. O\'qituvchi o\'zining kuchli tomonlarini rivojlantirishi va zaif tomonlarini mustahkamlashi kerak.' },
+    { type: 'text', content: 'Pedagogik qobiliyatlarni o\'qish, amaliy tajriba va muntazam refleksiya orqali rivojlantirish mumkin. O\'qituvchi o\'zining kuchli tomonlarini rivojlantirishi va zaif tomonlarini mustahkamlashi kerak.' },
     { type: 'note', content: '⭐ Didaktik qobiliyat — eng muhim pedagogik qobiliyatlardan biri: materialni sodda, tushunarli va qiziqarli bayon qilish.' },
   ], []),
 
@@ -1324,10 +1324,10 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
 
   'M16.02': t('M16.02', 'O\'qitish usul va metodlari', [
     { type: 'definition', content: 'O\'qitish usullari — o\'qituvchi va o\'quvchining o\'zaro faoliyatini tashkil etish yo\'llari. Metodlar og\'zaki, ko\'rgazmali, amaliy va interfaol turlarga bo\'linadi.' },
-    { type: 'table', content: '| Metod guruhi | Misollar | Xususiyati |\n|-------------|---------|----------|\n| Og\'zaki | Hikoya, tushuntirish, suhbat | Nazariy bilim berish |\n| Ko\'rgazmali | Slayd, video, animatsiya, plakat | Vizual idrok |\n| Amaliy | Laboratoriya, masala yechish, loyiha | Ko\'nikma hosil qilish |\n| Interfaol | Klaster, Venn, fishing, blits-so\'rov | Faol muloqot |' },
-    { type: 'text', content: 'Informatika darslarida amaliy metodlar ustunlik qiladi: o\'quvchilarning 70% vaqti kompyuterda ishlash bilan o\'tishi kerak. Dasturlashni o\'rgatishda "Code.org", "Scratch", "Python" kabi vositalar qo\'llaniladi.' },
+    { type: 'table', content: '| Metod guruhi | Misollar | Xususiyati |\n|-------------|---------|----------|\n| Og\'zaki | Hikoya, tushuntirish, suhbat | Nazariy bilim berish |\n| Ko\'rgazmali | Slayd, video, animatsiya, plakat | Vizual idrok |\n| Amaliy | Laboratoriya, masala yechish, loyiha | Ko\'nikma hosil qilish |\n| Interfaol | Klaster, Venn, Fishbone (Ishikava diagrammasi), blits-so\'rov | Faol muloqot |' },
+    { type: 'text', content: 'Informatika darslarida amaliy faoliyat muhim: kompyuterda ishlash vaqti darsning aniq maqsadi, yosh xususiyatlari, xavfsizlik talablari va mavjud sharoitga qarab rejalashtiriladi. Dasturlashni o\'rgatishda "Code.org", "Scratch", "Python" kabi vositalar qo\'llaniladi.' },
     { type: 'example', content: 'Muammoli ta\'lim: "Internetga ulanish yo\'q. Ma\'lumotlarni qanday almashish mumkin?" — o\'quvchilar muammoni mustaqil yechishadi.' },
-    { type: 'note', content: '💡 Informatika fanida "Fishing" (baliq skeleti) metodi — muammo va sabablarni tahlil qilish uchun qo\'llaniladi.' },
+    { type: 'note', content: '💡 Informatika fanida "Fishbone" (Ishikava, baliq skeleti) diagrammasi — muammo va sabablarni tahlil qilish uchun qo\'llaniladi.' },
   ], []),
 
   'M16.03': t('M16.03', 'Ta\'limiy vaziyatdagi qarorlarni baholash', [

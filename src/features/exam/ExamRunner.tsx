@@ -694,7 +694,9 @@ export default function ExamRunner({
       result.max_score > 0
         ? Math.round((result.total_score / result.max_score) * 100)
         : 0
-    const passed = result.passed ?? percentage >= 60
+    // The server alone decides pass/fail; null means no official verdict.
+    const passed = result.passed
+
     const questionCounts = result.breakdown?.reduce(
       (counts, group) => ({
         correct: counts.correct + group.togri,
@@ -727,18 +729,22 @@ export default function ExamRunner({
           <div className="flex shrink-0 items-center gap-4">
             <div
               className={`grid h-16 w-16 place-items-center rounded-2xl ${
-                passed
+                passed === true
                   ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-300'
-                  : 'bg-amber-50 text-amber-600 dark:bg-amber-950/60 dark:text-amber-300'
+                  : passed === false
+                    ? 'bg-amber-50 text-amber-600 dark:bg-amber-950/60 dark:text-amber-300'
+                    : 'bg-indigo-50 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-300'
               }`}
             >
               <CheckCircle2 size={30} aria-hidden="true" />
             </div>
             <div>
               <p className={`text-3xl font-bold tracking-tight ${
-                passed
+                passed === true
                   ? 'text-emerald-600 dark:text-emerald-300'
-                  : 'text-amber-600 dark:text-amber-300'
+                  : passed === false
+                    ? 'text-amber-600 dark:text-amber-300'
+                    : 'text-indigo-600 dark:text-indigo-300'
               }`}>
                 {result.total_score} / {result.max_score}
               </p>
@@ -758,7 +764,13 @@ export default function ExamRunner({
 
           <div className="min-w-0 flex-1 lg:border-l lg:border-gray-200 lg:pl-6 dark:lg:border-gray-800">
             <h2 className="text-lg font-semibold text-gray-950 dark:text-white">
-              {examKind === 'axb_bob' || examKind === 'pedagogik_15' ? 'Mashq natijasi hisoblandi' : passed ? 'Natija talab darajasida' : 'Natijani mustahkamlash kerak'}
+              {examKind === 'axb_bob' || examKind === 'pedagogik_15'
+                ? 'Mashq natijasi hisoblandi'
+                : passed === true
+                  ? 'Natija talab darajasida'
+                  : passed === false
+                    ? 'Natijani mustahkamlash kerak'
+                    : 'Baholash qarori mavjud emas'}
             </h2>
             <p className="mt-1 text-sm leading-6 text-gray-500 dark:text-gray-400">
               Natija server tomonidan hisoblandi. Quyidagi kesim keyingi tayyorgarlik
@@ -767,7 +779,7 @@ export default function ExamRunner({
             <div className="mt-4 h-2 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
               <div
                 className={`h-full rounded-full ${
-                  passed ? 'bg-emerald-500' : 'bg-amber-500'
+                  passed === true ? 'bg-emerald-500' : passed === false ? 'bg-amber-500' : 'bg-indigo-500'
                 }`}
                 style={{ width: `${Math.min(percentage, 100)}%` }}
               />
