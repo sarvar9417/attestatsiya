@@ -162,6 +162,19 @@ export async function adminRoutes(app: FastifyInstance) {
     }
   })
 
+  /** Stage one length-biased legacy question as a NEW review-only revision. */
+  app.post('/api/admin/questions/:id/stage-revision', async (req, reply) => {
+    const token = getToken(req)
+    if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
+    const { id } = req.params as { id: string }
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) {
+      throw new AppError('Savol ID formati noto‘g‘ri', 400, 'INVALID_QUESTION_ID')
+    }
+    try {
+      return reply.status(201).send(await adminContentService.stagePedagogyRevision(id, token))
+    } catch (error) { return sendError(reply, error) }
+  })
+
   app.get('/api/admin/question-editor/meta', async (req, reply) => {
     const token = getToken(req)
     if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
