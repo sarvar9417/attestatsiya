@@ -116,11 +116,20 @@ export default function QuestionsPage() {
   const [loadError, setLoadError] = useState<string | null>(null)
   const [actionError, setActionError] = useState<string | null>(null)
   const [search, setSearch] = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
+  const [page, setPage] = useState(1)
+  const [total, setTotal] = useState(0)
+  const [filterGroup, setFilterGroup] = useState('')
   const [filterStatus, setFilterStatus] = useState('')
   const [filterSource, setFilterSource] = useState('')
   const [editorialQuestion, setEditorialQuestion] = useState<QuestionRow | null>(null)
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
+
+  useEffect(() => {
+    const timeout = window.setTimeout(() => { setSearchTerm(search.trim()); setPage(1) }, 350)
+    return () => window.clearTimeout(timeout)
+  }, [search])
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -129,15 +138,21 @@ export default function QuestionsPage() {
     try {
       const data = await listAdminQuestions(
         filterStatus ? (filterStatus as ContentStatus) : undefined,
-        filterSource === 'pedguli' ? 'pedguli' : undefined,
+        filterSource === 'pedguli' || filterSource === 'pedagogy_pdf' ? filterSource : undefined,
+        page,
+        filterGroup ? (filterGroup as 'KS' | 'PM.GEN' | 'PM.MET') : undefined,
+        searchTerm || undefined,
       )
-      setQuestions(data)
+      // Keep adapter compatibility for local/old component fixtures.
+      const items = Array.isArray(data) ? data : data.items
+      setQuestions(items)
+      setTotal(Array.isArray(data) ? items.length : data.total)
     } catch (error) {
       setLoadError(error instanceof Error ? error.message : 'Savollarni yuklashda xatolik')
     } finally {
       setLoading(false)
     }
-  }, [filterStatus, filterSource])
+  }, [filterStatus, filterSource, filterGroup, page, searchTerm])
 
   useEffect(() => {
     void load()
@@ -268,18 +283,26 @@ export default function QuestionsPage() {
           <select
             className="input min-h-11 w-full lg:w-56"
             value={filterSource}
-            onChange={event => setFilterSource(event.target.value)}
+            onChange={event => { setFilterSource(event.target.value); setPage(1) }}
             aria-label="Savol manbasi filtri"
           >
             <option value="">Barcha manbalar</option>
             <option value="pedguli">Pedmahorat — original mashqlar</option>
+            <option value="pedagogy_pdf">PDFdan yaratilgan savollar</option>
+          </select>
+          <select className="input min-h-11 w-full lg:w-44" value={filterGroup}
+            aria-label="Pedagogika guruhi" onChange={event => { setFilterGroup(event.target.value); setPage(1) }}>
+            <option value="">Barcha guruhlar</option>
+            <option value="KS">Kasb standarti</option>
+            <option value="PM.GEN">Umumiy pedagogika</option>
+            <option value="PM.MET">Informatika metodikasi</option>
           </select>
           <div className="flex items-center gap-2">
             <Filter size={15} className="text-gray-400" aria-hidden="true" />
             <select
               className="input min-h-11 w-full lg:w-48"
               value={filterStatus}
-              onChange={event => setFilterStatus(event.target.value)}
+              onChange={event => { setFilterStatus(event.target.value); setPage(1) }}
               aria-label="Status filtri"
             >
               <option value="">Barcha holatlar</option>
@@ -293,11 +316,21 @@ export default function QuestionsPage() {
         </div>
 
         <p className="mt-3 text-xs text-gray-400">
-          {search
-            ? `Qidiruv bo‘yicha ${filtered.length} ta savol`
-            : 'Eng so‘nggi 100 tagacha savol ko‘rsatiladi.'}
+          Bazada filtr bo‘yicha {total} ta savol. {page}-sahifa, sahifada {questions.length} ta.
         </p>
       </section>
+
+      <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-gray-600 dark:text-gray-300" aria-label="Savollar sahifalari">
+        <span>Jami: {total} · {page} / {Math.max(1, Math.ceil(total / 25))}-sahifa</span>
+        <div className="flex gap-2">
+          <button type="button" disabled={loading || page <= 1}
+            onClick={() => setPage(previous => Math.max(1, previous - 1))}
+            className="btn-secondary min-h-10 disabled:opacity-50">Oldingi</button>
+          <button type="button" disabled={loading || page * 25 >= total}
+            onClick={() => setPage(previous => previous + 1)}
+            className="btn-secondary min-h-10 disabled:opacity-50">Keyingi</button>
+        </div>
+      </div>
 
       <section className="rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
         <div className="border-b border-gray-100 px-5 py-4 dark:border-gray-800">
@@ -397,7 +430,9 @@ export default function QuestionsPage() {
                         </button>
                       ))}
 
-                      {status === 'review' && question.source_reference?.startsWith('authored:pedguli-') && (
+                      {status === 'review' && (['KS', 'PM.GEN', 'PM.MET'].includes(question.group_code) ||
+                        question.source_reference?.startsWith('authored:pedguli-') ||
+                        question.source_reference?.startsWith('authored:pedagogy-pdf-corpus:')) && (
                         <button
                           type="button"
                           onClick={() => setEditorialQuestion(question)}
