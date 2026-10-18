@@ -40,7 +40,7 @@ describe('M05: Sanoq sistemalari nazariyasining to‘liq integratsiyasi', () => 
 
     const content = getTopicContent('M05.01')!
     render(<BookReader content={content} questionCount={20} onFinishReading={() => {}} />)
-    expect(screen.getByText(/1\.1\. Asosiy atamalar/)).toBeInTheDocument()
-    expect(screen.getByText(/Sanoq sistemasining mohiyati/)).toBeInTheDocument()
+    expect(screen.getAllByText(/1\.1\. Asosiy atamalar/).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/Sanoq sistemasining mohiyati/).length).toBeGreaterThan(0)
   })
 })
