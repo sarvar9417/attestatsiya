@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { AlertTriangle, ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react'
 import {
   listPedagogyPdfCandidates,
+  stagePedagogyPdfQuestion,
   type PedagogyPdfCandidatePage,
 } from '../../features/admin/pedagogyPdfApi'
 
@@ -108,6 +109,11 @@ export default function PedagogyPdfCandidatesPage() {
             {item.source_quality_flags?.length>0 && <p className="mt-1 text-xs text-amber-700">
               Sifat belgilari: {item.source_quality_flags.join(', ')}
             </p>}
+            {item.editorial_status==='verified' &&
+              item.answer_key_status==='independently_verified' &&
+              item.mapped_construct_id && !item.linked_question_id && (
+              <PdfManualAuthorForm candidateId={item.id} onSaved={()=>void load()} />
+            )}
           </article>
         )}
         {(result?.items.length??0)===0 && <p className="rounded-xl border p-6 text-sm">Ushbu filtrda manba topilmadi.</p>}
@@ -125,4 +131,90 @@ export default function PedagogyPdfCandidatesPage() {
       </button>
     </div>
   </div>
+}
+
+/** Never prefill source wording or assert that a source marker is official. */
+function PdfManualAuthorForm({candidateId,onSaved}:{
+  candidateId:string;onSaved:()=>void
+}) {
+  const [stem,setStem]=useState('')
+  const [options,setOptions]=useState(['','','',''])
+  const [correct,setCorrect]=useState(0)
+  const [explanation,setExplanation]=useState('')
+  const [verified,setVerified]=useState(false)
+  const [saving,setSaving]=useState(false)
+  const [error,setError]=useState<string|null>(null)
+  const [complete,setComplete]=useState(false)
+  const lengths=options.map(text=>text.trim().split(/\s+/u).filter(Boolean).length)
+  const max=Math.max(...lengths)
+  const min=Math.min(...lengths)
+  const wrongMax=Math.max(...lengths.filter((_,index)=>index!==correct))
+  const balanced=min>=2 && max<=min*1.8 && lengths[correct]<=wrongMax*1.25
+  const distinct=new Set(options.map(text=>text.trim().toLocaleLowerCase('uz'))).size===4
+  const canSave=verified && stem.trim().length>=15 && explanation.trim().length>=12 &&
+    distinct && balanced && !saving
+
+  async function save() {
+    if(!canSave)return
+    setSaving(true);setError(null)
+    try{
+      const r=await stagePedagogyPdfQuestion(candidateId,{
+        stem_md:stem.trim(), options:options.map(x=>x.trim()),
+        correct_index:correct, explanation_md:explanation.trim(),
+      })
+      if(r.status!=='review')throw new Error('Savol review holatida yaratilmagan')
+      setComplete(true)
+      onSaved()
+    }catch(err){setError(err instanceof Error?err.message:'Savol saqlanmadi')}
+    finally{setSaving(false)}
+  }
+
+  return <details className="mt-4 rounded-xl border border-indigo-200 p-3 dark:border-indigo-800">
+    <summary className="cursor-pointer text-sm font-semibold text-indigo-700 dark:text-indigo-300">
+      Ushbu tekshirilgan manbadan original review savoli tayyorlash
+    </summary>
+    <div className="mt-3 space-y-3">
+      <p className="text-xs text-gray-500">Asl savolni so‘zma-so‘z ko‘chirmang.
+        Javobni darslik bilan tekshiring. Variantlarni bir xil darajada ishonarli va uzunlikda yarating.
+        Bu forma hech qachon avtomatik nashr qilmaydi.</p>
+      <label className="block space-y-1 text-sm font-medium">Qayta yozilgan savol
+        <textarea className="input w-full" rows={3} value={stem}
+          onChange={event=>setStem(event.target.value)} />
+      </label>
+      <fieldset className="space-y-2">
+        <legend className="text-sm font-semibold">A/B/C/D variantlari va yagona to‘g‘ri javob</legend>
+        {options.map((option,index)=><div key={index} className="flex items-center gap-2">
+          <label className="shrink-0 text-xs font-semibold">
+            <input type="radio" name={`pdf-answer-${candidateId}`}
+              checked={correct===index} onChange={()=>setCorrect(index)}
+              aria-label={`To‘g‘ri variant ${index+1}`}/>
+            {String.fromCharCode(65+index)}
+          </label>
+          <input className="input flex-1" value={option}
+            aria-label={`PDF savoli varianti ${index+1}`}
+            onChange={event=>setOptions(prev=>prev.map((v,i)=>i===index?event.target.value:v))}/>
+          <span className="text-xs text-gray-500">{lengths[index]} so‘z</span>
+        </div>)}
+      </fieldset>
+      <p className={`text-xs ${balanced&&distinct?'text-emerald-600':'text-red-600'}`}>
+        {balanced&&distinct?'Variant uzunligi va takrorlanmaslik tekshirildi':
+          'Variantlar: kamida 2 so‘z, max/min ≤1.8, to‘g‘ri javob eng uzun variant bo‘lmasin; matnlar takrorlanmasin.'}
+      </p>
+      <label className="block space-y-1 text-sm font-semibold">Javobning ilmiy izohi
+        <textarea className="input w-full" rows={2} value={explanation}
+          onChange={event=>setExplanation(event.target.value)} />
+      </label>
+      <label className="flex gap-2 text-xs">
+        <input type="checkbox" checked={verified}
+          onChange={event=>setVerified(event.target.checked)}/>
+        Asl kalitni mustaqil manba bilan solishtirdim; variantlarni o‘zim yozdim
+      </label>
+      {error&&<p role="alert" className="text-xs text-red-600">{error}</p>}
+      {complete?<p role="status" className="text-sm text-emerald-700">Savol review holatida saqlandi.</p>:
+        <button type="button" onClick={()=>void save()} disabled={!canSave}
+          className="btn-primary min-h-10 disabled:opacity-50">
+          {saving?'Saqlanmoqda...':'Savolni faqat review navbatiga kiritish'}
+        </button>}
+    </div>
+  </details>
 }
