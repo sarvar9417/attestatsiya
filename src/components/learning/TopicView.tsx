@@ -347,7 +347,10 @@ export default function TopicView({
   const isAppendix = content?.kind === 'appendix'
   /** Testga o'tish imkoni bormi. */
   const currentReadiness = topicReadiness?.subtopicId === subtopicId ? topicReadiness.data : null
-  const hasTest = currentReadiness?.ready === true
+  // Reference appendices (glossary/formula sheets/diagnostic aids) are not
+  // standalone assessed lessons. A shared construct pool may falsely report
+  // them ready (for example M01.09), but reading an appendix is enough.
+  const hasTest = !isAppendix && currentReadiness?.ready === true
   const displayedTestCount = currentReadiness?.required ?? 0
   const handleTopicTestAction = () => {
     if (hasTest) navigate(`/exam/mavzu/${moduleId}?lessonId=${subtopicId}`)
