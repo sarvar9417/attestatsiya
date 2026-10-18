@@ -45,13 +45,15 @@ export function markdownToTheoryBlocks(markdown: string): TheoryBlock[] {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim()
     if (!line) { flush(); continue }
+    // Migration markers and Markdown comments are metadata, not learner-facing prose.
+    if (/^<!--.*-->$/.test(line)) { flush(); continue }
 
-    const heading = /^(#{2,4})\s+(.+)$/.exec(line)
+    const heading = /^(#{1,4})\s+(.+)$/.exec(line)
     if (heading) {
       flush()
       currentSection = heading[2].trim()
       result.push({
-        type: heading[1].length === 2 ? 'heading' : 'subheading',
+        type: heading[1].length <= 2 ? 'heading' : 'subheading',
         content: currentSection,
       })
       continue
