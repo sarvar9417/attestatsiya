@@ -1,7 +1,7 @@
 -- TASK-202: source-specific assistant-proposed alternatives; NOT an approval.
 begin;
 insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distractors)
-values
+select source_question_id::uuid, proposed_distractors from (values
 ('2bc30a51-4e8e-472c-b568-a77ccccc6cd4',array[
 'Binodagi jihozlar va yong‘in xavfsizligini',
 'O‘quvchilarning elektron parollari va hisoblarini',
@@ -42,5 +42,8 @@ values
 'Har bir fan o‘qituvchisi alohida reja tuzib, boshqalarga bildirmasligi',
 'Muammoni tez yopish uchun faqat yakuniy baholarni yagona mezon qilish',
 'Turli fanlardagi qiyinchilikni vaqtinchalik deb hisoblab, mutaxassis fikrini e’tiborsiz qoldirish'])
+) as proposed(source_question_id, proposed_distractors)
+where exists(select 1 from public.questions q where q.id=proposed.source_question_id::uuid
+  and q.status='published'::public.content_status and q.format='Y1'::public.question_format)
 on conflict(source_question_id) do nothing;
 commit;
