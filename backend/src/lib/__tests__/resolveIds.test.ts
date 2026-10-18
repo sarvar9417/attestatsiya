@@ -140,29 +140,18 @@ describe('resolveLessonUuid', () => {
     expect(mockEq).not.toHaveBeenCalledWith('slug', 'm05-01')
   })
 
-  it('M02.03 resolves its human-readable published lesson via module and order', async () => {
-    // M02 is cached in resolveModuleUuid tests, so only the lesson query is needed.
-    mockMaybeSingle.mockResolvedValueOnce({
-      data: { id: '92000000-0000-4000-8000-000000000003' }, error: null,
-    })
+  it.each([
+    ['M05.02', 2, '95000000-0000-4000-8000-000000000002'],
+    ['M05.03', 3, '95000000-0000-4000-8000-000000000003'],
+  ])('resolves %s only through published M05 order %i', async (code, ordinal, id) => {
+    // The M05 module code was resolved by the M05.01 test and cached.
+    mockMaybeSingle.mockResolvedValueOnce({ data: { id }, error: null })
     mockEq.mockImplementation(() => ({ eq: mockEq, maybeSingle: mockMaybeSingle }))
-
-    const resolved = await resolveLessonUuid('M02.03')
-    expect(resolved).toBe('92000000-0000-4000-8000-000000000003')
-    expect(mockEq).toHaveBeenCalledWith('order_idx', 3)
+    const result = await resolveLessonUuid(code)
+    expect(result).toBe(id)
+    expect(mockEq).toHaveBeenCalledWith('order_idx', ordinal)
     expect(mockEq).toHaveBeenCalledWith('status', 'published')
-  })
-
-  it('M08.04 also resolves the published lesson by module and order', async () => {
-    mockMaybeSingle
-      .mockResolvedValueOnce({ data: { id: 'module-m08' }, error: null })
-      .mockResolvedValueOnce({ data: { id: 'lesson-js-m08-04' }, error: null })
-    mockEq.mockImplementation(() => ({ eq: mockEq, maybeSingle: mockMaybeSingle }))
-    const resolved = await resolveLessonUuid('M08.04')
-    expect(resolved).toBe('lesson-js-m08-04')
-    expect(mockEq).toHaveBeenCalledWith('module_id', 'module-m08')
-    expect(mockEq).toHaveBeenCalledWith('order_idx', 4)
-    expect(mockEq).toHaveBeenCalledWith('status', 'published')
+    expect(mockEq).not.toHaveBeenCalledWith('slug', code.toLowerCase().replace('.', '-'))
   })
 
   it('M05 missing canonical published lesson never falls back to another lesson', async () => {
