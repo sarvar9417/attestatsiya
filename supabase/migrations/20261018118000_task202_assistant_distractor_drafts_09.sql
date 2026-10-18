@@ -1,6 +1,7 @@
 -- TASK-202: PM.GEN and PM.MET contextual distractor suggestions, private only.
 begin;
-insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distractors) values
+insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distractors)
+select source_question_id::uuid, proposed_distractors from (values
 ('c466b760-5482-470c-8d27-d0cc2a462114',array[
 'O‘quvchi topshiriqni bajarmagani uning motivatsiyasi pastligini aniq isbotlaydi, vazifa darajasini tekshirish shart emas',
 'Vazifa qiyinligi hamma uchun bir xil bo‘lgani sababli o‘quvchining avvalgi bilimini hisobga olish zarur emas',
@@ -41,5 +42,8 @@ insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distra
 'Rasmiy fan standarti va umumiy ta’lim maqsadi',
 'O‘quv natijasining tekshirilishi uchun asosiy mezon',
 'Har bir o‘quvchidan kutiladigan asosiy kompetensiya'])
+) as proposed(source_question_id, proposed_distractors)
+where exists(select 1 from public.questions q where q.id=proposed.source_question_id::uuid
+  and q.status='published'::public.content_status and q.format='Y1'::public.question_format)
 on conflict(source_question_id) do nothing;
 commit;
