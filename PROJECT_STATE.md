@@ -1757,3 +1757,14 @@ Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user co
 - M12 IP/maska: bitwise AND bilan /26 worked example va ikki mustaqil network-address masalasi.
 - M13 security/freelance: threat-mechanism scenario matrix va profile→portfolio→buyurtma→delivery ish oqimi.
 - Database regressiya 7 ta lesson markerini, HTML/CSS code blocks, IP calculation va freelance workflowni majburiy tekshiradi.
+
+
+## TASK-211 — M13 AXR 7 bob / 210 test, review import (2026-10-18)
+
+- **Branch:** `task/TASK-211-m13-axr-review-import`, **Draft PR:** #145 (main/production unchanged).
+- **Staged source:** `docs/content/m13_axr_2026_lessons.json` (7 theory chapters), `docs/content/m13_axr_2026_questions.json` (210 items, 30/chapter), `supabase/migrations/20261019010000_task211_m13_axr_review_content.sql`.
+- **DB:** 7 new lessons + 210 questions in `review` only. No overwrite of existing published M13 lessons, keys/options/attempts; answer keys stay in `question_keys`.
+- **Constructs:** chapters 1/2/3/4/5+6/7 → S7.SEC.01/.02/.03/.04/.05/.06.
+- **Format caveat:** source marks 7 Y2 + 7 Y3 but all 14 are Y1 multiple-choice combinations; DB format is Y1 until true native interaction is separately authored. `source_reference` preserves original kind.
+- **Regression:** new `task211_m13_axr_review_contract.test.sql`, plus exact review-corpus exemption to TASK-064 M13 canonical drift check while published drift remains rejected.
+- **Incomplete:** human source/key editorial review, local disposable PostgreSQL migration QA, frontend reader/resolver navigation/topic-preflight E2E, future expert-approved publication; merge, live Supabase migration and Vercel production deploy require separate user signoff.

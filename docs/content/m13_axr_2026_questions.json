@@ -1,0 +1,3580 @@
+{
+  "metadata": {
+    "title": "Axborot xavfsizligi va raqamli platformalarda faoliyat olib borish",
+    "spec": "2026, 7-mazmun sohasi, 34--35-savollar",
+    "total": 210,
+    "note": "Didaktik yaratilgan savollar; attestatsiyaning autentik savollari emas."
+  },
+  "questions": [
+    {
+      "id": "AXR-01-001",
+      "chapter": 1,
+      "within": 1,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Axborot xavfsizligining asosiy maqsadi nima?",
+      "options": [
+        "Har bir ma’lumotni Internetga chiqarish",
+        "Faqat kompyuter tezligini oshirish",
+        "Faqat yangi kompyuter sotib olish",
+        "Axborot va tizimni muhim tahdidlardan himoyalash"
+      ],
+      "answer": 3,
+      "explanation": "Xavfsizlik maxfiylik, yaxlitlik va mavjudlikni saqlashga xizmat qiladi.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-002",
+      "chapter": 1,
+      "within": 2,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Maxfiylik xossasi nimani bildiradi?",
+      "options": [
+        "Har bir fayl hajmi kichik bo‘lishini",
+        "Tizim uzluksiz elektr olishinigina",
+        "Ma’lumotni faqat alifbo bilan yozishni",
+        "Axborotni faqat vakolatli shaxs o‘qiy olishini"
+      ],
+      "answer": 3,
+      "explanation": "Maxfiylik ruxsatsiz tanishishdan himoyalashga taalluqli.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-003",
+      "chapter": 1,
+      "within": 3,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Yaxlitlik xossasining mohiyati nima?",
+      "options": [
+        "Hisobning faqat parol bilan ochilishi",
+        "Ma’lumotning ruxsatsiz yoki tasodifiy o‘zgarmasligi",
+        "Tizimning doim bepul ishlashi",
+        "Fayl nomining doim uzun bo‘lishi"
+      ],
+      "answer": 1,
+      "explanation": "Yaxlitlik mazmunning ishonchli va buzilmagan saqlanishidir.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-004",
+      "chapter": 1,
+      "within": 4,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Mavjudlik xossasi nimani anglatadi?",
+      "options": [
+        "Fayllar faqat bitta qurilmada turishini",
+        "Vakolatli foydalanuvchi xizmatdan zarur vaqtda foydalana olishini",
+        "Barcha ma’lumot ommaga ochiq bo‘lishini",
+        "Hamma foydalanuvchilar administrator bo‘lishini"
+      ],
+      "answer": 1,
+      "explanation": "Xizmatning ishlashi va undan o‘z vaqtida foydalanish mavjudlikka taalluqli.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-005",
+      "chapter": 1,
+      "within": 5,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Zaiflik atamasiga mos ta’rifni toping.",
+      "options": [
+        "Faqat tabiiy ofat natijasi",
+        "Ma’lumotdan olingan foyda miqdori",
+        "Foydalanuvchi olgan rasmiy sertifikat",
+        "Hujum foydalanishi mumkin bo‘lgan tizim kamchiligi"
+      ],
+      "answer": 3,
+      "explanation": "Oddiy parol yoki yangilanmagan dastur zaiflik misolidir.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-006",
+      "chapter": 1,
+      "within": 6,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Axborot xavfsizligida aktiv deb nimaga aytiladi?",
+      "options": [
+        "Tarmoqdagi barcha begona shaxslarga",
+        "Tasodifiy xatolik ehtimoliga",
+        "Tashkilot uchun qiymatga ega axborot yoki resursga",
+        "Har qanday zararli xabarga"
+      ],
+      "answer": 2,
+      "explanation": "Ma’lumotlar bazasi, server va muhim hujjatlar aktiv bo‘la oladi.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-007",
+      "chapter": 1,
+      "within": 7,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Baholar bazasini begona shaxs faqat ko‘rdi. Qaysi xossa buzildi?",
+      "options": [
+        "Maxfiylik",
+        "Siqish darajasi",
+        "Mavjudlik",
+        "Fayl formati"
+      ],
+      "answer": 0,
+      "explanation": "Mazmun o‘zgarmasa ham ruxsatsiz tanishish maxfiylikni buzadi.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-008",
+      "chapter": 1,
+      "within": 8,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Baholar bazasidagi qiymatlar iznsiz o‘zgartirildi. Asosiy buzilish nima?",
+      "options": [
+        "Ekran aniqligi",
+        "Yaxlitlik",
+        "Shifrlash algoritmi",
+        "Faqat mavjudlik"
+      ],
+      "answer": 1,
+      "explanation": "Ruxsatsiz tahrir yaxlitlikka tajovuzdir.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-009",
+      "chapter": 1,
+      "within": 9,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Server ishlamay qolib jurnal bir soat ochilmadi. Qaysi xossa zarar ko‘rdi?",
+      "options": [
+        "Rasm sifati",
+        "Fayl siqilishi",
+        "Mavjudlik",
+        "Faqat maxfiylik"
+      ],
+      "answer": 2,
+      "explanation": "Vakolatli foydalanuvchi kerak paytda xizmatni ololmadi.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-010",
+      "chapter": 1,
+      "within": 10,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Oddiy parol va parolni taxmin qiluvchi hujum qaysi juftlik?",
+      "options": [
+        "Mavjudlik va format",
+        "Aktiv va zaxira",
+        "Litsenziya va kontent",
+        "Zaiflik va tahdid"
+      ],
+      "answer": 3,
+      "explanation": "Oddiy parol -- zaiflik; undan foydalanishga urinish -- tahdid.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-011",
+      "chapter": 1,
+      "within": 11,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Quyidagilardan qaysi biri tashkiliy himoyaga misol?",
+      "options": [
+        "Tasvirni kattalashtirish",
+        "Faqat fayl turini almashtirish",
+        "Hodisa haqida xabar berish tartibini belgilash",
+        "Monitor yorqinligini oshirish"
+      ],
+      "answer": 2,
+      "explanation": "Xodim uchun aniq tartib va mas’uliyat tashkiliy nazoratga kiradi.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-012",
+      "chapter": 1,
+      "within": 12,
+      "level": "B",
+      "kind": "Y1",
+      "question": "O‘qituvchi autentifikatsiyadan o‘tgan, lekin faqat o‘z sinfi baholarini ko‘rishi mumkin. Bu nima?",
+      "options": [
+        "Eng kam imtiyoz tamoyili",
+        "Nazoratsiz ochiq kirish",
+        "Har kimga administrator huquqi",
+        "Zaxira nusxasini siqish"
+      ],
+      "answer": 0,
+      "explanation": "Vakolat vazifani bajarish uchun zarur hajm bilan cheklangan.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-013",
+      "chapter": 1,
+      "within": 13,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Noma’lum foydalanuvchi muhim faylni o‘qiy olmaydigan qilishning eng mos chorasi?",
+      "options": [
+        "Monitor ekranini pasaytirish",
+        "Ruxsatlarni to‘g‘ri sozlash va kerak bo‘lsa shifrlash",
+        "Fayl nomiga sana qo‘yish",
+        "Faqat tashqi fonni o‘zgartirish"
+      ],
+      "answer": 1,
+      "explanation": "Kirish nazorati va shifrlash maxfiylikni himoyalaydi.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-014",
+      "chapter": 1,
+      "within": 14,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Elektr uzilishi sabab muhim xizmat to‘xtab qoldi. Qaysi chora zararni kamaytiradi?",
+      "options": [
+        "Parollarni hammaga tarqatish",
+        "Administratorlarni ko‘paytirish",
+        "Zaxira elektr manbai va tiklash rejasi",
+        "Fayl kengaytmasini o‘zgartirish"
+      ],
+      "answer": 2,
+      "explanation": "Mavjudlik uchun uzluksizlik va tiklash choralari muhim.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-015",
+      "chapter": 1,
+      "within": 15,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Bazadagi noto‘g‘ri tahrirlar qachon va kim tomonidan kiritilganini aniqlashga nima ko‘maklashadi?",
+      "options": [
+        "Internet tezligi nomi",
+        "Audit jurnallari va o‘zgartirish tarixi",
+        "Faqat ekran o‘lchami",
+        "Fayl ikonchasi rangi"
+      ],
+      "answer": 1,
+      "explanation": "Jurnallar hodisa izini kuzatishga yordam beradi.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-016",
+      "chapter": 1,
+      "within": 16,
+      "level": "C",
+      "kind": "Y1",
+      "question": "O‘qituvchi shubhali login xabarini ko‘rdi. Birinchi xavfsiz harakat qaysi?",
+      "options": [
+        "Havolani ochmay rasmiy kanal orqali hisob holatini tekshirish",
+        "Brauzerni o‘chirib qayta o‘rnatish",
+        "Xabarni hammaga tarqatish",
+        "Xabar so‘ragan kodni yuborish"
+      ],
+      "answer": 0,
+      "explanation": "Mustaqil tekshiruv phishing xavfini kamaytiradi.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-017",
+      "chapter": 1,
+      "within": 17,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Noutbuk yo‘qolish xavfiga qarshi qaysi chora maxfiylikni ayniqsa himoyalaydi?",
+      "options": [
+        "Fayllarni boshqa nomga o‘tkazish",
+        "Faqat yangi fon rasmi",
+        "Qurilma diskini shifrlash va ekran qulfi",
+        "Qurilmani tezroq quvvatlash"
+      ],
+      "answer": 2,
+      "explanation": "Shifrlash va autentifikatsiya o‘g‘irlangan qurilmadan o‘qishni qiyinlashtiradi.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-018",
+      "chapter": 1,
+      "within": 18,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Sinfxona tarmog‘ida faqat o‘qituvchi fayllarni tahrirlashi kerak. Eng mos sozlama?",
+      "options": [
+        "Fayllarni Internetga ochish",
+        "Rollar bo‘yicha tahrirlash huquqini cheklash",
+        "Faqat ekran tasvirini saqlash",
+        "Barcha hisoblarni administrator qilish"
+      ],
+      "answer": 1,
+      "explanation": "Tahrirlashga ruxsat zarurat bo‘yicha beriladi.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-019",
+      "chapter": 1,
+      "within": 19,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Foydalanuvchi xatoga yo‘l qo‘yib o‘chirgan ma’lumot tiklanmadi. Qaysi ikki masala bog‘langan?",
+      "options": [
+        "Tasodifiy o‘chirish xavfi va zaxira nusxa yetishmasligi",
+        "CMS va ijtimoiy tarmoq reklama",
+        "Kompyuter avlodi va kodlash",
+        "Phishing va saytdagi rang"
+      ],
+      "answer": 0,
+      "explanation": "Zaxira nusxa tasodifiy yo‘qotish oqibatini kamaytirishi mumkin.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-020",
+      "chapter": 1,
+      "within": 20,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Maktab bazasini o‘qishga ruxsat berilgan, lekin tahrirlash huquqi yo‘q. Bu qaysi ikkita tushunchani ko‘rsatadi?",
+      "options": [
+        "Autentifikatsiya mavjud, avtorizatsiya esa cheklangan",
+        "Shifrlash mavjud, identifikatsiya yo‘q",
+        "Barcha foydalanuvchi egadir",
+        "Mavjudlik har doim buzilgan"
+      ],
+      "answer": 0,
+      "explanation": "Shaxsni tekshirish va nimalarga haqli bo‘lish alohida jarayon.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-021",
+      "chapter": 1,
+      "within": 21,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Hujumchi xizmatni ko‘plab so‘rovlar bilan ishlatmay qo‘ydi, ammo ma’lumotni o‘qimadi. Asosiy zarba qayerga?",
+      "options": [
+        "Mavjudlikka",
+        "Mualliflik huquqiga",
+        "Ishchi fayl nomiga",
+        "Faqat matn formatiga"
+      ],
+      "answer": 0,
+      "explanation": "Xizmatni ishdan chiqarish availabilityga qaratilgan.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-022",
+      "chapter": 1,
+      "within": 22,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Yong‘in, server nosozligi va buzib kirish ehtimolini bir reja bilan hisobga olish nimani anglatadi?",
+      "options": [
+        "Barcha faoliyatni ommaga chiqarish",
+        "Faqat parolni o‘zgartirish",
+        "Turli manbali xavflarni baholab uzluksizlik rejasini tuzish",
+        "Faqat antivirus bazasini yangilash"
+      ],
+      "answer": 2,
+      "explanation": "Xavfsizlik texnik va jismoniy hodisalarni ham qamraydi.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-023",
+      "chapter": 1,
+      "within": 23,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Maktab yangi xizmat ishga tushirdi. Birinchi xavf tahlilida eng to‘g‘ri tartib qaysi?",
+      "options": [
+        "Chora tanlash, aktivni yashirish, tahdidni unutish",
+        "Dastlab barcha huquqni kengaytirish",
+        "Aktivlarni aniqlash, tahdid va zaifliklarni baholash, chora tanlash",
+        "Faqat antivirus nomini tanlash"
+      ],
+      "answer": 2,
+      "explanation": "Xavfni boshqarish himoyalanayotgan resursdan boshlanadi.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-024",
+      "chapter": 1,
+      "within": 24,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Ijtimoiy muhandislik hujumi muvaffaqiyatli bo‘ldi, antivirus zararli fayl topmadi. Nega?",
+      "options": [
+        "Har bir hujum faqat virusdan iborat",
+        "Hujum foydalanuvchi ishonchidan foydalanib, kodsiz ham amalga oshishi mumkin",
+        "Tarmoq ulanmagan kompyuterda tahdid bo‘lmaydi",
+        "Antivirus har bir telefon qo‘ng‘irog‘ini avtomatik bloklaydi"
+      ],
+      "answer": 1,
+      "explanation": "Axborot xavfsizligida inson omili alohida xavf manbai.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-025",
+      "chapter": 1,
+      "within": 25,
+      "level": "E",
+      "kind": "Y2",
+      "question": "Quyidagi moslik to‘g‘ri berilgan qatorni tanlang: 1) maxfiylik; 2) yaxlitlik; 3) mavjudlik. a) ruxsatsiz o‘qishdan saqlash; b) buzilmaganlik; c) o‘z vaqtida kirish.",
+      "options": [
+        "1-a, 2-b, 3-c",
+        "1-c, 2-b, 3-a",
+        "1-b, 2-a, 3-c",
+        "1-a, 2-c, 3-b"
+      ],
+      "answer": 0,
+      "explanation": "CIA atamalarining har biri alohida axborot xossasini bildiradi.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-026",
+      "chapter": 1,
+      "within": 26,
+      "level": "E",
+      "kind": "Y1",
+      "question": "Tizimda parol kuchli, lekin har bir foydalanuvchi barcha sinf baholarini tahrirlay oladi. Qaysi zaiflik qolmoqda?",
+      "options": [
+        "Zaxira nusxa albatta yo‘q",
+        "Parol umuman tekshirilmayapti",
+        "Tizim faqat oflayn ishlaydi",
+        "Vakolatlar haddan tashqari keng berilgan"
+      ],
+      "answer": 3,
+      "explanation": "Kuchli parol noto‘g‘ri avtorizatsiyani tuzatmaydi.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-027",
+      "chapter": 1,
+      "within": 27,
+      "level": "E",
+      "kind": "Y1",
+      "question": "Hodisa yuz berdi: fayllar o‘zgargan va server ham ishlamayapti. To‘g‘ri baholash?",
+      "options": [
+        "Bu faqat mualliflik huquqi muammosi",
+        "Yaxlitlik va mavjudlik bir vaqtda buzilgan bo‘lishi mumkin",
+        "Xavfsizlik bilan aloqasi yo‘q",
+        "Faqat bitta xossa buzilishi shart"
+      ],
+      "answer": 1,
+      "explanation": "Bir hodisa CIA uchligining bir nechta qismini zararlashi mumkin.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-028",
+      "chapter": 1,
+      "within": 28,
+      "level": "E",
+      "kind": "Y3",
+      "question": "Xavfli hodisaga tizimli javobning mantiqiy ketma-ketligini tanlang: 1) sababni tekshirish va tiklash; 2) alomatni qayd etish; 3) zararni cheklash; 4) oldini olish choralarini yangilash.",
+      "options": [
+        "2, 3, 1, 4",
+        "4, 3, 1, 2",
+        "1, 2, 4, 3",
+        "3, 4, 2, 1"
+      ],
+      "answer": 0,
+      "explanation": "Hodisa avval aniqlanadi, keyin cheklanadi, tekshiriladi va takrorlanishi oldi olinadi.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-029",
+      "chapter": 1,
+      "within": 29,
+      "level": "E",
+      "kind": "Y1",
+      "question": "Hujum ehtimoli kichik, ammo yuz bersa barcha o‘quvchi ma’lumotlari yo‘qoladi. Qanday xulosa to‘g‘ri?",
+      "options": [
+        "Ehtimol kichik bo‘lsa hech qanday xavf yo‘q",
+        "Faqat tezlik mezoni muhim",
+        "Bunday holatda zaxiralash kerak emas",
+        "Oqibat og‘irligi sabab xavfni jiddiy baholash kerak"
+      ],
+      "answer": 3,
+      "explanation": "Xavf ehtimol va ta’sirni birga hisobga oladi.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-01-030",
+      "chapter": 1,
+      "within": 30,
+      "level": "E",
+      "kind": "Y1",
+      "question": "Fayl shifrlangan, lekin tasodifan o‘chirildi va nusxasi yo‘q. Qaysi fikr to‘g‘ri?",
+      "options": [
+        "Zaxiralash maxfiylikni avtomatik kafolatlaydi",
+        "Shifrlash har qanday o‘chirishni bekor qiladi",
+        "Antivirussiz tiklash doim mumkin",
+        "Shifrlash maxfiylikka yordam beradi, tiklash uchun esa zaxira kerak"
+      ],
+      "answer": 3,
+      "explanation": "Himoya vositalari turli tahdidlar va xossalarga xizmat qiladi.",
+      "source": "M11, PDF 256--265; C9, PDF 116--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-001",
+      "chapter": 2,
+      "within": 1,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Malware so‘zining mohiyati nima?",
+      "options": [
+        "Zararli dasturiy ta’minotning umumiy nomi",
+        "Faqat kompyuterning tashqi qurilmasi",
+        "Barcha litsenziyali dasturlar",
+        "Internetdagi istalgan rasm"
+      ],
+      "answer": 0,
+      "explanation": "Malware zararli maqsadda ishlatiluvchi dastur yoki kodni bildiradi.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-002",
+      "chapter": 2,
+      "within": 2,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Kompyuter virusining ajratuvchi xususiyati nima?",
+      "options": [
+        "Boshqa dastur yoki faylga yopishib ko‘payishi mumkinligi",
+        "Hech qachon kod ishga tushirmasligi",
+        "Faqat reklama ko‘rsatishi",
+        "Har doim mustaqil tarmoq bo‘ylab yurishi"
+      ],
+      "answer": 0,
+      "explanation": "Virus odatda boshqa obyekt bilan bog‘liq holda faollashadi.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-003",
+      "chapter": 2,
+      "within": 3,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Worm (qurt) uchun xos belgi nima?",
+      "options": [
+        "Faqat rasmlarni tahrirlashi",
+        "Albatta Word hujjati bo‘lishi",
+        "Tarmoq bo‘ylab mustaqil tarqala olishi",
+        "Faqat qo‘lda yozilgan xat bo‘lishi"
+      ],
+      "answer": 2,
+      "explanation": "Qurtning ajratuvchi belgisi o‘zini tarqatish imkonidir.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-004",
+      "chapter": 2,
+      "within": 4,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Trojan (troyan) atamasi qaysi holatga mos?",
+      "options": [
+        "Ma’lumotni xavfsiz nusxalash",
+        "Qurilma xotirasini qonuniy tekshirish",
+        "Foydali dasturdek ko‘rinib yashirin zararli vazifa bajarish",
+        "Mualliflikni ko‘rsatuvchi belgi"
+      ],
+      "answer": 2,
+      "explanation": "Troyan niqoblangan zararli dasturga tegishli.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-005",
+      "chapter": 2,
+      "within": 5,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Ransomware ning odatiy maqsadi nima?",
+      "options": [
+        "Monitor rangini sozlash",
+        "Hujjatni qonuniy imzolash",
+        "Tarmoq marshrutini optimallash",
+        "Ma’lumotdan foydalanishni cheklab to‘lov talab qilish"
+      ],
+      "answer": 3,
+      "explanation": "Ransomware tovlamachilikka qaratilgan zararli dastur.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-006",
+      "chapter": 2,
+      "within": 6,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Phishing ko‘pincha nima orqali amalga oshiriladi?",
+      "options": [
+        "Faqat kompyuter ventilyatorini o‘zgartirish orqali",
+        "Faylni arxivlash orqali",
+        "Qurilmani jismonan sozlash orqali",
+        "Soxta xabar va sahifada foydalanuvchini aldash orqali"
+      ],
+      "answer": 3,
+      "explanation": "Phishing asosida ijtimoiy muhandislik va ishonchni suiiste’mol qilish yotadi.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-007",
+      "chapter": 2,
+      "within": 7,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Fayllarni shifrlab pul so‘raydigan zararli dastur qaysi?",
+      "options": [
+        "Matn muharriri",
+        "Ransomware",
+        "CMS",
+        "Firewall"
+      ],
+      "answer": 1,
+      "explanation": "Tavsif shifrlovchi tovlamachi dasturga mos.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-008",
+      "chapter": 2,
+      "within": 8,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Klaviatura tugmalarini yashirin qayd etuvchi vosita qaysi?",
+      "options": [
+        "Slayd muharriri",
+        "Media pleer",
+        "Onlayn lug‘at",
+        "Keylogger"
+      ],
+      "answer": 3,
+      "explanation": "Keylogger kiritilgan belgilarni yozib borishi mumkin.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-009",
+      "chapter": 2,
+      "within": 9,
+      "level": "B",
+      "kind": "Y1",
+      "question": "SMS orqali parol so‘ralgan soxta xabar qaysi turga yaqin?",
+      "options": [
+        "Fayl siqish",
+        "Printer drayveri",
+        "Video montaj",
+        "Smishing"
+      ],
+      "answer": 3,
+      "explanation": "SMS vositasidagi fishing smishing deb yuritiladi.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-010",
+      "chapter": 2,
+      "within": 10,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Telefon orqali bank xodimi deb o‘zini tanishtirib OTP so‘rash qanday holat?",
+      "options": [
+        "Bulutli nusxalash",
+        "Vishing",
+        "Rastrli grafika",
+        "Kompyuter yig‘ish"
+      ],
+      "answer": 1,
+      "explanation": "Ovozli aloqa orqali aldash vishingga misol.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-011",
+      "chapter": 2,
+      "within": 11,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Aniq bir o‘qituvchi ismiga mos soxta xat yuborildi. Qaysi tushuncha mos?",
+      "options": [
+        "Oddiy zaxiralash",
+        "Spear phishing",
+        "CMS plagini",
+        "Lokal formatlash"
+      ],
+      "answer": 1,
+      "explanation": "Shaxsga moslashtirilgan nishonli fishingdir.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-012",
+      "chapter": 2,
+      "within": 12,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Barcha zararli dasturlar virus hisoblanadimi?",
+      "options": [
+        "Faqat internet yo‘q bo‘lsa",
+        "Ha, faqat antivirus o‘rnatilganda",
+        "Yo‘q, virus malware turlaridan biri",
+        "Ha, boshqa nomlar sinonim xolos"
+      ],
+      "answer": 2,
+      "explanation": "Worm, trojan va ransomware kabi turlar virusdan farqlanadi.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-013",
+      "chapter": 2,
+      "within": 13,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Rasmiy logotipli email hisob raqamini so‘radi. Eng to‘g‘ri yo‘l?",
+      "options": [
+        "Logotip borligi uchun darhol javob berish",
+        "Kodni xatga yozib yuborish",
+        "Xabar ichidagi havolani ochmay tashkilotni mustaqil kanalda tekshirish",
+        "Xatni barcha hamkasblarga jo‘natish"
+      ],
+      "answer": 2,
+      "explanation": "Logotipni soxtalashtirish mumkin; mustaqil tekshiruv zarur.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-014",
+      "chapter": 2,
+      "within": 14,
+      "level": "C",
+      "kind": "Y1",
+      "question": "O‘yin deb yuklangan dastur yashirin fayllarni jo‘natmoqda. Asosiy gumon?",
+      "options": [
+        "Faqat tasvir formatlash",
+        "MOOC sertifikati",
+        "Elektron hukumat xizmati",
+        "Trojan yoki spyware"
+      ],
+      "answer": 3,
+      "explanation": "Niqob va ma’lumot o‘g‘irlash zararli dasturga xos.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-015",
+      "chapter": 2,
+      "within": 15,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Qurilma tarmoqda boshqalarga zararli kod nusxasini uzatmoqda. Eng mos tur?",
+      "options": [
+        "Worm",
+        "Grafik filtr",
+        "Elektron jadval formula",
+        "SMM reja"
+      ],
+      "answer": 0,
+      "explanation": "Mustaqil tarqalish worm belgisidir.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-016",
+      "chapter": 2,
+      "within": 16,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Shubhali ilova hisob ruxsatlarini so‘rayapti. Nima qilish kerak?",
+      "options": [
+        "Ilovani o‘rnatmasdan manba va ruxsat zaruratini tekshirish",
+        "Hamma ruxsatni darhol berish",
+        "Qurilma himoyasini butunlay o‘chirish",
+        "Parolni unga yuborish"
+      ],
+      "answer": 0,
+      "explanation": "Minimal ruxsat va ishonchli manba xavfni kamaytiradi.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-017",
+      "chapter": 2,
+      "within": 17,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Kutilmagan arxiv ichida bajariluvchi fayl bor. Xavfsiz harakat?",
+      "options": [
+        "Faylni ishga tushirmay kelib chiqishi va xavfini tekshirish",
+        "Fayl nomini o‘zgartirib ishlatish",
+        "Faylni ochib keyin taxmin qilish",
+        "Xat yuboruvchiga parol berish"
+      ],
+      "answer": 0,
+      "explanation": "Noma’lum bajariluvchi fayl ishga tushirilmasligi kerak.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-018",
+      "chapter": 2,
+      "within": 18,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Phishing saytida HTTPS belgisi ko‘rindi. Qanday xulosa to‘g‘ri?",
+      "options": [
+        "HTTPS parolni tarqatishga ruxsat beradi",
+        "HTTPS bo‘lishi saytning rasmiyligini kafolatlamaydi",
+        "HTTPS faqat zararli saytga xos",
+        "HTTPS barcha fishingni inkor etadi"
+      ],
+      "answer": 1,
+      "explanation": "HTTPS kanalni shifrlashi mumkin, lekin tashkilot kimligini to‘liq isbotlamaydi.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-019",
+      "chapter": 2,
+      "within": 19,
+      "level": "D",
+      "kind": "Y1",
+      "question": "O‘qituvchi “hisob bloklanadi” degan xatdan keyin OTP yubordi. Eng avvalo qaysi mexanizm ishlatilgan?",
+      "options": [
+        "Avtomatik fayl siqish",
+        "Elektron jadval diagrammasi",
+        "Qo‘rquv va shoshiltirish orqali ijtimoiy muhandislik",
+        "Qurilma tezligini sinash"
+      ],
+      "answer": 2,
+      "explanation": "Shoshiltirish odamni tekshirmasdan qaror qilishga undaydi.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-020",
+      "chapter": 2,
+      "within": 20,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Fayllar ochilmay qoldi, ekran pul talab qildi. Birinchi tizimli javob nima?",
+      "options": [
+        "Darhol boshqa fayllarga ulashish",
+        "Shifrlangan faylni hammaga yuborish",
+        "To‘lovni zudlik bilan qilish",
+        "Qurilmani izolyatsiya qilib mas’ulga xabar berish"
+      ],
+      "answer": 3,
+      "explanation": "Tarqalishni cheklash va hodisani tekshirish tiklashdan oldin muhim.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-021",
+      "chapter": 2,
+      "within": 21,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Zararli kod email ilovasi sifatida keldi, lekin ochilmadi. Qaysi fikr eng aniq?",
+      "options": [
+        "Antivirus 100 foiz himoya qiladi",
+        "Xavfli fayl yetib kelgan, ammo ishga tushirilgani isbotlanmagan",
+        "Email yuboruvchisi mutlaqo qonuniy",
+        "Qurilma albatta zararlangan"
+      ],
+      "answer": 1,
+      "explanation": "Faylning kelishi va ishga tushishi ikki xil hodisa.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-022",
+      "chapter": 2,
+      "within": 22,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Saytda “bepul antivirus” deb noma’lum .exe tarqatilmoqda. Eng to‘g‘ri tanlov?",
+      "options": [
+        "Har qanday izohni ishonchli deyish",
+        "Nomida antivirus bo‘lsa yetarli",
+        "Dastur manbasi va haqiqiyligini tekshirish, rasmiy manbani tanlash",
+        "Maxfiy parolni yuklash sahifasiga yozish"
+      ],
+      "answer": 2,
+      "explanation": "Zararli dastur himoya vositasi ko‘rinishida niqoblanishi mumkin.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-023",
+      "chapter": 2,
+      "within": 23,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Bir xabar sizga nomingiz bilan murojaat qiladi va maktab loginini so‘raydi. Nega faqat ism ko‘rsatilishi ishonch belgisi emas?",
+      "options": [
+        "Shaxs haqidagi ayrim ma’lumotlar ochiq manbadan olinishi mumkin",
+        "Maktab hisoblari parolsiz ishlaydi",
+        "Ismni bilganlar har doim administrator",
+        "Shaxsiy xat virus bo‘la olmaydi"
+      ],
+      "answer": 0,
+      "explanation": "Moslashtirilgan phishing shaxsiy belgilar yordamida ishonch uyg‘otadi.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-024",
+      "chapter": 2,
+      "within": 24,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Shubhali xatdan fayl ochilgach kompyuterda va tarmoqda g‘ayrioddiy faollik bor. Qanday tahlil to‘g‘ri?",
+      "options": [
+        "Faqat kompyuter yoshi sabab bo‘ladi",
+        "Bu sayt dizaynining afzalligi",
+        "Ikkalasi hech qachon birga uchramaydi",
+        "Fishing boshlang‘ich aldov, malware esa keyingi texnik ta’sir bo‘lishi mumkin"
+      ],
+      "answer": 3,
+      "explanation": "Aldov zararli dasturni qurilmaga yetkazish kanali bo‘lishi mumkin.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-025",
+      "chapter": 2,
+      "within": 25,
+      "level": "E",
+      "kind": "Y2",
+      "question": "Moslashtiring: 1) worm; 2) trojan; 3) ransomware. a) foydalidek ko‘rinadi; b) mustaqil tarqaladi; c) to‘lov talab qilishi mumkin.",
+      "options": [
+        "1-b, 2-c, 3-a",
+        "1-b, 2-a, 3-c",
+        "1-c, 2-a, 3-b",
+        "1-a, 2-b, 3-c"
+      ],
+      "answer": 1,
+      "explanation": "Har bir turning ajratuvchi belgisi boshqacha.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-026",
+      "chapter": 2,
+      "within": 26,
+      "level": "E",
+      "kind": "Y1",
+      "question": "Xabar havolasida domen rasmiy nomga juda o‘xshaydi. Qaysi baho to‘g‘ri?",
+      "options": [
+        "O‘xshashlik haqiqiyligini isbotlaydi",
+        "Domen uzunligi saytni avtomatik tasdiqlaydi",
+        "Domen o‘xshashligi phishing ehtimolini oshiradi; mustaqil tekshirish kerak",
+        "Qulfcha mavjud bo‘lsa tekshirish kerak emas"
+      ],
+      "answer": 2,
+      "explanation": "Typosquatting soxta manzilni rasmiyga o‘xshatishga asoslanadi.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-027",
+      "chapter": 2,
+      "within": 27,
+      "level": "E",
+      "kind": "Y3",
+      "question": "Shubhali xatni baholash tartibini tanlang: 1) mustaqil rasmiy kanal bilan tekshirish; 2) bosim va havola belgilarini ko‘rish; 3) xabarni ochmasdan/ma’lumot bermasdan xavfni cheklash; 4) tekshirilgan qaror qabul qilish.",
+      "options": [
+        "2, 3, 1, 4",
+        "1, 4, 2, 3",
+        "3, 4, 1, 2",
+        "4, 1, 3, 2"
+      ],
+      "answer": 0,
+      "explanation": "Avval alomatlarni tanib, zararli harakatdan tiyilib, keyin mustaqil tekshiriladi.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-028",
+      "chapter": 2,
+      "within": 28,
+      "level": "E",
+      "kind": "Y1",
+      "question": "Zararli xat yordamida login o‘g‘irlandi, lekin hech qanday fayl yuklanmagan. Nima deya olamiz?",
+      "options": [
+        "Malware yuklanmagan bo‘lsa hodisa bo‘lmagan",
+        "Phishing malware yuklanmasdan ham zarar keltirishi mumkin",
+        "HTTPS har doim parolni himoya qiladi",
+        "Parol o‘g‘riligi faqat virus bilan bo‘ladi"
+      ],
+      "answer": 1,
+      "explanation": "Ijtimoiy muhandislik texnik ekspluatatsiyasiz ham ishlaydi.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-029",
+      "chapter": 2,
+      "within": 29,
+      "level": "E",
+      "kind": "Y1",
+      "question": "Tashkilot xodimlari phishingni tez payqasin desak qaysi kombinatsiya samaraliroq?",
+      "options": [
+        "Faqat monitorlarni yangilash",
+        "Antivirusni o‘chirib qo‘yish",
+        "Xodim treningi, MFA va shubhali xabarni xabar qilish kanali",
+        "Barcha parollarni bitta jadvalga yozish"
+      ],
+      "answer": 2,
+      "explanation": "Bir necha himoya qatlami zarar ehtimoli va oqibatini kamaytiradi.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-02-030",
+      "chapter": 2,
+      "within": 30,
+      "level": "E",
+      "kind": "Y1",
+      "question": "Shubhali xatdagi manzil tasodifan ochildi, lekin hech qanday kod kiritilmadi. Qaysi fikr ehtiyotkor va asosli?",
+      "options": [
+        "Havolani do‘stlarga yuborish kerak",
+        "Parol oshkor qilingani isbotlanmagan, lekin sahifa va qurilma xavfi tekshirilishi kerak",
+        "Faqat ochish bilan bankdagi barcha pul yo‘qolgan",
+        "Hech bir xavf qolmaydi va tekshirish shart emas"
+      ],
+      "answer": 1,
+      "explanation": "Aniq oqibatni dalilsiz taxmin qilmaymiz, zarur xavfsizlik tekshiruvini bajarish kerak.",
+      "source": "M11, PDF 266--275; C11, PDF 72--76; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-001",
+      "chapter": 3,
+      "within": 1,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Antivirus dasturining asosiy vazifasi qaysi?",
+      "options": [
+        "Audiofayl hajmini hisoblash",
+        "Elektron pochta dizaynini yaratish",
+        "Veb-sayt auditoriyasini ko‘paytirish",
+        "Zararli dasturlarni aniqlash va bloklash"
+      ],
+      "answer": 3,
+      "explanation": "Antivirus zararli kodga qarshi himoya vositasidir.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-002",
+      "chapter": 3,
+      "within": 2,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Firewall qanday vazifani bajaradi?",
+      "options": [
+        "Tarmoq aloqalarini qoida asosida filtrlash",
+        "Har bir hujjatga imzo qo‘yish",
+        "Faqat rasm fayllarini ochish",
+        "Matnni avtomatik tarjima qilish"
+      ],
+      "answer": 0,
+      "explanation": "Firewall kiruvchi va chiquvchi trafik qoidalarini nazorat qiladi.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-003",
+      "chapter": 3,
+      "within": 3,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Antivirus karantini nima uchun kerak?",
+      "options": [
+        "Faylni barcha tarmoqlarga tarqatish",
+        "Shubhali obyektni ajratib, zarar yetkazishini cheklash",
+        "Fayl hajmini doim oshirish",
+        "Faqat grafik dizayn yaratish"
+      ],
+      "answer": 1,
+      "explanation": "Karantin shubhali faylning faoliyatini cheklashga xizmat qiladi.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-004",
+      "chapter": 3,
+      "within": 4,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Autentifikatsiya nimani tekshiradi?",
+      "options": [
+        "Internetdagi kontent sifatini",
+        "Foydalanuvchi loyihasining daromadini",
+        "Fizik disk sig‘imini",
+        "Kiritilgan hisob egasi ekanini tasdiqlashni"
+      ],
+      "answer": 3,
+      "explanation": "Autentifikatsiya shaxsni tekshirish bosqichidir.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-005",
+      "chapter": 3,
+      "within": 5,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Avtorizatsiya nima bilan bog‘liq?",
+      "options": [
+        "Foydalanuvchiga qaysi amallar ruxsat etilganini belgilash",
+        "Dastur hajmini siqish",
+        "Faqat foydalanuvchi ismini yozish",
+        "Tarmoq tezligini hisoblash"
+      ],
+      "answer": 0,
+      "explanation": "Avtorizatsiya huquq va rollarni boshqaradi.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-006",
+      "chapter": 3,
+      "within": 6,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Zaxira nusxasi nima uchun yaratiladi?",
+      "options": [
+        "Monitor fonini yangilash uchun",
+        "Parolni hammaga ko‘rsatish uchun",
+        "Ma’lumot buzilganda yoki yo‘qolganda tiklash uchun",
+        "Reklama ko‘paytirish uchun"
+      ],
+      "answer": 2,
+      "explanation": "Backup vazifasi ishchi ma’lumotni qayta tiklash imkonidir.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-007",
+      "chapter": 3,
+      "within": 7,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Qaysi vosita tarmoq portlarini qoida bo‘yicha cheklaydi?",
+      "options": [
+        "Skrinshot vositasi",
+        "Firewall",
+        "MOOC kurs katalogi",
+        "Videomontaj muharriri"
+      ],
+      "answer": 1,
+      "explanation": "Firewall tarmoq trafikiga tegishli nazoratdir.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-008",
+      "chapter": 3,
+      "within": 8,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Qaysi jarayon shaxsni aniqlashdan keyingi ruxsatni belgilaydi?",
+      "options": [
+        "Kontent rejasini tuzish",
+        "Rasmlarni o‘lchamlash",
+        "Avtorizatsiya",
+        "Faylni chop etish"
+      ],
+      "answer": 2,
+      "explanation": "Kim ekanini tekshirish va nimalarga haqli ekani alohida.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-009",
+      "chapter": 3,
+      "within": 9,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Antivirus signaturasi deganda nima tushuniladi?",
+      "options": [
+        "Videoning soniya uzunligi",
+        "Ma’lum zararli obyektning tanib olish belgisi",
+        "Tarmoq kabelining turi",
+        "Foydalanuvchining qo‘l imzosi rasmi"
+      ],
+      "answer": 1,
+      "explanation": "Signatura asosidagi tekshiruv ma’lum zararli namuna belgilaridan foydalanadi.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-010",
+      "chapter": 3,
+      "within": 10,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Ikki xil turdagi mustaqil tasdiqlash omili talab qilinsa, bu nima?",
+      "options": [
+        "Faqat ikki bir xil parol",
+        "Ko‘p omilli autentifikatsiya",
+        "Rasm formatini o‘zgartirish",
+        "Veb-sahifa keshlash"
+      ],
+      "answer": 1,
+      "explanation": "MFA bir necha turdagi omilni qo‘llaydi.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-011",
+      "chapter": 3,
+      "within": 11,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Qaysi holat eng kam imtiyoz qoidasiga mos?",
+      "options": [
+        "Oddiy xodimga faqat kerakli papkaga kirish berish",
+        "Hamma hisobga yagona parol qo‘yish",
+        "Hammaga barcha papkani o‘zgartirish",
+        "Foydalanuvchi auditini o‘chirish"
+      ],
+      "answer": 0,
+      "explanation": "Vakolat vazifaga mutanosib cheklanadi.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-012",
+      "chapter": 3,
+      "within": 12,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Sinxronlashtirishning zaxiralashdan farqi nimada?",
+      "options": [
+        "Ikkalasi doim mutlaqo bir xil",
+        "Backup hech qachon nusxa yaratmaydi",
+        "Sinxron xato yoki o‘chirishni boshqa nusxalarga tarqatishi mumkin",
+        "Sinxronlash barcha xavfni nolga tushiradi"
+      ],
+      "answer": 2,
+      "explanation": "Mustaqil versiyali zaxira tiklash uchun muhim.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-013",
+      "chapter": 3,
+      "within": 13,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Brauzerdagi noma’lum ilova administrator huquqini so‘ramoqda. Eng to‘g‘ri qaror?",
+      "options": [
+        "Kompyuterni faqat qayta nomlash",
+        "Parolni ommaga chiqarish",
+        "Doim barcha huquqni berish",
+        "Zaruratini tekshirib, ortiqcha huquqni bermaslik"
+      ],
+      "answer": 3,
+      "explanation": "Eng kam imtiyoz zarar ko‘lamini pasaytiradi.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-014",
+      "chapter": 3,
+      "within": 14,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Bir foydalanuvchi parolini boshqa saytlarda ham ishlatadi. Nimani tavsiya qilasiz?",
+      "options": [
+        "Ikki belgi bilan cheklash",
+        "Barcha saytlarga bitta umumiy parol",
+        "Parolni oddiy matnda e’lon qilish",
+        "Har xizmat uchun noyob kuchli parol qo‘llash"
+      ],
+      "answer": 3,
+      "explanation": "Bitta hisob sizsa boshqa hisobni himoyalash uchun noyob parol kerak.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-015",
+      "chapter": 3,
+      "within": 15,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Antivirus real vaqtda himoya qiladi, lekin dastur yangilanmagan. Qaysi chorani qo‘shish kerak?",
+      "options": [
+        "Backupni yo‘q qilish",
+        "Tizim va himoya bazasini yangilash",
+        "Firewallni doimiy o‘chirib qo‘yish",
+        "Barcha foydalanuvchini administrator qilish"
+      ],
+      "answer": 1,
+      "explanation": "Ma’lum zaifliklarga qarshi yangilanish muhim.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-016",
+      "chapter": 3,
+      "within": 16,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Tashqi disk va bulutda nusxalar bor. Qanday tekshiruv zaxirani ishonchliroq qiladi?",
+      "options": [
+        "Barcha nusxalarni bir vaqtda o‘chirish",
+        "Faqat fayl nomini o‘zgartirish",
+        "Internet hisobini e’lon qilish",
+        "Namuna faylni qayta tiklab ko‘rish"
+      ],
+      "answer": 3,
+      "explanation": "Tiklash sinovi nusxa amalda ishlashini tekshiradi.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-017",
+      "chapter": 3,
+      "within": 17,
+      "level": "C",
+      "kind": "Y1",
+      "question": "O‘qituvchi begona qurilmada davlat hisobiga kirdi. Ishdan so‘ng nima qilishi kerak?",
+      "options": [
+        "Tasdiqlash kodini kompyuter yoniga yozish",
+        "Hisobni ochiq qoldirish",
+        "Parolni brauzerga saqlash",
+        "Sessiyadan chiqib, saqlangan ma’lumot qolmaganini tekshirish"
+      ],
+      "answer": 3,
+      "explanation": "Umumiy qurilmada ochiq sessiya maxfiylik xavfidir.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-018",
+      "chapter": 3,
+      "within": 18,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Kompyuterda ransomware belgilari paydo bo‘ldi. Himoya kompleksida eng zaruri?",
+      "options": [
+        "Izolyatsiya, hodisani tekshirish va mustaqil nusxadan tiklash",
+        "Tizimni barcha tarmoqlarga ulash",
+        "Antivirusni nomi uchun sotib olish",
+        "Parolni e’lon qilish"
+      ],
+      "answer": 0,
+      "explanation": "Backup va hodisaga javob birga ishlaydi.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-019",
+      "chapter": 3,
+      "within": 19,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Maktabdagi fayl serveri virusdan tozalandi, ammo ochiq tarmoq porti qoldi. Qanday xulosa?",
+      "options": [
+        "Virus o‘chgani uchun barcha xavf tugadi",
+        "Firewall umuman kerak emas",
+        "Zaiflik saqlanib, qayta hujum xavfi bor",
+        "Port tarmoq bilan bog‘liq emas"
+      ],
+      "answer": 2,
+      "explanation": "Bitta tahdidni bartaraf etish barcha zaifliklarni yo‘qotmaydi.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-020",
+      "chapter": 3,
+      "within": 20,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Ishchi fayl va sinxron nusxa bir vaqtda noto‘g‘ri o‘chdi. Qaysi yechim eng maqbul?",
+      "options": [
+        "Parolni barcha hamkasbga berish",
+        "Faqat papka rangini o‘zgartirish",
+        "Avvalgi versiyasi saqlangan mustaqil zaxiradan tiklash",
+        "Monitorni yangilash"
+      ],
+      "answer": 2,
+      "explanation": "Mustaqil va versiyali zaxira sinxron xatolardan saqlaydi.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-021",
+      "chapter": 3,
+      "within": 21,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Foydalanuvchi login, parol kiritdi, ammo loyiha papkasiga kira olmadi. Qaysi sabab ehtimoliy?",
+      "options": [
+        "Autentifikatsiya o‘tgan, papka uchun avtorizatsiya yetishmaydi",
+        "Fayl PDF emas",
+        "Kursor ko‘rinmaydi",
+        "Login jarayoni albatta xato"
+      ],
+      "answer": 0,
+      "explanation": "Shaxs tekshirilgan bo‘lsa ham huquqlar cheklangan bo‘lishi mumkin.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-022",
+      "chapter": 3,
+      "within": 22,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Ikki antivirusni bir vaqtda o‘rnatish 100 foiz himoyani kafolatlaydimi?",
+      "options": [
+        "Ha, backup kerak bo‘lmaydi",
+        "Ha, phishing butunlay tugaydi",
+        "Yo‘q, himoya qatlamlari va moslik alohida baholanadi",
+        "Ha, barcha malware avtomatik yo‘qoladi"
+      ],
+      "answer": 2,
+      "explanation": "Antivirusning hech biri mutlaq kafolat bermaydi, birga ishlashi ham muammoli bo‘lishi mumkin.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-023",
+      "chapter": 3,
+      "within": 23,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Bir serverda faqat administrator xavfsizlik sozlamalarini o‘zgartira olishi kerak. Eng mos kombinatsiya?",
+      "options": [
+        "Faqat internet tezligini oshirish",
+        "Barcha hisobga administrator huquqi",
+        "Rollar bo‘yicha huquq va o‘zgarishlar auditi",
+        "Umumiy parol va logsiz ishlash"
+      ],
+      "answer": 2,
+      "explanation": "Privilege nazorati va audit bir-birini to‘ldiradi.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-024",
+      "chapter": 3,
+      "within": 24,
+      "level": "D",
+      "kind": "Y1",
+      "question": "3--2--1 zaxira qoidasidagi “1” nimani anglatadi?",
+      "options": [
+        "Barcha nusxalarni bitta diskda saqlash",
+        "Har oy bir marta parol almashtirish",
+        "Faqat bitta faylni saqlash",
+        "Kamida bitta nusxani asosiy joydan ajratib saqlash"
+      ],
+      "answer": 3,
+      "explanation": "Alohida nusxa bitta hodisada barcha nusxani yo‘qotish xavfini kamaytiradi.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-025",
+      "chapter": 3,
+      "within": 25,
+      "level": "E",
+      "kind": "Y2",
+      "question": "Moslang: 1) antivirus; 2) firewall; 3) backup. a) trafikni filtrlash; b) zararli kodni aniqlash; c) tiklash.",
+      "options": [
+        "1-b, 2-a, 3-c",
+        "1-b, 2-c, 3-a",
+        "1-c, 2-a, 3-b",
+        "1-a, 2-b, 3-c"
+      ],
+      "answer": 0,
+      "explanation": "Himoya vositalari maqsadiga ko‘ra farqlanadi.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-026",
+      "chapter": 3,
+      "within": 26,
+      "level": "E",
+      "kind": "Y3",
+      "question": "Yangi o‘qituvchi hisobini xavfsiz tayyorlashda mantiqiy ketma-ketlikni tanlang: 1) huquqni vazifaga mos belgilash; 2) hisob yaratish; 3) autentifikatsiya vositasini o‘rnatish; 4) ishni boshlash.",
+      "options": [
+        "3, 4, 2, 1",
+        "2, 3, 1, 4",
+        "1, 4, 3, 2",
+        "4, 1, 2, 3"
+      ],
+      "answer": 1,
+      "explanation": "Hisob va kimlik tekshiruvidan so‘ng kerakli huquq ajratiladi.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-027",
+      "chapter": 3,
+      "within": 27,
+      "level": "E",
+      "kind": "Y1",
+      "question": "Antivirus zararli kodni o‘chirgan, lekin hujumchi parolni bilib qolgan. Qanday chora ham zarur?",
+      "options": [
+        "Toza qurilmada parolni almashtirish, sessiyalar va MFAni tekshirish",
+        "Fayl kengaytmasini almashtirish",
+        "Parolni o‘zgartirmasdan hisobni ochiq qoldirish",
+        "Faqat virus nomini yozib qo‘yish"
+      ],
+      "answer": 0,
+      "explanation": "Malware o‘chirilishi buzilgan hisobni avtomatik xavfsiz qilmaydi.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-028",
+      "chapter": 3,
+      "within": 28,
+      "level": "E",
+      "kind": "Y1",
+      "question": "Qaysi holat ko‘p omilli autentifikatsiya talabini chinroq bajaradi?",
+      "options": [
+        "Bir parolni ikki marta terish",
+        "Ikkita foydalanuvchi nomini aytish",
+        "Ikkita bir xil parol",
+        "Parol va alohida autentifikator ilova kodi"
+      ],
+      "answer": 3,
+      "explanation": "Bilim omili va egalik omili mustaqil omil turlaridir.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-029",
+      "chapter": 3,
+      "within": 29,
+      "level": "E",
+      "kind": "Y1",
+      "question": "Zaxira disk ham doim kompyuterga ulangan; ransomware unga ham yetdi. Asosiy kamchilik?",
+      "options": [
+        "Diskning nomi qisqa",
+        "Fayl turi .pdf emas",
+        "Zaxira asosiy tizimdan yetarlicha ajratilmagan",
+        "Zaxira juda ko‘p saqlangan"
+      ],
+      "answer": 2,
+      "explanation": "Izolyatsiya qilingan yoki oflayn nusxa tarqalishni kamaytiradi.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-03-030",
+      "chapter": 3,
+      "within": 30,
+      "level": "E",
+      "kind": "Y1",
+      "question": "Shifrlash ishlatilayotgan faylni foydalanuvchi o‘chirib yubordi. Qaysi vosita bu oqibatni tuzatishga mo‘ljallangan?",
+      "options": [
+        "SMM reklama",
+        "Tekshirilgan zaxira nusxa",
+        "Faqat ekranni qulflash",
+        "Yangi rasm muharriri"
+      ],
+      "answer": 1,
+      "explanation": "Shifrlash maxfiylikni ta’minlashi mumkin, zaxira esa tiklashga xizmat qiladi.",
+      "source": "M11, PDF 266--285; C9, PDF 118--125; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-001",
+      "chapter": 4,
+      "within": 1,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Elektron hukumat deganda nima tushuniladi?",
+      "options": [
+        "Faqat kompyuter do‘konlari tarmog‘i",
+        "Barcha saytlarni bir serverga ko‘chirish",
+        "Faqat ijtimoiy tarmoqda reklama berish",
+        "Davlatning axborot va xizmatlarni AKT orqali taqdim etish tizimi"
+      ],
+      "answer": 3,
+      "explanation": "Elektron hukumat davlat-xizmat munosabatlarining raqamli tashkil etilishidir.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-002",
+      "chapter": 4,
+      "within": 2,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Elektron davlat xizmati nima?",
+      "options": [
+        "Har qanday tijoriy banner",
+        "Faqat kompyuter virusini tekshirish",
+        "Faqat oflayn qog‘oz do‘kon xizmati",
+        "Axborot texnologiyalari vositasida ko‘rsatiladigan davlat xizmati"
+      ],
+      "answer": 3,
+      "explanation": "Davlat xizmati elektron kanal orqali ko‘rsatilishi mumkin.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-003",
+      "chapter": 4,
+      "within": 3,
+      "level": "A",
+      "kind": "Y1",
+      "question": "O‘zbekistondagi Yagona interfaol davlat xizmatlari portalining manzili qaysi?",
+      "options": [
+        "my.gov.uz",
+        "moodle.org",
+        "wordpress.org",
+        "github.com"
+      ],
+      "answer": 0,
+      "explanation": "Darslikda my.gov.uz davlat xizmatlari portali sifatida keltirilgan.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-004",
+      "chapter": 4,
+      "within": 4,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Hukumatning rasmiy axborot portali sifatida qaysi manzil keltirilgan?",
+      "options": [
+        "upwork.com",
+        "youtube.com",
+        "gov.uz",
+        "freelancer.com"
+      ],
+      "answer": 2,
+      "explanation": "gov.uz davlat axborot resurslariga oid rasmiy portal nomidir.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-005",
+      "chapter": 4,
+      "within": 5,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Elektron raqamli imzo (ERI) qaysi maqsadda qo‘llanadi?",
+      "options": [
+        "Telefon ekranini yorqinlashtirishda",
+        "Elektron hujjatni imzolash va tekshirishda",
+        "Faqat rasmlarni siqishda",
+        "Internet tezligini oshirishda"
+      ],
+      "answer": 1,
+      "explanation": "ERI kriptografik imzo mexanizmidir, oddiy rasm emas.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-006",
+      "chapter": 4,
+      "within": 6,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Elektron hujjat nimani bildiradi?",
+      "options": [
+        "Elektron shaklda ifodalangan hujjatni",
+        "Faqat reklama bannerini",
+        "Faqat qog‘ozga qo‘lda yozilgan matnni",
+        "Faqat shifrlangan videoni"
+      ],
+      "answer": 0,
+      "explanation": "Elektron hujjat raqamli shaklda mavjud bo‘lishi mumkin.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-007",
+      "chapter": 4,
+      "within": 7,
+      "level": "B",
+      "kind": "Y1",
+      "question": "my.gov.uz va gov.uz farqiga mos javob qaysi?",
+      "options": [
+        "Ikkalasi dastur kodini kompilyatsiya qiladi",
+        "Birinchisi interfaol xizmatlar, ikkinchisi rasmiy hukumat axboroti bilan bog‘liq",
+        "Birinchisi faqat musiqa, ikkinchisi faqat reklama",
+        "Ikkalasi faqat video montaj qiladi"
+      ],
+      "answer": 1,
+      "explanation": "Ularning asosiy vazifasi boshqacha.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-008",
+      "chapter": 4,
+      "within": 8,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Raqamli identifikatsiya vositasining vazifasi qaysi?",
+      "options": [
+        "Xizmatdan foydalanayotgan shaxs hisobini tekshirish",
+        "Reklama konversiyasini hisoblash",
+        "Ekrandagi piksellarni ranglash",
+        "Faylni siqib yuborish"
+      ],
+      "answer": 0,
+      "explanation": "Identifikatsiya tizimi xizmatga kim murojaat qilayotganiga aloqador.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-009",
+      "chapter": 4,
+      "within": 9,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Parol kiritish va elektron hujjatga ERI qo‘yish bir xilmi?",
+      "options": [
+        "Faqat mobil telefon ishlatilganda",
+        "Ha, istalgan parol imzo hisoblanadi",
+        "Yo‘q, hisobga kirish va hujjatni imzolash farqlanadi",
+        "Ha, tugmalar bir xil bo‘lsa"
+      ],
+      "answer": 2,
+      "explanation": "ERI hisob autentifikatsiyasiga tenglashtirilmaydi.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-010",
+      "chapter": 4,
+      "within": 10,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Shaxs o‘z arizasi holatini rasmiy elektron portalda kuzatmoqda. Bu qanday faoliyat?",
+      "options": [
+        "Faqat zararli dastur yozish",
+        "CMS plugin yangilash",
+        "Elektron davlat xizmatidan foydalanish",
+        "SMM auditoriyasini sotib olish"
+      ],
+      "answer": 2,
+      "explanation": "Davlat xizmatiga elektron murojaat qilishga kiradi.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-011",
+      "chapter": 4,
+      "within": 11,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Xizmat uchun so‘ralgan hujjatlar ro‘yxatini qayerdan ishonchli tekshirish lozim?",
+      "options": [
+        "Joriy rasmiy xizmat sahifasidan",
+        "Reklama xabaridagi skrindan",
+        "Noma’lum fayl ichidan",
+        "Tasodifiy izohdan"
+      ],
+      "answer": 0,
+      "explanation": "Talablar o‘zgarishi mumkin, eng to‘g‘ri manba joriy rasmiy ko‘rsatma.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-012",
+      "chapter": 4,
+      "within": 12,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Shaxs o‘z ERI kalitini begona kishiga yubormoqchi. To‘g‘ri maslahat?",
+      "options": [
+        "Kalitni ommaga e’lon qilish",
+        "Parolni xabar sarlavhasiga yozish",
+        "Hamma hujjatlarni begona nomiga berish",
+        "Kalitni oshkor qilmaslik va saqlash qoidalariga rioya qilish"
+      ],
+      "answer": 3,
+      "explanation": "Kalitni oshkor qilish ruxsatsiz imzolash xavfini kuchaytiradi.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-013",
+      "chapter": 4,
+      "within": 13,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Davlat xizmatiga murojaat oldidan eng mos birinchi qadam qaysi?",
+      "options": [
+        "Reklama havolasiga darhol bank ma’lumoti kiritish",
+        "Rasmiy manzil va xizmat shartlarini tekshirish",
+        "OTPni noma’lum SMSga yuborish",
+        "Begona dastur o‘rnatish"
+      ],
+      "answer": 1,
+      "explanation": "Foydalanuvchi avval rasmiy manba va talabni bilishi kerak.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-014",
+      "chapter": 4,
+      "within": 14,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Rasmiy xizmatga ariza topshirishda identifikatsiya talab qilindi. Uning mohiyati?",
+      "options": [
+        "Hujjat rangini o‘zgartirish",
+        "Murojaat qiluvchining kimligini aniqlash va tasdiqlash",
+        "SMM post tayyorlash",
+        "Tarmoq kabelini almashtirish"
+      ],
+      "answer": 1,
+      "explanation": "Davlat xizmatida murojaat muallifini tekshirish zarur bo‘lishi mumkin.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-015",
+      "chapter": 4,
+      "within": 15,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Rasmiy portalga o‘xshash xat telefon kodi so‘radi. Nima qilish kerak?",
+      "options": [
+        "Havolaga kirmay rasmiy saytni mustaqil ochib tekshirish",
+        "Kiritilgan parolni hammaga aytish",
+        "Xatga kodni yozish",
+        "Begona faylni o‘rnatish"
+      ],
+      "answer": 0,
+      "explanation": "Davlat nomidan kelgan soxta xat ham phishing bo‘lishi mumkin.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-016",
+      "chapter": 4,
+      "within": 16,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Elektron hujjatga qo‘yilgan imzoni tekshirishda eng asosli savol nima?",
+      "options": [
+        "Imzo tegishli kalit bilan tekshiriladimi va hujjat o‘zgarmaganmi?",
+        "Fayl nomi necha harf?",
+        "Hujjatda nechta emoji bor?",
+        "Fon qaysi rangda?"
+      ],
+      "answer": 0,
+      "explanation": "ERI hujjatning imzosi va yaxlitligini tekshirishga xizmat qiladi.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-017",
+      "chapter": 4,
+      "within": 17,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Fuqaro portalda so‘rov yubordi. Natija kelmagan bo‘lsa qanday yo‘l tutadi?",
+      "options": [
+        "Darhol butun hisobni umumiy foydalanishga ochadi",
+        "Rasmiy hisob va murojaat holati bo‘limini tekshiradi",
+        "Raqamini reklama kanaliga e’lon qiladi",
+        "Yangi noma’lum havolaga parol yuboradi"
+      ],
+      "answer": 1,
+      "explanation": "Xizmat holati rasmiy aloqa orqali kuzatiladi.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-018",
+      "chapter": 4,
+      "within": 18,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Darslikdagi eski interfeys va hozirgi portal tugmalari farq qiladi. Qaysi usul to‘g‘ri?",
+      "options": [
+        "Eski rasmda bo‘lmagan xizmat yo‘q deb hisoblash",
+        "Barcha havolaga ishonish",
+        "Noma’lum saytdan tizim sozlamasini olish",
+        "Joriy rasmiy yo‘riqnoma asosida amaliyotni bajarish"
+      ],
+      "answer": 3,
+      "explanation": "Interfeys o‘zgarsa ham konseptual bilim va rasmiy joriy ko‘rsatma ustuvor.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-019",
+      "chapter": 4,
+      "within": 19,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Murojaat portalga yuborildi, ammo foydalanuvchi o‘z sessiyasini ommaviy kompyuterda qoldirdi. Eng katta xavf?",
+      "options": [
+        "Barcha arizalar o‘z-o‘zidan tasdiqlanadi",
+        "Monitor avtomatik kichrayadi",
+        "Begona kishi hisobga kirishi va shaxsiy ma’lumotni ko‘rishi mumkin",
+        "ERI avtomatik bekor bo‘ladi"
+      ],
+      "answer": 2,
+      "explanation": "Ochiq sessiya ruxsatsiz foydalanishga olib kelishi mumkin.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-020",
+      "chapter": 4,
+      "within": 20,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Tizimga kirishda parol va SMS kod so‘raldi, keyin hujjatga ERI talab qilindi. Nima uchun ikki bosqich alohida?",
+      "options": [
+        "Biri kiruvchini tasdiqlash, ikkinchisi muayyan hujjatni imzolashga xizmat qiladi",
+        "ERI faqat fayl hajmini kamaytiradi",
+        "SMS kod hujjatning o‘zi",
+        "Ikki bosqich doim takroriy xato"
+      ],
+      "answer": 0,
+      "explanation": "Autentifikatsiya va elektron imzo vazifalari boshqa.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-021",
+      "chapter": 4,
+      "within": 21,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Foydalanuvchi portalga o‘xshash qidiruv reklamasini ochib hujjat yuklamoqchi. Eng to‘g‘ri yo‘l?",
+      "options": [
+        "Har qanday reklama rasmiy hisoblanadi",
+        "ERI kalitini saytda e’lon qilish",
+        "Faylni ommaviy chatga yuborish",
+        "Reklama domenini tekshirmasdan davom etmaslik, rasmiy manzilni mustaqil ochish"
+      ],
+      "answer": 3,
+      "explanation": "Domenni mustaqil tekshirish phishingni kamaytiradi.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-022",
+      "chapter": 4,
+      "within": 22,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Ayrim davlat xizmatida rasmiy elektron imzo talab etiladi, boshqa xizmatda esa talab etilmaydi. Qanday xulosa?",
+      "options": [
+        "Hamma qoidalar 2021-yildan o‘zgarmaydi",
+        "Hech bir xizmatda tasdiqlash kerak emas",
+        "Imzo talabi xizmat turiga va joriy qoidalarga bog‘liq",
+        "Barcha xizmatga bir xil imzo majburiy"
+      ],
+      "answer": 2,
+      "explanation": "Xizmat talabini amaldagi rasmiy manbadan aniqlash lozim.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-023",
+      "chapter": 4,
+      "within": 23,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Tashkilot xodimi elektron hujjatni hamkasbiga yuborib, faqat rasmda chizilgan imzoni qabul qildi. Nima yetishmasligi mumkin?",
+      "options": [
+        "Portal rangli logotipi",
+        "Monitor yorqinligini oshirish",
+        "Kriptografik ERI tekshiruvi",
+        "SMM kampaniyasi"
+      ],
+      "answer": 2,
+      "explanation": "Imzo tasviri bilan elektron raqamli imzo bir xil emas.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-024",
+      "chapter": 4,
+      "within": 24,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Elektron hukumat mavjudligi barcha fuqarolar xizmatlardan bir xil darajada foydalanadi deganimi?",
+      "options": [
+        "Ha, barcha muammo avtomatik tugaydi",
+        "Ha, identifikatsiya talab qilinmaydi",
+        "Ha, internet hech qachon uzilmaydi",
+        "Yo‘q, kirish imkoniyati, savodxonlik va infratuzilma to‘siqlari bo‘lishi mumkin"
+      ],
+      "answer": 3,
+      "explanation": "Raqamli xizmatlarning foydasi ulardan foydalana olish bilan bog‘liq.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-025",
+      "chapter": 4,
+      "within": 25,
+      "level": "E",
+      "kind": "Y2",
+      "question": "Moslang: 1) my.gov.uz; 2) ERI; 3) elektron davlat xizmati. a) xizmatga murojaat portali; b) hujjat imzosi mexanizmi; c) AKT orqali ko‘rsatiladigan davlat xizmati.",
+      "options": [
+        "1-c, 2-b, 3-a",
+        "1-b, 2-a, 3-c",
+        "1-a, 2-b, 3-c",
+        "1-a, 2-c, 3-b"
+      ],
+      "answer": 2,
+      "explanation": "Portal, imzo mexanizmi va xizmat alohida tushunchalar.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-026",
+      "chapter": 4,
+      "within": 26,
+      "level": "E",
+      "kind": "Y1",
+      "question": "Foydalanuvchiga rasmiy idoradan kelgandek shubhali hujjat keldi. Qaysi kombinatsiya eng to‘g‘ri?",
+      "options": [
+        "Antivirusni o‘chirish va parolni jo‘natish",
+        "OTPni yuborish, faylni ishga tushirish, hamkasblarga tarqatish",
+        "Faqat fayl nomini qisqartirish",
+        "Manba va domenni tekshirish, shubhali faylni ochmaslik, rasmiy idora bilan bog‘lanish"
+      ],
+      "answer": 3,
+      "explanation": "Bir necha mustaqil xavfsizlik choralari birga samarali.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-027",
+      "chapter": 4,
+      "within": 27,
+      "level": "E",
+      "kind": "Y3",
+      "question": "Rasmiy portaldan xizmat olishning mantiqiy bosqichlarini tanlang: 1) natijani xavfsiz saqlash; 2) xizmatni tanlash va shartlarini o‘qish; 3) rasmiy manzilni tekshirish; 4) talab etilgan arizani yuborish.",
+      "options": [
+        "1, 2, 3, 4",
+        "3, 2, 4, 1",
+        "2, 1, 4, 3",
+        "4, 3, 1, 2"
+      ],
+      "answer": 1,
+      "explanation": "Xavfsiz xizmat rasmiy manbani tekshirishdan boshlanadi.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-028",
+      "chapter": 4,
+      "within": 28,
+      "level": "E",
+      "kind": "Y1",
+      "question": "Foydalanuvchi eski darslikda ko‘rsatilgan xizmat narxini 2026-yil uchun asos deb oldi. Nima noto‘g‘ri?",
+      "options": [
+        "Hujjat elektron bo‘lishi mumkin",
+        "O‘zgaruvchan tarifni amaldagi rasmiy manbada tekshirmagan",
+        "Davlat xizmatlari AKT bilan bog‘liq",
+        "Darslikda portal tushunchasi mavjud"
+      ],
+      "answer": 1,
+      "explanation": "Narx va muddatlar tarixiy darslik ma’lumotidan farq qilishi mumkin.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-029",
+      "chapter": 4,
+      "within": 29,
+      "level": "E",
+      "kind": "Y1",
+      "question": "Portal haqiqiy, ammo foydalanuvchi hujjatini ommaviy guruhga joyladi. Qaysi holatni ko‘ramiz?",
+      "options": [
+        "Xizmat rasmiymi-yo‘qmi deganidan qat’i nazar maxfiylik xavfi tug‘ildi",
+        "PDFni hech kim o‘qiy olmaydi",
+        "Elektron imzo bo‘lganida shaxsiy ma’lumot yo‘q",
+        "Rasmiy portal barcha ommaviy ulashishni xavfsiz qiladi"
+      ],
+      "answer": 0,
+      "explanation": "Axborotni ulashish kanali ham xavfsizlik uchun ahamiyatli.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-04-030",
+      "chapter": 4,
+      "within": 30,
+      "level": "E",
+      "kind": "Y1",
+      "question": "Elektron imzo bilan tasdiqlangan hujjat keyin tahrirlandi. Asosiy tekshiruv nimani ko‘rsatishi mumkin?",
+      "options": [
+        "SMM qamrovi oshganini",
+        "Hujjat avtomatik shifrlanganini",
+        "Internet albatta uzilganini",
+        "Hujjat yaxlitligi buzilganini"
+      ],
+      "answer": 3,
+      "explanation": "Raqamli imzo hujjatga kiritilgan o‘zgarishni aniqlashga xizmat qiladi.",
+      "source": "M11, PDF 311--324; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-001",
+      "chapter": 5,
+      "within": 1,
+      "level": "A",
+      "kind": "Y1",
+      "question": "SMM qisqartmasi nimani anglatadi?",
+      "options": [
+        "Secure Mail Module",
+        "Social Media Marketing",
+        "Software Media Monitor",
+        "System Memory Manager"
+      ],
+      "answer": 1,
+      "explanation": "SMM ijtimoiy media marketingidir.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-002",
+      "chapter": 5,
+      "within": 2,
+      "level": "A",
+      "kind": "Y1",
+      "question": "CMS qanday tushuncha?",
+      "options": [
+        "Kompyuter xotira o‘lchovi",
+        "Kontentni boshqarish tizimi",
+        "Faqat raqamli imzo turi",
+        "Kompyuterning grafik kartasi"
+      ],
+      "answer": 1,
+      "explanation": "Content Management System veb-kontentni boshqaradi.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-003",
+      "chapter": 5,
+      "within": 3,
+      "level": "A",
+      "kind": "Y1",
+      "question": "LMS qisqartmasining to‘liq nomi nima?",
+      "options": [
+        "Local Media Scanner",
+        "Learning Management System",
+        "License Monitor Server",
+        "Logical Memory Storage"
+      ],
+      "answer": 1,
+      "explanation": "LMS ta’lim jarayonini boshqarish tizimidir.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-004",
+      "chapter": 5,
+      "within": 4,
+      "level": "A",
+      "kind": "Y1",
+      "question": "MOOC atamasi nimani bildiradi?",
+      "options": [
+        "Mobile Office Offline Computer",
+        "Main Open Operating Console",
+        "Media Online Operation Center",
+        "Massive Open Online Course"
+      ],
+      "answer": 3,
+      "explanation": "MOOC ommaviy ochiq onlayn kurs modelidir.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-005",
+      "chapter": 5,
+      "within": 5,
+      "level": "A",
+      "kind": "Y1",
+      "question": "WordPress dasturiy yechimining asosiy sinfi qaysi?",
+      "options": [
+        "Antivirus",
+        "Operatsion tizim yadrosi",
+        "Tarmoq drayveri",
+        "CMS"
+      ],
+      "answer": 3,
+      "explanation": "WordPress darslikda CMS platformasi misoli.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-006",
+      "chapter": 5,
+      "within": 6,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Moodle qaysi sohada mashhur?",
+      "options": [
+        "Antivirus signaturasi yaratish",
+        "Elektron hukumat imzosi",
+        "LMS va onlayn ta’limni boshqarish",
+        "Rastrli rasm formatlash"
+      ],
+      "answer": 2,
+      "explanation": "Moodle darslikdagi LMS namunasi.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-007",
+      "chapter": 5,
+      "within": 7,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Instagramda maqsadli reklama va hamkorlik yuritish qaysi tushunchaga mos?",
+      "options": [
+        "Fayl zaxiralash",
+        "SMM",
+        "CMOS",
+        "Disk defragmentatsiyasi"
+      ],
+      "answer": 1,
+      "explanation": "SMM ijtimoiy platformadagi targ‘ibotdir.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-008",
+      "chapter": 5,
+      "within": 8,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Sayt maqolasini muharrir tahrirlab nashr etadi. Qaysi tizim asosiy?",
+      "options": [
+        "Video kodek",
+        "CMS",
+        "MFA",
+        "Firmware"
+      ],
+      "answer": 1,
+      "explanation": "CMS kontentni yaratish va nashr qilishga xizmat qiladi.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-009",
+      "chapter": 5,
+      "within": 9,
+      "level": "B",
+      "kind": "Y1",
+      "question": "O‘qituvchi topshiriq beradi, baholaydi, natijalarni kuzatadi. Qaysi tizim mos?",
+      "options": [
+        "Grafik drayver",
+        "Ransomware",
+        "SMM aksiyasi",
+        "LMS"
+      ],
+      "answer": 3,
+      "explanation": "Kurs natijasini boshqarish LMSning tipik vazifasi.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-010",
+      "chapter": 5,
+      "within": 10,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Coursera singari ommaviy onlayn kurs modeli qaysi?",
+      "options": [
+        "MOOC",
+        "DDoS",
+        "Firewall",
+        "BIOS"
+      ],
+      "answer": 0,
+      "explanation": "Ommaviy ochiq kurs MOOC bilan bog‘liq.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-011",
+      "chapter": 5,
+      "within": 11,
+      "level": "B",
+      "kind": "Y1",
+      "question": "CMS va LMS farqining to‘g‘ri bayoni qaysi?",
+      "options": [
+        "CMS sayt kontenti, LMS esa o‘quv jarayonini boshqarishga yo‘naltiriladi",
+        "LMS faqat sahifa rangini o‘zgartiradi",
+        "Ikkalasi faqat jismoniy qurilma",
+        "CMS faqat virusni o‘chiradi"
+      ],
+      "answer": 0,
+      "explanation": "Tizimlarning asosiy maqsadi boshqacha.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-012",
+      "chapter": 5,
+      "within": 12,
+      "level": "B",
+      "kind": "Y1",
+      "question": "SMM va MOOC taqqoslanganda qaysi fikr to‘g‘ri?",
+      "options": [
+        "SMM operatsion tizim hisoblanadi",
+        "SMM marketing faoliyati, MOOC esa ochiq onlayn kurs modelidir",
+        "MOOC faqat sayt hostingidir",
+        "SMM ham MOOC ham bir xil virus turi"
+      ],
+      "answer": 1,
+      "explanation": "Ikkisi turli faoliyat va tuzilmani anglatadi.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-013",
+      "chapter": 5,
+      "within": 13,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Maktab saytiga yangi “Yangiliklar” bo‘limini qo‘shish uchun eng mos yechim?",
+      "options": [
+        "CMSda sahifalar va menyuni boshqarish",
+        "MOOC sertifikatini yuklash",
+        "Antivirus signaturasini o‘chirish",
+        "ERI kalitini ommaga tarqatish"
+      ],
+      "answer": 0,
+      "explanation": "Sayt kontenti va tuzilmasi CMS bilan boshqariladi.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-014",
+      "chapter": 5,
+      "within": 14,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Masofaviy sinf o‘quvchilarining topshirish sanalari kuzatiladi. Qaysi tizim zarur?",
+      "options": [
+        "LMS",
+        "Faqat rasm ko‘rish dasturi",
+        "SMM izohlar soni",
+        "Printer drayveri"
+      ],
+      "answer": 0,
+      "explanation": "Kurs faoliyatining tashkil etilishi LMS vazifasidir.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-015",
+      "chapter": 5,
+      "within": 15,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Tashkilot yangi mahsulotini Telegram kanalida targ‘ib qilyapti. Bu nima?",
+      "options": [
+        "Zararli dastur skaneri",
+        "Elektron hukumat xizmati",
+        "LMS ichki reytingi",
+        "SMM kampaniyasi"
+      ],
+      "answer": 3,
+      "explanation": "Telegram SMMda kanal sifatida ishlatilishi mumkin.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-016",
+      "chapter": 5,
+      "within": 16,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Mijoz WordPress saytidagi ko‘rinishni almashtirishni so‘raydi. Odatda qaysi komponent tekshiriladi?",
+      "options": [
+        "Elektron imzo maxfiy kaliti",
+        "MFA autentifikatori",
+        "Sayt shabloni yoki mavzusi (theme)",
+        "Kompyuterning RAM chastotasi"
+      ],
+      "answer": 2,
+      "explanation": "Theme ko‘rinishni boshqarishga yordam beradi.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-017",
+      "chapter": 5,
+      "within": 17,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Ochiq onlayn kursda minglab odam qatnashishi mumkin. Bu qaysi belgiga mos?",
+      "options": [
+        "MOOCning ommaviylik (Massive) xossasi",
+        "Saytni majburiy oflayn qilish",
+        "Faqat printer o‘lchami",
+        "Faqat antivirus tezligi"
+      ],
+      "answer": 0,
+      "explanation": "Massive katta ishtirokchilar ko‘lamiga ishora qiladi.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-018",
+      "chapter": 5,
+      "within": 18,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Saytga izohlarni moderatsiya qilish va nashr qilish uchun vakolatlar berildi. Bu qaysi CMS xususiyati?",
+      "options": [
+        "Internet kabelini kesish",
+        "Ovoz kartasini almashtirish",
+        "Rollar va kirish huquqlarini boshqarish",
+        "Faqat kompyuterni tozalash"
+      ],
+      "answer": 2,
+      "explanation": "CMS foydalanuvchi rollari bilan boshqarilishi mumkin.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-019",
+      "chapter": 5,
+      "within": 19,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Bir tashkilot kurslarini Moodleda yuritib, reklamasini Instagramda beradi. Qaysi ikki tushuncha birga ishlayapti?",
+      "options": [
+        "Faqat grafik kodek",
+        "Faqat CMS va antivirus",
+        "LMS va SMM",
+        "DDoS va phishing"
+      ],
+      "answer": 2,
+      "explanation": "Ta’lim boshqaruvi va marketing bir-birini to‘ldiradi.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-020",
+      "chapter": 5,
+      "within": 20,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Maktab o‘z sayti uchun CMS ishlatadi, lekin kundalik baholar alohida LMSda. Nega bu mantiqli?",
+      "options": [
+        "Har bir LMS zararli dastur",
+        "Sayt mavjud bo‘lsa foydalanuvchi roli kerak emas",
+        "CMS baholashni doim mutlaqo taqiqlaydi",
+        "Kontent boshqarish va o‘quv baholash vazifalari farq qiladi"
+      ],
+      "answer": 3,
+      "explanation": "CMS va LMSning ustuvor maqsadlari turlicha.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-021",
+      "chapter": 5,
+      "within": 21,
+      "level": "D",
+      "kind": "Y1",
+      "question": "MOOC platformasida kurs bepul ko‘rinadi, ammo tasdiqlangan sertifikat pulli. Qanday xulosa?",
+      "options": [
+        "Kurs MOOC bo‘lolmaydi",
+        "Kirish ochiqligi va sertifikat shartlari alohida bo‘lishi mumkin",
+        "LMS terminining ma’nosi o‘zgardi",
+        "Barcha MOOC xizmatlari majburiy bepul"
+      ],
+      "answer": 1,
+      "explanation": "Ochiqlik kurs va sertifikat shartlarining bir xilligini anglatmaydi.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-022",
+      "chapter": 5,
+      "within": 22,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Rasmiy saytga material qo‘shish uchun CMS foydalanuvchisiga barcha administrator vakolatlarini berish kerakmi?",
+      "options": [
+        "Yo‘q, muharrir roli yetarli bo‘lishi mumkin",
+        "Ha, parolni boshqalar bilan bo‘lishish shart",
+        "Barcha saytlar CMSsiz ham admin talab qiladi",
+        "Ha, har qanday post uchun admin shart"
+      ],
+      "answer": 0,
+      "explanation": "Rollar vazifaga qarab cheklanadi.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-023",
+      "chapter": 5,
+      "within": 23,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Kurs video va testlardan iborat, lekin foydalanuvchi natijasi hisobga olinmaydi. Uni albatta LMS deyish mumkinmi?",
+      "options": [
+        "Faqat SMM bo‘lsa LMS bo‘ladi",
+        "Ha, sayt rangli bo‘lsa",
+        "Ha, video borligi yetarli",
+        "Yo‘q, o‘quv jarayonini boshqarish funksiyalarini ham tekshirish kerak"
+      ],
+      "answer": 3,
+      "explanation": "Kontentni ko‘rsatish bilan kursni boshqarish alohida.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-024",
+      "chapter": 5,
+      "within": 24,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Bir platformada bir vaqtning o‘zida saytdagi ma’lumotlar, foydalanuvchi kurslari va reklama bo‘lishi mumkin. Xulosa qaysi?",
+      "options": [
+        "Platformalar mutlaqo birga ishlay olmaydi",
+        "SMM faqat printer orqali bajariladi",
+        "Vazifalar CMS, LMS va SMM qatlamlarida birga bajarilishi mumkin",
+        "MOOC doim antivirus hisoblanadi"
+      ],
+      "answer": 2,
+      "explanation": "Bir loyihada bir nechta raqamli tizim va faoliyat qatnashishi tabiiy.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-025",
+      "chapter": 5,
+      "within": 25,
+      "level": "E",
+      "kind": "Y2",
+      "question": "Moslang: 1) SMM; 2) CMS; 3) LMS; 4) MOOC. a) kontent boshqaruvi; b) kurs nazorati; c) marketing; d) ommaviy kurs.",
+      "options": [
+        "1-a, 2-b, 3-c, 4-d",
+        "1-c, 2-d, 3-a, 4-b",
+        "1-d, 2-c, 3-b, 4-a",
+        "1-c, 2-a, 3-b, 4-d"
+      ],
+      "answer": 3,
+      "explanation": "To‘rt atamaning asosiy funksiyasi yodlash emas, farqlash orqali aniqlanadi.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-026",
+      "chapter": 5,
+      "within": 26,
+      "level": "E",
+      "kind": "Y3",
+      "question": "Maktab o‘quv portali va targ‘ibotini tashkil etishning mantiqiy tartibini tanlang: 1) SMM orqali xabar berish; 2) maqsad va auditoriyani aniqlash; 3) sayt/kurs kontentini tayyorlash; 4) natijani o‘lchash.",
+      "options": [
+        "4, 2, 1, 3",
+        "2, 3, 1, 4",
+        "3, 4, 2, 1",
+        "1, 4, 3, 2"
+      ],
+      "answer": 1,
+      "explanation": "Avval maqsad, so‘ng kontent, nashr va o‘lchov keladi.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-027",
+      "chapter": 5,
+      "within": 27,
+      "level": "E",
+      "kind": "Y1",
+      "question": "WordPress yordamida darslik maqolalari beriladi, Moodle orqali topshiriqlar yig‘iladi, Coursera orqali ommaviy kurs o‘rganiladi. To‘g‘ri taqsimot?",
+      "options": [
+        "CMS, LMS, MOOC",
+        "MOOC, antivirus, CMS",
+        "CMS, firewall, LMS",
+        "LMS, CMS, SMM"
+      ],
+      "answer": 0,
+      "explanation": "Har bir platforma boshqaradigan vazifa bilan farqlanadi.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-028",
+      "chapter": 5,
+      "within": 28,
+      "level": "E",
+      "kind": "Y1",
+      "question": "Bir dastur kurs yaratadi va natijani kuzatadi, unda ham sayt sahifalari mavjud. Uni tanlashda asosiy mezon nima?",
+      "options": [
+        "Ustuvor vazifa va real funksional imkoniyatlari",
+        "Faqat platforma mashhurligi",
+        "Faqat nomida “online” yozilishi",
+        "Faqat logotipning rangi"
+      ],
+      "answer": 0,
+      "explanation": "Dastur bir nechta funksiyani birlashtirishi mumkin; tasnif vazifaga bog‘liq.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-029",
+      "chapter": 5,
+      "within": 29,
+      "level": "E",
+      "kind": "Y1",
+      "question": "Katta auditoriyani jalb qilgan SMM kampaniyasi kursga kam ro‘yxatdan o‘tish olib keldi. Eng to‘g‘ri tahlil?",
+      "options": [
+        "Faqat ko‘rish bo‘lsa hamma kursga yozilgan",
+        "LMS avtomatik zararli hisoblanadi",
+        "Qamrovning o‘zi kerakli konversiya o‘rnini bosmaydi",
+        "CMS reklamani butunlay taqiqlaydi"
+      ],
+      "answer": 2,
+      "explanation": "Marketing natijasi maqsadli harakat bilan tekshiriladi.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-05-030",
+      "chapter": 5,
+      "within": 30,
+      "level": "E",
+      "kind": "Y1",
+      "question": "Ta’lim platformasini xavfsizroq qilish uchun qaysi qaror mos?",
+      "options": [
+        "Barcha kurslarni umumiy admin hisobida yuritish",
+        "Shubhali plaginni cheklovsiz o‘rnatish",
+        "LMS/CMS rollarini cheklash, dasturlarni yangilash va hisoblarni himoyalash",
+        "Barcha foydalanuvchiga parol berish"
+      ],
+      "answer": 2,
+      "explanation": "Platforma turi qanday bo‘lishidan qat’i nazar xavfsizlik qatlamlari zarur.",
+      "source": "M8, PDF 5--93; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-001",
+      "chapter": 6,
+      "within": 1,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Raqamli kontent nima?",
+      "options": [
+        "Faqat tarmoq kabelining nomi",
+        "Kompyuterni elektrga ulash usuli",
+        "Platformada tarqatiladigan matn, rasm, video, audio kabi mazmun",
+        "Faqat qurilmaning tashqi qobig‘i"
+      ],
+      "answer": 2,
+      "explanation": "Kontent tarqatiladigan axborot mazmunini ifodalaydi.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-002",
+      "chapter": 6,
+      "within": 2,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Auditoriya atamasi nimani bildiradi?",
+      "options": [
+        "Serverdagi operatsion tizimni",
+        "Faylni shifrlash kalitini",
+        "Kontentga murojaat qiluvchi yoki u mo‘ljallangan odamlar guruhini",
+        "Fayllarning faqat sonini"
+      ],
+      "answer": 2,
+      "explanation": "Auditoriya kontentni qabul qiluvchi kishilar bilan bog‘liq.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-003",
+      "chapter": 6,
+      "within": 3,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Maqsadli auditoriya deganda nima tushuniladi?",
+      "options": [
+        "Muayyan maqsad uchun tanlangan mos foydalanuvchilar guruhi",
+        "Har qanday kompyuter viruslari",
+        "Saytga tasodifan kirgan barcha botlar",
+        "Faqat reklama rasmi o‘lchami"
+      ],
+      "answer": 0,
+      "explanation": "Maqsadli auditoriya ehtiyoj va mezonlar asosida aniqlanadi.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-004",
+      "chapter": 6,
+      "within": 4,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Infografika qanday kontent turiga kiradi?",
+      "options": [
+        "Shifrlash protokoliga",
+        "Ma’lumotni ko‘rgazmali taqdim etuvchi grafik kontentga",
+        "Faqat identifikatsiya tizimiga",
+        "Kompyuterning asosiy xotirasiga"
+      ],
+      "answer": 1,
+      "explanation": "Infografika axborotni grafik shaklda tushuntiradi.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-005",
+      "chapter": 6,
+      "within": 5,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Reach (qamrov) odatda nimani o‘lchaydi?",
+      "options": [
+        "Har bir kuzatuvchining parolini",
+        "Elektr sarfi birliklarini",
+        "Fayllarning kodlash turini",
+        "Kontentga yetib borgan noyob foydalanuvchilar sonini"
+      ],
+      "answer": 3,
+      "explanation": "Qamrov ko‘rgan noyob hisoblar soniga asoslanadi.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-006",
+      "chapter": 6,
+      "within": 6,
+      "level": "A",
+      "kind": "Y1",
+      "question": "CTR qanday nisbatni ko‘rsatishi mumkin?",
+      "options": [
+        "Parol uzunligining yoshga nisbati",
+        "Bosishlar sonining ko‘rsatilishlar soniga nisbati",
+        "Ma’lumot hajmining xotira sig‘imiga nisbati",
+        "Serverlarning foydalanuvchiga nisbati"
+      ],
+      "answer": 1,
+      "explanation": "CTR berilgan maxrajga nisbatan klik ulushidir.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-007",
+      "chapter": 6,
+      "within": 7,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Qaysi biri kontent, auditoriya emas?",
+      "options": [
+        "Boshlang‘ich dasturchilar",
+        "Scratch bo‘yicha qisqa videodars",
+        "Ingliz tili o‘rganuvchilari",
+        "7-sinf o‘quvchilari"
+      ],
+      "answer": 1,
+      "explanation": "Video -- mazmun, qolganlari odamlar guruhlari.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-008",
+      "chapter": 6,
+      "within": 8,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Qaysi misol maqsadli auditoriyani bildiradi?",
+      "options": [
+        "CMS sayt sahifasi",
+        "MP4 fayl formati",
+        "Uch daqiqalik videorolik",
+        "Matematika olimpiadasiga tayyorlanuvchi 8-sinflar"
+      ],
+      "answer": 3,
+      "explanation": "Guruh aniq o‘quvchilar ehtiyojiga ko‘ra ajratilgan.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-009",
+      "chapter": 6,
+      "within": 9,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Qaysi o‘lchov kontent necha marta ko‘rsatilganini bildiradi?",
+      "options": [
+        "Disk sektori",
+        "Avtorizatsiya",
+        "Antivirus signaturasi",
+        "Impressions"
+      ],
+      "answer": 3,
+      "explanation": "Ko‘rsatilishlar jami noyob odam soniga teng bo‘lishi shart emas.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-010",
+      "chapter": 6,
+      "within": 10,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Qaysi maqsadga LMSdagi test topshirilganlar ulushi mos keladi?",
+      "options": [
+        "Internet simini almashtirish",
+        "O‘quv faoliyatidagi bajarish natijasini o‘lchash",
+        "Faqat reklama rangini tanlash",
+        "Kompyuter BIOS turini aniqlash"
+      ],
+      "answer": 1,
+      "explanation": "Ta’lim natijasi uchun pedagogik ko‘rsatkich ishlatiladi.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-011",
+      "chapter": 6,
+      "within": 11,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Eng ko‘p obunachiga ega kanal doim eng yaxshi maqsadli kanalmi?",
+      "options": [
+        "Ha, boshqa mezon kerak emas",
+        "Yo‘q, auditoriya mosligi va maqsadli natija muhim",
+        "Faqat video bo‘lmasa",
+        "Ha, barcha obunachi har kuni sotib oladi"
+      ],
+      "answer": 1,
+      "explanation": "Faqat son auditoriya sifati va mosligini ko‘rsatmaydi.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-012",
+      "chapter": 6,
+      "within": 12,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Qaysi juftlik to‘g‘ri ajratilgan?",
+      "options": [
+        "Telegram -- kanal, e’lon matni -- kontent",
+        "Telegram -- xotira biti, matn -- foydalanuvchi",
+        "Telegram -- virus, matn -- firewall",
+        "Telegram -- foydalanuvchi yoshi, matn -- server"
+      ],
+      "answer": 0,
+      "explanation": "Tarqatish vositasi va tarqatiladigan mazmun farqlanadi.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-013",
+      "chapter": 6,
+      "within": 13,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Maktabda 5-sinflar uchun klaviatura mashqi targ‘ib qilinadi. Qanday kontent tanlash ma’qul?",
+      "options": [
+        "Oddiy til, ko‘rgazmali qadamlar va qisqa topshiriq",
+        "Mavzuga aloqasiz uzun reklama",
+        "Shaxsiy parollarni ochiq ko‘rsatish",
+        "Faqat murakkab texnik terminlar"
+      ],
+      "answer": 0,
+      "explanation": "Yosh va ehtiyoj kontent formatini belgilaydi.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-014",
+      "chapter": 6,
+      "within": 14,
+      "level": "C",
+      "kind": "Y1",
+      "question": "E’lon 2000 marta ko‘rsatildi, 80 marta bosildi. CTR qancha?",
+      "options": [
+        "40 foiz",
+        "8 foiz",
+        "0,4 foiz",
+        "4 foiz"
+      ],
+      "answer": 3,
+      "explanation": "80 / 2000 × 100 = 4 foiz.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-015",
+      "chapter": 6,
+      "within": 15,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Bir video 1000 noyob odamga yetdi, jami 1700 ko‘rish bo‘ldi. To‘g‘ri fikr?",
+      "options": [
+        "Har bir foydalanuvchi faqat bitta marta ko‘rdi",
+        "Reach doim 1700 dan katta",
+        "Reach 1000, impressions 1700 bo‘lishi mumkin",
+        "Video 1700 ta noyob kishiga yetgan"
+      ],
+      "answer": 2,
+      "explanation": "Takroriy ko‘rishlar impressionsni reachdan kattalashtirishi mumkin.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-016",
+      "chapter": 6,
+      "within": 16,
+      "level": "C",
+      "kind": "Y1",
+      "question": "200 ta bosishdan 20 ta real ro‘yxatdan o‘tish bo‘ldi. Bosishga nisbatan konversiya?",
+      "options": [
+        "10 foiz",
+        "20 foiz",
+        "1 foiz",
+        "40 foiz"
+      ],
+      "answer": 0,
+      "explanation": "20 / 200 × 100 = 10 foiz; maxraj bosishlar deb berilgan.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-017",
+      "chapter": 6,
+      "within": 17,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Video yaxshi, lekin auditoriyaning aksariyati ovozsiz tomosha qiladi. Qanday moslashtirish foydali?",
+      "options": [
+        "Barcha matnni olib tashlash",
+        "Faqat ovoz darajasini pasaytirish",
+        "Parol oynasini videoga qo‘shish",
+        "Aniq subtitr va ko‘rgazmali tushuntirish qo‘shish"
+      ],
+      "answer": 3,
+      "explanation": "Formatni auditoriya foydalanish sharoitiga moslash kerak.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-018",
+      "chapter": 6,
+      "within": 18,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Kontentda boshqa muallif rasmi manbasiz joylashtirilmoqchi. To‘g‘ri chora?",
+      "options": [
+        "Rasm hajmini ozgina o‘zgartirish kifoya",
+        "Muallifni yashirish",
+        "Litsenziya va ruxsatni tekshirib zarur atributsiyani berish",
+        "Rasmni bo‘lib yuborish"
+      ],
+      "answer": 2,
+      "explanation": "Mualliflik va foydalanish shartlari saqlanadi.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-019",
+      "chapter": 6,
+      "within": 19,
+      "level": "D",
+      "kind": "Y1",
+      "question": "E’lon 5000 marta ko‘rsatildi, 250 marta bosildi, 25 ta ariza keldi. Qaysi baho to‘g‘ri?",
+      "options": [
+        "CTR 0,5 foiz, ariza 25 foiz",
+        "CTR 5 foiz, bosishga nisbatan ariza 10 foiz",
+        "CTR 10 foiz, ariza 5 foiz",
+        "CTR 50 foiz, ariza 1 foiz"
+      ],
+      "answer": 1,
+      "explanation": "CTR=250/5000=5%; ariza/klik=25/250=10%.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-020",
+      "chapter": 6,
+      "within": 20,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Kanaldagi obunachilar 2000, ammo dars e’lonini 350 noyob odam ko‘rdi. To‘g‘ri xulosa?",
+      "options": [
+        "Auditoriya butunlay yo‘q",
+        "E’lonni 2000 kishi albatta ko‘rdi",
+        "Qamrov 2350 ga teng",
+        "Obunachi soni va e’lon qamrovi har xil ko‘rsatkich"
+      ],
+      "answer": 3,
+      "explanation": "Obuna bo‘lish real ko‘rishni kafolatlamaydi.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-021",
+      "chapter": 6,
+      "within": 21,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Maqsad o‘quvchi mavzuni tushunishidir, lekin hisobot faqat like soniga asoslangan. Asosiy kamchilik?",
+      "options": [
+        "Ko‘rsatkich o‘rganish maqsadini bevosita tekshirmayapti",
+        "Like faqat CMSda ishlaydi",
+        "O‘qish natijasini hech qachon o‘lchab bo‘lmaydi",
+        "Har bir like doim to‘liq o‘zlashtirishdir"
+      ],
+      "answer": 0,
+      "explanation": "Natija maqsadga mos isbot bilan baholanishi zarur.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-022",
+      "chapter": 6,
+      "within": 22,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Kursda 60 kishi ro‘yxatdan o‘tdi, 42 kishi yakunladi. Yakunlash ulushi?",
+      "options": [
+        "70 foiz",
+        "42 foiz",
+        "80 foiz",
+        "60 foiz"
+      ],
+      "answer": 0,
+      "explanation": "42/60 × 100 = 70 foiz.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-023",
+      "chapter": 6,
+      "within": 23,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Ikkita kanal: A da 1000 bosishdan 10 ariza, B da 300 bosishdan 18 ariza. Bosishga nisbatan qaysi biri samaraliroq?",
+      "options": [
+        "Ikkalasi, 1 foiz",
+        "B kanal, 6 foiz",
+        "A kanal, 6 foiz",
+        "A kanal, 10 foiz"
+      ],
+      "answer": 1,
+      "explanation": "A 1%, B 6%; ushbu maqsad va maxraj bo‘yicha B ustun.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-024",
+      "chapter": 6,
+      "within": 24,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Kuchli post ko‘p tarqaldi, lekin noto‘g‘ri fakt ishlatildi. Eng asosli ustuvorlik?",
+      "options": [
+        "Noto‘g‘ri ma’lumotni ko‘proq tarqatish",
+        "Faqat ko‘rishlar ko‘p bo‘lsa xatoni qoldirish",
+        "Xatoni ochiq tuzatish va dalilni tekshirish",
+        "Manbani yashirish"
+      ],
+      "answer": 2,
+      "explanation": "Kontent sifati axborot ishonchliligini ham o‘z ichiga oladi.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-025",
+      "chapter": 6,
+      "within": 25,
+      "level": "E",
+      "kind": "Y2",
+      "question": "Moslang: 1) kontent; 2) maqsadli auditoriya; 3) kanal; 4) CTR. a) rolik; b) dasturlashni o‘rganuvchi o‘smirlar; c) Telegram; d) bosishlar ulushi.",
+      "options": [
+        "1-b, 2-a, 3-c, 4-d",
+        "1-a, 2-d, 3-b, 4-c",
+        "1-a, 2-b, 3-c, 4-d",
+        "1-c, 2-b, 3-d, 4-a"
+      ],
+      "answer": 2,
+      "explanation": "Mazmun, kimga, qayerga va natija ko‘rsatkichi alohida.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-026",
+      "chapter": 6,
+      "within": 26,
+      "level": "E",
+      "kind": "Y1",
+      "question": "A guruhda 300 ta ko‘rish va 30 bosish, B guruhda 900 ta ko‘rish va 45 bosish. CTR bo‘yicha qaysi guruh yuqori?",
+      "options": [
+        "Ikkalasi, 15 foiz",
+        "A guruh, 5 foiz",
+        "A guruh, 10 foiz",
+        "B guruh, 10 foiz"
+      ],
+      "answer": 2,
+      "explanation": "A = 30/300=10%, B=45/900=5%.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-027",
+      "chapter": 6,
+      "within": 27,
+      "level": "E",
+      "kind": "Y3",
+      "question": "Kontent strategiyasi bosqichlarining tartibini tanlang: 1) natijani o‘lchash; 2) kontentni nashr qilish; 3) maqsadli auditoriyani aniqlash; 4) format va mazmunni yaratish.",
+      "options": [
+        "1, 4, 3, 2",
+        "2, 1, 4, 3",
+        "3, 4, 2, 1",
+        "4, 2, 1, 3"
+      ],
+      "answer": 2,
+      "explanation": "Auditoriyani anglash kontent va kanaldan oldin keladi.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-028",
+      "chapter": 6,
+      "within": 28,
+      "level": "E",
+      "kind": "Y1",
+      "question": "Postda 3000 ta impression va 150 ta klik, ammo atigi 3 ariza bor. Eng to‘g‘ri talqin?",
+      "options": [
+        "CTR 5 foiz, bosishdan arizaga o‘tish 2 foiz",
+        "CTR 2 foiz, arizaga o‘tish 5 foiz",
+        "Qamrov albatta 3000 noyob shaxs",
+        "Foydalanuvchilar 3000 ta ariza yuborgan"
+      ],
+      "answer": 0,
+      "explanation": "CTR=150/3000=5%; ariza/klik=3/150=2%.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-029",
+      "chapter": 6,
+      "within": 29,
+      "level": "E",
+      "kind": "Y1",
+      "question": "Auditoriya yosh bolalar va ko‘rishida qiyinchiligi bo‘lgan o‘quvchilarni o‘z ichiga oladi. Qaysi yondashuv yaxshi?",
+      "options": [
+        "Ruxsatsiz shaxsiy ma’lumot joylash",
+        "Faqat uzun kodli jadval",
+        "Mayda kulrang yozuv va faqat ovoz",
+        "Sodda tuzilma, kontrast, muqobil matn va subtitr"
+      ],
+      "answer": 3,
+      "explanation": "Kirish imkoniyati va tushunarlilik auditoriya sifatini oshiradi.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-06-030",
+      "chapter": 6,
+      "within": 30,
+      "level": "E",
+      "kind": "Y1",
+      "question": "A kontent 100 ming ko‘rildi, lekin buyurtma nol. B kontent 5 ming ko‘rildi, 50 haqiqiy buyurtma berdi. Buyurtma maqsadida nima ustuvor?",
+      "options": [
+        "Faqat qamrovning o‘zi yetarli",
+        "B natija maqsadga yaqinroq, biroq xarajat va sifatni ham tekshirish kerak",
+        "A har doim samaraliroq",
+        "Buyurtma natijaga aloqasiz"
+      ],
+      "answer": 1,
+      "explanation": "Maqsadga mos metrika bilan baholash va xarajatni hisobga olish zarur.",
+      "source": "M8, PDF 5--59; M11, PDF 296--305; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-001",
+      "chapter": 7,
+      "within": 1,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Freelancer kim?",
+      "options": [
+        "Loyiha yoki xizmatni mustaqil bajaruvchi mutaxassis",
+        "Faqat kompyuter sotuvchi do‘kon",
+        "Faqat davlat portalining administratori",
+        "Har qanday kompyuter virusi"
+      ],
+      "answer": 0,
+      "explanation": "Freelancer mustaqil buyurtmalar asosida ishlashi mumkin.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-002",
+      "chapter": 7,
+      "within": 2,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Freelance platformasining vazifasi nima?",
+      "options": [
+        "Kompyuter xotirasini yangilash",
+        "Buyurtmachi va xizmat ko‘rsatuvchini uchrashtirish",
+        "Faqat elektron davlat xizmatini berish",
+        "Faqat virus skanerlash"
+      ],
+      "answer": 1,
+      "explanation": "Platforma loyiha va ijrochini bog‘lash vositasi.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-003",
+      "chapter": 7,
+      "within": 3,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Portfolio nima?",
+      "options": [
+        "Elektron imzo maxfiy kaliti",
+        "Bankdagi barcha tranzaksiyalar",
+        "Mutaxassis bajargan ishlar namunalari to‘plami",
+        "Faqat parollar ro‘yxati"
+      ],
+      "answer": 2,
+      "explanation": "Portfolio tajriba va ish sifatini ko‘rsatadi.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-004",
+      "chapter": 7,
+      "within": 4,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Buyurtmachi (client) kim?",
+      "options": [
+        "Qidiruv serveri",
+        "Freelancerning antivirus dasturi",
+        "Veb-sayt shabloni",
+        "Ish yoki xizmat natijasini so‘rovchi tomon"
+      ],
+      "answer": 3,
+      "explanation": "Client topshiriq beradi va natijani qabul qiladi.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-005",
+      "chapter": 7,
+      "within": 5,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Deadline tushunchasi nimani bildiradi?",
+      "options": [
+        "Tarmoq kabeli turi",
+        "Maxfiy kalit formati",
+        "Faqat xizmatning rang sxemasi",
+        "Vazifani tugatish uchun kelishilgan oxirgi muddat"
+      ],
+      "answer": 3,
+      "explanation": "Deadline ishning tugash sanasini anglatadi.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-006",
+      "chapter": 7,
+      "within": 6,
+      "level": "A",
+      "kind": "Y1",
+      "question": "Quyidagilardan qaysi biri darslikdagi freelance platformaga misol?",
+      "options": [
+        "ESET NOD32",
+        "Moodle",
+        "Upwork",
+        "my.gov.uz"
+      ],
+      "answer": 2,
+      "explanation": "Upwork 8-sinf darsligidagi freelance platformalardan biri.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-007",
+      "chapter": 7,
+      "within": 7,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Portfolio va profilning farqi qaysi?",
+      "options": [
+        "Ikkalasi zararli dastur turi",
+        "Portfolio ish namunasi, profil esa mutaxassis haqida ma’lumot",
+        "Portfolio faqat to‘lov kvitansiyasi",
+        "Profil faqat shifrlash kaliti"
+      ],
+      "answer": 1,
+      "explanation": "Ish namunasi va hisob tavsifi turli vazifa bajaradi.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-008",
+      "chapter": 7,
+      "within": 8,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Loyiha uchun taklif (proposal) odatda nimani bildiradi?",
+      "options": [
+        "Buyurtmaga mos yondashuv, natija va shartlarni taqdim etish",
+        "Kompyuterni qayta yig‘ish",
+        "Barcha foydalanuvchiga bir xil parol berish",
+        "Virusni Internetga yuborish"
+      ],
+      "answer": 0,
+      "explanation": "Taklif ayni buyurtma uchun ishlab chiqiladi.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-009",
+      "chapter": 7,
+      "within": 9,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Milestone atamasi qaysi vaziyatga mos?",
+      "options": [
+        "Loyihaning tekshiriladigan ish bosqichi",
+        "Shaxsiy hujjatning birinchi harfi",
+        "Disk sektorining o‘lchami",
+        "Faqat reklama turining nomi"
+      ],
+      "answer": 0,
+      "explanation": "Milestone natijani bosqichma-bosqich nazorat qilishga yordam beradi.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-010",
+      "chapter": 7,
+      "within": 10,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Brief yoki texnik topshiriq nima?",
+      "options": [
+        "Faqat operatsion tizim versiyasi",
+        "Mijozning ehtiyoji, talablar va cheklovlar bayoni",
+        "Har qanday reklamaga berilgan like",
+        "Elektron pochta paroli"
+      ],
+      "answer": 1,
+      "explanation": "Ish bajarilishidan avval natija mezoni aniqlanishi kerak.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-011",
+      "chapter": 7,
+      "within": 11,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Fiverr, Upwork, Freelancer.com qanday jihatdan o‘xshash?",
+      "options": [
+        "Internet orqali buyurtma va xizmatlar bilan ishlash platformalari",
+        "Barchasi faqat antivirus",
+        "Barchasi operatsion tizim",
+        "Barchasi davlat imzo portali"
+      ],
+      "answer": 0,
+      "explanation": "Darslik ularni web-freelance platformalari sifatida sanaydi.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-012",
+      "chapter": 7,
+      "within": 12,
+      "level": "B",
+      "kind": "Y1",
+      "question": "Freelance va doimiy shtatdagi ish bir xilmi?",
+      "options": [
+        "Freelance faqat maktab jurnalini yuritadi",
+        "Shtatli ish faqat Internetda bo‘ladi",
+        "Ha, barcha huquqiy va tashkiliy shartlar bir xil",
+        "Yo‘q, freelance ko‘pincha loyiha va buyurtma asosida mustaqil tashkil etiladi"
+      ],
+      "answer": 3,
+      "explanation": "Shartlar va ish munosabatlari turlicha bo‘lishi mumkin.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-013",
+      "chapter": 7,
+      "within": 13,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Mijoz logotip so‘radi, lekin format va o‘lchamni aytmadi. Birinchi to‘g‘ri qadam?",
+      "options": [
+        "Darhol tasodifiy fayl yuborish",
+        "Mijozning parolini so‘rash",
+        "Tayyor ish bor deb e’lon qilish",
+        "Talablarni aniqlashtirib texnik topshiriqni kelishish"
+      ],
+      "answer": 3,
+      "explanation": "Natija mezoni oldindan belgilanmasa nizo yuzaga keladi.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-014",
+      "chapter": 7,
+      "within": 14,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Buyurtmachi PDF va vektor fayl talab qildi. Freelancer faqat JPG yubordi. Nima buzilgan?",
+      "options": [
+        "Kelishilgan topshirish formati talabi",
+        "Internet xavfsizligi avtomatik buzilgan",
+        "Har doim CMS ishlamay qoladi",
+        "Elektron imzo muddati tugagan"
+      ],
+      "answer": 0,
+      "explanation": "Briefdagi fayl formatlari topshirish mezonidir.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-015",
+      "chapter": 7,
+      "within": 15,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Mijoz “oldin pul yuboring, shundan so‘ng ish beraman” dedi. Eng xavfsiz qaror?",
+      "options": [
+        "Xabarni tekshirmay pul yuborish",
+        "Darhol bank parolini yuborish",
+        "Shartlarni platformada tekshirib firibgarlik ehtimolini baholash",
+        "Shaxsiy hujjatlarni ommaga joylash"
+      ],
+      "answer": 2,
+      "explanation": "Avval to‘lov talab qilish firibgarlik belgisi bo‘lishi mumkin.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-016",
+      "chapter": 7,
+      "within": 16,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Portfolio uchun ishlatilgan mijoz loyihasi maxfiy. Nima qilish kerak?",
+      "options": [
+        "Mijoz nomidan yangi hisob ochish",
+        "Maxfiy faylni reklama qilish",
+        "Ishni darhol ijtimoiy tarmoqqa tarqatish",
+        "Ruxsat va maxfiylik talablarini tekshirmay ishni ommaga chiqarmaslik"
+      ],
+      "answer": 3,
+      "explanation": "Mijozning maxfiy ma’lumoti ruxsatsiz tarqatilmaydi.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-017",
+      "chapter": 7,
+      "within": 17,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Freelancer ishni uch bosqichda topshirmoqchi. Nima foydali?",
+      "options": [
+        "Faqat fayl nomlarini almashtirish",
+        "Har bosqich natijasi, muddati va tekshiruvini oldindan kelishish",
+        "Bosqichlarni yashirish",
+        "Har bosqich oxirida yangi parol talab qilish"
+      ],
+      "answer": 1,
+      "explanation": "Milestone ish sifatini boshqarishni osonlashtiradi.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-018",
+      "chapter": 7,
+      "within": 18,
+      "level": "C",
+      "kind": "Y1",
+      "question": "Buyurtma tavsifida “sayt tayyorlash” deyilgan, ammo sahifalar soni noma’lum. Eng mos savol?",
+      "options": [
+        "Xodimlar ro‘yxatini ochiq yuborasizmi?",
+        "Sahifalar, funksiyalar, texnologiya va qabul mezoni qanday?",
+        "Qaysi rangli fon yoqadi, boshqasi kerak emas?",
+        "Mijozning OTP kodi nima?"
+      ],
+      "answer": 1,
+      "explanation": "Noaniq talablarni aniqlashtirish kelishuvni mustahkamlaydi.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-019",
+      "chapter": 7,
+      "within": 19,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Mijoz dasturchidan tayyor mahsulotga qo‘shimcha modul talab qildi, asl shartnomada yo‘q. Qanday yechim?",
+      "options": [
+        "Hech narsa so‘ramay rozi bo‘lish",
+        "Har doim tekinga bajarish majburiy",
+        "Darhol barcha ish fayllarini o‘chirish",
+        "Yangi vazifa ko‘lami, haq va muddatini alohida kelishish"
+      ],
+      "answer": 3,
+      "explanation": "Scope creep qo‘shimcha kelishuv bilan boshqariladi.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-020",
+      "chapter": 7,
+      "within": 20,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Freelancer loyihani tugatdi, ammo foydalanish huquqlari ko‘rsatilmagan. Nega bu muhim?",
+      "options": [
+        "Grafik format mualliflikni o‘chiradi",
+        "To‘lov bo‘lsa barcha huquq doim avtomatik o‘tadi",
+        "Mualliflik va topshirilayotgan litsenziya chegaralari aniqlanishi zarur",
+        "Faylni yuborish barcha masalani hal qiladi"
+      ],
+      "answer": 2,
+      "explanation": "Intellektual mulk shartlari aniq kelishilishi kerak.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-021",
+      "chapter": 7,
+      "within": 21,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Mijoz topshiriqni platformadan tashqari noma’lum messenjerga ko‘chirishni talab qildi. Ehtiyotkor xulosa?",
+      "options": [
+        "Buyurtma avtomatik yakunlandi",
+        "Har bir tashqi xabar rasmiy",
+        "Platforma qoidalari va himoya mexanizmlari yo‘qolishi mumkin, shartlarni tekshirish lozim",
+        "Tashqi aloqa har doim xavfsizroq"
+      ],
+      "answer": 2,
+      "explanation": "Platforma ichidagi nizo/to‘lov himoyalari tashqarida ishlamasligi mumkin.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-022",
+      "chapter": 7,
+      "within": 22,
+      "level": "D",
+      "kind": "Y1",
+      "question": "50 dollarli ishda mijoz 20 foiz oldindan, 80 foiz qabulda berishga kelishdi. Qabuldagi to‘lov?",
+      "options": [
+        "10 dollar",
+        "45 dollar",
+        "40 dollar",
+        "30 dollar"
+      ],
+      "answer": 2,
+      "explanation": "50 × 80/100 = 40 dollar.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-023",
+      "chapter": 7,
+      "within": 23,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Freelancer 3 ta vazifa oldi: 2 soat, 5 soat va 3 soat. Soatiga 12 dollardan jami haq?",
+      "options": [
+        "120 dollar",
+        "60 dollar",
+        "144 dollar",
+        "100 dollar"
+      ],
+      "answer": 0,
+      "explanation": "Jami 10 soat × 12 = 120 dollar; bu tarif faqat masala sharti.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-024",
+      "chapter": 7,
+      "within": 24,
+      "level": "D",
+      "kind": "Y1",
+      "question": "Ikki loyiha bor: A -- 300 dollar, 25 soat; B -- 240 dollar, 12 soat. Qaysi birida soatbay haq yuqori?",
+      "options": [
+        "A, 25 dollar/soat",
+        "A, 20 dollar/soat",
+        "B, 20 dollar/soat",
+        "Ikkalasi, 12 dollar/soat"
+      ],
+      "answer": 2,
+      "explanation": "A=12 dollar/soat, B=20 dollar/soat; boshqa xarajatlar hisobga olinmagan.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-025",
+      "chapter": 7,
+      "within": 25,
+      "level": "E",
+      "kind": "Y2",
+      "question": "Moslang: 1) portfolio; 2) brief; 3) milestone; 4) deadline. a) ish namunalari; b) talablar; c) nazorat bosqichi; d) oxirgi muddat.",
+      "options": [
+        "1-b, 2-a, 3-c, 4-d",
+        "1-d, 2-c, 3-b, 4-a",
+        "1-a, 2-d, 3-b, 4-c",
+        "1-a, 2-b, 3-c, 4-d"
+      ],
+      "answer": 3,
+      "explanation": "Buyurtma jarayonidagi hujjat va atamalar vazifasiga ko‘ra farqlanadi.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-026",
+      "chapter": 7,
+      "within": 26,
+      "level": "E",
+      "kind": "Y3",
+      "question": "Buyurtma bilan ishlashning mantiqiy bosqichlarini toping: 1) tayyor ishni topshirish; 2) texnik topshiriqni aniqlashtirish; 3) taklif va shartni kelishish; 4) ishni bosqichma-bosqich bajarish.",
+      "options": [
+        "3, 1, 2, 4",
+        "2, 3, 4, 1",
+        "1, 4, 3, 2",
+        "4, 2, 1, 3"
+      ],
+      "answer": 1,
+      "explanation": "Talab -> kelishuv -> ijro -> topshirish jarayonni izchil qiladi.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-027",
+      "chapter": 7,
+      "within": 27,
+      "level": "E",
+      "kind": "Y1",
+      "question": "Mijoz manzili haqiqiy ko‘rinadi, lekin bajarish uchun noma’lum .exe faylni ishga tushirishni talab qiladi. Qanday yondashuv?",
+      "options": [
+        "Faylni ochmasdan xavf va zaruratni tekshirish, ishonchli muqobil so‘rash",
+        "Faylni boshqalarga jo‘natish",
+        "Buyurtma borligi uchun har qanday faylni ochish",
+        "Antivirusi o‘chirib faylni ishlatish"
+      ],
+      "answer": 0,
+      "explanation": "Freelancer ham malware va ijtimoiy muhandislik xavflariga duch kelishi mumkin.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-028",
+      "chapter": 7,
+      "within": 28,
+      "level": "E",
+      "kind": "Y1",
+      "question": "Ish topshirildi, mijoz shartdan tashqari cheksiz tahrir so‘raydi. Eng asosli yechim?",
+      "options": [
+        "Barcha yangi talab avtomatik tekin",
+        "Ishni izohsiz o‘chirib yuborish",
+        "Maxfiy mijoz ma’lumotini e’lon qilish",
+        "Kelishuvdagi revision chegarasini ko‘rib chiqib qo‘shimcha ishni kelishish"
+      ],
+      "answer": 3,
+      "explanation": "Tahrir chegarasi shartnomada belgilansa nizo kamayadi.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-029",
+      "chapter": 7,
+      "within": 29,
+      "level": "E",
+      "kind": "Y1",
+      "question": "Portfolio jozibali, ammo undagi ishlar muallifi boshqa kishi. Qanday kamchilik mavjud?",
+      "options": [
+        "Barcha freelancerlar uchun ruxsat etilgan",
+        "Haqiqiy ish dalili va mualliflikka nisbatan noto‘g‘ri taqdimot",
+        "Fayl formatini o‘zgartirish muallifni almashtiradi",
+        "Bu marketingning majburiy usuli"
+      ],
+      "answer": 1,
+      "explanation": "Portfolio o‘z kompetensiyasini halol ko‘rsatishi zarur.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    },
+    {
+      "id": "AXR-07-030",
+      "chapter": 7,
+      "within": 30,
+      "level": "E",
+      "kind": "Y1",
+      "question": "Freelancer mijozning shaxsiy ma’lumotlarini loyiha tugagach ham o‘z kompyuterida himoyasiz saqlab qolgan. Nima qilish kerak?",
+      "options": [
+        "Ma’lumotni sotish",
+        "Parollarni umumiy chatga yuborish",
+        "Kelishuv va qonuniy talabga muvofiq xavfsiz saqlash yoki o‘chirish tartibini bajarish",
+        "Barcha fayllarni ommaga e’lon qilish"
+      ],
+      "answer": 2,
+      "explanation": "Maxfiylik va ma’lumot minimallashtirish loyiha davomida ham keyin ham muhim.",
+      "source": "M8, PDF 94--112; M11, PDF 306--310; S26, PDF 6"
+    }
+  ]
+}
