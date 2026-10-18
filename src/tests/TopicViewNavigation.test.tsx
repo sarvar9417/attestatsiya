@@ -53,6 +53,10 @@ describe('M11 legacy theory navigation regression', () => {
     expect(within(navigation).getByRole('button', { name: /Keyingi sahifa/ })).toBeDisabled()
     expect(screen.getByText(/Nazariyaning barcha 2 sahifasi ko‘rsatildi/)).toBeInTheDocument()
 
+    await user.click(screen.getByRole('button', { name: /Oldingi mavzu/ }))
+    expect(onOpenTopic).toHaveBeenCalledWith('M11.01')
+    onOpenTopic.mockClear()
+
     await user.click(screen.getByRole('button', { name: /Keyingi mavzu: HTML jadval va forma/ }))
     expect(onOpenTopic).toHaveBeenCalledWith('M11.03')
     expect(onComplete).not.toHaveBeenCalled()
