@@ -1,7 +1,29 @@
 -- TASK-203 smoke invariants. Run after draft migration on a disposable DB.
 do $qa$
-declare n int;
+declare n int; v_existing int;
 begin
+ -- On a production DB with the already published SL2 bank, verify consistency
+ -- and do not require a duplicate draft copy. On a clean DB, exercise drafts.
+ select count(*) into v_existing from public.questions
+ where source_reference like 'Scratch-LOGO-2026-v2:SL2-%'
+   and status='published'::public.content_status;
+ if v_existing > 0 then
+   if v_existing<>180 then raise exception 'partial published SL2 bank (%)',v_existing; end if;
+   select count(*) into n from public.questions q
+     join public.question_keys k on k.question_id=q.id
+     join public.question_options o on o.id=(k.payload->>'correct_option_id')::uuid
+     where q.source_reference like 'Scratch-LOGO-2026-v2:SL2-%' and q.status='published';
+   if n<>180 then raise exception 'invalid published SL2 keys (%)',n; end if;
+   select count(*) into n from public.lessons
+   where module_id=(select id from public.modules where code='M07')
+     and order_idx between 1 and 6 and status='published'
+     and length(coalesce(body_mdx,''))>1000;
+   if n<>6 then raise exception 'missing published theory chapters (%)',n; end if;
+   select count(*) into n from public.questions
+     where source_reference like 'scratch-logo-v2:SL2-%';
+   if n<>0 then raise exception 'duplicate review bank created in published DB (%)',n; end if;
+   return;
+ end if;
  select count(*) into n from public.lessons where slug like 'scratch-logo-v2-%' and status='draft';
  if n <> 6 then raise exception 'TASK-203 expected 6 draft lessons, got %',n; end if;
  select count(*) into n from public.questions where source_reference like 'scratch-logo-v2:SL2-%' and status='draft';
