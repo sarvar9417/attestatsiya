@@ -93,7 +93,7 @@ function MainLayout() {
         )}
         <main
           id="main-content"
-          className={`flex-1 flex flex-col ${immersiveExamRoute ? 'overflow-hidden' : 'overflow-y-auto mobile-safe-bottom scrollable'}`}
+          className={`min-h-0 flex-1 flex flex-col ${immersiveExamRoute ? 'overflow-hidden' : 'overflow-y-auto mobile-safe-bottom scrollable'}`}
         >
           {!immersiveExamRoute && (
           <div className="sticky top-0 z-20 flex items-center justify-between px-3 py-2 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-gray-100 dark:border-gray-800 lg:hidden min-h-[48px]">
@@ -105,7 +105,7 @@ function MainLayout() {
           </div>
           )}
           <Suspense fallback={<SimpleLoadingSkeleton />}>
-            <div className="animate-page-enter">
+            <div className={immersiveExamRoute ? 'animate-page-enter h-full min-h-0' : 'animate-page-enter'}>
               <Routes>
                 <Route path="/" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
                 <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
