@@ -1413,7 +1413,7 @@
     "id": "TAR-NET26-Y2-08-03",
     "ch": 8,
     "fmt": "Y2",
-    "stem": "Tarmoq xizmatini vazifasiga juftlang.",
+    "stem": "DHCP, DNS va NAT xizmatlarini ularga xos vazifalar bilan juftlang.",
     "a": [
       "DHCP",
       "DNS",
