@@ -1085,6 +1085,20 @@ function TheoryBlock({ block }: { block: TheoryBlock }) {
   const Icon = cfg.icon
 
   switch (block.type) {
+    case 'diagram': {
+      const diagramSrc = /^\/algoritmlash-v(?:2|3)\/[a-z0-9_-]+\.svg$/i.test(block.diagram ?? '')
+        ? block.diagram
+        : null
+      return diagramSrc ? (
+        <figure className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-3 sm:p-5">
+          <img src={diagramSrc} alt={block.content} loading="lazy"
+            className="mx-auto h-auto max-h-[70vh] w-full object-contain" />
+          <figcaption className="mt-3 text-center text-sm text-gray-600 dark:text-gray-400">
+            {block.content}
+          </figcaption>
+        </figure>
+      ) : <p className="text-sm text-gray-500">{block.content}</p>
+    }
     case 'definition':
       return (
         <div className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${cfg.gradient} border-l-4 ${cfg.border} border border-gray-100 dark:border-gray-800 shadow-sm group hover:shadow-md transition-all duration-300`}>
