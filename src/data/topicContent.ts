@@ -1,4 +1,5 @@
 import { M01_CONTENT } from './topics/m01'
+import { M05_THEORY } from './topics/m05'
 // M14–M16 use server-scored exams exclusively. Legacy mini-quiz answer keys
 // have intentionally been stripped from the shipped JavaScript bundle.
 
@@ -1335,6 +1336,26 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'example', content: 'Vaziyat: darsda ikkita o\'quvchi kompyuterda o\'zaro urishib qoladi.\nNoto\'g\'ri: ikkalasini ham darsdan haydash.\nTo\'g\'ri: vaziyatni tahlil qilish, sababini aniqlash, alohida suhbatlashish, kelishuvga erishish.' },
     { type: 'note', content: '🔍 Pedagogik qaror qabul qilishda o\'qituvchi: vaziyatni tahlil qiladi, variantlarni ko\'rib chiqadi, eng maqbulini tanlaydi va natijani baholaydi.' },
   ], []),
+}
+
+/**
+ * M05 — 11-bobli “Sanoq sistemalari” nazariyasi.
+ *
+ * Eski savollarni saqlaymiz: faqat qisqa nazariya o'rniga kitobning barcha
+ * 11 bobi joylanadi. Server mavjud 180 ta yangi + eski savollarni beradi,
+ * statik savollar esa tarmoq uzilgandagi fallback bo'lib qoladi.
+ *
+ * M05.01 = 1–2-bob, M05.02 = 3–5-bob, M05.03 = 6–11-bob.
+ */
+for (const [id, theory] of Object.entries(M05_THEORY)) {
+  const existing = TOPIC_CONTENT[id]
+  if (!existing) continue
+  TOPIC_CONTENT[id] = {
+    ...existing,
+    theory,
+    source: 'src/content/sanoq/Sanoq_sistemalari_nazariya.tex',
+    kind: 'chapter',
+  }
 }
 
 export function getTopicContent(subtopicId: string): TopicContent | undefined {
