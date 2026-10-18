@@ -49,7 +49,7 @@ describe('TASK-210 custom exam configuration', () => {
       { ...valid.topics[0], construct_id: '10000000-0000-0000-0000-000000000015' },
       valid.topics[1],
     ] }
-    expect(buildCustomExamPlan(filtered).config.topics[0]?.construct_id).toBe(filtered.topics[0].construct_id)
+    expect(buildCustomExamPlan(filtered).config.topics[0]?.construct_id).toBe('10000000-0000-0000-0000-000000000015')
     expect(customExamConfigSchema.safeParse({ ...valid, topics: [
       { ...valid.topics[0], construct_id: 'invalid' }, valid.topics[1],
     ] }).success).toBe(false)
