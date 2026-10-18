@@ -1,6 +1,7 @@
 -- TASK-202: further KS/PM.GEN answer-length repair suggestions; not published.
 begin;
-insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distractors) values
+insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distractors)
+select source_question_id::uuid, proposed_distractors from (values
 ('d1b8b7c1-4e76-429c-b4e9-cd509d038259',array[
 'Pedagogning o‘z xotirasidagi umumiy taassurotlariga',
 'Faqat boshqa o‘qituvchilar bilan mavzu suhbatlariga',
@@ -41,5 +42,8 @@ insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distra
 'Ha, ish taqsimlansa, vazifalar o‘zaro bog‘liq bo‘lishi shart emas',
 'Ha, har bir o‘quvchi alohida ishlagan bo‘lsa, umumiy natija muhim emas',
 'To‘liq, chunki guruh bir joyda o‘tirishi hamkorlikning yetarli belgisidir'])
+) as proposed(source_question_id, proposed_distractors)
+where exists(select 1 from public.questions q where q.id=proposed.source_question_id::uuid
+  and q.status='published'::public.content_status and q.format='Y1'::public.question_format)
 on conflict(source_question_id) do nothing;
 commit;
