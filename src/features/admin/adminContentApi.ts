@@ -56,6 +56,8 @@ export interface AdminQuestionRow {
   subject_id: string | null
   created_at: string
   source_reference: string | null
+  length_bias_flag?: boolean
+  revision_question_id?: string | null
 }
 
 export interface AdminConstructRow {
@@ -141,6 +143,12 @@ export function transitionAdminQuestionStatus(
   return api.patch<{ id: string; status: AdminContentStatus }>(
     `/api/admin/questions/${encodeURIComponent(questionId)}/status`,
     { status }
+  )
+}
+
+export function stageAdminPedagogyRevision(questionId: string): Promise<{ id: string; status: 'review' }> {
+  return api.post<{ id: string; status: 'review' }>(
+    `/api/admin/questions/${encodeURIComponent(questionId)}/stage-revision`, {}
   )
 }
 
