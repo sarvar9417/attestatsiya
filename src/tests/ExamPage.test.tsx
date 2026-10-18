@@ -88,8 +88,8 @@ function successfulGateway(): ExamGateway {
       kind: 'takrorlash',
     }),
     previewTopicTest: vi.fn().mockResolvedValue({
-      questionCount: 20,
-      durationSec: 2400,
+      questionCount: 20, durationSec: 2400,
+      ready: true, available: 22, reason: 'ready', criticalObjectiveGaps: [],
     }),
     submitAnswer: vi.fn().mockResolvedValue({ saved: true }),
     finishExam: vi.fn().mockResolvedValue({
@@ -209,6 +209,30 @@ describe('secure ExamRunner', () => {
     expect(screen.getByText('Natijalar')).toBeDefined()
     expect(screen.getByText('6 / 6')).toBeDefined()
     expect(gateway.finishExam).toHaveBeenCalledWith(ids.exam)
+  })
+
+
+  it('tayyor bo‘lmagan pedagogika mavzu testini bosishni bloklaydi', async () => {
+    const gateway = successfulGateway()
+    vi.mocked(gateway.previewTopicTest!).mockResolvedValue({
+      questionCount: 20, durationSec: 2400, ready: false,
+      available: 8, reason: 'pool_insufficient', criticalObjectiveGaps: [],
+    })
+    renderExam(gateway, '/exam/mavzu/M15?lessonId=M15.01')
+    expect(await screen.findByText(/8\/20 ta mos savol/)).toBeDefined()
+    const button = screen.getByRole('button', { name: 'Sinovni boshlash' }) as HTMLButtonElement
+    expect(button.disabled).toBe(true)
+    expect(gateway.startTopicExam).not.toHaveBeenCalled()
+  })
+
+  it('mavzu testi preflight xatosida startni fail-closed bloklaydi', async () => {
+    const gateway = successfulGateway()
+    vi.mocked(gateway.previewTopicTest!).mockRejectedValue(new Error('network'))
+    renderExam(gateway, '/exam/mavzu/M15?lessonId=M15.01')
+    expect(await screen.findByText(/tayyorligini hozir tekshirib bo‘lmadi/)).toBeDefined()
+    const button = screen.getByRole('button', { name: 'Sinovni boshlash' }) as HTMLButtonElement
+    expect(button.disabled).toBe(true)
+    expect(gateway.startTopicExam).not.toHaveBeenCalled()
   })
 
   it('savollar zaxirasi yetarli bo‘lmasa xavfsiz qayta urinish holatini beradi', async () => {
