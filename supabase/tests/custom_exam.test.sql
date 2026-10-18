@@ -57,13 +57,14 @@ begin
     insert into public.question_options(question_id,side,order_idx,content_md)
     select v_q.id, 'a', i, 'Javob '||i from generate_series(1,4) i;
     insert into public.question_keys(question_id,payload,explanation_md)
-    select v_q.id,
+    values (
+      v_q.id,
       jsonb_build_object('correct_option_id',(
         select id::text from public.question_options
         where question_id=v_q.id order by order_idx limit 1
       )),
       'TASK210 tekshirilgan izoh'
-    from public.question_options o where o.question_id=v_q.id;
+    );
   end loop;
 end
 $setup$;
