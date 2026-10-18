@@ -40,11 +40,6 @@ const NAV_ITEMS: NavItem[] = [
     label: 'Mock test',
   },
   {
-    to: '/practice/axb',
-    icon: <BookOpen size={18} aria-hidden="true" />,
-    label: 'Axborot testlari · 19 bob',
-  },
-  {
     to: '/professional-practice',
     icon: <ClipboardCheck size={18} aria-hidden="true" />,
     label: 'Pedagogik praktika · 15',
