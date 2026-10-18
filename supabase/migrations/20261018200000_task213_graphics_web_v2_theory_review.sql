@@ -1041,4 +1041,14 @@ DO $$ BEGIN
   RAISE EXCEPTION 'TASK-213 theory staging incomplete or status mismatch';
  END IF;
 END $$;
+-- M10/M11 review lessons map to the canonical six construct codes.
+INSERT INTO public.lesson_constructs (lesson_id,construct_id,is_required,is_critical,min_questions)
+VALUES
+('e2150000-0000-4000-8000-000000000001'::uuid, (select id from public.constructs where code='S5.WEB.01'),true,false,1),
+('e2150000-0000-4000-8000-000000000002'::uuid, (select id from public.constructs where code='S5.WEB.02'),true,false,1),
+('e2150000-0000-4000-8000-000000000003'::uuid, (select id from public.constructs where code='S5.WEB.03'),true,false,1),
+('e2150000-0000-4000-8000-000000000004'::uuid, (select id from public.constructs where code='S5.WEB.04'),true,false,1),
+('e2150000-0000-4000-8000-000000000005'::uuid, (select id from public.constructs where code='S5.WEB.05'),true,false,1),
+('e2150000-0000-4000-8000-000000000006'::uuid, (select id from public.constructs where code='S5.WEB.06'),true,false,1)
+ON CONFLICT(lesson_id,construct_id) DO NOTHING;
 COMMIT;
