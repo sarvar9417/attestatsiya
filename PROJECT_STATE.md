@@ -1,3 +1,12 @@
+## Pedagogika consolidated release audit — 2026-10-18, before final merge
+
+- User authorization: complete single consolidated merge and production deployment; **freeze all future merges and deploys afterward until another explicit request**.
+- Green consolidated CI on `9361a4770b90ed449f3ded3a0c5ce45124fad4a6` (run `39098671181`): database, backend, quality/Playwright.
+- Production DB preparation: M15 lessons and 94 new M15 topic-bank questions staged `review`; total KS/PM published 175 (unchanged), review 249; original 175 source snapshots and keys locked. Two conflicting 2026 PDF answer keys remain source `rejected/conflict`, revised original items `review` only.
+- 118 published Y1 length-hint risks have separate private rewrite proposals and revision queue entries; all 118 pass the mechanical size/uniqueness QA, but **none were automatically published or falsely human-approved**.
+- The private PDF source queue preserves provenance; 649 historical candidates require source-aware independent semantic checking. Work remaining for future editorial approval must never be conflated with this guarded technical release.
+- Final PR: `#121`; final Vercel SHA/READY must be verified, not inferred from GitHub merge. Refrain from any subsequent automatic GitHub or Vercel release.
+
 ## One-release-only pedagogika completion gate — TASK-202 (2026-10-18)
 
 - **Release instruction:** exactly one final merge + one production deploy after work is complete; **no subsequent merge or deploy without a fresh explicit user request**.
