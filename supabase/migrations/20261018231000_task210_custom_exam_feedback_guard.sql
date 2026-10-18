@@ -1,17 +1,13 @@
--- TASK-210: Keep custom exam answer keys hidden until finish.
--- Preserve row locking, idempotency, owner/membership and timer checks from
--- 20260730000010_rpc_security_hardening.sql. No other exam type behavior changes.
+-- TASK-210: Preserve both AXB chapter and custom exam feedback guards.
+-- Based on current AXB hardened submit_answer; first submission and idempotent retry
+-- disclose no answer correctness until the exam is finished.
 begin;
-create or replace function public.submit_answer(
-  p_exam_id     uuid,
-  p_question_id uuid,
-  p_answer      jsonb,
-  p_time_spent  int default null
-) returns jsonb
-language plpgsql
-security definer
-set search_path = ''
-as $$
+CREATE OR REPLACE FUNCTION public.submit_answer(p_exam_id uuid, p_question_id uuid, p_answer jsonb, p_time_spent integer DEFAULT NULL::integer)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO ''
+AS $function$
 declare
   v_user    uuid := auth.uid();
   v_exam    public.exams%rowtype;
@@ -56,7 +52,7 @@ begin
   end if;
 
   if v_item.answered_at is not null then
-    if v_exam.kind in ('mock', 'bolim', 'custom') then
+    if v_exam.kind in ('mock', 'bolim', 'axb_bob', 'custom') then
       return jsonb_build_object(
         'saved', true,
         'already_answered', true
@@ -120,11 +116,11 @@ begin
    where id = v_item.id
      and answered_at is null;
 
-  if v_exam.kind in ('mavzu', 'bolim', 'mock', 'takrorlash', 'zaif', 'diagnostika') then
+  if v_exam.kind in ('mavzu', 'bolim', 'mock', 'takrorlash', 'zaif', 'diagnostika', 'axb_bob') then
     perform public.apply_sm2(v_user, v_item.construct_id, v_correct);
   end if;
 
-  if v_exam.kind in ('mock', 'bolim', 'custom') then
+  if v_exam.kind in ('mock', 'bolim', 'axb_bob', 'custom') then
     return jsonb_build_object('saved', true);
   end if;
 
@@ -134,8 +130,7 @@ begin
     'explanation_md', v_key.explanation_md
   );
 end
-$$;
-
-revoke all on function public.submit_answer(uuid, uuid, jsonb, int) from public, anon;
-grant execute on function public.submit_answer(uuid, uuid, jsonb, int) to authenticated;
+$function$;
+revoke all on function public.submit_answer(uuid,uuid,jsonb,integer) from public,anon;
+grant execute on function public.submit_answer(uuid,uuid,jsonb,integer) to authenticated;
 commit;
