@@ -181,4 +181,34 @@ describe('adminContentService publish workflow', () => {
       adminContentService.transitionQuestion(QUESTION_ID, 'published', 'token'),
     ).resolves.toEqual({ id: QUESTION_ID, status: 'published' })
   })
+  it('generic CMS must not create Y2/Y3 without a structured key',async()=>{
+    mockFrom.mockReturnValueOnce(staffProfile('admin'))
+    await expect(adminContentService.createQuestion({
+      stem_md:'Moslashtiring',format:'Y2',cognitive:'qollash',
+      difficulty:2,construct_id:CONSTRUCT_ID,explanation_md:'',
+    },'token')).rejects.toMatchObject({
+      code:'MULTIFORMAT_PIPELINE_REQUIRED',statusCode:400,
+    })
+    expect(mockFrom).toHaveBeenCalledTimes(1)
+  })
+
+  it('metadata edit of a review Y2 preserves the matching key and options',async()=>{
+    const updateChain={
+      update:vi.fn().mockReturnThis(),
+      eq:vi.fn().mockResolvedValue({error:null}),
+    }
+    mockFrom
+      .mockReturnValueOnce(staffProfile('admin'))
+      .mockReturnValueOnce(singleRow({id:QUESTION_ID,status:'review',format:'Y2'}))
+      .mockReturnValueOnce(singleRow({id:CONSTRUCT_ID,subject_id:OTHER_ID,group_code:'PM.GEN'}))
+      .mockReturnValueOnce(updateChain)
+      .mockReturnValueOnce({insert:vi.fn().mockResolvedValue({error:null})})
+    await expect(adminContentService.updateQuestion(QUESTION_ID,{
+      stem_md:'Y2 mazmuni izohli',format:'Y2',cognitive:'qollash',
+      difficulty:2,construct_id:CONSTRUCT_ID,explanation_md:'',
+    },'token')).resolves.toEqual({id:QUESTION_ID})
+    expect(mockFrom.mock.calls.map(c=>c[0])).not.toContain('question_keys')
+    expect(mockFrom.mock.calls.map(c=>c[0])).not.toContain('question_options')
+  })
+
 })
