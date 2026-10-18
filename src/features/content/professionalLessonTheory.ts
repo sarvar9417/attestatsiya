@@ -142,6 +142,9 @@ export function resolveLearnerTheoryContent(
   staticContent: TopicContent,
   publishedContent?: TopicContent | null,
 ): TopicContent {
-  if (subtopicId.startsWith('M15.')) return staticContent
+  // The M02 static theory merges all nine textbook-based topic collections.
+  // Backend's four short canonical lesson summaries must not replace this
+  // deeper, structured learning material when API data loads asynchronously.
+  if (subtopicId.startsWith('M02.') || subtopicId.startsWith('M15.')) return staticContent
   return publishedContent ?? staticContent
 }
