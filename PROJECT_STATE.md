@@ -1,3 +1,12 @@
+## TASK-210 — Universal shaxsiy test konstruktori (2026-10-18)
+
+- **Egasi:** ChatGPT development session; **Status:** IN_PROGRESS (branch, production emas).
+- **Branch:** `task/TASK-210-custom-test-builder`, `main` asosida.
+- **Bajarilgan:** arxitektura/RFC `docs/TASK210_UNIVERSAL_CUSTOM_TEST_BUILDER.md`; `backend/src/schemas/custom-exam.ts` — qat'iy Zod konfiguratsiya/kvotalar; `backend/src/services/custom-exam-planner.ts` — aniq slot va deterministic largest-remainder; `backend/src/services/__tests__/custom-exam-planner.test.ts` — validatsiya/chegara regressiyalar.
+- **Joriy gate:** GitHub CI tekshirilishi kerak; local Node 24 / Supabase stack mavjud bo‘lmagani sabab unit/typecheck/lint hali tasdiqlanmagan. **Bu hali ishchi learner feature emas.**
+- **Qolgan:** DB migration + RLS + atomic generator + exact preflight; HTTP API; frontend `/custom-test`, navigation, history, presets, 50/120 regressiya va live E2E.
+- **Release restriction:** main, production yoki production DBga yozuv yo‘q; alohida tasdiqsiz merge/deploy qilmang.
+
 ## TASK-203 — Pedagogika 249 owner-approved production bank Git parity (2026-10-18)
 
 - **Production audit:** KS/PM.GEN/PM.MET 424 published, 0 review. Of these 249 were approved as a **project-owner batch**, and 82 had wrong-option text AI-redrafted after initial approval for balanced length; never describe them as independent expert-signed certifications.
