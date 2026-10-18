@@ -59,3 +59,41 @@ export async function previewCustomTest(config: CustomExamConfig): Promise<Custo
     await api.post<unknown>('/api/custom-tests/preflight', customExamConfigSchema.parse(config))
   )
 }
+
+export const customPresetSchema = z.object({
+  id: z.string().uuid(),
+  name: z.string().min(2).max(60),
+  config: customExamConfigSchema,
+  created_at: z.string(),
+  updated_at: z.string(),
+})
+export type CustomPreset = z.infer<typeof customPresetSchema>
+
+export async function listCustomTestPresets(): Promise<CustomPreset[]> {
+  return z.array(customPresetSchema).parse(
+    await api.get<unknown>('/api/custom-tests/presets')
+  )
+}
+
+export async function saveCustomTestPreset(name: string, config: CustomExamConfig): Promise<CustomPreset> {
+  return customPresetSchema.parse(
+    await api.post<unknown>('/api/custom-tests/presets', {
+      name, config: customExamConfigSchema.parse(config),
+    })
+  )
+}
+
+export async function updateCustomTestPreset(
+  id: string,
+  patch: { name?: string; config?: CustomExamConfig }
+): Promise<CustomPreset> {
+  return customPresetSchema.parse(
+    await api.patch<unknown>(`/api/custom-tests/presets/${id}`, patch)
+  )
+}
+
+export async function deleteCustomTestPreset(id: string): Promise<void> {
+  z.object({ deleted: z.literal(true) }).parse(
+    await api.delete<unknown>(`/api/custom-tests/presets/${id}`)
+  )
+}

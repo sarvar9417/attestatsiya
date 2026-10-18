@@ -8,6 +8,7 @@ import {
   type CustomExamConfig,
   type CustomExamPreview,
 } from '../features/custom-test/customTestApi'
+import SavedPresetsPanel from '../features/custom-test/SavedPresetsPanel'
 
 type Level = 1 | 2 | 3 | 4 | 5
 type QuantityMap = Partial<Record<Level, number>>
@@ -106,6 +107,28 @@ export default function CustomTestPage() {
     [catalog]
   )
   const changeSetting = () => { setPreview(null); setError(null) }
+
+  const loadPreset = (next: CustomExamConfig) => {
+    const nextSelection: Selection = {}
+    for (const topic of next.topics) {
+      const levels: QuantityMap = {}
+      for (const level of topic.difficulty_counts) {
+        levels[level.difficulty as Level] = level.count
+      }
+      nextSelection[topic.lesson_id] = levels
+    }
+    setSelected(nextSelection)
+    setFormats([...next.formats])
+    setExposure(next.exposure)
+    setMode(next.mode)
+    setDuration(next.duration_sec)
+    setPreview(null)
+    setError(null)
+    const parents = catalog
+      .filter(module => module.lessons.some(lesson => Boolean(nextSelection[lesson.id])))
+      .map(module => module.id)
+    setOpenModules(previous => [...new Set([...previous, ...parents])])
+  }
 
   const checkPool = async () => {
     if (invalid) return
@@ -211,6 +234,7 @@ export default function CustomTestPage() {
         </section>
 
         <aside className="space-y-4 lg:sticky lg:top-6">
+          <SavedPresetsPanel config={config} invalid={invalid} onLoad={loadPreset}/>
           <section className="space-y-4 rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-900">
             <h2 className="text-lg font-bold text-gray-900 dark:text-white">2. Test sozlamalari</h2>
             <fieldset className="space-y-2">
