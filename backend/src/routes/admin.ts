@@ -19,6 +19,7 @@ import {
   transitionAdminQuestionSchema,
   savePedguliEditorialReviewSchema,
   pedagogyPdfSourceListQuerySchema,
+  stagePedagogyPdfQuestionSchema,
 } from '../schemas/admin-content.js'
 
 function getToken(req: { headers: { authorization?: string } }): string | null {
@@ -121,6 +122,20 @@ export async function adminRoutes(app: FastifyInstance) {
     reply.header('Cache-Control','private, no-store')
     try { return reply.send(await pedagogyPdfService.list(token,filters)) }
     catch (error) { return sendError(reply,error) }
+  })
+
+  /** Verified private PDF source -> human-authored REVIEW, never publish. */
+  app.post('/api/admin/pedagogy-pdf-candidates/:id/stage-question', async (req, reply) => {
+    const token=getToken(req)
+    if (!token) throw new AppError('Token kerak',401,'TOKEN_REQUIRED')
+    const {id} = req.params as {id:string}
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) {
+      throw new AppError('Manba ID formati noto‘g‘ri',400,'INVALID_CANDIDATE_ID')
+    }
+    const input=stagePedagogyPdfQuestionSchema.parse(req.body)
+    reply.header('Cache-Control','private, no-store')
+    try { return reply.status(201).send(await pedagogyPdfService.stageQuestion(token,id,input)) }
+    catch(error){ return sendError(reply,error) }
   })
 
   app.get('/api/admin/questions', async (req, reply) => {
