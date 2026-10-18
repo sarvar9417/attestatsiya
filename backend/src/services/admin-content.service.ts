@@ -559,6 +559,9 @@ export const adminContentService = {
 
   async createQuestion(input: SaveAdminQuestionInput, userToken: string) {
     const staff = await requireStaff(userToken)
+    if (input.format !== 'Y1') {
+      throw new AppError('Y2/Y3 savollar faqat moslashtirish/ketma-ketlik kontent konveyeri orqali yaratiladi', 400, 'MULTIFORMAT_PIPELINE_REQUIRED')
+    }
     const construct = await resolveConstruct(input.construct_id)
 
     const { data: question, error } = await supabase
@@ -595,7 +598,7 @@ export const adminContentService = {
 
     const { data: existing, error: existingError } = await supabase
       .from('questions')
-      .select('id, status')
+      .select('id, status, format')
       .eq('id', questionId)
       .maybeSingle()
     if (existingError) throw new AppError('Savolni tekshirishda xatolik', 500, 'ADMIN_QUERY_ERROR')
@@ -606,6 +609,19 @@ export const adminContentService = {
         409,
         'PUBLISHED_IMMUTABLE'
       )
+    }
+
+    if (existing.format !== input.format) {
+      throw new AppError('Savol formatini o‘zgartirish uchun yangi tahrir yarating', 400, 'QUESTION_FORMAT_IMMUTABLE')
+    }
+    if (existing.status === 'archived') {
+      const { data: protectedRevision, error: lockError } = await supabase
+        .from('pedagogy_published_revisions')
+        .select('question_id').eq('question_id', questionId).maybeSingle()
+      if (lockError) throw new AppError('Savol himoyasini tekshirib bo‘lmadi', 500, 'ADMIN_QUERY_ERROR')
+      if (protectedRevision) throw new AppError(
+        'Arxivlangan nashrni tahrirlab bo‘lmaydi; yangi review nusxa yarating',
+        409, 'PUBLISHED_IMMUTABLE')
     }
 
     const construct = await resolveConstruct(input.construct_id)
@@ -626,7 +642,11 @@ export const adminContentService = {
 
     if (error) throw new AppError('Savol yangilanmadi', 500, 'ADMIN_SAVE_ERROR')
 
-    await replaceQuestionOptionsAndKey(questionId, input)
+    // Y2 matching and Y3 ordering carry specialized server keys and option
+    // groups. A generic Y1 editor must never delete those payloads.
+    if (input.format === 'Y1') {
+      await replaceQuestionOptionsAndKey(questionId, input)
+    }
     await writeAudit(staff.id, 'question.update', 'questions', questionId, {
       status: existing.status,
       format: input.format,
