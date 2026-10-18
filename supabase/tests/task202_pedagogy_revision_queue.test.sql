@@ -46,6 +46,18 @@ begin
  exception when check_violation then v_bad:=true;
  end;
  if not v_bad then raise exception 'TASK202: published original changed';end if;
+ v_bad:=false;
+ begin
+   update public.question_options set question_id=v_new where id=v_old_key;
+ exception when check_violation then v_bad:=true;
+ end;
+ if not v_bad then raise exception 'TASK202: published option transplanted into review';end if;
+ v_bad:=false;
+ begin
+   update public.question_keys set question_id=v_new where question_id=v_old;
+ exception when check_violation then v_bad:=true;
+ end;
+ if not v_bad then raise exception 'TASK202: published answer key transplanted into review';end if;
  if not exists(select 1 from public.pedagogy_revision_queue
      where source_question_id=v_old and revision_question_id=v_new)
  then raise exception 'TASK202: queue link lost';end if;
