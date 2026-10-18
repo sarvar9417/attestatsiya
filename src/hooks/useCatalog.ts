@@ -49,6 +49,25 @@ export function useCatalog(): CatalogState {
         } catch {
           // Offline or incomplete rollout: retain the previously published M06.
         }
+        // TASK-212: Use the exact published seven-chapter M13 AXR edition,
+        // otherwise retain the previous M13 catalog. Never show review questions.
+        try {
+          const detail = await getModuleDetail('M13')
+          const chapters = detail.lessons.filter(
+            lesson => lesson.status === 'published' &&
+              /^m13-axr-0[1-7]$/.test(lesson.slug)
+          )
+          if (chapters.length === 7) {
+            const mod = base.find(module => module.code === 'M13')
+            if (mod) mod.subtopics = chapters
+              .sort((a, b) => a.order_idx - b.order_idx)
+              .map(lesson => ({
+                id: lesson.id, code: lesson.slug, title: lesson.title_uz,
+              }))
+          }
+        } catch {
+          // Legacy M13 stays available when API is offline or incomplete.
+        }
         if (!cancelled) setState({ modules: base, loading: false, online: true })
       })
       .catch(() => {
