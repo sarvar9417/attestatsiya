@@ -29,5 +29,17 @@ BEGIN
  IF (SELECT review_state FROM kt_bank_review.candidates WHERE external_id='KT-01-001') <> 'held' THEN
    RAISE EXCEPTION 'candidate was not held by default';
  END IF;
+ -- Even three booleans are not enough without exact source evidence.
+ BEGIN
+   UPDATE kt_bank_review.candidates
+   SET source_verified=true,expert_verified=true,editor_approved=true,
+       approved_at=now(),review_state='approved_for_import'
+   WHERE external_id='KT-01-001';
+   RAISE EXCEPTION 'citation-free item passed the triple approval gate';
+ EXCEPTION WHEN check_violation THEN NULL;
+ END;
+ IF (SELECT review_state FROM kt_bank_review.candidates WHERE external_id='KT-01-001') <> 'held' THEN
+   RAISE EXCEPTION 'failed approval must remain HOLD';
+ END IF;
 END $qa$;
 ROLLBACK;
