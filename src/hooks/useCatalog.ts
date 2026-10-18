@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { MODULES } from '../data/contentTree'
 import { getModuleDetail, listModules } from '../features/content/contentApi'
 import { mergeCatalog, type CatalogModule } from '../features/content/catalog'
+import { selectPublishedM09V2Lessons } from '../features/content/m09AccessEdition'
 
 export interface CatalogState {
   modules: CatalogModule[]
@@ -67,6 +68,17 @@ export function useCatalog(): CatalogState {
           }
         } catch {
           // Legacy M13 stays available when API is offline or incomplete.
+        }
+        // TASK-205: M09 V2 is an atomic six-chapter edition. No partial
+        // release, no review lessons in the learner catalog. Legacy M09 remains
+        // visible until all six chapters have been published by a reviewer.
+        try {
+          const detail = await getModuleDetail('M09')
+          const chapters = selectPublishedM09V2Lessons(detail.lessons)
+          const mod = base.find(module => module.code === 'M09')
+          if (mod && chapters) mod.subtopics = chapters
+        } catch {
+          // Keep the existing M09 catalog if the API is offline or unpublished.
         }
         if (!cancelled) setState({ modules: base, loading: false, online: true })
       })
