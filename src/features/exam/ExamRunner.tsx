@@ -697,6 +697,14 @@ export default function ExamRunner({
     // The server alone decides pass/fail; null means no official verdict.
     const passed = result.passed
 
+    const questionCounts = result.breakdown?.reduce(
+      (counts, group) => ({
+        correct: counts.correct + group.togri,
+        total: counts.total + group.jami,
+      }),
+      { correct: 0, total: 0 }
+    )
+
     return (
       <main className="h-full min-h-0 w-full overflow-y-auto overscroll-y-contain px-4 py-6 [-webkit-overflow-scrolling:touch] sm:px-6 lg:py-8" aria-label="Sinov natijalari">
         <div className="mx-auto max-w-5xl space-y-5">
@@ -740,6 +748,14 @@ export default function ExamRunner({
               }`}>
                 {result.total_score} / {result.max_score}
               </p>
+              <p className="mt-1 text-xs font-medium text-gray-500 dark:text-gray-400">
+                Ball: olingan / maksimal
+              </p>
+              {questionCounts && questionCounts.total > 0 && (
+                <p className="mt-1 text-sm font-semibold text-gray-700 dark:text-gray-200">
+                  {questionCounts.correct} / {questionCounts.total} ta savol to‘g‘ri
+                </p>
+              )}
               <p className="mt-1 text-sm font-semibold text-gray-700 dark:text-gray-200">
                 {percentage}% natija
               </p>
@@ -960,7 +976,7 @@ export default function ExamRunner({
               className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-5 text-sm font-semibold text-gray-600 transition hover:border-indigo-200 hover:text-indigo-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-indigo-800 dark:hover:text-indigo-300"
             >
               <ArrowLeft size={15} aria-hidden="true" />
-              {examKind === 'axb_bob' ? 'M01 qo‘shimcha mashqlariga qaytish' : 'Modulga qaytish'}
+              {examKind === 'axb_bob' ? 'M01 qo‘shimcha mashqlariga qaytish' : examKind === 'pedagogik_15' ? 'Pedagogik mashqlarga qaytish' : moduleId ? 'Modulga qaytish' : 'Oldingi sahifaga qaytish'}
             </Link>
           )}
         </div>
