@@ -240,12 +240,14 @@ export default function ExamResultPage() {
                   </div>
                   <span className={[
                     'inline-flex shrink-0 items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-semibold',
-                    item.is_correct
+                    item.is_correct === true
                       ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300'
-                      : 'bg-rose-50 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300',
+                      : item.is_correct === false
+                        ? 'bg-rose-50 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300'
+                        : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-200',
                   ].join(' ')}>
-                    {item.is_correct ? <Check size={13} /> : <X size={13} />}
-                    {item.is_correct ? 'To‘g‘ri' : 'Xato'}
+                    {item.is_correct === true ? <Check size={13} /> : item.is_correct === false ? <X size={13} /> : <Clock3 size={13} />}
+                    {item.is_correct === true ? 'To‘g‘ri' : item.is_correct === false ? 'Xato' : 'Javobsiz'}
                   </span>
                 </div>
                 {item.explanation_md && <div className="mt-4 rounded-xl bg-indigo-50/70 p-3 text-sm leading-6 text-indigo-900 dark:bg-indigo-950/30 dark:text-indigo-100"><strong>Izoh: </strong><span className="whitespace-pre-wrap">{item.explanation_md}</span></div>}

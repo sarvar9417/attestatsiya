@@ -150,7 +150,9 @@ export const examReviewItemSchema = z
     construct: z.string().optional(),
     construct_slug: z.string().optional(),
     user_answer: z.unknown(),
-    is_correct: z.boolean(),
+    // SQL exam_items.is_correct stays NULL when an item was never answered.
+    // Keep NULL distinct from false so skipped questions are not mislabelled wrong.
+    is_correct: z.boolean().nullable(),
     key: z.unknown(),
     explanation_md: z.string().nullable(),
   })

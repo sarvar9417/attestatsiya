@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   encodeAnswer,
+  examReviewResponseSchema,
   examSessionSchema,
   isAnswerComplete,
   protectedSubmitAnswerResponseSchema,
@@ -124,6 +125,46 @@ describe('exam RPC contracts', () => {
     expect(examSessionSchema.safeParse({
       ...response, items: [{ ...response.items[0], key: { correct_option_id: importedOptionB } }],
     }).success).toBe(false)
+  })
+
+
+  it('50 savolli tugagan testda 49 ta javobsiz (is_correct=null) uchun xavfsiz reviewni qabul qiladi', () => {
+    const oneQuestion = {
+      order_idx: 1,
+      stem_md: 'Savol matni',
+      format: 'Y1' as const,
+      construct: 'S1.INFO.01',
+      construct_slug: 's1-info-01',
+      user_answer: { option_id: leftId },
+      is_correct: true,
+      key: { correct_option_id: leftId },
+      explanation_md: 'Yechim',
+    }
+    const payload = [
+      oneQuestion,
+      ...Array.from({ length: 49 }, (_, index) => ({
+        ...oneQuestion,
+        order_idx: index + 2,
+        user_answer: null,
+        is_correct: null,
+      })),
+    ]
+    const result = examReviewResponseSchema.parse(payload)
+    expect(result).toHaveLength(50)
+    expect(result.filter(item => item.is_correct === null)).toHaveLength(49)
+    expect(result.filter(item => item.is_correct === true)).toHaveLength(1)
+    expect(result.filter(item => item.is_correct === false)).toHaveLength(0)
+
+    // A malformed server response must remain rejected; never coerce strings to booleans.
+    expect(examReviewResponseSchema.safeParse([
+      { ...oneQuestion, is_correct: 'false' },
+    ]).success).toBe(false)
+    expect(examReviewResponseSchema.safeParse([
+      { ...oneQuestion, is_correct: undefined },
+    ]).success).toBe(false)
+    expect(examReviewResponseSchema.safeParse([
+      { ...oneQuestion, extra_secret: true },
+    ]).success).toBe(false)
   })
 
   it('MD5-UUID Y2 va Y3 variantlarni ham qabul qiladi', () => {
