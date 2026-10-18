@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { MODULES } from '../data/contentTree'
 import { getModuleDetail, listModules } from '../features/content/contentApi'
-import { mergeCatalog, usePublishedNetworkV2Catalog, type CatalogModule } from '../features/content/catalog'
+import { mergeCatalog, selectPublishedNetworkV2Catalog, type CatalogModule } from '../features/content/catalog'
 
 export interface CatalogState {
   modules: CatalogModule[]
@@ -71,7 +71,7 @@ export function useCatalog(): CatalogState {
         let learnerModules = base
         try {
           // All ten V2 lessons must be published before showing any to students.
-          learnerModules = usePublishedNetworkV2Catalog(base, await getModuleDetail('M12'))
+          learnerModules = selectPublishedNetworkV2Catalog(base, await getModuleDetail('M12'))
         } catch {
           // Leave original module visible on offline or incomplete rollout.
         }
