@@ -41,6 +41,7 @@ import {
   type TopicTestPreview,
 } from './examGateway'
 import { backendGateway } from './backendGateway'
+import ExamResultActions from './ExamResultActions'
 import Y1Choice from './questions/Y1Choice'
 import Y2Match from './questions/Y2Match'
 import Y3Order from './questions/Y3Order'
@@ -618,7 +619,8 @@ export default function ExamRunner({
     const passed = result.passed ?? percentage >= 60
 
     return (
-      <main className="mx-auto w-full max-w-5xl space-y-5 px-4 py-6 sm:px-6 lg:py-8">
+      <main className="h-full min-h-0 w-full overflow-y-auto overscroll-y-contain px-4 py-6 [-webkit-overflow-scrolling:touch] sm:px-6 lg:py-8" aria-label="Sinov natijalari">
+        <div className="mx-auto max-w-5xl space-y-5">
         <header>
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-indigo-500">
             Natijalar
@@ -628,6 +630,13 @@ export default function ExamRunner({
           </h1>
           <p className="mt-1 text-sm text-gray-400">{examTitle}</p>
         </header>
+
+        <ExamResultActions
+          examKind={examKind}
+          backUrl={backUrl}
+          moduleId={moduleId}
+          onRestart={resetToIntro}
+        />
 
         <section className="flex flex-col gap-5 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900 sm:p-6 lg:flex-row lg:items-center">
           <div className="flex shrink-0 items-center gap-4">
@@ -871,6 +880,7 @@ export default function ExamRunner({
               Modulga qaytish
             </Link>
           )}
+        </div>
         </div>
       </main>
     )
