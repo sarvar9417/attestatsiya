@@ -62,9 +62,9 @@ function gateway(): ExamGateway {
   }
 }
 
-function renderMock(examGateway: ExamGateway) {
+function renderMock(examGateway: ExamGateway, route = '/exam/mock') {
   return render(
-    <MemoryRouter initialEntries={['/exam/mock']}>
+    <MemoryRouter initialEntries={[route]}>
       <Routes>
         <Route path="/exam/:kind" element={<ExamPage gateway={examGateway} />} />
       </Routes>
@@ -140,4 +140,57 @@ describe('T-014 server-authoritative natija ekrani', () => {
     ).toBeDefined()
     expect(examGateway.getReview).toHaveBeenCalledWith(ids.exam)
   })
+  it('does not invent a passing decision when the practice server returns null even at 100%', async () => {
+    const user = userEvent.setup()
+    const examGateway = gateway()
+    examGateway.startFocusedExam = vi.fn().mockResolvedValue({
+      ...session(),
+      kind: 'pedagogik_15',
+      duration_sec: 1800,
+    })
+    vi.mocked(examGateway.finishExam).mockResolvedValue({
+      exam_id: ids.exam,
+      total_score: 2,
+      max_score: 2,
+      passed: null,
+      breakdown: [{ group_code: 'PM.GEN', jami: 1, togri: 1 }],
+      already_finished: false,
+    })
+
+    renderMock(examGateway, '/exam/pedagogik_15')
+    await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
+    await user.click(await screen.findByRole('button', { name: /Variant A/ }))
+    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
+    await user.click(screen.getByRole('button', { name: 'Sinovni yakunlash' }))
+
+    expect(await screen.findByRole('heading', { name: 'Sinov yakunlandi' })).toBeDefined()
+    expect(screen.getByText('100% natija')).toBeDefined()
+    expect(screen.getByText('Mashq natijasi hisoblandi')).toBeDefined()
+    expect(screen.queryByText('Natija talab darajasida')).toBeNull()
+    expect(screen.queryByText('Natijani mustahkamlash kerak')).toBeNull()
+    expect(examGateway.startFocusedExam).toHaveBeenCalledWith('pedagogik_15')
+  })
+
+  it('does not fabricate a pass verdict for an ungraded mock either', async () => {
+    const user = userEvent.setup()
+    const examGateway = gateway()
+    vi.mocked(examGateway.finishExam).mockResolvedValue({
+      exam_id: ids.exam,
+      total_score: 2,
+      max_score: 2,
+      passed: null,
+      breakdown: [{ group_code: 'S1.INFO', jami: 1, togri: 1 }],
+      already_finished: false,
+    })
+
+    renderMock(examGateway)
+    await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
+    await user.click(await screen.findByRole('button', { name: /Variant A/ }))
+    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
+    await user.click(screen.getByRole('button', { name: 'Sinovni yakunlash' }))
+
+    expect(await screen.findByText('Baholash qarori mavjud emas')).toBeDefined()
+    expect(screen.queryByText('Natija talab darajasida')).toBeNull()
+  })
+
 })
