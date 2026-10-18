@@ -10,6 +10,7 @@ import {
 import { sendError, AppError } from '../lib/errors.js'
 import { getDemoToken } from '../lib/demoAuth.js'
 import { config } from '../config.js'
+import { z } from 'zod'
 
 /**
  * Extract the Supabase auth token from the Authorization header.
@@ -20,6 +21,26 @@ function getToken(req: { headers: { authorization?: string } }): string | null {
 }
 
 export async function examRoutes(app: FastifyInstance) {
+  // Authenticated, source-filtered AXB PDF chapter practice.
+  app.get('/api/exam/axb/chapters', async (req, reply) => {
+    const token = getToken(req)
+    if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
+    try { return reply.send(await examService.getAxborotChapters(token)) }
+    catch (error) { return sendError(reply, error) }
+  })
+
+  app.post('/api/exam/axb/start', async (req, reply) => {
+    const body = z.object({
+      chapter_no: z.number().int().min(1).max(19),
+      question_count: z.number().int().min(1).max(30),
+    }).strict().parse(req.body)
+    const token = getToken(req)
+    if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
+    try {
+      return reply.send(await examService.startAxborotChapter(body.chapter_no, body.question_count, token))
+    } catch (error) { return sendError(reply, error) }
+  })
+
   /**
    * POST /api/exam/start
    * Start a new exam (mock, bolim, mavzu, takrorlash, zaif)

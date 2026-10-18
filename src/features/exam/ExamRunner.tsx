@@ -48,6 +48,7 @@ import ExamQuestionAssets from './questions/ExamQuestionAssets'
 import Y2Match from './questions/Y2Match'
 import Y3Order from './questions/Y3Order'
 import { useAuth } from '../../hooks/useAuth'
+import type { CustomExamConfig } from '../custom-test/customTestApi'
 import { cycleTheme, getThemePreference } from '../../utils/theme'
 
 type RunnerPhase =
@@ -60,9 +61,12 @@ type RunnerPhase =
 
 interface ExamRunnerProps {
   gateway?: ExamGateway
-  examKind?: 'mock' | 'bolim' | 'mavzu' | 'mashq' | 'diagnostika' | 'takrorlash' | 'zaif' | 'pedagogik_15'
+  examKind?: 'mock' | 'bolim' | 'mavzu' | 'mashq' | 'diagnostika' | 'takrorlash' | 'zaif' | 'pedagogik_15' | 'axb_bob' | 'custom'
+  customConfig?: CustomExamConfig
   moduleId?: string
   lessonId?: string
+  axbChapter?: number
+  axbCount?: number
   /** Yakuniy natija ekranidagi "Orqaga" havolasi (masalan, /learn/M01). */
   backUrl?: string
   /** Sinov muvaffaqiyatli yakunlanganda chaqiriladi (progress yozish uchun). */
@@ -98,8 +102,11 @@ function initials(value: string | null | undefined): string {
 export default function ExamRunner({
   gateway = backendGateway,
   examKind = 'mock',
+  customConfig,
   moduleId,
   lessonId,
+  axbChapter,
+  axbCount,
   backUrl,
   onFinished,
 }: ExamRunnerProps) {
@@ -218,7 +225,22 @@ export default function ExamRunner({
 
     try {
       let nextSession: ExamSession
-      if (examKind === 'bolim') {
+      if (examKind === 'axb_bob') {
+        if (!Number.isInteger(axbChapter) || !Number.isInteger(axbCount) ||
+            !axbChapter || axbChapter < 1 || axbChapter > 19 ||
+            !axbCount || axbCount < 1 || axbCount > 30) {
+          throw new Error('Axborot testi bobi yoki savollar soni noto‘g‘ri.')
+        }
+        if (!gateway.startAxborotChapter) {
+          throw new Error('Axborot bobi testini boshlash xizmati mavjud emas.')
+        }
+        nextSession = await gateway.startAxborotChapter(axbChapter, axbCount)
+      } else if (examKind === 'custom') {
+        if (!customConfig || !gateway.startCustomExam) {
+          throw new Error('Shaxsiy test sozlamasi topilmadi. Konstruktorga qayting.')
+        }
+        nextSession = await gateway.startCustomExam(customConfig)
+      } else if (examKind === 'bolim') {
         if (!moduleId) {
           throw new Error('Bo‘lim sinovi uchun modul identifikatori topilmadi.')
         }
@@ -451,6 +473,8 @@ export default function ExamRunner({
   }
 
   const examTitle =
+    examKind === 'custom' ? 'Shaxsiy test' :
+    examKind === 'axb_bob' ? `Axborot testlari — ${axbChapter}-bob` :
     examKind === 'pedagogik_15' ? 'Pedagogik mahorat va kasb standarti — 15 savol' :
     examKind === 'mock'
       ? 'Attestatsiya mock sinovi'
@@ -470,6 +494,8 @@ export default function ExamRunner({
   if (phase === 'intro' || phase === 'starting' || phase === 'start-error') {
     const starting = phase === 'starting'
     const questionLabel =
+      examKind === 'custom' ? `${customConfig?.total_count ?? 0} savol` :
+      examKind === 'axb_bob' ? `${axbCount ?? 0} savol` :
       examKind === 'pedagogik_15' ? '15 savol (5 + 7 + 3)' :
       examKind === 'mock'
         ? '50 savol'
@@ -487,6 +513,8 @@ export default function ExamRunner({
                 ? `${topicPreview.questionCount} savol`
                 : 'Mavzu testi'
     const durationLabel =
+      examKind === 'custom' ? (customConfig?.duration_sec ? `${customConfig.duration_sec / 60} daqiqa` : 'Cheklanmagan') :
+      examKind === 'axb_bob' ? `${(axbCount ?? 0) * 2} daqiqa (mashq)` :
       examKind === 'pedagogik_15' ? '30 daqiqa (mashq)' :
       examKind === 'mock'
         ? '120 daqiqa'
@@ -544,6 +572,7 @@ export default function ExamRunner({
                 </div>
               </div>
 
+              {examKind === 'axb_bob' && <p className="mt-4 text-sm text-gray-600 dark:text-gray-300">Bu PDF bankining {axbChapter}-bobiga tegishli mustaqil mashq. Savollar soni: {axbCount}. Javob kalitlari faqat sinov tugagach ochiladi.</p>}
               {examKind === 'pedagogik_15' && <p className="mt-4 text-sm text-gray-600 dark:text-gray-300">36–40: kasb standarti (5), 41–47: pedagogika (7), 48–50: informatika metodikasi (3). 30 daqiqa faqat mashq uchun.</p>}
               {examKind === 'mock' && (
                 <div className="mt-5 flex flex-wrap gap-2">
@@ -647,8 +676,7 @@ export default function ExamRunner({
       result.max_score > 0
         ? Math.round((result.total_score / result.max_score) * 100)
         : 0
-    // Passing is a server decision; a completed practice can have passed=null.
-    // Never invent a pass verdict from a percentage (including 100%).
+    // The server alone decides pass/fail; null means no official verdict.
     const passed = result.passed
 
     return (
@@ -702,7 +730,7 @@ export default function ExamRunner({
 
           <div className="min-w-0 flex-1 lg:border-l lg:border-gray-200 lg:pl-6 dark:lg:border-gray-800">
             <h2 className="text-lg font-semibold text-gray-950 dark:text-white">
-              {examKind === 'pedagogik_15'
+              {examKind === 'axb_bob' || examKind === 'pedagogik_15'
                 ? 'Mashq natijasi hisoblandi'
                 : passed === true
                   ? 'Natija talab darajasida'
@@ -914,7 +942,7 @@ export default function ExamRunner({
               className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-5 text-sm font-semibold text-gray-600 transition hover:border-indigo-200 hover:text-indigo-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-indigo-800 dark:hover:text-indigo-300"
             >
               <ArrowLeft size={15} aria-hidden="true" />
-              Modulga qaytish
+              {examKind === 'axb_bob' ? 'M01 qo‘shimcha mashqlariga qaytish' : 'Modulga qaytish'}
             </Link>
           )}
         </div>

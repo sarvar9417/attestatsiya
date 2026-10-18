@@ -1,3 +1,14 @@
+## TASK-210 — Universal shaxsiy test konstruktori (2026-10-18, functional branch verified)
+
+- **Status:** IN_PROGRESS — draft PR #144; main/production o‘zgarmagan.
+- **Branch:** `task/TASK-210-custom-test-builder`; change scope: RFC, Zod quota parser/planner, safe catalog/preflight, atomic `custom` exam RPC and key-leak guard, frontend wizard and shared ExamRunner, history/result labels, SQL/backend/E2E tests.
+- **Validatsiya:** latest functional commit `68adea436e46` da CI backend, fresh PostgreSQL/database (jumladan `supabase/tests/custom_exam.test.sql`), quality/lint/typecheck/build/Playwright E2E = **SUCCESS**. Shu hujjat commitidan keyin CI qayta tekshirilsin.
+- **DB:** `20261018230000_task210_custom_exam.sql` va `20261018231000_task210_custom_exam_feedback_guard.sql` — productionga qo‘llanmagan. `exam_kind='custom'`, public `custom_exam_preflight(jsonb)`, `generate_custom_exam(jsonb)`; user auth, exact per-lesson A–E quotas, published/keyed/source-backed filters va all-or-nothing.
+- **UI:** `/custom-test` protected wizard → `/exam/custom`, ko‘p modul, qo‘lda A–E kvota, Y1/Y2/Y3, exposure, mode, timer. All results in same server-authoritative history flow. Learning mode hozir feedbackni **yakunda** ko‘rsatadi.
+- **Qolgan va `DONE` uchun majburiy:** shaxsiy preset saqlash CRUD + RLS; construct-level microtopic selection; domain analytics/result breakdown by selected topic; active attempt resume/idempotent start; migration remote rollout / production acceptance, accessibility va UX smoke. Yakunlanmagan bo‘limlarni “Completed” deb belgilamang.
+- **Release restriction:** iznsiz `main` merge, Vercel production deploy yoki production DB migration yo‘q. PR #144 Draft qoladi.
+
+
 ## TASK-203 — Pedagogika 249 owner-approved production bank Git parity (2026-10-18)
 
 - **Production audit:** KS/PM.GEN/PM.MET 424 published, 0 review. Of these 249 were approved as a **project-owner batch**, and 82 had wrong-option text AI-redrafted after initial approval for balanced length; never describe them as independent expert-signed certifications.
@@ -1757,6 +1768,25 @@ Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user co
 - M12 IP/maska: bitwise AND bilan /26 worked example va ikki mustaqil network-address masalasi.
 - M13 security/freelance: threat-mechanism scenario matrix va profile→portfolio→buyurtma→delivery ish oqimi.
 - Database regressiya 7 ta lesson markerini, HTML/CSS code blocks, IP calculation va freelance workflowni majburiy tekshiradi.
+
+
+## TASK-211 — M13 AXR 7 bob / 210 test, review import (2026-10-18)
+
+- **Branch:** `task/TASK-211-m13-axr-review-import`, **Draft PR:** #145 (main/production unchanged).
+- **Staged source:** `docs/content/m13_axr_2026_lessons.json` (7 theory chapters), `docs/content/m13_axr_2026_questions.json` (210 items, 30/chapter), `supabase/migrations/20261019010000_task211_m13_axr_review_content.sql`.
+- **DB:** 7 new lessons + 210 questions in `review` only. No overwrite of existing published M13 lessons, keys/options/attempts; answer keys stay in `question_keys`.
+- **Constructs:** chapters 1/2/3/4/5+6/7 → S7.SEC.01/.02/.03/.04/.05/.06.
+- **Format caveat:** source marks 7 Y2 + 7 Y3 but all 14 are Y1 multiple-choice combinations; DB format is Y1 until true native interaction is separately authored. `source_reference` preserves original kind.
+- **Regression:** new `task211_m13_axr_review_contract.test.sql`, plus exact review-corpus exemption to TASK-064 M13 canonical drift check while published drift remains rejected.
+- **Incomplete:** human source/key editorial review, local disposable PostgreSQL migration QA, frontend reader/resolver navigation/topic-preflight E2E, future expert-approved publication; merge, live Supabase migration and Vercel production deploy require separate user signoff.
+
+
+### TASK-211 merge/import handoff — 2026-10-18
+
+- **GitHub:** PR #145 merged into main (squash SHA `dde444fbb7e3a9acc07bae9663f5dede3e353d4c`). Rebased CI quality/backend/database all successful.
+- **Supabase:** project `plyqezulrfowyblsfpzy`, applied `20261018130412_task211_m13_axr_review_content_20261019`.
+- **Production read-only audit:** 7/7 new review lessons; 210/210 review questions; each chapter 30; 840 options; 210 keys; 210 correct lesson associations; 0 missing/invalid keys. Pre-existing 60 published S7.SEC questions remained.
+- **Release gate OPEN:** new lessons and questions are `review`, NOT visible to learners. Require expert signoff, promotion in a separate version-safe migration, topic-test preflight, API scoring and UI smoke test. Do not treat merge/import as publication approval.
 
 ## TASK-212 — pedagogika yagona o‘quv sahifasi va manba auditi (2026-10-18)
 

@@ -1,0 +1,102 @@
+import { getAuthedClient } from '../lib/supabase.js'
+import { AppError } from '../lib/errors.js'
+import { buildCustomExamPlan } from './custom-exam-planner.js'
+import type { CustomExamConfig } from '../schemas/custom-exam.js'
+import type { ExamStartResponse } from '../schemas/exam.js'
+
+export interface CustomCatalogLesson {
+  id: string
+  module_id: string
+  slug: string
+  title_uz: string
+  order_idx: number
+}
+
+export interface CustomCatalogModule {
+  id: string
+  code: string
+  title_uz: string
+  order_idx: number
+  lessons: CustomCatalogLesson[]
+}
+
+export interface CustomExamPreview {
+  ready: boolean
+  requested: number
+  available: number
+  gaps: Array<{ lesson_id: string; difficulty: number; requested: number; available: number }>
+  slots: Array<{ lesson_id: string; difficulty: number; requested: number; available: number }>
+}
+
+function mapCustomExamError(error: { message: string }, operation: 'preview' | 'start'): never {
+  if (error.message.includes('custom_pool_insufficient')) {
+    throw new AppError('Tanlangan mavzu va darajadagi savollar yetarli emas', 409, 'CUSTOM_POOL_INSUFFICIENT')
+  }
+  if (error.message.includes('custom_lesson_unavailable')) {
+    throw new AppError('Tanlangan mavzu mavjud emas yoki nashr etilmagan', 404, 'CUSTOM_LESSON_UNAVAILABLE')
+  }
+  if (error.message.includes('custom_config_invalid') || error.message.includes('invalid input syntax')) {
+    throw new AppError('Test sozlamalari noto‘g‘ri', 400, 'CUSTOM_CONFIG_INVALID')
+  }
+  if (/function public\.(custom_exam_preflight|generate_custom_exam).*does not exist/i.test(error.message)) {
+    throw new AppError('Shaxsiy test bazasi yangilanmagan', 503, 'CUSTOM_EXAM_UNAVAILABLE')
+  }
+  throw new AppError(
+    operation === 'preview' ? 'Savollarni tekshirib bo‘lmadi' : 'Shaxsiy test yaratilmadi',
+    503, 'CUSTOM_EXAM_UNAVAILABLE'
+  )
+}
+
+export const customExamService = {
+  async catalog(userToken: string): Promise<CustomCatalogModule[]> {
+    const client = getAuthedClient(userToken)
+    const { data: modules, error: moduleError } = await client
+      .from('modules')
+      .select('id, code, title_uz, order_idx')
+      .eq('status', 'published')
+      .order('order_idx', { ascending: true })
+
+    if (moduleError) throw new AppError('Bo‘limlar ro‘yxati olinmadi', 503, 'CUSTOM_CATALOG_UNAVAILABLE')
+
+    const publishedModules = modules ?? []
+    if (!publishedModules.length) return []
+
+    const { data: lessons, error: lessonError } = await client
+      .from('lessons')
+      .select('id, module_id, slug, title_uz, order_idx')
+      .eq('status', 'published')
+      .in('module_id', publishedModules.map(m => m.id))
+      .order('order_idx', { ascending: true })
+
+    if (lessonError) throw new AppError('Mavzular ro‘yxati olinmadi', 503, 'CUSTOM_CATALOG_UNAVAILABLE')
+    const allLessons = lessons ?? []
+
+    return publishedModules.map(module => ({
+      ...module,
+      code: module.code ?? '',
+      lessons: allLessons.filter(lesson => lesson.module_id === module.id),
+    }))
+  },
+
+  async preview(config: CustomExamConfig, userToken: string): Promise<CustomExamPreview> {
+    const validated = buildCustomExamPlan(config).config
+    const client = getAuthedClient(userToken)
+    const { data, error } = await client.rpc('custom_exam_preflight', { p_config: validated })
+    if (error) return mapCustomExamError(error, 'preview')
+    if (!data || typeof data !== 'object' || Array.isArray(data)) {
+      throw new AppError('Test qamrovini hisoblab bo‘lmadi', 503, 'CUSTOM_EXAM_UNAVAILABLE')
+    }
+    return data as unknown as CustomExamPreview
+  },
+
+  async start(config: CustomExamConfig, userToken: string): Promise<ExamStartResponse> {
+    const validated = buildCustomExamPlan(config).config
+    const client = getAuthedClient(userToken)
+    const { data, error } = await client.rpc('generate_custom_exam', { p_config: validated })
+    if (error) return mapCustomExamError(error, 'start')
+    if (!data || typeof data !== 'object' || Array.isArray(data)) {
+      throw new AppError('Shaxsiy test yaratilmadi', 503, 'CUSTOM_EXAM_UNAVAILABLE')
+    }
+    return data as unknown as ExamStartResponse
+  },
+}
