@@ -1,3 +1,9 @@
+## TASK-214 — Grafika va veb-texnologiyalar: qo‘shimcha Y2/Y3
+
+| ID | Status | Dependency | Deliverable |
+|---|---|---|---|
+| TASK-214 | IN_PROGRESS | TASK-213 review-only bank | 5 × (8 Y2 + 8 Y3) = 80 yangi original topshiriq; jami 380 (280/50/50), bazaga qo‘shimcha review migratsiyalari va testlari. Qolgan ekspert ko‘rigi / release shartlari: `docs/TASK214_GRAPHICS_WEB_380_Y2_Y3.md`. |
+
 ## TASK-213 — Grafika va veb-texnologiyalar V2 integratsiyasi
 
 | ID | Status | Dependency | Deliverable |
