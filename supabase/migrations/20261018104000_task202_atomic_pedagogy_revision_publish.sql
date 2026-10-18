@@ -34,12 +34,15 @@ begin
  where id=v_source for update;
  if v_status<>'review'::public.content_status
     or v_prior_status<>'published'::public.content_status
-    or v_author=p_actor_id then
+    or v_author is null or v_author=p_actor_id then
     raise exception using errcode='23514',message='PEDAGOGY_INDEPENDENT_REVIEW_REQUIRED';
  end if;
 
  -- Existing DB gate verifies 4 human review booleans, fingerprint,
  -- question provenance and option-length invariants.
+ -- Only this atomic RPC may activate a replacement; a generic admin status
+ -- transition must not leave the old published revision simultaneously live.
+ perform set_config('app.pedagogy_revision_publish_id',p_revision_question_id::text,true);
  update public.questions set status='published'::public.content_status,
     updated_at=now() where id=p_revision_question_id;
 
@@ -52,6 +55,32 @@ begin
     'archived_source_question_id',v_source);
 end;
 $release$;
+-- Fail closed if a generic admin endpoint attempts status=published directly on
+-- a queued revision, bypassing simultaneous archival of the old revision.
+create or replace function public.guard_pedagogy_revision_publish_path()
+returns trigger language plpgsql security definer set search_path=''
+as $guard$
+begin
+ if new.status='published'::public.content_status and
+    (tg_op='INSERT' or old.status is distinct from new.status)
+    and exists(select 1 from public.pedagogy_revision_queue r
+      where r.revision_question_id=new.id)
+    and coalesce(current_setting('app.pedagogy_revision_publish_id',true),'')
+       is distinct from new.id::text
+ then
+   raise exception using errcode='23514',
+      message='PEDAGOGY_REVISION_ATOMIC_PUBLISH_REQUIRED';
+ end if;
+ return new;
+end;
+$guard$;
+drop trigger if exists pedagogy_revision_publish_path_guard on public.questions;
+create trigger pedagogy_revision_publish_path_guard
+before insert or update of status on public.questions
+for each row execute function public.guard_pedagogy_revision_publish_path();
+revoke all on function public.guard_pedagogy_revision_publish_path()
+ from public,anon,authenticated;
+
 revoke all on function public.publish_pedagogy_revision(uuid,uuid)
  from public,anon,authenticated;
 grant execute on function public.publish_pedagogy_revision(uuid,uuid) to service_role;
