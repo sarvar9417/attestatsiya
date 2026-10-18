@@ -307,56 +307,43 @@ describe('frontend ↔ backend API integration', () => {
     expect(fetchMock).toHaveBeenCalledTimes(3)
   })
 
-  it('previewTopicTest — 60 savolli dars uchun 20 savol · 40 daqiqa', async () => {
-    fetchMock.mockResolvedValue(
-      okJson(
-        Array.from({ length: 60 }, (_, i) => ({
-          id: uuid(100 + i),
-          group_code: 'S1.INFO',
-          format: 'Y1',
-          cognitive: 'bilish',
-          difficulty: 3,
-          stem_md: `Savol ${i + 1}`,
-          options: [
-            { id: optionA, content_md: 'A', order_idx: 0 },
-            { id: optionB, content_md: 'B', order_idx: 1 },
-          ],
-        }))
-      )
-    )
+  it('previewTopicTest — mavjud pooldan real 7 savol · 14 daqiqa', async () => {
+    fetchMock.mockResolvedValue(okJson({
+      question_count: 7, duration_sec: 840,
+      configured_count: 20, available_count: 7, reason: null,
+    }))
 
-    const preview = await backendGateway.previewTopicTest?.('M01.02')
-
-    const url = fetchMock.mock.calls[0][0] as string
-    expect(url).toContain('/api/content/lessons/M01.02/questions')
-    expect(preview).toEqual({ questionCount: 20, durationSec: 2400 })
+    const preview = await backendGateway.previewTopicTest?.('M03.03')
+    expect(fetchMock.mock.calls[0][0]).toContain('/api/content/lessons/M03.03/test-preview')
+    expect(preview).toEqual({
+      questionCount: 7, durationSec: 840, configuredCount: 20,
+      availableCount: 7, reason: null,
+    })
   })
 
-  it('previewTopicTest — darsda 20 dan kam savol bo\'lsa haqiqiy son va vaqt', async () => {
-    fetchMock.mockResolvedValue(
-      okJson(
-        Array.from({ length: 15 }, (_, i) => ({
-          id: uuid(200 + i),
-          group_code: 'S1.INFO',
-          format: 'Y1',
-          cognitive: 'bilish',
-          difficulty: 3,
-          stem_md: `Savol ${i + 1}`,
-          options: [],
-        }))
-      )
-    )
+  it('previewTopicTest — pool bo‘sh bo‘lsa sinovni bloklash uchun 0 qaytaradi', async () => {
+    fetchMock.mockResolvedValue(okJson({
+      question_count: 0, duration_sec: 0,
+      configured_count: 20, available_count: 0,
+      reason: 'topic_pool_insufficient',
+    }))
+    const preview = await backendGateway.previewTopicTest?.('M06.03')
+    expect(preview?.questionCount).toBe(0)
+    expect(preview?.reason).toBe('topic_pool_insufficient')
+  })
 
-    const preview = await backendGateway.previewTopicTest?.('M01.03')
-
-    expect(preview).toEqual({ questionCount: 15, durationSec: 1800 })
+  it('previewTopicTest — 40+ savolda o‘rnatilgan 20 ta limit saqlanadi', async () => {
+    fetchMock.mockResolvedValue(okJson({
+      question_count: 20, duration_sec: 2400,
+      configured_count: 20, available_count: 60, reason: null,
+    }))
+    const preview = await backendGateway.previewTopicTest?.('M05.01')
+    expect(preview).toMatchObject({ questionCount: 20, durationSec: 2400 })
   })
 
   it('previewTopicTest — tarmoq xatosida null qaytaradi (fallback)', async () => {
     fetchMock.mockRejectedValue(new TypeError('Failed to fetch'))
-
     const preview = await backendGateway.previewTopicTest?.('M01.99')
-
     expect(preview).toBeNull()
   })
 
