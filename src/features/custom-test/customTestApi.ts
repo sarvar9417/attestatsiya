@@ -59,3 +59,21 @@ export async function previewCustomTest(config: CustomExamConfig): Promise<Custo
     await api.post<unknown>('/api/custom-tests/preflight', customExamConfigSchema.parse(config))
   )
 }
+
+const presetSchema = z.object({
+  id:z.string().uuid(),
+  title:z.string(),
+  config:customExamConfigSchema,
+  created_at:z.string(),
+  updated_at:z.string(),
+})
+export type CustomTestPreset=z.infer<typeof presetSchema>
+export async function listCustomPresets():Promise<CustomTestPreset[]> {
+  return z.array(presetSchema).parse(await api.get<unknown>('/api/custom-tests/presets'))
+}
+export async function saveCustomPreset(title:string, config:CustomExamConfig):Promise<CustomTestPreset> {
+  return presetSchema.parse(await api.post<unknown>('/api/custom-tests/presets',{title,config}))
+}
+export async function deleteCustomPreset(id:string):Promise<void> {
+  await api.delete<unknown>(`/api/custom-tests/presets/${encodeURIComponent(id)}`)
+}
