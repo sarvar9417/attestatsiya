@@ -254,6 +254,59 @@ describe('frontend ↔ backend API integration', () => {
     })
   })
 
+  it('M05 mavzu testi: MD5 import IDlari bilan start → submit → finish ishlaydi', async () => {
+    // Production querydan olingan haqiqiy identifikator shakllari.
+    const importedQuestion = '3488c43b-bc8e-b6b3-32bb-fb4b785dbdb5'
+    const importedOption = 'ed6d69c6-e627-5a4a-b491-e30087e93923'
+    const session = {
+      ...sessionPayload,
+      kind: 'mavzu',
+      duration_sec: 2400,
+      selection_meta: { selector_version: 'objective-complete-v1' },
+      items: [{
+        ...sessionPayload.items[0],
+        question_id: importedQuestion,
+        stem_md: 'O‘nlikdan boshqa asosga o‘tkazish usulini tanlang.',
+        options: [
+          { id: '9ccb562f-aff1-bfd3-b1bc-a1ab023fa837', side: 'a', content_md: 'Teskari sanash' },
+          { id: importedOption, side: 'a', content_md: 'Qoldiqli bo‘lish' },
+        ],
+      }],
+    }
+
+    fetchMock
+      .mockResolvedValueOnce(okJson(session))
+      .mockResolvedValueOnce(okJson({ saved: true, correct: true, explanation_md: 'Qoldiqlar teskari o‘qiladi.' }))
+      .mockResolvedValueOnce(okJson({
+        ...finishPayload,
+        total_score: 2,
+        max_score: 2,
+        passed: true,
+        breakdown: [{ group_code: 'S3.NUM', jami: 1, togri: 1 }],
+      }))
+
+    const started = await backendGateway.startTopicExam('M05.02')
+    expect(started.items[0].question_id).toBe(importedQuestion)
+    expect(started.items[0].options[1].id).toBe(importedOption)
+    expect(started.duration_sec).toBe(2400)
+
+    const saved = await backendGateway.submitAnswer({
+      examId,
+      examKind: 'mavzu',
+      questionId: importedQuestion,
+      answer: { option_id: importedOption },
+      timeSpentSec: 14,
+    })
+    expect(saved).toMatchObject({ saved: true, correct: true })
+    expect(JSON.parse((fetchMock.mock.calls[1][1] as RequestInit).body as string))
+      .toMatchObject({ question_id: importedQuestion, answer: { option_id: importedOption } })
+
+    const finished = await backendGateway.finishExam(examId)
+    expect(finished.total_score).toBe(2)
+    expect(finished.passed).toBe(true)
+    expect(fetchMock).toHaveBeenCalledTimes(3)
+  })
+
   it('previewTopicTest — 60 savolli dars uchun 20 savol · 40 daqiqa', async () => {
     fetchMock.mockResolvedValue(
       okJson(
