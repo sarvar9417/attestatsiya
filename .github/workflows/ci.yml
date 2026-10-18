@@ -210,6 +210,7 @@ jobs:
             -f supabase/tests/task202_atomic_admin_y1_save.test.sql \
             -f supabase/tests/task202_semantic_source_key_corrections.test.sql \
             -f supabase/tests/task202_assistant_distractor_proposals.test.sql \
+            -f supabase/tests/task202_proposals_stage_e2e.test.sql \
             -f supabase/tests/pedguli_private_candidate_inbox.test.sql \
             -f supabase/tests/pedguli_candidate_human_review.test.sql \
             -f supabase/tests/pedguli_topic_suggestion_queue.test.sql \
