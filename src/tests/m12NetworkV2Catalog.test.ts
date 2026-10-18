@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { MODULES } from '../data/contentTree'
-import { mergeCatalog, usePublishedNetworkV2Catalog } from '../features/content/catalog'
+import { mergeCatalog, selectPublishedNetworkV2Catalog } from '../features/content/catalog'
 import type { LessonSummary, ModuleDetail } from '../features/content/contentApi'
 const chapters = (): LessonSummary[] => Array.from({length:10},(_,i)=>({
   id: `c1200000-0000-4000-8000-${String(i+1).padStart(12,'0')}`,
@@ -18,7 +18,7 @@ const detail=(lessons:LessonSummary[],code='M12'):ModuleDetail=>({
 const base=()=>mergeCatalog(MODULES,[])
 describe('TASK-220: M12 learner catalog must fail closed',()=>{
   it('loads all ten UUID lessons in book order once fully published',()=>{
-    const before=base(),after=usePublishedNetworkV2Catalog(before,detail(chapters().reverse()))
+    const before=base(),after=selectPublishedNetworkV2Catalog(before,detail(chapters().reverse()))
     expect(after.find(m=>m.code==='M12')?.subtopics.map(x=>x.code)).toEqual(
       Array.from({length:10},(_,i)=>`tarmoq-v2-bob-${String(i+1).padStart(2,'0')}`))
     expect(after.find(m=>m.code==='M12')?.subtopics.every(x=>/^[0-9a-f-]{36}$/i.test(x.id))).toBe(true)
@@ -32,9 +32,9 @@ describe('TASK-220: M12 learner catalog must fail closed',()=>{
     ['duplicate',chapters().map((x,i)=>i===9?{...x,slug:'tarmoq-v2-bob-01'}:x)],
     ['foreign',chapters().map((x,i)=>i===9?{...x,slug:'other-lesson'}:x)],
   ])('keeps previous catalog on %s',(_scenario,items)=>{
-    const old=base();expect(usePublishedNetworkV2Catalog(old,detail(items))).toBe(old)
+    const old=base();expect(selectPublishedNetworkV2Catalog(old,detail(items))).toBe(old)
   })
   it('does not touch unrelated modules',()=>{
-    const old=base();expect(usePublishedNetworkV2Catalog(old,detail(chapters(),'M13'))).toBe(old)
+    const old=base();expect(selectPublishedNetworkV2Catalog(old,detail(chapters(),'M13'))).toBe(old)
   })
 })
