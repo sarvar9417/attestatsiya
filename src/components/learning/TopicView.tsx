@@ -844,7 +844,7 @@ export default function TopicView({
                   >
                     {hasTest
                       ? <><Target size={16} /> Bilimni tekshirish <ArrowRight size={16} /></>
-                      : <><RefreshCw size={16} /> {isAppendix ? 'Bu ilova uchun test yo‘q' : 'Test hali tayyor emas'}</>
+                      : <><RefreshCw size={16} /> {isAppendix ? 'Bu ilova uchun test yo‘q' : 'Test hali tayyor emas'}</>}
                   </button>
                 </div>
               </>
