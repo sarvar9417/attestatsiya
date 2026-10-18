@@ -57,3 +57,25 @@ Yagona o‘quv ssenariysi: M14/M15/M16 bo‘limini tanlash → kanonik mavzu naz
 
 ## 6. Qaror
 “100% tayyor” statusini berish uchun asos hozircha **yo‘q**. TASK-212 o‘quv navigatsiyasi foundation va audit reyestri; semantik ekspert tekshiruvi va production acceptance majburiy qoladi. PR faqat DRAFT bo‘lsin. Loyiha egasining PEDAGOGY_RELEASE_FREEZE talabi saqlanadi.
+
+
+## 7. Rasmiy spetsifikatsiya bo‘yicha mavzu-maqsad xaritasi
+
+**Birlamchi tekshirilgan fayl:** “Informatika Testlar spesifikatsiyasi.pdf” (Toshkent, 2026, 10 sahifa). Fizik PDFning 6–7-betlari, 2-jadval va 10-betidagi adabiyotlar ro‘yxati. 6-bet: KS 5 savol va yettita ko‘nikma; 7-bet: umumiy pedagogika 7 savol va sakkizta mazmun bullet, informatika metodikasi 3 savol va uchta bullet. 18 ta kanonik mavzu kodi rasmiy spetsifikatsiyada belgilanmagan — platformaning tahririy moslashtirishidir.
+
+- **Yangi fayl:** src/data/pedagogySpec2026.ts — 7 KS, 8 PM.GEN, 3 PM.MET mavzusi uchun maqsad, guruh va rasmiy PDF sahifasi. Bu spetsifikatsiya qamrovi xaritasi, savollar banki yoki ekspert xulosasi emas.
+- **UI:** pedagogika sahifasida har mavzu ostida o‘quvchi nimani bilishi va qo‘llashi kerakligi ko‘rsatiladi. Mavzu va bitta test savoli o‘rtasida majburiy 1:1 kvota yo‘q.
+- **Test:** src/tests/PedagogySpec2026.test.ts — 18 mavzu, guruh/sahifa va mavjud nazariya bilan mapping regressioni.
+- **Xavfsiz chegara:** mazkur mapping manba-bet, tekshiruvchi imzosi yoki har savolning maqsad bilan bog‘lanishi tekshirilganini bildirmaydi. Baza ichidagi per-question mapping alohida auditdan o‘tishi kerak.
+
+### Natija bahosining serverga bog‘liqligi
+- ExamRunner natija ekranida serverning passed=null javobini 60 foiz chegarasi bilan avtomatik “o‘tdi”ga aylantirish to‘xtatildi. 100 foizli pedagogik_15 mashq ham rasmiy attestatsiyadan o‘tganlik hukmi emas.
+- src/tests/ExamResultDecision.test.tsx: pedagogik_15 va oddiy mock uchun 100% + passed=null holatlari yangi regressiya; passed=false server qarori mavjud regressiya bilan himoyalangan.
+
+### Dalil chegarasi
+- 18 mavzuning rasmiy 2-jadvalga mos nazariy qamrov xaritasi bo‘lishi barcha dars va barcha test kalitlari mustaqil ekspertizadan o‘tgan degani emas.
+- Kasbiy adabiyotlarning to‘liq nusxalari bu bosqichda fizik betma-bet solishtirilmadi. Joriy Drive qidiruvida ayrim kitoblar topilmadi; yangi source-page ekspert tasdig‘i yozilmadi.
+- M16.02dagi “70% kompyuterda bo‘lishi shart” jumlasi spetsifikatsiya 2-jadval metodika bandida ko‘rsatilmagan; normativ iddao sifatida olib tashlangan. Bu boshqa normativ hujjatlarda hech qanday foizli qoida yo‘q degan da’vo emas.
+
+### CI
+Birinchi commit 3edaca5 uchun backend/database/quality PASS tasdiqlangan. Yangi commit uchun CI qayta PASS bo‘lmasa release gate yopilgan hisoblanmaydi.
