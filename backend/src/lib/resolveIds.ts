@@ -58,11 +58,11 @@ export async function resolveLessonUuid(subtopicCode: string): Promise<string | 
   const cached = lessonCache.get(subtopicCode)
   if (isFresh(cached)) return cached.id
 
-  // Source-backed M02/M05 and professional M14–M16 lessons have human-readable
+  // Source-backed M02–M13 and professional M14–M16 lessons have human-readable
   // slugs, not m05-01 style slugs. Resolve the *published* lesson by its
   // module + ordinal so topic tests, study previews and progress all agree.
   // Never silently fall through to a legacy/draft lesson for these modules.
-  const canonicalMatch = /^(M(?:02|05|1[456]))\.(0[1-9]|[1-9][0-9])$/.exec(subtopicCode.toUpperCase())
+  const canonicalMatch = /^(M(?:0[2-9]|1[0-6]))\.(0[1-9]|[1-9][0-9])$/.exec(subtopicCode.toUpperCase())
   if (canonicalMatch) {
     const moduleId = await resolveModuleUuid(canonicalMatch[1])
     if (moduleId) {
