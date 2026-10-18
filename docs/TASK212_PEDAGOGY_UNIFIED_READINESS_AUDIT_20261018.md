@@ -150,3 +150,28 @@ Faqat aggregate SELECT (savol matni va kalitlarni chiqarmasdan) tekshirildi:
 **Dastlabki sifat tahlili:** 26 savoldan **kamida 8 ta aniq nomzod** quyidagi masalalar uchun alohida editorial navbatga qo‘yildi: 1 ta rasmiy atama aniqligi va bir nechtasida oson aniqlanuvchi, mavzudan uzoq yoki qaytariluvchi distractorlar. Mexanik 0 length-cue holatiga qaramasdan semantik cue mavjudligi kuzatildi. Barcha savollar PENDING va ularga “approved/correct” deb yozilmadi. To‘liq read-only locator reyestri va tahrir flaglari: docs/TASK212_M14_26_EDITORIAL_REVIEW_QUEUE.md.
 
 **Yakuniy ish qoldig‘i:** authorised expert manba/PDFdagi aniq mehnat vazifasi bilan mustaqil tasdiqlashi; har bir Y1 variantining mazmuniy yaroqliligi va uniquenessni tekshirishi; 8 ta flagged lokatorni redraft qilish; 26/26 imzoli signoff; tarix va immutable revisionsni saqlash; ishlab turgan 7 M14 mavzu strict preflight PASS va 15/50 E2E. Bu jarayon yakunlanmaguncha 26 ta savol REVIEWda qoladi.
+
+## 11. 2026-10-18: KS manbasi asosida yettita amaliy tayyorlanish kartasi
+
+- Yangi source file: src/data/pedagogyKasbSourceCards.ts.
+- /professional-practice sahifasida M14.01–M14.07 uchun kitob beti, asosiy kompetensiya, pedagogik vaziyat va ko‘p adashtiriladigan qarorlarni izohlovchi yopiq kartalar bor. Matn AI yordamida ikkilamchi metodik qo‘llanmadagi bandlardan qayta bayon qilingan; o‘quvchi uchun rasmiy qonun kuchiga ega deb ko‘rsatilmaydi.
+- **Manbaning ichki ziddiyati:** 13-betlik “Pedagogning kasbiy standarti — metodik qo‘llanma”ning 1-betidagi ro‘yxatda 05-o‘rinda kasbiy o‘sish, 06-o‘rinda xavfsiz muhit berilgan. Biroq haqiqiy asosiy sarlavhalar: **5-SOHA = xavfsiz rivojlantiruvchi muhit, PDF 10–11-betlar** va **6-SOHA = kasbiy o‘sish, PDF 12-bet**. O‘quv kartalari bobning o‘zidagi sarlavha va betga tayanadi, noaniqlik UI ichida ham ogohlantiriladi.
+- Test: src/tests/PedagogyKasbSourceCards.test.tsx 7/7 katalog qamrovi, asosiy bob betlari va xatolik haqidagi ogohlantirishni tekshiradi.
+- Yangi kartalar learner uchun tezkor o‘rganish materialidir, live DB body_mdx migratsiyasini va uning to‘liq o‘qib tasdiqlanganini bildirmaydi.
+
+## 12. 2026-10-18: published Y1 quality cue ikkinchi mustaqil SQL auditi
+
+**Faqat production SELECT**; 400 published Y1 (KS=104, PM.GEN=223, PM.MET=73) va 26 KS review uchun to‘rtta variant, source_reference, explanation, key-option identifikatori, bo‘sh stem, normallashtirilgan ayni savol va to‘g‘ri javobning uzunlik flaglari tekshirildi.
+
+| Guruh | Published Y1 | Correct > longest wrong × 1.3 | Correct ≥ longest wrong +4 so‘z |
+|---|---:|---:|---:|
+| KS | 104 | 48 | 19 |
+| PM.GEN | 223 | 41 | 19 |
+| PM.MET | 73 | 29 | 17 |
+| **Published jami** | **400** | **118** | **55** |
+| KS REVIEW | 26 | 0 | 0 |
+
+- 426 Y1 savol bo‘yicha aynan bir xil normalizatsiyalangan stem, 4 variant strukturasining buzilishi, response-key UUID havolasi yo‘qligi, bo‘sh source-reference, bo‘sh explanation va bo‘sh savol matni **0** bo‘ldi.
+- 118 ta heuristic length-cue flag **avtomatik noto‘g‘ri javob** degani emas; u variantlarni qayta muvozanatlash uchun editorial prioritet. Semantik dublikat, variant grammatikasi, rasmiy normativ to‘g‘rilik, tarixiy reference beti yoki savol murakkabligi bu query bilan tekshirilmaydi.
+- Reproduksiya: supabase/audits/20261018_task212_pedagogy_option_cues_readonly.sql; SELECT natijasida javob matnlari, private keys, shaxsiy attempt ma’lumotlari olinmaydi.
+- **Release gate:** Published 118 cue nomzodini expert navbatiga ajratish, har bir qabul qilingan tahrirda immutable archived snapshot va tarixni saqlash, qayta testlash.
