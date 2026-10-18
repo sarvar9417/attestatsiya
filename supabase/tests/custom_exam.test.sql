@@ -3,7 +3,9 @@
 begin;
 
 insert into auth.users(id,email)
-values ('92100000-0000-4000-8000-000000000001', 'task210@example.invalid');
+values
+  ('92100000-0000-4000-8000-000000000001', 'task210@example.invalid'),
+  ('92100000-0000-4000-8000-000000000002', 'task210-other@example.invalid');
 
 do $setup$
 declare
@@ -154,6 +156,26 @@ begin
   from jsonb_array_elements(v_session->'items') item;
   if v_total<>7 then raise exception 'duplicate custom question'; end if;
 
+  -- No private analytics or answers before a custom exam finishes.
+  v_failed := false;
+  begin
+    perform public.get_custom_exam_analysis(v_exam);
+  exception when others then
+    if sqlerrm like '%custom_exam_not_finished%' then v_failed := true;
+    else raise;
+    end if;
+  end;
+  if not v_failed then raise exception 'unfinished custom exam analysis exposed'; end if;
+
+  v_session := public.get_active_custom_exam(v_config);
+  if (v_session->>'exam_id')::uuid is distinct from v_exam
+     or jsonb_array_length(v_session->'answered_question_ids')<>0
+     or v_session->'saved_answers'<>'{}'::jsonb
+     or v_session::text like '%correct_option_id%'
+     or v_session::text like '%explanation_md%' then
+    raise exception 'unsafe active custom exam payload: %',v_session;
+  end if;
+
   v_q := (v_session->'items'->0->>'question_id')::uuid;
   v_option := (v_session->'items'->0->'options'->0->>'id')::uuid;
   v_submit := public.submit_answer(v_exam,v_q,jsonb_build_object('option_id',v_option),1);
@@ -165,6 +187,37 @@ begin
   if v_submit->>'already_answered'<>'true' or v_submit ? 'correct' then
     raise exception 'custom duplicate submission leaks feedback: %',v_submit;
   end if;
+  -- Exact repeat start must reuse persisted submitted answers with no keys.
+  v_session := public.generate_custom_exam(v_config);
+  if (v_session->>'exam_id')::uuid is distinct from v_exam
+     or jsonb_array_length(v_session->'answered_question_ids')<>1
+     or v_session->'saved_answers'->v_q::text->>'option_id' is distinct from v_option::text
+     or v_session::text like '%correct_option_id%'
+     or v_session::text like '%explanation_md%' then
+    raise exception 'duplicate start lost response or leaked keys: %',v_session;
+  end if;
+  if public.get_active_custom_exam(jsonb_set(v_config,'{duration_sec}','null'::jsonb)) is not null then
+    raise exception 'resume ignored config filter';
+  end if;
+
+  -- Another learner must never see this active session or its analysis.
+  perform set_config('request.jwt.claim.sub',
+    '92100000-0000-4000-8000-000000000002',true);
+  if public.get_active_custom_exam() is not null then
+    raise exception 'other learner can resume exam';
+  end if;
+  v_failed := false;
+  begin
+    perform public.get_custom_exam_analysis(v_exam);
+  exception when others then
+    if sqlerrm like '%custom_exam_not_found%' then v_failed := true;
+    else raise;
+    end if;
+  end;
+  if not v_failed then raise exception 'other learner sees unfinished analytics'; end if;
+  perform set_config('request.jwt.claim.sub',
+    '92100000-0000-4000-8000-000000000001',true);
+
 
   v_bad := jsonb_set(v_config,'{topics,0,difficulty_counts,0,count}','5'::jsonb);
   v_bad := jsonb_set(v_bad,'{topics,0,count}','5'::jsonb);
@@ -192,6 +245,21 @@ begin
      or jsonb_array_length(v_analysis->'by_lesson')<>2 then
     raise exception 'post-finish analytics mismatch %',v_analysis;
   end if;
+  -- A completed report is also private, even when its UUID is known.
+  perform set_config('request.jwt.claim.sub',
+    '92100000-0000-4000-8000-000000000002',true);
+  v_failed := false;
+  begin
+    perform public.get_custom_exam_analysis(v_exam);
+  exception when others then
+    if sqlerrm like '%custom_exam_not_found%' then v_failed := true;
+    else raise;
+    end if;
+  end;
+  if not v_failed then raise exception 'other learner sees finished analytics'; end if;
+  perform set_config('request.jwt.claim.sub',
+    '92100000-0000-4000-8000-000000000001',true);
+
   -- In learning mode only, correctness may appear after the answer was saved.
   v_session := public.generate_custom_exam(jsonb_set(v_config,'{mode}','"learning"'::jsonb));
   v_q := (v_session->'items'->0->>'question_id')::uuid;
