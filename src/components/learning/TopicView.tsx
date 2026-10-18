@@ -4,6 +4,8 @@ import { getTopicContent, type TestQuestion, type TheoryBlock } from '../../data
 import { getLessonTestQuestions, checkQuestionAnswer } from '../../features/content/lessonContentGateway'
 import { getLessonDetail } from '../../features/content/contentApi'
 import { overlayPublishedProfessionalLesson } from '../../features/content/professionalLessonTheory'
+import PedagogyTheoryBlock from './PedagogyTheoryBlock'
+import { getPedagogyStudyNotes } from '../../data/pedagogyStudyNotes'
 import type { TopicContent } from '../../data/topicContent'
 import { 
   CheckCircle2, XCircle, Lightbulb, BookOpen, ArrowRight, ArrowLeft, 
@@ -143,6 +145,9 @@ export default function TopicView({
     : staticContent
   /** Kontent qo'llanmadan generatsiya qilinganmi (M01) — bo'limli o'qish rejimi. */
   const isBook = Boolean(content?.source)
+  const isPublishedPedagogy = moduleId === 'M15' && publishedTheory?.subtopicId === subtopicId
+  const pedagogyStudyNotes = isPublishedPedagogy ? getPedagogyStudyNotes(subtopicId) : []
+  const supplementalTheory = isPublishedPedagogy ? (content?.supplementalTheory ?? []) : []
 
   // mavzu almashganda o'qish holatini tozalaymiz
   useEffect(() => {
@@ -525,11 +530,11 @@ export default function TopicView({
                 </span>
               ) : (
                 <span className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-2.5 py-1 rounded-lg">
-                  <BookText size={12} /> {content.theory.length} ta blok
+                  <BookText size={12} /> {isPublishedPedagogy ? 'Tartibli nazariya va misollar' : content.theory.length + ' ta blok'}
                 </span>
               )}
               {/* Theory type badges — scroll rejimidagi eski mavzular uchun */}
-              {isBook
+              {isBook || isPublishedPedagogy
                 ? null
                 : Object.entries(theoryTypeCount).map(([type, count]) => {
                     const cfg = THEORY_BLOCK_CONFIG[type as keyof typeof THEORY_BLOCK_CONFIG]
@@ -606,10 +611,36 @@ export default function TopicView({
                       </div>
                     </div>
                   )}
-                  <TheoryBlock block={block} />
+                  {isPublishedPedagogy ? <PedagogyTheoryBlock block={block} /> : <TheoryBlock block={block} />}
                 </div>
               ))}
             </div>
+          )}
+
+          {isPublishedPedagogy && pedagogyStudyNotes.length > 0 && (
+            <details className="group mb-7 rounded-2xl border border-indigo-200 bg-indigo-50/60 p-4 shadow-sm open:bg-white dark:border-indigo-900 dark:bg-indigo-950/30 dark:open:bg-gray-900 sm:p-5">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-xl p-2 text-sm font-bold text-indigo-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:text-indigo-200">
+                <span className="flex items-center gap-2"><Lightbulb size={19} aria-hidden="true" /> Oddiy misollar va attestatsiyada farqlash</span>
+                <ChevronDown size={19} aria-hidden="true" className="shrink-0 transition group-open:rotate-180" />
+              </summary>
+              <p className="px-2 pb-3 pt-1 text-xs leading-6 text-gray-600 dark:text-gray-400">
+                Asosiy nazariyani o‘qib bo‘lgach, misollar yordamida tushunchalarni mustahkamlang.
+              </p>
+              <div className="space-y-3">
+                {pedagogyStudyNotes.map((block, i) => <PedagogyTheoryBlock key={i} block={block} />)}
+              </div>
+              {supplementalTheory.length > 0 && (
+                <details className="group/deep mt-5 rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800/40">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-2 font-semibold text-gray-800 dark:text-gray-200">
+                    <span>Qo‘shimcha manbaviy ma’ruza</span>
+                    <ChevronDown className="transition group-open/deep:rotate-180" size={18} aria-hidden="true" />
+                  </summary>
+                  <div className="mt-4 space-y-3">
+                    {supplementalTheory.map((block, i) => <PedagogyTheoryBlock key={i} block={block} />)}
+                  </div>
+                </details>
+              )}
+            </details>
           )}
 
           {/* ── Eski (LaTeX'siz) mavzular uchun scroll rejimi ── */}
@@ -618,7 +649,7 @@ export default function TopicView({
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
               {/* Show responsive: full dots on desktop, summary on mobile */}
-              <div className="hidden sm:flex gap-1.5">
+              <div className={isPublishedPedagogy ? 'hidden' : 'hidden sm:flex gap-1.5'}>
                 {content.theory.map((_, i) => (
                   <div 
                     key={i} 
