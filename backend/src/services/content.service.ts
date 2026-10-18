@@ -197,6 +197,9 @@ export const contentService = {
       .select('id, group_code, format, cognitive, difficulty, stem_md')
       .eq('source_lesson_id', resolvedId)
       .eq('status', 'published')
+      // KS/PM.GEN/PM.MET are shared with protected timed exams. These items
+      // must never be listed by the immediate-feedback study API.
+      .not('group_code', 'in', '(KS,PM.GEN,PM.MET)')
       .order('source_reference', { ascending: true })
 
     if (!questions || questions.length === 0) return []
@@ -274,11 +277,15 @@ export const contentService = {
   async checkAnswer(questionId: string, optionId: string): Promise<CheckAnswerResult> {
     const { data: question } = await supabase
       .from('questions')
-      .select('id')
+      .select('id, group_code')
       .eq('id', questionId)
       .eq('status', 'published')
       .maybeSingle()
-    if (!question) throw new NotFoundError('Savol topilmadi')
+    if (!question || ['KS', 'PM.GEN', 'PM.MET'].includes(question.group_code)) {
+      // Deliberately indistinguishable from a nonexistent question to avoid
+      // using the correct_option_id endpoint as an exam-bank key oracle.
+      throw new NotFoundError('Savol topilmadi')
+    }
 
     const { data: option } = await supabase
       .from('question_options')
