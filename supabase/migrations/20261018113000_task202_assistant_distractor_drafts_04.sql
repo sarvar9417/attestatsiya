@@ -1,6 +1,7 @@
 -- TASK-202: KS old-revision distractor suggestions 31-40, unapproved.
 begin;
-insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distractors) values
+insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distractors)
+select source_question_id::uuid, proposed_distractors from (values
 ('8681c75c-91dc-4a8c-8deb-4523bda39565',array[
 'Faqat ota-onaning tavsiyasini qabul qilib, mutaxassis mulohazasini boshqa yig‘ilishgacha qoldirish',
 'Mutaxassis qarorini o‘quvchi va uning oilasi bilan kelishmasdan darhol yagona reja sifatida qo‘llash',
@@ -41,5 +42,8 @@ insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distra
 'O‘qituvchi nazariyani batafsilroq tushuntirib, amaliyotni keyingi haftaga qoldirishi',
 'O‘quvchilarga mustaqil mashqsiz ko‘proq tayyor dastur namunalarini ko‘rsatishi',
 'Har bir mavzuni og‘zaki bayon qilib, amaliy bajarishni faqat baholashda talab qilishi'])
+) as proposed(source_question_id, proposed_distractors)
+where exists(select 1 from public.questions q where q.id=proposed.source_question_id::uuid
+  and q.status='published'::public.content_status and q.format='Y1'::public.question_format)
 on conflict(source_question_id) do nothing;
 commit;
