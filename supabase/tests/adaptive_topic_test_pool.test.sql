@@ -1,4 +1,4 @@
--- Adaptive topic test regression: no invented questions, no empty sessions.
+-- Strict topic-test regression: fail closed on fewer published/keyed items than configured.
 begin;
 
 do $$
@@ -60,12 +60,12 @@ do $$
 declare v_meta jsonb;
 begin
   v_meta:=public.topic_test_preview('66000000-0000-4000-8000-000000000020');
-  if (v_meta->>'question_count')::int<>3
+  if (v_meta->>'question_count')::int<>0
     or (v_meta->>'available_count')::int<>3
     or (v_meta->>'configured_count')::int<>20
-    or (v_meta->>'duration_sec')::int<>360
-    or v_meta->>'reason' is not null
-  then raise exception 'adaptive preview mismatch: %',v_meta;
+    or (v_meta->>'duration_sec')::int<>0
+    or v_meta->>'reason'<>'topic_pool_insufficient'
+  then raise exception 'strict 20-question preview mismatch: %',v_meta;
   end if;
 end
 $$;
@@ -73,24 +73,29 @@ $$;
 select set_config('request.jwt.claim.sub',
   '66000000-0000-4000-8000-000000000001',false);
 set role authenticated;
-select public.generate_topic_test('66000000-0000-4000-8000-000000000020');
+do $
+declare v_failed boolean:=false;
+begin
+  begin
+    perform public.generate_topic_test('66000000-0000-4000-8000-000000000020');
+  exception when others then
+    if sqlerrm not like '%topic_pool_insufficient%' then raise; end if;
+    v_failed:=true;
+  end;
+  if not v_failed then raise exception 'underfilled 3/20 topic must not create an exam'; end if;
+end
+$;
 reset role;
 
-do $$
-declare v_exam uuid; v_meta jsonb; v_n int;
+do $
 begin
-  select id,selection_meta into strict v_exam,v_meta from public.exams
-  where lesson_id='66000000-0000-4000-8000-000000000020'::uuid
-    and user_id='66000000-0000-4000-8000-000000000001'::uuid;
-  select count(*) into v_n from public.exam_items where exam_id=v_exam;
-  if v_n<>3 or (select duration_sec from public.exams where id=v_exam)<>360
-    or (v_meta->>'target_count')::int<>3
-    or (v_meta->>'configured_count')::int<>20
-    or (v_meta->>'required_slots')::int<>1
-  then raise exception 'short topic test failed: items=%, meta=%',v_n,v_meta;
-  end if;
+  if exists (
+    select 1 from public.exams
+     where lesson_id='66000000-0000-4000-8000-000000000020'::uuid
+       and user_id='66000000-0000-4000-8000-000000000001'::uuid
+  ) then raise exception 'underfilled topic created a persisted exam'; end if;
 end
-$$;
+$;
 
 update public.questions set status='archived'::public.content_status
 where source_reference like 'topic-pool-fixture:%';
@@ -127,10 +132,10 @@ begin
   select count(*) into v_total from public.exams
   where lesson_id='66000000-0000-4000-8000-000000000020'::uuid
     and user_id='66000000-0000-4000-8000-000000000001'::uuid;
-  if v_total<>1 then raise exception 'empty pool generated extra exam: %',v_total; end if;
+  if v_total<>0 then raise exception 'empty pool generated an exam: %',v_total; end if;
 end
 $$;
 
 select set_config('request.jwt.claim.sub','',false);
-select 'adaptive_topic_test_pool_ok' as result;
+select 'strict_topic_test_pool_ok' as result;
 rollback;
