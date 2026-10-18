@@ -13,3 +13,5 @@
 - Rasmli savollar uchun diagrammalar GitHub public asset sifatida qo‘shilishi kerak.
 
 **Bajarish:** clean Supabase migration chain -> SQL -> SQL regression -> frontend smoke -> human editorial review -> alohida ruxsat bilan release.
+## M07 canonical mapping (CI)
+The canonical lesson drift test requires all questions, including drafts, to reference the published canonical M07 lesson for their construct. All 180 draft questions therefore point at the five existing published canonical lessons by S4.BLOCK.01–05. The six new in-depth chapters are **separate draft lesson editions**, not automatically replacing published content. Their chapter grouping is retained through `SL2-xx-yyy` source references. A later editorial release must coordinate theory promotion and question source-link reconciliation. No learner-facing publication occurs in this PR.
