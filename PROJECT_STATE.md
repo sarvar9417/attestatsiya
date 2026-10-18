@@ -1,3 +1,11 @@
+## One-release-only pedagogika completion gate — TASK-202 (2026-10-18)
+
+- **Release instruction:** exactly one final merge + one production deploy after work is complete; **no subsequent merge or deploy without a fresh explicit user request**.
+- **Current:** PR #121 DRAFT on `task/TASK-202-pedagogy-single-final-release`; not merged, not production deployed, not production migrated. See `docs/TASK202_ONE_FINAL_PEDAGOGY_RELEASE.md`.
+- **Implemented in branch:** private PDF source-review queue + verified source → original review test workflow; full server-paginated KS/PM question bank and expert editor checklist; length-bias revision queue; 118 legacy Y1 risk candidates to be staged as separate review revisions; atomic signed revision publish + source archive; Y1 side='a' storage fix, Y2/Y3 key preservation and immutable published key transfer guard.
+- **Blocking finality:** human reviewers must evaluate 153 review items and corrected 118 length-biased published questions, and confirm independent keys for any newly authored items. 155 verified unlinked source candidates require actual authoring decisions; 335 accepted_general source keys remain unverified. No model-generated false approvals; existing published attempt history must remain intact.
+- **No repeated release:** CI green alone does not prove human editorial content approval; keep PR in Draft and refrain from production DB changes until all gates are satisfied.
+
 ## Pedagogika release security va practice fairness (TASK-201, 2026-10-16)
 
 - **Status:** IN_PROGRESS — 328 KS/PM bank: 175 published, 153 review; no editorial-check approvals. 649 PDF candidate, 195 verified, 335 accepted_general, 119 rejected.
