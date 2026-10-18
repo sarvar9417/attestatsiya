@@ -87,6 +87,8 @@ export interface TopicContent {
   subtopicId: string
   title: string
   theory: TheoryBlock[]
+  /** Source-backed material for optional, progressive study; not part of core lesson. */
+  supplementalTheory?: TheoryBlock[]
   questions: TestQuestion[]
   /** Kontent olingan manba fayli (generatsiya qilingan mavzular uchun) */
   source?: string
