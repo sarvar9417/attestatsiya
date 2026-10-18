@@ -109,7 +109,8 @@ async function replaceQuestionOptionsAndKey(
     question_id: questionId,
     content_md: option.content_md.trim(),
     order_idx: index,
-    side: String.fromCharCode(97 + index),
+    // Y1 is one group of four options, all on side 'a'. a/b/c/d are NOT sides.
+    side: 'a',
   }))
 
   const { data: inserted, error: optionError } = await supabase
