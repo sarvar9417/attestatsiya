@@ -101,7 +101,7 @@ function toCatalogSubtopic(s: { id: string; title: string; description?: string 
  * 10 draft lessons, a partial rollout, duplicate/missing chapters and an
  * offline API can never leak review-stage content to learners.
  */
-export function usePublishedNetworkV2Catalog(
+export function selectPublishedNetworkV2Catalog(
   modules: CatalogModule[],
   detail: ModuleDetail,
 ): CatalogModule[] {
