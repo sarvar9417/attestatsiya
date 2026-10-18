@@ -141,9 +141,10 @@ describe('resolveLessonUuid', () => {
   })
 
   it('M02.03 resolves its human-readable published lesson via module and order', async () => {
-    mockMaybeSingle
-      .mockResolvedValueOnce({ data: { id: 'module-m02-resolved' }, error: null })
-      .mockResolvedValueOnce({ data: { id: '92000000-0000-4000-8000-000000000003' }, error: null })
+    // M02 is cached in resolveModuleUuid tests, so only the lesson query is needed.
+    mockMaybeSingle.mockResolvedValueOnce({
+      data: { id: '92000000-0000-4000-8000-000000000003' }, error: null,
+    })
     mockEq.mockImplementation(() => ({ eq: mockEq, maybeSingle: mockMaybeSingle }))
 
     const resolved = await resolveLessonUuid('M02.03')
