@@ -223,6 +223,7 @@ jobs:
             -f supabase/tests/a4_programming_lessons.test.sql \
             -f supabase/tests/m09_source_backed_lessons.test.sql \
             -f supabase/tests/m10_m11_graphics_web_lessons.test.sql \
+            -f supabase/tests/task213_graphics_web_v2_review_contract.test.sql \
             -f supabase/tests/m12_m13_network_security_lessons.test.sql \
             -f supabase/tests/m14_kasb_standarti_lessons.test.sql \
             -f supabase/tests/review_question_option_rls.test.sql \
