@@ -156,7 +156,8 @@ export default function TopicView({
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
   const isCanonicalPublishedTheory = /^(?:M04|M14|M16)\.\d{2}$/.test(subtopicId) ||
     isAlgoritmlashV2 || isAxrM13 || isPublishedScratchLogoLesson
-  const staticContent = getTopicContent(subtopicId)
+  // Keep the same canonical core object during unrelated progress/test updates.
+  const staticContent = useMemo(() => getTopicContent(subtopicId), [subtopicId])
   const isPedagogyTopic = moduleId === 'M15' && /^M15\.\d{2}$/.test(subtopicId)
   const loadedContent = publishedTheory?.subtopicId === subtopicId
     ? publishedTheory.content

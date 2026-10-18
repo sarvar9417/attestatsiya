@@ -1359,8 +1359,17 @@ for (const [id, theory] of Object.entries(M05_THEORY)) {
   }
 }
 
+// M02 canonical chapters combine multiple lengthy source lessons. Rebuilding
+// their arrays at every React render invalidates BookReader/observer state and
+// can visually reflow an already opened lesson.
+const m02CachedContent = new Map<string, TopicContent | undefined>()
+
 export function getTopicContent(subtopicId: string): TopicContent | undefined {
-  return buildCanonicalM02Topic(subtopicId, TOPIC_CONTENT) ?? TOPIC_CONTENT[subtopicId]
+  if (!subtopicId.startsWith('M02.')) return TOPIC_CONTENT[subtopicId]
+  if (!m02CachedContent.has(subtopicId)) {
+    m02CachedContent.set(subtopicId, buildCanonicalM02Topic(subtopicId, TOPIC_CONTENT))
+  }
+  return m02CachedContent.get(subtopicId) ?? TOPIC_CONTENT[subtopicId]
 }
 
 export interface SubtopicMeta {

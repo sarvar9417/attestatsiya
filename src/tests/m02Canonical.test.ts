@@ -42,4 +42,14 @@ describe('M02 source-backed canonical curriculum', () => {
       expect(getSubtopicMeta(group.id)?.questionCount).toBe(quiz.length)
     }
   })
+  it('reuses the same M02 theory object across repeated reads', () => {
+    for (const id of ['M02.01', 'M02.02', 'M02.03', 'M02.04']) {
+      const first = getTopicContent(id)
+      const second = getTopicContent(id)
+      expect(first).toBeDefined()
+      expect(first).toBe(second)
+      expect(first?.theory.length).toBeGreaterThan(0)
+    }
+  })
+
 })
