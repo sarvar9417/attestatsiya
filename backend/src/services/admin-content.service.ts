@@ -242,33 +242,47 @@ export const adminContentService = {
     return data
   },
 
-  async listQuestions(status: AdminContentStatus | undefined, userToken: string, source?: 'pedguli') {
+  async listQuestions(
+    status: AdminContentStatus | undefined, userToken: string,
+    source?: 'pedguli' | 'pedagogy_pdf', page = 1, pageSize = 25,
+    groupCode?: 'KS' | 'PM.GEN' | 'PM.MET', search?: string,
+  ) {
     await requireStaff(userToken)
 
     let query = supabase
       .from('questions')
-      .select('id, stem_md, format, cognitive, difficulty, status, group_code, construct_id, subject_id, source_reference, created_at')
+      .select('id, stem_md, format, cognitive, difficulty, status, group_code, construct_id, subject_id, source_reference, created_at', { count: 'exact' })
       .order('created_at', { ascending: false })
-      .limit(100)
+      .order('id', { ascending: false })
 
     if (status) query = query.eq('status', status)
     if (source === 'pedguli') query = query.like('source_reference', 'authored:pedguli-%')
-
-    const { data, error } = await query
+    if (source === 'pedagogy_pdf') query = query.like('source_reference', 'authored:pedagogy-pdf-corpus:%')
+    if (groupCode) query = query.eq('group_code', groupCode)
+    if (search?.trim()) {
+      // PostgREST parameterizes ilike(); escape wildcard metacharacters so
+      // the literal text search cannot silently become an unbounded scan.
+      const escaped = search.trim().replace(/[\\%_]/g, '\\$&')
+      query = query.ilike('stem_md', `%${escaped}%`)
+    }
+    const offset = (page - 1) * pageSize
+    const { data, count, error } = await query.range(offset, offset + pageSize - 1)
     if (error) throw new AppError('Savollarni yuklashda xatolik', 500, 'ADMIN_QUERY_ERROR')
-    return { items: data ?? [] }
+    return { items: data ?? [], total: count ?? 0, page, page_size: pageSize }
   },
 
   async getPedguliEditorialReview(questionId: string, userToken: string) {
     await requireStaff(userToken)
     const { data: question, error: questionError } = await supabase
       .from('questions')
-      .select('id, status, source_reference')
+      .select('id, status, source_reference, group_code')
       .eq('id', questionId).maybeSingle()
     if (questionError) throw new AppError('Savolni olishda xatolik', 500, 'ADMIN_QUERY_ERROR')
     if (!question) throw new NotFoundError('Savol topilmadi')
-    if (!question.source_reference?.startsWith('authored:pedguli-')) {
-      throw new AppError('Bu tekshiruv faqat Pedmahorat mavzularidagi mualliflik savollari uchun', 400, 'INVALID_EDITORIAL_SOURCE')
+    if (!(['KS','PM.GEN','PM.MET'].includes(question.group_code) ||
+      question.source_reference?.startsWith('authored:pedguli-') ||
+      question.source_reference?.startsWith('authored:pedagogy-pdf-corpus:'))) {
+      throw new AppError('Bu tekshiruv pedagogika va kasb standarti savollari uchun', 400, 'INVALID_EDITORIAL_SOURCE')
     }
     const { data, error } = await supabase.from('question_editorial_checks')
       .select('question_id, reviewer_id, reviewed_at, answer_verified, reference_verified, wording_verified, original_authorship_verified, reviewer_notes')
@@ -289,12 +303,15 @@ export const adminContentService = {
 
     const { data: question, error: questionError } = await supabase
       .from('questions')
-      .select('id, status, source_reference')
+      .select('id, status, source_reference, group_code')
       .eq('id', questionId).maybeSingle()
     if (questionError) throw new AppError('Savolni olishda xatolik', 500, 'ADMIN_QUERY_ERROR')
     if (!question) throw new NotFoundError('Savol topilmadi')
-    if (question.status !== 'review' || !question.source_reference?.startsWith('authored:pedguli-')) {
-      throw new AppError('Faqat Review holatidagi Pedmahorat savolini tekshirish mumkin', 409, 'INVALID_EDITORIAL_STATUS')
+    if (question.status !== 'review' || !(
+      ['KS','PM.GEN','PM.MET'].includes(question.group_code) ||
+      question.source_reference?.startsWith('authored:pedguli-') ||
+      question.source_reference?.startsWith('authored:pedagogy-pdf-corpus:'))) {
+      throw new AppError('Faqat Review holatidagi pedagogika savolini tasdiqlash mumkin', 409, 'INVALID_EDITORIAL_STATUS')
     }
 
     const { data, error } = await supabase.from('question_editorial_checks')
@@ -332,7 +349,7 @@ export const adminContentService = {
 
     const { data: current, error: readError } = await supabase
       .from('questions')
-      .select('id, status, author_id, source_reference, construct_id')
+      .select('id, status, author_id, source_reference, construct_id, group_code')
       .eq('id', questionId)
       .maybeSingle()
     if (readError) throw new AppError('Savol holatini olishda xatolik', 500, 'ADMIN_QUERY_ERROR')
@@ -379,7 +396,9 @@ export const adminContentService = {
       }
     }
 
-    if (nextStatus === 'published' && current.source_reference?.startsWith('authored:pedguli-')) {
+    if (nextStatus === 'published' && (['KS','PM.GEN','PM.MET'].includes((current as {group_code?:string}).group_code ?? '') ||
+      current.source_reference?.startsWith('authored:pedguli-') ||
+      current.source_reference?.startsWith('authored:pedagogy-pdf-corpus:'))) {
       const { data: approval, error: approvalError } = await supabase
         .from('question_editorial_checks')
         .select('answer_verified, reference_verified, wording_verified, original_authorship_verified')
@@ -399,7 +418,9 @@ export const adminContentService = {
       .select('id, status')
       .single()
 
-    if (error?.message?.includes('PEDGULI_EDITORIAL_APPROVAL_REQUIRED')) {
+    if (error?.message?.includes('PEDGULI_EDITORIAL_APPROVAL_REQUIRED') ||
+        error?.message?.includes('PEDAGOGY_EDITORIAL_APPROVAL_REQUIRED') ||
+        error?.message?.includes('PEDAGOGY_Y1_DISTRACTOR_REVIEW_REQUIRED')) {
       throw new AppError('Tasdiq eskirgan yoki yetarli emas. Savolni qayta tekshiring', 409, 'EDITORIAL_APPROVAL_REQUIRED')
     }
     if (error || !data) throw new AppError('Savol holati yangilanmadi', 500, 'ADMIN_SAVE_ERROR')
