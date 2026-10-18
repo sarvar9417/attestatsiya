@@ -1,3 +1,8 @@
+## TASK-239 — Office V2 grafik savollarini yakunlash
+| ID | Status | Dependency | Natija / release sharti |
+|---|---|---|---|
+| TASK-239 | IN_PROGRESS (release BLOCKED) | M03 9 review dars / 270 review/draft savollar | PR #178: 7 SVG, frontend allowlist, 7 draft→review migratsiya va testlar; qolgan: CI, Vercel deploy limiti, tasdiqlangan ekspert QA, production smoke. **Kontentni avtomatik publish qilish mumkin emas.** |
+
 ## TASK-230–238 — Shaxsiy test konstruktori: kod, QA va release
 
 | ID | Status | Dependency | Natija yoki qolgan shart |
