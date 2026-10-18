@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   listAdminQuestions,
   transitionAdminQuestionStatus,
+  stageAdminPedagogyRevision,
 } from '../../features/admin/adminContentApi'
 import {
   Archive,
@@ -34,6 +35,8 @@ interface QuestionRow {
   subject_id: string | null
   created_at: string
   source_reference: string | null
+  length_bias_flag?: boolean
+  revision_question_id?: string | null
 }
 
 const STATUS_FLOW: Record<
@@ -157,6 +160,16 @@ export default function QuestionsPage() {
   useEffect(() => {
     void load()
   }, [load])
+
+  async function stageRevision(q: QuestionRow) {
+    setActionError(null)
+    try {
+      await stageAdminPedagogyRevision(q.id)
+      await load()
+    } catch (error) {
+      setActionError(error instanceof Error ? error.message : 'Yangi tahrir yaratilmadi')
+    }
+  }
 
   async function transitionStatus(q: QuestionRow, nextStatus: ContentStatus) {
     setActionError(null)
@@ -405,7 +418,10 @@ export default function QuestionsPage() {
                     </div>
 
                     <div className="flex shrink-0 flex-wrap items-center gap-2">
-                      {flow?.to.map(nextStatus => (
+                      {flow?.to.filter(nextStatus => !(
+                        nextStatus === 'draft' && status === 'archived' &&
+                        ['KS', 'PM.GEN', 'PM.MET'].includes(question.group_code)
+                      )).map(nextStatus => (
                         <button
                           key={nextStatus}
                           type="button"
@@ -443,13 +459,26 @@ export default function QuestionsPage() {
                           Tahririy tekshiruv
                         </button>
                       )}
-                      <button
+                      {question.length_bias_flag && status === 'published' && (
+                        question.revision_question_id ? (
+                          <span className="rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800 dark:bg-amber-950/40 dark:text-amber-300">
+                            Tahrir navbatga olingan
+                          </span>
+                        ) : (
+                          <button type="button" onClick={() => void stageRevision(question)}
+                            className="inline-flex min-h-9 items-center rounded-lg border border-amber-300 px-3 text-xs font-semibold text-amber-800 dark:border-amber-800 dark:text-amber-300">
+                            Muvozanatli tahrir yaratish
+                          </button>
+                        )
+                      )}
+                      {(status !== 'published' && !(status === 'archived' &&
+                        ['KS','PM.GEN','PM.MET'].includes(question.group_code))) && <button
                         type="button"
                         onClick={() => setEditingId(question.id)}
                         className="inline-flex min-h-9 items-center rounded-lg border border-indigo-200 px-3 text-xs font-semibold text-indigo-600 transition hover:bg-indigo-50 dark:border-indigo-800 dark:text-indigo-300 dark:hover:bg-indigo-950/40"
                       >
                         Tahrirlash
-                      </button>
+                      </button>}
                     </div>
                   </div>
                 </article>
