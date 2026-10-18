@@ -258,6 +258,31 @@ describe('GET /api/content/lessons/:id/questions', () => {
     expect(JSON.stringify(body)).not.toContain('explanation')
   })
 
+  it('database qaytargan professional savol ham defense-in-depth orqali berkitiladi', async () => {
+    // Simulates a future database filter regression: never serialize KS/PM keys
+    // or even stem/options in a public lesson API.
+    const lessonUuid = '11111111-1111-4111-8111-111111111111'
+    const not = vi.fn(() => ({
+      order: vi.fn().mockResolvedValue({
+        data: [{ id: 'private-pm', group_code: 'PM.GEN', stem_md: 'Protected exam item' }],
+        error: null,
+      }),
+    }))
+    mockFrom.mockReturnValueOnce({
+      select: vi.fn(() => ({
+        eq: vi.fn(() => ({ eq: vi.fn(() => ({ not })) })),
+      })),
+    })
+    const response = await app.inject({
+      method: 'GET',
+      url: `/api/content/lessons/${lessonUuid}/questions`,
+    })
+    expect(response.statusCode).toBe(200)
+    expect(response.json()).toEqual([])
+    expect(not).toHaveBeenCalledWith('group_code', 'in', '(KS,PM.GEN,PM.MET)')
+    expect(mockFrom).toHaveBeenCalledTimes(1)
+  })
+
   it('dars topilmasa 404 qaytaradi', async () => {
     // resolveLessonUuid: uchala strategiya ham null qaytaradi
     const chain = {
