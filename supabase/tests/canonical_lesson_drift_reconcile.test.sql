@@ -140,6 +140,22 @@ begin
         -- immutable source lesson snapshots, not a TASK-064 drift.
         and (lane.module_code <> 'M06'
              or coalesce(q.source_reference,'') not like 'algoritmlash-v2:%')
+        -- TASK-211 adds seven non-published M13 source-book lessons.
+        -- Exempt ONLY these exact review records; published drift still fails.
+        and not (lane.module_code = 'M13'
+                 and q.status = 'review'::public.content_status
+                 and coalesce(q.source_reference,'') like 'm13-axr-v1:%:AXR-%')
+        -- TASK-213 graphics/web V2 is a separate unpublished content edition.
+        -- Do not exempt published items or non-V2 sources from drift checks.
+        and not (lane.module_code IN ('M10','M11')
+                 and q.status = 'review'::public.content_status
+                 and coalesce(q.source_reference,'') like 'GV2:GV-%'
+                 and EXISTS (
+                    SELECT 1 FROM public.lessons v2
+                    WHERE v2.id=q.source_lesson_id
+                      AND v2.status='review'::public.content_status
+                      AND v2.slug LIKE '%-v2-review'
+                 ))
     ) then
       raise exception 'TASK-064 % question source lesson drift remains',lane.module_code;
     end if;
