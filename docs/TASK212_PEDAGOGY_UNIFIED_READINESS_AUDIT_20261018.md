@@ -92,3 +92,50 @@ Birinchi commit 3edaca5 uchun backend/database/quality PASS tasdiqlangan. Yangi 
 **Tegishli regressiya:** src/tests/PedagogySourceIntegrity.test.ts M15.05 chastota va M15.07 kategorik da’voni qaytmasligini, M16.02 “Fishing” noto‘g‘ri atama bilan qaytmasligini tekshiradi.
 
 **Cheklov:** static topicContent.ts va production DBdagi published lesson body bir xil emas. Bu tahrir local/static fallbackni to‘g‘rilaydi; production DBdagi muqobil matnlarni qo‘llash uchun alohida read-only/source-versiya auditi, idempotent migratsiya, keyingi release tasdig‘i kerak. Boshqa 15+ statik darslar semantic auditdan o‘tgani haqida da’vo yo‘q.
+
+
+## 9. 2026-10-18 — production Supabase read-only qayta audit (yangi dalil)
+
+**Verified live project:** Supabase account sarvar9417, project “attestatsiya100%” (project ref: plyqezulrfowyblsfpzy, ACTIVE_HEALTHY). Bu safar jadvallar bevosita SELECT orqali tekshirildi. Hech qanday production INSERT/UPDATE/DELETE, migratsiya, RPC-write yoki release bajarilmadi. Oldingi 2026-10-18 hisobotidagi 424 published / 0 review endi joriy holatga mos kelmaydi: 26 ta M14 savoli REVIEWda.
+
+### Joriy professional bank statusi
+
+| Guruh | Published keyed | Review keyed | Published formatlari |
+|---|---:|---:|---|
+| KS | 114 | 26 | 104 Y1, 8 Y2, 2 Y3 |
+| PM.GEN | 233 | 0 | 223 Y1, 3 Y2, 7 Y3 |
+| PM.MET | 77 | 0 | 73 Y1, 4 Y3 |
+| **Jami** | **424** | **26** | **400 Y1, 11 Y2, 13 Y3** |
+
+Mavzu sinovi uchun belgilangan 20 ta published/keyed source-linked savol bo‘yicha dastlabki SELECT tekshiruvi:
+
+| Mavzu | Published keyed | Yetishmaydi | Review keyed |
+|---|---:|---:|---:|
+| M14.01 | 17 | 3 | 3 |
+| M14.02 | 17 | 3 | 3 |
+| M14.03 | 18 | 2 | 2 |
+| M14.04 | 14 | 6 | 6 |
+| M14.05 | 16 | 4 | 4 |
+| M14.06 | 16 | 4 | 4 |
+| M14.07 | 16 | 4 | 4 |
+| **Jami** | **114** | **26** | **26** |
+
+**M15 published-keyed per-topic:** M15.01–M15.08 = 28, 29, 25, 30, 25, 29, 30, 37.  
+**M16:** M16.01–M16.03 = 25, 25, 27.
+
+**Natija:** 7/18 kanonik pedagogika mavzusi 20 talik minimumni published/keyed source-linked soni bo‘yicha qondirmaydi. Qolgan 11/18 uchun bu faqat son tekshiruvi: serverning haqiqiy preflight, objective coverage, role-specific access, Y1/Y2/Y3 mosligi, backend E2E alohida tekshirilishi kerak. REVIEW savollar hech qachon mavjud published quota sifatida hisoblanmaydi.
+
+### 26 ta M14 REVIEW savoli bo‘yicha mexanik sifat triage
+Faqat aggregate SELECT (savol matni va kalitlarni chiqarmasdan) tekshirildi:
+- 26/26 Y1: to‘rtta variant va 4 ta farqli variant bor;
+- 26/26: key to‘g‘ri variant identifikatoriga bog‘langan;
+- 26/26: source_reference va explanation_md bo‘sh emas;
+- 0: bo‘sh stem;
+- 0: to‘g‘ri javobdagi so‘zlar soni noto‘g‘ri variantlarning eng uzunidan 30% dan ortiq uzun bo‘lgan mexanik cue.
+
+**Ushbu natija semantik javob, ishonchli normativ manba, bir ma’noli to‘g‘rilik, ekspert imzosi yoki nashrga tayyorlikning tasdig‘i emas.** 26/26 professional expert review talab qilinadi. Reviewer savolni to‘g‘rilasa immutable version/archive kontrakti saqlanadi.
+
+### Reproduksiya va release bloker
+- Yangi fail-safe read-only audit: supabase/audits/20261018_task212_pedagogy_readonly_pool.sql.
+- Maxfiy kalitlar yoki shaxsiy natijalarni hisobotga kiritish taqiqlanadi.
+- **M14 P0 bloker:** 26 ta savolni har birini alohida manba va semantik tekshiruvdan o‘tkazib, authorized owner/independent editor approval, DB publication gate, 7/7 topic preflight va barcha 15/50 mock regressionlaridan keyingina release masalasi qayta ko‘riladi.
