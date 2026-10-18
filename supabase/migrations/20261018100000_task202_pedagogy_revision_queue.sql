@@ -49,6 +49,9 @@ declare
  v_new_correct uuid;
  v_option record;
  v_opt_id uuid;
+ v_proposed text[];
+ v_wrong_idx int:=0;
+ v_text text;
 begin
  if p_actor_id is null or
    not exists(select 1 from public.profiles
@@ -73,6 +76,11 @@ begin
     where question_id=p_source_question_id and side='a')<>4 then
    raise exception using errcode='23514', message='PEDAGOGY_REVISION_INVALID_SOURCE';
  end if;
+ -- Assistant suggestions are drafts, not approvals. Admins may edit the
+ -- resulting independent review revision before any signed publication.
+ select proposed_distractors into v_proposed
+ from public.pedagogy_rewrite_proposals
+ where source_question_id=p_source_question_id and proposal_status='draft';
  v_new:=gen_random_uuid();
  insert into public.questions(
    id,subject_id,construct_id,group_code,format,cognitive,difficulty,
@@ -88,8 +96,13 @@ begin
    where question_id=p_source_question_id order by side,order_idx,id
  loop
    v_opt_id:=gen_random_uuid();
+   v_text:=v_option.content_md;
+   if v_option.id<>v_old_correct and v_proposed is not null then
+     v_wrong_idx:=v_wrong_idx+1;
+     v_text:=v_proposed[v_wrong_idx];
+   end if;
    insert into public.question_options(id,question_id,side,order_idx,content_md)
-    values(v_opt_id,v_new,v_option.side,v_option.order_idx,v_option.content_md);
+    values(v_opt_id,v_new,v_option.side,v_option.order_idx,v_text);
    if v_option.id=v_old_correct then v_new_correct:=v_opt_id;end if;
  end loop;
  if v_new_correct is null then
