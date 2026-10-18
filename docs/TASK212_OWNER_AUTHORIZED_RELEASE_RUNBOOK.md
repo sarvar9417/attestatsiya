@@ -29,3 +29,21 @@ This is a privileged maintenance workflow, never an unattended Git migration.
 **72 uniquely-longest correct-answer instances** remain (61 new additional originals + 11 previously drafted 118 still slightly longest); these are **not disproportionately** longest by >30%, but still can be guessed by a determined test-taker. They require another round of sentence-aware corrections and revisions, not automated generic padding. Also, owner waived external expert work; no source content is falsely certified. Do not use expert-signoff labels for this work.
 
 **Security:** no learner-facing answer-key exposure, no raw draft candidates surfaced, no forced direct status transitions outside the guarded publication path. If production deploy is blocked, do not claim the new unified hub is live.
+
+## Live production execution evidence (2026-10-18)
+
+User-authorized manual DB maintenance executed **as a single COMMIT transaction** after a successful entire-stack rollback rehearsal. Follow-up SELECT on the actual `attestatsiya100%` Supabase production project returned:
+
+| Invariant | Verified live |
+|---|---:|
+| Owner-waiver provenance records | 144 |
+| New published with owner-waiver ledger | 144 |
+| Old published revisions archived | 118 |
+| New immutable fingerprint matches | 144 / 144 |
+| All KS/PM/MET published | 450 |
+| Remaining M14 review | 0 |
+| Published correct > longest wrong by 30% | 0 |
+| Published correct strictly longest | **75** |
+| M14 canonical lessons with 20 published/keyed | 7 / 7 |
+
+**Correction to earlier preview estimate:** projected strict-longest total was 72 when examining existing 400 items alone; the 26 newly published KS questions and wording improvements introduced three additional 1–2-word strict-longest instances. Actual live number = **75**, verified after commit. This residual is an editorial backlog, not resolved by a 30% heuristic. No independent reviewer signatures have been invented. Existing attempts are preserved by archived old question snapshots. PR #149 UI code deploy is a separate GitHub→Vercel release action; do not conflate live DB content with a frontend rollout.
