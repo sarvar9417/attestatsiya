@@ -8,6 +8,12 @@
 - Dependency `DONE` bo'lmasdan task boshlanmaydi
 - "Done" bandlari test bilan isbotlanadi
 
+## Shaxsiy test konstruktori — 2026-10-18
+
+| ID | Status | Dependency | Deliverable |
+|----|--------|------------|-------------|
+| TASK-210 | IN_PROGRESS | T-013, T-014, T-015 (DONE) | Universal topic/subtopic + A–E + Y1/Y2/Y3 + son + vaqt asosidagi shaxsiy test; hozir: RFC, Zod kontrakt, kvota algoritmi va testlar; keyingi: migratsiya, preflight, atomic start, UI, RLS, E2E. [Texnik reja](docs/TASK210_UNIVERSAL_CUSTOM_TEST_BUILDER.md). Main/production o‘zgartirilmaydi. |
+
 ## P0 — Xavfsizlik va barqarorlashtirish
 
 | ID | Status | Dependency | Deliverable |
