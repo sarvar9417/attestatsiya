@@ -111,6 +111,16 @@ const STATUS_TRANSITIONS: Record<AdminContentStatus, AdminContentStatus[]> = {
 }
 
 export const adminContentService = {
+  async customTestCoverage(userToken: string) {
+    const staff = await requireStaff(userToken)
+    if (staff.role !== 'admin') {
+      throw new ForbiddenError('Faqat administrator ko‘ra oladi')
+    }
+    const { data, error } = await supabase.rpc('admin_custom_exam_pool_coverage')
+    if (error) throw new AppError('Shaxsiy testlar qamrovi olinmadi', 503, 'CUSTOM_COVERAGE_UNAVAILABLE')
+    return data
+  },
+
   async dashboard(userToken: string) {
     const staff = await requireStaff(userToken)
 

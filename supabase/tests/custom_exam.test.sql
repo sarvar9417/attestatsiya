@@ -75,6 +75,9 @@ begin
      or has_function_privilege('anon','public.custom_exam_preflight(jsonb)','EXECUTE') then
     raise exception 'anonymous custom RPC access forbidden';
   end if;
+  if has_function_privilege('authenticated','public.admin_custom_exam_pool_coverage()','EXECUTE') then
+    raise exception 'learner can access staff-only pool coverage';
+  end if;
   if not has_function_privilege('authenticated','public.generate_custom_exam(jsonb)','EXECUTE')
      or not has_function_privilege('authenticated','public.custom_exam_preflight(jsonb)','EXECUTE') then
     raise exception 'authenticated custom RPC privileges missing';
