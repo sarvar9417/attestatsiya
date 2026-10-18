@@ -40,14 +40,14 @@ begin
     raise exception 'custom_config_invalid';
   end if;
   v_total := (p_config->>'total_count')::int;
-  if v_total not between 1 and 100 then raise exception 'custom_config_invalid'; end if;
+  if v_total is null or v_total not between 1 and 100 then raise exception 'custom_config_invalid'; end if;
   v_exposure := p_config->>'exposure';
-  if v_exposure not in ('all','unseen','incorrect') then raise exception 'custom_config_invalid'; end if;
-  if p_config->>'mode' not in ('exam','learning','diagnostic','mistakes') then
+  if v_exposure is null or v_exposure not in ('all','unseen','incorrect') then raise exception 'custom_config_invalid'; end if;
+  if p_config->>'mode' is null or p_config->>'mode' not in ('exam','learning','diagnostic','mistakes') then
     raise exception 'custom_config_invalid';
   end if;
   if p_config->'duration_sec' <> 'null'::jsonb then
-    if (p_config->>'duration_sec')::int not between 60 and 14400 then
+    if (p_config->>'duration_sec')::int is null or (p_config->>'duration_sec')::int not between 60 and 14400 then
       raise exception 'custom_config_invalid';
     end if;
   end if;
@@ -64,7 +64,8 @@ begin
     if jsonb_typeof(v_topic) <> 'object' then raise exception 'custom_config_invalid'; end if;
     v_id := (v_topic->>'lesson_id')::uuid;
     v_topic_total := (v_topic->>'count')::int;
-    if v_id is null or v_id = any(v_distinct_lesson) or v_topic_total not between 1 and 100 then
+    if v_id is null or v_id = any(v_distinct_lesson)
+       or v_topic_total is null or v_topic_total not between 1 and 100 then
       raise exception 'custom_config_invalid';
     end if;
     v_distinct_lesson := array_append(v_distinct_lesson,v_id);
@@ -83,8 +84,8 @@ begin
     loop
       v_diff := (v_level->>'difficulty')::int;
       v_n := (v_level->>'count')::int;
-      if v_diff not between 1 and 5 or v_diff = any(v_distinct_diff)
-         or v_n not between 1 and 100 then
+      if v_diff is null or v_diff not between 1 and 5 or v_diff = any(v_distinct_diff)
+         or v_n is null or v_n not between 1 and 100 then
         raise exception 'custom_config_invalid';
       end if;
       v_distinct_diff := array_append(v_distinct_diff,v_diff);
