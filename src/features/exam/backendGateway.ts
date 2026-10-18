@@ -133,6 +133,7 @@ export const backendGateway: ExamGateway = {
         available: status.available,
         reason: status.reason,
         criticalObjectiveGaps: status.critical_objective_gaps,
+        missingRequiredObjectives: status.missing_required_objectives,
       }
     } catch {
       // A failed readiness request must never be interpreted as available.
