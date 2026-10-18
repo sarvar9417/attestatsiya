@@ -27,7 +27,7 @@ export function useCatalog(): CatalogState {
     let cancelled = false
     listModules()
       .then(async (apiModules) => {
-        // Fail closed: only show source-based V2 lessons when ALL eight chapters
+        // Fail closed: only show source-based V2/V3 lessons when ALL eight chapters
         // have been expert-published. No draft/review slugs are discoverable here.
         const base = mergeCatalog(MODULES, apiModules)
         try {
@@ -39,7 +39,7 @@ export function useCatalog(): CatalogState {
           if (chapters.length === 8) {
             const all = detail.lessons.filter(
               lesson => lesson.status === 'published' &&
-                lesson.slug.startsWith('algoritmlash-v2-')
+                (lesson.slug.startsWith('algoritmlash-v2-') || lesson.slug.startsWith('algoritmlash-v3-'))
             ).sort((a, b) => a.order_idx - b.order_idx)
             const mod = base.find(module => module.code === 'M06')
             if (mod) mod.subtopics = all.map(lesson => ({
