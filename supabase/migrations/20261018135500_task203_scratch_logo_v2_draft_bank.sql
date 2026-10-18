@@ -33,13 +33,13 @@ begin
    select c.id into v_construct from public.constructs c where c.code=(case (x->>'ch')::int
      when 1 then 'S4.BLOCK.01' when 2 then 'S4.BLOCK.01' when 3 then 'S4.BLOCK.02'
      when 4 then 'S4.BLOCK.03' when 5 then 'S4.BLOCK.04' else 'S4.BLOCK.05' end) and c.is_active;
-   select id into v_lesson from public.lessons where module_id=v_module and slug=(case (x->>'ch')::int
-     when 1 then 'scratch-logo-v2-01-sahna-koordinatalar'
-     when 2 then 'scratch-logo-v2-02-ozgaruvchilar'
-     when 3 then 'scratch-logo-v2-03-bloklar-hodisalar'
-     when 4 then 'scratch-logo-v2-04-shart-sikllar'
-     when 5 then 'scratch-logo-v2-05-pen-protsedura'
-     else 'scratch-logo-v2-06-toshbaqa-grafika' end);
+   -- Match the existing M07 canonical-lesson invariant, even for new draft questions.
+   -- Rich theory chapters are staged as separate draft lesson revisions.
+   select l.id into v_lesson from public.lessons l
+   join public.lesson_constructs lc on lc.lesson_id=l.id
+   where l.module_id=v_module and l.status='published'::public.content_status
+     and lc.construct_id=v_construct
+   order by l.order_idx,l.id limit 1;
    if v_construct is null or v_lesson is null then raise exception 'TASK-203: mapping missing for %',x->>'id'; end if;
    v_q:=gen_random_uuid();
    insert into public.questions(id,subject_id,construct_id,group_code,format,cognitive,difficulty,stem_md,assets,is_generated,status,source_reference,source_lesson_id)
