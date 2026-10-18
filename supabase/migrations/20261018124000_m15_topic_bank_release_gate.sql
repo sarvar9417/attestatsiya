@@ -1,6 +1,7 @@
--- Deploy-time, transactional fail-closed M15 topic-pool audit.
--- This migrates no additional content: it verifies 20 published keyed questions
--- on all eight canonical pedagogy lessons, without reducing required coverage.
+-- Editorial staging audit, run transactionally after authoring 94 questions.
+-- New M15 content MUST remain in review until independently approved.
+-- This verifies enough distinct complete question contracts are staged for each
+-- 20-item lesson test, NOT that the tests are ready for production.
 DO $m15_audit$
 DECLARE r record; v_total int; v_lessons int := 0; v_generated int; v_bad int;
 BEGIN
@@ -15,7 +16,7 @@ BEGIN
     v_lessons := v_lessons + 1;
     select count(*) into v_total from public.questions q
       join public.question_keys k on k.question_id=q.id
-      where q.construct_id=r.cid and q.group_code=r.group_code and q.status='published';
+      where q.construct_id=r.cid and q.group_code=r.group_code and q.status in ('published','review');
     if v_total < r.topic_test_question_count then
       raise exception 'M15 topic pool still insufficient for order_idx %: % / %',
         r.order_idx,v_total,r.topic_test_question_count;
@@ -25,8 +26,11 @@ BEGIN
     raise exception 'Expected exactly 8 canonical M15 topic blueprints, got %',v_lessons;
   end if;
   select count(*) into v_generated from public.questions
-   where source_reference like 'authored:m15-topictest-20261018:%';
-  if v_generated <> 94 then raise exception 'Expected 94 new pedagogical questions, got %',v_generated; end if;
+   where source_reference like 'authored:m15-topictest-20261018:%' and status='review';
+  if v_generated <> 94 then raise exception 'Expected 94 new M15 review questions, got %',v_generated; end if;
+  if exists (select 1 from public.questions where source_reference like 'authored:m15-topictest-20261018:%' and status='published') then
+    raise exception 'Staging must not automatically publish editorial question candidates';
+  end if;
   select count(*) into v_bad from public.questions q
   where q.source_reference like 'authored:m15-topictest-20261018:%'
     and ((select count(*) from public.question_options o where o.question_id=q.id) <> 4
