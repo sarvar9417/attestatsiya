@@ -3,6 +3,7 @@ import type { ExamQuestion } from './exam-data'
 import { LEVEL_LABELS, LETTERS } from './exam-data'
 import AnswerOption from './AnswerOption'
 import CodeBlock, { parseCodeBlocks } from './CodeBlock'
+import InlineText from '../learning/theory/InlineText'
 
 interface QuestionCardProps {
   question: ExamQuestion
@@ -82,7 +83,7 @@ export default function QuestionCard({
             }
             return (
               <p key={i} className="text-base sm:text-lg leading-relaxed text-foreground font-medium">
-                {segment.content}
+                <InlineText text={segment.content} />
               </p>
             )
           })}
