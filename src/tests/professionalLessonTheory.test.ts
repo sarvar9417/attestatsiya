@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import {
   markdownToTheoryBlocks,
   overlayPublishedProfessionalLesson,
+  resolveLearnerTheoryContent,
 } from '../features/content/professionalLessonTheory'
 import type { TopicContent } from '../data/topicContent'
 import type { LessonSummary } from '../features/content/contentApi'
@@ -75,6 +76,25 @@ describe('professional source-backed lesson to learner UI', () => {
     expect(result.theory.find(block => block.type === 'goal')?.content).toContain('nazariyani')
     expect(result.supplementalTheory?.some(block => block.content.includes('O‘qituvchi'))).toBe(true)
     expect(result.questions).toBe(fallback.questions)
+  })
+
+  it('keeps the colorful original M15 lesson before and after canonical API loading', () => {
+    const remote = overlayPublishedProfessionalLesson(fallback, lesson)
+    expect(remote.theory).not.toBe(fallback.theory)
+    const before = resolveLearnerTheoryContent('M15.08', fallback, null)
+    const after = resolveLearnerTheoryContent('M15.08', fallback, remote)
+    expect(before).toBe(fallback)
+    expect(after).toBe(fallback)
+    expect(after.theory[0].type).toBe('definition')
+    expect(after.title).toBe('Ta’lim texnologiyalari')
+    expect(after.questions).toBe(fallback.questions)
+  })
+
+  it('does not change M14/M16 canonical backend-first lesson policy', () => {
+    const remote = overlayPublishedProfessionalLesson(fallback, lesson)
+    expect(resolveLearnerTheoryContent('M14.01', fallback, remote)).toBe(remote)
+    expect(resolveLearnerTheoryContent('M16.02', fallback, remote)).toBe(remote)
+    expect(resolveLearnerTheoryContent('M14.01', fallback, null)).toBe(fallback)
   })
 
   it('does not show unpublished or empty remote content', () => {
