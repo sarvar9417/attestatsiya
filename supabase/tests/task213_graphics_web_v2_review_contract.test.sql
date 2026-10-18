@@ -81,7 +81,7 @@ BEGIN
  SELECT count(*) INTO n FROM public.questions q
  WHERE q.source_reference LIKE 'GV2:GV-%'
    AND jsonb_array_length(q.assets)>0
-   AND (q.assets->0->>'url') NOT LIKE '/graphics-web-v2/%.svg';
+   AND ((q.assets->0->>'kind')<>'image' OR (q.assets->0->>'src') NOT LIKE '/graphics-web-v2/%.svg');
  IF n<>0 THEN RAISE EXCEPTION 'TASK-213 figure asset path mismatch %',n; END IF;
 
  SELECT count(*) INTO n FROM public.lessons l
