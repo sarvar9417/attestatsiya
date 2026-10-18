@@ -15,6 +15,7 @@ DECLARE
   v_required_count integer := 0;
   v_total integer := 0;
   v_missing jsonb := '[]'::jsonb;
+  v_critical_missing jsonb := '[]'::jsonb;
   v_coverage jsonb := '[]'::jsonb;
   v_row record;
   v_available integer := 0;
@@ -26,7 +27,7 @@ BEGIN
   IF NOT FOUND THEN
     RETURN jsonb_build_object('ready',false,'required',0,'available',0,
       'duration_sec',0,'reason','lesson_unavailable','coverage','[]'::jsonb,
-      'critical_objective_gaps','[]'::jsonb);
+      'critical_objective_gaps','[]'::jsonb,'missing_required_objectives','[]'::jsonb);
   END IF;
   SELECT count(*),coalesce(sum(lc.min_questions) FILTER (WHERE lc.is_required),0)
     INTO v_required_count,v_required_slots
@@ -66,6 +67,9 @@ BEGIN
     ));
     IF v_row.is_required AND v_available < v_row.min_questions THEN
       v_missing := v_missing || jsonb_build_array(coalesce(v_row.code,'unknown'));
+      IF v_row.is_critical THEN
+        v_critical_missing := v_critical_missing || jsonb_build_array(coalesce(v_row.code,'unknown'));
+      END IF;
     END IF;
   END LOOP;
 
@@ -84,7 +88,8 @@ BEGIN
     'duration_sec',v_lesson.topic_test_question_count*120,
     'reason',v_reason,
     'coverage',v_coverage,
-    'critical_objective_gaps',v_missing
+    'missing_required_objectives',v_missing,
+    'critical_objective_gaps',v_critical_missing
   );
 END;
 $$;
