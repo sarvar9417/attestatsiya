@@ -17,9 +17,14 @@ BEGIN
  ) x(slug,seq,image) ORDER BY slug,seq
  LOOP
   SELECT body_mdx INTO original FROM public.lessons WHERE slug=rec.slug AND status='review' FOR UPDATE;
-  IF original IS NULL THEN RAISE EXCEPTION 'Review lesson absent: %',rec.slug; END IF;
+  -- Fresh bootstrap runs this migration before TASK-204 V2 migrations;
+  -- defer V2-only diagram replacement to the late forward migration.
+  IF original IS NULL THEN CONTINUE; END IF;
   p:=strpos(original,needle);
-  IF p=0 THEN RAISE EXCEPTION 'Missing placeholder: % / %',rec.slug,rec.seq; END IF;
+  IF p=0 THEN
+    IF strpos(original,rec.image)>0 THEN CONTINUE; END IF;
+    RAISE EXCEPTION 'Missing placeholder without expected image: % / %',rec.slug,rec.seq;
+  END IF;
   changed:=overlay(original placing rec.image from p for char_length(needle));
   IF rec.slug='algoritmlash-v2-05' THEN
    changed:=replace(changed,'\resizebox{.88\textwidth}{!}{','');
@@ -41,6 +46,9 @@ BEGIN
  END LOOP;
  SELECT count(*) INTO n FROM public.lessons WHERE slug LIKE 'algoritmlash-v2-%'
    AND body_mdx LIKE '%'||needle||'%';
- IF n<>0 THEN RAISE EXCEPTION 'Remaining V2 diagram placeholders: %',n; END IF;
+ -- On a clean seed before TASK-204, the V2 lessons are not yet installed.
+ IF (SELECT count(*) FROM public.lessons WHERE slug LIKE 'algoritmlash-v2-%')>0 AND n<>0 THEN
+  RAISE EXCEPTION 'Remaining V2 diagram placeholders: %',n;
+ END IF;
 END $fix$;
 COMMIT;
