@@ -33,6 +33,9 @@ jobs:
       - name: Secret scan
         run: npm run check:secrets
 
+      - name: KT private bank fail-closed release gate
+        run: node --test scripts/tests/ktCandidateGate.test.mjs
+
       - name: Private bank validator syntax
         run: node --check scripts/validate-private-question-bank.mjs
 
@@ -195,6 +198,7 @@ jobs:
             -f supabase/tests/mastery_srs_foundation.test.sql \
             -f supabase/tests/adaptive_practice_selector.test.sql \
             -f supabase/tests/m01_professional_bank_import.test.sql \
+            -f supabase/tests/kt_hw_private_review_gate.test.sql \
             -f supabase/tests/section_mock_50.test.sql \
             -f supabase/tests/official_mock_50.test.sql \
             -f supabase/tests/mock_y2_option_projection.test.sql \
