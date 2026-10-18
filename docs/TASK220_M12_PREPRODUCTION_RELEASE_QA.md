@@ -21,7 +21,7 @@
 3. `20261019220000_task220_m12_native_y2_y3_review.sql` — dastlabki 20 review savol formatini Y2/Y3 ga o'tkazish.
 4. `20261020230000_task220_m12_y2_y3_extra_80_review.sql` — 40 ta yangi native Y2, 40 ta yangi native Y3 savolni append-only kiritish.
 
-Dastlabki uch migratsiya **plyqezulrfowyblsfpzy** loyihasida qo‘llangan. To‘rtinchi migratsiya CI tekshiruvidan so‘ng xuddi shu bazaga qo‘llanadi. Yangi kontentni tasdiqsiz `published`ga o‘tkazish qat'iyan taqiqlanadi.
+To‘rtta migratsiyaning barchasi **plyqezulrfowyblsfpzy** loyihasida muvaffaqiyatli qo‘llangan. 80 ta qo‘shimcha savolning barchasi review holatida; learner nashri emas. Yangi kontentni tasdiqsiz `published`ga o‘tkazish qat'iyan taqiqlanadi.
 
 ## Texnik regressiya
 
@@ -35,7 +35,9 @@ Dastlabki uch migratsiya **plyqezulrfowyblsfpzy** loyihasida qo‘llangan. To‘
 
 - 80 ta yangi bank fayli: 10 bobning har biriga 4 Y2 + 4 Y3.
 - `src/tests/m12NetworkNative80Source.test.ts` — noyob savol, juftlik/permutatsiya, manba va bob kesimidagi tekshiruv.
-- `supabase/tests/task220_m12_extra_80_native_formats.test.sql` — 380, 50 Y2 + 50 Y3, protected keys va published izolatsiyasi.
+- `supabase/tests/task220_m12_extra_80_native_formats.test.sql` — 380, 50 Y2 + 50 Y3, protected keys va published izolatsiyasi. **Jonli bazada PASS**.
+- GitHub Actions CI: [run 39136485127](https://github.com/sarvar9417/attestatsiya/actions/runs/39136485127) — database, backend, lint, typecheck, unit, build va Playwright E2E smoke **PASS**.
+- Jonli bazadagi natija: **280 Y1 + 50 Y2 + 50 Y3 = 380 review savol**. Qo‘shimcha 80 savol har 10 bobga 8 tadan (4 Y2 + 4 Y3) bog‘langan. Oldingi 91 savol va 5 published dars saqlangan.
 - Barcha yangilari `review`; oldingi 300 savol va foydalanuvchi tarixiga o‘zgartirish kiritilmaydi.
 
 ## Manual acceptance — nashrdan OLDIN
