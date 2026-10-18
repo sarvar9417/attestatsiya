@@ -39,6 +39,7 @@ export default function MantiqCircuit({id}:{id:string}){
  const d=useMemo(()=>{try{return FORMULAS[id]?drawData(parse(FORMULAS[id])):null}catch{return null}},[id])
  if(!d)return <span>Chizma topilmadi: {id}</span>
  const ns=children(d.tree)
+ const gateNumber=(index:number)=>ns.slice(0,index+1).filter(node=>node.expr.type==='gate').length
  return <span className="block my-3 max-w-full overflow-x-auto rounded-lg border border-border bg-white p-2" data-fig={id}>
  <svg role="img" aria-label={`Mantiqiy sxema ${id}`} viewBox={`0 0 ${d.width} ${d.height}`} width={Math.min(d.width,750)} height={d.height} className="max-w-none">
  {ns.map((n,k)=>n.expr.type==='gate'?n.kids.map((child,j)=>{
@@ -46,7 +47,7 @@ export default function MantiqCircuit({id}:{id:string}){
   const sx=child.x+(child.expr.type==='var'?16:33),ex=n.x-33
   return <path key={`edge-${k}-${j}`} d={`M ${sx} ${child.y} H ${(sx+ex)/2} V ${ey} H ${ex}`} fill="none" stroke="#102e46" strokeWidth="2"/>}):null)}
  {ns.map((n,k)=>n.expr.type==='var'?<text key={k} x={n.x-6} y={n.y+5} fill="#087e8b" fontWeight="700" fontSize="18">{n.expr.label}</text>:
- <g key={k}><rect x={n.x-32} y={n.y-23} width="64" height="46" rx="4" fill="#e7f0f8" stroke="#102e46" strokeWidth="2"/><text x={n.x} y={n.y+6} fill="#102e46" textAnchor="middle" fontSize="19" fontWeight="700">{label(n.expr.op)}</text>{n.expr.op==='¬'&&<circle cx={n.x+35} cy={n.y} r="4" fill="white" stroke="#102e46" strokeWidth="2"/>}</g>)}
+ <g key={k}><rect x={n.x-32} y={n.y-23} width="64" height="46" rx="4" fill="#e7f0f8" stroke="#102e46" strokeWidth="2"/><text x={n.x} y={n.y+6} fill="#102e46" textAnchor="middle" fontSize="19" fontWeight="700">{label(n.expr.op)}</text><text x={n.x} y={n.y-30} textAnchor="middle" fill="#102e46" fontSize="12" fontWeight="600">G{gateNumber(k)}</text>{n.expr.op==='¬'&&<circle cx={n.x+35} cy={n.y} r="4" fill="white" stroke="#102e46" strokeWidth="2"/>}</g>)}
  <path d={`M ${d.tree.x+40} ${d.tree.y} H ${d.width-39}`} fill="none" stroke="#102e46" strokeWidth="2"/>
  <text x={d.width-31} y={d.tree.y+5} fill="#087e8b" fontWeight="700" fontSize="17">Y</text>
  </svg></span>

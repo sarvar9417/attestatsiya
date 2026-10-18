@@ -98,6 +98,64 @@ async function legacyTopicPreflight(lessonId: string) {
   }
 }
 
+/**
+ * Harmonize legacy strict preflight with the currently deployed adaptive
+ * generator. Required/critical objective gaps continue to fail closed.
+ *
+ * Uses the same service-role-only RPC as the generator's eligibility query;
+ * does NOT expose keys or create any exam session.
+ */
+async function withAdaptiveTopicCount(
+  lessonId: string,
+  baseline: {
+    ready: boolean
+    required: number
+    available: number
+    duration_sec: number
+    reason: string
+    coverage: unknown[]
+    missing_required_objectives: string[]
+    critical_objective_gaps: string[]
+  },
+) {
+  const { data, error } = await supabase.rpc('topic_test_preview', {
+    p_lesson_id: lessonId,
+  })
+  if (error || !data || typeof data !== 'object' || Array.isArray(data)) {
+    throw new AppError('Mavzu testi haqiqiy hajmini tekshirib bo‘lmadi', 503, 'TOPIC_PREFLIGHT_UNAVAILABLE')
+  }
+
+  const actual = data as Record<string, unknown>
+  const count = actual.question_count
+  const available = actual.available_count
+  const duration = actual.duration_sec
+  if (
+    typeof count !== 'number' || !Number.isInteger(count) || count < 0 ||
+    typeof available !== 'number' || !Number.isInteger(available) || available < 0 ||
+    typeof duration !== 'number' || !Number.isInteger(duration) || duration < 0
+  ) {
+    throw new AppError('Mavzu testi hisoblash javobi noto‘g‘ri', 503, 'TOPIC_PREFLIGHT_INVALID')
+  }
+
+  // Missing requirements are never weakened by the adaptive limit.
+  const blockedByObjectives =
+    baseline.reason === 'blueprint_missing' ||
+    baseline.reason === 'blueprint_invalid' ||
+    baseline.reason === 'objective_gap' ||
+    baseline.missing_required_objectives.length > 0
+  const ready = !blockedByObjectives && actual.reason === null && count > 0
+
+  return {
+    ...baseline,
+    ready,
+    required: count > 0 ? count : baseline.required,
+    available,
+    duration_sec: ready ? duration : baseline.duration_sec,
+    reason: blockedByObjectives ? baseline.reason :
+      ready ? 'ready' : 'pool_insufficient',
+  }
+}
+
 export const contentService = {
   /**
    * List all published modules, optionally filtered by section.
@@ -334,7 +392,9 @@ export const contentService = {
     // Never use this fallback on arbitrary RPC failures.
     const isMissingRpc = error &&
       (error.code === 'PGRST202' || error.code === '42883')
-    if (isMissingRpc) return legacyTopicPreflight(resolvedId)
+    if (isMissingRpc) {
+      return withAdaptiveTopicCount(resolvedId, await legacyTopicPreflight(resolvedId))
+    }
     if (error || !data || typeof data !== 'object' || Array.isArray(data)) {
       throw new AppError('Mavzu testi tayyorligini tekshirib bo‘lmadi', 503, 'TOPIC_PREFLIGHT_UNAVAILABLE')
     }
@@ -352,16 +412,16 @@ export const contentService = {
         !Array.isArray(preflight.missing_required_objectives)) {
       throw new AppError('Mavzu testi tayyorligi noto‘g‘ri qaytdi', 503, 'TOPIC_PREFLIGHT_INVALID')
     }
-    return {
-      ready: preflight.ready,
-      required: preflight.required,
-      available: preflight.available,
-      duration_sec: preflight.duration_sec,
-      reason: preflight.reason,
-      coverage: preflight.coverage,
-      critical_objective_gaps: preflight.critical_objective_gaps,
-      missing_required_objectives: preflight.missing_required_objectives,
-    }
+    return withAdaptiveTopicCount(resolvedId, {
+      ready: preflight.ready as boolean,
+      required: preflight.required as number,
+      available: preflight.available as number,
+      duration_sec: preflight.duration_sec as number,
+      reason: preflight.reason as string,
+      coverage: preflight.coverage as unknown[],
+      critical_objective_gaps: preflight.critical_objective_gaps as string[],
+      missing_required_objectives: preflight.missing_required_objectives as string[],
+    })
   },
 
   /**

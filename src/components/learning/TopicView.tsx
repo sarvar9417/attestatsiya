@@ -143,7 +143,8 @@ export default function TopicView({
   const [publishedTheory, setPublishedTheory] = useState<{ subtopicId: string; content: TopicContent } | null>(null)
   const [topicReadiness, setTopicReadiness] = useState<{ subtopicId: string; data: TopicTestPreflight } | null>(null)
   const [readinessRetry, setReadinessRetry] = useState(0)
-  const isProfessionalLesson = /^M1[456]\.\d{2}$/.test(subtopicId)
+  const [checkErrors, setCheckErrors] = useState<Record<string, string>>({})
+  const isProfessionalLesson = /^(?:M04|M1[456])\.\d{2}$/.test(subtopicId)
   const staticContent = getTopicContent(subtopicId)
   const isPedagogyTopic = moduleId === 'M15' && /^M15\.\d{2}$/.test(subtopicId)
   const loadedContent = publishedTheory?.subtopicId === subtopicId
@@ -175,12 +176,13 @@ export default function TopicView({
     setCurrentSection(0)
     setLiveQuestions(null)
     setChecking({})
+    setCheckErrors({})
   }, [subtopicId])
 
-  // M14-M16 canonical source-backed lessons must reach the student's theory
+  // M04 and M14-M16 canonical source-backed lessons must reach the student's theory
   // view, not just the admin API. Keep static theory as offline fallback.
   useEffect(() => {
-    if (!/^M1[456]\.\d{2}$/.test(subtopicId)) return
+    if (!/^(?:M04|M1[456])\.\d{2}$/.test(subtopicId)) return
     let cancelled = false
     const fallback = getTopicContent(subtopicId)
     if (!fallback) return
@@ -202,7 +204,6 @@ export default function TopicView({
   // Published/keyed lesson coverage must be checked by the authoritative
   // backend generator preflight, not by the number of visible learning questions.
   useEffect(() => {
-    if (!isProfessionalLesson) return
     let active = true
     getTopicTestPreflight(subtopicId)
       .then(data => { if (active) setTopicReadiness({ subtopicId, data }) })
@@ -315,8 +316,8 @@ export default function TopicView({
   const isAppendix = content?.kind === 'appendix'
   /** Testga o'tish imkoni bormi. */
   const currentReadiness = topicReadiness?.subtopicId === subtopicId ? topicReadiness.data : null
-  const hasTest = isProfessionalLesson ? currentReadiness?.ready === true : questions.length > 0
-  const displayedTestCount = isProfessionalLesson ? currentReadiness?.required : questions.length
+  const hasTest = currentReadiness?.ready === true
+  const displayedTestCount = currentReadiness?.required ?? 0
   const handleTopicTestAction = () => {
     if (hasTest) navigate(`/exam/mavzu/${moduleId}?lessonId=${subtopicId}`)
     else if (!isProfessionalLesson) handleComplete(0, 0)
@@ -340,6 +341,7 @@ export default function TopicView({
 
   const handleAnswer = (qId: string, answer: unknown) => {
     if (submitted[qId]) return
+    setCheckErrors(p => ({ ...p, [qId]: '' }))
     setAnswers(p => ({ ...p, [qId]: answer }))
   }
 
@@ -352,6 +354,13 @@ export default function TopicView({
       setChecking(p => ({ ...p, [qId]: true }))
       try {
         const result = await checkQuestionAnswer(q, answers[qId] as number)
+        if (result.correctIndex < 0) {
+          setCheckErrors(p => ({
+            ...p,
+            [qId]: 'Javobni tekshirib bo‘lmadi. Internetni tekshirib qayta urining.',
+          }))
+          return // Never misgrade a failed server check.
+        }
         if (result.correctIndex >= 0) {
           setLiveQuestions(qs =>
             (qs ?? []).map(x =>
@@ -612,7 +621,7 @@ export default function TopicView({
             </div>
           </div>
 
-          {isProfessionalLesson && !hasTest && (
+          {!isAppendix && !hasTest && (
             <div role="status" aria-live="polite"
               className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-amber-200 bg-amber-50/70 px-4 py-3 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950/20 dark:text-amber-100">
               <div>
@@ -639,7 +648,7 @@ export default function TopicView({
               }>
                 <BookReader
                   content={content}
-                  questionCount={questions.length}
+                  questionCount={hasTest ? displayedTestCount : 0}
                   isAppendix={isAppendix}
                   onProgress={setReadProgress}
                   onFinishReading={handleTopicTestAction}
@@ -877,8 +886,8 @@ export default function TopicView({
           {/* ── Questions ── */}
           <div className="space-y-5">
             {questions.map((q, idx) => (
+              <div key={q.id}>
               <QuestionCard
-                key={q.id}
                 question={q}
                 index={idx}
                 total={questions.length}
@@ -887,6 +896,12 @@ export default function TopicView({
                 onSelect={(a) => handleAnswer(q.id, a)}
                 onSubmit={() => handleSubmit(q.id)}
               />
+              {checkErrors[q.id] && (
+                <p role="alert" className="mt-2 rounded-xl border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800 dark:bg-amber-950/30 dark:text-amber-200">
+                  {checkErrors[q.id]}
+                </p>
+              )}
+              </div>
             ))}
           </div>
 
