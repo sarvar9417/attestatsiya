@@ -320,12 +320,10 @@ describe('GET /api/content/lessons/:id/questions', () => {
   })
 })
 
-describe('POST /api/content/questions/check', () => {
+describe('POST /api/content/questions/check — no public answer-key oracle', () => {
   let app: ReturnType<typeof Fastify>
-
   const QUESTION_UUID = '11111111-1111-4111-8111-111111111111'
   const OPTION_UUID = '22222222-2222-4222-8222-222222222222'
-  const WRONG_OPTION_UUID = '33333333-3333-4333-8333-333333333333'
 
   beforeEach(async () => {
     vi.clearAllMocks()
@@ -336,136 +334,31 @@ describe('POST /api/content/questions/check', () => {
     await app.ready()
   })
 
-  afterEach(async () => {
-    await app.close()
-  })
+  afterEach(async () => { await app.close() })
 
-  function mockQuestionExists(exists: boolean, groupCode = 'S1.INFO') {
-    mockFrom.mockReturnValueOnce({
-      select: vi.fn(() => ({
-        eq: vi.fn(() => ({
-          eq: vi.fn(() => ({
-            maybeSingle: vi.fn().mockResolvedValue({ data: exists ? { id: QUESTION_UUID, group_code: groupCode } : null, error: null }),
-          })),
-        })),
-      })),
-    })
-  }
-
-  function mockOptionExists(exists: boolean, id = OPTION_UUID) {
-    mockFrom.mockReturnValueOnce({
-      select: vi.fn(() => ({
-        eq: vi.fn(() => ({
-          eq: vi.fn(() => ({
-            maybeSingle: vi.fn().mockResolvedValue({
-              data: exists ? { id, question_id: QUESTION_UUID } : null,
-              error: null,
-            }),
-          })),
-        })),
-      })),
-    })
-  }
-
-  function mockKey(correctOptionId: string, explanation: string) {
-    mockFrom.mockReturnValueOnce({
-      select: vi.fn(() => ({
-        eq: vi.fn(() => ({
-          maybeSingle: vi.fn().mockResolvedValue({
-            data: { payload: { correct_option_id: correctOptionId }, explanation_md: explanation },
-            error: null,
-          }),
-        })),
-      })),
-    })
-  }
-
-  it('to\'g\'ri javob: correct=true va izoh qaytaradi', async () => {
-    mockQuestionExists(true)
-    mockOptionExists(true, OPTION_UUID)
-    mockKey(OPTION_UUID, 'Bu to\'g\'ri izoh')
-
+  it('returns 410 for all published question groups without reading the database', async () => {
     const response = await app.inject({
       method: 'POST',
       url: '/api/content/questions/check',
       payload: { question_id: QUESTION_UUID, option_id: OPTION_UUID },
     })
-
-    expect(response.statusCode).toBe(200)
-    expect(JSON.parse(response.body)).toMatchObject({
-      correct: true,
-      correct_option_id: OPTION_UUID,
-      explanation_md: 'Bu to\'g\'ri izoh',
-    })
+    expect(response.statusCode).toBe(410)
+    expect(response.json().error.code).toBe('DIRECT_KEY_CHECK_DISABLED')
+    expect(response.headers['cache-control']).toBe('no-store')
+    expect(JSON.stringify(response.json())).not.toMatch(/correct_option_id|explanation_md/)
+    // The service-role question_keys table is never accessed, not even for
+    // a nonexistent question or one not yet used in an exam.
+    expect(mockFrom).not.toHaveBeenCalled()
   })
 
-  it('noto\'g\'ri javob: correct=false', async () => {
-    mockQuestionExists(true)
-    mockOptionExists(true, OPTION_UUID)
-    mockKey(OPTION_UUID, 'izoh')
-
-    const response = await app.inject({
-      method: 'POST',
-      url: '/api/content/questions/check',
-      payload: { question_id: QUESTION_UUID, option_id: WRONG_OPTION_UUID },
-    })
-
-    expect(response.statusCode).toBe(200)
-    const body = JSON.parse(response.body)
-    expect(body.correct).toBe(false)
-    expect(body.correct_option_id).toBe(OPTION_UUID)
-  })
-
-  it('pedagogika/KS/metodika savoli uchun javob kalitini qaytarmaydi', async () => {
-    for (const group of ['KS', 'PM.GEN', 'PM.MET']) {
-      mockFrom.mockReset()
-      mockQuestionExists(true, group)
-      const response = await app.inject({
-        method: 'POST',
-        url: '/api/content/questions/check',
-        payload: { question_id: QUESTION_UUID, option_id: OPTION_UUID },
-      })
-      expect(response.statusCode).toBe(404)
-      expect(JSON.stringify(response.json())).not.toContain('correct_option_id')
-      expect(mockFrom).toHaveBeenCalledTimes(1)
-    }
-  })
-
-  it('savol topilmasa 404 qaytaradi', async () => {
-    mockQuestionExists(false)
-
-    const response = await app.inject({
-      method: 'POST',
-      url: '/api/content/questions/check',
-      payload: { question_id: QUESTION_UUID, option_id: OPTION_UUID },
-    })
-
-    expect(response.statusCode).toBe(404)
-    expect(JSON.parse(response.body).error.code).toBe('NOT_FOUND')
-  })
-
-  it('option savolga tegishli bo\'lmasa 400 qaytaradi', async () => {
-    mockQuestionExists(true)
-    mockOptionExists(false)
-
-    const response = await app.inject({
-      method: 'POST',
-      url: '/api/content/questions/check',
-      payload: { question_id: QUESTION_UUID, option_id: OPTION_UUID },
-    })
-
-    expect(response.statusCode).toBe(400)
-    expect(JSON.parse(response.body).error.code).toBe('INVALID_OPTION')
-  })
-
-  it('noto\'g\'ri formatdagi id 400 qaytaradi (validation)', async () => {
+  it('does not create a new key-leak path through malformed input', async () => {
     const response = await app.inject({
       method: 'POST',
       url: '/api/content/questions/check',
       payload: { question_id: 'not-a-uuid', option_id: OPTION_UUID },
     })
-
     expect(response.statusCode).toBe(400)
-    expect(JSON.parse(response.body).error.code).toBe('VALIDATION_ERROR')
+    expect(response.json().error.code).toBe('VALIDATION_ERROR')
+    expect(mockFrom).not.toHaveBeenCalled()
   })
 })
