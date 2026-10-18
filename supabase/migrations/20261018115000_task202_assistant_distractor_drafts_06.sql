@@ -1,6 +1,7 @@
 -- TASK-202: PM.GEN original review distractor proposals; no auto-publication.
 begin;
-insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distractors) values
+insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distractors)
+select source_question_id::uuid, proposed_distractors from (values
 ('15a68921-4bcf-4d57-8969-e0a87f18c10a',array[
 'Nutqdagi ilmiy atamalar sonini oshirib, mavzuni yanada batafsil bayon qilish',
 'Dars vaqtini tejash uchun tushuntirish tezligini saqlab, savollarni keyinga qoldirish',
@@ -41,5 +42,8 @@ insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distra
 'Metod barcha yosh guruhlarida o‘zgarmas natija berishi kerakligi sababli baholash mezonlari xato',
 'Tanlangan metodni istalgan yoshdagi o‘quvchilarga moslashtirishsiz qo‘llash mumkinligi natijalar bilan isbotlangan',
 'Ikki guruhning natijasi farqli bo‘lsa, metodni yosh omillaridan mustaqil ravishda batamom rad etish zarur'])
+) as proposed(source_question_id, proposed_distractors)
+where exists(select 1 from public.questions q where q.id=proposed.source_question_id::uuid
+  and q.status='published'::public.content_status and q.format='Y1'::public.question_format)
 on conflict(source_question_id) do nothing;
 commit;
