@@ -77,6 +77,7 @@ export const examSessionSchema = z
       'takrorlash',
       'zaif',
       'pedagogik_15',
+      'custom',
     ]),
     duration_sec: z.number().int().positive().nullable(),
     started_at: z.string().refine((value) => Number.isFinite(Date.parse(value)), {
