@@ -62,7 +62,7 @@ export async function resolveLessonUuid(subtopicCode: string): Promise<string | 
   // slugs, not m05-01 style slugs. Resolve the *published* lesson by its
   // module + ordinal so topic tests, study previews and progress all agree.
   // Never silently fall through to a legacy/draft lesson for these modules.
-  const canonicalMatch = /^(M(?:02|05|1[456]))\\.(0[1-9]|[1-9][0-9])$/.exec(subtopicCode.toUpperCase())
+  const canonicalMatch = /^(M(?:02|05|1[456]))\.(0[1-9]|[1-9][0-9])$/.exec(subtopicCode.toUpperCase())
   if (canonicalMatch) {
     const moduleId = await resolveModuleUuid(canonicalMatch[1])
     if (moduleId) {
