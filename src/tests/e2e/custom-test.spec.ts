@@ -211,6 +211,25 @@ test.describe('TASK-210 custom test construction', () => {
     await expect(page.getByText('TASK210 savol 1')).toBeVisible()
   })
 
+  test('mobile wizard scroll, keyboard expansion and back navigation', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 780 })
+    await page.goto('/custom-test')
+    const moduleToggle = page.getByRole('button', { name: /M01 · Informatika/ })
+    await moduleToggle.focus()
+    await page.keyboard.press('Enter')
+    await expect(moduleToggle).toHaveAttribute('aria-expanded','true')
+    await page.getByLabel('Axborot va kodlash', { exact: true }).check()
+    const preflight = page.getByRole('button', { name: 'Savollar yetarliligini tekshirish' })
+    await preflight.scrollIntoViewIfNeeded()
+    await expect(preflight).toBeInViewport()
+    await preflight.click()
+    await expect(page.getByText('Tanlangan barcha kvotalar bajariladi.')).toBeVisible()
+    const back = page.getByRole('link', { name: /Testlar bo‘limiga qaytish/ })
+    await back.scrollIntoViewIfNeeded()
+    await back.click()
+    await expect(page).toHaveURL(/\/exam$/)
+  })
+
   test('prevents direct runner access without a valid config', async ({ page }) => {
     await page.goto('/exam/custom')
     await expect(page).toHaveURL(/\/custom-test/)
