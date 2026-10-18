@@ -6,7 +6,6 @@ import type {
   LessonResponse,
   ConstructResponse,
   LessonQuestion,
-  CheckAnswerResult,
 } from '../schemas/content.js'
 
 /**
@@ -422,48 +421,6 @@ export const contentService = {
       critical_objective_gaps: preflight.critical_objective_gaps as string[],
       missing_required_objectives: preflight.missing_required_objectives as string[],
     })
-  },
-
-  /**
-   * Savol javobini server tomonda tekshiradi (question_keys client'ga chiqmaydi).
-   */
-  async checkAnswer(questionId: string, optionId: string): Promise<CheckAnswerResult> {
-    const { data: question } = await supabase
-      .from('questions')
-      .select('id, group_code')
-      .eq('id', questionId)
-      .eq('status', 'published')
-      .maybeSingle()
-    if (!question || ['KS', 'PM.GEN', 'PM.MET'].includes(question.group_code)) {
-      // Deliberately indistinguishable from a nonexistent question to avoid
-      // using the correct_option_id endpoint as an exam-bank key oracle.
-      throw new NotFoundError('Savol topilmadi')
-    }
-
-    const { data: option } = await supabase
-      .from('question_options')
-      .select('id, question_id')
-      .eq('id', optionId)
-      .eq('question_id', questionId)
-      .maybeSingle()
-    if (!option) throw new AppError('Javob varianti savolga tegishli emas', 400, 'INVALID_OPTION')
-
-    const { data: key } = await supabase
-      .from('question_keys')
-      .select('payload, explanation_md')
-      .eq('question_id', questionId)
-      .maybeSingle()
-    if (!key) throw new AppError('Savol uchun kalit topilmadi', 500, 'KEY_MISSING')
-
-    const payload = key.payload as { correct_option_id?: string } | null
-    const correctOptionId = payload?.correct_option_id ?? ''
-    if (!correctOptionId) throw new AppError('Kalit noto‘g‘ri tuzilgan', 500, 'KEY_INVALID')
-
-    return {
-      correct: optionId === correctOptionId,
-      correct_option_id: correctOptionId,
-      explanation_md: key.explanation_md,
-    }
   },
 
   /**
