@@ -1,3 +1,18 @@
+## TASK-230–235 — Universal shaxsiy test konstruktori, ishlab chiqilgan (2026-10-18)
+
+- **Owner scope:** production deploy va production DB migratsiyasi mustasno; feature branch only, `main`ga merge yo‘q.
+- **Old TASK-213/214 IDs collision repaired:** M10/M11 graphics-web V2 avvaldan shu raqamlarni ishlatadi; custom builder extension endi alohida TASK-230…235.
+- **Branch:** `task/TASK-230-235-custom-builder-completion`; `main`ga bosqichma-bosqich testlari bilan alohida Draft PR.
+- **Already in main:** TASK-210 test constructor, UUID fix, preset RLS/CRUD SavedPresetsPanel; eski PR #159 yopilgan.
+- **TASK-230:** optional per-lesson active/mapped construct + exact pool filtering (PostgreSQL catalog/preflight/start, UI).
+- **TASK-231:** safe post-finish owner-only analytics by topic/difficulty/format.
+- **TASK-232:** active exam resume + original answers + idempotent start and server timestamp (24h cap when untimed).
+- **TASK-233:** per-submitted-item learning feedback; exam/diagnostic/mock/AXB protected; deterministic equal quotas.
+- **TASK-234:** staff-gated admin pool coverage, no answer keys, RPC service_role only.
+- **TASK-235:** fresh database + backend tests, TypeScript/lint/build/Playwright; no staging or production acceptance claimed.
+- **Migrations (not applied to production):** `20261019023000_task230_custom_construct_filter.sql`, `20261019024000_task231_custom_exam_analysis.sql`, `20261019025000_task232_custom_exam_resume.sql`, `20261019030000_task233_custom_learning_feedback.sql`, `20261019031000_task234_admin_custom_coverage.sql`.
+- **Open:** independent security/code review, staging authenticated owner/admin smoke, future separate explicit release authorization.
+
 ## TASK-214 — Grafika va veb-texnologiyalar 380 test (2026-10-18)
 
 - **Holat:** IN_PROGRESS — 300 mavjud review bank saqlangan, 5 bo‘limga 8 ta Y2 + 8 ta Y3 qo‘shimcha, jami 380 (Y1=280, Y2=50, Y3=50). Source text: V2 nazariya va ICT/Cambridge boblari; yozilgan savollar original, mustaqil human QA kutmoqda.

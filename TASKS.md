@@ -1,3 +1,16 @@
+## TASK-230–235 — Shaxsiy test konstruktori: non-production yakunlash
+
+| ID | Status | Dependency | Deliverable |
+|----|--------|------------|-------------|
+| TASK-230 | IN_PROGRESS | TASK-210 | Kichik mavzu (construct) tanlash, DB/RPC fail-closed filtr, UI va regression |
+| TASK-231 | IN_PROGRESS | TASK-230 | Owner-only yakunlangan test diagnostikasi: mavzu, A–E, Y1–Y3 |
+| TASK-232 | IN_PROGRESS | TASK-231 | Server-authoritative sessiyani tiklash, takroriy startni oldini olish |
+| TASK-233 | IN_PROGRESS | TASK-232 | Learning-only javobdan keyin izoh, aniq teng taqsimot |
+| TASK-234 | IN_PROGRESS | TASK-233 | Admin-only published/keyed/source-backed pool qamrov paneli |
+| TASK-235 | IN_PROGRESS | TASK-234 | Fresh PostgreSQL, backend/frontend, Playwright, mobil/klaviatura QA; production chiqarilmaydi |
+
+> Barchasi `task/TASK-230-235-custom-builder-completion` branchida. Preset CRUD allaqachon `main`da; eski PR #159 superseded/closed. `main`, Vercel yoki production Supabase o‘zgartirilmasin. Dastlabki QA dalillari: `docs/TASK230_235_CUSTOM_BUILDER_NONPROD_QA.md`.
+
 ## TASK-214 — Grafika va veb-texnologiyalar: qo‘shimcha Y2/Y3
 
 | ID | Status | Dependency | Deliverable |
