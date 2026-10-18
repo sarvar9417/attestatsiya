@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   listAdminQuestions,
   transitionAdminQuestionStatus,
+  stageAdminPedagogyRevision,
 } from '../../features/admin/adminContentApi'
 import {
   Archive,
@@ -34,6 +35,16 @@ interface QuestionRow {
   subject_id: string | null
   created_at: string
   source_reference: string | null
+  length_bias_flag?: boolean
+  revision_question_id?: string | null
+  quality_flags?: {
+    question_id: string
+    answer_length_signal: boolean
+    publish_word_balance_risk: boolean
+    absolute_word_cue: boolean
+    invalid_y1_contract: boolean
+    authorship_unknown: boolean
+  } | null
 }
 
 const STATUS_FLOW: Record<
@@ -99,9 +110,9 @@ const STATUS_META: Record<ContentStatus, { label: string; color: string }> = {
 }
 
 const FORMAT_LABEL: Record<string, string> = {
-  Y1: 'Y1 · Bilish',
-  Y2: "Y2 · Qo'llash",
-  Y3: 'Y3 · Mulohaza',
+  Y1: 'Y1 · Bitta javob',
+  Y2: 'Y2 · Moslashtirish',
+  Y3: 'Y3 · Ketma-ketlik',
 }
 
 const COGNITIVE_LABEL: Record<string, string> = {
@@ -116,11 +127,20 @@ export default function QuestionsPage() {
   const [loadError, setLoadError] = useState<string | null>(null)
   const [actionError, setActionError] = useState<string | null>(null)
   const [search, setSearch] = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
+  const [page, setPage] = useState(1)
+  const [total, setTotal] = useState(0)
+  const [filterGroup, setFilterGroup] = useState('')
   const [filterStatus, setFilterStatus] = useState('')
   const [filterSource, setFilterSource] = useState('')
   const [editorialQuestion, setEditorialQuestion] = useState<QuestionRow | null>(null)
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
+
+  useEffect(() => {
+    const timeout = window.setTimeout(() => { setSearchTerm(search.trim()); setPage(1) }, 350)
+    return () => window.clearTimeout(timeout)
+  }, [search])
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -129,19 +149,35 @@ export default function QuestionsPage() {
     try {
       const data = await listAdminQuestions(
         filterStatus ? (filterStatus as ContentStatus) : undefined,
-        filterSource === 'pedguli' ? 'pedguli' : undefined,
+        filterSource === 'pedguli' || filterSource === 'pedagogy_pdf' ? filterSource : undefined,
+        page,
+        filterGroup ? (filterGroup as 'KS' | 'PM.GEN' | 'PM.MET') : undefined,
+        searchTerm || undefined,
       )
-      setQuestions(data)
+      // Keep adapter compatibility for local/old component fixtures.
+      const items = Array.isArray(data) ? data : data.items
+      setQuestions(items)
+      setTotal(Array.isArray(data) ? items.length : data.total)
     } catch (error) {
       setLoadError(error instanceof Error ? error.message : 'Savollarni yuklashda xatolik')
     } finally {
       setLoading(false)
     }
-  }, [filterStatus, filterSource])
+  }, [filterStatus, filterSource, filterGroup, page, searchTerm])
 
   useEffect(() => {
     void load()
   }, [load])
+
+  async function stageRevision(q: QuestionRow) {
+    setActionError(null)
+    try {
+      await stageAdminPedagogyRevision(q.id)
+      await load()
+    } catch (error) {
+      setActionError(error instanceof Error ? error.message : 'Yangi tahrir yaratilmadi')
+    }
+  }
 
   async function transitionStatus(q: QuestionRow, nextStatus: ContentStatus) {
     setActionError(null)
@@ -268,18 +304,26 @@ export default function QuestionsPage() {
           <select
             className="input min-h-11 w-full lg:w-56"
             value={filterSource}
-            onChange={event => setFilterSource(event.target.value)}
+            onChange={event => { setFilterSource(event.target.value); setPage(1) }}
             aria-label="Savol manbasi filtri"
           >
             <option value="">Barcha manbalar</option>
             <option value="pedguli">Pedmahorat — original mashqlar</option>
+            <option value="pedagogy_pdf">PDFdan yaratilgan savollar</option>
+          </select>
+          <select className="input min-h-11 w-full lg:w-44" value={filterGroup}
+            aria-label="Pedagogika guruhi" onChange={event => { setFilterGroup(event.target.value); setPage(1) }}>
+            <option value="">Barcha guruhlar</option>
+            <option value="KS">Kasb standarti</option>
+            <option value="PM.GEN">Umumiy pedagogika</option>
+            <option value="PM.MET">Informatika metodikasi</option>
           </select>
           <div className="flex items-center gap-2">
             <Filter size={15} className="text-gray-400" aria-hidden="true" />
             <select
               className="input min-h-11 w-full lg:w-48"
               value={filterStatus}
-              onChange={event => setFilterStatus(event.target.value)}
+              onChange={event => { setFilterStatus(event.target.value); setPage(1) }}
               aria-label="Status filtri"
             >
               <option value="">Barcha holatlar</option>
@@ -293,11 +337,21 @@ export default function QuestionsPage() {
         </div>
 
         <p className="mt-3 text-xs text-gray-400">
-          {search
-            ? `Qidiruv bo‘yicha ${filtered.length} ta savol`
-            : 'Eng so‘nggi 100 tagacha savol ko‘rsatiladi.'}
+          Bazada filtr bo‘yicha {total} ta savol. {page}-sahifa, sahifada {questions.length} ta.
         </p>
       </section>
+
+      <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-gray-600 dark:text-gray-300" aria-label="Savollar sahifalari">
+        <span>Jami: {total} · {page} / {Math.max(1, Math.ceil(total / 25))}-sahifa</span>
+        <div className="flex gap-2">
+          <button type="button" disabled={loading || page <= 1}
+            onClick={() => setPage(previous => Math.max(1, previous - 1))}
+            className="btn-secondary min-h-10 disabled:opacity-50">Oldingi</button>
+          <button type="button" disabled={loading || page * 25 >= total}
+            onClick={() => setPage(previous => previous + 1)}
+            className="btn-secondary min-h-10 disabled:opacity-50">Keyingi</button>
+        </div>
+      </div>
 
       <section className="rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
         <div className="border-b border-gray-100 px-5 py-4 dark:border-gray-800">
@@ -368,11 +422,38 @@ export default function QuestionsPage() {
                             {question.group_code}
                           </span>
                         )}
+                        {question.quality_flags?.answer_length_signal && (
+                          <span title="To‘g‘ri javob boshqa variantlardan sezilarli uzun. Ekspert tekshiruvi shart."
+                            className="rounded-lg bg-amber-100 px-2 py-1 text-[11px] font-semibold text-amber-900 dark:bg-amber-950/50 dark:text-amber-200">
+                            Javob uzunligi ishorasi
+                          </span>
+                        )}
+                        {question.quality_flags?.absolute_word_cue && (
+                          <span title="Noto‘g‘ri javoblarning grammatik shaklidan topish mumkin."
+                            className="rounded-lg bg-amber-100 px-2 py-1 text-[11px] font-semibold text-amber-900 dark:bg-amber-950/50 dark:text-amber-200">
+                            “Faqat” ishorasi
+                          </span>
+                        )}
+                        {question.quality_flags?.invalid_y1_contract && (
+                          <span title="To‘rtta javob yoki yagona kalit qoidasi buzilgan."
+                            className="rounded-lg bg-red-100 px-2 py-1 text-[11px] font-semibold text-red-900 dark:bg-red-950/50 dark:text-red-200">
+                            Savol kaliti/variant xatosi
+                          </span>
+                        )}
+                        {question.status === 'review' && question.quality_flags?.authorship_unknown && (
+                          <span title="Haqiqiy muallif hali tasdiqlanmagan."
+                            className="rounded-lg border border-gray-300 px-2 py-1 text-[11px] font-medium text-gray-600 dark:border-gray-700 dark:text-gray-300">
+                            Muallif tasdiqlanmagan
+                          </span>
+                        )}
                       </div>
                     </div>
 
                     <div className="flex shrink-0 flex-wrap items-center gap-2">
-                      {flow?.to.map(nextStatus => (
+                      {flow?.to.filter(nextStatus => !(
+                        nextStatus === 'draft' && status === 'archived' &&
+                        ['KS', 'PM.GEN', 'PM.MET'].includes(question.group_code)
+                      )).map(nextStatus => (
                         <button
                           key={nextStatus}
                           type="button"
@@ -397,7 +478,9 @@ export default function QuestionsPage() {
                         </button>
                       ))}
 
-                      {status === 'review' && question.source_reference?.startsWith('authored:pedguli-') && (
+                      {status === 'review' && (['KS', 'PM.GEN', 'PM.MET'].includes(question.group_code) ||
+                        question.source_reference?.startsWith('authored:pedguli-') ||
+                        question.source_reference?.startsWith('authored:pedagogy-pdf-corpus:')) && (
                         <button
                           type="button"
                           onClick={() => setEditorialQuestion(question)}
@@ -408,13 +491,26 @@ export default function QuestionsPage() {
                           Tahririy tekshiruv
                         </button>
                       )}
-                      <button
+                      {question.length_bias_flag && status === 'published' && (
+                        question.revision_question_id ? (
+                          <span className="rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800 dark:bg-amber-950/40 dark:text-amber-300">
+                            Tahrir navbatga olingan
+                          </span>
+                        ) : (
+                          <button type="button" onClick={() => void stageRevision(question)}
+                            className="inline-flex min-h-9 items-center rounded-lg border border-amber-300 px-3 text-xs font-semibold text-amber-800 dark:border-amber-800 dark:text-amber-300">
+                            Muvozanatli tahrir yaratish
+                          </button>
+                        )
+                      )}
+                      {(status !== 'published' && !(status === 'archived' &&
+                        ['KS','PM.GEN','PM.MET'].includes(question.group_code))) && <button
                         type="button"
                         onClick={() => setEditingId(question.id)}
                         className="inline-flex min-h-9 items-center rounded-lg border border-indigo-200 px-3 text-xs font-semibold text-indigo-600 transition hover:bg-indigo-50 dark:border-indigo-800 dark:text-indigo-300 dark:hover:bg-indigo-950/40"
                       >
                         Tahrirlash
-                      </button>
+                      </button>}
                     </div>
                   </div>
                 </article>

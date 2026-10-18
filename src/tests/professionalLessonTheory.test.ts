@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import {
   markdownToTheoryBlocks,
   overlayPublishedProfessionalLesson,
+  resolveLearnerTheoryContent,
 } from '../features/content/professionalLessonTheory'
 import type { TopicContent } from '../data/topicContent'
 import type { LessonSummary } from '../features/content/contentApi'
@@ -43,22 +44,59 @@ describe('professional source-backed lesson to learner UI', () => {
   it('renders headings and paragraphs without executing HTML', () => {
     const result=markdownToTheoryBlocks('## Mavzu\n\n<strong>oddiy matn</strong>')
     expect(result).toHaveLength(2)
-    expect(result[0].content).toBe('## Mavzu')
+    expect(result[0]).toEqual({ type: 'heading', content: 'Mavzu' })
     expect(result[1].content).toContain('<strong>')
   })
   it('converts markdown tables to the existing table block content contract', () => {
     const theory=markdownToTheoryBlocks(lesson.body_mdx!)
     const table=theory.find(block=>block.type==='table')
-    expect(table?.content).toContain('Metod|Belgisi\n---|---\nAkvarium|Kuzatuv')
-    expect(table?.content).toContain('Jigsaw|Ekspert guruhi')
+    expect(table?.headers).toEqual(['Metod', 'Belgisi'])
+    expect(table?.rows?.[0]).toEqual(['Akvarium', 'Kuzatuv'])
+    expect(table?.rows?.[1]).toEqual(['Jigsaw', 'Ekspert guruhi'])
   })
   it('shows published M15 lessons and keeps only local fallback questions', () => {
     const result=overlayPublishedProfessionalLesson(fallback,lesson)
     expect(result.title).toContain('interfaol metodlar')
     expect(result.theory.length).toBeGreaterThan(3)
     expect(result.questions).toBe(fallback.questions)
-    expect(result.theory.some(b=>b.type==='note')).toBe(true)
+    expect(result.theory.some(b=>b.type==='source')).toBe(true)
   })
+  it('keeps source addenda separate from the easy-to-read core lesson', () => {
+    const enriched = { ...lesson, body_mdx: [
+      '## Maqsad',
+      'Asosiy nazariyani tushunish.',
+      '## Tushunchalar',
+      '**Didaktika** — ta’lim nazariyasi.',
+      '## Chuqurlashtirilgan nazariya — manba korpusi (2026-10-18)',
+      '## Vaziyat',
+      'O‘qituvchi misol keltiradi.',
+    ].join('\n') }
+    const result = overlayPublishedProfessionalLesson(fallback, enriched)
+    expect(result.theory.some(block => block.content.includes('Chuqurlashtirilgan'))).toBe(false)
+    expect(result.theory.find(block => block.type === 'goal')?.content).toContain('nazariyani')
+    expect(result.supplementalTheory?.some(block => block.content.includes('O‘qituvchi'))).toBe(true)
+    expect(result.questions).toBe(fallback.questions)
+  })
+
+  it('keeps the colorful original M15 lesson before and after canonical API loading', () => {
+    const remote = overlayPublishedProfessionalLesson(fallback, lesson)
+    expect(remote.theory).not.toBe(fallback.theory)
+    const before = resolveLearnerTheoryContent('M15.08', fallback, null)
+    const after = resolveLearnerTheoryContent('M15.08', fallback, remote)
+    expect(before).toBe(fallback)
+    expect(after).toBe(fallback)
+    expect(after.theory[0].type).toBe('definition')
+    expect(after.title).toBe('Ta’lim texnologiyalari')
+    expect(after.questions).toBe(fallback.questions)
+  })
+
+  it('does not change M14/M16 canonical backend-first lesson policy', () => {
+    const remote = overlayPublishedProfessionalLesson(fallback, lesson)
+    expect(resolveLearnerTheoryContent('M14.01', fallback, remote)).toBe(remote)
+    expect(resolveLearnerTheoryContent('M16.02', fallback, remote)).toBe(remote)
+    expect(resolveLearnerTheoryContent('M14.01', fallback, null)).toBe(fallback)
+  })
+
   it('does not show unpublished or empty remote content', () => {
     expect(overlayPublishedProfessionalLesson(fallback,{...lesson,status:'draft'})).toBe(fallback)
     expect(overlayPublishedProfessionalLesson(fallback,{...lesson,body_mdx:'   '})).toBe(fallback)

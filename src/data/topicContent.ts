@@ -1,4 +1,8 @@
 import { M01_CONTENT } from './topics/m01'
+import { M05_THEORY } from './topics/m05'
+import { buildCanonicalM02Topic } from './topics/m02Canonical'
+// M14–M16 use server-scored exams exclusively. Legacy mini-quiz answer keys
+// have intentionally been stripped from the shipped JavaScript bundle.
 
 /**
  * Nazariy blok turlari.
@@ -87,6 +91,8 @@ export interface TopicContent {
   subtopicId: string
   title: string
   theory: TheoryBlock[]
+  /** Source-backed material for optional, progressive study; not part of core lesson. */
+  supplementalTheory?: TheoryBlock[]
   questions: TestQuestion[]
   /** Kontent olingan manba fayli (generatsiya qilingan mavzular uchun) */
   source?: string
@@ -1197,11 +1203,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'table', content: '| Hujjat | Mazmuni |\n|--------|--------|\n| DTS | Fan bo\'yicha minimal talablar |\n| O\'quv dasturi | Mavzular, soatlar, maqsadlar |\n| Kalendar reja | Mavzularni chorak bo\'yicha taqsimlash |\n| Dars ishlanmasi | Bitta darsning batafsil rejasi |' },
     { type: 'example', content: 'Dars ishlanmasi tuzilishi:\n1) Mavzu va maqsadlar\n2) Kerakli jihozlar\n3) Dars borishi (tashkiliy qism, o\'tilgan mavzuni so\'rash, yangi mavzu, mustahkamlash, baholash, uyga vazifa)\n4) Foydalanilgan metodlar' },
     { type: 'note', content: '📋 Darsni rejalashtirishda o\'quvchilarning yosh xususiyatlari, bilim darajasi va qiziqishlari hisobga olinadi.' },
-  ], [
-    { id: 'M14.01-q1', text: 'O\'quv jarayonini rejalashtirishda asosiy hujjat?', options: ['Darslik', 'DTS va o\'quv dasturi', 'Jurnal', 'Kundalik'], correctIndex: 1, explanation: 'O\'qituvchi DTS va o\'quv dasturiga asoslanadi', type: 'Y1' },
-    { id: 'M14.01-q2', text: 'Bitta darsning batafsil rejasi qanday nomlanadi?', options: ['Kalendar reja', 'O\'quv dasturi', 'Dars ishlanmasi', 'Yillik reja'], correctIndex: 2, explanation: 'Dars ishlanmasi (konspekt) — bitta dars rejasi', type: 'Y1' },
-    { id: 'M14.01-q3', text: 'Dars ishlanmasida qanday qism bo\'lishi shart emas?', options: ['Mavzu va maqsadlar', 'Dars borishi', 'O\'qituvchining ish haqi', 'Uyga vazifa'], correctIndex: 2, explanation: 'Ish haqi dars ishlanmasi tarkibiga kirmaydi', type: 'Y2' },
-  ]),
+  ], []),
 
   'M14.02': t('M14.02', 'Ta\'lim samaradorligini ta\'minlash', [
     { type: 'definition', content: 'Ta\'lim samaradorligi — o\'quv maqsadlariga erishish darajasi. Samaradorlik o\'quvchilarning bilim, ko\'nikma va kompetensiyalarini rivojlantirish bilan o\'lchanadi.' },
@@ -1209,11 +1211,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'table', content: '| Omil | Ta\'siri |\n|------|--------|\n| Motivatsiya | O\'quvchining qiziqishi va faolligi |\n| Metod xilma-xilligi | Turli o\'quvchilarga moslashish |\n| AKT qo\'llash | Ko\'rgazmalilik, interaktivlik |\n| Differensial yondashuv | Har bir o\'quvchining imkoniyatiga mos |\n| Qayta aloqa | Xatolarni o\'z vaqtida tuzatish |' },
     { type: 'example', content: 'Samaradorlikni oshirish usullari:\n- Interfaol metodlar qo\'llash\n- O\'quvchilarni mustaqil izlanishga yo\'naltirish\n- Amaliy mashg\'ulotlar ulushini oshirish\n- Baholash tizimini takomillashtirish' },
     { type: 'note', content: '📈 Ta\'lim samaradorligini baholash: bilim nazorati, test natijalari, o\'quvchilar faolligi, fan olimpiadalari natijalari.' },
-  ], [
-    { id: 'M14.02-q1', text: 'Ta\'lim samaradorligi nima bilan o\'lchanadi?', options: ['Dars soatlari soni', 'O\'quv maqsadlariga erishish darajasi', 'Maktab jihozlari', 'O\'qituvchilar soni'], correctIndex: 1, explanation: 'Samaradorlik o\'quv maqsadlariga erishish darajasi bilan o\'lchanadi', type: 'Y1' },
-    { id: 'M14.02-q2', text: 'Samaradorlikni oshiruvchi omil emas?', options: ['Motivatsiya', 'Metod xilma-xilligi', 'Bir xil metod qo\'llash', 'AKT dan foydalanish'], correctIndex: 2, explanation: 'Bir xil metod qo\'llash samaradorlikni pasaytiradi', type: 'Y1' },
-    { id: 'M14.02-q3', text: 'Differensial yondashuv nimani anglatadi?', options: ['Barchaga bir xil talab', 'Har bir o\'quvchining imkoniyatiga moslashish', 'Faqat kuchli o\'quvchilar bilan ishlash', 'Guruhlarga bo\'lmaslik'], correctIndex: 1, explanation: 'Differensial yondashuv har bir o\'quvchining imkoniyati va ehtiyojiga moslashish', type: 'Y2' },
-  ]),
+  ], []),
 
   'M14.03': t('M14.03', 'Baholash va qayta aloqa', [
     { type: 'definition', content: 'Baholash — o\'quvchilarning bilim, ko\'nikma va kompetensiyalarini o\'lchash va baholash jarayoni. Qayta aloqa — o\'quvchiga uning natijalari haqida ma\'lumot berish.' },
@@ -1221,11 +1219,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'text', content: 'Baholash mezonlari: 5 ballik tizim (O\'zbekiston), 100 ballik, kredit-modul tizimi. Baholashda haqqoniylik, ochiqlik, tizimlilik talab etiladi.' },
     { type: 'example', content: 'Formativ baholash usullari:\n- Og\'zaki so\'rov\n- Test\n- Krossvord\n- Venn diagrammasi\n- Klaster\n- "Balans" akti' },
     { type: 'note', content: '🔑 Qayta aloqa samarali bo\'lishi uchun: aniq, konstruktiv, o\'z vaqtida, rivojlantiruvchi bo\'lishi kerak.' },
-  ], [
-    { id: 'M14.03-q1', text: 'Dars davomida o\'zlashtirishni kuzatish baholash turi?', options: ['Kirish', 'Joriy (formativ)', 'Oraliq', 'Yakuniy'], correctIndex: 1, explanation: 'Formativ baholash dars davomida o\'zlashtirishni kuzatadi', type: 'Y1' },
-    { id: 'M14.03-q2', text: 'O\'zbekistonda qanday baholash tizimi keng tarqalgan?', options: ['100 ballik', '5 ballik', '10 ballik', 'Kredit-modul'], correctIndex: 1, explanation: 'O\'zbekistonda 5 ballik baholash tizimi keng tarqalgan', type: 'Y1' },
-    { id: 'M14.03-q3', text: 'Samarali qayta aloqa qanday bo\'lishi kerak?', options: ['Umumiy', 'Aniq, konstruktiv, o\'z vaqtida', 'Faqat kamchiliklarni ko\'rsatish', 'Baho bilan cheklanish'], correctIndex: 1, explanation: 'Samarali qayta aloqa aniq, konstruktiv va o\'z vaqtida bo\'lishi kerak', type: 'Y2' },
-  ]),
+  ], []),
 
   'M14.04': t('M14.04', 'Tarbiyaviy faoliyat', [
     { type: 'definition', content: 'Tarbiyaviy faoliyat — o\'quvchilarning ma\'naviy-axloqiy, estetik, jismoniy va mehnat tarbiyasiga qaratilgan pedagogik jarayon.' },
@@ -1233,22 +1227,14 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'table', content: '| Tarbiya turi | Maqsadi |\n|-------------|--------|\n| Ma\'naviy-axloqiy | Axloqiy sifatlarni shakllantirish |\n| Vatanparvarlik | Vatanga muhabbat uyg\'otish |\n| Huquqiy | Huquqiy ongni rivojlantirish |\n| Ekologik | Tabiatga ehtiyotkorona munosabat |\n| Estetik | Go\'zallikni his qilish va tushunish |\n| Jismoniy | Sog\'lom turmush tarzi |\n| Mehnat | Mehnatga hurmat va kasb tanlash |' },
     { type: 'example', content: 'Tarbiyaviy ish shakllari:\n- Sinf soatlari\n- Davra suhbati\n- Ekskursiyalar\n- Tanlov va musobaqalar\n- Ko\'ngilli tadbirlar' },
     { type: 'note', content: '🎯 Tarbiyaviy faoliyat darsdan tashqari vaqtda, sinf rahbari tomonidan tashkil etiladi va o\'quv jarayoni bilan uyg\'un holda olib boriladi.' },
-  ], [
-    { id: 'M14.04-q1', text: 'Tarbiyaviy faoliyat yo\'nalishlaridan biri emas?', options: ['Ma\'naviy-axloqiy', 'Vatanparvarlik', 'Iqtisodiy', 'Huquqiy'], correctIndex: 2, explanation: 'Iqtisodiy tarbiya asosiy yo\'nalishlardan biri emas', type: 'Y1' },
-    { id: 'M14.04-q2', text: 'Tarbiyaviy ish shakli?', options: ['Dars', 'Sinf soati', 'Imtihon', 'Test'], correctIndex: 1, explanation: 'Sinf soati — tarbiyaviy ish shakli', type: 'Y1' },
-    { id: 'M14.04-q3', text: 'Vatanparvarlik tarbiyasining maqsadi?', options: ['Chet tilini o\'rganish', 'Vatanga muhabbat uyg\'otish', 'Sport bilan shug\'ullanish', 'San\'atni tushunish'], correctIndex: 1, explanation: 'Vatanparvarlik tarbiyasi Vatanga muhabbat uyg\'otishga qaratilgan', type: 'Y1' },
-  ]),
+  ], []),
 
   'M14.05': t('M14.05', 'Xavfsiz rivojlantiruvchi muhit', [
     { type: 'definition', content: 'Xavfsiz rivojlantiruvchi ta\'lim muhiti — o\'quvchilarning jismoniy, psixologik va ijtimoiy xavfsizligi ta\'minlangan, rivojlanish uchun qulay sharoitga ega muhit.' },
     { type: 'text', content: 'Muhit komponentlari: jismoniy xavfsizlik (binolar, jihozlar, sanitariya), psixologik xavfsizlik (zo\'ravonliksiz muhit, o\'zaro hurmat), inklyuzivlik (barcha o\'quvchilar uchun teng imkoniyatlar), rag\'batlantiruvchi muhit (qiziqarli, interfaol).' },
     { type: 'table', content: '| Komponent | Ta\'minlash choralari |\n|-----------|-------------------|\n| Jismoniy xavfsizlik | Xavfsizlik qoidalari, tibbiy ko\'rik, sanitariya |\n| Psixologik xavfsizlik | Bullyingga qarshi kurash, psixolog xizmati |\n| Inklyuzivlik | Maxsus ehtiyojli o\'quvchilar uchun sharoit |\n| Rivojlantiruvchi | Zamonaviy jihozlar, interfaol metodlar |' },
     { type: 'note', content: '🛡️ O\'qituvchi har bir o\'quvchining o\'zini xavfsiz va qadrli his qilishiga erishishi kerak.' },
-  ], [
-    { id: 'M14.05-q1', text: 'Xavfsiz rivojlantiruvchi muhit komponenti emas?', options: ['Jismoniy xavfsizlik', 'Psixologik xavfsizlik', 'Inklyuzivlik', 'Yuqori baho'], correctIndex: 3, explanation: 'Yuqori baho muhit komponenti emas', type: 'Y1' },
-    { id: 'M14.05-q2', text: 'Psixologik xavfsizlikni ta\'minlash chorasi?', options: ['Kompyuterlar soni', 'Bullyingga qarshi kurash', 'Darsliklar sifati', 'Maktab binosi'], correctIndex: 1, explanation: 'Bullyingga qarshi kurash psixologik xavfsizlikni ta\'minlaydi', type: 'Y1' },
-    { id: 'M14.05-q3', text: 'Inklyuzivlik nimani anglatadi?', options: ['Faqat kuchli o\'quvchilar', 'Barcha o\'quvchilar uchun teng imkoniyatlar', 'Alohida o\'qitish', 'Pulli ta\'lim'], correctIndex: 1, explanation: 'Inklyuzivlik — barchaga teng imkoniyat yaratish', type: 'Y2' },
-  ]),
+  ], []),
 
   'M14.06': t('M14.06', 'Kasbiy o\'sish', [
     { type: 'definition', content: 'Kasbiy o\'sish — o\'qituvchining pedagogik mahorati, bilimi va kompetensiyalarini uzluksiz rivojlantirish jarayoni. Uzluksiz ta\'lim — hayot davomida o\'qish.' },
@@ -1256,11 +1242,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'table', content: '| Shakl | Xususiyati |\n|-------|-----------|\n| Malaka oshirish | 3-5 yilda bir marta, institutda |\n| Seminar/Trening | Qisqa muddatli, amaliy |\n| Konferensiya | Tajriba almashish, ma\'ruza |\n| Ochiq dars | Tajriba namoyishi va muhokama |\n| Onlayn kurs | Masofaviy, mustaqil |\n| Ilmiy faoliyat | Maqola, dissertatsiya |' },
     { type: 'example', content: 'Kasbiy o\'sish rejasi:\n1) O\'z kuchli va zaif tomonlarini aniqlash\n2) Maqsad qo\'yish (qaysi sohada rivojlanish)\n3) Resurslarni aniqlash (kurs, kitob, mentor)\n4) Reja bo\'yicha harakat\n5) Natijalarni baholash' },
     { type: 'note', content: '📈 O\'qituvchi kasbiy standarti o\'qituvchini muntazam kasbiy rivojlanishga majbur qiladi.' },
-  ], [
-    { id: 'M14.06-q1', text: 'O\'qituvchi necha yilda bir marta malaka oshirishi tavsiya etiladi?', options: ['Har yil', '3-5 yilda', '10 yilda', 'Bir marta'], correctIndex: 1, explanation: 'O\'qituvchilar 3-5 yilda bir marta malaka oshirishi tavsiya etiladi', type: 'Y1' },
-    { id: 'M14.06-q2', text: 'Kasbiy o\'sish shakli emas?', options: ['Malaka oshirish', 'Ochiq dars', 'Darsga kechikish', 'Konferensiya'], correctIndex: 2, explanation: 'Darsga kechikish kasbiy o\'sish shakli emas', type: 'Y1' },
-    { id: 'M14.06-q3', text: 'Ochiq darsning maqsadi?', options: ['O\'quvchilarni baholash', 'Tajriba namoyishi va muhokama', 'Nazorat ishi', 'Test olish'], correctIndex: 1, explanation: 'Ochiq dars — tajriba almashish va muhokama qilish', type: 'Y2' },
-  ]),
+  ], []),
 
   'M14.07': t('M14.07', 'Hamkasb va ota-onalar bilan hamkorlik', [
     { type: 'definition', content: 'Hamkorlik — o\'qituvchining hamkasblar, ota-onalar va jamoatchilik bilan birgalikdagi faoliyati. Samarali hamkorlik ta\'lim sifatini oshiradi.' },
@@ -1268,11 +1250,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'table', content: '| Hamkorlik shakli | Tavsifi |\n|-----------------|--------|\n| Ota-onalar yig\'ilishi | Sinf bilan bog\'liq umumiy masalalar |\n| Individual suhbat | Alohida o\'quvchi muammolari |\n| Ochiq eshiklar kuni | Ota-onalar darsda qatnashadi |\n| Telegram/WhatsApp guruh | Tezkor xabar almashish |\n| Metodik birlashma | Fan o\'qituvchilari uchrashuvi |\n| Pedagogik kengash | Maktab miqyosidagi yig\'ilish |' },
     { type: 'example', content: 'Ota-onalar bilan ishlash tamoyillari:\n- Hurmat va hamkorlik\n- Ochiq va halol muloqot\n- Ota-onalarning fikrini tinglash\n- Oilaviy sharoitni hisobga olish\n- Maxfiylikni saqlash' },
     { type: 'note', content: '👨‍👩‍👧‍👦 Ota-onalar bilan hamkorlik — ta\'lim jarayonining muhim qismi. Ota-onalar farzandining muvaffaqiyatiga qiziqishi kerak.' },
-  ], [
-    { id: 'M14.07-q1', text: 'Fan o\'qituvchilari uchrashuvi qanday nomlanadi?', options: ['Pedagogik kengash', 'Metodik birlashma', 'Ota-onalar yig\'ilishi', 'Konferensiya'], correctIndex: 1, explanation: 'Metodik birlashma — fan o\'qituvchilari uchrashuvi', type: 'Y1' },
-    { id: 'M14.07-q2', text: 'Ota-onalar bilan hamkorlik shakli emas?', options: ['Ota-onalar yig\'ilishi', 'Individual suhbat', 'Darsga kechikish', 'Telegram guruh'], correctIndex: 2, explanation: 'Darsga kechikish hamkorlik shakli emas', type: 'Y1' },
-    { id: 'M14.07-q3', text: 'Ota-onalar bilan ishlashda qanday tamoyil muhim?', options: ['Qattiqqo\'llik', 'Maxfiylikni saqlash', 'Faqat ball haqida gapirish', 'Ota-onani tanqid qilish'], correctIndex: 1, explanation: 'Maxfiylikni saqlash ota-onalar bilan ishlashning muhim tamoyili', type: 'Y2' },
-  ]),
+  ], []),
 
   // ============================================================
   // M15 — Umumiy pedagogika
@@ -1282,11 +1260,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'text', content: 'Pedagogikaning asosiy kategoriyalari: ta\'lim (bilim, ko\'nikma, malaka berish), tarbiya (shaxsni shakllantirish), rivojlanish (fiziologik va psixologik o\'zgarishlar), bilim olish (faoliyat natijasi).' },
     { type: 'table', content: '| Kategoriya | Ta\'rif |\n|-----------|--------|\n| Ta\'lim | Bilim, ko\'nikma, malaka berish jarayoni |\n| Tarbiya | Shaxsni ma\'naviy-axloqiy shakllantirish |\n| Rivojlanish | Fiziologik va psixologik o\'zgarishlar |\n| Bilim olish | O\'quvchi faoliyati natijasi |' },
     { type: 'note', content: '📚 Pedagogika bo\'limlari: umumiy pedagogika, didaktika, tarbiya nazariyasi, maktabshunoslik, maxsus pedagogika, yosh pedagogikasi.' },
-  ], [
-    { id: 'M15.01-q1', text: '"Pedagogika" so\'zi qaysi tildan olingan?', options: ['Lotin', 'Yunon', 'Arab', 'Ingliz'], correctIndex: 1, explanation: 'Yunoncha paidos (bola) + ago (yetaklash)', type: 'Y1' },
-    { id: 'M15.01-q2', text: 'Didaktika nima bilan shug\'ullanadi?', options: ['Tarbiya nazariyasi', 'O\'qitish nazariyasi', 'Maktab boshqaruvi', 'Psixologiya'], correctIndex: 1, explanation: 'Didaktika — ta\'lim va o\'qitish nazariyasi', type: 'Y2' },
-    { id: 'M15.01-q3', text: 'Pedagogikaning asosiy kategoriyasi emas?', options: ['Ta\'lim', 'Tarbiya', 'Iqtisod', 'Rivojlanish'], correctIndex: 2, explanation: 'Iqtisod — pedagogikaning kategoriyasi emas', type: 'Y1' },
-  ]),
+  ], []),
 
   'M15.02': t('M15.02', 'Ta\'lim tamoyillari', [
     { type: 'definition', content: 'Ta\'lim tamoyillari — o\'qitish jarayonining asosiy qoidalari, talablar tizimi. Ular ta\'lim mazmuni, metodlari va tashkil etilishini belgilaydi.' },
@@ -1294,73 +1268,49 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'text', content: 'Ta\'lim tamoyillari o\'zaro bog\'liq va bir-birini to\'ldiradi. Ular didaktikaning muhim qismi bo\'lib, o\'qituvchiga metodik yo\'nalish beradi.' },
     { type: 'example', content: 'Ko\'rgazmalilik tamoyili: darsda slaydlar, videolar, namoyishlardan foydalanish.\nOnglilik va faollik: o\'quvchilarni muammoli vaziyat orqali mustaqil fikrlashga undash.' },
     { type: 'note', content: '💡 Komenskiy "Buyuk didaktika" asarida ko\'rgazmalilik tamoyilini "oltin qoida" deb atagan.' },
-  ], [
-    { id: 'M15.02-q1', text: 'Ko\'rgazmalilik tamoyili nimani talab qiladi?', options: ['Faqat matn bilan ishlash', 'Vizual vositalardan foydalanish', 'Ko\'p uyga vazifa berish', 'Og\'zaki so\'rov'], correctIndex: 1, explanation: 'Ko\'rgazmalilik vizual vositalardan foydalanishni talab qiladi', type: 'Y1' },
-    { id: 'M15.02-q2', text: 'Nazariya va amaliyot birligi tamoyili nimani anglatadi?', options: ['Faqat nazariya', 'Faqat amaliyot', 'Nazariy bilimni amalda qo\'llash', 'Ikki marta ko\'p o\'qish'], correctIndex: 2, explanation: 'Nazariy bilim amaliyotda qo\'llanilishi kerak', type: 'Y2' },
-  ]),
+  ], []),
 
   'M15.03': t('M15.03', 'Tarbiya va uning turlari', [
     { type: 'definition', content: 'Tarbiya — shaxsning ma\'naviy, axloqiy, ijtimoiy va madaniy sifatlarini shakllantirishga qaratilgan pedagogik jarayon.' },
     { type: 'table', content: '| Tarbiya turi | Mazmuni |\n|-------------|--------|\n| Aqliy | Fikrlash qobiliyatini rivojlantirish |\n| Axloqiy | Axloqiy me\'yor va qadriyatlarni shakllantirish |\n| Mehnat | Mehnatga munosabat va kasb tanlash |\n| Estetik | Go\'zallikni his qilish va yaratish |\n| Jismoniy | Sog\'lom turmush tarzi |\n| Huquqiy | Huquqiy ong va mas\'uliyat |\n| Ekologik | Atrof-muhitga ehtiyotkorona munosabat |\n| Iqtisodiy | Iqtisodiy bilim asoslari |' },
     { type: 'text', content: 'Tarbiya usullari: ishontirish (suhbat, tushuntirish), mashq qildirish, rag\'batlantirish, majburlash, namuna ko\'rsatish.' },
     { type: 'example', content: 'Axloqiy tarbiya: yaxshi va yomon xulq haqida suhbat, axloqiy vaziyatlarni tahlil qilish, ijobiy namunalar ko\'rsatish.' },
-  ], [
-    { id: 'M15.03-q1', text: 'Go\'zallikni his qilish va yaratish qaysi tarbiya turiga kiradi?', options: ['Axloqiy', 'Estetik', 'Jismoniy', 'Mehnat'], correctIndex: 1, explanation: 'Estetik tarbiya go\'zallikni his qilish va yaratishga qaratilgan', type: 'Y1' },
-    { id: 'M15.03-q2', text: 'Tarbiya usuli emas?', options: ['Ishontirish', 'Mashq qildirish', 'Nazorat ishi', 'Rag\'batlantirish'], correctIndex: 2, explanation: 'Nazorat ishi baholash usuli, tarbiya usuli emas', type: 'Y1' },
-  ]),
+  ], []),
 
   'M15.04': t('M15.04', 'Dars turlari, rejalashtirish va sinfni boshqarish', [
     { type: 'definition', content: 'Dars — o\'qitish jarayonining asosiy shakli. Dars turlari maqsad va mazmunga qarab farqlanadi. Sinf boshqaruvi — o\'quvchilar faoliyatini tashkil etish va nazorat qilish.' },
     { type: 'table', content: '| Dars turi | Maqsadi |\n|----------|--------|\n| Yangi bilim berish | Yangi mavzuni o\'rganish |\n| Mustahkamlash | O\'tilgan mavzuni takrorlash |\n| Nazorat | Bilimlarni tekshirish |\n| Aralash | Bir nechta vazifa (so\'rov + yangi + mustahkamlash) |\n| Amaliy | Ko\'nikma va malaka hosil qilish |\n| Laboratoriya | Tajriba o\'tkazish |\n| Ekskursiya | Tabiat yoki ishlab chiqarish bilan tanishish |' },
     { type: 'text', content: 'Sinfni boshqarish: intizomni ta\'minlash, vaqtni samarali boshqarish, o\'quvchilarning diqqatini jalb qilish, guruh bilan ishlash, individual yondashish.' },
     { type: 'note', content: '📖 Eng keng tarqalgan dars turi — aralash dars. Unda o\'tilgan mavzuni so\'rash, yangi mavzu, mustahkamlash bir darsda amalga oshiriladi.' },
-  ], [
-    { id: 'M15.04-q1', text: 'Eng keng tarqalgan dars turi?', options: ['Yangi bilim berish', 'Nazorat', 'Aralash', 'Amaliy'], correctIndex: 2, explanation: 'Aralash dars eng keng tarqalgan', type: 'Y1' },
-    { id: 'M15.04-q2', text: 'Sinfni boshqarishga kiradigan element?', options: ['Daftar tekshirish', 'Intizomni ta\'minlash', 'Maktabni tozalash', 'O\'quvchilarni ovqatlantirish'], correctIndex: 1, explanation: 'Intizomni ta\'minlash sinf boshqaruvining muhim elementi', type: 'Y1' },
-  ]),
+  ], []),
 
   'M15.05': t('M15.05', 'Sinf rahbari va ota-onalar bilan ish', [
     { type: 'definition', content: 'Sinf rahbari — sinfdagi o\'quv-tarbiyaviy ishlarni tashkil etuvchi o\'qituvchi. Ota-onalar bilan ish — ta\'lim jarayonining muhim qismi.' },
     { type: 'text', content: 'Sinf rahbarining vazifalari: o\'quvchilarni o\'rganish, sinf jamoasini shakllantirish, o\'quvchilar bilan individual ish, ota-onalar bilan hamkorlik, hujjatlar yuritish (sinf jurnali, shaxsiy ish).' },
     { type: 'table', content: '| Hujjat | Vazifasi |\n|--------|---------|\n| Sinf jurnali | O\'zlashtirish va davomatni qayd etish |\n| O\'quvchi shaxsiy ishi | Shaxsiy ma\'lumotlar |\n| Ota-onalar bilan ish rejasi | Hamkorlik tadbirlari |\n| Sinf soati rejasi | Tarbiyaviy ish rejasi |\n| Kundalik | Uyga vazifa va baholar |' },
     { type: 'example', content: 'Sinf rahbari faoliyati:\n- Haftalik sinf soati o\'tkazish\n- Ota-onalar yig\'ilishi (chorakda 1-2 marta)\n- O\'quvchilar bilan individual suhbat\n- Davomatni kuzatish\n- Fan o\'qituvchilari bilan hamkorlik' },
-  ], [
-    { id: 'M15.05-q1', text: 'Sinf rahbarining vazifasi emas?', options: ['Sinf jamoasini shakllantirish', 'Ota-onalar bilan hamkorlik', 'Dars berish', 'Maktab direktori tayinlash'], correctIndex: 3, explanation: 'Direktor tayinlash sinf rahbarining vazifasi emas', type: 'Y1' },
-    { id: 'M15.05-q2', text: 'O\'zlashtirish va davomat qayd qilinadigan hujjat?', options: ['Kundalik', 'Sinf jurnali', 'Shaxsiy ish', 'Dars ishlanmasi'], correctIndex: 1, explanation: 'Sinf jurnali o\'zlashtirish va davomatni qayd etadi', type: 'Y1' },
-  ]),
+  ], []),
 
   'M15.06': t('M15.06', 'Pedagogik etika, nutq va refleksiya', [
     { type: 'definition', content: 'Pedagogik etika — o\'qituvchining kasbiy axloq me\'yorlari va qoidalari. Pedagogik nutq — o\'qituvchining o\'quvchilar bilan muloqotdagi nutq madaniyati. Refleksiya — o\'z faoliyatini tahlil qilish va baholash.' },
     { type: 'text', content: 'Pedagogik etika qoidalari: o\'quvchilarga hurmat, adolatli munosabat, mehr-oqibat, talabchanlik, o\'ziga nisbatan talabchanlik, pedagogik takt (me\'yorni his qilish).' },
     { type: 'table', content: '| Tushuncha | Mazmuni |\n|-----------|--------|\n| Pedagogik etika | Kasbiy axloq me\'yorlari |\n| Pedagogik takt | O\'zini tuta bilish, me\'yorni his qilish |\n| Pedagogik nutq | Aniq, ifodali, tushunarli nutq |\n| Refleksiya | O\'z faoliyatini tahlil qilish |\n| Pedagogik texnika | Nutq, mimika, jest, ovozni boshqarish |\n| Pedagogik ijodkorlik | Yangi g\'oya va yondashuvlar yaratish |' },
     { type: 'note', content: '🎯 O\'qituvchi nutqi o\'quvchilarga namuna bo\'ladi. Pedagogik takt — o\'qituvchining muhim sifati.' },
-  ], [
-    { id: 'M15.06-q1', text: 'Pedagogik etika nima?', options: ['Fan bilimi', 'Kasbiy axloq me\'yorlari', 'Dars rejasi', 'Baholash mezoni'], correctIndex: 1, explanation: 'Pedagogik etika — kasbiy axloq me\'yorlari', type: 'Y1' },
-    { id: 'M15.06-q2', text: 'Refleksiya nima?', options: ['Dars berish', 'O\'z faoliyatini tahlil qilish', 'Ota-onalar bilan ishlash', 'Hujjat yuritish'], correctIndex: 1, explanation: 'Refleksiya — o\'z faoliyatini tahlil qilish va baholash', type: 'Y2' },
-    { id: 'M15.06-q3', text: 'Pedagogik takt nima?', options: ['Tez gapirish', 'Me\'yorni his qilish qobiliyati', 'Qattiqqo\'llik', 'Ko\'p yozish'], correctIndex: 1, explanation: 'Pedagogik takt — me\'yorni his qilish, o\'zini to\'g\'ri tuta bilish', type: 'Y2' },
-  ]),
+  ], []),
 
   'M15.07': t('M15.07', 'Pedagogik qobiliyatlar', [
     { type: 'definition', content: 'Pedagogik qobiliyat — o\'qituvchining ta\'lim-tarbiyaviy ishni samarali amalga oshirish imkonini beruvchi individual psixologik xususiyatlar majmui.' },
     { type: 'table', content: '| Qobiliyat turi | Mazmuni |\n|--------------|--------|\n| Didaktik | Materialni tushunarli bayon qilish |\n| Akademik | Fan bilimlari va tadqiqot qobiliyati |\n| Persiptiv | O\'quvchini tushunish, ichki dunyosini his qilish |\n| Nutq | Tushunarli, ifodali nutq |\n| Tashkilotchilik | O\'quvchilar va jarayonni tashkil etish |\n| Kommunikativ | Muloqot o\'rnatish qobiliyati |\n| Avtoritar | O\'quvchilarga ta\'sir o\'tkazish |\n| Pedagogik tasavvur | Natijalarni oldindan ko\'ra bilish |\n| Diqqatni taqsimlash | Bir vaqtda bir necha ishni boshqarish |' },
     { type: 'text', content: 'Qobiliyatlar tug\'ma emas — ular rivojlantiriladi. O\'qituvchi o\'zining kuchli tomonlarini rivojlantirishi va zaif tomonlarini mustahkamlashi kerak.' },
     { type: 'note', content: '⭐ Didaktik qobiliyat — eng muhim pedagogik qobiliyatlardan biri: materialni sodda, tushunarli va qiziqarli bayon qilish.' },
-  ], [
-    { id: 'M15.07-q1', text: 'Materialni tushunarli bayon qilish qobiliyati?', options: ['Akademik', 'Didaktik', 'Tashkilotchilik', 'Avtoritar'], correctIndex: 1, explanation: 'Didaktik qobiliyat — materialni tushunarli bayon qilish', type: 'Y1' },
-    { id: 'M15.07-q2', text: 'O\'quvchini tushunish qobiliyati?', options: ['Persiptiv', 'Nutq', 'Kommunikativ', 'Avtoritar'], correctIndex: 0, explanation: 'Persiptiv qobiliyat — o\'quvchini tushunish, uning ichki dunyosini his qilish', type: 'Y2' },
-    { id: 'M15.07-q3', text: 'Pedagogik qobiliyatlar haqida to\'g\'ri fikr?', options: ['Tug\'ma, o\'zgartirib bo\'lmaydi', 'Rivojlantiriladi', 'Faqat bir turi bor', 'Yoshga bog\'liq emas'], correctIndex: 1, explanation: 'Pedagogik qobiliyatlar rivojlantiriladi, ularni oshirish mumkin', type: 'Y2' },
-  ]),
+  ], []),
 
   'M15.08': t('M15.08', 'Ta\'lim texnologiyalari', [
     { type: 'definition', content: 'Ta\'lim texnologiyasi — ta\'lim maqsadlariga erishish uchun metodlar, vositalar va usullar tizimi. Zamonaviy ta\'lim texnologiyalari o\'quvchilar faolligini oshiradi.' },
     { type: 'table', content: '| Texnologiya | Mazmuni |\n|------------|--------|\n| Loyihaga asoslangan ta\'lim | O\'quvchilar loyiha bajaradi |\n| Muammoli ta\'lim | Muammo orqali o\'rganish |\n| Hamkorlikdagi ta\'lim | Guruhlarda birgalikda o\'qish |\n| Evristik ta\'lim | Mustaqil izlanish va kashfiyot |\n| Shaxsga yo\'naltirilgan | O\'quvchi shaxsiga moslashish |\n| Interfaol ta\'lim | O\'zaro faol muloqot |\n| Differensial ta\'lim | Darajaga qarab o\'qitish |\n| Integral ta\'lim | Fanlararo bog\'lanish |\n| O\'yinli ta\'lim | O\'yin orqali o\'rganish |\n| Inklyuziv ta\'lim | Barcha o\'quvchilar uchun |' },
     { type: 'text', content: 'Ta\'lim texnologiyasini tanlash: o\'quvchilarning yoshi, fan xususiyati, maqsad va vazifalar, moddiy-texnik baza hisobga olinadi.' },
     { type: 'note', content: '📚 Interfaol ta\'lim — o\'quvchilar o\'qituvchi va bir-biri bilan faol muloqot qiladi. Muammoli ta\'lim — o\'quvchini fikrlashga undaydi.' },
-  ], [
-    { id: 'M15.08-q1', text: 'O\'quvchilar loyiha bajaradigan texnologiya?', options: ['Muammoli ta\'lim', 'Loyihaga asoslangan ta\'lim', 'O\'yinli ta\'lim', 'Inklyuziv ta\'lim'], correctIndex: 1, explanation: 'Loyihaga asoslangan ta\'limda o\'quvchilar loyiha bajaradi', type: 'Y1' },
-    { id: 'M15.08-q2', text: 'O\'zaro faol muloqotga asoslangan ta\'lim?', options: ['Evristik', 'Interfaol', 'Differensial', 'Integral'], correctIndex: 1, explanation: 'Interfaol ta\'lim o\'zaro faol muloqotga asoslangan', type: 'Y2' },
-    { id: 'M15.08-q3', text: 'Inklyuziv ta\'lim kimlar uchun?', options: ['Faqat kuchli o\'quvchilar', 'Barcha o\'quvchilar', 'Faqat zaif o\'quvchilar', 'Faqat o\'g\'il bolalar'], correctIndex: 1, explanation: 'Inklyuziv ta\'lim barcha o\'quvchilar, jumladan maxsus ehtiyojli bolalar uchun', type: 'Y1' },
-  ]),
+  ], []),
 
   // ============================================================
   // M16 — Informatika o\'qitish metodikasi
@@ -1370,10 +1320,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'table', content: '| Yondashuv | Mazmuni |\n|-----------|--------|\n| Tizimli | Fan mazmunini tizim sifatida o\'rganish |\n| Faoliyatli | O\'quvchini faoliyatga jalb qilish |\n| Kompetensiyaviy | Amaliy ko\'nikmalarni shakllantirish |\n| Shaxsga yo\'naltirilgan | O\'quvchining qobiliyati va ehtiyojiga moslashish |' },
     { type: 'text', content: 'Informatika mazmun sohalari: axborot va raqamli savodxonlik, kompyuter tizimlari va dasturiy muhit, mantiqiy fikrlash va algoritmlash, dasturlash va ma\'lumotlar bilan ishlash, grafika va veb-texnologiyalar, kompyuter tarmoqlari, axborot xavfsizligi.' },
     { type: 'note', content: '💻 Informatika o\'qitishda spiral yondashuv — mavzular har bir sinfda murakkablashib boradi.' },
-  ], [
-    { id: 'M16.01-q1', text: 'Kompetensiyaviy yondashuv nimaga asoslanadi?', options: ['Nazariy bilim', 'Amaliy ko\'nikmalar', 'Yod olish', 'Tarixiy ma\'lumot'], correctIndex: 1, explanation: 'Kompetensiyaviy yondashuv amaliy ko\'nikmalarni shakllantirishga qaratilgan', type: 'Y1' },
-    { id: 'M16.01-q2', text: 'Spiral yondashuv nima?', options: ['Mavzular bir marta o\'tiladi', 'Mavzular har sinfda murakkablashadi', 'Faqat bir mavzu o\'rganiladi', 'Mavzular takrorlanmaydi'], correctIndex: 1, explanation: 'Spiral yondashuv — mavzular har sinfda chuqurlashib boradi', type: 'Y2' },
-  ]),
+  ], []),
 
   'M16.02': t('M16.02', 'O\'qitish usul va metodlari', [
     { type: 'definition', content: 'O\'qitish usullari — o\'qituvchi va o\'quvchining o\'zaro faoliyatini tashkil etish yo\'llari. Metodlar og\'zaki, ko\'rgazmali, amaliy va interfaol turlarga bo\'linadi.' },
@@ -1381,11 +1328,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'text', content: 'Informatika darslarida amaliy metodlar ustunlik qiladi: o\'quvchilarning 70% vaqti kompyuterda ishlash bilan o\'tishi kerak. Dasturlashni o\'rgatishda "Code.org", "Scratch", "Python" kabi vositalar qo\'llaniladi.' },
     { type: 'example', content: 'Muammoli ta\'lim: "Internetga ulanish yo\'q. Ma\'lumotlarni qanday almashish mumkin?" — o\'quvchilar muammoni mustaqil yechishadi.' },
     { type: 'note', content: '💡 Informatika fanida "Fishing" (baliq skeleti) metodi — muammo va sabablarni tahlil qilish uchun qo\'llaniladi.' },
-  ], [
-    { id: 'M16.02-q1', text: 'Informatika darslarida qaysi metodlar ustunlik qiladi?', options: ['Og\'zaki', 'Ko\'rgazmali', 'Amaliy', 'Nazariy'], correctIndex: 2, explanation: 'Informatikada amaliy metodlar ustunlik qiladi', type: 'Y1' },
-    { id: 'M16.02-q2', text: '"Baliq skeleti" qanday metod?', options: ['Og\'zaki', 'Ko\'rgazmali', 'Interfaol', 'Nazorat'], correctIndex: 2, explanation: '"Fishing" (baliq skeleti) — interfaol metod', type: 'Y1' },
-    { id: 'M16.02-q3', text: 'Loyiha metodi qaysi metod guruhiga kiradi?', options: ['Og\'zaki', 'Ko\'rgazmali', 'Amaliy', 'Nazorat'], correctIndex: 2, explanation: 'Loyiha metodi — amaliy metod', type: 'Y2' },
-  ]),
+  ], []),
 
   'M16.03': t('M16.03', 'Ta\'limiy vaziyatdagi qarorlarni baholash', [
     { type: 'definition', content: 'Ta\'limiy vaziyat — o\'qituvchi oldida turgan pedagogik muammo yoki masala. Qarorlarni baholash — berilgan vaziyatda eng to\'g\'ri pedagogik qarorni tanlash va asoslash.' },
@@ -1393,15 +1336,31 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'table', content: '| Vaziyat | Mumkin qaror | Baholash |\n|---------|-------------|---------|\n| O\'quvchi darsga qiziqmaydi | Interfaol metod qo\'llash | To\'g\'ri, faollikni oshiradi |\n| O\'quvchi kompyuterda o\'yin o\'ynayapti | Darsdan haydash | Noto\'g\'ri, sababini aniqlash kerak |\n| O\'quvchilar turli darajada | Differensial topshiriq berish | To\'g\'ri, har bir o\'quvchiga mos |\n| Ota-ona farzandining bahosidan norozi | Bahoni tushuntirish, mezonlarni ko\'rsatish | To\'g\'ri, ochiq muloqot |' },
     { type: 'example', content: 'Vaziyat: darsda ikkita o\'quvchi kompyuterda o\'zaro urishib qoladi.\nNoto\'g\'ri: ikkalasini ham darsdan haydash.\nTo\'g\'ri: vaziyatni tahlil qilish, sababini aniqlash, alohida suhbatlashish, kelishuvga erishish.' },
     { type: 'note', content: '🔍 Pedagogik qaror qabul qilishda o\'qituvchi: vaziyatni tahlil qiladi, variantlarni ko\'rib chiqadi, eng maqbulini tanlaydi va natijani baholaydi.' },
-  ], [
-    { id: 'M16.03-q1', text: 'Ta\'limiy vaziyat nima?', options: ['Dars jadvali', 'Pedagogik muammo yoki masala', 'O\'quv dasturi', 'Maktab qoidalari'], correctIndex: 1, explanation: 'Ta\'limiy vaziyat — o\'qituvchi oldidagi pedagogik muammo', type: 'Y1' },
-    { id: 'M16.03-q2', text: 'O\'quvchi darsga qiziqmasa, qanday qaror to\'g\'ri?', options: ['Darsdan haydash', 'Interfaol metod qo\'llash', 'Baho qo\'ymaslik', 'E\'lon qilish'], correctIndex: 1, explanation: 'Interfaol metod o\'quvchini faollashtiradi va qiziqtiradi', type: 'Y2' },
-    { id: 'M16.03-q3', text: 'Ota-ona bahodan norozi bo\'lsa, o\'qituvchi nima qilishi kerak?', options: ['Bahoni o\'zgartirish', 'Bahoni tushuntirish va mezonlarni ko\'rsatish', 'E\'tibor bermaslik', 'Ota-onani tanqid qilish'], correctIndex: 1, explanation: 'Ochiq muloqot, baholash mezonlarini tushuntirish eng to\'g\'ri yondashuv', type: 'Y2' },
-  ]),
+  ], []),
+}
+
+/**
+ * M05 — 11-bobli “Sanoq sistemalari” nazariyasi.
+ *
+ * Eski savollarni saqlaymiz: faqat qisqa nazariya o'rniga kitobning barcha
+ * 11 bobi joylanadi. Server mavjud 180 ta yangi + eski savollarni beradi,
+ * statik savollar esa tarmoq uzilgandagi fallback bo'lib qoladi.
+ *
+ * M05.01 = 1–2-bob, M05.02 = 3–5-bob, M05.03 = 6–11-bob.
+ */
+for (const [id, theory] of Object.entries(M05_THEORY)) {
+  const existing = TOPIC_CONTENT[id]
+  if (!existing) continue
+  TOPIC_CONTENT[id] = {
+    ...existing,
+    theory,
+    source: 'src/content/sanoq/Sanoq_sistemalari_nazariya.tex',
+    kind: 'chapter',
+  }
 }
 
 export function getTopicContent(subtopicId: string): TopicContent | undefined {
-  return TOPIC_CONTENT[subtopicId]
+  return buildCanonicalM02Topic(subtopicId, TOPIC_CONTENT) ?? TOPIC_CONTENT[subtopicId]
 }
 
 export interface SubtopicMeta {
@@ -1413,7 +1372,7 @@ export interface SubtopicMeta {
 }
 
 export function getSubtopicMeta(subtopicId: string): SubtopicMeta | null {
-  const content = TOPIC_CONTENT[subtopicId]
+  const content = getTopicContent(subtopicId)
   if (!content) return null
 
   const theoryTypes: Record<string, number> = {}

@@ -1,4 +1,6 @@
 -- Regression for TASK-064 canonical lesson reconciliation.
+-- TASK-204 keeps the old published M06 edition as an immutable historical lane;
+-- separately versioned Algoritmlash V2 lessons/questions are intentionally exempt.
 
 do $$
 declare
@@ -87,7 +89,8 @@ begin
 
     select count(*) into v_published
     from public.lessons l
-    where l.module_id=v_module and l.status='published'::public.content_status;
+    where l.module_id=v_module and l.status='published'::public.content_status
+      and (lane.module_code <> 'M06' or l.slug not like 'algoritmlash-v2-%');
 
     if v_published <> cardinality(lane.canonical_lesson_ids) then
       raise exception
@@ -100,6 +103,7 @@ begin
       from public.lessons l
       where l.module_id=v_module
         and l.status='published'::public.content_status
+        and (lane.module_code <> 'M06' or l.slug not like 'algoritmlash-v2-%')
         and (
           not (l.id=any(lane.canonical_lesson_ids))
           or length(coalesce(l.body_mdx,''))=0
@@ -132,6 +136,10 @@ begin
         from generate_subscripts(lane.canonical_lesson_ids,1) s(i)
       ) m on m.construct_code=c.code
       where q.source_lesson_id is distinct from m.lesson_id
+        -- TASK-204 introduces a separate audited V2 edition with its own
+        -- immutable source lesson snapshots, not a TASK-064 drift.
+        and (lane.module_code <> 'M06'
+             or coalesce(q.source_reference,'') not like 'algoritmlash-v2:%')
     ) then
       raise exception 'TASK-064 % question source lesson drift remains',lane.module_code;
     end if;

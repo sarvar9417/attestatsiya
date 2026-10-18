@@ -1,4 +1,5 @@
 import { Check } from 'lucide-react'
+import InlineText from '../learning/theory/InlineText'
 
 interface AnswerOptionProps {
   letter: string
@@ -69,7 +70,7 @@ export default function AnswerOption({
           selected ? 'text-primary' : 'text-foreground'
         }`}
       >
-        {label}
+        <InlineText text={label} />
       </span>
     </button>
   )

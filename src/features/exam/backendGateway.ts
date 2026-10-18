@@ -30,8 +30,8 @@ import {
   type SubmitAnswerResponse,
 } from './contracts'
 import type { SubmitAnswerInput, ExamGateway, TopicTestPreview } from './examGateway'
-import { getLessonQuestions } from '../content/contentApi'
 import type { AXBChapter } from '../axb/chapters'
+import { getTopicTestPreflight } from '../content/contentApi'
 import {
   enqueuePendingAnswer,
   flushPendingAnswers,
@@ -144,13 +144,18 @@ export const backendGateway: ExamGateway = {
 
   async previewTopicTest(lessonId: string): Promise<TopicTestPreview | null> {
     try {
-      const questions = await getLessonQuestions(lessonId)
-      if (questions.length === 0) return null
-      // Server RPC bilan bir xil qoida: dars pool'idan max 20 ta,
-      // umumiy vaqt = savollar soni × 2 daqiqa.
-      const count = Math.min(questions.length, 20)
-      return { questionCount: count, durationSec: count * 120 }
+      const status = await getTopicTestPreflight(lessonId)
+      return {
+        questionCount: status.required,
+        durationSec: status.duration_sec,
+        ready: status.ready,
+        available: status.available,
+        reason: status.reason,
+        criticalObjectiveGaps: status.critical_objective_gaps,
+        missingRequiredObjectives: status.missing_required_objectives,
+      }
     } catch {
+      // A failed readiness request must never be interpreted as available.
       return null
     }
   },

@@ -73,6 +73,25 @@ export const lessonQuestionSchema = z
   .strict()
 export type LessonQuestion = z.infer<typeof lessonQuestionSchema>
 
+/** Exact server-side topic-test eligibility; no answer keys. */
+export const topicTestPreflightSchema = z.object({
+  ready: z.boolean(),
+  required: z.number().int().nonnegative(),
+  available: z.number().int().nonnegative(),
+  duration_sec: z.number().int().nonnegative(),
+  reason: z.enum(['ready','pool_insufficient','objective_gap','blueprint_missing','blueprint_invalid']),
+  coverage: z.array(z.object({
+    objective: z.string(),
+    required: z.boolean(),
+    critical: z.boolean(),
+    minimum: z.number().int(),
+    available: z.number().int().nonnegative(),
+  })),
+  critical_objective_gaps: z.array(z.string()),
+  missing_required_objectives: z.array(z.string()),
+}).strict()
+export type TopicTestPreflight = z.infer<typeof topicTestPreflightSchema>
+
 export const checkAnswerResultSchema = z
   .object({
     correct: z.boolean(),
@@ -169,6 +188,12 @@ export async function getLessonQuestions(id: string): Promise<LessonQuestion[]> 
  * Javobni serverda tekshiradi; to'g'ri variant va izoh qaytadi.
  * Scoring server-authoritative: kalit faqat serverda saqlanadi.
  */
+/** Server-computed lesson test readiness, not a count of static questions. */
+export async function getTopicTestPreflight(id: string): Promise<TopicTestPreflight> {
+  const data = await api.get<unknown>(`/api/content/lessons/${encodeURIComponent(id)}/topic-test-preflight`)
+  return parse(topicTestPreflightSchema, data, 'topic_test_preflight')
+}
+
 export async function checkAnswer(
   questionId: string,
   optionId: string

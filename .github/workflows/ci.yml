@@ -195,15 +195,24 @@ jobs:
             -f supabase/tests/mastery_srs_foundation.test.sql \
             -f supabase/tests/adaptive_practice_selector.test.sql \
             -f supabase/tests/m01_professional_bank_import.test.sql \
-            -f supabase/tests/axb_chapter_practice.test.sql \
             -f supabase/tests/section_mock_50.test.sql \
             -f supabase/tests/official_mock_50.test.sql \
+            -f supabase/tests/mock_y2_option_projection.test.sql \
             -f supabase/tests/professional_practice_15.test.sql \
             -f supabase/tests/pedguli_original_topic_bank.test.sql \
             -f supabase/tests/pedguli_html_original_24.test.sql \
             -f supabase/tests/pedguli_m16_scenarios_v4.test.sql \
             -f supabase/tests/professional_120_canonical_links.test.sql \
             -f supabase/tests/pedguli_editorial_fingerprint_gate.test.sql \
+            -f supabase/tests/task201_pedagogy_publish_gate.test.sql \
+            -f supabase/tests/task202_pedagogy_revision_queue.test.sql \
+            -f supabase/tests/task202_atomic_pedagogy_publish.test.sql \
+            -f supabase/tests/task202_verified_pdf_review_authoring.test.sql \
+            -f supabase/tests/task202_atomic_admin_y1_save.test.sql \
+            -f supabase/tests/task202_semantic_source_key_corrections.test.sql \
+            -f supabase/tests/task202_assistant_distractor_proposals.test.sql \
+            -f supabase/tests/task202_proposals_stage_e2e.test.sql \
+            -f supabase/tests/task203_pedagogy_owner_bank_parity.test.sql \
             -f supabase/tests/pedguli_private_candidate_inbox.test.sql \
             -f supabase/tests/pedguli_candidate_human_review.test.sql \
             -f supabase/tests/pedguli_topic_suggestion_queue.test.sql \
@@ -216,10 +225,15 @@ jobs:
             -f supabase/tests/m10_m11_graphics_web_lessons.test.sql \
             -f supabase/tests/m12_m13_network_security_lessons.test.sql \
             -f supabase/tests/m14_kasb_standarti_lessons.test.sql \
+            -f supabase/tests/axb_chapter_practice.test.sql \
+            -f supabase/tests/review_question_option_rls.test.sql \
             -f supabase/tests/m16_informatika_metodikasi_lessons.test.sql \
             -f supabase/tests/m15_umumiy_pedagogika_lessons.test.sql \
             -f supabase/tests/pedagogy_theory_corpus_expand.test.sql \
             -f supabase/tests/pedagogy_theory_corpus_complete.test.sql \
+            -f supabase/tests/m15_topic_bank_complete.test.sql \
+            -f supabase/tests/pedagogy_preflight_objective_drafts.test.sql \
+            -f supabase/tests/pedagogy_private_quality_flags.test.sql \
             -f supabase/tests/pedagogy_pdf_private_candidate_inbox.test.sql \
             -f supabase/tests/pedagogy_pdf_candidate_triage.test.sql \
             -f supabase/tests/pedagogy_pdf_corpus_review_bank_v1.test.sql \
@@ -230,6 +244,7 @@ jobs:
             -f supabase/tests/anon_rpc_hardening.test.sql \
             -f supabase/tests/m01_exact_source_lesson_reconcile.test.sql \
             -f supabase/tests/canonical_lesson_drift_reconcile.test.sql \
+            -f supabase/tests/m02_release_readiness.test.sql \
             -f supabase/tests/m01_exact_source_lesson_reconcile.test.sql
 
       - name: Pedagogy PDF candidate triage rules

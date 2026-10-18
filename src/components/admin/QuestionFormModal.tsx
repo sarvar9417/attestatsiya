@@ -136,6 +136,10 @@ export default function QuestionFormModal({
 
   async function handleSave() {
     setSaveError(null)
+    if (!isEdit && form.format !== 'Y1') {
+      setSaveError('Y2/Y3 savollarni bu formada yaratib bo‘lmaydi: maxsus moslashtirish yoki ketma-ketlik kontent konveyeridan foydalaning.')
+      return
+    }
 
     if (!form.stem_md.trim()) {
       setSaveError('Savol matnini kiriting')
@@ -327,10 +331,11 @@ export default function QuestionFormModal({
                   }))
                 }
                 aria-label="Test turi"
+                disabled={isEdit}
               >
-                <option value="Y1">Y1 · Bilish</option>
-                <option value="Y2">Y2 · Qo‘llash</option>
-                <option value="Y3">Y3 · Mulohaza</option>
+                <option value="Y1">Y1 · Bitta to‘g‘ri javob</option>
+                <option value="Y2">Y2 · Moslashtirish</option>
+                <option value="Y3">Y3 · Ketma-ketlik</option>
               </select>
             </FormField>
 
@@ -460,7 +465,7 @@ export default function QuestionFormModal({
                 <p className="font-semibold">Y2/Y3 javob shabloni bu formadan kiritilmaydi.</p>
                 <p className="mt-1 text-xs leading-5 opacity-90">
                   Matching yoki ordering kaliti kontent konveyeri orqali yoziladi.
-                  Bu forma savol metadata va matnini saqlaydi.
+                  Mavjud Y2/Y3 savolda faqat matn va metadata yangilanadi; javob kaliti va izohi saqlanib qoladi.
                 </p>
               </div>
             </div>

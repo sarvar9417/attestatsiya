@@ -41,7 +41,10 @@ import {
   type TopicTestPreview,
 } from './examGateway'
 import { backendGateway } from './backendGateway'
+import ExamResultActions from './ExamResultActions'
+import InlineText from '../../components/learning/theory/InlineText'
 import Y1Choice from './questions/Y1Choice'
+import ExamQuestionAssets from './questions/ExamQuestionAssets'
 import Y2Match from './questions/Y2Match'
 import Y3Order from './questions/Y3Order'
 import { useAuth } from '../../hooks/useAuth'
@@ -127,19 +130,27 @@ export default function ExamRunner({
   const [clockNow, setClockNow] = useState(Date.now())
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [topicPreview, setTopicPreview] = useState<TopicTestPreview | null>(null)
+  const [topicPreflightLoading, setTopicPreflightLoading] = useState(false)
+  const [preflightRetry, setPreflightRetry] = useState(0)
   const questionOpenedAtRef = useRef(Date.now())
   const finishInFlightRef = useRef(false)
   const autoFinishAttemptedRef = useRef(false)
 
   useEffect(() => {
-    if (examKind !== 'mavzu' || !lessonId || phase !== 'intro') return
-    if (gateway.previewTopicTest) {
-      void gateway
-        .previewTopicTest(lessonId)
-        .then(setTopicPreview)
-        .catch(() => setTopicPreview(null))
+    if (examKind !== 'mavzu' || phase !== 'intro') return
+    let active = true
+    setTopicPreview(null)
+    setTopicPreflightLoading(true)
+    if (!lessonId || !gateway.previewTopicTest) {
+      setTopicPreflightLoading(false)
+      return
     }
-  }, [gateway, examKind, lessonId, phase])
+    void gateway.previewTopicTest(lessonId)
+      .then(value => { if (active) setTopicPreview(value) })
+      .catch(() => { if (active) setTopicPreview(null) })
+      .finally(() => { if (active) setTopicPreflightLoading(false) })
+    return () => { active = false }
+  }, [gateway, examKind, lessonId, phase, preflightRetry])
 
   const currentItem = session?.items[currentIndex]
   const total = session?.items.length ?? 0
@@ -202,6 +213,9 @@ export default function ExamRunner({
   }
 
   const startExam = async () => {
+    // Preview is a read-only snapshot; the server generator rechecks on start.
+    // Never start while preflight is missing, incomplete or failed.
+    if (examKind === 'mavzu' && (topicPreflightLoading || topicPreview?.ready !== true)) return
     setPhase('starting')
     setStartError(null)
     setMessage(null)
@@ -451,7 +465,7 @@ export default function ExamRunner({
   }
 
   const examTitle =
-    examKind === 'axb_bob' ? `Axborot va axborot jarayonlari — ${axbChapter}-bob` :
+    examKind === 'axb_bob' ? `Axborot testlari — ${axbChapter}-bob` :
     examKind === 'pedagogik_15' ? 'Pedagogik mahorat va kasb standarti — 15 savol' :
     examKind === 'mock'
       ? 'Attestatsiya mock sinovi'
@@ -547,7 +561,7 @@ export default function ExamRunner({
                 </div>
               </div>
 
-              {examKind === 'axb_bob' && <p className="mt-4 text-sm text-gray-600 dark:text-gray-300">Bu PDF bankining {axbChapter}-bobiga tegishli mustaqil practice. Sinov davomida javob kaliti ko‘rsatilmaydi. Savollar soni: {axbCount}.</p>}
+              {examKind === 'axb_bob' && <p className="mt-4 text-sm text-gray-600 dark:text-gray-300">Bu PDF bankining {axbChapter}-bobiga tegishli mustaqil mashq. Savollar soni: {axbCount}. Javob kalitlari faqat sinov tugagach ochiladi.</p>}
               {examKind === 'pedagogik_15' && <p className="mt-4 text-sm text-gray-600 dark:text-gray-300">36–40: kasb standarti (5), 41–47: pedagogika (7), 48–50: informatika metodikasi (3). 30 daqiqa faqat mashq uchun.</p>}
               {examKind === 'mock' && (
                 <div className="mt-5 flex flex-wrap gap-2">
@@ -560,6 +574,24 @@ export default function ExamRunner({
                   <span className="rounded-lg bg-violet-50 px-2.5 py-1.5 text-xs font-semibold text-violet-700 dark:bg-violet-950/50 dark:text-violet-300">
                     7 mulohaza
                   </span>
+                </div>
+              )}
+
+              {examKind === 'mavzu' && (
+                <div role="status" aria-live="polite" className="mt-5 rounded-xl border border-indigo-200 bg-indigo-50/60 p-4 text-sm leading-6 text-indigo-900 dark:border-indigo-800 dark:bg-indigo-950/30 dark:text-indigo-100">
+                  {topicPreflightLoading
+                    ? 'Mavzu testining to‘liq qamrovi serverda tekshirilmoqda…'
+                    : topicPreview?.ready
+                      ? `Mavzu testi tayyor: ${topicPreview.questionCount} ta tekshirilgan savol · ${topicPreview.durationSec / 60} daqiqa.`
+                      : topicPreview
+                        ? `Mavzu testi hozir tayyorlanmoqda: ${topicPreview.available}/${topicPreview.questionCount} ta mos savol. ${topicPreview.missingRequiredObjectives.length ? 'Majburiy bilimlar qamrovida ham yetishmovchilik bor.' : 'Nazariyani o‘rganishni davom ettirishingiz mumkin.'}`
+                        : 'Mavzu testi tayyorligini hozir tekshirib bo‘lmadi. Iltimos, qayta urinib ko‘ring.'}
+                  {!topicPreflightLoading && topicPreview?.ready !== true && (
+                    <button type="button" onClick={() => setPreflightRetry(n => n + 1)}
+                      className="mt-3 block rounded-lg border border-indigo-300 px-3 py-2 font-semibold hover:bg-indigo-100 dark:border-indigo-700 dark:hover:bg-indigo-950">
+                      <RefreshCw size={15} className="mr-2 inline" /> Holatni qayta tekshirish
+                    </button>
+                  )}
                 </div>
               )}
 
@@ -577,7 +609,7 @@ export default function ExamRunner({
 
               <button
                 type="button"
-                disabled={starting}
+                disabled={starting || (examKind === 'mavzu' && (topicPreflightLoading || topicPreview?.ready !== true))}
                 onClick={() => void startExam()}
                 className="mt-7 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 disabled:opacity-60 sm:w-auto"
               >
@@ -636,7 +668,8 @@ export default function ExamRunner({
     const passed = result.passed ?? percentage >= 60
 
     return (
-      <main className="mx-auto w-full max-w-5xl space-y-5 px-4 py-6 sm:px-6 lg:py-8">
+      <main className="h-full min-h-0 w-full overflow-y-auto overscroll-y-contain px-4 py-6 [-webkit-overflow-scrolling:touch] sm:px-6 lg:py-8" aria-label="Sinov natijalari">
+        <div className="mx-auto max-w-5xl space-y-5">
         <header>
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-indigo-500">
             Natijalar
@@ -646,6 +679,13 @@ export default function ExamRunner({
           </h1>
           <p className="mt-1 text-sm text-gray-400">{examTitle}</p>
         </header>
+
+        <ExamResultActions
+          examKind={examKind}
+          backUrl={backUrl}
+          moduleId={moduleId}
+          onRestart={resetToIntro}
+        />
 
         <section className="flex flex-col gap-5 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900 sm:p-6 lg:flex-row lg:items-center">
           <div className="flex shrink-0 items-center gap-4">
@@ -750,13 +790,7 @@ export default function ExamRunner({
                 <RefreshCw size={16} aria-hidden="true" />
                 Xatolarni qayta ishlash
               </Link>
-              <Link
-                to="/history"
-                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-4 text-sm font-semibold text-gray-600 transition hover:border-indigo-200 hover:text-indigo-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-indigo-800 dark:hover:text-indigo-300"
-              >
-                Natijalar tarixi
-                <ChevronRight size={15} aria-hidden="true" />
-              </Link>
+
             </div>
           </div>
         </section>
@@ -837,7 +871,7 @@ export default function ExamRunner({
                         )}
                       </div>
                       <p className="mt-3 whitespace-pre-wrap text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">
-                        {item.stem_md}
+                        <InlineText text={item.stem_md} />
                       </p>
                     </div>
 
@@ -861,7 +895,7 @@ export default function ExamRunner({
                   {item.explanation_md && (
                     <div className="mt-4 rounded-xl bg-indigo-50/70 p-3 text-sm leading-6 text-indigo-900 dark:bg-indigo-950/30 dark:text-indigo-100">
                       <span className="font-semibold">Izoh: </span>
-                      <span className="whitespace-pre-wrap">{item.explanation_md}</span>
+                      <span className="whitespace-pre-wrap"><InlineText text={item.explanation_md} /></span>
                     </div>
                   )}
                 </article>
@@ -889,6 +923,7 @@ export default function ExamRunner({
               {examKind === 'axb_bob' ? 'M01 qo‘shimcha mashqlariga qaytish' : 'Modulga qaytish'}
             </Link>
           )}
+        </div>
         </div>
       </main>
     )
@@ -1165,6 +1200,7 @@ export default function ExamRunner({
 
               <div className="exam-question-card">
                 <div className="exam-question-stem">
+                  <ExamQuestionAssets assets={currentItem.assets} />
                   {renderQuestion(currentItem)}
                 </div>
               </div>

@@ -141,3 +141,13 @@ Har task uchun kamida:
 - happy path
 - permission/validation failure
 - chegaraviy holat
+## Pedagogika source-bank sifat nazorati — 2026-10-16
+
+| ID | Status | Dependency | Deliverable |
+|----|--------|------------|-------------|
+| TASK-200 | IN_PROGRESS | TASK-050, TASK-060 | 4 tarixiy PDFdan 15 ta yangi, uzunligi mutanosib, manbasi verified Y1 savol production REVIEWga import qilindi (7 KS + 8 PM.GEN); SQL regressiya passed; 649 candidate qolgan qamrov, published bank bias remediation, expert approval va Testlar/Maxsus pedagogika UI acceptance hali OPEN. Batafsil: docs/TASK200_PEDAGOGY_BALANCED_BATCH.md |
+
+| TASK-201 | IN_PROGRESS | TASK-200 | Pedagogika chuqur audit: KS/PM editorial publication gate, immutable published question snapshotlari, 15-item distinct construct/random tie-break, yangi SQL security regressiya va production verifikatsiya. 118 biased legacy Y1 hamda editorial review UI alohida OPEN. Audit: docs/TASK201_PEDAGOGY_DEEP_AUDIT.md |
+
+| TASK-203 | IN_PROGRESS | TASK-202 | 424 production published questions; 249 owner-batch approvals (82 AI-edited wrong-option sets), no review. Git parity via six maintenance-only replay scripts, QA regression and precise provenance; CI and one merge required. Existing 118 legacy proposals and PR #127 security blockers remain separate. Docs: docs/TASK203_PEDAGOGY_OWNER_APPROVAL_PARITY.md |
+| TASK-202 | IN_PROGRESS | TASK-201 | Bitta yakuniy pedagogika release branchida: 649 PDF private source triage, 155 tekshirilgan unlinked source uchun original REVIEW authoring UI, barcha KS/PM savollari bo‘yicha paginated editor va source filters, human editorial checklist, 118 length-biased published itemlar uchun review revision queue, safe atomik publish/archive va Y1/Y2/Y3 key xavfsizligi; **human signoff + final CI + one merge + one deploy** hali OPEN. PR #121 DRAFT; yakunda yangi user buyrug‘isiz release taqiqlangan. See docs/TASK202_ONE_FINAL_PEDAGOGY_RELEASE.md |

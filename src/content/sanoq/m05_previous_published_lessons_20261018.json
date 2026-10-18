@@ -1,0 +1,30 @@
+{
+  "purpose": "Published M05 theory snapshot prior to complete 11-chapter import; rollback data only, not user records",
+  "captured_on": "2026-10-18",
+  "lessons": [
+    {
+      "id": "95000000-0000-4000-8000-000000000001",
+      "slug": "sanoq-sistemalari-asoslari",
+      "title_uz": "Sanoq sistemalari: asos, raqam va razryad",
+      "body_mdx": "\n## Maqsad\n\nSanoq sistemasi, asos, raqam, son va razryad tushunchalarini farqlash hamda pozitsiyali yozuvni tahlil qilish.\n\n## Asosiy tushunchalar\n\n**Sanoq sistemasi** — sonlarni belgilar yordamida yozish va ular ustida amallar bajarish qoidalari tizimi. Sanoq sistemasining **asosi p** shu sistemada ishlatiladigan turli raqamlar sonini bildiradi.\n\nAsos 2 bo‘lsa raqamlar 0 va 1; asos 8 bo‘lsa 0 dan 7 gacha; asos 16 bo‘lsa 0–9 hamda A–F belgilaridan foydalaniladi. Shuning uchun 298 yozuvi sakkizlik sanoq sistemasida haqiqiy son emas: 9 raqami bu sistemaning alifbosiga kirmaydi.\n\n**Raqam** — son yozuvida qatnashadigan belgi, **son** esa miqdorni ifodalaydi. Bu ikki atama sinonim emas.\n\n## Pozitsiyali yozuv\n\nPozitsiyali sanoq sistemasida raqamning qiymati uning qaysi razryadda turganiga bog‘liq. Masalan, p asosli sonning razryadlari p ning darajalari bilan vaznlanadi.\n\nYoyiq ko‘rinish:\n(a_n...a_1a_0)_p = a_n·p^n + ... + a_1·p + a_0.\n\nShu qoida sonning qaysi asosda yozilganini tekshirish, o‘nlik qiymatini hisoblash va noma’lum asosli masalalarni yechish uchun poydevor bo‘ladi.\n\n## Testdagi nozik farq\n\nQuyi indeks sonning o‘zi emas, **sanoq sistemasi asosini** bildiradi. Ruxsat etilgan eng katta raqam p−1 ga teng.\n\n> **Manba izi:** ICT 7-sinf (2021), 2-dars “Sanoq sistemalari haqida”, PDF 9–12.\n",
+      "blocks": [],
+      "blocks_kind": "chapter"
+    },
+    {
+      "id": "95000000-0000-4000-8000-000000000002",
+      "slug": "sanoq-sistemalari-otkazish",
+      "title_uz": "Sonlarni sanoq sistemalari orasida o‘tkazish",
+      "body_mdx": "\n## Maqsad\n\nO‘nlikdan boshqa asosga, boshqa asosdan o‘nlikka hamda 2↔4/8/16 o‘tkazish usullarini to‘g‘ri tanlash.\n\n## Boshqa asosdan o‘nlikka\n\nPozitsiyali sonni o‘nlikka o‘tkazishda har bir raqam asosning o‘z razryadiga mos darajasiga ko‘paytiriladi va natijalar qo‘shiladi.\n\n## O‘nlikdan boshqa asosga\n\nButun sonni yangi asosga ketma-ket bo‘lib boring va qoldiqlarni oxiridan boshiga o‘qing.\n\n## Ikkilik bilan ko‘prik usullari\n\n- 2↔4 — 2 bitli guruhlar (diada);\n- 2↔8 — 3 bitli guruhlar (triada);\n- 2↔16 — 4 bitli guruhlar (tetrada).\n\n> **Manba izi:** ICT 7-sinf (2021), PDF 13–16; Axborot va axborot jarayonlari qo‘llanmasi, 6-bob.\n",
+      "blocks": [],
+      "blocks_kind": "chapter"
+    },
+    {
+      "id": "95000000-0000-4000-8000-000000000003",
+      "slug": "sanoq-sistemalari-arifmetika",
+      "title_uz": "Turli sanoq sistemalarida arifmetik amallar",
+      "body_mdx": "\n## Maqsad\n\nIkkilik va boshqa pozitsiyali sanoq sistemalarida qo‘shish, ayirish va arifmetik ifodalarni xatosiz bajarish.\n\n## Bir xil asosda amal\n\nArifmetik amal bajarishdan oldin barcha sonlar bir xil asosda ekanini tekshiring. Bir xil asosda ustunlab qo‘shish yoki ayirishda o‘nlikdagi “10” o‘rniga shu sistemaning **asosi p** chegarasi ishlaydi.\n\nIkkilik qo‘shishda:\n- 0+0=0;\n- 0+1=1;\n- 1+1=10₂;\n- 1+1+1=11₂.\n\nBu yerda chap razryadga ko‘chirish o‘nlik arifmetikasidagi ko‘chirishning aynan p=2 holatidir.\n\n## Aralash asosli ifoda\n\nAgar ifodadagi sonlar turli sanoq sistemalarida bo‘lsa, eng ishonchli strategiya:\n1. har bir sonning asosini aniqlash;\n2. zarur bo‘lsa barchasini o‘nlikka o‘tkazish;\n3. arifmetik amalni bajarish;\n4. savol talab qilgan asosga qayta o‘tkazish;\n5. raqamlar yangi asos alifbosiga mosligini tekshirish.\n\nIkkilik↔sakkizlik yoki ikkilik↔o‘n oltilikda triada/tetrada usuli tezroq bo‘lishi mumkin.\n\n## Keng tarqalgan xatolar\n\n- asos ko‘rsatkichini sonning darajasi deb o‘qish;\n- o‘n oltilikdagi A–F qiymatlarini noto‘g‘ri talqin qilish;\n- qoldiqlarni noto‘g‘ri tartibda yozish;\n- turli asosdagi sonlarni bevosita ustunlab qo‘shish.\n\n> **Manba izi:** ICT 7-sinf (2021), 4-dars “Turli sanoq sistemalarida arifmetik amallarning bajarilishi”, PDF 17–21.\n",
+      "blocks": [],
+      "blocks_kind": "chapter"
+    }
+  ]
+}

@@ -1,3 +1,43 @@
+## TASK-203 — Pedagogika 249 owner-approved production bank Git parity (2026-10-18)
+
+- **Production audit:** KS/PM.GEN/PM.MET 424 published, 0 review. Of these 249 were approved as a **project-owner batch**, and 82 had wrong-option text AI-redrafted after initial approval for balanced length; never describe them as independent expert-signed certifications.
+- **Source/key safeguards:** all 424 published revisions locked; 0 fingerprint mismatches; 0 rejected PDF keys linked. Legacy 118 private repair proposals remain unpublished, and two previously published malformed Y2 items need separate approved revisions.
+- **Repo:** six manual-only fail-closed SQL replay files with exact approved source IDs + finalized wrong text; one owner-bank QA SQL test. All six scripts were dry-run with rollback against production and owner QA test passed. No changes to previously published question/answer records.
+- **Release restriction:** merge **TASK-203 parity PR only**, do not merge PR #127 (unresolved `/api/content/questions/check` key-exposure risk and missing scope) or unrelated drafts. No manually initiated Vercel deploy; previous queued deploy retry disabled. See `docs/TASK203_PEDAGOGY_OWNER_APPROVAL_PARITY.md`.
+
+## Pedagogika consolidated release audit — 2026-10-18, before final merge
+
+- User authorization: complete single consolidated merge and production deployment; **freeze all future merges and deploys afterward until another explicit request**.
+- Green consolidated CI on `9361a4770b90ed449f3ded3a0c5ce45124fad4a6` (run `39098671181`): database, backend, quality/Playwright.
+- Production DB preparation: M15 lessons and 94 new M15 topic-bank questions staged `review`; total KS/PM published 175 (unchanged), review 249; original 175 source snapshots and keys locked. Two conflicting 2026 PDF answer keys remain source `rejected/conflict`, revised original items `review` only.
+- 118 published Y1 length-hint risks have separate private rewrite proposals and revision queue entries; all 118 pass the mechanical size/uniqueness QA, but **none were automatically published or falsely human-approved**.
+- The private PDF source queue preserves provenance; 649 historical candidates require source-aware independent semantic checking. Work remaining for future editorial approval must never be conflated with this guarded technical release.
+- Final PR: `#121`; final Vercel SHA/READY must be verified, not inferred from GitHub merge. Refrain from any subsequent automatic GitHub or Vercel release.
+
+## One-release-only pedagogika completion gate — TASK-202 (2026-10-18)
+
+- **Release instruction:** exactly one final merge + one production deploy after work is complete; **no subsequent merge or deploy without a fresh explicit user request**.
+- **Current:** PR #121 DRAFT on `task/TASK-202-pedagogy-single-final-release`; not merged, not production deployed, not production migrated. See `docs/TASK202_ONE_FINAL_PEDAGOGY_RELEASE.md`.
+- **Implemented in branch:** private PDF source-review queue + verified source → original review test workflow; full server-paginated KS/PM question bank and expert editor checklist; length-bias revision queue; 118 legacy Y1 risk candidates to be staged as separate review revisions; atomic signed revision publish + source archive; Y1 side='a' storage fix, Y2/Y3 key preservation and immutable published key transfer guard.
+- **Blocking finality:** human reviewers must evaluate 153 review items and corrected 118 length-biased published questions, and confirm independent keys for any newly authored items. 155 verified unlinked source candidates require actual authoring decisions; 335 accepted_general source keys remain unverified. No model-generated false approvals; existing published attempt history must remain intact.
+- **No repeated release:** CI green alone does not prove human editorial content approval; keep PR in Draft and refrain from production DB changes until all gates are satisfied.
+
+## Pedagogika release security va practice fairness (TASK-201, 2026-10-16)
+
+- **Status:** IN_PROGRESS — 328 KS/PM bank: 175 published, 153 review; no editorial-check approvals. 649 PDF candidate, 195 verified, 335 accepted_general, 119 rejected.
+- **Audit:** 169 published pedagogika Y1 savolidan 118 tasida correct variant >30% longer than all wrong. Existing published content immutable, no auto rewrite.
+- **Patch:** new server-side publish gate for PDF-derived and all KS/PM, fingerprint locked to source/options/answers; immutable published snapshots survive archive; 15-item practice tie randomization keeps 5+7+3 and distinct constructs.
+- **No auto-publish:** 153 review savolga expert signoff talab; source key alone not definitive official truth.
+- **Remaining:** expert/editorial approval UX, 118 legacy questions replacement-by-new-revision, 155 verified unlinked source candidates, general-pedagogy non-official lane; see `docs/TASK201_PEDAGOGY_DEEP_AUDIT.md`.
+
+## Pedagogika distractor sifati — TASK-200 (2026-10-16)
+
+- **Status:** IN_PROGRESS. Private PDF candidate inbox (649) saqlangan, 15 ta original Y1 pedagogika/kasb standarti savoli yangi batch sifatida production DBda `review` holatda (KS 7, PM.GEN 8); 0 auto-published.
+- **Manba:** 2024 bahor, 2025 bahor, 2025 kuz va 2026 bahor PDFlaridagi `verified + independently_verified` candidate-lar. 15/15 provenance/answer key/4 option va option-length SQL regressiya muvaffaqiyatli.
+- **Jiddiy bias:** 169 published Y1 pedagogika savolining 118 tasida to‘g‘ri javob boshqa barcha variantlardan >30% uzun. Published revision immutable: expert approval, new revision va attempt snapshot preservation talab etiladi.
+- **Remaining:** 649 source candidate to‘liq savolga aylantirilmagan; 335 general-pedagogy candidate alohida practice bucket; 15 yangi savol expert approval kutmoqda; Testlar/Maxsus pedagogikadan tayyorlanish learner E2E qabul tekshiruvi va PR CI tugamagan.
+- **Files:** `docs/TASK200_PEDAGOGY_BALANCED_BATCH.md`, SQL migration, SQL QA regressiya, admin-only audit query.
+
 ## Auth recovery stability (TASK-064, 2026-10-16)
 
 - **Status:** DONE — implementation, regression coverage, preview validation, merge va production deploy yakunlandi.

@@ -58,29 +58,29 @@ export async function resolveLessonUuid(subtopicCode: string): Promise<string | 
   const cached = lessonCache.get(subtopicCode)
   if (isFresh(cached)) return cached.id
 
-  // Canonical M14-M16 source-backed lessons have human-readable slugs.
-  // Legacy lessons may still own 'm14-05' etc., so exact slug matching
-  // would quietly route students to the wrong lesson and empty question pool.
-  // The canonical migration reserves order_idx 1..8 for published lessons
-  // and relocates legacy items to 100+. Resolve by module + order first.
-  const canonicalMatch = /^(M1[456])\.(0[1-9])$/.exec(subtopicCode.toUpperCase())
+  // Only M05 Sanoq systems and existing M14–M16 professional lessons have human-readable
+  // slugs, not m05-01 style slugs. Resolve the *published* lesson by its
+  // module + ordinal so topic tests, study previews and progress all agree.
+  // Never silently fall through to a legacy/draft lesson for these modules.
+  const canonicalMatch = /^(M(?:02|05|1[456]))\.(0[1-9]|[1-9][0-9])$/.exec(subtopicCode.toUpperCase())
   if (canonicalMatch) {
+    // M02 has exactly four canonical published lessons; never route M02.05–09 to archived lessons.
+    if (canonicalMatch[1] === 'M02' && Number(canonicalMatch[2]) > 4) return null
     const moduleId = await resolveModuleUuid(canonicalMatch[1])
     if (moduleId) {
-      const { data: lesson } = await supabase
+      const { data: lesson, error } = await supabase
         .from('lessons')
         .select('id')
         .eq('module_id', moduleId)
         .eq('order_idx', Number(canonicalMatch[2]))
         .eq('status', 'published')
         .maybeSingle()
-      if (lesson) {
+      if (!error && lesson) {
         lessonCache.set(subtopicCode, { id: lesson.id, fetchedAt: Date.now() })
         return lesson.id
       }
     }
-    // Never silently select an older legacy lesson instead of canonical content.
-    console.warn(`[resolveIds] Canonical professional lesson '${subtopicCode}' not found`)
+    console.warn(`[resolveIds] Canonical lesson '${subtopicCode}' not found`)
     return null
   }
 

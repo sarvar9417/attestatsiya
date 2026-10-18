@@ -34,7 +34,7 @@ export default function ExamPage({ gateway }: ExamPageProps) {
   const backUrl =
     examKind === 'axb_bob'
       ? '/learn/M01?extra=axb'
-      : examKind === 'takrorlash' || examKind === 'zaif'
+      :     examKind === 'takrorlash' || examKind === 'zaif'
       ? '/review'
       : examKind === 'diagnostika'
         ? '/'

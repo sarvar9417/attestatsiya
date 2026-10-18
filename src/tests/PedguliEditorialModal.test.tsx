@@ -5,10 +5,12 @@ import PedguliEditorialModal from '../components/admin/PedguliEditorialModal'
 
 const mocks = vi.hoisted(() => ({
   getPedguliEditorialReview: vi.fn(),
+  getAdminQuestionEditor: vi.fn(),
   savePedguliEditorialReview: vi.fn(),
 }))
 vi.mock('../features/admin/adminContentApi', () => ({
   getPedguliEditorialReview: mocks.getPedguliEditorialReview,
+  getAdminQuestionEditor: mocks.getAdminQuestionEditor,
   savePedguliEditorialReview: mocks.savePedguliEditorialReview,
 }))
 
@@ -21,6 +23,8 @@ const question = {
 describe('Pedguli original exercise: admin editorial review', () => {
   beforeEach(() => {
     mocks.getPedguliEditorialReview.mockReset()
+    mocks.getAdminQuestionEditor.mockReset()
+    mocks.getAdminQuestionEditor.mockResolvedValue({ options: [], correct_index: null })
     mocks.savePedguliEditorialReview.mockReset()
   })
 
@@ -77,4 +81,28 @@ describe('Pedguli original exercise: admin editorial review', () => {
     expect(screen.getAllByRole('checkbox').filter(x => (x as HTMLInputElement).checked)).toHaveLength(2)
     expect(screen.getByText('Tekshiruv to‘liq yakunlanmagan')).toBeInTheDocument()
   })
+  it('does not sign unbalanced PDF questions as ready for publication', async () => {
+    const user=userEvent.setup()
+    const pdfQuestion={...question,format:'Y1',source_reference:'authored:pedagogy-pdf-corpus:v3:2025:spring:p2:q3'}
+    mocks.getPedguliEditorialReview.mockResolvedValue({
+      question_id:question.id,status:'review',checks:null,
+    })
+    mocks.getAdminQuestionEditor.mockResolvedValue({
+      options:[
+        {content_md:'Tarbiyaviy faoliyatning samaradorligini oshirish',order_idx:0},
+        {content_md:'Yo‘q',order_idx:1},
+        {content_md:'Ha',order_idx:2},
+        {content_md:'Alohida',order_idx:3},
+      ],
+      correct_index:0,
+    })
+    render(<PedguliEditorialModal question={pdfQuestion} onClose={vi.fn()} onSaved={vi.fn()}/>)
+    expect(await screen.findByText(/To‘g‘ri javob uzunligi yoki variantlar nisbati/)).toBeInTheDocument()
+    for(const box of screen.getAllByRole('checkbox')) await user.click(box)
+    await user.type(screen.getByLabelText(/Tekshiruv dalillari va izoh/),
+      'Variantlar uzunligi nomutanosib, tahrir va mustaqil pedagogik tekshiruv kerak.')
+    expect(screen.getByRole('button',{name:'Tekshiruvni saqlash'})).toBeDisabled()
+    expect(mocks.savePedguliEditorialReview).not.toHaveBeenCalled()
+  })
+
 })

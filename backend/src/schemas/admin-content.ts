@@ -7,7 +7,11 @@ export const adminCognitiveSchema = z.enum(['bilish', 'qollash', 'mulohaza'])
 export const adminQuestionsQuerySchema = {
   querystring: z.object({
     status: adminContentStatusSchema.optional(),
-    source: z.enum(['pedguli']).optional(),
+    source: z.enum(['pedguli', 'pedagogy_pdf']).optional(),
+    group_code: z.enum(['KS', 'PM.GEN', 'PM.MET']).optional(),
+    query: z.string().trim().max(120).optional(),
+    page: z.coerce.number().int().min(1).max(100000).default(1),
+    page_size: z.coerce.number().int().min(1).max(100).default(25),
   }),
 }
 
@@ -70,3 +74,20 @@ export const savePedguliEditorialReviewSchema = z.object({
   reviewer_notes: z.string().trim().min(20).max(4000),
 }).strict()
 export type SavePedguliEditorialReview = z.infer<typeof savePedguliEditorialReviewSchema>
+
+/** A private source inbox, not public question content. */
+export const pedagogyPdfSourceListQuerySchema = z.object({
+  page: z.coerce.number().int().min(1).max(100000).default(1),
+  page_size: z.coerce.number().int().min(1).max(50).default(20),
+  status: z.enum(['verified', 'accepted_general', 'rejected', 'needs_review']).optional(),
+  source_year: z.coerce.number().int().min(2020).max(2100).optional(),
+  unlinked_only: z.enum(['true','false']).transform(v => v === 'true').optional(),
+})
+
+export const stagePedagogyPdfQuestionSchema = z.object({
+  stem_md: z.string().trim().min(15).max(12000),
+  options: z.array(z.string().trim().min(2).max(4000)).length(4),
+  correct_index: z.number().int().min(0).max(3),
+  explanation_md: z.string().trim().min(12).max(12000),
+}).strict()
+export type StagePedagogyPdfQuestion = z.infer<typeof stagePedagogyPdfQuestionSchema>
