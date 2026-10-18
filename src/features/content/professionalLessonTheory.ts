@@ -61,16 +61,16 @@ export function markdownToTheoryBlocks(markdown: string): TheoryBlock[] {
 
     // TASK-220: TeX display math and captioned source figures are structured
     // blocks. Do not flatten raw \\[...\\] commands into ordinary paragraphs.
-    if (line.startsWith('\\\\[')) {
+    if (line.startsWith('\\[')) {
       flush()
       let expr = line.slice(2)
-      if (expr.endsWith('\\\\]')) {
+      if (expr.endsWith('\\]')) {
         expr = expr.slice(0, -2)
       } else {
         const body = [expr]
         while (i + 1 < lines.length) {
           const next = lines[++i].trim()
-          if (next.endsWith('\\\\]')) {
+          if (next.endsWith('\\]')) {
             body.push(next.slice(0, -2))
             break
           }
@@ -81,7 +81,7 @@ export function markdownToTheoryBlocks(markdown: string): TheoryBlock[] {
       if (expr.trim()) result.push({ type: 'formula', content: expr.trim() })
       continue
     }
-    const networkFigure = /^\\[\\[NETFIG:(NET0[1-3])\\]\\](?:\\s*(.*))?$/.exec(line)
+    const networkFigure = /^\[\[NETFIG:(NET0[1-3])\]\](?:\s*(.*))?$/.exec(line)
     if (networkFigure) {
       flush()
       result.push({
