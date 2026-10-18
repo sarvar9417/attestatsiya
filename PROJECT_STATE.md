@@ -1,3 +1,10 @@
+## TASK-213 — Grafika va veb-texnologiyalar V2 (2026-10-18)
+
+- **Holat:** IN_PROGRESS — 6 review-only V2 lesson + 300 review-only question, 8 SVG diagrams in dedicated branch; existing published M10/M11 6 lessons and 53 S5.WEB published questions preserved.
+- **GitHub:** `task/TASK-213-graphics-web-v2-staging`; PR/CI and release verification pending.
+- **Security:** Y1/Y2/Y3 answer keys only in `question_keys`; never auto-publish unreviewed AI-authored questions.
+- **Acceptance blockers:** independent 300-item editorial review, 9 figure-question comparison, HTML/math/table BookReader parity, learner E2E, CI and verified production DB/deploy. See `docs/TASK213_GRAPHICS_WEB_V2_INTEGRATION.md`.
+
 ## TASK-203 — Pedagogika 249 owner-approved production bank Git parity (2026-10-18)
 
 - **Production audit:** KS/PM.GEN/PM.MET 424 published, 0 review. Of these 249 were approved as a **project-owner batch**, and 82 had wrong-option text AI-redrafted after initial approval for balanced length; never describe them as independent expert-signed certifications.
