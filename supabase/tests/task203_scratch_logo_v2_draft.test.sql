@@ -18,5 +18,51 @@ begin
  if n <> 0 then raise exception 'TASK-203 % incorrectly mapped lessons',n; end if;
  select count(*) into n from public.questions q where q.source_reference like 'scratch-logo-v2:SL2-%' and q.status='published';
  if n<>0 then raise exception 'TASK-203 published content without human approval'; end if;
+
+ -- Verify native Y1/Y2/Y3 option arity, key shape, key references, and round-trip scoring.
+ if exists (
+   select 1 from public.questions q
+   join public.question_keys k on k.question_id=q.id
+   where q.source_reference like 'scratch-logo-v2:SL2-%'
+     and (
+       (q.format='Y1'::public.question_format and (
+         (select count(*) from public.question_options o where o.question_id=q.id)<>4
+         or not exists(select 1 from public.question_options o where o.question_id=q.id and o.id::text=k.payload->>'correct_option_id')
+       ))
+       or (q.format='Y2'::public.question_format and (
+         (select count(*) from public.question_options o where o.question_id=q.id)<>6
+         or (select count(*) from jsonb_each(k.payload->'pairs'))<>3
+         or not public.check_answer(q.format,k.payload,k.payload)
+       ))
+       or (q.format='Y3'::public.question_format and (
+         (select count(*) from public.question_options o where o.question_id=q.id)<>3
+         or jsonb_array_length(k.payload->'order')<>3
+         or not public.check_answer(q.format,k.payload,k.payload)
+       ))
+     )
+ ) then raise exception 'TASK-203 native question answer payload validation failed'; end if;
+ -- No key may point outside its own question.
+ if exists (
+   select 1 from public.questions q
+   join public.question_keys k on k.question_id=q.id
+   where q.source_reference like 'scratch-logo-v2:SL2-%'
+     and (q.format='Y2'::public.question_format or q.format='Y3'::public.question_format)
+     and exists (
+       select 1 from jsonb_array_elements_text(
+         case when q.format='Y3'::public.question_format then k.payload->'order'
+              else (select jsonb_agg(key) from jsonb_each(k.payload->'pairs'))
+         end
+       ) s(opt_id)
+       where not exists (select 1 from public.question_options o where o.question_id=q.id and o.id::text=s.opt_id)
+     )
+ ) then raise exception 'TASK-203 answer key UUID missing from own question'; end if;
+ -- New draft questions retain canonical M07 source links to avoid published lesson drift.
+ if exists (
+   select 1 from public.questions q
+   left join public.lesson_constructs lc on lc.lesson_id=q.source_lesson_id and lc.construct_id=q.construct_id
+   join public.lessons l on l.id=q.source_lesson_id
+   where q.source_reference like 'scratch-logo-v2:SL2-%'
+     and (l.status<>'published'::public.content_status or lc.lesson_id is null)
+ ) then raise exception 'TASK-203 canonical M07 source mapping broken'; end if;
 end
 $qa$;
