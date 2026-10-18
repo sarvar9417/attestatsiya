@@ -54,3 +54,16 @@ order by l.order_idx;
 ```
 
 This documentation contains **no student-facing exam stems, options or answer keys**.
+
+## Production bo‘yicha bajarilgan ishlar — foydalanuvchi ruxsati bilan (2026-10-18)
+
+Foydalanuvchi aynan quyidagi ikkita ishga ruxsat berdi: **review javob variantlarini himoyalovchi DB siyosatini yangilash** va **maxfiy 26 savolni `review` holatida import qilish**. Bu avtomatik nashr yoki GitHub merge roziligi emas.
+
+1. `restrict_review_question_options_20261018` migratsiyasi **production Supabase'da muvaffaqiyatli qo‘llandi**; xavfli `question_options_readable (USING true)` siyosati olib tashlandi. `options_read` nashr/authorized staff sharti saqlangan. 
+2. Maxfiy bankdagi 26 ta Y1 savol bitta transaksiyada, avval rollback dry-run'dan so‘ng `review` sifatida import qilindi. 104 ta variant va 26 ta kalit yozildi. `source_reference`da AI yordamida yozilgani, qo‘llanma beti, mavzu va savol tartibi qayd etildi. `author_id` bo‘sh; hech qanday soxta imzo yo‘q.
+3. Importdan so‘ng 7 ta mavzuning holati: **published/keyed = 17,17,18,14,16,16,16**; **review/keyed = 3,3,2,6,4,4,4**. Savollar faqat ekspert tekshiruvidan va tasdiqdan keyin mavzu testlariga qo‘shiladi. Nashr qilingan eski savollarga tegilmadi.
+4. To‘g‘ri javob kaliti har savolning mavjud to‘rtta varianti ichiga bog‘langanligi va 26/26 kalit borligi tekshirildi. Adminning mustaqil editorial imzolari: **0**.
+5. Productiondagi bitta maxfiy review savolga nisbatan `anon` va oddiy `authenticated` rolida options SELECT tekshirildi: ikkala holatda **0 ta** variant qaytdi.
+6. Rasmiy M14 testlari uchun user E2E sinovi va 26 ta savolning haqiqiy ekspert fakt-tekshiruvi **hali bajarilmagan**. Faqat kontent sonini to‘ldirish sifati va huquqiy/normativ jihatlarni tasdiqlamaydi.
+
+**GitHub PR #137 hali DRAFT**, yangi private savollar matni/javoblari unda yo‘q; u faqat xavfsizlik migratsiyasi, test va auditni saqlaydi. SQL migration productionda oldin qo‘llanganligi sabab keyingi release jarayonida versiya pariteti va takroriy qo‘llash xavfsizligi tekshirilsin.
