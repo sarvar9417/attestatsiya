@@ -61,11 +61,11 @@ begin
    raise exception using errcode='23514',message='PEDAGOGY_PDF_OPTIONS_INVALID';
  end if;
  select count(*),min(wc),max(wc),
-   max(wc) filter(where i=p_correct_index+1),
-   max(wc) filter(where i<>p_correct_index+1)
+   max(wc) filter(where option_index=p_correct_index+1),
+   max(wc) filter(where option_index<>p_correct_index+1)
  into v_count,v_min,v_max,v_correct_len,v_longest_wrong
  from (
-   select ordinality::integer i,
+   select ordinality::integer as option_index,
     cardinality(regexp_split_to_array(btrim(option),'[[:space:]]+')) wc
    from unnest(p_options) with ordinality as t(option,ordinality)
  ) t;
