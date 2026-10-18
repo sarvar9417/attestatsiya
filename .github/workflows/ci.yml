@@ -10,6 +10,9 @@ concurrency:
 
 jobs:
   quality:
+    permissions:
+      contents: read
+      statuses: write
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
@@ -59,6 +62,25 @@ jobs:
 
       - name: E2E smoke
         run: npm run test:e2e
+
+      # Legacy GitHub branch-protection rules expect a 'quality' commit STATUS.
+      # The successful job check-run alone is not recognized as this status.
+      # Publish only after the full quality job (including E2E) has succeeded.
+      - name: Publish successful quality commit status
+        if: ${{ success() }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          CI_SHA: ${{ github.sha }}
+        run: |
+          for sha in "$CI_SHA" "$PR_HEAD_SHA"; do
+            if [ -z "$sha" ]; then continue; fi
+            gh api -X POST "repos/${GITHUB_REPOSITORY}/statuses/${sha}" \
+              -f state=success \
+              -f context=quality \
+              -f description="CI quality: lint, types, unit, build and E2E passed" \
+              -f target_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          done
 
   backend:
     runs-on: ubuntu-latest
