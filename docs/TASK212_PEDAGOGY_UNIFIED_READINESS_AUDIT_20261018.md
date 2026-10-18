@@ -139,3 +139,14 @@ Faqat aggregate SELECT (savol matni va kalitlarni chiqarmasdan) tekshirildi:
 - Yangi fail-safe read-only audit: supabase/audits/20261018_task212_pedagogy_readonly_pool.sql.
 - Maxfiy kalitlar yoki shaxsiy natijalarni hisobotga kiritish taqiqlanadi.
 - **M14 P0 bloker:** 26 ta savolni har birini alohida manba va semantik tekshiruvdan o‘tkazib, authorized owner/independent editor approval, DB publication gate, 7/7 topic preflight va barcha 15/50 mock regressionlaridan keyingina release masalasi qayta ko‘riladi.
+
+
+## 10. M14 26 REVIEW material uchun haqiqiy source-PDF bilan dastlabki fakt/variant auditi
+
+**Manba endi mavjud:** shaxsiy ChatGPT Librarydan “Pedagogning kasbiy standarti - qollanma.pdf” asl 13-betlik fayli topildi va o‘qildi. Google Drive qidiruvida ko‘rinmagan bu faylning mavzu sahifalari: M14.01 p2, M14.02 pp4–5, M14.03 pp6–7, M14.04 pp8–9, M14.05 p10, M14.06 p12, M14.07 p13. Shu lokal PDFda 26 REVIEW source locatoridagi soha, belgilangan javoblar va izohlar AI yordamida birma-bir dastlabki solishtirildi; learnerga raw kalitlar tarqatilmadi.
+
+**Muhim aniqlik:** PDF mazmuni bilan dastlabki mavzuviy moslik professional mustaqil ekspert imzosi EMAS va rasmiy davlat original normativ hujjat bilan tasdiqlanganlikni anglatmaydi. Hech bir REVIEW savol statusi o‘zgartirilmadi.
+
+**Dastlabki sifat tahlili:** 26 savoldan **kamida 8 ta aniq nomzod** quyidagi masalalar uchun alohida editorial navbatga qo‘yildi: 1 ta rasmiy atama aniqligi va bir nechtasida oson aniqlanuvchi, mavzudan uzoq yoki qaytariluvchi distractorlar. Mexanik 0 length-cue holatiga qaramasdan semantik cue mavjudligi kuzatildi. Barcha savollar PENDING va ularga “approved/correct” deb yozilmadi. To‘liq read-only locator reyestri va tahrir flaglari: docs/TASK212_M14_26_EDITORIAL_REVIEW_QUEUE.md.
+
+**Yakuniy ish qoldig‘i:** authorised expert manba/PDFdagi aniq mehnat vazifasi bilan mustaqil tasdiqlashi; har bir Y1 variantining mazmuniy yaroqliligi va uniquenessni tekshirishi; 8 ta flagged lokatorni redraft qilish; 26/26 imzoli signoff; tarix va immutable revisionsni saqlash; ishlab turgan 7 M14 mavzu strict preflight PASS va 15/50 E2E. Bu jarayon yakunlanmaguncha 26 ta savol REVIEWda qoladi.
