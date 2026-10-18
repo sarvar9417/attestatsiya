@@ -10,7 +10,7 @@ const walk = (items: TheoryBlock[]): TheoryBlock[] =>
 describe('M05: Sanoq sistemalari nazariyasining to‘liq integratsiyasi', () => {
   it('11 bobning barchasi uchta mavjud mavzuda saqlanadi', () => {
     const all = topics.flatMap(id => walk(getTopicContent(id)!.theory))
-    const chapters = all.filter(b => b.type === 'goal' && /^\\d+-bob$/.test(b.label ?? ''))
+    const chapters = all.filter(b => b.type === 'goal' && /^\d+-bob$/.test(b.label ?? ''))
     expect(chapters.map(b => b.label)).toEqual(
       Array.from({ length: 11 }, (_, index) => `${index + 1}-bob`),
     )
@@ -27,7 +27,7 @@ describe('M05: Sanoq sistemalari nazariyasining to‘liq integratsiyasi', () => 
     expect(all.some(b => b.content.includes('two\'s complement'))).toBe(true)
     expect(all.some(b => b.content.includes('davriy kasr'))).toBe(true)
     expect(all.some(b => b.content.includes('Noma’lum asos'))).toBe(true)
-    expect(all.every(b => !/\\\\(?:bn|keyterm|source)\\b/.test(b.content))).toBe(true)
+    expect(all.every(b => !/\\(?:bn|keyterm|source)\b/.test(b.content))).toBe(true)
   })
 
   it('mavjud offline-testlar va kitob sahifalash rejimi saqlanadi', () => {
