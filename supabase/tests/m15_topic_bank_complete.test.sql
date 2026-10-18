@@ -1,4 +1,4 @@
--- M15 20-question topic bank acceptance test. Run in a throwaway CI DB only.
+-- M15 20-question prospective pool staging acceptance test. No production publishing.
 begin;
 
 do $verify_m15$
@@ -10,7 +10,7 @@ declare
   v_fresh integer;
   v_expected integer := 0;
 begin
-  -- Eight canonical M15 lessons must have enough keyed, published items
+  -- Eight canonical M15 lessons must have enough keyed published + review items
   -- linked to the correct subject/group/active construct.
   for rec in
     select l.id, l.order_idx, l.title_uz, l.topic_test_question_count, c.id as construct_id,
@@ -29,7 +29,7 @@ begin
       join public.question_keys k on k.question_id=q.id
      where q.construct_id=rec.construct_id
        and q.group_code=rec.group_code
-       and q.status='published';
+       and q.status in ('published','review');
     if v_published < rec.topic_test_question_count then
       raise exception 'M15.% pool deficit: available %, target %', rec.order_idx, v_published, rec.topic_test_question_count;
     end if;
@@ -38,8 +38,8 @@ begin
 
   -- New authored items must never omit a key or 4 unique options.
   select count(*) into v_fresh from public.questions q
-  where q.source_reference like 'authored:m15-topictest-20261018:%';
-  if v_fresh <> 94 then raise exception 'Expected 94 new M15 questions, got %', v_fresh; end if;
+  where q.source_reference like 'authored:m15-topictest-20261018:%' and q.status='review';
+  if v_fresh <> 94 then raise exception 'Expected 94 M15 review questions, got %', v_fresh; end if;
 
   select count(*) into v_bad_options
     from public.questions q
@@ -58,5 +58,5 @@ begin
   if v_bad_keys > 0 then raise exception '% authored questions have invalid key/explanation', v_bad_keys; end if;
 end
 $verify_m15$;
-select 'm15_20_topic_bank_ok' as result;
+select 'm15_20_topic_bank_review_staged_ok' as result;
 rollback;
