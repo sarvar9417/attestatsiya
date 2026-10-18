@@ -23,6 +23,8 @@ CREATE TABLE IF NOT EXISTS kt_bank_review.candidates (
   qa_flags jsonb NOT NULL DEFAULT '[]'::jsonb CHECK (jsonb_typeof(qa_flags)='array'),
   source_verified boolean NOT NULL DEFAULT false,
   expert_verified boolean NOT NULL DEFAULT false,
+  key_unique_verified boolean NOT NULL DEFAULT false,
+  distractors_verified boolean NOT NULL DEFAULT false,
   editor_approved boolean NOT NULL DEFAULT false,
   review_state text NOT NULL DEFAULT 'held' CHECK(review_state IN ('held','in_review','approved_for_import')),
   approved_at timestamptz,
@@ -31,7 +33,8 @@ CREATE TABLE IF NOT EXISTS kt_bank_review.candidates (
   PRIMARY KEY(bank_code,external_id),
   CONSTRAINT only_triple_verified_can_approve CHECK (
     review_state <> 'approved_for_import' OR
-    (source_verified AND expert_verified AND editor_approved AND approved_at IS NOT NULL
+    (source_verified AND expert_verified AND key_unique_verified AND distractors_verified
+      AND editor_approved AND approved_at IS NOT NULL
       AND evidence_book_code IS NOT NULL AND length(trim(evidence_book_code)) > 1
       AND evidence_pdf_page IS NOT NULL AND evidence_pdf_page > 0
       AND evidence_excerpt IS NOT NULL AND length(trim(evidence_excerpt)) >= 30
