@@ -1757,3 +1757,11 @@ Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user co
 - M12 IP/maska: bitwise AND bilan /26 worked example va ikki mustaqil network-address masalasi.
 - M13 security/freelance: threat-mechanism scenario matrix va profile→portfolio→buyurtma→delivery ish oqimi.
 - Database regressiya 7 ta lesson markerini, HTML/CSS code blocks, IP calculation va freelance workflowni majburiy tekshiradi.
+
+## TASK-212 — pedagogika yagona o‘quv sahifasi va manba auditi (2026-10-18)
+
+- **Owner:** ChatGPT assistenti (foydalanuvchining shu suhbatdagi tasdig‘i bilan); branch: task/TASK-212-pedagogy-learning-hub-audit-20261018; DRAFT PR #149.
+- **Ish turi:** frontend landing/navigatsiya va mavjud manbalarning audit reyestri; backend, production DB va published kontent o‘zgartirilmaydi.
+- **Bajarildi:** 18 kanonik M14/M15/M16 mavzu keltirilgan hub, manba va sinov havolalari, Vitest regressiyalar; M16.02dagi manbasi tasdiqlanmagan 70% kompyuter-vaqti me’yori chiqarildi.
+- **Holat:** IN_PROGRESS; QA (exact head SHA), 18/18 nazariya-source-validity, professional savollar editorial review, mobile live smoke, production quota/security parity va yangi release ruxsati OCHIQ.
+- **Cheklov:** PEDAGOGY_RELEASE_FREEZE saqlanadi; no merge / no production deployment. Detallar: docs/TASK212_PEDAGOGY_UNIFIED_READINESS_AUDIT_20261018.md.
