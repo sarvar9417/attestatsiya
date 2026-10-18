@@ -142,11 +142,17 @@ begin
         -- immutable source lesson snapshots, not a TASK-064 drift.
         and (lane.module_code <> 'M06'
              or coalesce(q.source_reference,'') not like 'algoritmlash-v2:%')
-        -- TASK-211/212 version the seven M13 AXR lessons.
+        -- TASK-211/212/213 version the seven M13 AXR lessons.
         -- Only the exact AXR bank may use its independent source-lesson ID.
         and not (lane.module_code = 'M13'
                  and q.status in ('review'::public.content_status,'published'::public.content_status)
-                 and coalesce(q.source_reference,'') like 'm13-axr-v1:%:AXR-%'
+                 and (
+                   coalesce(q.source_reference,'') like 'm13-axr-v1:%:AXR-%'
+                   or (coalesce(q.source_reference,'') like 'm13-axr-native-v1:Y2:AXRN-%'
+                       and q.format='Y2'::public.question_format)
+                   or (coalesce(q.source_reference,'') like 'm13-axr-native-v1:Y3:AXRN-%'
+                       and q.format='Y3'::public.question_format)
+                 )
                  and exists (
                    select 1 from public.lessons edition
                    join public.modules em on em.id=edition.module_id
