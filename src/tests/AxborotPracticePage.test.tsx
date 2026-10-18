@@ -17,6 +17,19 @@ describe('19 chapter AXB practice', () => {
     expect(allowedAxborotSizes(0)).toEqual([])
   })
 
+  it('fits inside M01 without duplicate top-level navigation or a second back button', async () => {
+    vi.mocked(backendGateway.getAxborotChapters!).mockResolvedValue(
+      Array.from({ length: 19 }, (_, i) => ({
+        chapter_no: i + 1, total_pdf: 30, published_count: 30, review_count: 0,
+      }))
+    )
+    render(<MemoryRouter><AxborotPracticePage embedded /></MemoryRouter>)
+    expect(await screen.findByText('19-bob')).toBeDefined()
+    expect(screen.getByText('Axborot savollari banki — 19 bob')).toBeDefined()
+    expect(screen.queryByRole('link', { name: /O‘rganishga qaytish/ })).toBeNull()
+    expect(screen.getAllByRole('link', { name: /10 savol/ })).toHaveLength(19)
+  })
+
   it('renders actual 16th chapter 3 questions and never presents a false 30-question option', async () => {
     vi.mocked(backendGateway.getAxborotChapters!).mockResolvedValue(
       Array.from({length:19},(_,i) => ({
