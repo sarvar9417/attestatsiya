@@ -227,6 +227,46 @@ export const contentService = {
   },
 
   /**
+   * Read-only authoritative readiness snapshot. Unlike counting lesson questions,
+   * this uses the exact objective/construct, active taxonomy and keyed predicates
+   * required by generate_topic_test(). No exam row is created here.
+   * The service-role-only RPC never returns questions, keys or reviewer metadata.
+   */
+  async topicTestPreflight(id: string) {
+    const resolvedId = await resolveLessonUuid(id)
+    if (!resolvedId) throw new NotFoundError('Mavzu topilmadi')
+
+    const { data, error } = await supabase.rpc('topic_test_preflight', {
+      p_lesson_id: resolvedId,
+    })
+    if (error || !data || typeof data !== 'object' || Array.isArray(data)) {
+      throw new AppError('Mavzu testi tayyorligini tekshirib bo‘lmadi', 503, 'TOPIC_PREFLIGHT_UNAVAILABLE')
+    }
+    const preflight = data as Record<string, unknown>
+    if (preflight.reason === 'lesson_unavailable') {
+      throw new NotFoundError('Mavzu nashr qilinmagan')
+    }
+    if (typeof preflight.ready !== 'boolean' ||
+        typeof preflight.required !== 'number' ||
+        typeof preflight.available !== 'number' ||
+        typeof preflight.duration_sec !== 'number' ||
+        typeof preflight.reason !== 'string' ||
+        !Array.isArray(preflight.coverage) ||
+        !Array.isArray(preflight.critical_objective_gaps)) {
+      throw new AppError('Mavzu testi tayyorligi noto‘g‘ri qaytdi', 503, 'TOPIC_PREFLIGHT_INVALID')
+    }
+    return {
+      ready: preflight.ready,
+      required: preflight.required,
+      available: preflight.available,
+      duration_sec: preflight.duration_sec,
+      reason: preflight.reason,
+      coverage: preflight.coverage,
+      critical_objective_gaps: preflight.critical_objective_gaps,
+    }
+  },
+
+  /**
    * Savol javobini server tomonda tekshiradi (question_keys client'ga chiqmaydi).
    */
   async checkAnswer(questionId: string, optionId: string): Promise<CheckAnswerResult> {
