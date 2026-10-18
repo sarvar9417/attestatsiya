@@ -73,7 +73,5 @@ BEGIN
      RAISE EXCEPTION 'Review status changed after rejection: %',v_candidate_source;
    END IF;
  END LOOP;
-tion rejection';
- END IF;
 END $assert$;
 ROLLBACK;
