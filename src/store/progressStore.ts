@@ -42,6 +42,10 @@ export const useProgressStore = create<ProgressState>()(
       moduleProgress: {},
 
       completeTopic: (moduleId, subtopicId, correct, total) => {
+        // Do not turn an untested 0/0 lesson into a 100% mastery mark.
+        // Appendix reading is not a server-scored topic examination.
+        if (!Number.isFinite(total) || !Number.isFinite(correct) ||
+          total <= 0 || correct < 0 || correct > total) return
         set(state => {
           const mp = { ...state.moduleProgress }
           if (!mp[moduleId]) mp[moduleId] = defaultModuleProgress()
@@ -53,7 +57,7 @@ export const useProgressStore = create<ProgressState>()(
             correctCount: correct,
             totalCount: total,
             // testsiz ma'lumotnoma mavzusi: o'qib chiqilgani yetarli
-            lastScore: total > 0 ? Math.round((correct / total) * 100) : 100,
+            lastScore: Math.round((correct / total) * 100),
           }
           if (!module.completedTopics.includes(subtopicId)) {
             module.completedTopics = [...module.completedTopics, subtopicId]
@@ -97,13 +101,25 @@ export const useProgressStore = create<ProgressState>()(
       },
 
       getModuleProgress: (moduleId) => {
-        return get().moduleProgress[moduleId] ?? defaultModuleProgress()
+        const mp = get().moduleProgress[moduleId] ?? defaultModuleProgress()
+        // Older client releases persisted "completed 0/0 = 100%" records.
+        // Ignore those on read without deleting localStorage or real exam history.
+        return {
+          ...mp,
+          completedTopics: mp.completedTopics.filter(id => {
+            const record = mp.topicProgress[id]
+            return record?.completed === true &&
+              Number.isFinite(record.totalCount) && record.totalCount > 0 &&
+              Number.isFinite(record.correctCount) &&
+              record.correctCount >= 0 && record.correctCount <= record.totalCount
+          }),
+        }
       },
 
       isModuleComplete: (moduleId, totalTopics) => {
-        const mp = get().moduleProgress[moduleId]
-        if (!mp) return false
-        return mp.completedTopics.length >= totalTopics && mp.mockExamCompleted
+        const mp = get().getModuleProgress(moduleId)
+        return totalTopics > 0 &&
+          mp.completedTopics.length >= totalTopics && mp.mockExamCompleted
       },
     }),
     {
