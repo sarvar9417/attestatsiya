@@ -11,7 +11,7 @@ import type { TopicContent } from '../../data/topicContent'
 import { 
   CheckCircle2, XCircle, Lightbulb, BookOpen, ArrowRight, ArrowLeft, 
   Sparkles, ChevronRight, ChevronUp, ChevronDown, BookText, GraduationCap, 
-  Brain, FileQuestion, Target, RotateCcw, ListChecks,
+  Brain, FileQuestion, Target, RotateCcw, RefreshCw, ListChecks,
   Sigma, Table2, Quote, FileCode, BadgeInfo,
   BookMarked, Layers, Trophy, Eye,
   Fingerprint, Minus
