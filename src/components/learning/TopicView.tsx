@@ -147,6 +147,8 @@ export default function TopicView({
   const isProfessionalLesson = /^(?:M04|M1[456])\.\d{2}$/.test(subtopicId)
   const isAlgoritmlashV2 = moduleId === 'M06' &&
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
+  const isAxrM13 = moduleId === 'M13' &&
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
   const staticContent = getTopicContent(subtopicId)
   const isPedagogyTopic = moduleId === 'M15' && /^M15\.\d{2}$/.test(subtopicId)
   const loadedContent = publishedTheory?.subtopicId === subtopicId
@@ -203,21 +205,23 @@ export default function TopicView({
     return () => { cancelled = true }
   }, [subtopicId])
 
-  // Algoritmlash V2 learner theory comes strictly from the published DB record.
-  // The catalog only links UUIDs after all eight chapters are published.
+  // M06 V2 and M13 AXR learner theory come strictly from published DB records.
+  // Catalog links edition UUIDs only when all relevant chapters are published.
   useEffect(() => {
-    if (!isAlgoritmlashV2) return
+    if (!isAlgoritmlashV2 && !isAxrM13) return
     let cancelled = false
     getLessonDetail(subtopicId)
       .then(lesson => {
         if (cancelled || lesson.status !== 'published' || !lesson.body_mdx?.trim() ||
-            !lesson.slug.startsWith('algoritmlash-v2-')) return
+            !(isAlgoritmlashV2
+              ? lesson.slug.startsWith('algoritmlash-v2-')
+              : /^m13-axr-0[1-7]$/.test(lesson.slug))) return
         setPublishedTheory({
           subtopicId,
           content: {
             subtopicId,
             title: lesson.title_uz,
-            source: 'Algoritmlash V2',
+            source: isAlgoritmlashV2 ? 'Algoritmlash V2' : 'Axborot xavfsizligi — 2026',
             kind: lesson.blocks_kind === 'appendix' ? 'appendix' : 'chapter',
             theory: markdownToTheoryBlocks(lesson.body_mdx),
             questions: [],
@@ -226,7 +230,7 @@ export default function TopicView({
       })
       .catch(() => { /* Fail closed on unpublished or unavailable theory. */ })
     return () => { cancelled = true }
-  }, [isAlgoritmlashV2, subtopicId])
+  }, [isAlgoritmlashV2, isAxrM13, subtopicId])
 
   // Published/keyed lesson coverage must be checked by the authoritative
   // backend generator preflight, not by the number of visible learning questions.
@@ -236,7 +240,7 @@ export default function TopicView({
       .then(data => { if (active) setTopicReadiness({ subtopicId, data }) })
       .catch(() => { if (active) setTopicReadiness(null) })
     return () => { active = false }
-  }, [subtopicId, isProfessionalLesson, isAlgoritmlashV2, readinessRetry])
+  }, [subtopicId, isProfessionalLesson, isAlgoritmlashV2, isAxrM13, readinessRetry])
 
   // Savollar backend-first: gateway backend xatosida statik kontentga tushadi
   useEffect(() => {
