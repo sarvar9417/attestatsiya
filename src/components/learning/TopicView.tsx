@@ -137,6 +137,7 @@ export default function TopicView({
   const [submitted, setSubmitted] = useState<Record<string, boolean>>({})
   const [readProgress, setReadProgress] = useState(0)
   const [theoryPage, setTheoryPage] = useState(0)
+  const [furthestTheoryPage, setFurthestTheoryPage] = useState(0)
   const [animComplete, setAnimComplete] = useState(false)
   const [liveQuestions, setLiveQuestions] = useState<TestQuestion[] | null>(null)
   const [checking, setChecking] = useState<Record<string, boolean>>({})
@@ -186,6 +187,7 @@ export default function TopicView({
     setSubmitted({})
     setReadProgress(0)
     setTheoryPage(0)
+    setFurthestTheoryPage(0)
     setReadinessErrorTopic(null)
     setLiveQuestions(null)
     setChecking({})
@@ -293,12 +295,14 @@ export default function TopicView({
   // document-level 100% progress could appear while the learner was on block 1/4.
   useEffect(() => {
     if (!isBook && phase === 'theory' && content) {
-      setReadProgress(Math.round(100 * (activeTheoryPage + 1) / Math.max(theoryPages.length, 1)))
+      setReadProgress(Math.round(100 * Math.min(furthestTheoryPage + 1, theoryPages.length) / Math.max(theoryPages.length, 1)))
     }
-  }, [isBook, phase, content, activeTheoryPage, theoryPages.length])
+  }, [isBook, phase, content, furthestTheoryPage, theoryPages.length])
 
   const goTheoryPage = (next: number) => {
-    setTheoryPage(Math.min(Math.max(next, 0), Math.max(theoryPages.length - 1, 0)))
+    const target = Math.min(Math.max(next, 0), Math.max(theoryPages.length - 1, 0))
+    setTheoryPage(target)
+    setFurthestTheoryPage(previous => Math.max(previous, target))
     contentRef.current?.scrollIntoView?.({ behavior: 'smooth', block: 'start' })
   }
 
