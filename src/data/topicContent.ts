@@ -1325,7 +1325,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   'M16.02': t('M16.02', 'O\'qitish usul va metodlari', [
     { type: 'definition', content: 'O\'qitish usullari — o\'qituvchi va o\'quvchining o\'zaro faoliyatini tashkil etish yo\'llari. Metodlar og\'zaki, ko\'rgazmali, amaliy va interfaol turlarga bo\'linadi.' },
     { type: 'table', content: '| Metod guruhi | Misollar | Xususiyati |\n|-------------|---------|----------|\n| Og\'zaki | Hikoya, tushuntirish, suhbat | Nazariy bilim berish |\n| Ko\'rgazmali | Slayd, video, animatsiya, plakat | Vizual idrok |\n| Amaliy | Laboratoriya, masala yechish, loyiha | Ko\'nikma hosil qilish |\n| Interfaol | Klaster, Venn, fishing, blits-so\'rov | Faol muloqot |' },
-    { type: 'text', content: 'Informatika darslarida amaliy metodlar ustunlik qiladi: o\'quvchilarning 70% vaqti kompyuterda ishlash bilan o\'tishi kerak. Dasturlashni o\'rgatishda "Code.org", "Scratch", "Python" kabi vositalar qo\'llaniladi.' },
+    { type: 'text', content: 'Informatika darslarida amaliy faoliyat muhim: kompyuterda ishlash vaqti darsning aniq maqsadi, yosh xususiyatlari, xavfsizlik talablari va mavjud sharoitga qarab rejalashtiriladi. Dasturlashni o\'rgatishda "Code.org", "Scratch", "Python" kabi vositalar qo\'llaniladi.' },
     { type: 'example', content: 'Muammoli ta\'lim: "Internetga ulanish yo\'q. Ma\'lumotlarni qanday almashish mumkin?" — o\'quvchilar muammoni mustaqil yechishadi.' },
     { type: 'note', content: '💡 Informatika fanida "Fishing" (baliq skeleti) metodi — muammo va sabablarni tahlil qilish uchun qo\'llaniladi.' },
   ], []),
