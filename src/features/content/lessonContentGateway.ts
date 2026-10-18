@@ -39,6 +39,10 @@ function mapLessonQuestion(q: LessonQuestion): TestQuestion | null {
  * Dars test savollarini oladi: backend-first, statik fallback.
  */
 export async function getLessonTestQuestions(subtopicId: string): Promise<TestQuestion[]> {
+  // M14–M16 questions belong to the strict, server-scored attestatsiya bank.
+  // Never expose their answer keys through the immediate-feedback lesson quiz.
+  // The lesson's CTA starts /exam/mavzu/... only after the official preflight.
+  if (/^M1[456]\.\d{2}$/i.test(subtopicId)) return []
   const staticQuestions = getTopicContent(subtopicId)?.questions ?? []
 
   try {
