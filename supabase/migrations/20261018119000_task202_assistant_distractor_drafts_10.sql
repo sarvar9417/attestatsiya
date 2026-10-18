@@ -1,6 +1,7 @@
 -- TASK-202: PM.MET methodological distractor drafts 91-100.
 begin;
-insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distractors) values
+insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distractors)
+select source_question_id::uuid, proposed_distractors from (values
 ('0cc054bc-f0c9-49c3-a1f9-b06ea6c6ddd9',array[
 'Fan maqsadi, o‘quvchilar soni va sinf jadvali',
 'Pedagog tajribasi, sinf tarkibi va maktab jihozlari',
@@ -41,5 +42,8 @@ insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distra
 'Qachon va qancha dars o‘tilishini tashkiliy hisoblashni',
 'Maktabning moddiy bazasini rivojlantirish rejasini tuzishni',
 'Informatika xonasidagi qurilmalarni texnik jihatdan ta’mirlashni'])
+) as proposed(source_question_id, proposed_distractors)
+where exists(select 1 from public.questions q where q.id=proposed.source_question_id::uuid
+  and q.status='published'::public.content_status and q.format='Y1'::public.question_format)
 on conflict(source_question_id) do nothing;
 commit;
