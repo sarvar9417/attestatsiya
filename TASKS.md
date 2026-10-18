@@ -1,15 +1,18 @@
-## TASK-230–235 — Shaxsiy test konstruktori: non-production yakunlash
+## TASK-230–238 — Shaxsiy test konstruktori: kod, QA va release
 
-| ID | Status | Dependency | Deliverable |
-|----|--------|------------|-------------|
-| TASK-230 | IN_PROGRESS | TASK-210 | Kichik mavzu (construct) tanlash, DB/RPC fail-closed filtr, UI va regression |
-| TASK-231 | IN_PROGRESS | TASK-230 | Owner-only yakunlangan test diagnostikasi: mavzu, A–E, Y1–Y3 |
-| TASK-232 | IN_PROGRESS | TASK-231 | Server-authoritative sessiyani tiklash, takroriy startni oldini olish |
-| TASK-233 | IN_PROGRESS | TASK-232 | Learning-only javobdan keyin izoh, aniq teng taqsimot |
-| TASK-234 | IN_PROGRESS | TASK-233 | Admin-only published/keyed/source-backed pool qamrov paneli |
-| TASK-235 | IN_PROGRESS | TASK-234 | Fresh PostgreSQL, backend/frontend, Playwright, mobil/klaviatura QA; production chiqarilmaydi |
+| ID | Status | Dependency | Natija yoki qolgan shart |
+|---|---|---|---|
+| TASK-230 | DONE | TASK-210 | Published/active construct filtri va exact SQL quotas |
+| TASK-231 | DONE | TASK-230 | Owner-only finished analytics: lesson/A–E/Y1–Y3 |
+| TASK-232 | DONE | TASK-231 | Active exam resume, saved answers, idempotent start |
+| TASK-233 | DONE | TASK-232 | Learning-only submitted feedback va exact equal quotas |
+| TASK-234 | DONE | TASK-233 | Admin-only source-backed, keyless coverage |
+| TASK-235 | DONE | TASK-234 | Fresh database/backend/frontend/Playwright mobile CI; PR #168 merged |
+| TASK-236 | DONE | TASK-235 | Owner isolation, prefinish secrecy va keyless resume regressions; PR #172 merged |
+| TASK-237 | BLOCKED | TASK-236 | Authenticated staging learner/admin acceptance: independent, cost-approved Supabase staging kerak |
+| TASK-238 | BLOCKED | TASK-237 | Production migrations va Vercel release: owner release authorization va smoke kerak |
 
-> Barchasi `task/TASK-230-235-custom-builder-completion` branchida. Preset CRUD allaqachon `main`da; eski PR #159 superseded/closed. `main`, Vercel yoki production Supabase o‘zgartirilmasin. Dastlabki QA dalillari: `docs/TASK230_235_CUSTOM_BUILDER_NONPROD_QA.md`.
+> TASK-230–236 kodi GitHub main branch'iga merge qilingan; PR #168 commit 75a079744211 va PR #172 commit 792dd6a2aee0. TASK-230–234 yangi migrations productionga qo‘llanmagan. Staging qoidalari docs/TASK237_CUSTOM_BUILDER_STAGING_ACCEPTANCE.md.
 
 ## TASK-214 — Grafika va veb-texnologiyalar: qo‘shimcha Y2/Y3
 

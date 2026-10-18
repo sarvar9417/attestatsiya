@@ -1,6 +1,6 @@
 # TASK-230–218: Non-production completion / QA handoff
 
-**Scope:** Foydalanuvchining “productiondan boshqa qolgan ishlarni navbatma navbat bajar” ko‘rsatmasi. Existing TASK-210 production SQL functions saqlanadi, ammo yangi migrations productionga qo‘llanmaydi.
+**Status 2026-10-18:** PR #168 va #172 main'ga merge; TASK-230–236 tests and CI passed. Five new migrations have not been deployed to production. Staging and production acceptance remain open.
 
 ## Bosqich va qabul mezonlari
 
@@ -24,3 +24,7 @@
 - No production database write, Vercel deployment, main merge or review-only question publication in this task.
 - Existing published revisions and `exam_items` untouched; no destructive data migration.
 - Required follow-up: independent reviewer approval of PR and staging smoke with real authenticated learner/admin roles; later controlled production release after explicit owner approval.
+
+## Current release gates
+
+PR #168 and #172 are merged; staging remains blocked on user-approved paid Supabase branch and isolated test accounts. See docs/TASK237_CUSTOM_BUILDER_STAGING_ACCEPTANCE.md. Main merge does not imply production migration or Vercel deployment.
