@@ -11,8 +11,8 @@ import { getPedagogyStudyNotes } from '../../data/pedagogyStudyNotes'
 import type { TopicContent } from '../../data/topicContent'
 import { 
   CheckCircle2, XCircle, Lightbulb, BookOpen, ArrowRight, ArrowLeft, 
-  Sparkles, ChevronRight, ChevronUp, ChevronDown, BookText, GraduationCap, 
-  Brain, FileQuestion, Target, RotateCcw, RefreshCw, ListChecks,
+  Sparkles, ChevronUp, ChevronDown, BookText, GraduationCap, 
+  Brain, FileQuestion, Target, RotateCcw, ListChecks,
   Sigma, Table2, Quote, FileCode, BadgeInfo,
   BookMarked, Layers, Trophy, Eye,
   Fingerprint, Minus
