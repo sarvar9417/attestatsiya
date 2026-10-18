@@ -434,16 +434,11 @@ describe('secure ExamRunner', () => {
     expect(await screen.findByText('Yagona javobni tanlang')).toBeDefined()
   })
 
-  it('mavzu sinovi lessonId bo‘lmasa boshlanmaydi', async () => {
-    const user = userEvent.setup()
+  it('mavzu sinovi lessonId bo‘lmasa start tugmasi fail-closed qoladi', async () => {
     const gateway = successfulGateway()
-
     renderExam(gateway, '/exam/mavzu/M01')
-    await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
-
-    expect((await screen.findByRole('alert')).textContent).toContain(
-      'Mavzu testi uchun dars identifikatori topilmadi.'
-    )
+    await screen.findByText(/tayyorligini hozir tekshirib bo‘lmadi/)
+    expect((screen.getByRole('button', { name: 'Sinovni boshlash' }) as HTMLButtonElement).disabled).toBe(true)
     expect(gateway.startTopicExam).not.toHaveBeenCalled()
   })
 })
