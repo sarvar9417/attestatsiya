@@ -1,3 +1,14 @@
+## TASK-210 — Universal shaxsiy test konstruktori (2026-10-18, functional branch verified)
+
+- **Status:** IN_PROGRESS — draft PR #144; main/production o‘zgarmagan.
+- **Branch:** `task/TASK-210-custom-test-builder`; change scope: RFC, Zod quota parser/planner, safe catalog/preflight, atomic `custom` exam RPC and key-leak guard, frontend wizard and shared ExamRunner, history/result labels, SQL/backend/E2E tests.
+- **Validatsiya:** latest functional commit `68adea436e46` da CI backend, fresh PostgreSQL/database (jumladan `supabase/tests/custom_exam.test.sql`), quality/lint/typecheck/build/Playwright E2E = **SUCCESS**. Shu hujjat commitidan keyin CI qayta tekshirilsin.
+- **DB:** `20261018230000_task210_custom_exam.sql` va `20261018231000_task210_custom_exam_feedback_guard.sql` — productionga qo‘llanmagan. `exam_kind='custom'`, public `custom_exam_preflight(jsonb)`, `generate_custom_exam(jsonb)`; user auth, exact per-lesson A–E quotas, published/keyed/source-backed filters va all-or-nothing.
+- **UI:** `/custom-test` protected wizard → `/exam/custom`, ko‘p modul, qo‘lda A–E kvota, Y1/Y2/Y3, exposure, mode, timer. All results in same server-authoritative history flow. Learning mode hozir feedbackni **yakunda** ko‘rsatadi.
+- **Qolgan va `DONE` uchun majburiy:** shaxsiy preset saqlash CRUD + RLS; construct-level microtopic selection; domain analytics/result breakdown by selected topic; active attempt resume/idempotent start; migration remote rollout / production acceptance, accessibility va UX smoke. Yakunlanmagan bo‘limlarni “Completed” deb belgilamang.
+- **Release restriction:** iznsiz `main` merge, Vercel production deploy yoki production DB migration yo‘q. PR #144 Draft qoladi.
+
+
 ## TASK-203 — Pedagogika 249 owner-approved production bank Git parity (2026-10-18)
 
 - **Production audit:** KS/PM.GEN/PM.MET 424 published, 0 review. Of these 249 were approved as a **project-owner batch**, and 82 had wrong-option text AI-redrafted after initial approval for balanced length; never describe them as independent expert-signed certifications.

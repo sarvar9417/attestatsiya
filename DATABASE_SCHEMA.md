@@ -76,3 +76,12 @@ SUPABASE_DB_PASSWORD=... supabase db push
 
 # yoki Dashboard SQL Editor orqali migration fayllarini qo'lda ishga tushirish
 ```
+
+## TASK-210 — Shaxsiy test konstruktori (branch-only, NOT deployed)
+
+- `public.exam_kind` enumga `custom` qiymati qo‘shiladi; `exams`, `exam_items`, `submit_answer`, `finish_exam`, `get_review` va `selection_meta`dan foydalaniladi. Rasmiy mock blueprint o‘zgarmaydi.
+- `public.custom_exam_preflight(p_config jsonb)`: auth.uid() talab qiladi, faqat aggregate mavjudlik (`ready, requested, available, slots, gaps`) qaytaradi; savol ID/kalitlari yo‘q.
+- `public.generate_custom_exam(p_config jsonb)`: exact per-lesson/difficulty quotas, published/source-backed/active taxonomy va valid key eligibility, all-or-nothing `exams`+ `exam_items` transaction; `question_id` unikalligi va server authoritative timer.
+- `public.submit_answer` `custom` uchun yakunlanmaguncha `{saved:true}` qaytaradi — `correct` yoki `explanation_md` oshkor etmaydi. Avvalgi kindlar uchun hardening saqlangan.
+- Hozircha yangi user-owned preset table qo‘shilmadi; alohida migration va RLS keyingi task.
+- Migrationlar: `supabase/migrations/20261018230000_task210_custom_exam.sql`, `20261018231000_task210_custom_exam_feedback_guard.sql`. New SQL regression `supabase/tests/custom_exam.test.sql` CI’da yuradi.

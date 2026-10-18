@@ -190,6 +190,7 @@ jobs:
           psql -X -v ON_ERROR_STOP=1 -d attestatsiya_test \
             -f supabase/seed.sql \
             -f supabase/tests/security_hardening.test.sql \
+            -f supabase/tests/custom_exam.test.sql \
             -f supabase/tests/rls_product_access.test.sql \
             -f supabase/tests/onboarding_profile.test.sql \
             -f supabase/tests/mastery_srs_foundation.test.sql \
