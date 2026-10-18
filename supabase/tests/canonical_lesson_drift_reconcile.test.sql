@@ -162,6 +162,18 @@ begin
                      and em.code='M13'
                      and edition.slug ~ '^m13-axr-0[1-7]$'
                  ))
+        -- TASK-213 graphics/web V2 is a separate unpublished content edition.
+        -- Do not exempt published items or non-V2 sources from drift checks.
+        and not (lane.module_code IN ('M10','M11')
+                 and q.status = 'review'::public.content_status
+                 and (coalesce(q.source_reference,'') like 'GV2:GV-%'
+                      or coalesce(q.source_reference,'') like '%GV2-EXT-%')
+                 and EXISTS (
+                    SELECT 1 FROM public.lessons v2
+                    WHERE v2.id=q.source_lesson_id
+                      AND v2.status='review'::public.content_status
+                      AND v2.slug LIKE '%-v2-review'
+                 ))
     ) then
       raise exception 'TASK-064 % question source lesson drift remains',lane.module_code;
     end if;
