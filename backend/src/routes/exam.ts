@@ -20,7 +20,7 @@ function getToken(req: { headers: { authorization?: string } }): string | null {
   const value = req.headers.authorization
   // Accept only one nonempty bearer credential; do not forward Basic/other
   // authorization schemes to Supabase as if they were user JWTs.
-  const match = /^Bearer ([^\\s]+)$/i.exec(value ?? '')
+  const match = /^Bearer ([^\s]+)$/i.exec(value ?? '')
   return match?.[1] ?? null
 }
 
