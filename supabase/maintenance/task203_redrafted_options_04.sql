@@ -34,6 +34,15 @@ BEGIN
     END IF;
     IF EXISTS(SELECT 1 FROM public.questions WHERE id=item.question_id
       AND status='published'::public.content_status) THEN
+      -- Published content is immutable: validate exact text parity, never update it.
+      IF (SELECT array_agg(o.content_md ORDER BY o.order_idx)
+          FROM public.question_options o JOIN public.question_keys k
+            ON k.question_id=o.question_id
+          WHERE o.question_id=item.question_id AND o.side='a'
+            AND o.id::text<>(k.payload->>'correct_option_id')
+      ) IS DISTINCT FROM item.wrong_options THEN
+        RAISE EXCEPTION 'TASK-203 published content drift for %',item.question_id;
+      END IF;
       CONTINUE;
     END IF;
     IF NOT EXISTS(SELECT 1 FROM public.questions WHERE id=item.question_id
