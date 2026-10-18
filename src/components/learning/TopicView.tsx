@@ -142,6 +142,7 @@ export default function TopicView({
 
   const [publishedTheory, setPublishedTheory] = useState<{ subtopicId: string; content: TopicContent } | null>(null)
   const [topicReadiness, setTopicReadiness] = useState<{ subtopicId: string; data: TopicTestPreflight } | null>(null)
+  const [readinessRetry, setReadinessRetry] = useState(0)
   const isProfessionalLesson = /^M1[456]\.\d{2}$/.test(subtopicId)
   const staticContent = getTopicContent(subtopicId)
   const isPedagogyTopic = moduleId === 'M15' && /^M15\.\d{2}$/.test(subtopicId)
@@ -207,7 +208,7 @@ export default function TopicView({
       .then(data => { if (active) setTopicReadiness({ subtopicId, data }) })
       .catch(() => { if (active) setTopicReadiness(null) })
     return () => { active = false }
-  }, [subtopicId, isProfessionalLesson])
+  }, [subtopicId, isProfessionalLesson, readinessRetry])
 
   // Savollar backend-first: gateway backend xatosida statik kontentga tushadi
   useEffect(() => {
@@ -610,6 +611,23 @@ export default function TopicView({
               )}
             </div>
           </div>
+
+          {isProfessionalLesson && !hasTest && (
+            <div role="status" aria-live="polite"
+              className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-amber-200 bg-amber-50/70 px-4 py-3 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950/20 dark:text-amber-100">
+              <div>
+                <strong>Mavzu testi hali tayyor emas.</strong>{' '}
+                {currentReadiness
+                  ? `Hozir ${currentReadiness.available}/${currentReadiness.required} ta mos savol mavjud. Nazariyani o‘rganishda davom etishingiz mumkin.`
+                  : 'Test holatini serverdan olib bo‘lmadi. Nazariyani o‘rganishda davom etishingiz mumkin.'}
+              </div>
+              <button type="button"
+                onClick={() => setReadinessRetry(n => n + 1)}
+                className="min-h-10 shrink-0 rounded-lg border border-amber-400 px-3 font-semibold hover:bg-amber-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-600 dark:border-amber-700 dark:hover:bg-amber-900/30">
+                Holatni qayta tekshirish
+              </button>
+            </div>
+          )}
 
           {/* ── Theory Content Blocks ── */}
           {isBook ? (
