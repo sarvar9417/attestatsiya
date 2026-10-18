@@ -12,6 +12,7 @@
  */
 
 import { z } from 'zod'
+import type { CustomExamConfig } from '../custom-test/customTestApi'
 import { api, isNetworkError } from '../../lib/apiClient'
 import {
   examSessionSchema,
@@ -91,6 +92,11 @@ if (typeof window !== 'undefined') {
 }
 
 export const backendGateway: ExamGateway = {
+  async startCustomExam(config: CustomExamConfig): Promise<ExamSession> {
+    const data = await api.post<unknown>('/api/custom-tests/start', config)
+    return parseResponse(examSessionSchema, data, 'start_custom')
+  },
+
   async startMockExam(): Promise<ExamSession> {
     const data = await api.post<unknown>('/api/exam/start', { kind: 'mock' })
     return parseResponse(examSessionSchema, data, 'start_mock')
