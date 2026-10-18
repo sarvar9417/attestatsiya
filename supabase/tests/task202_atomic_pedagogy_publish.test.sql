@@ -33,6 +33,29 @@ begin
  'TEST FIXTURE ONLY — review signature and content fingerprint for atomicity check.',
  'trigger-will-stamp');
 
+ -- A signed review can only be promoted via the atomic replacement RPC.
+ v_err:=false;
+ begin
+   update public.questions set status='published'::public.content_status
+     where id=v_new;
+ exception when check_violation then v_err:=true;
+ end;
+ if not v_err then
+   raise exception 'TASK202: generic status transition bypassed atomic replacement';
+ end if;
+
+ -- NULL author_id must not bypass independent author/reviewer separation.
+ update public.questions set author_id=null where id=v_new;
+ v_err:=false;
+ begin
+   perform public.publish_pedagogy_revision(
+      v_new,'92800000-0000-4000-8000-000000000012');
+ exception when check_violation then v_err:=true;
+ end;
+ if not v_err then raise exception 'TASK202: null author bypassed release guard';end if;
+ update public.questions set author_id='92800000-0000-4000-8000-000000000011'
+   where id=v_new;
+
  perform public.publish_pedagogy_revision(
   v_new,'92800000-0000-4000-8000-000000000012');
  if (select status from public.questions where id=v_new)<>'published'::public.content_status
