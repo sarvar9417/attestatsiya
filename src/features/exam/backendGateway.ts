@@ -31,6 +31,7 @@ import {
   type SubmitAnswerResponse,
 } from './contracts'
 import type { SubmitAnswerInput, ExamGateway, TopicTestPreview } from './examGateway'
+import type { AXBChapter } from '../axb/chapters'
 import { getTopicTestPreflight } from '../content/contentApi'
 import {
   enqueuePendingAnswer,
@@ -91,10 +92,28 @@ if (typeof window !== 'undefined') {
   })
 }
 
+const axbChaptersSchema = z.array(z.object({
+  chapter_no: z.number().int().min(1).max(19),
+  total_pdf: z.number().int().positive(),
+  published_count: z.number().int().nonnegative(),
+  review_count: z.number().int().nonnegative(),
+}).strict()).length(19)
+
 export const backendGateway: ExamGateway = {
   async startCustomExam(config: CustomExamConfig): Promise<ExamSession> {
     const data = await api.post<unknown>('/api/custom-tests/start', config)
     return parseResponse(examSessionSchema, data, 'start_custom')
+  },
+
+  async getAxborotChapters(): Promise<AXBChapter[]> {
+    const data = await api.get<unknown>('/api/exam/axb/chapters')
+    return parseResponse(axbChaptersSchema, data, 'axb_chapters')
+  },
+  async startAxborotChapter(chapter: number, count: number): Promise<ExamSession> {
+    const data = await api.post<unknown>('/api/exam/axb/start', {
+      chapter_no: chapter, question_count: count,
+    })
+    return parseResponse(examSessionSchema, data, 'axb_chapter_start')
   },
 
   async startMockExam(): Promise<ExamSession> {

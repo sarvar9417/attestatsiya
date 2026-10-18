@@ -226,6 +226,7 @@ jobs:
             -f supabase/tests/m10_m11_graphics_web_lessons.test.sql \
             -f supabase/tests/m12_m13_network_security_lessons.test.sql \
             -f supabase/tests/m14_kasb_standarti_lessons.test.sql \
+            -f supabase/tests/axb_chapter_practice.test.sql \
             -f supabase/tests/review_question_option_rls.test.sql \
             -f supabase/tests/m16_informatika_metodikasi_lessons.test.sql \
             -f supabase/tests/m15_umumiy_pedagogika_lessons.test.sql \

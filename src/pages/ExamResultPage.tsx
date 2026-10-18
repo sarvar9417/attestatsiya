@@ -25,6 +25,7 @@ const KIND_LABELS: Record<ExamResultDetail['kind'], string> = {
   takrorlash: 'Takrorlash',
   zaif: 'Zaif mavzular',
   pedagogik_15: 'Pedagogika va kasb standarti · 15',
+  axb_bob: 'Axborot boblari · qo‘shimcha mashq',
   custom: 'Shaxsiy test',
 }
 

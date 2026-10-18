@@ -8,12 +8,6 @@
 - Dependency `DONE` bo'lmasdan task boshlanmaydi
 - "Done" bandlari test bilan isbotlanadi
 
-## Shaxsiy test konstruktori — 2026-10-18
-
-| ID | Status | Dependency | Deliverable |
-|----|--------|------------|-------------|
-| TASK-210 | IN_PROGRESS | T-013, T-014, T-015 (DONE) | RFC + backend/API + atomic DB generator, answer-leak guard, universal UI, history and SQL/backend/Playwright regressiyalar branchda ishlangan va CI yashil. Preset CRUD/RLS, microtopic filtr, analytics, resume, production verification OPEN. [RFC](docs/TASK210_UNIVERSAL_CUSTOM_TEST_BUILDER.md), [status](PROJECT_STATE.md), [PR #144](https://github.com/sarvar9417/attestatsiya/pull/144). |
-
 ## P0 — Xavfsizlik va barqarorlashtirish
 
 | ID | Status | Dependency | Deliverable |
@@ -157,3 +151,12 @@ Har task uchun kamida:
 
 | TASK-203 | IN_PROGRESS | TASK-202 | 424 production published questions; 249 owner-batch approvals (82 AI-edited wrong-option sets), no review. Git parity via six maintenance-only replay scripts, QA regression and precise provenance; CI and one merge required. Existing 118 legacy proposals and PR #127 security blockers remain separate. Docs: docs/TASK203_PEDAGOGY_OWNER_APPROVAL_PARITY.md |
 | TASK-202 | IN_PROGRESS | TASK-201 | Bitta yakuniy pedagogika release branchida: 649 PDF private source triage, 155 tekshirilgan unlinked source uchun original REVIEW authoring UI, barcha KS/PM savollari bo‘yicha paginated editor va source filters, human editorial checklist, 118 length-biased published itemlar uchun review revision queue, safe atomik publish/archive va Y1/Y2/Y3 key xavfsizligi; **human signoff + final CI + one merge + one deploy** hali OPEN. PR #121 DRAFT; yakunda yangi user buyrug‘isiz release taqiqlangan. See docs/TASK202_ONE_FINAL_PEDAGOGY_RELEASE.md |
+
+
+| TASK-211 | IN_PROGRESS | TASK-056 | M13 “Axborot xavfsizligi va raqamli xizmatlar”: 7 yangi nazariya, 210 source-backed didaktik test, `review` migratsiya, oldingi published kontent saqlangan. Draft PR #145. Ekspert tasdiqlashi, local migration DB QA, lesson resolver/topic test E2E va alohida production release tasdig‘i OPEN. Docs: `docs/content/TASK-211-M13-AXR.md`. |
+
+## TASK-210 — Universal shaxsiy test konstruktori
+
+| ID | Status | Dependency | Deliverable |
+|---|---|---|---|
+| TASK-210 | IN_PROGRESS | T-013, T-014, T-015 (DONE) | RFC + backend/API + atomic DB generator, answer-leak guard, universal UI, history and SQL/backend/Playwright regressiyalar branchda ishlangan va CI yashil. Preset CRUD/RLS, microtopic filtr, analytics, resume, production verification OPEN. [RFC](docs/TASK210_UNIVERSAL_CUSTOM_TEST_BUILDER.md), [status](PROJECT_STATE.md), [PR #144](https://github.com/sarvar9417/attestatsiya/pull/144). |

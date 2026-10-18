@@ -1,6 +1,6 @@
 import { useState, useEffect, lazy, Suspense } from 'react'
 import { SimpleLoadingSkeleton } from './components/ui/PageSkeleton'
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { reportWebVitals } from './lib/performance'
 import { useAuth } from './hooks/useAuth'
 import { monitoring } from './lib/monitoring'
@@ -113,6 +113,7 @@ function MainLayout() {
                 <Route path="/learn" element={<ProtectedRoute><LearningPage /></ProtectedRoute>} />
                 <Route path="/learn/:moduleId" element={<ProtectedRoute><ModulePage /></ProtectedRoute>} />
                 <Route path="/professional-practice" element={<ProtectedRoute><ProfessionalPracticePage /></ProtectedRoute>} />
+                <Route path="/practice/axb" element={<ProtectedRoute><Navigate to="/learn/M01?extra=axb" replace /></ProtectedRoute>} />
                 <Route path="/exam" element={<ProtectedRoute><ExamPage /></ProtectedRoute>} />
                 <Route path="/custom-test" element={<ProtectedRoute><CustomTestPage /></ProtectedRoute>} />
                 <Route path="/exam/:kind" element={<ProtectedRoute><ExamPage /></ProtectedRoute>} />

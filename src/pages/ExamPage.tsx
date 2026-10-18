@@ -18,6 +18,8 @@ export default function ExamPage({ gateway }: ExamPageProps) {
   const customConfig = customParsed.success ? customParsed.data : undefined
   const [searchParams] = useSearchParams()
   const lessonId = searchParams.get('lessonId')
+  const axbChapter = Number(searchParams.get('chapter'))
+  const axbCount = Number(searchParams.get('count'))
   const completeTopic = useProgressStore((s) => s.completeTopic)
 
   const examKind =
@@ -29,13 +31,16 @@ export default function ExamPage({ gateway }: ExamPageProps) {
     kind === 'takrorlash' ||
     kind === 'pedagogik_15' ||
     kind === 'custom' ||
+    kind === 'axb_bob' ||
     kind === 'zaif'
       ? kind
       : 'mock'
 
   const backUrl =
     examKind === 'custom' ? '/custom-test' :
-    examKind === 'takrorlash' || examKind === 'zaif'
+    examKind === 'axb_bob'
+      ? '/learn/M01?extra=axb'
+      :     examKind === 'takrorlash' || examKind === 'zaif'
       ? '/review'
       : examKind === 'diagnostika'
         ? '/'
@@ -77,6 +82,8 @@ export default function ExamPage({ gateway }: ExamPageProps) {
       customConfig={customConfig}
       moduleId={moduleId}
       lessonId={lessonId ?? undefined}
+      axbChapter={axbChapter}
+      axbCount={axbCount}
       backUrl={backUrl}
       onFinished={handleFinished}
     />

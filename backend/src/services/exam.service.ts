@@ -19,6 +19,29 @@ import type {
  * All methods require an authenticated user token.
  */
 export const examService = {
+  async getAxborotChapters(userToken: string) {
+    const { data, error } = await getAuthedClient(userToken).rpc('axb_chapter_catalog')
+    if (error) throw new AppError('Axborot boblari yuklanmadi', 503, 'AXB_CATALOG_ERROR')
+    return data
+  },
+
+  async startAxborotChapter(chapter: number, count: number, userToken: string): Promise<ExamStartResponse> {
+    const { data, error } = await getAuthedClient(userToken).rpc('generate_axb_chapter_practice', {
+      p_chapter_no: chapter,
+      p_count: count,
+    })
+    if (error) {
+      if (error.message?.includes('axb_chapter_pool_insufficient')) {
+        throw new AppError('Tanlangan bobda bu miqdorda tasdiqlangan savol yo‘q.', 409, 'AXB_CHAPTER_POOL_INSUFFICIENT')
+      }
+      if (error.message?.includes('axb_chapter_request_invalid')) {
+        throw new AppError('Bob yoki savollar soni noto‘g‘ri.', 400, 'AXB_CHAPTER_REQUEST_INVALID')
+      }
+      throw new AppError('Axborot bobining testini boshlashda xatolik', 503, 'AXB_CHAPTER_START_ERROR')
+    }
+    return data as ExamStartResponse
+  },
+
   /**
    * Start a new exam.
    * - mock → full attestatsiya (50 questions, 120 min)
