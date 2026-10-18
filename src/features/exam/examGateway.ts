@@ -31,6 +31,7 @@ export interface TopicTestPreview {
   available: number
   reason: 'ready' | 'pool_insufficient' | 'objective_gap' | 'blueprint_missing' | 'blueprint_invalid'
   criticalObjectiveGaps: string[]
+  missingRequiredObjectives: string[]
 }
 
 export interface ExamGateway {
