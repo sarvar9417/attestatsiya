@@ -4,7 +4,7 @@ DO $t$
 DECLARE v_lessons int; v_tables int; v_diagrams int; v_math int; v_bad int;
 BEGIN
  SELECT count(*),
-   sum((length(l.body_mdx)-length(replace(l.body_mdx,'| ---','')))/5),
+   sum((length(l.body_mdx)-length(replace(l.body_mdx,E'\n| ---','')))/6),
    sum((length(l.body_mdx)-length(replace(l.body_mdx,'[[NETFIG:','')))/9),
    sum((length(l.body_mdx)-length(replace(l.body_mdx,chr(92)||'[','')))/2)
  INTO v_lessons,v_tables,v_diagrams,v_math
