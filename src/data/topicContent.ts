@@ -1,4 +1,5 @@
 import { M01_CONTENT } from './topics/m01'
+import { M05_THEORY } from './topics/m05'
 
 /**
  * Nazariy blok turlari.
@@ -1400,6 +1401,27 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { id: 'M16.03-q2', text: 'O\'quvchi darsga qiziqmasa, qanday qaror to\'g\'ri?', options: ['Darsdan haydash', 'Interfaol metod qo\'llash', 'Baho qo\'ymaslik', 'E\'lon qilish'], correctIndex: 1, explanation: 'Interfaol metod o\'quvchini faollashtiradi va qiziqtiradi', type: 'Y2' },
     { id: 'M16.03-q3', text: 'Ota-ona bahodan norozi bo\'lsa, o\'qituvchi nima qilishi kerak?', options: ['Bahoni o\'zgartirish', 'Bahoni tushuntirish va mezonlarni ko\'rsatish', 'E\'tibor bermaslik', 'Ota-onani tanqid qilish'], correctIndex: 1, explanation: 'Ochiq muloqot, baholash mezonlarini tushuntirish eng to\'g\'ri yondashuv', type: 'Y2' },
   ]),
+}
+
+
+/**
+ * M05 — 11-bobli “Sanoq sistemalari” nazariyasi.
+ *
+ * Eski savollarni saqlaymiz: faqat qisqa nazariya o'rniga kitobning barcha
+ * 11 bobi joylanadi. Server mavjud 180 ta yangi + eski savollarni beradi,
+ * statik savollar esa tarmoq uzilgandagi fallback bo'lib qoladi.
+ *
+ * M05.01 = 1–2-bob, M05.02 = 3–5-bob, M05.03 = 6–11-bob.
+ */
+for (const [id, theory] of Object.entries(M05_THEORY)) {
+  const existing = TOPIC_CONTENT[id]
+  if (!existing) continue
+  TOPIC_CONTENT[id] = {
+    ...existing,
+    theory,
+    source: 'src/content/sanoq/Sanoq_sistemalari_nazariya.tex',
+    kind: 'chapter',
+  }
 }
 
 export function getTopicContent(subtopicId: string): TopicContent | undefined {
