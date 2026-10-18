@@ -17,6 +17,16 @@ Foydalanuvchining “Pedagogning kasbiy standarti - qollanma.pdf” fayli, betla
 
 **MUHIM XAVFSIZLIK BLOCKERI:** `sarvar9417/attestatsiya` public repozitoriy. Dastlab ushbu savollar bilan kalitlar draft PR #137 ning avvalgi commitlarida ochiq saqlangan. Fayllarni branch boshidan olib tashlash GitHubning oldingi obyektlarini darhol mutlaq o‘chirishni KAFOLATLAMAYDI. Ushbu ochilib qolgan 42 savolni rasmiy baholanadigan testga ko‘r-ko‘rona nashr qilish taqiqlanadi. Ular nazoratli ochiq mashq materiallari sifatida qayta tasniflanishi mumkin; yopiq baholanadigan bank uchun mutlaqo yangi, hech qachon public repoda paydo bo‘lmagan savol-javoblar tayyorlanishi kerak.
 
+## Yangi yopiq baholash banki — 26 savol (PENDING EDITORIAL)
+
+Oldingi ommaviy commitda paydo bo‘lgan 42 ta savoldan ALohida, **26 ta yangi Y1** savol yopiq Google Docs hujjatida yozildi. Variantlar va javob kalitlari public GitHub’da yo‘q. Hujjatning ruxsatlari tekshirildi: **owner-only, shared=false**, foydalanuvchining odatda ommaga ochiq `Attestatsiya` Drive papkasiga ko‘chirilmagan.
+
+Soni/bo‘linishi: KS.01 +3, KS.02 +3, KS.03 +2, KS.04 +6, KS.05 +4, KS.06 +4, KS.07 +4 = **26 ta**. Har birida 4 ta variant, kalit, izoh va foydalanuvchi taqdim etgan kasbiy standart metodik qo‘llanmasining aniq beti mavjud. Tarixiy attestatsiyada tushgan asl savollar deb taqdim etilmaydi.
+
+Source-stem automated audit: shu 26 yangi matn productiondagi 114 M14 savolga nisbatan tekshirildi, yuqori matniy o‘xshashlik topilmadi (bu semantik ekspert tekshiruvini almashtirmaydi). Variantlar so‘z uzunligi va «faqat» tipidagi til ishoralari ko‘rib chiqildi. Bir variant kichik tahrirlandi.
+
+**Private content has NOT been imported to Supabase.** Bunga hozirgi `question_options_readable` siyosati xalal beradi: undan keladigan `USING(true)` anon/authenticated uchun review variantlarini ochib qo‘yadi. `20261018150000_restrict_review_question_options.sql` shu muammoni `options_read` status-aware policy saqlangan holda hal qiladi. `supabase/tests/review_question_option_rls.test.sql` anon ko‘ra olmasligini regressiya sifatida tekshiradi. SQL qo‘llanmasdan oldin va user approval bo‘lmaguncha private content import qilinmasin.
+
 ## Qabul mezonlari (yakunlash)
 1. Kamida 26 ta **yangi, public repo tarixida bo‘lmagan**, manba va betga bog‘langan savol mustaqil tekshiriladi, kaliti xatosiz deb tasdiqlanadi. M14.01–07 bo‘yicha minimum: +3, +3, +2, +6, +4, +4, +4.
 2. Import `review` holatida, faqat yopiq/admin kanal orqali bajariladi. `authored_by`, `reviewed_by`, `final_approved_by` yozuvlari haqiqiy foydalanuvchini aks ettiradi. Keyin haqiqiy editorial fingerprint/challenge bilan `review→published`.
