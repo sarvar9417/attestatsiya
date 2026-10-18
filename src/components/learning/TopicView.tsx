@@ -21,6 +21,7 @@ import { syncTopicProgress } from '../../lib/progressSync'
 // ochilganda yuklanadi.
 const BookReader = lazy(() => import('./theory/BookReader'))
 import LessonStageBar from './LessonStageBar'
+import InlineText from './theory/InlineText'
 
 interface Props {
   moduleId: string
@@ -447,14 +448,14 @@ export default function TopicView({
                   <div className="flex items-start gap-3">
                     <span className="w-7 h-7 rounded-full bg-red-100 dark:bg-red-900/40 flex items-center justify-center text-xs font-bold text-red-600 dark:text-red-400 shrink-0 mt-0.5">{i + 1}</span>
                     <div className="min-w-0 flex-1">
-                      <p className="font-medium text-gray-800 dark:text-gray-200 mb-2 text-sm">{q.text}</p>
+                      <p className="font-medium text-gray-800 dark:text-gray-200 mb-2 text-sm"><InlineText text={q.text} /></p>
                       <div className="space-y-1.5 text-xs">
                         {renderAnswerDetail(q, answers)}
                       </div>
                       <div className="mt-3 pt-3 border-t border-red-200 dark:border-red-800/50">
                         <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
                           <span className="font-semibold text-gray-700 dark:text-gray-300">Tushuntirish: </span>
-                          {q.explanation}
+                          <InlineText text={q.explanation} />
                         </p>
                       </div>
                     </div>
@@ -881,11 +882,11 @@ function renderAnswerDetail(q: TestQuestion, answers: Record<string, unknown>) {
       <>
         <div className="flex items-center gap-2">
           <XCircle size={12} className="text-red-500 shrink-0" />
-          <span className="text-red-600 dark:text-red-400"><span className="font-medium text-gray-500">Siz:</span> {q.options[answers[q.id] as number]}</span>
+          <span className="text-red-600 dark:text-red-400"><span className="font-medium text-gray-500">Siz:</span> <InlineText text={q.options[answers[q.id] as number] ?? ''} /></span>
         </div>
         <div className="flex items-center gap-2">
           <CheckCircle2 size={12} className="text-emerald-500 shrink-0" />
-          <span className="text-emerald-600 dark:text-emerald-400"><span className="font-medium text-gray-500">To'g'ri:</span> {q.options[q.correctIndex]}</span>
+          <span className="text-emerald-600 dark:text-emerald-400"><span className="font-medium text-gray-500">To'g'ri:</span> <InlineText text={q.options[q.correctIndex] ?? ''} /></span>
         </div>
       </>
     )
@@ -1272,7 +1273,7 @@ function QuestionCard({ question: q, index, total, selected, isSubmitted, onSele
             <span className="text-[10px] text-gray-400 font-mono">{index + 1}/{total}</span>
           </div>
           <p className="text-sm font-medium text-gray-900 dark:text-white leading-relaxed">
-            {q.text}
+            <InlineText text={q.text} />
           </p>
         </div>
         {/* Status icon */}
@@ -1314,7 +1315,7 @@ function QuestionCard({ question: q, index, total, selected, isSubmitted, onSele
                     'border-gray-200 dark:border-gray-600 text-gray-400 dark:text-gray-500'}`}>
                   {icon ? null : String.fromCharCode(65 + oi)}
                 </span>
-                <span className="text-gray-700 dark:text-gray-300 flex-1">{opt}</span>
+                <span className="text-gray-700 dark:text-gray-300 flex-1"><InlineText text={opt} /></span>
                 {icon && <span>{icon}</span>}
               </button>
             )
@@ -1451,7 +1452,7 @@ function QuestionCard({ question: q, index, total, selected, isSubmitted, onSele
             </div>
             <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
               <span className="font-medium">Izoh: </span>
-              {q.explanation}
+              <InlineText text={q.explanation} />
             </p>
           </div>
         )}
