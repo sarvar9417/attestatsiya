@@ -102,7 +102,7 @@ export default function CustomTestPage() {
     count < 1 || count > 100 || formats.length === 0 ||
     Object.values(selected).some(counts => !LEVELS.some(level => (counts[level] ?? 0) > 0))
   const lessonNames = useMemo(
-    () => new Map(catalog.flatMap(module => module.lessons.map(lesson => [lesson.id, lesson.title_uz]))),
+    () => new Map<string, string>(catalog.flatMap(module => module.lessons.map(lesson => [lesson.id, lesson.title_uz] as const))),
     [catalog]
   )
   const changeSetting = () => { setPreview(null); setError(null) }
