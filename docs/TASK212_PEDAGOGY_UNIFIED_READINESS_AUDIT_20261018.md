@@ -175,3 +175,32 @@ Faqat aggregate SELECT (savol matni va kalitlarni chiqarmasdan) tekshirildi:
 - 118 ta heuristic length-cue flag **avtomatik noto‘g‘ri javob** degani emas; u variantlarni qayta muvozanatlash uchun editorial prioritet. Semantik dublikat, variant grammatikasi, rasmiy normativ to‘g‘rilik, tarixiy reference beti yoki savol murakkabligi bu query bilan tekshirilmaydi.
 - Reproduksiya: supabase/audits/20261018_task212_pedagogy_option_cues_readonly.sql; SELECT natijasida javob matnlari, private keys, shaxsiy attempt ma’lumotlari olinmaydi.
 - **Release gate:** Published 118 cue nomzodini expert navbatiga ajratish, har bir qabul qilingan tahrirda immutable archived snapshot va tarixni saqlash, qayta testlash.
+
+
+## 13. 2026-10-18 · OWNER-WAIVED STRICT-LONGEST PEDAGOGY OPTIONS: LIVE COMPLETED
+
+**Owner instruction:** separate external expert signoff is waived for this release. This is NOT an independent professional endorsement. All option rewrites are AI-assisted, tracked as owner-waived, and preserve the original correct-answer string and explanation.
+
+### Production changes, independently rechecked in live Supabase
+
+- Earlier owner-authorized release: 26 KS new original questions published; 118 long-correct published Y1 replaced with balanced immutable revisions; 118 source versions archived.
+- The stricter requirement was that the correct answer not be strictly longer than EVERY distractor. Initial stricter audit detected **75** remaining: KS 26, PM.GEN 29, PM.MET 20.
+- Further controlled batches: KS **10+10+6**, PM.GEN **15+14**, PM.MET **10+10** = **75 source-specific corrections**. Each complete SQL transaction first passed a production ROLLBACK rehearsal before its actual COMMIT. Every new version has new UUID/answer-option IDs; archived original preserves historic attempts, original correct answer text and original rationale.
+- Final live SELECT verifies **426 published Y1** (KS 130; PM.GEN 223; PM.MET 73) and **0 cases of strictly-longest correct choice**, **0 cases >30%**, **0 4-choice/non-distinct option failures** for all three groups. Counts and groups are snapshot-specific; no blanket semantic assurance or Y2/Y3 alteration is implied.
+
+### Reproducible maintenance transactions
+
+- supabase/maintenance/task212_strict_longest_first10_safe_revisions.sql — KS 10
+- supabase/maintenance/task212_strict_longest_second10_safe_revisions.sql — KS 10
+- supabase/maintenance/task212_strict_longest_last6_KS_safe_revisions.sql — KS 6
+- supabase/maintenance/task212_strict_longest_pmgen_first15_safe_revisions.sql — PM.GEN 15
+- supabase/maintenance/task212_strict_longest_pmgen_last14_safe_revisions.sql — PM.GEN 14
+- supabase/maintenance/task212_strict_longest_pmmet_first10_safe_revisions.sql — PM.MET 10
+- supabase/maintenance/task212_strict_longest_pmmet_last10_safe_revisions.sql — PM.MET 10
+- supabase/audits/20261018_task212_strict_longest_residual_readonly.sql — independent group count and remaining-cue auditor.
+
+The SQL maintenance files are **historical one-shot, non-idempotent records** and must never be rerun after success; they fail closed on source/status mismatches. Manual owner-authorization provenance is stored in private RLS-protected pedagogy_owner_release_waivers. Do not invent reviewer signatures or expose answer keys to learners.
+
+### Still separate from production UI deployment
+
+Database revisions ARE LIVE. Unified pedagogy landing UI and other TASK-212 React changes are staged in GitHub PR #149 until its exact latest-head CI and one Vercel production deployment/READY verification. GitHub merge can trigger Vercel automatically; separate manual second deployments should not be started. Vercel last checked build-rate-limit; a passed GitHub CI does not certify frontend release or live authenticated mobile experience.
