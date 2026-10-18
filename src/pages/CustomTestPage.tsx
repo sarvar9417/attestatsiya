@@ -11,6 +11,7 @@ import {
   type CustomExamPreview,
 } from '../features/custom-test/customTestApi'
 import SavedPresetsPanel from '../features/custom-test/SavedPresetsPanel'
+import { suggestEqualQuotas } from '../features/custom-test/quotaSuggestion'
 
 type Level = 1 | 2 | 3 | 4 | 5
 type QuantityMap = Partial<Record<Level, number>>
@@ -29,6 +30,7 @@ export default function CustomTestPage() {
   const [catalogError, setCatalogError] = useState<string | null>(null)
   const [openModules, setOpenModules] = useState<string[]>([])
   const [selected, setSelected] = useState<Selection>({})
+  const [suggestedTotal, setSuggestedTotal] = useState(20)
   const [constructByLesson, setConstructByLesson] = useState<Record<string, string>>({})
   const [formats, setFormats] = useState<Array<'Y1' | 'Y2' | 'Y3'>>(['Y1','Y2','Y3'])
   const [exposure, setExposure] = useState<CustomExamConfig['exposure']>('all')
@@ -197,6 +199,25 @@ export default function CustomTestPage() {
             <p className="rounded-xl bg-gray-100 p-4 text-sm dark:bg-gray-800">Nashr etilgan mavzular topilmadi.</p>
           )}
 
+          {Object.keys(selected).length > 0 && (
+            <div className="flex flex-wrap items-end gap-3 rounded-xl border border-indigo-200 p-4 dark:border-indigo-800">
+              <label className="space-y-1 text-sm dark:text-gray-200">
+                <span className="block font-semibold">Umumiy savollar soni (1–100)</span>
+                <input type="number" min={1} max={100} value={suggestedTotal}
+                  aria-label="Avtomatik taqsimot savollari"
+                  onChange={event => setSuggestedTotal(Math.min(100, Math.max(1,Number(event.target.value)||1)))}
+                  className="w-24 rounded-lg border border-gray-300 bg-white px-3 py-2 dark:border-gray-700 dark:bg-gray-800"/>
+              </label>
+              <button type="button" disabled={suggestedTotal < Object.keys(selected).length}
+                onClick={() => update(suggestEqualQuotas(suggestedTotal,selected))}
+                className="min-h-10 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50">
+                Mavzular bo‘yicha teng taqsimlash
+              </button>
+              <p className="w-full text-xs text-gray-500 dark:text-gray-300">
+                Tanlangan A–E darajalar nisbati iloji boricha saqlanadi; barcha kvotalar tekshirishdan oldin ko‘rsatiladi.
+              </p>
+            </div>
+          )}
           {catalog.map(module => {
             const expanded = openModules.includes(module.id)
             const moduleSelected = module.lessons.filter(lesson => selected[lesson.id]).length

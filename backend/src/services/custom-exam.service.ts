@@ -1,4 +1,4 @@
-import { getAuthedClient } from '../lib/supabase.js'
+import { getAuthedClient, supabase } from '../lib/supabase.js'
 import { AppError } from '../lib/errors.js'
 import { buildCustomExamPlan } from './custom-exam-planner.js'
 import type { CustomExamConfig } from '../schemas/custom-exam.js'
@@ -76,7 +76,7 @@ export const customExamService = {
     }
 
     // Only public learning-objective metadata: never read question_keys here.
-    const { data: links, error: linksError } = await client
+    const { data: links, error: linksError } = await supabase
       .from('lesson_constructs')
       .select('lesson_id, construct_id')
       .in('lesson_id', allLessons.map(lesson => lesson.id))
@@ -84,7 +84,7 @@ export const customExamService = {
 
     const constructIds = [...new Set((links ?? []).map(link => link.construct_id))]
     const { data: constructs, error: constructsError } = constructIds.length
-      ? await client.from('constructs').select('id, code, title_uz')
+      ? await supabase.from('constructs').select('id, code, title_uz')
         .eq('is_active', true).in('id', constructIds)
       : { data: [], error: null }
     if (constructsError) throw new AppError('Kichik mavzular ro‘yxati olinmadi', 503, 'CUSTOM_CATALOG_UNAVAILABLE')

@@ -176,6 +176,16 @@ begin
      or jsonb_array_length(v_analysis->'by_lesson')<>2 then
     raise exception 'post-finish analytics mismatch %',v_analysis;
   end if;
+  -- In learning mode only, correctness may appear after the answer was saved.
+  v_session := public.generate_custom_exam(jsonb_set(v_config,'{mode}','"learning"'::jsonb));
+  v_q := (v_session->'items'->0->>'question_id')::uuid;
+  v_option := (v_session->'items'->0->'options'->0->>'id')::uuid;
+  v_submit := public.submit_answer((v_session->>'exam_id')::uuid,v_q,
+    jsonb_build_object('option_id',v_option),1);
+  if v_submit->>'saved'<>'true' or not(v_submit ? 'correct')
+     or not(v_submit ? 'explanation_md') then
+    raise exception 'learning feedback not returned after submit: %',v_submit;
+  end if;
   v_review := public.get_review(v_exam);
   if jsonb_array_length(v_review)<>7 then raise exception 'post-finish review missing'; end if;
 end
@@ -191,7 +201,7 @@ begin
   where user_id='92100000-0000-4000-8000-000000000001' and kind='custom';
   select count(*) into v_total from public.exams
   where user_id='92100000-0000-4000-8000-000000000001' and kind='custom';
-  if v_total<>1 then raise exception 'failed start created extra exam'; end if;
+  if v_total<>2 then raise exception 'unexpected custom exam count after learning'; end if;
   select count(*) into v_total from public.exam_items where exam_id=v_exam;
   if v_total<>7 then raise exception 'custom exam items count incorrect'; end if;
 end
