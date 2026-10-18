@@ -4,7 +4,7 @@ import { getTopicContent, type TestQuestion, type TheoryBlock } from '../../data
 import { getLessonTestQuestions, checkQuestionAnswer } from '../../features/content/lessonContentGateway'
 import { getTopicTestPreflight, type TopicTestPreflight } from '../../features/content/contentApi'
 import { getLessonDetail } from '../../features/content/contentApi'
-import { markdownToTheoryBlocks, overlayPublishedProfessionalLesson, resolveLearnerTheoryContent } from '../../features/content/professionalLessonTheory'
+import { markdownToTheoryBlocks, overlayPublishedProfessionalLesson, resolveLearnerTheoryContent, verifiedM02Supplement } from '../../features/content/professionalLessonTheory'
 import PedagogyTheoryBlock from './PedagogyTheoryBlock'
 import { getPedagogyStudyNotes } from '../../data/pedagogyStudyNotes'
 import type { TopicContent } from '../../data/topicContent'
@@ -141,6 +141,9 @@ export default function TopicView({
   const contentRef = useRef<HTMLDivElement>(null)
 
   const [publishedTheory, setPublishedTheory] = useState<{ subtopicId: string; content: TopicContent } | null>(null)
+  const [theoryResolved, setTheoryResolved] = useState<string | null>(null)
+  const [supplementRequest, setSupplementRequest] = useState<{ id: string; attempt: number } | null>(null)
+  const [supplementStatus, setSupplementStatus] = useState<{ id: string; state: 'loading' | 'ready' | 'error' } | null>(null)
   const [topicReadiness, setTopicReadiness] = useState<{ subtopicId: string; data: TopicTestPreflight } | null>(null)
   const [readinessRetry, setReadinessRetry] = useState(0)
   const [checkErrors, setCheckErrors] = useState<Record<string, string>>({})
@@ -151,6 +154,8 @@ export default function TopicView({
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
   const isAxrM13 = moduleId === 'M13' &&
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
+  const isCanonicalPublishedTheory = /^(?:M04|M14|M16)\.\d{2}$/.test(subtopicId) ||
+    isAlgoritmlashV2 || isAxrM13 || isPublishedScratchLogoLesson
   const staticContent = getTopicContent(subtopicId)
   const isPedagogyTopic = moduleId === 'M15' && /^M15\.\d{2}$/.test(subtopicId)
   const loadedContent = publishedTheory?.subtopicId === subtopicId
@@ -166,12 +171,14 @@ export default function TopicView({
   const isBook = Boolean(content?.source)
   const isSemanticProfessional = !isPedagogyTopic && /^M1[46]$/.test(moduleId) && Boolean(loadedContent)
   const pedagogyStudyNotes = isPedagogyTopic ? getPedagogyStudyNotes(subtopicId) : []
-  const serverTheory = isPedagogyTopic && loadedContent && loadedContent !== staticContent
-    ? loadedContent.theory
-    : []
-  const supplementalTheory = isPedagogyTopic && loadedContent
-    ? (loadedContent.supplementalTheory ?? [])
-    : []
+  const isOptionalSupplement = /^M02\.\d{2}$/.test(subtopicId) || isPedagogyTopic
+  const isSupplementLoading = supplementStatus?.id === subtopicId && supplementStatus.state === 'loading'
+  const supplementError = supplementStatus?.id === subtopicId && supplementStatus.state === 'error'
+  const supplementalTheory = isPedagogyTopic
+    ? (loadedContent?.supplementalTheory ?? [])
+    : /^M02\.\d{2}$/.test(subtopicId)
+      ? verifiedM02Supplement(loadedContent)
+      : []
 
   // mavzu almashganda o'qish holatini tozalaymiz
   useEffect(() => {
@@ -183,12 +190,38 @@ export default function TopicView({
     setLiveQuestions(null)
     setChecking({})
     setCheckErrors({})
+    setSupplementRequest(null)
+    setSupplementStatus(null)
   }, [subtopicId])
 
-  // M04 and M14-M16 canonical source-backed lessons must reach the student's theory
-  // view, not just the admin API. Keep static theory as offline fallback.
+  // Opening an optional supplement is an explicit student action. Never fetch
+  // it in the background and append content while the main theory is being read.
   useEffect(() => {
-    if (!/^(?:M02|M04|M1[456])\.\d{2}$/.test(subtopicId)) return
+    if (!supplementRequest || supplementRequest.id !== subtopicId || !isOptionalSupplement) return
+    let cancelled = false
+    const fallback = getTopicContent(subtopicId)
+    if (!fallback) return
+    setSupplementStatus({ id: subtopicId, state: 'loading' })
+    getLessonDetail(subtopicId)
+      .then(lesson => {
+        if (cancelled) return
+        setPublishedTheory({
+          subtopicId,
+          content: overlayPublishedProfessionalLesson(fallback, lesson),
+        })
+        setSupplementStatus({ id: subtopicId, state: 'ready' })
+      })
+      .catch(() => {
+        if (!cancelled) setSupplementStatus({ id: subtopicId, state: 'error' })
+      })
+    return () => { cancelled = true }
+  }, [supplementRequest, subtopicId, isOptionalSupplement])
+
+  // Canonical remote lessons are resolved BEFORE displaying theory, otherwise
+  // students see one static lesson replaced by a different one mid-reading.
+  // M02/M15 stay stable static cores, with supplements loaded only on demand.
+  useEffect(() => {
+    if (!/^(?:M04|M14|M16)\.\d{2}$/.test(subtopicId)) return
     let cancelled = false
     const fallback = getTopicContent(subtopicId)
     if (!fallback) return
@@ -199,10 +232,12 @@ export default function TopicView({
             subtopicId,
             content: overlayPublishedProfessionalLesson(fallback, lesson),
           })
+          setTheoryResolved(subtopicId)
         }
       })
       .catch(() => {
-        // For published lesson API/network errors, preserve existing static content.
+        // Keep static material as a single offline fallback, not a flash.
+        if (!cancelled) setTheoryResolved(subtopicId)
       })
     return () => { cancelled = true }
   }, [subtopicId])
@@ -231,6 +266,7 @@ export default function TopicView({
         })
       })
       .catch(() => { /* Fail closed on unpublished or unavailable theory. */ })
+      .finally(() => { if (!cancelled) setTheoryResolved(subtopicId) })
     return () => { cancelled = true }
   }, [isAlgoritmlashV2, isAxrM13, subtopicId])
 
@@ -258,6 +294,7 @@ export default function TopicView({
         })
       })
       .catch(() => { /* Fail closed: do not display incomplete draft theory. */ })
+      .finally(() => { if (!cancelled) setTheoryResolved(subtopicId) })
     return () => { cancelled = true }
   }, [isPublishedScratchLogoLesson, subtopicId])
 
@@ -438,6 +475,15 @@ export default function TopicView({
   const handleComplete = (correct: number, total: number) => {
     syncTopicProgress(subtopicId).catch(() => {})
     onComplete(correct, total)
+  }
+
+  if (isCanonicalPublishedTheory && theoryResolved !== subtopicId) {
+    return (
+      <div role="status" aria-live="polite" className="flex min-h-[60vh] items-center justify-center gap-3 text-gray-600 dark:text-gray-300">
+        <RefreshCw className="animate-spin" size={22} aria-hidden="true" />
+        <span>Asosiy nazariya tayyorlanmoqda…</span>
+      </div>
+    )
   }
 
   if (!content) {
@@ -754,19 +800,31 @@ export default function TopicView({
             </details>
           )}
 
-          {isPedagogyTopic && (serverTheory.length > 0 || supplementalTheory.length > 0) && (
-            <details className="group mb-8 rounded-2xl border border-teal-200 bg-teal-50/50 p-4 shadow-sm dark:border-teal-900 dark:bg-teal-950/20 sm:p-5">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-xl p-2 text-sm font-bold text-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:text-teal-200">
-                <span className="flex items-center gap-2"><BookText size={19} aria-hidden="true" /> Batafsil nazariya — qo‘shimcha manba</span>
-                <ChevronDown className="shrink-0 transition group-open:rotate-180" size={19} aria-hidden="true" />
+          {isOptionalSupplement && (
+            <details
+              key={subtopicId}
+              onToggle={event => {
+                if (!event.currentTarget.open) return
+                if (supplementStatus?.id === subtopicId && supplementStatus.state === 'ready') return
+                if (supplementStatus?.id === subtopicId && supplementStatus.state === 'loading') return
+                setSupplementRequest(previous => ({ id: subtopicId, attempt: (previous?.attempt ?? 0) + 1 }))
+              }}
+              className="group mb-8 rounded-2xl border border-teal-200 bg-white p-4 shadow-sm dark:border-teal-900 dark:bg-gray-900 sm:p-5"
+            >
+              <summary className="flex cursor-pointer items-center justify-between gap-3 rounded-xl p-2 text-sm font-bold text-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:text-teal-200">
+                <span className="flex items-center gap-2"><BookText size={19} aria-hidden="true" /> Tekshirilgan qo‘shimcha material (ixtiyoriy)</span>
+                <ChevronDown size={19} aria-hidden="true" className="shrink-0 transition group-open:rotate-180" />
               </summary>
-              <p className="px-2 pb-3 pt-1 text-xs leading-6 text-gray-600 dark:text-gray-400">
-                Asosiy dars o‘zgarmaydi. Batafsil manbaviy tushuntirishlarni xohlasangiz, ushbu bo‘limni oching.
+              <p className="px-2 pb-3 text-xs leading-6 text-gray-600 dark:text-gray-400">
+                Asosiy nazariya o‘zgarmaydi. Qo‘shimcha material faqat bu bo‘lim ochilganda yuklanadi.
               </p>
-              <div className="space-y-3">
-                {serverTheory.map((block, i) => <PedagogyTheoryBlock key={i} block={block} />)}
-                {supplementalTheory.map((block, i) => <PedagogyTheoryBlock key={`extra-${i}`} block={block} />)}
-              </div>
+              {isSupplementLoading && <p role="status" className="p-3 text-sm">Qo‘shimcha material yuklanmoqda…</p>}
+              {supplementError && <p role="alert" className="p-3 text-sm text-amber-700 dark:text-amber-300">Materialni olib bo‘lmadi. Qayta urinish uchun bo‘limni yopib oching.</p>}
+              {!isSupplementLoading && !supplementError && supplementStatus?.id === subtopicId && supplementStatus.state === 'ready' && (
+                supplementalTheory.length > 0
+                  ? <div className="space-y-3">{supplementalTheory.map((block, i) => <PedagogyTheoryBlock key={i} block={block} />)}</div>
+                  : <p className="p-3 text-sm text-gray-500">Bu darsga alohida tekshirilgan qo‘shimcha kiritilmagan.</p>
+              )}
             </details>
           )}
 

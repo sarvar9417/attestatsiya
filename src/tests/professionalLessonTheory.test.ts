@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import {
   markdownToTheoryBlocks,
   overlayPublishedProfessionalLesson,
+  verifiedM02Supplement,
   resolveLearnerTheoryContent,
 } from '../features/content/professionalLessonTheory'
 import type { TopicContent } from '../data/topicContent'
@@ -54,6 +55,23 @@ describe('professional source-backed lesson to learner UI', () => {
     expect(table?.rows?.[0]).toEqual(['Akvarium', 'Kuzatuv'])
     expect(table?.rows?.[1]).toEqual(['Jigsaw', 'Ekspert guruhi'])
   })
+
+  it('keeps fenced code as a distinct, readable block', () => {
+    const markdown = [
+      '## Namuna',
+      '```python',
+      'for i in range(3):',
+      '    print(i)',
+      '```',
+      '',
+      'Quyidagi natijani tahlil qiling.',
+    ].join('\n')
+    const blocks = markdownToTheoryBlocks(markdown)
+    expect(blocks.map(block => block.type)).toEqual(['heading', 'code', 'text'])
+    expect(blocks[1]).toMatchObject({ language: 'python', content: 'for i in range(3):\n    print(i)' })
+    expect(blocks[2].content).toContain('Quyidagi natijani')
+  })
+
   it('shows published M15 lessons and keeps only local fallback questions', () => {
     const result=overlayPublishedProfessionalLesson(fallback,lesson)
     expect(result.title).toContain('interfaol metodlar')
@@ -90,7 +108,7 @@ describe('professional source-backed lesson to learner UI', () => {
     expect(after.questions).toBe(fallback.questions)
   })
 
-  it('M02 preserves complete offline content and appends only the verified DB addendum', () => {
+  it('M02 preserves one canonical core and keeps DB addendum opt-in', () => {
     const m02: TopicContent = {
       ...fallback,
       subtopicId: 'M02.01',
@@ -118,8 +136,11 @@ describe('professional source-backed lesson to learner UI', () => {
     const visible = resolveLearnerTheoryContent('M02.01', m02, remote)
     expect(visible.theory[0]).toEqual(m02.theory[0])
     expect(visible.theory[1]).toEqual(m02.theory[1])
-    expect(visible.theory.some(block => block.content.includes('OMR oldindan'))).toBe(true)
+    expect(visible.theory).toEqual(m02.theory)
     expect(visible.theory.some(block => block.content.includes('Bu qisqa server konspekti'))).toBe(false)
+    const extra = verifiedM02Supplement(remote)
+    expect(extra.some(block => block.content.includes('OMR oldindan'))).toBe(true)
+    expect(extra.some(block => block.content.includes('Bu qisqa server konspekti'))).toBe(false)
     expect(visible.questions).toBe(m02.questions)
     expect(resolveLearnerTheoryContent('M02.01', m02, null)).toBe(m02)
   })
@@ -130,6 +151,7 @@ describe('professional source-backed lesson to learner UI', () => {
       m02, { ...lesson, status: 'published', body_mdx: '## Maqsad\nQisqa yangi konspekt.' },
     )
     expect(resolveLearnerTheoryContent('M02.02', m02, noAddendum)).toBe(m02)
+    expect(verifiedM02Supplement(noAddendum)).toEqual([])
     const draft = overlayPublishedProfessionalLesson(
       m02, { ...lesson, status: 'draft', body_mdx: '## Tekshirilgan qo‘shimcha: mumkin emas\nTahrir' },
     )
