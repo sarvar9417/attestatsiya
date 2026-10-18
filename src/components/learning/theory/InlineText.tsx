@@ -1,5 +1,6 @@
 import { Fragment, useMemo } from 'react'
 import { renderMath } from './renderMath'
+import MantiqCircuit from './MantiqCircuit'
 
 /**
  * Kontent ichki mini-formati (LaTeX konverteri chiqaradi):
@@ -17,6 +18,7 @@ import { renderMath } from './renderMath'
  */
 const TOKEN = new RegExp(
   [
+    /\[\[FIG:(G\d{3})\]\]/.source,
     /\$([^$]+)\$/.source,
     /\*\*([^*]+)\*\*/.source,
     /__([^_]+)__/.source,
@@ -39,8 +41,9 @@ function tokenize(text: string): Node[] {
   let m: RegExpExecArray | null
   while ((m = TOKEN.exec(text)) !== null) {
     if (m.index > last) nodes.push(text.slice(last, m.index))
-    const [, math, bold, italic, eng, term, code, src, linkText, linkHref, mark] = m
-    if (math !== undefined) nodes.push({ kind: 'math', value: math })
+    const [, fig, math, bold, italic, eng, term, code, src, linkText, linkHref, mark] = m
+    if (fig !== undefined) nodes.push({kind: 'diagram', value: fig})
+    else if (math !== undefined) nodes.push({ kind: 'math', value: math })
     else if (mark !== undefined) nodes.push({ kind: mark === '✓' ? 'yes' : 'no', value: mark })
     else if (bold !== undefined) nodes.push({ kind: 'bold', value: bold })
     else if (italic !== undefined) nodes.push({ kind: 'italic', value: italic })
@@ -72,6 +75,8 @@ function renderNode(node: Node, key: number) {
   }
 
   switch (node.kind) {
+    case 'diagram':
+      return <MantiqCircuit key={key} id={node.value} />
     case 'math':
       return (
         <span
