@@ -13,7 +13,7 @@ alter table public.pedagogy_rewrite_proposals enable row level security;
 revoke all on public.pedagogy_rewrite_proposals from public,anon,authenticated;
 grant select,insert,update on public.pedagogy_rewrite_proposals to service_role;
 insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distractors)
-values
+select source_question_id::uuid, proposed_distractors from (values
 ('00f6512b-e8c1-4647-a1b1-9a7238f3b638',array[
 'Ota-onaga sinf reytingini tushuntirib, boshqa bolalarning individual baholarini qiyoslash',
 'Hamkorlik uchun boshqa bolaning o‘zlashtirish natijasini uning roziligisiz qisqacha aytish',
@@ -54,5 +54,8 @@ values
 'Tomoshabinlar uchun tadbirning umumiy vaqtini uzaytirish',
 'Tadbir oxirida batafsil hisobot va fotosurat tayyorlash',
 'Tadbirning barcha bosqichlarini faqat o‘qituvchi boshqarishi'])
+) as proposed(source_question_id, proposed_distractors)
+where exists(select 1 from public.questions q where q.id=proposed.source_question_id::uuid
+  and q.status='published'::public.content_status and q.format='Y1'::public.question_format)
 on conflict(source_question_id) do nothing;
 commit;
