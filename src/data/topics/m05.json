@@ -163,6 +163,28 @@
       "content": "1.3. Pozitsiyali va pozitsiyali bo‘lmagan sistemalar"
     },
     {
+      "type": "heading",
+      "content": "1.3a. Darslikdagi tarixiy sanoq sistemalari"
+    },
+    {
+      "type": "text",
+      "content": "**Tarixiy ma’lumot (manbadan):** sanoq tizimlarining dastlabki ko‘rinishlarida arqonga tugun bog‘lash, tosh yoki taxtalarga belgi qo‘yish ishlatilgan. Barmoqlarda hisoblash beshlik, o‘nlik, o‘n ikkilik va yigirmalik sanoq tizimlarining rivojlanishi bilan bog‘lanadi. 7-sinf darsligida beshlik sanoq tizimining Afrika hududlari va Xitoydagi tarixiy qo‘llanishi, qadimgi Misrning o‘nlik tizimi, Mayya xalqining yigirmalik tizimi misol sifatida berilgan. @@ICT7, PDF 9–10@@"
+    },
+    {
+      "type": "text",
+      "content": "**Farqlash:** qadimgi Misrdagi belgilarga asoslangan o‘nlik tizim maktab darsligida pozitsiyali bo‘lmagan tizimga misol qilib ko‘rsatiladi; hozirgi o‘nlik yozuv esa pozitsiyali. «Asosi 10» degani har doim «pozitsiyali» degani emas. Misr yozuvidagi takroriy belgilar bilan hozirgi razryadli yozuvni chalkashtirmang. @@ICT7, PDF 9–10@@"
+    },
+    {
+      "type": "solved",
+      "content": "",
+      "children": [
+        {
+          "type": "text",
+          "content": "**Qo‘shimcha mashq (mualliflik):** tarixda uchragan asoslar ham pozitsiyali shaklda yozilsa, $34_5=3\\cdot5+4=19_{10}$ va $1A_{12}=1\\cdot12+10=22_{10}$. Bular tarixiy hujjatlarning aynan shunday yozilganini bildirmaydi — faqat hisoblashni mustahkamlaydi."
+        }
+      ]
+    },
+    {
       "type": "definition",
       "content": "",
       "children": [
@@ -433,6 +455,16 @@
     {
       "type": "heading",
       "content": "3.3. Ikki o‘nlik bo‘lmagan asos orasidagi ko‘prik"
+    },
+    {
+      "type": "exam",
+      "content": "",
+      "children": [
+        {
+          "type": "text",
+          "content": "**Spetsifikatsiyadagi Y2 mashqi — moslashtirish.** Bir xil sonni bildiruvchi turli asosdagi yozuvlarni juftlang: $1011110_2$, $136_8$, $5E_{16}$ uchalasi ham $94_{10}$. Elektron Y2 testda bir qatordagi sanoq tizimi o‘ngdagi mos yozuvga bog‘lanadi; to‘rtta tayyor javob kombinatsiyasidan bittasini tanlash bilan cheklanmaydi. @@ICT7, PDF 13–16; SPETS, PDF 3–4; SS-E-002@@"
+        }
+      ]
     },
     {
       "type": "text",
@@ -724,6 +756,16 @@
     {
       "type": "heading",
       "content": "6.1. Umumiy qoida: ko‘tarma va qarzning qiymati asosga teng"
+    },
+    {
+      "type": "exam",
+      "content": "",
+      "children": [
+        {
+          "type": "text",
+          "content": "**Spetsifikatsiyadagi Y3 mashqi — ketma-ketlik.** Turli asoslarda berilgan arifmetik ifodani yechishning mantiqiy tartibi: (1) operandlarning asoslarini va raqamlar qonuniyligini tekshirish; (2) sonlarni umumiy asosda ifodalash; (3) arifmetik amallarni bajarish; (4) natijani so‘ralgan asosga o‘tkazish. Elektron Y3 testda bosqichlarning barchasi to‘g‘ri tartibda joylashtiriladi. @@ICT7, PDF 17–20; SPETS, PDF 3–4; SS-E-008@@"
+        }
+      ]
     },
     {
       "type": "definition",
