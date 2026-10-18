@@ -88,6 +88,7 @@ export const topicTestPreflightSchema = z.object({
     available: z.number().int().nonnegative(),
   })),
   critical_objective_gaps: z.array(z.string()),
+  missing_required_objectives: z.array(z.string()),
 }).strict()
 export type TopicTestPreflight = z.infer<typeof topicTestPreflightSchema>
 
