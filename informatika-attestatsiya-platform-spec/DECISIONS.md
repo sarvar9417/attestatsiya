@@ -168,3 +168,11 @@ Har yangi muhim qaror `ADR-###` bilan qo‘shiladi. Eski qaror o‘chirilmaydi; 
   project pause qilinadi.
 - Supersedes: ADR-019'ning “frontend/backend alohida Vercel project bo‘lishi mumkin”
   degan deploy qismi.
+
+## ADR-021 — Universal shaxsiy test konstruktori rasmiy blueprint’dan alohida
+
+- Holat: `ACCEPTED` (TASK-210 branch implementation; release emas).
+- Qaror: foydalanuvchi `lessons` asosida bir nechta modul va darajalar kvotasini belgilaydi. DB yangi `custom` exam kind orqali ayni `exam_items`/ `submit_answer`/ `finish_exam` oqimidan foydalanadi.
+- Xavfsizlik: published+source+key, auth/RLS, server timer/answer check, preflight fail-closed, answer key protected until finish, all-or-nothing insert va immutable published revision.
+- O‘zgarmaydi: rasmiy 50/120 mock blueprint va mavzu/bo‘lim testi qamrov minimumlari. Personal natija rasmiy attestatsiya reytingi emas.
+- Hozirgi UX cheklovi: learning explanation faqat session yakunida beriladi. Preset, construct-level filtr va resume separate implementation/review talab qiladi.

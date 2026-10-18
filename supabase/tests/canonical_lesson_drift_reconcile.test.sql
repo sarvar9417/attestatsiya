@@ -90,7 +90,8 @@ begin
     select count(*) into v_published
     from public.lessons l
     where l.module_id=v_module and l.status='published'::public.content_status
-      and (lane.module_code <> 'M06' or l.slug not like 'algoritmlash-v2-%');
+      and (lane.module_code <> 'M06' or l.slug not like 'algoritmlash-v2-%')
+      and (lane.module_code <> 'M13' or l.slug !~ '^m13-axr-0[1-7]$');
 
     if v_published <> cardinality(lane.canonical_lesson_ids) then
       raise exception
@@ -104,6 +105,7 @@ begin
       where l.module_id=v_module
         and l.status='published'::public.content_status
         and (lane.module_code <> 'M06' or l.slug not like 'algoritmlash-v2-%')
+        and (lane.module_code <> 'M13' or l.slug !~ '^m13-axr-0[1-7]$')
         and (
           not (l.id=any(lane.canonical_lesson_ids))
           or length(coalesce(l.body_mdx,''))=0
@@ -140,6 +142,20 @@ begin
         -- immutable source lesson snapshots, not a TASK-064 drift.
         and (lane.module_code <> 'M06'
              or coalesce(q.source_reference,'') not like 'algoritmlash-v2:%')
+        -- TASK-211/212 version the seven M13 AXR lessons.
+        -- Only the exact AXR bank may use its independent source-lesson ID.
+        and not (lane.module_code = 'M13'
+                 and q.status in ('review'::public.content_status,'published'::public.content_status)
+                 and coalesce(q.source_reference,'') like 'm13-axr-v1:%:AXR-%'
+                 and exists (
+                   select 1 from public.lessons edition
+                   join public.modules em on em.id=edition.module_id
+                   join public.lesson_constructs edlink
+                     on edlink.lesson_id=edition.id and edlink.construct_id=q.construct_id
+                   where edition.id=q.source_lesson_id
+                     and em.code='M13'
+                     and edition.slug ~ '^m13-axr-0[1-7]$'
+                 ))
     ) then
       raise exception 'TASK-064 % question source lesson drift remains',lane.module_code;
     end if;
