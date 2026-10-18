@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { customExamConfigSchema } from '../../schemas/custom-exam.js'
+import { customExamConfigSchema, postgresUuidSchema } from '../../schemas/custom-exam.js'
 import { allocateDifficultyCounts, buildCustomExamPlan } from '../custom-exam-planner.js'
 
 const FIRST = '00000000-0000-4000-8000-000000000001'
@@ -31,6 +31,17 @@ describe('TASK-210 custom exam configuration', () => {
       { lesson_id: SECOND, difficulty: 3, count: 5 },
     ])
     expect(slots.reduce((sum, slot) => sum + slot.count, 0)).toBe(12)
+  })
+
+  it('accepts canonical PostgreSQL legacy UUID but rejects malformed values', () => {
+    const legacyLesson = '5ac78901-23ab-0dab-0123-56789abcdef0'
+    const request = { ...valid, topics: [
+      { ...valid.topics[0], lesson_id: legacyLesson }, valid.topics[1],
+    ] }
+    expect(customExamConfigSchema.safeParse(request).success).toBe(true)
+    expect(buildCustomExamPlan(request).slots[0]?.lesson_id).toBe(legacyLesson)
+    expect(postgresUuidSchema.safeParse('not-a-uuid').success).toBe(false)
+    expect(postgresUuidSchema.safeParse('5ac78901-23ab-0dab-0123-56789abcdezz').success).toBe(false)
   })
 
   it('rejects duplicate topic, duplicate difficulty and invalid total', () => {
