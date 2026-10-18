@@ -3,9 +3,24 @@ import type { Json } from '../../lib/database.types'
 
 const uuidSchema = z.string().uuid()
 
+/**
+ * PostgreSQL 'uuid' columns can contain any 128-bit hexadecimal identifier.
+ * Some legacy/imported question and option IDs were generated from MD5 hashes,
+ * which are valid PostgreSQL UUIDs but do not carry RFC 4122 version/variant
+ * bits. Zod's .uuid() rejects those values, causing an entire exam start
+ * payload to fail after the backend has already created its session.
+ *
+ * Accept the exact canonical PostgreSQL wire representation only for
+ * question and option IDs. Keep genuine session / exam IDs RFC-validated.
+ */
+export const postgresUuidSchema = z.string().regex(
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i,
+  'PostgreSQL UUID shakli noto‘g‘ri'
+)
+
 export const examOptionSchema = z
   .object({
-    id: uuidSchema,
+    id: postgresUuidSchema,
     side: z.enum(['a', 'b']),
     content_md: z.string().min(1),
   })
@@ -15,7 +30,7 @@ export const examItemSchema = z
   .object({
     item_id: uuidSchema,
     order_idx: z.number().int().positive(),
-    question_id: uuidSchema,
+    question_id: postgresUuidSchema,
     format: z.enum(['Y1', 'Y2', 'Y3']),
     stem_md: z.string().min(1),
     assets: z.array(z.unknown()),
