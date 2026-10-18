@@ -1,4 +1,5 @@
 import type { FastifyInstance } from 'fastify'
+import { z } from 'zod'
 import { customExamConfigSchema } from '../schemas/custom-exam.js'
 import { customExamService } from '../services/custom-exam.service.js'
 import { customPresetService } from '../services/custom-preset.service.js'
@@ -14,6 +15,18 @@ function requireToken(request: { headers: { authorization?: string } }): string 
 }
 
 export async function customExamRoutes(app: FastifyInstance) {
+  app.get('/api/custom-tests/active', async (request, reply) => {
+    try { return reply.send(await customExamService.active(requireToken(request))) }
+    catch (error) { return sendError(reply, error) }
+  })
+
+  app.get('/api/custom-tests/:id/analysis', async (request, reply) => {
+    try {
+      const { id } = z.object({ id: z.string().uuid() }).parse(request.params)
+      return reply.send(await customExamService.analysis(id, requireToken(request)))
+    } catch (error) { return sendError(reply, error) }
+  })
+
   app.get('/api/custom-tests/catalog', async (request, reply) => {
     try {
       return reply.send(await customExamService.catalog(requireToken(request)))

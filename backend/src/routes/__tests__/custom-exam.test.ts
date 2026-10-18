@@ -2,17 +2,19 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import Fastify from 'fastify'
 import { customExamRoutes } from '../custom-exam.js'
 
-const { catalog, preview, start, list, create, update, remove } = vi.hoisted(() => ({
+const { catalog, preview, start, active, analysis, list, create, update, remove } = vi.hoisted(() => ({
   catalog: vi.fn(),
   preview: vi.fn(),
   start: vi.fn(),
+  active: vi.fn(),
+  analysis: vi.fn(),
   list: vi.fn(),
   create: vi.fn(),
   update: vi.fn(),
   remove: vi.fn(),
 }))
 vi.mock('../../services/custom-exam.service.js', () => ({
-  customExamService: { catalog, preview, start },
+  customExamService: { catalog, preview, start, active, analysis },
 }))
 vi.mock('../../services/custom-preset.service.js', () => ({
   customPresetService: { list, create, update, remove },
@@ -45,6 +47,8 @@ describe('TASK-210 authenticated custom routes', () => {
   it('does not accept anonymous catalog, preview or start', async () => {
     for (const [method, url] of [
       ['GET', '/api/custom-tests/catalog'],
+      ['GET', '/api/custom-tests/active'],
+      ['GET', `/api/custom-tests/${id}/analysis`],
       ['POST', '/api/custom-tests/preflight'],
       ['POST', '/api/custom-tests/start'],
     ] as const) {
@@ -97,6 +101,34 @@ describe('TASK-210 authenticated custom routes', () => {
     expect(response.statusCode).toBe(200)
     expect(JSON.parse(response.body).items).toHaveLength(3)
     expect(start).toHaveBeenCalledWith(expect.objectContaining({ total_count: 3 }), 'learner-1')
+  })
+
+  it('resume and analytics are token-scoped and return no answers or keys', async () => {
+    active.mockResolvedValueOnce(null)
+    const resumed = await app.inject({
+      method: 'GET', url: '/api/custom-tests/active',
+      headers: { authorization: 'Bearer learner-1' },
+    })
+    expect(resumed.statusCode).toBe(200)
+    expect(active).toHaveBeenCalledWith('learner-1')
+
+    analysis.mockResolvedValueOnce({
+      exam_id: id, total: 2, answered: 1, correct: 1,
+      by_lesson: [], by_difficulty: [], by_format: [],
+    })
+    const result = await app.inject({
+      method: 'GET', url: `/api/custom-tests/${id}/analysis`,
+      headers: { authorization: 'Bearer learner-1' },
+    })
+    expect(result.statusCode).toBe(200)
+    expect(analysis).toHaveBeenCalledWith(id, 'learner-1')
+    expect(result.body).not.toContain('correct_option_id')
+
+    const invalid = await app.inject({
+      method: 'GET', url: '/api/custom-tests/not-uuid/analysis',
+      headers: { authorization: 'Bearer learner-1' },
+    })
+    expect(invalid.statusCode).toBe(400)
   })
 
   it('private preset endpoints require authentication', async () => {

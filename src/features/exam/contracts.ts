@@ -86,6 +86,8 @@ export const examSessionSchema = z
     }),
     items: z.array(examItemSchema).min(1),
     selection_meta: z.record(z.string(), z.unknown()).nullable().optional(),
+    answered_question_ids: z.array(postgresUuidSchema).optional(),
+    saved_answers: z.record(z.string(), z.unknown()).optional(),
   })
   .strict()
   .transform((session) => ({

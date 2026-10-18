@@ -1,4 +1,4 @@
-import { getAuthedClient } from '../lib/supabase.js'
+import { getAuthedClient, supabase } from '../lib/supabase.js'
 import { AppError } from '../lib/errors.js'
 import { buildCustomExamPlan } from './custom-exam-planner.js'
 import type { CustomExamConfig } from '../schemas/custom-exam.js'
@@ -10,6 +10,7 @@ export interface CustomCatalogLesson {
   slug: string
   title_uz: string
   order_idx: number
+  constructs: Array<{ id: string; code: string; title_uz: string }>
 }
 
 export interface CustomCatalogModule {
@@ -70,11 +71,42 @@ export const customExamService = {
 
     if (lessonError) throw new AppError('Mavzular ro‘yxati olinmadi', 503, 'CUSTOM_CATALOG_UNAVAILABLE')
     const allLessons = lessons ?? []
+    if (!allLessons.length) {
+      return publishedModules.map(module => ({ ...module, code: module.code ?? '', lessons: [] }))
+    }
+
+    // Only public learning-objective metadata: never read question_keys here.
+    const { data: links, error: linksError } = await supabase
+      .from('lesson_constructs')
+      .select('lesson_id, construct_id')
+      .in('lesson_id', allLessons.map(lesson => lesson.id))
+    if (linksError) throw new AppError('Kichik mavzular ro‘yxati olinmadi', 503, 'CUSTOM_CATALOG_UNAVAILABLE')
+
+    const constructIds = [...new Set((links ?? []).map(link => link.construct_id))]
+    const { data: constructs, error: constructsError } = constructIds.length
+      ? await supabase.from('constructs').select('id, code, title_uz')
+        .eq('is_active', true).in('id', constructIds)
+      : { data: [], error: null }
+    if (constructsError) throw new AppError('Kichik mavzular ro‘yxati olinmadi', 503, 'CUSTOM_CATALOG_UNAVAILABLE')
+
+    const constructMap = new Map((constructs ?? []).map(item => [item.id, item]))
+    const byLesson = new Map<string, Array<{ id: string; code: string; title_uz: string }>>()
+    for (const link of links ?? []) {
+      const construct = constructMap.get(link.construct_id)
+      if (!construct) continue
+      const existing = byLesson.get(link.lesson_id) ?? []
+      if (!existing.some(item => item.id === construct.id)) existing.push(construct)
+      byLesson.set(link.lesson_id, existing)
+    }
 
     return publishedModules.map(module => ({
       ...module,
       code: module.code ?? '',
-      lessons: allLessons.filter(lesson => lesson.module_id === module.id),
+      lessons: allLessons.filter(lesson => lesson.module_id === module.id)
+        .map(lesson => ({
+          ...lesson,
+          constructs: (byLesson.get(lesson.id) ?? []).sort((a, b) => a.code.localeCompare(b.code)),
+        })),
     }))
   },
 
@@ -87,6 +119,28 @@ export const customExamService = {
       throw new AppError('Test qamrovini hisoblab bo‘lmadi', 503, 'CUSTOM_EXAM_UNAVAILABLE')
     }
     return data as unknown as CustomExamPreview
+  },
+
+  async active(userToken: string): Promise<unknown> {
+    const client = getAuthedClient(userToken)
+    const { data, error } = await client.rpc('get_active_custom_exam')
+    if (error) throw new AppError('Davom ettiriladigan testni tekshirib bo‘lmadi', 503, 'CUSTOM_RESUME_UNAVAILABLE')
+    return data
+  },
+
+  async analysis(examId: string, userToken: string): Promise<unknown> {
+    const client = getAuthedClient(userToken)
+    const { data, error } = await client.rpc('get_custom_exam_analysis', { p_exam_id: examId })
+    if (error) {
+      if (error.message.includes('custom_exam_not_found')) {
+        throw new AppError('Shaxsiy test topilmadi', 404, 'CUSTOM_EXAM_NOT_FOUND')
+      }
+      if (error.message.includes('custom_exam_not_finished')) {
+        throw new AppError('Test hali yakunlanmagan', 400, 'CUSTOM_EXAM_UNFINISHED')
+      }
+      throw new AppError('Shaxsiy test tahlilini olib bo‘lmadi', 503, 'CUSTOM_ANALYSIS_UNAVAILABLE')
+    }
+    return data
   },
 
   async start(config: CustomExamConfig, userToken: string): Promise<ExamStartResponse> {

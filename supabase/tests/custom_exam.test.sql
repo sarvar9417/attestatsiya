@@ -75,6 +75,9 @@ begin
      or has_function_privilege('anon','public.custom_exam_preflight(jsonb)','EXECUTE') then
     raise exception 'anonymous custom RPC access forbidden';
   end if;
+  if has_function_privilege('authenticated','public.admin_custom_exam_pool_coverage()','EXECUTE') then
+    raise exception 'learner can access staff-only pool coverage';
+  end if;
   if not has_function_privilege('authenticated','public.generate_custom_exam(jsonb)','EXECUTE')
      or not has_function_privilege('authenticated','public.custom_exam_preflight(jsonb)','EXECUTE') then
     raise exception 'authenticated custom RPC privileges missing';
@@ -97,6 +100,7 @@ declare
   v_submit jsonb;
   v_finish jsonb;
   v_review jsonb;
+  v_analysis jsonb;
   v_total int;
   v_failed boolean := false;
 begin
@@ -111,6 +115,19 @@ begin
     'formats',jsonb_build_array('Y1'),
     'exposure','all','mode','exam','duration_sec',900
   );
+
+  -- An objective not mapped to the selected lesson is rejected without creating an exam.
+  v_bad := jsonb_set(v_config,'{topics,0,construct_id}',
+    '"00000000-0000-4000-8000-000000000099"'::jsonb);
+  v_failed := false;
+  begin
+    perform public.custom_exam_preflight(v_bad);
+  exception when others then
+    if sqlerrm like '%custom_construct_unavailable%' then v_failed := true;
+    else raise;
+    end if;
+  end;
+  if not v_failed then raise exception 'unmapped construct was accepted'; end if;
 
   v_preview := public.custom_exam_preflight(v_config);
   if v_preview->>'ready'<>'true' or (v_preview->>'requested')::int<>7
@@ -166,7 +183,25 @@ begin
   end;
   if not v_failed then raise exception 'insufficient pool must fail before writing'; end if;
   v_finish := public.finish_exam(v_exam);
+  if public.get_active_custom_exam() is not null then
+    raise exception 'finished exam must not be returned as active';
+  end if;
   if (v_finish->>'max_score')::int<>14 then raise exception 'custom scoring invalid: %',v_finish; end if;
+  v_analysis := public.get_custom_exam_analysis(v_exam);
+  if (v_analysis->>'total')::int <> 7 or (v_analysis->>'answered')::int <> 1
+     or jsonb_array_length(v_analysis->'by_lesson')<>2 then
+    raise exception 'post-finish analytics mismatch %',v_analysis;
+  end if;
+  -- In learning mode only, correctness may appear after the answer was saved.
+  v_session := public.generate_custom_exam(jsonb_set(v_config,'{mode}','"learning"'::jsonb));
+  v_q := (v_session->'items'->0->>'question_id')::uuid;
+  v_option := (v_session->'items'->0->'options'->0->>'id')::uuid;
+  v_submit := public.submit_answer((v_session->>'exam_id')::uuid,v_q,
+    jsonb_build_object('option_id',v_option),1);
+  if v_submit->>'saved'<>'true' or not(v_submit ? 'correct')
+     or not(v_submit ? 'explanation_md') then
+    raise exception 'learning feedback not returned after submit: %',v_submit;
+  end if;
   v_review := public.get_review(v_exam);
   if jsonb_array_length(v_review)<>7 then raise exception 'post-finish review missing'; end if;
 end
@@ -182,7 +217,7 @@ begin
   where user_id='92100000-0000-4000-8000-000000000001' and kind='custom';
   select count(*) into v_total from public.exams
   where user_id='92100000-0000-4000-8000-000000000001' and kind='custom';
-  if v_total<>1 then raise exception 'failed start created extra exam'; end if;
+  if v_total<>2 then raise exception 'unexpected custom exam count after learning'; end if;
   select count(*) into v_total from public.exam_items where exam_id=v_exam;
   if v_total<>7 then raise exception 'custom exam items count incorrect'; end if;
 end
