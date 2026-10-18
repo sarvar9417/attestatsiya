@@ -1,5 +1,6 @@
 import { M01_CONTENT } from './topics/m01'
 import { M05_THEORY } from './topics/m05'
+import { buildCanonicalM02Topic } from './topics/m02Canonical'
 // M14–M16 use server-scored exams exclusively. Legacy mini-quiz answer keys
 // have intentionally been stripped from the shipped JavaScript bundle.
 
@@ -1359,7 +1360,7 @@ for (const [id, theory] of Object.entries(M05_THEORY)) {
 }
 
 export function getTopicContent(subtopicId: string): TopicContent | undefined {
-  return TOPIC_CONTENT[subtopicId]
+  return buildCanonicalM02Topic(subtopicId, TOPIC_CONTENT) ?? TOPIC_CONTENT[subtopicId]
 }
 
 export interface SubtopicMeta {
@@ -1371,7 +1372,7 @@ export interface SubtopicMeta {
 }
 
 export function getSubtopicMeta(subtopicId: string): SubtopicMeta | null {
-  const content = TOPIC_CONTENT[subtopicId]
+  const content = getTopicContent(subtopicId)
   if (!content) return null
 
   const theoryTypes: Record<string, number> = {}
