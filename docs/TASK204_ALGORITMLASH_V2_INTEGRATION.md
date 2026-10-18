@@ -38,3 +38,11 @@ Changed files: three SQL migrations, one QA SQL, this report.
 Migrations: `20261018191000_task204_m06_algo_v2_theory_review.sql`, `20261018192000_task204_m06_algo_v2_questions_review.sql`, `20261018193000_task204_m06_algo_v2_appendices_review.sql`.
 Known risks: visual diagram assets missing; source content requires expert check and UX preview.
 Next action: editorial signoff, graphical asset work, staged preview tests and approved release.
+
+
+## 2026-10-18 release-gate recheck
+- Diagram preparation: 11 named SVG resources are present in `public/algoritmlash-v2/`; all 12 draft diagram questions have a stored asset reference in production Supabase. Two questions may reuse a relevant asset. This does **not** establish that all diagram/question semantics are human-verified.
+- Branch CI: `39109463626` completed successfully. The pull request remains DRAFT and unmerged.
+- Vercel preview error observed in PR: deployment daily limit `api-deployments-free-per-day`; a working deployed preview was not verified.
+- No production V2 publishing: 228 review + 12 draft, no published. 11 lessons review. Existing published content unchanged.
+- Release blocked pending independent editorial review of content, learner-facing preview/E2E and verified rollout. Do not label READY/Completed in platform until checks finish. Owner instruction to finish is permission to work, not evidence of independent expert endorsement.
