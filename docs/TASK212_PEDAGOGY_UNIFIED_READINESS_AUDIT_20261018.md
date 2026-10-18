@@ -79,3 +79,16 @@ Yagona o‘quv ssenariysi: M14/M15/M16 bo‘limini tanlash → kanonik mavzu naz
 
 ### CI
 Birinchi commit 3edaca5 uchun backend/database/quality PASS tasdiqlangan. Yangi commit uchun CI qayta PASS bo‘lmasa release gate yopilgan hisoblanmaydi.
+
+
+## 8. Mahalliy statik pedagogika matnining tanqidiy sathi — ikkinchi tuzatish
+
+**Qayta tekshirilgan M15.05:** avvalgi misolda “haftalik sinf soati” va “ota-onalar yig‘ilishi chorakda 1–2 marta” aniq chastota sifatida yozilgan. Bunday me’yor rasmiy 2026 attestatsiya spetsifikatsiyasi 2-jadvalida belgilanmagan. Matn chastotasiz, ehtiyoj va ta’lim maqsadiga mos ish shakllarini tanlash ko‘rinishiga keltirildi. Bu maktablarning amaldagi boshqa tartib-qoidalarini rad etmaydi.
+
+**Qayta tekshirilgan M15.07:** “qobiliyatlar tug‘ma emas” kategorik iborasi rivojlanish tajribasiga asoslangan ehtiyotkor ifodaga almashtirildi. Bu barcha biologik/psixologik nazariyalar uzil-kesil hal etilganini da’vo qilmaydi.
+
+**Terminologiya M16.02:** “Fishing” (baliq skeleti) ifodasi “Fishbone (Ishikava diagrammasi)”ga tuzatildi. Bu rasmiy 2026 PDFdagi aynan bir termin emas; mazkur aniqlashtirish tashqi terminologik manba bo‘yicha verifikatsiya qilindi: American Society for Quality, Fishbone Cause and Effect Diagram, https://asq.org/quality-resources/fishbone. Qo‘llash vazifasi — muammoning mumkin bo‘lgan sabablarini toifalab tahlil qilish.
+
+**Tegishli regressiya:** src/tests/PedagogySourceIntegrity.test.ts M15.05 chastota va M15.07 kategorik da’voni qaytmasligini, M16.02 “Fishing” noto‘g‘ri atama bilan qaytmasligini tekshiradi.
+
+**Cheklov:** static topicContent.ts va production DBdagi published lesson body bir xil emas. Bu tahrir local/static fallbackni to‘g‘rilaydi; production DBdagi muqobil matnlarni qo‘llash uchun alohida read-only/source-versiya auditi, idempotent migratsiya, keyingi release tasdig‘i kerak. Boshqa 15+ statik darslar semantic auditdan o‘tgani haqida da’vo yo‘q.
