@@ -24,7 +24,7 @@
 | P0-06: authorship provenance | 249 review uchun `pedagogy_question_provenance`: `ai_assisted_draft`, `pdf_source_rewrite`, `pedguli_import`, `other_import_unverified` sinflari; real `authored_by` bor bo‘lsagina yoziladi | **PARTIAL**: reviewer/approver alohida sahifadan to‘ldirilishi, author != reviewer/publisher server tomonidan enforce qilinishi kerak |
 | P0-07: release pariteti | Release taqiqlangan, merge/deploy yo‘q | **BLOCKED**: keyingi explicit user approval + full SHA/db parity |
 | P0-08: 15/50 exact quota | Avvalgi generatorlar o‘zgartirilmadi; 5+7+3, 35+5+7+3 va 8/35/7 kontrakti mavjud | **NEEDS E2E** |
-| P0-09: no key leaks | Yangi preflight faqat son/status/objective code qaytaradi; private quality view learnerga grant qilinmadi | **IMPORTANT OPEN RISK:** `POST /api/content/questions/check` hozir `correct_option_id` qaytaradi va route darajasida auth tekshiruvi yo‘q. Study bank va exam bankdan bir xil savol foydalanilsa, boshqa hisob orqali answer leak xavfi bor. Uni beparvo olib tashlash nazariya quizini buzadi; practice-only/exam holdout dizayni + mustaqil xavfsizlik sinovi talab etiladi |
+| P0-09: no key leaks | Learner lesson API endi `KS`, `PM.GEN`, `PM.MET` savollarni bermaydi (SQL filter + Node defense in depth); `POST /api/content/questions/check` shu guruhlar uchun kalitni bermaydi; M14–16 tezkor quiz o‘rniga server-scored mavzu examiga o‘tadi. 3-way regression tests | **PARTIAL:** browserning eski statik kontent bundlelarida M14–16 lokal kalitlar va boshqa guruhlarda answer-check oracle qolishi mumkin. Practice-only/exam holdout split va static JS extraction audit release blokeri |
 | P0-10: 18/18 real accept | No production user mutation, no fabricated passing results | **BLOCKED**: staging va test user approval |
 
 ## 3. Yangi API kontrakti
@@ -54,7 +54,8 @@ Ushbu JSON **namuna**, live API javobi emas. `ready` testni rejalash uchun oldin
 - `src/tests/ExamPage.test.tsx`: unavailable/missing ID fail-closed.
 - [ ] Y1/Y2/Y3 online browser, mock/15 per-grade official blueprint, 18/18 E2E, JS scroll, 320px mobile and accessibility verification.
 - [ ] Source-to-objective fact check with referenced pages, editorial human approvals.
-- [ ] `content/questions/check` anti-key-leak design implementation and QA.
+- [x] Kasb standarti/pedagogika/metodika uchun `content/questions/check` va `lessons/:id/questions` orqali kalit/stem enumeration to‘siqlari + testlar.
+- [ ] Frontend bundle ichidagi eski M14–M16 savol/kalitlarini maxsus practice-bankga ajratish; umumiy informatikadagi quiz hamda official mock orasidagi holdout siyosatini tekshirish.
 
 ## 5. Eslatmalar
 
@@ -63,3 +64,12 @@ Ushbu JSON **namuna**, live API javobi emas. `ready` testni rejalash uchun oldin
 3. Har bir published question eski session savol/javob tarixini saqlash uchun faqat `revision + atomic archive` bilan yangilanadi.
 4. Yangi DB obyektlari productionda yo‘q; GitHub CI fresh DBda tekshiriladi.
 5. CI yashil bo‘lishi, draft PR yoki preview borligi **merge/productionga mustaqil ruxsat emas**.
+
+## 6. Ikkinchi P0 bosqich — xavfsizlik va editorial admin diagnostikasi
+
+- `backend/src/services/content.service.ts`: faqat practice/learning guruhlari `listLessonQuestions`ga o‘tadi; professional `KS/PM.GEN/PM.MET` source stems/options SQL va application qatlamida yashiriladi; shu guruhlarning `checkAnswer` so‘rovi 404 bo‘lib, `question_keys`ga bormaydi.
+- `src/features/content/lessonContentGateway.ts`: M14–M16 uchun static fallback hamda backend immediate-feedback mini quiz ochilmaydi. Nazariyani o‘qish va serverdagi qat’iy 20 savollik mavzu testi saqlanadi.
+- `backend/src/services/admin-content.service.ts`: authenticated staff ro‘yxatida `pedagogy_option_quality_flags` private view dan per-item flags qo‘shildi. Boshqa o‘quvchi APIga chiqmaydi.
+- `src/pages/admin/QuestionsPage.tsx`: muallif noma’lumligi, javob uzunligi, “Faqat” ishori va yaroqsiz Y1 tuzilmasi vizual ko‘rsatildi. 249 ta review savol **nashrga avtomatik yuborilmaydi**.
+- Regressiya: `backend/src/routes/__tests__/content.test.ts` professional javob kaliti 404; DB filter xatosida ham professional stem yashiriladi. `src/tests/lessonContentGateway.test.ts` pro mini-quiz yopiq. `src/tests/AdminContentPages.test.tsx` badge ko‘rsatkichlari.
+- **Qoldiq xavf**: M14–M16ga oid local testlar `src/data/topicContent.ts` ichida hali kompilyatsiya qilinishi mumkin. DB bilan literal savol mosligi va bundle-leak auditisiz “kalitlar to‘liq himoyalandi” deb aytish mumkin emas. Bundan tashqari boshqa guruhlar uchun `/api/content/questions/check` darhol kalit qaytaradi. Bu umumiy mock uchun mustaqil security release gate bo‘lib qoladi.
