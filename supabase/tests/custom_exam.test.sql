@@ -97,6 +97,7 @@ declare
   v_submit jsonb;
   v_finish jsonb;
   v_review jsonb;
+  v_analysis jsonb;
   v_total int;
   v_failed boolean := false;
 begin
@@ -167,6 +168,11 @@ begin
   if not v_failed then raise exception 'insufficient pool must fail before writing'; end if;
   v_finish := public.finish_exam(v_exam);
   if (v_finish->>'max_score')::int<>14 then raise exception 'custom scoring invalid: %',v_finish; end if;
+  v_analysis := public.get_custom_exam_analysis(v_exam);
+  if (v_analysis->>'total')::int <> 7 or (v_analysis->>'answered')::int <> 1
+     or jsonb_array_length(v_analysis->'by_lesson')<>2 then
+    raise exception 'post-finish analytics mismatch %',v_analysis;
+  end if;
   v_review := public.get_review(v_exam);
   if jsonb_array_length(v_review)<>7 then raise exception 'post-finish review missing'; end if;
 end

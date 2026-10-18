@@ -121,6 +121,21 @@ export const customExamService = {
     return data as unknown as CustomExamPreview
   },
 
+  async analysis(examId: string, userToken: string): Promise<unknown> {
+    const client = getAuthedClient(userToken)
+    const { data, error } = await client.rpc('get_custom_exam_analysis', { p_exam_id: examId })
+    if (error) {
+      if (error.message.includes('custom_exam_not_found')) {
+        throw new AppError('Shaxsiy test topilmadi', 404, 'CUSTOM_EXAM_NOT_FOUND')
+      }
+      if (error.message.includes('custom_exam_not_finished')) {
+        throw new AppError('Test hali yakunlanmagan', 400, 'CUSTOM_EXAM_UNFINISHED')
+      }
+      throw new AppError('Shaxsiy test tahlilini olib bo‘lmadi', 503, 'CUSTOM_ANALYSIS_UNAVAILABLE')
+    }
+    return data
+  },
+
   async start(config: CustomExamConfig, userToken: string): Promise<ExamStartResponse> {
     const validated = buildCustomExamPlan(config).config
     const client = getAuthedClient(userToken)

@@ -110,3 +110,25 @@ export async function deleteCustomTestPreset(id: string): Promise<void> {
     await api.delete<unknown>(`/api/custom-tests/presets/${id}`)
   )
 }
+
+const analysisCountSchema = z.object({
+  total: z.number().int().nonnegative(),
+  answered: z.number().int().nonnegative(),
+  correct: z.number().int().nonnegative(),
+})
+export const customExamAnalysisSchema = analysisCountSchema.extend({
+  exam_id: z.string().uuid(),
+  by_lesson: z.array(analysisCountSchema.extend({
+    lesson_id: postgresUuidSchema,
+    lesson_title: z.string(),
+  })),
+  by_difficulty: z.array(analysisCountSchema.extend({ difficulty: z.number().int().min(1).max(5) })),
+  by_format: z.array(analysisCountSchema.extend({ format: z.enum(['Y1', 'Y2', 'Y3']) })),
+})
+export type CustomExamAnalysis = z.infer<typeof customExamAnalysisSchema>
+
+export async function getCustomExamAnalysis(examId: string): Promise<CustomExamAnalysis> {
+  return customExamAnalysisSchema.parse(
+    await api.get<unknown>(`/api/custom-tests/${encodeURIComponent(examId)}/analysis`)
+  )
+}
