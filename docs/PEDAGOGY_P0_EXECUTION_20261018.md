@@ -1,0 +1,90 @@
+# Pedagogika P0 bajarilish jurnali — 2026-10-18
+
+**Asos:** foydalanuvchi tasdiqlagan `PEDAGOGIKA_YAKUNIY_TANQIDIY_AUDIT_VA_TALABLAR_2026-10-18.md` (11 bo‘lim). O‘zgartirishlar faqat `work/pedagogy-p0-audit-execution-20261018`, [Draft PR #127](https://github.com/sarvar9417/attestatsiya/pull/127)da. **Merge / production deploy / production Supabase SQL yozish: YO‘Q.**
+
+## 0. YANGILANGAN production holati — TASK203 bilan paritet (2026-10-18)
+
+Dastlabki 175 published / 249 review hisoboti tarixiy snapshot bo‘lib qoldi. Owner-approved TASK203 release yakunida 249 savol alohida workflow orqali nashr qilindi; bu P0 branchida amalga oshirilmagan.
+
+- **Current production (read-only verification):** KS=114, PM.GEN=233, PM.MET=77 → **424 published, 0 review**.
+- 249 ta yangi owner-batch tasdiqlari mustaqil uchinchi tomon ekspert xulosasi deb ko‘rsatilmaydi. 82 distractor set AI yordamida keyinroq qayta yozilganligi TASK203 hujjatida ochiq qayd etilgan.
+- 18 kanonik mavzu qamrovi: **M15.01–08 va M16.01–03 uchun ≥20 published/keyed**; **M14.01–07 uchun 14–18 oralig‘ida**, shuning uchun 7 ta M14 mavzusi 20 talik strict testni hali o‘tkaza olmaydi.
+- `pedagogy_review_provenance` yangi `review` mavjud bo‘lsa qayd etadi; joriy productionda review=0, shu sabab owner-approved 249 ta tarixiy savolni qaytadan soxta `review` qilmaydi.
+- `topic_test_preflight` database RPC ruxsat berilgan production migration kelmaguncha backend published/keyed constructive countni **faqat SELECT orqali** qayta hisoblaydi. Generatorni chetlab o‘tmaydi, session yaratmaydi.
+- `pedagogy_option_quality_flags` view ham productionda hali mavjud bo‘lmasligi mumkin. Admin savollar sahifasi bu paytda oddiy ro‘yxatni ochadi, lekin risk badge’larni ko‘rsatmaydi.
+- Quyidagi §1 jadvali dastlabki auditga tegishli, joriy ishlab turgan database ko‘rsatkichi emas.
+- TASK203 manba: `docs/TASK203_PEDAGOGY_OWNER_APPROVAL_PARITY.md`.
+
+## 1. Tekshirilgan baza snapshoti (production, faqat SELECT)
+
+- M14: 7 published canonical lessons, 65 published keyed questions / 140 target.
+- M15: 8 lessons, 66 / 160; 94 ta yangi M15 test savoli allaqachon `review`da; `published` emas.
+- M16: 3 lessons, 44 / 60. Jami 175 / 360, 185 to‘liq 20-lik dars sloti kam (per-lesson).
+- Professional review 249; editorial checks **0**. 249 / 249 review questions `author_id=NULL`.
+- Published Y1 variant uslubi: 169 dan 118 correct >30% longer than longest wrong; 507 noto‘g‘ri variantdan 249 tasi «Faqat» bilan boshlanadi.
+- 649 private pedagogika candidate: 195 independently verified source keys, 335 accepted_general source marker unverified, 119 rejected, shu jumladan ikki ziddiyatli key. Verified unlinked 155.
+- Auditda M14–M16ning 18 mavzusida har biri atigi bitta keng konstrukt bor; 0 critical. **Bitta konstrukt “barcha kichik bilimlar qamrovi” isboti emas.**
+
+## 2. P0 implementatsiya
+
+| Talab | Joriy ishchi branch | Yakuniy holat |
+|---|---|---|
+| P0-01: 18/18 20 published savol | Strict `generate_topic_test` o‘zgartirilmadi; review avtomatik publish qilinmadi | **BLOCKED**: haqiqiy ekspert approval, M14/M16 deficit va 18/18 login E2E kerak |
+| P0-02: preflight | `topic_test_preflight(uuid)` read-only DB helper, Fastify endpoint, Zod typed client, theory va exam intro fail-closed CTA, retry; CI tests | **IMPLEMENTED IN DRAFT**; release smoke ham kerak |
+| P0-03: objective qamrov | 18 kanonik dars bo‘yicha **78 ta** `review` objective + private mapping jadvali; `source_page=NULL`, `verified_at=NULL`, savol-objective bog‘lanishlari *bo‘sh* | **DRAFT**, fakt/manba-bet tekshiruvi va 1-to-many savol mapping kerak |
+| P0-04: 249 review editorial | Hech qanday soxta checklist/approval yo‘q; original review saqlandi | **BLOCKED**: inson mutaxassis tomonidan fakt/key/distractor/manba tekshiruvi |
+| P0-05: 118/61 til-uzunlik xatari | Serverda maxfiy `pedagogy_option_quality_flags` view uzunlik, grammatik cue va key/option contract flaglari bilan | **PARTIAL**: yangi revisionlar ekspert qo‘li bilan tayyorlanishi kerak |
+| P0-06: authorship provenance | 249 review uchun `pedagogy_question_provenance`: `ai_assisted_draft`, `pdf_source_rewrite`, `pedguli_import`, `other_import_unverified` sinflari; real `authored_by` bor bo‘lsagina yoziladi | **PARTIAL**: reviewer/approver alohida sahifadan to‘ldirilishi, author != reviewer/publisher server tomonidan enforce qilinishi kerak |
+| P0-07: release pariteti | Release taqiqlangan, merge/deploy yo‘q | **BLOCKED**: keyingi explicit user approval + full SHA/db parity |
+| P0-08: 15/50 exact quota | Avvalgi generatorlar o‘zgartirilmadi; 5+7+3, 35+5+7+3 va 8/35/7 kontrakti mavjud | **NEEDS E2E** |
+| P0-09: no key leaks | Learner lesson API endi `KS`, `PM.GEN`, `PM.MET` savollarni bermaydi (SQL filter + Node defense in depth); `POST /api/content/questions/check` shu guruhlar uchun kalitni bermaydi; M14–16 tezkor quiz o‘rniga server-scored mavzu examiga o‘tadi. 3-way regression tests | **PARTIAL:** M14–16 `topicContent.ts`dagi 49 ta kalitli eski mini-quiz olib tashlandi va 18 ta mavzu uchun regression test qo‘shildi. Boshqa guruhlarda answer-check oracle, alternative browser assets va exam holdout split auditi release blokeri |
+| P0-10: 18/18 real accept | No production user mutation, no fabricated passing results | **BLOCKED**: staging va test user approval |
+
+## 3. Yangi API kontrakti
+
+`GET /api/content/lessons/:id/topic-test-preflight`
+
+```json
+{
+  "ready": false,
+  "required": 20,
+  "available": 8,
+  "duration_sec": 2400,
+  "reason": "pool_insufficient",
+  "coverage": [{"objective":"PM.GEN.01","required":true,"critical":false,"minimum":1,"available":8}],
+  "missing_required_objectives": [],
+  "critical_objective_gaps": []
+}
+```
+
+Ushbu JSON **namuna**, live API javobi emas. `ready` testni rejalash uchun oldindan olingan snapshot, uni bosganda `generate_topic_test` qayta verify qiladi. Mavjud broad construct bilan ichki 78 objective qamrovi hali **tasdiqlanmagan**. Backend xato bersa ekranda aniq `tayyorligini tekshirib bo‘lmadi` chiqadi, tugma disabled bo‘ladi.
+
+## 4. Qabul/QA
+
+- `supabase/tests/pedagogy_preflight_objective_drafts.test.sql`: helper imtihon sessiyasi yaratmaydi, M15.01 uchun generator-like published count beradi, answer key chiqmaydi, 78 objective `review`/18 kanonik dars, zero fake signoff, learner RLS closed.
+- `supabase/tests/pedagogy_private_quality_flags.test.sql`: length/cue flags, learner RLS closed, review-only seed untouched.
+- `src/tests/apiIntegration.test.ts`: 20/20 vs 15/20, typed API and no false success.
+- `src/tests/ExamPage.test.tsx`: unavailable/missing ID fail-closed.
+- [ ] Y1/Y2/Y3 online browser, mock/15 per-grade official blueprint, 18/18 E2E, JS scroll, 320px mobile and accessibility verification.
+- [ ] Source-to-objective fact check with referenced pages, editorial human approvals.
+- [x] Kasb standarti/pedagogika/metodika uchun `content/questions/check` va `lessons/:id/questions` orqali kalit/stem enumeration to‘siqlari + testlar.
+- [x] 18 ta M14–M16 static `topicContent.ts` savol arrayini bo‘shatib, 49 ta kalitli eski mini-quizni JS manbasidan olib tashlash; 18/18 nazariya saqlanganlik testi.
+- [ ] Compiled JS bundle va boshqa assetlardagi javob leakage hamda umumiy informatika study banki / official mock holdout siyosatini mustaqil tekshirish.
+
+## 5. Eslatmalar
+
+1. `review` hech qachon `published` hisoblanmaydi. Hech qanday test sonini pasaytirish yoki `topic_pool_insufficient` himoyasini o‘chirish mumkin emas.
+2. `pedagogy_lesson_objectives`dagi 78 konsepsiya auditning mazmun xaritasi asosida **editorial nomzod**; 2026 spetsifikatsiyasining har bandi satrma-satr audit qilindi degan da’vo yo‘q.
+3. Har bir published question eski session savol/javob tarixini saqlash uchun faqat `revision + atomic archive` bilan yangilanadi.
+4. Yangi DB obyektlari productionda yo‘q; GitHub CI fresh DBda tekshiriladi.
+5. CI yashil bo‘lishi, draft PR yoki preview borligi **merge/productionga mustaqil ruxsat emas**.
+
+## 6. Ikkinchi P0 bosqich — xavfsizlik va editorial admin diagnostikasi
+
+- `backend/src/services/content.service.ts`: faqat practice/learning guruhlari `listLessonQuestions`ga o‘tadi; professional `KS/PM.GEN/PM.MET` source stems/options SQL va application qatlamida yashiriladi; shu guruhlarning `checkAnswer` so‘rovi 404 bo‘lib, `question_keys`ga bormaydi.
+- `src/features/content/lessonContentGateway.ts`: M14–M16 uchun static fallback hamda backend immediate-feedback mini quiz ochilmaydi. Nazariyani o‘qish va serverdagi qat’iy 20 savollik mavzu testi saqlanadi.
+- `backend/src/services/admin-content.service.ts`: authenticated staff ro‘yxatida `pedagogy_option_quality_flags` private view dan per-item flags qo‘shildi. Boshqa o‘quvchi APIga chiqmaydi.
+- `src/pages/admin/QuestionsPage.tsx`: muallif noma’lumligi, javob uzunligi, “Faqat” ishori va yaroqsiz Y1 tuzilmasi vizual ko‘rsatildi. 249 ta review savol **nashrga avtomatik yuborilmaydi**.
+- Regressiya: `backend/src/routes/__tests__/content.test.ts` professional javob kaliti 404; DB filter xatosida ham professional stem yashiriladi. `src/tests/lessonContentGateway.test.ts` pro mini-quiz yopiq. `src/tests/AdminContentPages.test.tsx` badge ko‘rsatkichlari.
+- **Static manba tozalandi**: `src/data/topicContent.ts` ichidagi 18 M14–M16 mavzu uchun jami **49 hardcoded MCQ** javoblari ajratib tashlandi; nazariya bloklari o‘zgarishsiz. `src/tests/lessonContentGateway.test.ts` ushbu 18 kontentda savol massivlari bo‘sh va nazariya to‘liqligini tekshiradi.
+- **Qoldiq xavf**: boshqa assetlardagi/muqobil fallbacklar, shuningdek umumiy informatikaga oid `/api/content/questions/check` darhol javob kalitini qaytarishi mumkin. Test banki/mashq banki kesishmasini alohida audit qilish shart; “hamma javoblar 100% himoyalangan” deb aytilmaydi.

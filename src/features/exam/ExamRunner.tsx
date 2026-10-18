@@ -125,19 +125,27 @@ export default function ExamRunner({
   const [clockNow, setClockNow] = useState(Date.now())
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [topicPreview, setTopicPreview] = useState<TopicTestPreview | null>(null)
+  const [topicPreflightLoading, setTopicPreflightLoading] = useState(false)
+  const [preflightRetry, setPreflightRetry] = useState(0)
   const questionOpenedAtRef = useRef(Date.now())
   const finishInFlightRef = useRef(false)
   const autoFinishAttemptedRef = useRef(false)
 
   useEffect(() => {
-    if (examKind !== 'mavzu' || !lessonId || phase !== 'intro') return
-    if (gateway.previewTopicTest) {
-      void gateway
-        .previewTopicTest(lessonId)
-        .then(setTopicPreview)
-        .catch(() => setTopicPreview(null))
+    if (examKind !== 'mavzu' || phase !== 'intro') return
+    let active = true
+    setTopicPreview(null)
+    setTopicPreflightLoading(true)
+    if (!lessonId || !gateway.previewTopicTest) {
+      setTopicPreflightLoading(false)
+      return
     }
-  }, [gateway, examKind, lessonId, phase])
+    void gateway.previewTopicTest(lessonId)
+      .then(value => { if (active) setTopicPreview(value) })
+      .catch(() => { if (active) setTopicPreview(null) })
+      .finally(() => { if (active) setTopicPreflightLoading(false) })
+    return () => { active = false }
+  }, [gateway, examKind, lessonId, phase, preflightRetry])
 
   const currentItem = session?.items[currentIndex]
   const total = session?.items.length ?? 0
@@ -200,6 +208,9 @@ export default function ExamRunner({
   }
 
   const startExam = async () => {
+    // Preview is a read-only snapshot; the server generator rechecks on start.
+    // Never start while preflight is missing, incomplete or failed.
+    if (examKind === 'mavzu' && (topicPreflightLoading || topicPreview?.ready !== true)) return
     setPhase('starting')
     setStartError(null)
     setMessage(null)
@@ -547,6 +558,24 @@ export default function ExamRunner({
                 </div>
               )}
 
+              {examKind === 'mavzu' && (
+                <div role="status" aria-live="polite" className="mt-5 rounded-xl border border-indigo-200 bg-indigo-50/60 p-4 text-sm leading-6 text-indigo-900 dark:border-indigo-800 dark:bg-indigo-950/30 dark:text-indigo-100">
+                  {topicPreflightLoading
+                    ? 'Mavzu testining to‘liq qamrovi serverda tekshirilmoqda…'
+                    : topicPreview?.ready
+                      ? `Mavzu testi tayyor: ${topicPreview.questionCount} ta tekshirilgan savol · ${topicPreview.durationSec / 60} daqiqa.`
+                      : topicPreview
+                        ? `Mavzu testi hozir tayyorlanmoqda: ${topicPreview.available}/${topicPreview.questionCount} ta mos savol. ${topicPreview.missingRequiredObjectives.length ? 'Majburiy bilimlar qamrovida ham yetishmovchilik bor.' : 'Nazariyani o‘rganishni davom ettirishingiz mumkin.'}`
+                        : 'Mavzu testi tayyorligini hozir tekshirib bo‘lmadi. Iltimos, qayta urinib ko‘ring.'}
+                  {!topicPreflightLoading && topicPreview?.ready !== true && (
+                    <button type="button" onClick={() => setPreflightRetry(n => n + 1)}
+                      className="mt-3 block rounded-lg border border-indigo-300 px-3 py-2 font-semibold hover:bg-indigo-100 dark:border-indigo-700 dark:hover:bg-indigo-950">
+                      <RefreshCw size={15} className="mr-2 inline" /> Holatni qayta tekshirish
+                    </button>
+                  )}
+                </div>
+              )}
+
               {startError && (
                 <div
                   role="alert"
@@ -561,7 +590,7 @@ export default function ExamRunner({
 
               <button
                 type="button"
-                disabled={starting}
+                disabled={starting || (examKind === 'mavzu' && (topicPreflightLoading || topicPreview?.ready !== true))}
                 onClick={() => void startExam()}
                 className="mt-7 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 disabled:opacity-60 sm:w-auto"
               >

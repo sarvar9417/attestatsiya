@@ -37,6 +37,14 @@ interface QuestionRow {
   source_reference: string | null
   length_bias_flag?: boolean
   revision_question_id?: string | null
+  quality_flags?: {
+    question_id: string
+    answer_length_signal: boolean
+    publish_word_balance_risk: boolean
+    absolute_word_cue: boolean
+    invalid_y1_contract: boolean
+    authorship_unknown: boolean
+  } | null
 }
 
 const STATUS_FLOW: Record<
@@ -412,6 +420,30 @@ export default function QuestionsPage() {
                         {question.group_code && (
                           <span className="font-mono text-xs text-gray-400">
                             {question.group_code}
+                          </span>
+                        )}
+                        {question.quality_flags?.answer_length_signal && (
+                          <span title="To‘g‘ri javob boshqa variantlardan sezilarli uzun. Ekspert tekshiruvi shart."
+                            className="rounded-lg bg-amber-100 px-2 py-1 text-[11px] font-semibold text-amber-900 dark:bg-amber-950/50 dark:text-amber-200">
+                            Javob uzunligi ishorasi
+                          </span>
+                        )}
+                        {question.quality_flags?.absolute_word_cue && (
+                          <span title="Noto‘g‘ri javoblarning grammatik shaklidan topish mumkin."
+                            className="rounded-lg bg-amber-100 px-2 py-1 text-[11px] font-semibold text-amber-900 dark:bg-amber-950/50 dark:text-amber-200">
+                            “Faqat” ishorasi
+                          </span>
+                        )}
+                        {question.quality_flags?.invalid_y1_contract && (
+                          <span title="To‘rtta javob yoki yagona kalit qoidasi buzilgan."
+                            className="rounded-lg bg-red-100 px-2 py-1 text-[11px] font-semibold text-red-900 dark:bg-red-950/50 dark:text-red-200">
+                            Savol kaliti/variant xatosi
+                          </span>
+                        )}
+                        {question.status === 'review' && question.quality_flags?.authorship_unknown && (
+                          <span title="Haqiqiy muallif hali tasdiqlanmagan."
+                            className="rounded-lg border border-gray-300 px-2 py-1 text-[11px] font-medium text-gray-600 dark:border-gray-700 dark:text-gray-300">
+                            Muallif tasdiqlanmagan
                           </span>
                         )}
                       </div>

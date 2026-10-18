@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useMemo, lazy, Suspense } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getTopicContent, type TestQuestion, type TheoryBlock } from '../../data/topicContent'
 import { getLessonTestQuestions, checkQuestionAnswer } from '../../features/content/lessonContentGateway'
+import { getTopicTestPreflight, type TopicTestPreflight } from '../../features/content/contentApi'
 import { getLessonDetail } from '../../features/content/contentApi'
 import { overlayPublishedProfessionalLesson, resolveLearnerTheoryContent } from '../../features/content/professionalLessonTheory'
 import PedagogyTheoryBlock from './PedagogyTheoryBlock'
@@ -10,7 +11,7 @@ import type { TopicContent } from '../../data/topicContent'
 import { 
   CheckCircle2, XCircle, Lightbulb, BookOpen, ArrowRight, ArrowLeft, 
   Sparkles, ChevronRight, ChevronUp, ChevronDown, BookText, GraduationCap, 
-  Brain, FileQuestion, Target, RotateCcw, ListChecks,
+  Brain, FileQuestion, Target, RotateCcw, RefreshCw, ListChecks,
   Sigma, Table2, Quote, FileCode, BadgeInfo,
   BookMarked, Layers, Trophy, Eye,
   Fingerprint, Minus
@@ -140,6 +141,9 @@ export default function TopicView({
   const contentRef = useRef<HTMLDivElement>(null)
 
   const [publishedTheory, setPublishedTheory] = useState<{ subtopicId: string; content: TopicContent } | null>(null)
+  const [topicReadiness, setTopicReadiness] = useState<{ subtopicId: string; data: TopicTestPreflight } | null>(null)
+  const [readinessRetry, setReadinessRetry] = useState(0)
+  const isProfessionalLesson = /^M1[456]\.\d{2}$/.test(subtopicId)
   const staticContent = getTopicContent(subtopicId)
   const isPedagogyTopic = moduleId === 'M15' && /^M15\.\d{2}$/.test(subtopicId)
   const loadedContent = publishedTheory?.subtopicId === subtopicId
@@ -194,6 +198,17 @@ export default function TopicView({
       })
     return () => { cancelled = true }
   }, [subtopicId])
+
+  // Published/keyed lesson coverage must be checked by the authoritative
+  // backend generator preflight, not by the number of visible learning questions.
+  useEffect(() => {
+    if (!isProfessionalLesson) return
+    let active = true
+    getTopicTestPreflight(subtopicId)
+      .then(data => { if (active) setTopicReadiness({ subtopicId, data }) })
+      .catch(() => { if (active) setTopicReadiness(null) })
+    return () => { active = false }
+  }, [subtopicId, isProfessionalLesson, readinessRetry])
 
   // Savollar backend-first: gateway backend xatosida statik kontentga tushadi
   useEffect(() => {
@@ -299,7 +314,13 @@ export default function TopicView({
   /** Qo'llanma ilovasi (formulalar varag'i, lug'at, manbalar) — testi yo'q. */
   const isAppendix = content?.kind === 'appendix'
   /** Testga o'tish imkoni bormi. */
-  const hasTest = questions.length > 0
+  const currentReadiness = topicReadiness?.subtopicId === subtopicId ? topicReadiness.data : null
+  const hasTest = isProfessionalLesson ? currentReadiness?.ready === true : questions.length > 0
+  const displayedTestCount = isProfessionalLesson ? currentReadiness?.required : questions.length
+  const handleTopicTestAction = () => {
+    if (hasTest) navigate(`/exam/mavzu/${moduleId}?lessonId=${subtopicId}`)
+    else if (!isProfessionalLesson) handleComplete(0, 0)
+  }
 
   // Theory type distribution
   const theoryTypeCount = useMemo(() => {
@@ -561,7 +582,7 @@ export default function TopicView({
               {/* Question count */}
               <span className="flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-md bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400">
                 <FileQuestion size={10} /> {hasTest
-                  ? `${questions.length} ta savol`
+                  ? `${displayedTestCount} ta savol`
                   : isAppendix ? "ma'lumotnoma" : "test tayyorlanmoqda"}
               </span>
             </div>
@@ -591,6 +612,23 @@ export default function TopicView({
             </div>
           </div>
 
+          {isProfessionalLesson && !hasTest && (
+            <div role="status" aria-live="polite"
+              className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-amber-200 bg-amber-50/70 px-4 py-3 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950/20 dark:text-amber-100">
+              <div>
+                <strong>Mavzu testi hali tayyor emas.</strong>{' '}
+                {currentReadiness
+                  ? `Hozir ${currentReadiness.available}/${currentReadiness.required} ta mos savol mavjud. Nazariyani o‘rganishda davom etishingiz mumkin.`
+                  : 'Test holatini serverdan olib bo‘lmadi. Nazariyani o‘rganishda davom etishingiz mumkin.'}
+              </div>
+              <button type="button"
+                onClick={() => setReadinessRetry(n => n + 1)}
+                className="min-h-10 shrink-0 rounded-lg border border-amber-400 px-3 font-semibold hover:bg-amber-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-600 dark:border-amber-700 dark:hover:bg-amber-900/30">
+                Holatni qayta tekshirish
+              </button>
+            </div>
+          )}
+
           {/* ── Theory Content Blocks ── */}
           {isBook ? (
             <div className="mb-6">
@@ -604,7 +642,7 @@ export default function TopicView({
                   questionCount={questions.length}
                   isAppendix={isAppendix}
                   onProgress={setReadProgress}
-                  onFinishReading={() => (hasTest ? navigate(`/exam/mavzu/${moduleId}?lessonId=${subtopicId}`) : handleComplete(0, 0))}
+                  onFinishReading={handleTopicTestAction}
                   nextTopic={nextSubtopic ?? null}
                   onOpenNextTopic={nextSubtopic && onOpenTopic
                     ? () => onOpenTopic(nextSubtopic.id)
@@ -719,17 +757,23 @@ export default function TopicView({
                   <p className="font-bold text-gray-900 dark:text-white text-lg">Nazariy qism yakunlandi</p>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 mb-4">
                     {hasTest
-                      ? `Endi bilimingizni sinab ko'ring — ${questions.length} ta savol`
-                      : isAppendix
+                      ? `Endi bilimingizni sinab ko'ring — ${displayedTestCount} ta savol`
+                      : isProfessionalLesson
+                        ? currentReadiness
+                          ? `Mavzu testi tayyorlanmoqda: ${currentReadiness.available}/${currentReadiness.required} mos savol.`
+                          : 'Testning tayyorligini tekshirib bo‘lmadi.'
+                        : isAppendix
                         ? "Bu ilova takrorlash uchun — test ko'zda tutilmagan"
                         : "Bu mavzu uchun test hali qo'shilmagan"}
                   </p>
                   <button
-                    onClick={() => (hasTest ? navigate(`/exam/mavzu/${moduleId}?lessonId=${subtopicId}`) : handleComplete(0, 0))}
+                    onClick={handleTopicTestAction}
+                disabled={isProfessionalLesson && !hasTest}
                     className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-xl text-sm font-semibold hover:from-primary-700 hover:to-primary-600 transition-all shadow-xl shadow-primary-200 dark:shadow-primary-900/40 hover:shadow-2xl hover:-translate-y-0.5 animate-pop-in"
                   >
                     {hasTest
                       ? <><Target size={16} /> Bilimni tekshirish <ArrowRight size={16} /></>
+                      : isProfessionalLesson ? <><RefreshCw size={16} /> Test hali tayyor emas</>
                       : <><CheckCircle2 size={16} /> Mavzuni yakunlash <ArrowRight size={16} /></>}
                   </button>
                 </div>
@@ -773,7 +817,8 @@ export default function TopicView({
                 </div>
               )}
               <button
-                onClick={() => (hasTest ? navigate(`/exam/mavzu/${moduleId}?lessonId=${subtopicId}`) : handleComplete(0, 0))}
+                onClick={handleTopicTestAction}
+                disabled={isProfessionalLesson && !hasTest}
                 className="inline-flex items-center gap-3 px-6 py-3.5 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-xl text-sm font-semibold hover:from-primary-700 hover:to-primary-600 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full sm:w-auto justify-center"
               >
                 <span className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
@@ -781,9 +826,9 @@ export default function TopicView({
                     ? <Target size={16} className="text-white" />
                     : <CheckCircle2 size={16} className="text-white" />}
                 </span>
-                <span>{hasTest ? 'Bilimni tekshirish' : 'Mavzuni yakunlash'}</span>
+                <span>{hasTest ? 'Bilimni tekshirish' : isProfessionalLesson ? 'Mavzu testi tayyorlanmoqda' : 'Mavzuni yakunlash'}</span>
                 {hasTest && (
-                  <span className="text-[11px] bg-white/20 px-2.5 py-1 rounded-lg whitespace-nowrap">{questions.length} ta savol</span>
+                  <span className="text-[11px] bg-white/20 px-2.5 py-1 rounded-lg whitespace-nowrap">{displayedTestCount} ta savol</span>
                 )}
                 <ChevronRight size={18} />
               </button>
