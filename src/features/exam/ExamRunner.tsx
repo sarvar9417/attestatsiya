@@ -741,13 +741,7 @@ export default function ExamRunner({
                 <RefreshCw size={16} aria-hidden="true" />
                 Xatolarni qayta ishlash
               </Link>
-              <Link
-                to="/history"
-                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-4 text-sm font-semibold text-gray-600 transition hover:border-indigo-200 hover:text-indigo-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-indigo-800 dark:hover:text-indigo-300"
-              >
-                Natijalar tarixi
-                <ChevronRight size={15} aria-hidden="true" />
-              </Link>
+
             </div>
           </div>
         </section>
