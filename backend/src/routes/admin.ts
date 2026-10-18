@@ -116,7 +116,10 @@ export async function adminRoutes(app: FastifyInstance) {
     if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
     const query = adminQuestionsQuerySchema.querystring.parse(req.query)
     try {
-      return reply.send(await adminContentService.listQuestions(query.status, token, query.source))
+      return reply.send(await adminContentService.listQuestions(
+        query.status, token, query.source, query.page, query.page_size,
+        query.group_code, query.query,
+      ))
     } catch (error) {
       return sendError(reply, error)
     }
