@@ -1,3 +1,12 @@
+## 2026-10-18 — Technical readiness and migration evidence (pre-merge checkpoint)
+
+- **CI:** commit `9361a4770b90ed449f3ded3a0c5ce45124fad4a6`, GitHub run `39098671181`: database/backend/quality including Playwright **PASS**.
+- **Production Supabase migrations:** TASK-202 safe revision/editorial/admin Y1 gates, 12 batches of private distractor proposals, two source-conflict correction reviews, M15 theory deepening and eight-module topic candidate bank plus acceptance gate successfully applied as **one coordinated database release preparation**. No published answer/key changed.
+- **Postmigration invariants:** 175 existing published KS/PM questions (all immutable); 249 review KS/PM questions (including 94 new M15 lesson-specific and 2 source-key corrections); 118 private revision queue entries and 118 private proposed answer sets, all 118 pass machine-checkable word-length constraints. Zero human signoffs invented. Both historical conflicting source keys remain rejected and unlinked.
+- **Security:** anon/authenticated cannot select private PDF source candidates, private proposal drafts or editorial checks; published revisions remain locked.
+- **Scope distinction:** technical learner/admin release can ship with these drafts safely quarantined. These 249 review items are **not learner-published**; full semantic validation, actual expert signoff, and publication remain distinct later content operations. This is not a claim of 249 independently reviewed correct answers.
+- **Merge/deploy gate:** exactly one GitHub PR #121 merge and one triggered production rollout; verify deployed SHA, frontend/backend endpoints, and no additional merges/deploys without new user authorization. The Vercel preview status may be blocked by build-rate-limit; never claim production live without READY verification.
+
 # TASK-202 — One final pedagogika release: evidence and hold conditions
 
 **Status: RELEASE CANDIDATE (DRAFT). No merge or production deployment until all agreed editorial and technical gates are complete.**
