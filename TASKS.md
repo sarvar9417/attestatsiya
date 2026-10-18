@@ -8,6 +8,19 @@
 - Dependency `DONE` bo'lmasdan task boshlanmaydi
 - "Done" bandlari test bilan isbotlanadi
 
+## TASK-213–218 — Universal shaxsiy test konstruktorining qolgan bosqichlari
+
+| ID | Status | Dependency | Vazifa va dalil |
+|----|--------|------------|----------------|
+| TASK-213 | IN_PROGRESS | TASK-210 | Published lesson ichidagi active construct bo‘yicha ixtiyoriy filter, aniq SQL preflight+selector, UI dropdown, Vitest/Playwright/DB regression |
+| TASK-214 | IN_PROGRESS | TASK-213 | Yakunlangan custom sessionni egasigagina ko‘rsatadigan topic / A–E / Y1–Y3 diagnostikasi |
+| TASK-215 | IN_PROGRESS | TASK-214 | Tugallanmagan custom examni serverdan tiklash va duplikat startni advisory lock + config matching orqali oldini olish; server taymeri |
+| TASK-216 | IN_PROGRESS | TASK-215 | Learningda faqat submitted item uchun izoh, exam/diagnosticda yopiq javob; deterministic equal quota suggestion |
+| TASK-217 | IN_PROGRESS | TASK-216 | Admin-only published+keyed+source-backed pool statistikasi; kalitsiz metadata va RLS/role security |
+| TASK-218 | IN_PROGRESS | TASK-217 | Backend/DB/Playwright testlar, keyboard/mobile acceptance, docs; **production excluded** |
+
+> Ishlarning barchasi hozir alohida `task/TASK-213-custom-subtopics-analytics-resume` branchda. Tegishli migratsiyalar GitHub’da, **production bazaga qo‘llanmagan**. TASK-211 shablon CRUD avvaldan main’da mavjud; eski PR #159 bilan takrorlanmasligi kerak. TASK-213..218 CI va review tekshiruvi tugagach belgilansin; production release alohida ruxsat talab qiladi.
+
 ## P0 — Xavfsizlik va barqarorlashtirish
 
 | ID | Status | Dependency | Deliverable |

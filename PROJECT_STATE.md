@@ -1,3 +1,17 @@
+## TASK-213–218 — Shaxsiy test konstruktori: non-production ishlar (2026-10-18)
+
+- **Production excluded by owner:** `main` merge, Supabase production migrations and Vercel production deploy **qilinmasin**. Existing production TASK-210 SQL installation remains intact.
+- **Source branch:** `task/TASK-213-custom-subtopics-analytics-resume` created from current main including fixed PostgreSQL UUID contract (`PR #161` merged).
+- **TASK-211 preset:** existing main has `custom_exam_presets` RLS migration, CRUD endpoints, SavePresetsPanel and Playwright. Earlier PR #159 has redundant/dirty implementation; do not transplant that branch.
+- **TASK-213:** optional per-lesson construct selection, active/mapped construct validation + exact question eligibility in both preflight and generator.
+- **TASK-214:** `get_custom_exam_analysis(uuid)`: owner-only and finish-only aggregated lesson, difficulty and format results; no key disclosure.
+- **TASK-215:** `get_active_custom_exam(jsonb)` returns only owner's unexpired exam, saved responses & IDs; duplicate start serialized and reused; protected server timer; unlimited-time attempt expires from resume after 24h.
+- **TASK-216:** learning feedback after submit only, non-learning custom/official/AXB stays protected; equal quota suggestion preserves sum.
+- **TASK-217:** staff/admin-only coverage API and panel using SQL with published, key, provenance and construct filters; no question text or private answers.
+- **TASK-218:** route auth, preflight abuse, safe resume and E2E coverage tests; branch CI required.
+- **New migrations:** `20261019023000_task213_custom_construct_filter.sql`, `20261019024000_task214_custom_exam_analysis.sql`, `20261019025000_task215_custom_exam_resume.sql`, `20261019030000_task216_custom_learning_feedback.sql`, `20261019031000_task217_admin_custom_coverage.sql`.
+- **Acceptance not yet finished:** remote staging E2E against real Supabase authenticated learner/admin roles; production deployment, migrations, smoke after owner's future release approval. CI green is not production acceptance.
+
 ## TASK-210 — Universal shaxsiy test konstruktori (2026-10-18, functional branch verified)
 
 - **Status:** IN_PROGRESS — draft PR #144; main/production o‘zgarmagan.
