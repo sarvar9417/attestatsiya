@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { getTopicContent, type TestQuestion, type TheoryBlock } from '../../data/topicContent'
 import { getLessonTestQuestions, checkQuestionAnswer } from '../../features/content/lessonContentGateway'
 import { getLessonDetail } from '../../features/content/contentApi'
-import { overlayPublishedProfessionalLesson } from '../../features/content/professionalLessonTheory'
+import { overlayPublishedProfessionalLesson, resolveLearnerTheoryContent } from '../../features/content/professionalLessonTheory'
 import PedagogyTheoryBlock from './PedagogyTheoryBlock'
 import { getPedagogyStudyNotes } from '../../data/pedagogyStudyNotes'
 import type { TopicContent } from '../../data/topicContent'
@@ -140,16 +140,26 @@ export default function TopicView({
 
   const [publishedTheory, setPublishedTheory] = useState<{ subtopicId: string; content: TopicContent } | null>(null)
   const staticContent = getTopicContent(subtopicId)
-  const content = publishedTheory?.subtopicId === subtopicId
+  const isPedagogyTopic = moduleId === 'M15' && /^M15\.\d{2}$/.test(subtopicId)
+  const loadedContent = publishedTheory?.subtopicId === subtopicId
     ? publishedTheory.content
-    : staticContent
+    : null
+  // M15 always keeps the original curated, colorful theory as primary content.
+  // Canonical source lessons are optional reading and NEVER replace the screen
+  // when the asynchronous request finishes.
+  const content = staticContent
+    ? resolveLearnerTheoryContent(subtopicId, staticContent, loadedContent)
+    : loadedContent
   /** Kontent qo'llanmadan generatsiya qilinganmi (M01) — bo'limli o'qish rejimi. */
   const isBook = Boolean(content?.source)
-  const isSemanticProfessional = /^M1[456]$/.test(moduleId) && publishedTheory?.subtopicId === subtopicId
-  const isPedagogyTopic = moduleId === 'M15' && /^M15\.\d{2}$/.test(subtopicId)
-  const isPublishedPedagogy = isPedagogyTopic && isSemanticProfessional
+  const isSemanticProfessional = !isPedagogyTopic && /^M1[46]$/.test(moduleId) && Boolean(loadedContent)
   const pedagogyStudyNotes = isPedagogyTopic ? getPedagogyStudyNotes(subtopicId) : []
-  const supplementalTheory = isPublishedPedagogy ? (content?.supplementalTheory ?? []) : []
+  const serverTheory = isPedagogyTopic && loadedContent && loadedContent !== staticContent
+    ? loadedContent.theory
+    : []
+  const supplementalTheory = isPedagogyTopic && loadedContent
+    ? (loadedContent.supplementalTheory ?? [])
+    : []
 
   // mavzu almashganda o'qish holatini tozalaymiz
   useEffect(() => {
@@ -631,17 +641,23 @@ export default function TopicView({
               <div className="space-y-3">
                 {pedagogyStudyNotes.map((block, i) => <PedagogyTheoryBlock key={i} block={block} />)}
               </div>
-              {supplementalTheory.length > 0 && (
-                <details className="group/deep mt-5 rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800/40">
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-2 font-semibold text-gray-800 dark:text-gray-200">
-                    <span>Qo‘shimcha manbaviy ma’ruza</span>
-                    <ChevronDown className="transition group-open/deep:rotate-180" size={18} aria-hidden="true" />
-                  </summary>
-                  <div className="mt-4 space-y-3">
-                    {supplementalTheory.map((block, i) => <PedagogyTheoryBlock key={i} block={block} />)}
-                  </div>
-                </details>
-              )}
+
+            </details>
+          )}
+
+          {isPedagogyTopic && (serverTheory.length > 0 || supplementalTheory.length > 0) && (
+            <details className="group mb-8 rounded-2xl border border-teal-200 bg-teal-50/50 p-4 shadow-sm dark:border-teal-900 dark:bg-teal-950/20 sm:p-5">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-xl p-2 text-sm font-bold text-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:text-teal-200">
+                <span className="flex items-center gap-2"><BookText size={19} aria-hidden="true" /> Batafsil nazariya — qo‘shimcha manba</span>
+                <ChevronDown className="shrink-0 transition group-open:rotate-180" size={19} aria-hidden="true" />
+              </summary>
+              <p className="px-2 pb-3 pt-1 text-xs leading-6 text-gray-600 dark:text-gray-400">
+                Asosiy dars o‘zgarmaydi. Batafsil manbaviy tushuntirishlarni xohlasangiz, ushbu bo‘limni oching.
+              </p>
+              <div className="space-y-3">
+                {serverTheory.map((block, i) => <PedagogyTheoryBlock key={i} block={block} />)}
+                {supplementalTheory.map((block, i) => <PedagogyTheoryBlock key={`extra-${i}`} block={block} />)}
+              </div>
             </details>
           )}
 
