@@ -1,3 +1,4 @@
+import type { CustomExamConfig } from '../custom-test/customTestApi'
 import type { Json } from '../../lib/database.types'
 import type {
   DueReviewItem,
@@ -36,6 +37,7 @@ export interface TopicTestPreview {
 
 export interface ExamGateway {
   startMockExam(): Promise<ExamSession>
+  startCustomExam?(config: CustomExamConfig): Promise<ExamSession>
   startModuleExam(moduleId: string): Promise<ExamSession>
   startTopicExam(lessonId: string): Promise<ExamSession>
   /** Server-calculated diagnostic/adaptive/review/weak-area sessionini boshlaydi. */
