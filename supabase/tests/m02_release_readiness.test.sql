@@ -9,6 +9,7 @@ DECLARE
  v_subject_id uuid;
  v_lesson_id uuid;
  v_question_id uuid;
+ v_candidate_source text;
 BEGIN
  SELECT count(*) INTO v_lessons FROM public.lessons l
  JOIN public.modules m ON m.id=l.module_id
@@ -46,24 +47,31 @@ BEGIN
  JOIN public.lessons l ON l.id=lc.lesson_id
  WHERE c.code='S2.HW.01' AND l.status='published'::public.content_status LIMIT 1;
 
- v_question_id:=gen_random_uuid();
- INSERT INTO public.questions(
-   id,subject_id,construct_id,group_code,format,cognitive,difficulty,
-   stem_md,status,source_reference,source_lesson_id
- ) VALUES (
-   v_question_id,v_subject_id,v_construct_id,'S2.HW','Y1','bilish',1,
-   'Synthetic non-production review gate check for source verification?',
-   'review','ktd-540-2026:CI-PUBLICATION-GUARD',v_lesson_id
- );
- BEGIN
-   UPDATE public.questions SET status='published' WHERE id=v_question_id;
-   RAISE EXCEPTION 'KTD unverified review question escaped to published';
- EXCEPTION WHEN check_violation THEN
-   NULL;
- END;
- IF (SELECT status FROM public.questions WHERE id=v_question_id)
-   <> 'review'::public.content_status THEN
-   RAISE EXCEPTION 'KTD review status changed after publication rejection';
- END IF;
+ FOR v_candidate_source IN
+   SELECT unnest(ARRAY[
+     'ktd-540-2026:CI-PUBLICATION-GUARD',
+     'authored:m02-source-20261018:CI-PUBLICATION-GUARD'
+   ])
+ LOOP
+   v_question_id:=gen_random_uuid();
+   INSERT INTO public.questions(
+     id,subject_id,construct_id,group_code,format,cognitive,difficulty,
+     stem_md,status,source_reference,source_lesson_id
+   ) VALUES (
+     v_question_id,v_subject_id,v_construct_id,'S2.HW','Y1','bilish',1,
+     'Synthetic CI-only unreviewed question used to validate publication gate?',
+     'review',v_candidate_source,v_lesson_id
+   );
+   BEGIN
+     UPDATE public.questions SET status='published' WHERE id=v_question_id;
+     RAISE EXCEPTION 'Unverified source escaped to published: %',v_candidate_source;
+   EXCEPTION WHEN check_violation THEN
+     NULL;
+   END;
+   IF (SELECT status FROM public.questions WHERE id=v_question_id)
+     <> 'review'::public.content_status THEN
+     RAISE EXCEPTION 'Review status changed after rejection: %',v_candidate_source;
+   END IF;
+ END LOOP;
 END $assert$;
 ROLLBACK;
