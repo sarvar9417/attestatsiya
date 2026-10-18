@@ -1765,3 +1765,13 @@ Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user co
 - **Bajarildi:** 18 kanonik M14/M15/M16 mavzu keltirilgan hub, manba va sinov havolalari, Vitest regressiyalar; M16.02dagi manbasi tasdiqlanmagan 70% kompyuter-vaqti me’yori chiqarildi.
 - **Holat:** IN_PROGRESS; QA (exact head SHA), 18/18 nazariya-source-validity, professional savollar editorial review, mobile live smoke, production quota/security parity va yangi release ruxsati OCHIQ.
 - **Cheklov:** PEDAGOGY_RELEASE_FREEZE saqlanadi; no merge / no production deployment. Detallar: docs/TASK212_PEDAGOGY_UNIFIED_READINESS_AUDIT_20261018.md.
+
+## TASK-212 — 2026-10-18 production read-only update
+
+- Supabase ACTIVE_HEALTHY project: attestatsiya100%; only SELECT queries performed.
+- KS: 114 published/keyed + 26 review/keyed; PM.GEN 233 published; PM.MET 77 published; professional total 424 published / 26 review.
+- M14 7 canonical lessons each 20-question target, published-keyed source deficits [3,3,2,6,4,4,4] = 26; 26 review items have mechanical structure/key-reference/source/explanation/length flags all zero, but no semantic approval.
+- 18 official competence map (2-jadval, physical pp. 6–7), null pass verdict fix, textual source caution corrections and regression tests staged in DRAFT PR #149.
+- CI must be reverified against final SHA. Main advanced after branch creation; future rebase/conflict and production parity review required.
+- **DO NOT MERGE/DEPLOY**; user approval, editorial expert review, authenticated E2E and release checklist remain OPEN.
+
