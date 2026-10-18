@@ -58,12 +58,12 @@ export async function resolveLessonUuid(subtopicCode: string): Promise<string | 
   const cached = lessonCache.get(subtopicCode)
   if (isFresh(cached)) return cached.id
 
-  // Canonical M14-M16 source-backed lessons have human-readable slugs.
+  // Canonical M04 and M14-M16 source-backed lessons have human-readable slugs.
   // Legacy lessons may still own 'm14-05' etc., so exact slug matching
   // would quietly route students to the wrong lesson and empty question pool.
   // The canonical migration reserves order_idx 1..8 for published lessons
   // and relocates legacy items to 100+. Resolve by module + order first.
-  const canonicalMatch = /^(M1[456])\.(0[1-9])$/.exec(subtopicCode.toUpperCase())
+  const canonicalMatch = /^(M04|M1[456])\.(0[1-9])$/.exec(subtopicCode.toUpperCase())
   if (canonicalMatch) {
     const moduleId = await resolveModuleUuid(canonicalMatch[1])
     if (moduleId) {
