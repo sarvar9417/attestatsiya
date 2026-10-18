@@ -3,12 +3,15 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ArrowLeft, BookOpen, ChevronDown, ChevronRight, ClipboardCheck, LoaderCircle, ShieldCheck } from 'lucide-react'
 import {
   getCustomTestCatalog,
+  getActiveCustomSession,
+  type ActiveCustomSession,
   previewCustomTest,
   type CatalogModule,
   type CustomExamConfig,
   type CustomExamPreview,
 } from '../features/custom-test/customTestApi'
 import SavedPresetsPanel from '../features/custom-test/SavedPresetsPanel'
+import { suggestEqualQuotas } from '../features/custom-test/quotaSuggestion'
 
 type Level = 1 | 2 | 3 | 4 | 5
 type QuantityMap = Partial<Record<Level, number>>
@@ -22,10 +25,13 @@ const LEVEL_LABELS: Record<Level, string> = {
 export default function CustomTestPage() {
   const navigate = useNavigate()
   const [catalog, setCatalog] = useState<CatalogModule[]>([])
+  const [activeSession, setActiveSession] = useState<ActiveCustomSession | null>(null)
   const [loading, setLoading] = useState(true)
   const [catalogError, setCatalogError] = useState<string | null>(null)
   const [openModules, setOpenModules] = useState<string[]>([])
   const [selected, setSelected] = useState<Selection>({})
+  const [suggestedTotal, setSuggestedTotal] = useState(20)
+  const [constructByLesson, setConstructByLesson] = useState<Record<string, string>>({})
   const [formats, setFormats] = useState<Array<'Y1' | 'Y2' | 'Y3'>>(['Y1','Y2','Y3'])
   const [exposure, setExposure] = useState<CustomExamConfig['exposure']>('all')
   const [mode, setMode] = useState<CustomExamConfig['mode']>('exam')
@@ -48,6 +54,13 @@ export default function CustomTestPage() {
   }, [])
 
   useEffect(() => { void loadCatalog() }, [loadCatalog])
+  useEffect(() => {
+    let mounted = true
+    void getActiveCustomSession().then(value => {
+      if (mounted) setActiveSession(value)
+    }).catch(() => { /* No active session information: manual start stays available. */ })
+    return () => { mounted = false }
+  }, [])
 
   const update = (next: Selection) => {
     setSelected(next)
@@ -57,8 +70,14 @@ export default function CustomTestPage() {
 
   const toggleLesson = (id: string) => {
     const next = { ...selected }
-    if (next[id]) delete next[id]
-    else next[id] = { 3: 5 }
+    if (next[id]) {
+      delete next[id]
+      setConstructByLesson(old => {
+        const copy = { ...old }
+        delete copy[id]
+        return copy
+      })
+    } else next[id] = { 3: 5 }
     update(next)
   }
 
@@ -79,6 +98,7 @@ export default function CustomTestPage() {
           .filter(item => item.count > 0)
         return {
           lesson_id,
+          ...(constructByLesson[lesson_id] ? { construct_id: constructByLesson[lesson_id] } : {}),
           count: difficulty_counts.reduce((sum, item) => sum + item.count, 0),
           difficulty_counts,
         }
@@ -92,7 +112,7 @@ export default function CustomTestPage() {
       mode,
       duration_sec: duration,
     }
-  }, [selected, formats, exposure, mode, duration])
+  }, [selected, constructByLesson, formats, exposure, mode, duration])
 
   // Stale network responses may never authorize a changed test configuration.
   const configKey = JSON.stringify(config)
@@ -118,6 +138,9 @@ export default function CustomTestPage() {
       nextSelection[topic.lesson_id] = levels
     }
     setSelected(nextSelection)
+    setConstructByLesson(Object.fromEntries(next.topics
+      .filter(topic => Boolean(topic.construct_id))
+      .map(topic => [topic.lesson_id, topic.construct_id!])))
     setFormats([...next.formats])
     setExposure(next.exposure)
     setMode(next.mode)
@@ -176,6 +199,25 @@ export default function CustomTestPage() {
             <p className="rounded-xl bg-gray-100 p-4 text-sm dark:bg-gray-800">Nashr etilgan mavzular topilmadi.</p>
           )}
 
+          {Object.keys(selected).length > 0 && (
+            <div className="flex flex-wrap items-end gap-3 rounded-xl border border-indigo-200 p-4 dark:border-indigo-800">
+              <label className="space-y-1 text-sm dark:text-gray-200">
+                <span className="block font-semibold">Umumiy savollar soni (1–100)</span>
+                <input type="number" min={1} max={100} value={suggestedTotal}
+                  aria-label="Avtomatik taqsimot savollari"
+                  onChange={event => setSuggestedTotal(Math.min(100, Math.max(1,Number(event.target.value)||1)))}
+                  className="w-24 rounded-lg border border-gray-300 bg-white px-3 py-2 dark:border-gray-700 dark:bg-gray-800"/>
+              </label>
+              <button type="button" disabled={suggestedTotal < Object.keys(selected).length}
+                onClick={() => update(suggestEqualQuotas(suggestedTotal,selected))}
+                className="min-h-10 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50">
+                Mavzular bo‘yicha teng taqsimlash
+              </button>
+              <p className="w-full text-xs text-gray-500 dark:text-gray-300">
+                Tanlangan A–E darajalar nisbati iloji boricha saqlanadi; barcha kvotalar tekshirishdan oldin ko‘rsatiladi.
+              </p>
+            </div>
+          )}
           {catalog.map(module => {
             const expanded = openModules.includes(module.id)
             const moduleSelected = module.lessons.filter(lesson => selected[lesson.id]).length
@@ -208,6 +250,26 @@ export default function CustomTestPage() {
                             <span className="flex-1">{lesson.title_uz}</span>
                             {enabled && <span className="text-xs text-indigo-600 dark:text-indigo-300">{total} ta</span>}
                           </label>
+                          {enabled && lesson.constructs.length > 0 && (
+                            <label className="mt-3 block space-y-1 pl-7 text-xs text-gray-700 dark:text-gray-200">
+                              <span>Kichik mavzu (kompetensiya)</span>
+                              <select value={constructByLesson[lesson.id] ?? ''}
+                                aria-label={lesson.title_uz + ' kichik mavzusi'}
+                                onChange={event => {
+                                  setConstructByLesson(old => ({ ...old, [lesson.id]: event.target.value }))
+                                  setPreview(null)
+                                  setError(null)
+                                }}
+                                className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 dark:border-gray-600 dark:bg-gray-900">
+                                <option value="">Barcha kichik mavzular</option>
+                                {lesson.constructs.map(construct => (
+                                  <option key={construct.id} value={construct.id}>
+                                    {construct.code} — {construct.title_uz}
+                                  </option>
+                                ))}
+                              </select>
+                            </label>
+                          )}
                           {enabled && (
                             <div className="mt-3 grid grid-cols-2 gap-2 pl-7 sm:grid-cols-5">
                               {LEVELS.map(level => (
@@ -234,6 +296,20 @@ export default function CustomTestPage() {
         </section>
 
         <aside className="space-y-4 lg:sticky lg:top-6">
+          {activeSession && (
+            <section aria-label="Davom ettiriladigan test" className="space-y-2 rounded-2xl border border-indigo-300 bg-white p-5 dark:bg-gray-900">
+              <h2 className="font-semibold text-indigo-700 dark:text-indigo-300">Tugallanmagan shaxsiy test</h2>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                {activeSession.answered_question_ids.length}/{activeSession.items.length} savolga javob saqlangan.
+                Test vaqti serverdagi boshlanish vaqtiga bog‘liq.
+              </p>
+              <button type="button" onClick={() =>
+                navigate('/exam/custom', { state: { customConfig: activeSession.selection_meta.config } })
+              } className="min-h-11 w-full rounded-xl bg-indigo-600 px-3 py-2 font-semibold text-white">
+                Testni davom ettirish
+              </button>
+            </section>
+          )}
           <SavedPresetsPanel config={config} invalid={invalid} onLoad={loadPreset}/>
           <section className="space-y-4 rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-900">
             <h2 className="text-lg font-bold text-gray-900 dark:text-white">2. Test sozlamalari</h2>
