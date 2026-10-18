@@ -1,3 +1,10 @@
+## TASK-203 — Pedagogika 249 owner-approved production bank Git parity (2026-10-18)
+
+- **Production audit:** KS/PM.GEN/PM.MET 424 published, 0 review. Of these 249 were approved as a **project-owner batch**, and 82 had wrong-option text AI-redrafted after initial approval for balanced length; never describe them as independent expert-signed certifications.
+- **Source/key safeguards:** all 424 published revisions locked; 0 fingerprint mismatches; 0 rejected PDF keys linked. Legacy 118 private repair proposals remain unpublished, and two previously published malformed Y2 items need separate approved revisions.
+- **Repo:** six manual-only fail-closed SQL replay files with exact approved source IDs + finalized wrong text; one owner-bank QA SQL test. All six scripts were dry-run with rollback against production and owner QA test passed. No changes to previously published question/answer records.
+- **Release restriction:** merge **TASK-203 parity PR only**, do not merge PR #127 (unresolved `/api/content/questions/check` key-exposure risk and missing scope) or unrelated drafts. No manually initiated Vercel deploy; previous queued deploy retry disabled. See `docs/TASK203_PEDAGOGY_OWNER_APPROVAL_PARITY.md`.
+
 ## Pedagogika consolidated release audit — 2026-10-18, before final merge
 
 - User authorization: complete single consolidated merge and production deployment; **freeze all future merges and deploys afterward until another explicit request**.
