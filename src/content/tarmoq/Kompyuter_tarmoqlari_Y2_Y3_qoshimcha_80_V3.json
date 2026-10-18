@@ -10,14 +10,14 @@
       "WAN"
     ],
     "b": [
-      "Bino ichidagi maktab kompyuterlari",
       "Ikki shahardagi filiallar o‘rtasidagi aloqa",
-      "Telefon va quloqchin orasidagi yaqin aloqa"
+      "Telefon va quloqchin orasidagi yaqin aloqa",
+      "Bino ichidagi maktab kompyuterlari"
     ],
     "pairs": [
+      1,
       2,
-      0,
-      1
+      0
     ],
     "exp": "PAN shaxsiy yaqin qurilmalarni; LAN mahalliy tarmoqni; WAN esa uzoq hududlarni bog‘laydi.",
     "source": "M11, 129–139-betlar; C8, PDF 91–96",
@@ -57,14 +57,14 @@
       "Mijoz (client)"
     ],
     "b": [
+      "Tarmoqda manzilga ega yakuniy qurilma",
       "Xizmat yoki resursni taqdim etadi",
-      "Xizmatga so‘rov yuboradi",
-      "Tarmoqda manzilga ega yakuniy qurilma"
+      "Xizmatga so‘rov yuboradi"
     ],
     "pairs": [
-      2,
       0,
-      1
+      1,
+      2
     ],
     "exp": "Xost tarmoqqa ulangan yakuniy qurilma; server xizmatni taqdim etadi, mijoz undan foydalanadi.",
     "source": "M11, 129–139-betlar; C8, PDF 91–96",
@@ -105,12 +105,12 @@
     ],
     "b": [
       "Ikki viloyatdagi tarmoqlar o‘zaro bog‘langan",
-      "Telefonlar Wi‑Fi orqali bitta sinf tarmog‘iga ulangan",
-      "Kompyuterlar Ethernet kabeli bilan switchga ulangan"
+      "Kompyuterlar Ethernet kabeli bilan switchga ulangan",
+      "Telefonlar Wi‑Fi orqali bitta sinf tarmog‘iga ulangan"
     ],
     "pairs": [
-      1,
       2,
+      1,
       0
     ],
     "exp": "WLAN radiosignal, simli LAN kabel, WAN esa uzoq geografik ulanishlardan foydalanadi.",
@@ -151,13 +151,13 @@
       "Internet"
     ],
     "b": [
-      "Ruxsat berilgan tashqi hamkor ham foydalana oladigan yopiq korporativ qism",
+      "Tashkilot ichidagi foydalanuvchilar uchun cheklangan tarmoq resursi",
       "Barcha ochiq tarmoqlarni bog‘laydigan global infratuzilma",
-      "Tashkilot ichidagi foydalanuvchilar uchun cheklangan tarmoq resursi"
+      "Ruxsat berilgan tashqi hamkor ham foydalana oladigan yopiq korporativ qism"
     ],
     "pairs": [
-      2,
       0,
+      2,
       1
     ],
     "exp": "Intranet ichki, extranet tashqi hamkorga cheklangan kirish beradi, internet esa global infratuzilmadir.",
@@ -198,14 +198,14 @@
       "Wi‑Fi radiokanali"
     ],
     "b": [
-      "Elektromagnit radio to‘lqinlari orqali uzatadi",
+      "Elektr signali uzatiladi va elektromagnit shovqindan ta’sirlanishi mumkin",
       "Yorug‘lik impulslari bilan, elektromagnit shovqinga chidamli uzatadi",
-      "Elektr signali uzatiladi va elektromagnit shovqindan ta’sirlanishi mumkin"
+      "Elektromagnit radio to‘lqinlari orqali uzatadi"
     ],
     "pairs": [
-      2,
+      0,
       1,
-      0
+      2
     ],
     "exp": "Misda elektr, optik tolada yorug‘lik, Wi‑Fi da radio signallari ishlatiladi.",
     "source": "M11, 146–166-betlar; C8, PDF 98–106",
@@ -245,14 +245,14 @@
       "Router"
     ],
     "b": [
-      "Turli IP tarmoqlar orasida paketni yo‘naltiradi",
       "Kompyuterga tarmoq interfeysini beradi",
+      "Turli IP tarmoqlar orasida paketni yo‘naltiradi",
       "Lokal tarmoqdagi freymlarni portlarga yo‘naltiradi"
     ],
     "pairs": [
-      1,
+      0,
       2,
-      0
+      1
     ],
     "exp": "NIC ulanishni, switch lokal freym almashinuvini, router tarmoqlararo paket yo‘naltirishni ta’minlaydi.",
     "source": "M11, 146–166-betlar; C8, PDF 98–106",
@@ -339,14 +339,14 @@
       "Full-duplex"
     ],
     "b": [
-      "Ikkala yo‘nalishda bir vaqtda uzatish",
       "Faqat bir yo‘nalishda uzatish",
-      "Ikkala yo‘nalishda, ammo bir vaqtda emas"
+      "Ikkala yo‘nalishda, ammo bir vaqtda emas",
+      "Ikkala yo‘nalishda bir vaqtda uzatish"
     ],
     "pairs": [
+      0,
       1,
-      2,
-      0
+      2
     ],
     "exp": "Simplex bir tomonlama; half-duplex navbat bilan; full-duplex bir vaqtda ikki tomonlama.",
     "source": "M11, 146–166-betlar; C8, PDF 98–106",
@@ -386,14 +386,14 @@
       "Peer-to-peer tugun"
     ],
     "b": [
-      "Teng huquqli resurs ulashuvchi ishtirokchi",
       "Markaziy xizmat va resurslarni taqdim qiluvchi qism",
-      "Xizmatdan foydalanish uchun so‘rov yuboruvchi qism"
+      "Xizmatdan foydalanish uchun so‘rov yuboruvchi qism",
+      "Teng huquqli resurs ulashuvchi ishtirokchi"
     ],
     "pairs": [
+      0,
       1,
-      2,
-      0
+      2
     ],
     "exp": "Server xizmat beradi, client so‘raydi, P2P tugun esa xizmat olishi ham, berishi ham mumkin.",
     "source": "M11, 140–145 va 167–171-betlar; C8, PDF 108–113",
@@ -433,14 +433,14 @@
       "Halqa"
     ],
     "b": [
+      "Asosiy magistral kabel uzilishi ko‘p tugunga ta’sir qilishi mumkin",
       "Halqa yo‘li uzilishi aloqa jarayonini buzishi mumkin",
-      "Markaziy kommutator buzilsa uning segmenti izdan chiqishi mumkin",
-      "Asosiy magistral kabel uzilishi ko‘p tugunga ta’sir qilishi mumkin"
+      "Markaziy kommutator buzilsa uning segmenti izdan chiqishi mumkin"
     ],
     "pairs": [
-      1,
       2,
-      0
+      0,
+      1
     ],
     "exp": "Yulduz markazga, shina magistralga, halqa uzluksiz halqa yo‘liga tayanadi.",
     "source": "M11, 140–145 va 167–171-betlar; C8, PDF 108–113",
@@ -481,13 +481,13 @@
     ],
     "b": [
       "Ma’lumot oqimining tarmoq bo‘ylab mantiqiy yo‘li",
-      "Qurilmalar/kabellarning haqiqiy ulanish joylashuvi",
-      "Mijoz-server yoki teng huquqli ishlash modeli"
+      "Mijoz-server yoki teng huquqli ishlash modeli",
+      "Qurilmalar/kabellarning haqiqiy ulanish joylashuvi"
     ],
     "pairs": [
-      1,
+      2,
       0,
-      2
+      1
     ],
     "exp": "Fizik joylashuv kabellarni, mantiqiy topologiya oqimni, arxitektura xizmat tashkilini tasvirlaydi.",
     "source": "M11, 140–145 va 167–171-betlar; C8, PDF 108–113",
@@ -527,14 +527,14 @@
       "Gibrid"
     ],
     "b": [
-      "Bir necha topologiya elementlarini birlashtiradi",
+      "Ulanishlar bitta markaziy qurilmadan tarqaladi",
       "Tugunlar uchun bir nechta muqobil yo‘llar bo‘lishi mumkin",
-      "Ulanishlar bitta markaziy qurilmadan tarqaladi"
+      "Bir necha topologiya elementlarini birlashtiradi"
     ],
     "pairs": [
       1,
-      2,
-      0
+      0,
+      2
     ],
     "exp": "Mesh ortiqcha yo‘llarga; yulduz markazga; gibrid aralash tuzilishga tayanadi.",
     "source": "M11, 140–145 va 167–171-betlar; C8, PDF 108–113",
@@ -574,14 +574,14 @@
       "IP"
     ],
     "b": [
-      "Tarmoqlararo manzillash va yo‘naltirish",
+      "Ketma-ketlik va qayta uzatish bilan ishonchli transport",
       "Ulanishsiz datagramma transporti",
-      "Ketma-ketlik va qayta uzatish bilan ishonchli transport"
+      "Tarmoqlararo manzillash va yo‘naltirish"
     ],
     "pairs": [
-      2,
+      0,
       1,
-      0
+      2
     ],
     "exp": "TCP ishonchli oqim, UDP ulanishsiz datagramma, IP tarmoqlararo yetkazish qatlamidir.",
     "source": "M11, 172–179-betlar; C11, tarmoq mavzusi",
@@ -621,14 +621,14 @@
       "Internet (tarmoq) qatlami"
     ],
     "b": [
-      "Portlar va uchdan-uchga yetkazish",
       "Marshrutizatsiya va IP manzil",
+      "Portlar va uchdan-uchga yetkazish",
       "HTTP yoki DNS kabi ilova xizmati"
     ],
     "pairs": [
       2,
-      0,
-      1
+      1,
+      0
     ],
     "exp": "Ilova xizmati, transport portlar, IP qatlami paket va marshrut bilan shug‘ullanadi.",
     "source": "M11, 172–179-betlar; C11, tarmoq mavzusi",
@@ -715,14 +715,14 @@
       "ARP (IPv4)"
     ],
     "b": [
-      "Mahalliy tarmoqda IPv4 manzilni mos MAC bilan aniqlash",
       "Host nomini mos IP yozuvi orqali aniqlash",
-      "IP maskasi va gateway kabi sozlamalarni avtomatik berish"
+      "IP maskasi va gateway kabi sozlamalarni avtomatik berish",
+      "Mahalliy tarmoqda IPv4 manzilni mos MAC bilan aniqlash"
     ],
     "pairs": [
-      2,
       1,
-      0
+      0,
+      2
     ],
     "exp": "DHCP konfiguratsiya beradi, DNS nomni yechadi, ARP mahalliy IPv4 IP→MAC moslashda ishlatiladi.",
     "source": "M11, 172–179-betlar; C11, tarmoq mavzusi",
@@ -762,14 +762,14 @@
       "/27"
     ],
     "b": [
-      "255.255.255.224",
       "255.255.255.128",
-      "255.255.255.192"
+      "255.255.255.192",
+      "255.255.255.224"
     ],
     "pairs": [
+      0,
       1,
-      2,
-      0
+      2
     ],
     "exp": "/25 = .128; /26 = .192; /27 = .224; barcha maskalarning dastlabki 24 biti 1.",
     "source": "M11, 172–179-betlar; CIDR hisoblash texnik kengaytmasi",
@@ -809,14 +809,14 @@
       "/30"
     ],
     "b": [
+      "6",
       "2",
-      "14",
-      "6"
+      "14"
     ],
     "pairs": [
-      1,
       2,
-      0
+      0,
+      1
     ],
     "exp": "Oddiy IPv4 subnet uchun 2^(32−p)−2: /28=14, /29=6, /30=2.",
     "source": "M11, 172–179-betlar; CIDR hisoblash texnik kengaytmasi",
@@ -857,12 +857,12 @@
     ],
     "b": [
       "192.168.25.1",
-      "10.18.4.8",
-      "172.29.2.3"
+      "172.29.2.3",
+      "10.18.4.8"
     ],
     "pairs": [
-      1,
       2,
+      1,
       0
     ],
     "exp": "Xususiy diapazonlar: 10/8, 172.16/12 va 192.168/16.",
@@ -903,13 +903,13 @@
       "/25"
     ],
     "b": [
-      "8 bit",
+      "9 bit",
       "7 bit",
-      "9 bit"
+      "8 bit"
     ],
     "pairs": [
-      2,
       0,
+      2,
       1
     ],
     "exp": "IPv4 jami 32 bit: host biti soni 32−p.",
@@ -950,14 +950,14 @@
       "192.168.10.145/26"
     ],
     "b": [
-      "192.168.10.128",
+      "192.168.10.64",
       "192.168.10.0",
-      "192.168.10.64"
+      "192.168.10.128"
     ],
     "pairs": [
       1,
-      2,
-      0
+      0,
+      2
     ],
     "exp": "/26 blok qadami 64: 0–63, 64–127 va 128–191 oraliqlaridagi networklar .0, .64, .128.",
     "source": "M11, 172–179-betlar; subnet hisoblash texnik kengaytmasi",
@@ -997,14 +997,14 @@
       "192.168.20.144/27"
     ],
     "b": [
-      "192.168.20.159",
       "192.168.20.31",
+      "192.168.20.159",
       "192.168.20.95"
     ],
     "pairs": [
-      1,
+      0,
       2,
-      0
+      1
     ],
     "exp": "/27 blok qadami 32: 0–31 → .31; 64–95 → .95; 128–159 → .159.",
     "source": "M11, 172–179-betlar; subnet hisoblash texnik kengaytmasi",
@@ -1091,14 +1091,14 @@
       "/29"
     ],
     "b": [
-      "8 ta manzil",
       "128 ta manzil",
-      "64 ta manzil"
+      "64 ta manzil",
+      "8 ta manzil"
     ],
     "pairs": [
+      0,
       1,
-      2,
-      0
+      2
     ],
     "exp": "Blok qadami oxirgi maska okteti uchun 256−maska: /25=128, /26=64, /29=8.",
     "source": "M11, 172–179-betlar; subnet hisoblash texnik kengaytmasi",
@@ -1138,14 +1138,14 @@
       "10 ta host"
     ],
     "b": [
-      "/28 (14 usable)",
       "/26 (62 usable)",
-      "/25 (126 usable)"
+      "/25 (126 usable)",
+      "/28 (14 usable)"
     ],
     "pairs": [
+      0,
       1,
-      2,
-      0
+      2
     ],
     "exp": "Talabdan kam bo‘lmagan eng kichik 2^h−2 ni tanlang: 50→/26, 100→/25, 10→/28.",
     "source": "M11, 180–185-betlar; IPv6/VLSM texnik kengaytmasi",
@@ -1185,14 +1185,14 @@
       "/48 prefiks"
     ],
     "b": [
+      "Ko‘p LANlarda standart subnet prefiksi",
       "Bitta aniq IPv6 manzilni belgilaydi",
-      "Ko‘p /64 subnetlarni ajratishga yetadigan prefiks namunasi",
-      "Ko‘p LANlarda standart subnet prefiksi"
+      "Ko‘p /64 subnetlarni ajratishga yetadigan prefiks namunasi"
     ],
     "pairs": [
-      2,
       0,
-      1
+      1,
+      2
     ],
     "exp": "IPv6 da /64 keng tarqalgan LAN prefiksi, /128 individual manzil, /48 ko‘plab /64larni qamraydi.",
     "source": "M11, 180–185-betlar; IPv6/VLSM texnik kengaytmasi",
@@ -1233,12 +1233,12 @@
     ],
     "b": [
       "Hujjat va namunalarga ajratilgan prefiks",
-      "Loopback manzil",
-      "Link-local unicast diapazoni"
+      "Link-local unicast diapazoni",
+      "Loopback manzil"
     ],
     "pairs": [
-      1,
       2,
+      1,
       0
     ],
     "exp": "::1 loopback, fe80::/10 link-local, 2001:db8::/32 hujjatlash uchun rezervlangan.",
@@ -1279,14 +1279,14 @@
       "18 ta host"
     ],
     "b": [
-      "/27 (30 usable)",
+      "/26 (62 usable)",
       "/25 (126 usable)",
-      "/26 (62 usable)"
+      "/27 (30 usable)"
     ],
     "pairs": [
       1,
-      2,
-      0
+      0,
+      2
     ],
     "exp": "70 uchun /25, 35 uchun /26, 18 uchun /27 yetarli, undan kichik subnet yetmaydi.",
     "source": "M11, 180–185-betlar; IPv6/VLSM texnik kengaytmasi",
@@ -1326,14 +1326,14 @@
       "SMTP"
     ],
     "b": [
-      "Elektron xatni yuborish/uzatish",
+      "Veb-resursga so‘rov va javob almashish",
       "Domen nomini IPga moslash",
-      "Veb-resursga so‘rov va javob almashish"
+      "Elektron xatni yuborish/uzatish"
     ],
     "pairs": [
       1,
-      2,
-      0
+      0,
+      2
     ],
     "exp": "DNS nom yechadi, HTTP(S) veb-so‘rovni, SMTP xat uzatishni bajaradi.",
     "source": "M11, 186–195-betlar; M6, 77–85-betlar",
@@ -1373,14 +1373,14 @@
       "Yo‘l (/docs/index.html)"
     ],
     "b": [
-      "Serverdagi resurs joylashuvi",
       "Ulanishda ishlatiladigan protokol sxemasi",
+      "Serverdagi resurs joylashuvi",
       "Murojaat qilinadigan server/domen"
     ],
     "pairs": [
-      1,
+      0,
       2,
-      0
+      1
     ],
     "exp": "Sxema protokolni, xost manzilni, path serverdagi resurs yo‘lini ifodalaydi.",
     "source": "M11, 186–195-betlar; M6, 77–85-betlar",
@@ -1467,14 +1467,14 @@
       "Intranet"
     ],
     "b": [
-      "Tashkilot ichidagi cheklangan axborot muhiti",
       "O‘zaro bog‘langan global IP tarmoqlar infratuzilmasi",
-      "Internetda HTTP(S) orqali taqdim etiladigan veb-resurslar tizimi"
+      "Internetda HTTP(S) orqali taqdim etiladigan veb-resurslar tizimi",
+      "Tashkilot ichidagi cheklangan axborot muhiti"
     ],
     "pairs": [
+      0,
       1,
-      2,
-      0
+      2
     ],
     "exp": "Internet infratuzilma, WWW veb-resurslar tizimi, intranet tashkilot ichki resurslaridir.",
     "source": "M11, 186–195-betlar; M6, 77–85-betlar",
@@ -1514,14 +1514,14 @@
       "Qo‘shtirnoq ichidagi so‘zlar"
     ],
     "b": [
-      "Aniq ibora bo‘yicha qidiruvni toraytiradi",
       "Ma’lum domen yoki sayt doirasini cheklaydi",
-      "Natijani fayl turiga ko‘ra toraytiradi"
+      "Natijani fayl turiga ko‘ra toraytiradi",
+      "Aniq ibora bo‘yicha qidiruvni toraytiradi"
     ],
     "pairs": [
+      0,
       1,
-      2,
-      0
+      2
     ],
     "exp": "site: sayt, filetype: fayl formatini, qo‘shtirnoq aniq iborani qidirishda qo‘l keladi.",
     "source": "M6, 81–93-betlar; C5, axborotni qidirish",
@@ -1561,14 +1561,14 @@
       "Birlamchi manbaga havola"
     ],
     "b": [
+      "Da’vo dastlab qayerda bayon qilingan?",
       "Axborot qanchalik yangi?",
-      "Kim ma’lumot uchun javobgar?",
-      "Da’vo dastlab qayerda bayon qilingan?"
+      "Kim ma’lumot uchun javobgar?"
     ],
     "pairs": [
+      2,
       1,
-      0,
-      2
+      0
     ],
     "exp": "Ishonchlilikda muallifning mas’uliyati, sana va birlamchi manba ko‘rib chiqiladi.",
     "source": "M6, 81–93-betlar; C5, axborotni qidirish",
@@ -1609,12 +1609,12 @@
     ],
     "b": [
       "\"tarmoq arxitekturasi\"",
-      "site:maktab.uz xavfsizlik",
-      "tarmoq qo‘llanma filetype:pdf"
+      "tarmoq qo‘llanma filetype:pdf",
+      "site:maktab.uz xavfsizlik"
     ],
     "pairs": [
-      1,
       2,
+      1,
       0
     ],
     "exp": "site: maktab domenini, filetype: PDFni, qo‘shtirnoq esa aynan iborani izlashga yordam beradi.",
@@ -1655,14 +1655,14 @@
       "Yuklamalar (downloads)"
     ],
     "b": [
-      "Olingan fayllar ro‘yxati",
+      "Oldin tashrif buyurilgan sahifalar qaydi",
       "Veb-sahifa havolasini keyin ochish uchun saqlash",
-      "Oldin tashrif buyurilgan sahifalar qaydi"
+      "Olingan fayllar ro‘yxati"
     ],
     "pairs": [
       1,
-      2,
-      0
+      0,
+      2
     ],
     "exp": "Xatcho‘p sahifa havolasini, tarix tashriflarni, yuklamalar esa yuklab olingan fayllarni ko‘rsatadi.",
     "source": "M6, 81–93-betlar; C5, axborotni qidirish",
@@ -1702,14 +1702,14 @@
       "Trojan"
     ],
     "b": [
-      "Foydali dastur niqobidagi zararli kod",
+      "Ma’lumotni bloklab yoki shifrlab to‘lov talab qilishi mumkin",
       "Aldov orqali parol yoki kodni qo‘lga kiritish",
-      "Ma’lumotni bloklab yoki shifrlab to‘lov talab qilishi mumkin"
+      "Foydali dastur niqobidagi zararli kod"
     ],
     "pairs": [
       1,
-      2,
-      0
+      0,
+      2
     ],
     "exp": "Phishing — ijtimoiy muhandislik, ransomware — to‘lov talabi, Trojan — niqoblangan zararli dastur.",
     "source": "M11, 256–310-betlar; C11, xavfsizlik",
@@ -1749,14 +1749,14 @@
       "Firewall"
     ],
     "b": [
-      "Tarmoq ulanishlarini qoidalar bo‘yicha filtrlash",
       "Kirishni qo‘shimcha mustaqil omil bilan tasdiqlash",
+      "Tarmoq ulanishlarini qoidalar bo‘yicha filtrlash",
       "Yo‘qolgan yoki buzilgan ma’lumotni qayta tiklash"
     ],
     "pairs": [
-      1,
+      0,
       2,
-      0
+      1
     ],
     "exp": "MFA akkauntga kirishni, backup ma’lumotni tiklashni, firewall tarmoq ulanishini nazorat qiladi.",
     "source": "M11, 256–310-betlar; C11, xavfsizlik",
@@ -1843,14 +1843,14 @@
       "Mavjudlik"
     ],
     "b": [
-      "Tizim kerakli vaqtda ishlashi",
       "Baho ma’lumotlari ruxsatsiz ko‘rilmasligi",
-      "Hujjatning ruxsatsiz o‘zgartirilmasligi"
+      "Hujjatning ruxsatsiz o‘zgartirilmasligi",
+      "Tizim kerakli vaqtda ishlashi"
     ],
     "pairs": [
+      0,
       1,
-      2,
-      0
+      2
     ],
     "exp": "Maxfiylik ruxsatsiz ko‘rishni, yaxlitlik o‘zgarishni, mavjudlik xizmatning ishlashini qamraydi.",
     "source": "M11, 256–310-betlar; C11, xavfsizlik",
