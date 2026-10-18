@@ -80,7 +80,7 @@ export const MODULES: Module[] = [
       { id: 'M04.02', title: 'Mantiqiy amallar va ifodalar' },
       { id: 'M04.03', title: 'Rostlik jadvallari' },
       { id: 'M04.04', title: 'Mantiqiy sxemalar' },
-      { id: 'M04.05', title: 'Masalani kompyuterda yechish bosqichlari' },
+      { id: 'M04.05', title: 'Mantiqiy masalalarni yechish va xulosa chiqarish' },
       { id: 'M04.06', title: 'Model va model turlari' },
     ],
   },
