@@ -2,6 +2,11 @@
 
 **Vazifa:** 2026-yil spetsifikatsiyasining **27–31-savollar** bo‘yicha manbali V2 nazariya va 300 savollik bankini Attestatsiya platformasining **mavjud M10/M11** modullariga moslash; boshqa modullar va learner tarixi o‘zgarmasin.
 
+## TASK-214 kengaytirilgan bank (2026-10-18)
+
+Ushbu hujjatda tasvirlangan dastlabki 300 talik bank **saqlanib qoldi**. Qo‘shimcha 40 ta Y2 va 40 ta Y3 savol append-only migratsiyalarga kiritildi: endi **280 Y1 / 50 Y2 / 50 Y3 = 380 ta review-only test**. Besh yo‘nalishning har birida **56 Y1, 10 Y2 va 10 Y3** mavjud. Format/kalit/qatlam nazorati va editorial gate tafsilotlari: [TASK-214](TASK214_GRAPHICS_WEB_380_Y2_Y3.md). Quyidagi 300 soni faqat dastlabki TASK-213 batchiga tegishli.
+
+
 ## Haqiqiy manbalar va provenance
 
 - ChatGPT suhbatida yaratilgan va foydalanuvchi qabul qilgan `Grafika_veb_2026_QAYTA_ISHLANGAN_LATEX_PDF_JSON.zip`.
