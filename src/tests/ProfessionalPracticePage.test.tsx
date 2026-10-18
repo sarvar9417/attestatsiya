@@ -27,7 +27,7 @@ describe('pedagogika yagona tayyorgarlik sahifasi', () => {
 
   it('keeps all 18 topic labels aligned with the canonical learning catalog', () => {
     const { container } = renderHub()
-    const details = container.querySelectorAll('details')
+    const details = container.querySelectorAll('article > details') // Three module lists; seven KS evidence cards are nested
     const codes = ['M14', 'M15', 'M16']
     expect(details).toHaveLength(3)
     let total = 0
