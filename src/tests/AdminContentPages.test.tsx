@@ -119,6 +119,32 @@ describe('Admin content pages backend boundary', () => {
     expect(await screen.findByText('Savol topilmadi')).toBeDefined()
   })
 
+  it('QuestionsPage faqat admin muharrirga tegishli sifat risklarini ko‘rsatadi', async () => {
+    mocks.listAdminQuestions.mockResolvedValue({
+      items: [{
+        id: 'q-pm', stem_md: 'Pedagogika sinov savoli', format: 'Y1',
+        cognitive: 'qollash', difficulty: 3, status: 'review',
+        group_code: 'PM.GEN', construct_id: 'con', subject_id: 'sub',
+        created_at: '2026-10-18T10:00:00.000Z', source_reference: null,
+        quality_flags: {
+          question_id: 'q-pm',
+          answer_length_signal: true,
+          publish_word_balance_risk: true,
+          absolute_word_cue: true,
+          invalid_y1_contract: false,
+          authorship_unknown: true,
+        },
+      }],
+      total: 1, page: 1, page_size: 25,
+    })
+
+    render(<QuestionsPage />)
+    expect(await screen.findByText('Pedagogika sinov savoli')).toBeDefined()
+    expect(screen.getByText('Javob uzunligi ishorasi')).toBeDefined()
+    expect(screen.getByText('“Faqat” ishorasi')).toBeDefined()
+    expect(screen.getByText('Muallif tasdiqlanmagan')).toBeDefined()
+  })
+
   it('QuestionsPage status transitionni backendga yuboradi', async () => {
     const user = userEvent.setup()
     mocks.listAdminQuestions.mockResolvedValue([

@@ -15,6 +15,147 @@ import type {
  * Serves published curriculum content (modules, lessons, constructs).
  * Uses admin supabase client (bypasses RLS for read-only published data).
  */
+/**
+ * Backward-compatible, read-only topic preflight. Production may deploy API
+ * code before a separately approved Supabase migration. Keep the topic start
+ * safe and usable in that interval without loosening generate_topic_test().
+ * Any database query error fails closed; only a missing RPC triggers fallback.
+ */
+async function legacyTopicPreflight(lessonId: string) {
+  const { data: lesson, error: lessonError } = await supabase
+    .from('lessons')
+    .select('id, status, topic_test_question_count')
+    .eq('id', lessonId)
+    .eq('status', 'published')
+    .maybeSingle()
+  if (lessonError) throw new AppError('Mavzu testini tekshirib bo‘lmadi',503,'TOPIC_PREFLIGHT_UNAVAILABLE')
+  if (!lesson) throw new NotFoundError('Mavzu nashr qilinmagan')
+  const count = lesson.topic_test_question_count as number
+
+  const { data: links, error: linkError } = await supabase
+    .from('lesson_constructs')
+    .select('construct_id, is_required, is_critical, min_questions')
+    .eq('lesson_id', lessonId)
+  if (linkError) throw new AppError('Test qamrovi tekshirib bo‘lmadi',503,'TOPIC_PREFLIGHT_UNAVAILABLE')
+  const constructIds = [...new Set((links ?? []).map(l => l.construct_id))]
+  if (!constructIds.length) return {
+    ready:false,required:count,available:0,duration_sec:count*120,
+    reason:'blueprint_missing',coverage:[],missing_required_objectives:[],critical_objective_gaps:[],
+  }
+
+  const { data: constructs, error: constructError } = await supabase
+    .from('constructs')
+    .select('id, code, group_code, is_active')
+    .in('id', constructIds)
+  if (constructError) throw new AppError('Konstruktlarni tekshirib bo‘lmadi',503,'TOPIC_PREFLIGHT_UNAVAILABLE')
+  const validConstructs = new Map(
+    (constructs ?? []).filter(x => x.is_active).map(x => [x.id,x])
+  )
+
+  const { data: candidates, error: questionError } = await supabase
+    .from('questions')
+    .select('id, construct_id, group_code')
+    .in('construct_id', constructIds)
+    .eq('status', 'published')
+  if (questionError) throw new AppError('Savollarni tekshirib bo‘lmadi',503,'TOPIC_PREFLIGHT_UNAVAILABLE')
+  const matching = (candidates ?? []).filter(q => {
+    const cons = validConstructs.get(q.construct_id)
+    return cons && cons.group_code === q.group_code
+  })
+  const ids = matching.map(q => q.id)
+  let keyed = new Set<string>()
+  if (ids.length) {
+    const { data: keys, error: keyError } = await supabase
+      .from('question_keys').select('question_id').in('question_id',ids)
+    if (keyError) throw new AppError('Savol kalitlarini tekshirib bo‘lmadi',503,'TOPIC_PREFLIGHT_UNAVAILABLE')
+    keyed = new Set((keys ?? []).map(k => k.question_id))
+  }
+
+  const byConstruct = new Map<string,number>()
+  const unique = new Set<string>()
+  for (const q of matching) {
+    if (!keyed.has(q.id)) continue
+    if (unique.has(q.id)) continue
+    unique.add(q.id)
+    byConstruct.set(q.construct_id,(byConstruct.get(q.construct_id)??0)+1)
+  }
+  const coverage = (links ?? []).map(l => ({
+    objective:validConstructs.get(l.construct_id)?.code ?? 'unknown',
+    required:l.is_required,critical:l.is_critical,
+    minimum:l.min_questions,available:byConstruct.get(l.construct_id)??0,
+  }))
+  const missing = coverage.filter(x => x.required && x.available < x.minimum)
+  const requiredSlots = (links ?? []).filter(x=>x.is_required)
+    .reduce((sum,x)=>sum+x.min_questions,0)
+  const reason = requiredSlots>count ? 'blueprint_invalid'
+    : missing.length ? 'objective_gap'
+    : unique.size<count ? 'pool_insufficient' : 'ready'
+  return {
+    ready:reason==='ready', required:count, available:unique.size,
+    duration_sec:count*120, reason,coverage,
+    missing_required_objectives:missing.map(x=>x.objective),
+    critical_objective_gaps:missing.filter(x=>x.critical).map(x=>x.objective),
+  }
+}
+
+/**
+ * Harmonize legacy strict preflight with the currently deployed adaptive
+ * generator. Required/critical objective gaps continue to fail closed.
+ *
+ * Uses the same service-role-only RPC as the generator's eligibility query;
+ * does NOT expose keys or create any exam session.
+ */
+async function withAdaptiveTopicCount(
+  lessonId: string,
+  baseline: {
+    ready: boolean
+    required: number
+    available: number
+    duration_sec: number
+    reason: string
+    coverage: unknown[]
+    missing_required_objectives: string[]
+    critical_objective_gaps: string[]
+  },
+) {
+  const { data, error } = await supabase.rpc('topic_test_preview', {
+    p_lesson_id: lessonId,
+  })
+  if (error || !data || typeof data !== 'object' || Array.isArray(data)) {
+    throw new AppError('Mavzu testi haqiqiy hajmini tekshirib bo‘lmadi', 503, 'TOPIC_PREFLIGHT_UNAVAILABLE')
+  }
+
+  const actual = data as Record<string, unknown>
+  const count = actual.question_count
+  const available = actual.available_count
+  const duration = actual.duration_sec
+  if (
+    typeof count !== 'number' || !Number.isInteger(count) || count < 0 ||
+    typeof available !== 'number' || !Number.isInteger(available) || available < 0 ||
+    typeof duration !== 'number' || !Number.isInteger(duration) || duration < 0
+  ) {
+    throw new AppError('Mavzu testi hisoblash javobi noto‘g‘ri', 503, 'TOPIC_PREFLIGHT_INVALID')
+  }
+
+  // Missing requirements are never weakened by the adaptive limit.
+  const blockedByObjectives =
+    baseline.reason === 'blueprint_missing' ||
+    baseline.reason === 'blueprint_invalid' ||
+    baseline.reason === 'objective_gap' ||
+    baseline.missing_required_objectives.length > 0
+  const ready = !blockedByObjectives && actual.reason === null && count > 0
+
+  return {
+    ...baseline,
+    ready,
+    required: count > 0 ? count : baseline.required,
+    available,
+    duration_sec: ready ? duration : baseline.duration_sec,
+    reason: blockedByObjectives ? baseline.reason :
+      ready ? 'ready' : 'pool_insufficient',
+  }
+}
+
 export const contentService = {
   /**
    * List all published modules, optionally filtered by section.
@@ -197,11 +338,19 @@ export const contentService = {
       .select('id, group_code, format, cognitive, difficulty, stem_md')
       .eq('source_lesson_id', resolvedId)
       .eq('status', 'published')
+      // KS/PM.GEN/PM.MET are shared with protected timed exams. These items
+      // must never be listed by the immediate-feedback study API.
+      .not('group_code', 'in', '(KS,PM.GEN,PM.MET)')
       .order('source_reference', { ascending: true })
 
-    if (!questions || questions.length === 0) return []
+    // Defense in depth: even if the database filter is altered, professional
+    // exam items must not reach an immediate-feedback lesson endpoint.
+    const safeQuestions = (questions ?? []).filter(
+      q => !['KS', 'PM.GEN', 'PM.MET'].includes(q.group_code)
+    )
+    if (safeQuestions.length === 0) return []
 
-    const questionIds = questions.map(q => q.id)
+    const questionIds = safeQuestions.map(q => q.id)
     const { data: options } = await supabase
       .from('question_options')
       .select('id, question_id, content_md, order_idx')
@@ -215,7 +364,7 @@ export const contentService = {
       optionsByQuestion.set(opt.question_id, list)
     }
 
-    return questions.map(q => ({
+    return safeQuestions.map(q => ({
       id: q.id,
       group_code: q.group_code,
       format: q.format,
@@ -227,16 +376,69 @@ export const contentService = {
   },
 
   /**
+   * Read-only authoritative readiness snapshot. Unlike counting lesson questions,
+   * this uses the exact objective/construct, active taxonomy and keyed predicates
+   * required by generate_topic_test(). No exam row is created here.
+   * The service-role-only RPC never returns questions, keys or reviewer metadata.
+   */
+  async topicTestPreflight(id: string) {
+    const resolvedId = await resolveLessonUuid(id)
+    if (!resolvedId) throw new NotFoundError('Mavzu topilmadi')
+
+    const { data, error } = await supabase.rpc('topic_test_preflight', {
+      p_lesson_id: resolvedId,
+    })
+    // Missing function is expected until the DB migration is separately approved.
+    // Never use this fallback on arbitrary RPC failures.
+    const isMissingRpc = error &&
+      (error.code === 'PGRST202' || error.code === '42883')
+    if (isMissingRpc) {
+      return withAdaptiveTopicCount(resolvedId, await legacyTopicPreflight(resolvedId))
+    }
+    if (error || !data || typeof data !== 'object' || Array.isArray(data)) {
+      throw new AppError('Mavzu testi tayyorligini tekshirib bo‘lmadi', 503, 'TOPIC_PREFLIGHT_UNAVAILABLE')
+    }
+    const preflight = data as Record<string, unknown>
+    if (preflight.reason === 'lesson_unavailable') {
+      throw new NotFoundError('Mavzu nashr qilinmagan')
+    }
+    if (typeof preflight.ready !== 'boolean' ||
+        typeof preflight.required !== 'number' ||
+        typeof preflight.available !== 'number' ||
+        typeof preflight.duration_sec !== 'number' ||
+        typeof preflight.reason !== 'string' ||
+        !Array.isArray(preflight.coverage) ||
+        !Array.isArray(preflight.critical_objective_gaps) ||
+        !Array.isArray(preflight.missing_required_objectives)) {
+      throw new AppError('Mavzu testi tayyorligi noto‘g‘ri qaytdi', 503, 'TOPIC_PREFLIGHT_INVALID')
+    }
+    return withAdaptiveTopicCount(resolvedId, {
+      ready: preflight.ready as boolean,
+      required: preflight.required as number,
+      available: preflight.available as number,
+      duration_sec: preflight.duration_sec as number,
+      reason: preflight.reason as string,
+      coverage: preflight.coverage as unknown[],
+      critical_objective_gaps: preflight.critical_objective_gaps as string[],
+      missing_required_objectives: preflight.missing_required_objectives as string[],
+    })
+  },
+
+  /**
    * Savol javobini server tomonda tekshiradi (question_keys client'ga chiqmaydi).
    */
   async checkAnswer(questionId: string, optionId: string): Promise<CheckAnswerResult> {
     const { data: question } = await supabase
       .from('questions')
-      .select('id')
+      .select('id, group_code')
       .eq('id', questionId)
       .eq('status', 'published')
       .maybeSingle()
-    if (!question) throw new NotFoundError('Savol topilmadi')
+    if (!question || ['KS', 'PM.GEN', 'PM.MET'].includes(question.group_code)) {
+      // Deliberately indistinguishable from a nonexistent question to avoid
+      // using the correct_option_id endpoint as an exam-bank key oracle.
+      throw new NotFoundError('Savol topilmadi')
+    }
 
     const { data: option } = await supabase
       .from('question_options')

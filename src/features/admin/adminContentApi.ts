@@ -58,6 +58,14 @@ export interface AdminQuestionRow {
   source_reference: string | null
   length_bias_flag?: boolean
   revision_question_id?: string | null
+  quality_flags?: {
+    question_id: string
+    answer_length_signal: boolean
+    publish_word_balance_risk: boolean
+    absolute_word_cue: boolean
+    invalid_y1_contract: boolean
+    authorship_unknown: boolean
+  } | null
 }
 
 export interface AdminConstructRow {
