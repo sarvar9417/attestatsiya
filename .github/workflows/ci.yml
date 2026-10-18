@@ -228,6 +228,7 @@ jobs:
             -f supabase/tests/m15_umumiy_pedagogika_lessons.test.sql \
             -f supabase/tests/pedagogy_theory_corpus_expand.test.sql \
             -f supabase/tests/pedagogy_theory_corpus_complete.test.sql \
+            -f supabase/tests/m15_topic_bank_complete.test.sql \
             -f supabase/tests/pedagogy_pdf_private_candidate_inbox.test.sql \
             -f supabase/tests/pedagogy_pdf_candidate_triage.test.sql \
             -f supabase/tests/pedagogy_pdf_corpus_review_bank_v1.test.sql \
