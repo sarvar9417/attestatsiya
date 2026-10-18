@@ -47,6 +47,20 @@ export async function contentRoutes(app: FastifyInstance) {
   })
 
   /**
+   * GET /api/content/lessons/:id/topic-test-preflight
+   * No answer keys or unpublished questions; never creates an exam attempt.
+   */
+  app.get('/api/content/lessons/:id/topic-test-preflight', async (req, reply) => {
+    try {
+      const { id } = lessonDetailSchema.params.parse(req.params)
+      const result = await contentService.topicTestPreflight(id)
+      return reply.send(result)
+    } catch (error) {
+      return sendError(reply, error)
+    }
+  })
+
+  /**
    * GET /api/content/lessons/:id/questions
    * Get published questions for a lesson (no keys)
    */
