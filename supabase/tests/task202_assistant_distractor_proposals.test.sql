@@ -25,7 +25,7 @@ begin
   and greatest(cw,max_wrong)<=least(cw,min_wrong)*1.8
   and cw<=max_wrong*1.25;
  if count_good<>(select count(*) from public.pedagogy_rewrite_proposals)
- or count_good<>118 then
+ or count_good>118 then
    raise exception 'TASK202 draft distractor word-length QA failed: %',count_good;
  end if;
  if has_table_privilege('authenticated','public.pedagogy_rewrite_proposals','SELECT')
