@@ -130,3 +130,18 @@ export function overlayPublishedProfessionalLesson(
     questions: staticContent.questions,
   }
 }
+
+/**
+ * M15 has a hand-designed, pedagogically structured primary lesson.
+ * Server content is an optional deeper reading for M15, never a replacement.
+ * This prevents the visible theory layout from switching after async fetch.
+ * M14 and M16 retain their existing canonical backend-first behavior.
+ */
+export function resolveLearnerTheoryContent(
+  subtopicId: string,
+  staticContent: TopicContent,
+  publishedContent?: TopicContent | null,
+): TopicContent {
+  if (subtopicId.startsWith('M15.')) return staticContent
+  return publishedContent ?? staticContent
+}
