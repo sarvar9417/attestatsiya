@@ -83,3 +83,11 @@ export const pedagogyPdfSourceListQuerySchema = z.object({
   source_year: z.coerce.number().int().min(2020).max(2100).optional(),
   unlinked_only: z.enum(['true','false']).transform(v => v === 'true').optional(),
 })
+
+export const stagePedagogyPdfQuestionSchema = z.object({
+  stem_md: z.string().trim().min(15).max(12000),
+  options: z.array(z.string().trim().min(2).max(4000)).length(4),
+  correct_index: z.number().int().min(0).max(3),
+  explanation_md: z.string().trim().min(12).max(12000),
+}).strict()
+export type StagePedagogyPdfQuestion = z.infer<typeof stagePedagogyPdfQuestionSchema>
