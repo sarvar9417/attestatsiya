@@ -31,12 +31,15 @@ Yagona o‘quv ssenariysi: M14/M15/M16 bo‘limini tanlash → kanonik mavzu naz
 | PED-08 | PEDAGOGY_RELEASE_FREEZE.md hamda ayrim task docs “PR #121/#127 DRAFT” deydi, biroq 2026-10-18 GitHub API ularning merged ekanini ko‘rsatdi | Hujjat va real Git holati farqi | Release-status xronologiyasini yangilash; GitHub + Vercel + prod DB SHA/parity tekshirilsin |
 | PED-09 | M14–16 learner API quick-check va leaked answer xavfi oldingi P0da qayd etilgan, kod himoyasi merge qilingan | Asl baholashni oldindan bilib olish | API, JS assets, anon/auth RLS, checkAnswer oracle regressiya |
 | PED-10 | Professional practice boshlang‘ich sahifa avval faqat 3 umumiy karta edi, konkret 18 mavzu va manbalar bitta sahifada ko‘rinmasdi | Materiallar tarqoq seziladi, foydalanuvchi yo‘l topolmaydi | Yagona M14/M15/M16 start UI, kanonik mavzu ro‘yxati, manbalar, history/review yo‘llari |
+| PED-11 | M16.02 statik nazariyasi o‘quvchi vaqtining 70% kompyuterda o‘tishi **shart** deya aniq me’yor belgilagan, bu qoida tekshirilgan spetsifikatsiyada topilmadi | Manbasi ko‘rsatilmagan qat’iy ko‘rsatma | Shu aniq raqamli iddao statik nazariyadan chiqarildi; mustaqil QA qo‘shildi; production DBdagi boshqa nusxalar auditda |
 
 **Ehtiyotkorlik:** yuqoridagi production bank sonlari shu sessiyada live database-dan o‘qilmadi; ular GitHubdagi tarixiy monitoring/audit xulosalaridir.
 
 ## 4. TASK-212 doirasida bajarilgan xavfsiz ish
 - src/pages/ProfessionalPracticePage.tsx — kanonik katalogdan hosil qilinadigan 18 mavzuli yig‘ma boshlang‘ich sahifa; 5/7/3, 15 mashq, nazariya, history/review, asosiy manbalar va turli source-key ishonchliligi haqida eslatma.
 - src/tests/ProfessionalPracticePage.test.tsx — modul kvotalari, 18 mavzu, manba caveat va yo‘nalishlar uchun regression test.
+- src/data/topicContent.ts — M16.02dagi manbada tasdiqlanmagan majburiy 70% kompyuter-vaqti iddaosi o‘rniga sharoit/maqsadga mos rejalashtirish matni.
+- src/tests/PedagogySourceIntegrity.test.ts — no-asossiz 70% va 18 pedagogika static professional mini-quiz kalitlarining yopiq bo‘lishi.
 - Xavfsizlik chegarasi o‘zgarmadi: backend scoring, published bank, PDF candidate review holatlari va prod DB o‘zgarmaydi.
 - O‘zgarishlar faqat TASK-212 feature branchida. Merge, production Vercel deploy va database migration bajarilmadi.
 
