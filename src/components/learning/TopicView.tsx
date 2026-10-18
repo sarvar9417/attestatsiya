@@ -147,6 +147,9 @@ export default function TopicView({
   const isProfessionalLesson = /^(?:M04|M1[456])\.\d{2}$/.test(subtopicId)
   const isAlgoritmlashV2 = moduleId === 'M06' &&
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
+  const isPyjsV2 = moduleId === 'M08' &&
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
+  const isSourceBackedV2 = isAlgoritmlashV2 || isPyjsV2
   const staticContent = getTopicContent(subtopicId)
   const isPedagogyTopic = moduleId === 'M15' && /^M15\.\d{2}$/.test(subtopicId)
   const loadedContent = publishedTheory?.subtopicId === subtopicId
@@ -203,21 +206,22 @@ export default function TopicView({
     return () => { cancelled = true }
   }, [subtopicId])
 
-  // Algoritmlash V2 learner theory comes strictly from the published DB record.
-  // The catalog only links UUIDs after all eight chapters are published.
+  // M06 Algoritmlash and M08 Python/JavaScript V2 theory are loaded exclusively
+  // through their published DB UUID. Review/draft rows remain inaccessible.
   useEffect(() => {
-    if (!isAlgoritmlashV2) return
+    if (!isSourceBackedV2) return
     let cancelled = false
     getLessonDetail(subtopicId)
       .then(lesson => {
         if (cancelled || lesson.status !== 'published' || !lesson.body_mdx?.trim() ||
-            !lesson.slug.startsWith('algoritmlash-v2-')) return
+            !(isPyjsV2 ? lesson.slug.startsWith('pyjs-v2-') :
+              lesson.slug.startsWith('algoritmlash-v2-'))) return
         setPublishedTheory({
           subtopicId,
           content: {
             subtopicId,
             title: lesson.title_uz,
-            source: 'Algoritmlash V2',
+            source: isPyjsV2 ? 'Python va JavaScript V2' : 'Algoritmlash V2',
             kind: lesson.blocks_kind === 'appendix' ? 'appendix' : 'chapter',
             theory: markdownToTheoryBlocks(lesson.body_mdx),
             questions: [],
@@ -226,7 +230,7 @@ export default function TopicView({
       })
       .catch(() => { /* Fail closed on unpublished or unavailable theory. */ })
     return () => { cancelled = true }
-  }, [isAlgoritmlashV2, subtopicId])
+  }, [isSourceBackedV2, isPyjsV2, subtopicId])
 
   // Published/keyed lesson coverage must be checked by the authoritative
   // backend generator preflight, not by the number of visible learning questions.
@@ -236,7 +240,7 @@ export default function TopicView({
       .then(data => { if (active) setTopicReadiness({ subtopicId, data }) })
       .catch(() => { if (active) setTopicReadiness(null) })
     return () => { active = false }
-  }, [subtopicId, isProfessionalLesson, isAlgoritmlashV2, readinessRetry])
+  }, [subtopicId, isProfessionalLesson, isSourceBackedV2, readinessRetry])
 
   // Savollar backend-first: gateway backend xatosida statik kontentga tushadi
   useEffect(() => {
@@ -347,7 +351,7 @@ export default function TopicView({
   const displayedTestCount = currentReadiness?.required ?? 0
   const handleTopicTestAction = () => {
     if (hasTest) navigate(`/exam/mavzu/${moduleId}?lessonId=${subtopicId}`)
-    else if (!isProfessionalLesson && (!isAlgoritmlashV2 || isAppendix)) handleComplete(0, 0)
+    else if (!isProfessionalLesson && (!isSourceBackedV2 || isAppendix)) handleComplete(0, 0)
   }
 
   // Theory type distribution
@@ -804,12 +808,12 @@ export default function TopicView({
                   </p>
                   <button
                     onClick={handleTopicTestAction}
-                disabled={(isProfessionalLesson || (isAlgoritmlashV2 && !isAppendix)) && !hasTest}
+                disabled={(isProfessionalLesson || (isSourceBackedV2 && !isAppendix)) && !hasTest}
                     className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-xl text-sm font-semibold hover:from-primary-700 hover:to-primary-600 transition-all shadow-xl shadow-primary-200 dark:shadow-primary-900/40 hover:shadow-2xl hover:-translate-y-0.5 animate-pop-in"
                   >
                     {hasTest
                       ? <><Target size={16} /> Bilimni tekshirish <ArrowRight size={16} /></>
-                      : (isProfessionalLesson || isAlgoritmlashV2) ? <><RefreshCw size={16} /> Test hali tayyor emas</>
+                      : (isProfessionalLesson || isSourceBackedV2) ? <><RefreshCw size={16} /> Test hali tayyor emas</>
                       : <><CheckCircle2 size={16} /> Mavzuni yakunlash <ArrowRight size={16} /></>}
                   </button>
                 </div>
@@ -854,7 +858,7 @@ export default function TopicView({
               )}
               <button
                 onClick={handleTopicTestAction}
-                disabled={(isProfessionalLesson || (isAlgoritmlashV2 && !isAppendix)) && !hasTest}
+                disabled={(isProfessionalLesson || (isSourceBackedV2 && !isAppendix)) && !hasTest}
                 className="inline-flex items-center gap-3 px-6 py-3.5 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-xl text-sm font-semibold hover:from-primary-700 hover:to-primary-600 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full sm:w-auto justify-center"
               >
                 <span className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
@@ -862,7 +866,7 @@ export default function TopicView({
                     ? <Target size={16} className="text-white" />
                     : <CheckCircle2 size={16} className="text-white" />}
                 </span>
-                <span>{hasTest ? 'Bilimni tekshirish' : (isProfessionalLesson || isAlgoritmlashV2) ? 'Mavzu testi tayyorlanmoqda' : 'Mavzuni yakunlash'}</span>
+                <span>{hasTest ? 'Bilimni tekshirish' : (isProfessionalLesson || isSourceBackedV2) ? 'Mavzu testi tayyorlanmoqda' : 'Mavzuni yakunlash'}</span>
                 {hasTest && (
                   <span className="text-[11px] bg-white/20 px-2.5 py-1 rounded-lg whitespace-nowrap">{displayedTestCount} ta savol</span>
                 )}
