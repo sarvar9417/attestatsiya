@@ -33,7 +33,7 @@ BEGIN
  IF n<>6 THEN RAISE EXCEPTION 'KS6_GROUPS_%',n; END IF;
  FOR rec IN
   SELECT q.id source_id,q.source_reference ref,array_agg(coalesce(e.new_text,o.content_md) ORDER BY o.order_idx,o.id) FILTER(WHERE o.id::text<>(k.payload->>'correct_option_id')) wrong_texts
-  FROM questions q JOIN ks6 f ON f.ref=q.source_reference JOIN question_options o ON o.question_id=q.id AND trim(o.side)='a'
+  FROM questions q JOIN (SELECT DISTINCT ref FROM ks6) f ON f.ref=q.source_reference JOIN question_options o ON o.question_id=q.id AND trim(o.side)='a'
   JOIN question_keys k ON k.question_id=q.id LEFT JOIN ks6 e ON e.ref=q.source_reference AND e.ord=o.order_idx
   WHERE q.status='published' GROUP BY q.id,q.source_reference
  LOOP
