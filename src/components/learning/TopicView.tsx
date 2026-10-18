@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useMemo, lazy, Suspense } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getTopicContent, type TestQuestion, type TheoryBlock } from '../../data/topicContent'
 import { getLessonTestQuestions, checkQuestionAnswer } from '../../features/content/lessonContentGateway'
-import { getLessonDetail } from '../../features/content/contentApi'
+import { getLessonDetail, getLessonTopicTestPreview, type TopicTestPreviewResponse } from '../../features/content/contentApi'
 import { overlayPublishedProfessionalLesson, resolveLearnerTheoryContent } from '../../features/content/professionalLessonTheory'
 import PedagogyTheoryBlock from './PedagogyTheoryBlock'
 import { getPedagogyStudyNotes } from '../../data/pedagogyStudyNotes'
@@ -137,6 +137,8 @@ export default function TopicView({
   const [animComplete, setAnimComplete] = useState(false)
   const [liveQuestions, setLiveQuestions] = useState<TestQuestion[] | null>(null)
   const [checking, setChecking] = useState<Record<string, boolean>>({})
+  const [topicPreview, setTopicPreview] = useState<{ subtopicId: string; value: TopicTestPreviewResponse } | null>(null)
+  const [checkErrors, setCheckErrors] = useState<Record<string, string>>({})
   const contentRef = useRef<HTMLDivElement>(null)
 
   const [publishedTheory, setPublishedTheory] = useState<{ subtopicId: string; content: TopicContent } | null>(null)
@@ -171,6 +173,8 @@ export default function TopicView({
     setCurrentSection(0)
     setLiveQuestions(null)
     setChecking({})
+    setCheckErrors({})
+    setTopicPreview(null)
   }, [subtopicId])
 
   // M14-M16 canonical source-backed lessons must reach the student's theory
@@ -191,6 +195,19 @@ export default function TopicView({
       })
       .catch(() => {
         // For published lesson API/network errors, preserve existing static content.
+      })
+    return () => { cancelled = true }
+  }, [subtopicId])
+
+  // Book-reader CTA and exam intro use the same eligible pool count.
+  useEffect(() => {
+    let cancelled = false
+    void getLessonTopicTestPreview(subtopicId)
+      .then(value => {
+        if (!cancelled) setTopicPreview({ subtopicId, value })
+      })
+      .catch(() => {
+        if (!cancelled) setTopicPreview(null)
       })
     return () => { cancelled = true }
   }, [subtopicId])
@@ -299,7 +316,9 @@ export default function TopicView({
   /** Qo'llanma ilovasi (formulalar varag'i, lug'at, manbalar) — testi yo'q. */
   const isAppendix = content?.kind === 'appendix'
   /** Testga o'tish imkoni bormi. */
-  const hasTest = questions.length > 0
+  const actualTopicPreview = topicPreview?.subtopicId === subtopicId ? topicPreview.value : null
+  const topicTestCount = actualTopicPreview?.question_count ?? Math.min(questions.length, 20)
+  const hasTest = topicTestCount > 0
 
   // Theory type distribution
   const theoryTypeCount = useMemo(() => {
@@ -319,6 +338,7 @@ export default function TopicView({
 
   const handleAnswer = (qId: string, answer: unknown) => {
     if (submitted[qId]) return
+    setCheckErrors(p => ({ ...p, [qId]: '' }))
     setAnswers(p => ({ ...p, [qId]: answer }))
   }
 
@@ -331,6 +351,13 @@ export default function TopicView({
       setChecking(p => ({ ...p, [qId]: true }))
       try {
         const result = await checkQuestionAnswer(q, answers[qId] as number)
+        if (result.correctIndex < 0) {
+          setCheckErrors(p => ({
+            ...p,
+            [qId]: 'Javobni tekshirib bo‘lmadi. Internet aloqasini tekshiring va qayta urining.',
+          }))
+          return // A failed API check must NOT be counted as incorrect.
+        }
         if (result.correctIndex >= 0) {
           setLiveQuestions(qs =>
             (qs ?? []).map(x =>
@@ -601,7 +628,7 @@ export default function TopicView({
               }>
                 <BookReader
                   content={content}
-                  questionCount={questions.length}
+                  questionCount={topicTestCount}
                   isAppendix={isAppendix}
                   onProgress={setReadProgress}
                   onFinishReading={() => (hasTest ? navigate(`/exam/mavzu/${moduleId}?lessonId=${subtopicId}`) : handleComplete(0, 0))}
@@ -832,8 +859,8 @@ export default function TopicView({
           {/* ── Questions ── */}
           <div className="space-y-5">
             {questions.map((q, idx) => (
+              <div key={q.id}>
               <QuestionCard
-                key={q.id}
                 question={q}
                 index={idx}
                 total={questions.length}
@@ -842,6 +869,12 @@ export default function TopicView({
                 onSelect={(a) => handleAnswer(q.id, a)}
                 onSubmit={() => handleSubmit(q.id)}
               />
+              {checkErrors[q.id] && (
+                <p role="alert" className="mt-2 rounded-xl border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800 dark:bg-amber-950/30 dark:text-amber-200">
+                  {checkErrors[q.id]}
+                </p>
+              )}
+              </div>
             ))}
           </div>
 
