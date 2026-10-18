@@ -582,7 +582,7 @@ export const adminContentService = {
     await writeAudit(staff.id, 'question.update', 'questions', questionId, {
       status: existing.status,
       format: input.format,
-      construct_id: construct.id,
+      construct_id: input.construct_id,
     })
 
     return { id: questionId }
