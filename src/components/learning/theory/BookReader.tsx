@@ -49,6 +49,8 @@ interface Props {
   onFinishReading: () => void
   /** O'qilgan bo'limlar ulushi (0–100). */
   onProgress?: (percent: number) => void
+  previousTopic?: { id: string; title: string } | null
+  onOpenPreviousTopic?: () => void
   nextTopic?: { id: string; title: string } | null
   onOpenNextTopic?: () => void
 }
@@ -61,7 +63,8 @@ interface Props {
  * "Oldingi / Keyingi", oxirgi bo'limda esa bitta aniq davom etish yo'li.
  */
 export default function BookReader({
-  content, questionCount, isAppendix, requireTest = false, onFinishReading, onProgress, nextTopic, onOpenNextTopic,
+  content, questionCount, isAppendix, requireTest = false, onFinishReading, onProgress,
+  previousTopic, onOpenPreviousTopic, nextTopic, onOpenNextTopic,
 }: Props) {
   const sections = useMemo(() => splitSections(content.theory), [content.theory])
   const [index, setIndex] = useState(0)
@@ -211,6 +214,12 @@ export default function BookReader({
           </button>
 
           <div className="book-finish-links">
+            {previousTopic && onOpenPreviousTopic && (
+              <button type="button" onClick={onOpenPreviousTopic} className="book-finish-link">
+                <ChevronLeft size={13} />
+                <span className="truncate">Oldingi mavzu: {previousTopic.title}</span>
+              </button>
+            )}
             {paginated && (
               <button type="button" onClick={() => go(index - 1)} className="book-finish-link">
                 <ChevronLeft size={13} /> Oldingi bo‘lim
