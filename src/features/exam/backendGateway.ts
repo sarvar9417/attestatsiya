@@ -30,7 +30,7 @@ import {
   type SubmitAnswerResponse,
 } from './contracts'
 import type { SubmitAnswerInput, ExamGateway, TopicTestPreview } from './examGateway'
-import { getLessonQuestions } from '../content/contentApi'
+import { getLessonTopicTestPreview } from '../content/contentApi'
 import {
   enqueuePendingAnswer,
   flushPendingAnswers,
@@ -125,13 +125,17 @@ export const backendGateway: ExamGateway = {
 
   async previewTopicTest(lessonId: string): Promise<TopicTestPreview | null> {
     try {
-      const questions = await getLessonQuestions(lessonId)
-      if (questions.length === 0) return null
-      // Server RPC bilan bir xil qoida: dars pool'idan max 20 ta,
-      // umumiy vaqt = savollar soni × 2 daqiqa.
-      const count = Math.min(questions.length, 20)
-      return { questionCount: count, durationSec: count * 120 }
+      const summary = await getLessonTopicTestPreview(lessonId)
+      return {
+        questionCount: summary.question_count,
+        durationSec: summary.duration_sec,
+        configuredCount: summary.configured_count,
+        availableCount: summary.available_count,
+        reason: summary.reason,
+      }
     } catch {
+      // The start route still does authoritative validation; preview failure
+      // must not crash the exam landing page.
       return null
     }
   },
