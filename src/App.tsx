@@ -23,6 +23,7 @@ import LearningPage from './pages/LearningPage'
 import ModulePage from './pages/ModulePage'
 import DashboardPage from './pages/DashboardPage'
 import ExamPage from './pages/ExamPage'
+import CustomTestPage from './pages/CustomTestPage'
 import ReviewPage from './pages/ReviewPage'
 import ExamHistoryPage from './pages/ExamHistoryPage'
 import ProfessionalPracticePage from './pages/ProfessionalPracticePage'
@@ -113,6 +114,7 @@ function MainLayout() {
                 <Route path="/learn/:moduleId" element={<ProtectedRoute><ModulePage /></ProtectedRoute>} />
                 <Route path="/professional-practice" element={<ProtectedRoute><ProfessionalPracticePage /></ProtectedRoute>} />
                 <Route path="/exam" element={<ProtectedRoute><ExamPage /></ProtectedRoute>} />
+                <Route path="/custom-test" element={<ProtectedRoute><CustomTestPage /></ProtectedRoute>} />
                 <Route path="/exam/:kind" element={<ProtectedRoute><ExamPage /></ProtectedRoute>} />
                 <Route path="/exam/:kind/:moduleId" element={<ProtectedRoute><ExamPage /></ProtectedRoute>} />
                 <Route path="/review" element={<ProtectedRoute><ReviewPage /></ProtectedRoute>} />
