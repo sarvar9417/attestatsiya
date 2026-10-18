@@ -1,3 +1,14 @@
+## TASK-240 — Informatika savollar banki chuqur sifat nazorati (2026-10-18)
+
+- **Status:** DONE (kritik exposure tuzatildi; qolgan ekspert release shartlari hisobotda).
+- **Owner:** Codex; foydalanuvchi 2026-10-18 20:53 Asia/Samarkandda tasdiqlagan.
+- **Branch:** `task/TASK-240-question-bank-deep-qa`.
+- **Scope:** productiondagi barcha informatika savollari (`published`, `review`, `draft`; archived tarixiy kontekst sifatida), rasmiy spetsifikatsiya, 5–11 ICT/Cambridge+ darsliklari, Drive source fayllari, real va demo testlar bilan strukturaviy, format, mapping, provenance va semantik audit.
+- **Mutation boundary:** production published revision joyida o‘zgarmaydi; tasdiqlangan tuzatish faqat yangi revision/archive-replacement migration va test bilan. Human ekspert tasdig‘i bo‘lmagan AI kontent auto-publish qilinmaydi.
+- **Deliverables:** to‘liq audit SQL/skriptlari, tasdiqlangan tuzatish migrations/testlari, `docs/TASK240_INFORMATIKA_QUESTION_BANK_DEEP_QA.md` va Git handoff.
+- **Production natija:** 380 ta review-only S5.WEB/GV2 xato published nusxa immutable `archived`; 380 ta UUID-rekeyed `review` revision; 0 ta GV2 learner-published; 53 ta avvalgi S5.WEB published savol saqlandi; aktiv S5 blueprint 22/27/4 zaxira bilan feasible.
+- **QA:** frontend 65/480 va backend 22/225 test PASS; lint/typecheck/build/generated-content check PASS; production SQL regression PASS.
+
 ## TASK-230–238 — Shaxsiy test konstruktori: main merge, staging pending (2026-10-18)
 
 - **GitHub merged:** PR #168 (TASK-230–235) SHA 75a0797442119715caff548015aa77399ab96850; PR #172 (TASK-236 QA) SHA 792dd6a2aee01cad38f9f916a7da3f60ce7d9a51.
