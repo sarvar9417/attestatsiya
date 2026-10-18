@@ -1,6 +1,7 @@
 -- TASK-202: PM.GEN content review proposals 71-80 (no publication).
 begin;
-insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distractors) values
+insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distractors)
+select source_question_id::uuid, proposed_distractors from (values
 ('8369cc55-9265-487f-9783-a5b891e781b1',array[
 'Faqat maktabdagi intizom choralarini o‘rganishga',
 'Faqat tarixiy voqealarni yodlab olishga',
@@ -41,5 +42,8 @@ insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distra
 'Tabiat hodisalarini faqat atama sifatida eslab qolishga',
 'Ekologiya haqidagi plakatlar sonini muntazam oshirishga',
 'Atrof-muhitning ko‘rinishini ta’riflashni yodlashga'])
+) as proposed(source_question_id, proposed_distractors)
+where exists(select 1 from public.questions q where q.id=proposed.source_question_id::uuid
+  and q.status='published'::public.content_status and q.format='Y1'::public.question_format)
 on conflict(source_question_id) do nothing;
 commit;
