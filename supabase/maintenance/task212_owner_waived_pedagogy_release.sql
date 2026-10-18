@@ -122,7 +122,7 @@ BEGIN
  -- exact 4 distinct answers, balanced word counts, no option collisions.
  WITH m AS (
    SELECT w.question_id,q.format,
-     count(o.id) n,
+     count(o.id) AS option_count,
      count(DISTINCT lower(btrim(o.content_md))) nd,
      min(array_length(regexp_split_to_array(btrim(o.content_md),'[[:space:]]+'),1)) minw,
      max(array_length(regexp_split_to_array(btrim(o.content_md),'[[:space:]]+'),1)) maxw,
@@ -137,7 +137,7 @@ BEGIN
    WHERE w.authority='owner_explicit_no_external_expert_20261018'
    GROUP BY w.question_id,q.format
  ) SELECT count(*) INTO bad FROM m
-   WHERE format<>'Y1' OR n<>4 OR nd<>4 OR minw<1
+   WHERE format<>'Y1' OR option_count<>4 OR nd<>4 OR minw<1
       OR maxw>minw*1.8 OR cw>maxwrong*1.25;
  IF bad<>0 THEN RAISE EXCEPTION 'TASK212_ABORT_PREPARED_ITEM_QUALITY_%',bad; END IF;
 
