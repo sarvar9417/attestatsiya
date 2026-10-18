@@ -26,7 +26,10 @@
 - V2 JSON: 300 noyob ID, 10 bob × 30 savol, javob variantlari va to‘g‘ri javob mosligi.
 - Migratsiya: `BEGIN … ROLLBACK` bilan mavjud Supabase loyihasida sintaksis/constraint preflight muvaffaqiyatli.
 - SQL regression: `supabase/tests/task220_m12_network_v2_review.test.sql`.
-- CI quality/database, admin UI va real learner E2E **o‘tmaguncha** productionga o‘tkazmang.
+- CI backend/database/quality 2026-10-18 holatida muvaffaqiyatli (run 39131096051).
+- Supabase plyqezulrfowyblsfpzy ga migratsiya haqiqatan qo‘llandi: 10 draft, 300 review, 1200 variant, 300 kalit; oldingi 91 savol va 5 published dars saqlandi.
+- Live SQL regression `task220_m12_network_v2_review.test.sql` muvaffaqiyatli.
+- **Production DB staging bajarildi, ammo learner release emas.** Ekspert tasdig‘i, admin UI ko‘rigi, front-end/math/diagram QA va real learner E2E bo‘lmaguncha nashr va merge qilmang.
 
 ## Rollback / forward-fix
 Migratsiya append-only. Sinovda xato topilsa yangi versiyalangan forward-fix migratsiyasi kiriting; nashr qilingan oldingi dars va savollarni hech qachon o‘chirmang. User natijalari bilan bog‘langan manbalar ustida DELETE/UPDATE qilmang.
@@ -35,4 +38,4 @@ Migratsiya append-only. Sinovda xato topilsa yangi versiyalangan forward-fix mig
 Task: TASK-220
 Natija: source-backed M12 V2 kontent SQL/staging; learner release emas.
 Migratsiya: 20261018220000_task220_m12_network_v2_review_import.sql
-Qolgan ish: human review, real render/diagram audit, topic frontend routing, CI va production deploy.
+Qolgan ish: human review, real render/diagram audit, topic frontend routing, E2E, main bilan branch sync va learner release.
