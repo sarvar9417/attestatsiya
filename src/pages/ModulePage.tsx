@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { ArrowLeft, BookOpen, CheckCircle2, ChevronRight, FileQuestion, Play, Target } from 'lucide-react'
+import { ArrowLeft, BookOpen, CheckCircle2, ChevronRight, FileQuestion, Play, RefreshCw, Target } from 'lucide-react'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import TopicView from '../components/learning/TopicView'
 import AxborotPracticePage from './AxborotPracticePage'
@@ -26,7 +26,7 @@ export default function ModulePage() {
     setSearchParams(next, { replace: true })
   }
 
-  const { modules } = useCatalog()
+  const { modules, loading } = useCatalog()
   const { getModuleProgress, completeTopic } = useProgressStore()
   const [activeSubtopicId, setActiveSubtopicId] = useState<string | null>(null)
 
@@ -50,6 +50,34 @@ export default function ModulePage() {
             O‘rganishga qaytish
           </Link>
         </div>
+      </div>
+    )
+  }
+
+  // M07's static six summaries are NOT complete lessons. Never let a learner
+  // enter their "Mavzuni yakunlash" screen while the 12 published chapters load,
+  // or if the backend fails. A retry restores the full paginated reader.
+  if (moduleId === 'M07' && (loading ||
+    mod.subtopics.length !== 12 ||
+    !mod.subtopics.every(topic => /^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i.test(topic.id)))) {
+    return (
+      <div className="mx-auto max-w-xl px-5 py-16 text-center" role="status" aria-live="polite">
+        <BookOpen size={40} className="mx-auto mb-4 text-indigo-500" />
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+          {loading ? 'Scratch va LOGO darslari yuklanmoqda…' : 'To‘liq nazariyani yuklab bo‘lmadi'}
+        </h2>
+        <p className="mt-3 text-sm text-gray-600 dark:text-gray-300">
+          {loading
+            ? '12 ta to‘liq dars va sahifalar tayyorlanmoqda.'
+            : 'Qisqartirilgan eski nazariya ko‘rsatilmaydi. Internet yoki server aloqasini tekshirib qayta urinib ko‘ring.'}
+        </p>
+        {!loading && (
+          <button type="button" onClick={() => window.location.reload()}
+            className="mt-6 inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-white hover:bg-indigo-700">
+            <RefreshCw size={16} /> Qayta yuklash
+          </button>
+        )}
+        <Link to="/learn" className="mt-5 block text-sm text-indigo-600">Bo‘limlar ro‘yxatiga qaytish</Link>
       </div>
     )
   }

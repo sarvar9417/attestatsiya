@@ -4,6 +4,11 @@
 |---|---|---|---|
 | TASK-240 | DONE | TASK-060, TASK-063 | 5 966 aktiv savol bo‘yicha avtomatik chuqur QA va source-corpus solishtiruvi bajarildi. Ekspert dalilisiz xato published qilingan 380 ta S5.WEB/GV2 savol productionda immutable archive + yangi review revision orqali karantinga olindi; publication/fingerprint/immutability guard, regression, audit SQL va `docs/TASK240_INFORMATIKA_QUESTION_BANK_DEEP_QA.md` qo‘shildi. Ochiq ekspert release shartlari hisobotda qayd etilgan. |
 
+## TASK-239 — Office V2 grafik savollarini yakunlash
+| ID | Status | Dependency | Natija / release sharti |
+|---|---|---|---|
+| TASK-239 | IN_PROGRESS (release BLOCKED) | M03 9 review dars / 270 review/draft savollar | PR #178: 7 SVG, frontend allowlist, 7 draft→review migratsiya va testlar; qolgan: CI, Vercel deploy limiti, tasdiqlangan ekspert QA, production smoke. **Kontentni avtomatik publish qilish mumkin emas.** |
+
 ## TASK-230–238 — Shaxsiy test konstruktori: kod, QA va release
 
 | ID | Status | Dependency | Natija yoki qolgan shart |

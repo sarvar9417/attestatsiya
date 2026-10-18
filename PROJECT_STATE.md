@@ -9,6 +9,15 @@
 - **Production natija:** 380 ta review-only S5.WEB/GV2 xato published nusxa immutable `archived`; 380 ta UUID-rekeyed `review` revision; 0 ta GV2 learner-published; 53 ta avvalgi S5.WEB published savol saqlandi; aktiv S5 blueprint 22/27/4 zaxira bilan feasible.
 - **QA:** frontend 65/480 va backend 22/225 test PASS; lint/typecheck/build/generated-content check PASS; production SQL regression PASS.
 
+## 2026-10-18 — TASK-239 Office 2.0 release gate
+- Owner: Office V2 integration task. Branch: `task/TASK-239-office-v2-visual-assets`; PR #178.
+- DB read-only audit (active project `plyqezulrfowyblsfpzy`): M03 office-v2 9 review lessons, 270 questions (162 Y1, 54 Y2, 54 Y3), 263 review + 7 draft visual questions. Other 4 published Office lessons remain untouched.
+- Seven audited SVG diagram reproductions and a strict allowlist are staged on branch; additive migration upgrades only seven original visual `draft` items to `review`, no `published` status or attempt mutation.
+- Vercel commit deployment failed due build rate limit (retry 24h). GitHub CI must complete before merge; production migration not yet applied.
+- HUMAN APPROVAL GATE: independent content/expert validation is required for all 9 lessons, all 270 question keys and graphics before separate publication. Do not claim full completion without it.
+- Tests: branch includes `src/tests/officeV2VisualAssets.test.tsx`; CI pending at time of update.
+- Next: CI green; merge authorized technical PR; apply reviewed migration in controlled release; Vercel deploy/smoke; expert approvals; independent published revision.
+
 ## TASK-230–238 — Shaxsiy test konstruktori: main merge, staging pending (2026-10-18)
 
 - **GitHub merged:** PR #168 (TASK-230–235) SHA 75a0797442119715caff548015aa77399ab96850; PR #172 (TASK-236 QA) SHA 792dd6a2aee01cad38f9f916a7da3f60ce7d9a51.
