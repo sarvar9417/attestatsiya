@@ -26,11 +26,15 @@ BEGIN
     RAISE EXCEPTION 'No review question option in CI: cannot verify confidential option policy';
   END IF;
 
-  EXECUTE 'SET LOCAL ROLE anon';
-  SELECT count(*) INTO v_visible FROM public.question_options WHERE id=v_id;
-  EXECUTE 'RESET ROLE';
-  IF v_visible<>0 THEN
-    RAISE EXCEPTION 'Learner can enumerate a private review question option';
+  -- Different environments revoke SELECT entirely or enforce row security.
+  -- Both are secure; only attempt the row probe when anon has table privilege.
+  IF has_table_privilege('anon','public.question_options','SELECT') THEN
+    EXECUTE 'SET LOCAL ROLE anon';
+    SELECT count(*) INTO v_visible FROM public.question_options WHERE id=v_id;
+    EXECUTE 'RESET ROLE';
+    IF v_visible<>0 THEN
+      RAISE EXCEPTION 'Learner can enumerate a private review question option';
+    END IF;
   END IF;
 END
 $guard$;
