@@ -136,10 +136,11 @@ begin
         from generate_subscripts(lane.canonical_lesson_ids,1) s(i)
       ) m on m.construct_code=c.code
       where q.source_lesson_id is distinct from m.lesson_id
-        -- TASK-204 introduces a separate audited V2 edition with its own
+        -- TASK-204/205 introduce separate audited V2/V3 editions with its own
         -- immutable source lesson snapshots, not a TASK-064 drift.
         and (lane.module_code <> 'M06'
-             or coalesce(q.source_reference,'') not like 'algoritmlash-v2:%')
+             or (coalesce(q.source_reference,'') not like 'algoritmlash-v2:%'
+                 and coalesce(q.source_reference,'') not like 'algoritmlash-v3:%'))
     ) then
       raise exception 'TASK-064 % question source lesson drift remains',lane.module_code;
     end if;

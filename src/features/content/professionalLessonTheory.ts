@@ -48,6 +48,14 @@ export function markdownToTheoryBlocks(markdown: string): TheoryBlock[] {
     // Migration markers and Markdown comments are metadata, not learner-facing prose.
     if (/^<!--.*-->$/.test(line)) { flush(); continue }
 
+    // Locally shipped diagrams only: never turn arbitrary Markdown into browser image URLs.
+    const localAlgorithmImage = /^!\[([^\]]{1,150})\]\((\/algoritmlash-v(?:2|3)\/[a-z0-9_-]+\.svg)\)$/i.exec(line)
+    if (localAlgorithmImage) {
+      flush()
+      result.push({ type: 'diagram', content: localAlgorithmImage[1], diagram: localAlgorithmImage[2] })
+      continue
+    }
+
     const heading = /^(#{1,4})\s+(.+)$/.exec(line)
     if (heading) {
       flush()
