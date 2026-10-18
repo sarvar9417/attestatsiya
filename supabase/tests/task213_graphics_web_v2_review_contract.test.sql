@@ -83,6 +83,23 @@ BEGIN
    AND jsonb_array_length(q.assets)>0
    AND ((q.assets->0->>'kind')<>'image' OR (q.assets->0->>'src') NOT LIKE '/graphics-web-v2/%.svg');
  IF n<>0 THEN RAISE EXCEPTION 'TASK-213 figure asset path mismatch %',n; END IF;
+ SELECT count(*) INTO n FROM public.questions q
+ WHERE q.source_reference LIKE 'GV2:GV-%' AND jsonb_array_length(q.assets)>0;
+ IF n<>9 THEN RAISE EXCEPTION 'TASK-213 expected 9 image-bearing questions, got %', n; END IF;
+
+ SELECT count(*) INTO n FROM public.questions q
+ WHERE q.source_reference LIKE 'GV2:GV-%' AND jsonb_array_length(q.assets)>0
+ AND (q.assets->0->>'src') NOT IN (
+   '/graphics-web-v2/palette_grid.svg',
+   '/graphics-web-v2/crop_grid.svg',
+   '/graphics-web-v2/raster_grid.svg',
+   '/graphics-web-v2/layer_stack.svg',
+   '/graphics-web-v2/nested_list.svg',
+   '/graphics-web-v2/html_table.svg',
+   '/graphics-web-v2/dom_tree.svg',
+   '/graphics-web-v2/css_box.svg');
+ IF n<>0 THEN RAISE EXCEPTION 'TASK-213 unknown SVG assets %',n; END IF;
+
 
  SELECT count(*) INTO n FROM public.lessons l
  WHERE l.slug IN ('kompyuter-grafikasi-turlari','rastr-vektor-amallari',
