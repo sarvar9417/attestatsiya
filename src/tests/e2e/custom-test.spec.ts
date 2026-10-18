@@ -53,7 +53,8 @@ test.describe('TASK-210 custom test construction', () => {
           { id: ids.m1, code: 'M01', title_uz: 'Informatika',
             order_idx: 1, lessons: [
               { id: ids.l1, module_id: ids.m1, slug: 'info-1',
-                title_uz: 'Axborot va kodlash', order_idx: 1 },
+                title_uz: 'Axborot va kodlash', order_idx: 1,
+                constructs: [{ id: '10000000-0000-0000-0000-000000000099', code: 'S1.INFO', title_uz: 'Axborotni kodlash' }] },
             ] },
           { id: ids.m15, code: 'M15', title_uz: 'Pedagogika',
             order_idx: 15, lessons: [
@@ -136,6 +137,7 @@ test.describe('TASK-210 custom test construction', () => {
 
     await page.getByRole('button', { name: /M01 · Informatika/ }).click()
     await page.getByLabel('Axborot va kodlash', { exact: true }).check()
+    await page.getByLabel('Axborot va kodlash kichik mavzusi').selectOption('10000000-0000-0000-0000-000000000099')
     await page.getByRole('button', { name: /M15 · Pedagogika/ }).click()
     await page.getByLabel('Pedagogik metodlar', { exact: true }).check()
     await expect(page.getByText('10 ta', { exact: true }).last()).toBeVisible()

@@ -6,6 +6,7 @@ export const customExamConfigSchema = z.object({
   total_count: z.number().int().min(1).max(100),
   topics: z.array(z.object({
     lesson_id: postgresUuidSchema,
+    construct_id: postgresUuidSchema.optional(),
     count: z.number().int().min(1).max(100),
     difficulty_counts: z.array(z.object({
       difficulty: z.number().int().min(1).max(5),
@@ -26,6 +27,11 @@ const catalogLesson = z.object({
   slug: z.string(),
   title_uz: z.string(),
   order_idx: z.number().int(),
+  constructs: z.array(z.object({
+    id: postgresUuidSchema,
+    code: z.string(),
+    title_uz: z.string(),
+  })).default([]),
 })
 const catalogModule = z.object({
   id: postgresUuidSchema,

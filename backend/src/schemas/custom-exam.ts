@@ -13,6 +13,7 @@ export const postgresUuidSchema = z.string().regex(
 
 const customTopicSchema = z.object({
   lesson_id: postgresUuidSchema,
+  construct_id: postgresUuidSchema.optional(),
   count: z.number().int().min(1).max(100),
   difficulty_counts: z.array(difficultyCountSchema).min(1).max(5),
 }).strict()
