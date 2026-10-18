@@ -74,3 +74,8 @@ Bu strukturaviy tekshiruv **savollarning ilmiy-pedagogik to‘g‘riligiga inson
 - **DB:** external connector orqali yuqoridagi 15 review import migratsiyasi.
 - **Risk:** human signoff, CI/E2E, private-payload parity, deployment approval ochiq.
 - **Next:** editorial review → CI/preview → approved controlled release.
+
+
+## TASK-206 yangilanishi — 2026-10-18
+
+Yuqoridagi **392/14/14** taqsimot TASK-205 ning **dastlabki staging** ko‘rsatkichi bo‘lib qoldi. TASK-206 da 140 ta eski review Y1 arxivlangan va 70 Y2 + 70 Y3 native review item bilan almashtirilgan. **Joriy review: 252 Y1 / 84 Y2 / 84 Y3 = 420**, 140 ta eski Y1 archived. Bu o‘zgarishlar `docs/TASK206_M08_Y2Y3_REBALANCE_20261018.md` va read-only SQL bilan tasdiqlangan. Ish hali published emas; release gate saqlanadi.
