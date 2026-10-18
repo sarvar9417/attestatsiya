@@ -21,7 +21,7 @@ type PoolRow = z.infer<typeof poolSchema>
 export default function CustomTestPoolCoverage({
   moduleCode, reloadKey,
 }: { moduleCode: string; reloadKey: number }) {
-  const [rows, setRows] = useState<PoolRow[]>([])
+  const [rows, setRows] = useState<PoolRow>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   useEffect(() => {
