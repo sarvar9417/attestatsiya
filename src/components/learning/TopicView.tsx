@@ -146,8 +146,9 @@ export default function TopicView({
   /** Kontent qo'llanmadan generatsiya qilinganmi (M01) — bo'limli o'qish rejimi. */
   const isBook = Boolean(content?.source)
   const isSemanticProfessional = /^M1[456]$/.test(moduleId) && publishedTheory?.subtopicId === subtopicId
-  const isPublishedPedagogy = moduleId === 'M15' && isSemanticProfessional
-  const pedagogyStudyNotes = isPublishedPedagogy ? getPedagogyStudyNotes(subtopicId) : []
+  const isPedagogyTopic = moduleId === 'M15' && /^M15\.\d{2}$/.test(subtopicId)
+  const isPublishedPedagogy = isPedagogyTopic && isSemanticProfessional
+  const pedagogyStudyNotes = isPedagogyTopic ? getPedagogyStudyNotes(subtopicId) : []
   const supplementalTheory = isPublishedPedagogy ? (content?.supplementalTheory ?? []) : []
 
   // mavzu almashganda o'qish holatini tozalaymiz
@@ -618,7 +619,7 @@ export default function TopicView({
             </div>
           )}
 
-          {isPublishedPedagogy && pedagogyStudyNotes.length > 0 && (
+          {isPedagogyTopic && pedagogyStudyNotes.length > 0 && (
             <details className="group mb-7 rounded-2xl border border-indigo-200 bg-indigo-50/60 p-4 shadow-sm open:bg-white dark:border-indigo-900 dark:bg-indigo-950/30 dark:open:bg-gray-900 sm:p-5">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-xl p-2 text-sm font-bold text-indigo-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:text-indigo-200">
                 <span className="flex items-center gap-2"><Lightbulb size={19} aria-hidden="true" /> Oddiy misollar va attestatsiyada farqlash</span>
