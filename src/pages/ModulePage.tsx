@@ -1,13 +1,31 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ArrowLeft, BookOpen, CheckCircle2, ChevronRight, FileQuestion, Play, Target } from 'lucide-react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import TopicView from '../components/learning/TopicView'
+import AxborotPracticePage from './AxborotPracticePage'
 import { useCatalog } from '../hooks/useCatalog'
 import { useProgressStore } from '../store/progressStore'
 
 export default function ModulePage() {
   const { moduleId } = useParams()
   const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const extraAxborotOpen = moduleId === 'M01' && searchParams.get('extra') === 'axb'
+  const extraAxborotRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    if (extraAxborotOpen) {
+      extraAxborotRef.current?.scrollIntoView?.({ block: 'start', behavior: 'smooth' })
+    }
+  }, [extraAxborotOpen])
+
+  const toggleExtraAxborot = () => {
+    const next = new URLSearchParams(searchParams)
+    if (extraAxborotOpen) next.delete('extra')
+    else next.set('extra', 'axb')
+    setSearchParams(next, { replace: true })
+  }
+
   const { modules } = useCatalog()
   const { getModuleProgress, completeTopic } = useProgressStore()
   const [activeSubtopicId, setActiveSubtopicId] = useState<string | null>(null)
@@ -251,6 +269,43 @@ export default function ModulePage() {
           })}
         </div>
       </section>
+
+      {moduleId === 'M01' && (
+        <section
+          id="axborot-qoshimcha-mashqlar"
+          ref={extraAxborotRef}
+          className="scroll-mt-6 rounded-2xl border border-indigo-200 bg-white p-4 shadow-sm dark:border-indigo-900 dark:bg-gray-900 sm:p-5"
+          aria-label="Axborot bo‘yicha qo‘shimcha mashqlar"
+        >
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 className="flex items-center gap-2 text-base font-semibold text-gray-950 dark:text-white">
+                <FileQuestion size={18} aria-hidden="true" className="text-indigo-600" />
+                Qo‘shimcha mashqlar — Axborot testlari
+              </h2>
+              <p className="mt-1 max-w-2xl text-xs leading-5 text-gray-500 dark:text-gray-400">
+                19 boblik manba savollari bilan mustaqil tayyorlanish.
+                Nazariya va mavzu testlaridan alohida mashq; natijalari umumiy tarixda saqlanadi.
+              </p>
+            </div>
+            <button
+              type="button"
+              aria-controls="axborot-extra-panel"
+              aria-expanded={extraAxborotOpen}
+              onClick={toggleExtraAxborot}
+              className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-xl border border-indigo-200 px-4 text-sm font-semibold text-indigo-700 transition hover:bg-indigo-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:border-indigo-800 dark:text-indigo-300 dark:hover:bg-indigo-950"
+            >
+              {extraAxborotOpen ? 'Qo‘shimcha mashqlarni yopish' : '19 boblik mashqlarni ochish'}
+              <ChevronRight size={16} aria-hidden="true" className={extraAxborotOpen ? 'rotate-90' : ''} />
+            </button>
+          </div>
+          {extraAxborotOpen && (
+            <div id="axborot-extra-panel" className="mt-3 border-t border-gray-100 pt-1 dark:border-gray-800">
+              <AxborotPracticePage embedded />
+            </div>
+          )}
+        </section>
+      )}
 
       <section className="flex flex-col gap-4 rounded-2xl border border-indigo-100 bg-indigo-50/60 p-5 dark:border-indigo-900 dark:bg-indigo-950/20 sm:flex-row sm:items-center sm:justify-between">
         <div>

@@ -145,6 +145,7 @@ begin
         and not (lane.module_code = 'M13'
                  and q.status = 'review'::public.content_status
                  and coalesce(q.source_reference,'') like 'm13-axr-v1:%:AXR-%')
+
         -- TASK-213 graphics/web V2 is a separate unpublished content edition.
         -- Do not exempt published items or non-V2 sources from drift checks.
         and not (lane.module_code IN ('M10','M11')
