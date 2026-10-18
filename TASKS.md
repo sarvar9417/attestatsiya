@@ -2,6 +2,12 @@
 
 > Loyiha React+Vite, Supabase, files/ spec bo'yicha.
 
+## Kontent yakuniy auditi
+
+| ID | Status | Dependency | Deliverable |
+|----|--------|------------|-------------|
+| TASK-204 | DONE | TASK-051, TASK-053, TASK-054, TASK-060, TASK-063 | Sanoq sistemalari, algoritmlar, Scratch/Logo, kompyuter va qurilmalar, mantiq bo‘yicha nazariya/test/source/production parity tanqidiy auditi va `docs/INFORMATIKA_5_MAVZU_YAKUNIY_AUDIT_20261018.md` |
+
 ## Qoidalar
 
 - Statuslar: `READY`, `CLAIMED`, `IN_PROGRESS`, `BLOCKED`, `DONE`

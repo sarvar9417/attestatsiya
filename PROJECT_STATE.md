@@ -1757,3 +1757,14 @@ Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user co
 - M12 IP/maska: bitwise AND bilan /26 worked example va ikki mustaqil network-address masalasi.
 - M13 security/freelance: threat-mechanism scenario matrix va profile→portfolio→buyurtma→delivery ish oqimi.
 - Database regressiya 7 ta lesson markerini, HTML/CSS code blocks, IP calculation va freelance workflowni majburiy tekshiradi.
+
+## TASK-204 — Informatika kontenti yakuniy tanqidiy auditi (2026-10-18)
+
+- **Status:** DONE.
+- **Egasi:** Codex.
+- **Boshlangan vaqt:** 2026-10-18 15:50 Asia/Samarkand.
+- **Yakunlangan vaqt:** 2026-10-18 16:12 Asia/Samarkand.
+- **Scope:** sanoq sistemalari, algoritmlar, Scratch/Logo, kompyuter va qurilmalar, mantiq nazariyalari hamda testlarini spetsifikatsiya, 5–11-sinf darsliklari, tarixiy testlar, Drive manbalari, repository va production holati bilan dalilli solishtirish.
+- **Deliverable:** `docs/INFORMATIKA_5_MAVZU_YAKUNIY_AUDIT_20261018.md`; mavjud published kontent o‘zgartirilmaydi.
+- **Yakuniy hukm:** `NOT RELEASE-READY`; M04/M06/M07 resolver integratsiyasi va M06.03 published=0 P0, editorial-review/format/visual/fakt kamchiliklari P1 sifatida qayd etildi.
+- **Production o‘zgarishi:** yo‘q; audit read-only bajarildi.
