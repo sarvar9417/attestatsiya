@@ -205,6 +205,7 @@ jobs:
             -f supabase/tests/pedguli_editorial_fingerprint_gate.test.sql \
             -f supabase/tests/task201_pedagogy_publish_gate.test.sql \
             -f supabase/tests/task202_pedagogy_revision_queue.test.sql \
+            -f supabase/tests/task202_atomic_pedagogy_publish.test.sql \
             -f supabase/tests/pedguli_private_candidate_inbox.test.sql \
             -f supabase/tests/pedguli_candidate_human_review.test.sql \
             -f supabase/tests/pedguli_topic_suggestion_queue.test.sql \
