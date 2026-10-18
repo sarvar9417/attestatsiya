@@ -6,7 +6,7 @@ import {
   AXB_CHAPTER_TITLES, allowedAxborotSizes, type AXBChapter,
 } from '../features/axb/chapters'
 
-export default function AxborotPracticePage() {
+export default function AxborotPracticePage({ embedded = false }: { embedded?: boolean }) {
   const [chapters, setChapters] = useState<AXBChapter[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -26,14 +26,15 @@ export default function AxborotPracticePage() {
 
   useEffect(() => { void load() }, [load])
 
-  return <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
-    <Link to="/learn" className="mb-4 inline-flex min-h-10 items-center gap-2 text-sm font-semibold text-indigo-600">
-      <ArrowLeft size={16} aria-hidden /> O‘rganishga qaytish
-    </Link>
-    <header className="rounded-2xl bg-indigo-700 p-6 text-white">
-      <div className="flex items-center gap-2 text-indigo-100"><BookOpen size={18} aria-hidden /> Attestatsiya 2026</div>
-      <h1 className="mt-2 text-2xl font-bold">Axborot va axborot jarayonlari — 19 bob</h1>
-      <p className="mt-2 text-sm leading-6 text-indigo-100">
+  const Wrapper = embedded ? 'section' : 'main'
+  return <Wrapper className={embedded ? 'pt-4' : 'mx-auto max-w-6xl px-4 py-6 sm:px-6'}>
+    {!embedded && <Link to="/learn/M01" className="mb-4 inline-flex min-h-10 items-center gap-2 text-sm font-semibold text-indigo-600">
+      <ArrowLeft size={16} aria-hidden /> M01 mavzulariga qaytish
+    </Link>}
+    <header className={embedded ? 'rounded-xl border border-indigo-100 bg-indigo-50/60 p-4 text-gray-900 dark:border-indigo-900 dark:bg-indigo-950/30 dark:text-gray-100' : 'rounded-2xl bg-indigo-700 p-6 text-white'}>
+      <div className={embedded ? 'flex items-center gap-2 text-sm text-indigo-600 dark:text-indigo-300' : 'flex items-center gap-2 text-indigo-100'}><BookOpen size={18} aria-hidden /> Mustaqil mashqlar</div>
+      {embedded ? <h3 className="mt-2 text-lg font-bold">Axborot savollari banki — 19 bob</h3> : <h1 className="mt-2 text-2xl font-bold">Axborot savollari banki — 19 bob</h1>}
+      <p className={embedded ? 'mt-2 text-sm leading-6 text-gray-600 dark:text-gray-300' : 'mt-2 text-sm leading-6 text-indigo-100'}>
         570 savollik PDF bankining faqat tasdiqlangan savollari. Har bir bobdan alohida practice ishlang.
         Natijalar serverda saqlanadi; javob kalitlari test yakuniga qadar ko‘rsatilmaydi.
       </p>
@@ -70,5 +71,5 @@ export default function AxborotPracticePage() {
       Eslatma: bu practice rasmiy 50 savollik, 120 daqiqalik mockdan alohida rejim.
       <Link to="/history" className="ml-2 font-semibold text-indigo-600">Natijalar tarixi</Link>
     </p>
-  </main>
+  </Wrapper>
 }
