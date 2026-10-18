@@ -47,6 +47,19 @@ export async function contentRoutes(app: FastifyInstance) {
   })
 
   /**
+   * GET /api/content/lessons/:id/test-preview
+   * Public lesson readiness and actual selectable topic-test count.
+   */
+  app.get('/api/content/lessons/:id/test-preview', async (req, reply) => {
+    try {
+      const { id } = lessonQuestionsSchema.params.parse(req.params)
+      return reply.send(await contentService.getTopicTestPreview(id))
+    } catch (error) {
+      return sendError(reply, error)
+    }
+  })
+
+  /**
    * GET /api/content/lessons/:id/questions
    * Get published questions for a lesson (no keys)
    */
