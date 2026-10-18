@@ -54,6 +54,28 @@ describe('M04 complete learner integration', () => {
     expect(html).toContain('katex')
   })
 
+  it.each(Array.from({ length: 52 }, (_, i) => `G${String(i + 1).padStart(3, '0')}`))(
+    'renders original bank circuit %s without exposing raw marker or a missing figure',
+    (id) => {
+      const html = renderToStaticMarkup(<InlineText text={`Mantiqiy sxema: [[FIG:${id}]]`} />)
+      expect(html).toContain(`data-fig="${id}"`)
+      expect(html).toContain('role="img"')
+      expect(html).toContain('>G1</text>')
+      expect(html).toContain('>Y</text>')
+      expect(html).not.toContain('Chizma topilmadi')
+      expect(html).not.toContain('[[FIG:')
+      expect(html).not.toContain('undefined')
+    },
+  )
+
+  it('renders intermediate second gate label for nested circuits', () => {
+    for (const id of ['G001', 'G014', 'G021', 'G038', 'G052']) {
+      const html = renderToStaticMarkup(<MantiqCircuit id={id} />)
+      expect(html).toContain('>G1</text>')
+      expect(html).toContain('>G2</text>')
+    }
+  })
+
   it('fails safely when a figure identifier is absent', () => {
     const html = renderToStaticMarkup(<MantiqCircuit id="G999" />)
     expect(html).toContain('Chizma topilmadi')
