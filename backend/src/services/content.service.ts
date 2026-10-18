@@ -202,9 +202,14 @@ export const contentService = {
       .not('group_code', 'in', '(KS,PM.GEN,PM.MET)')
       .order('source_reference', { ascending: true })
 
-    if (!questions || questions.length === 0) return []
+    // Defense in depth: even if the database filter is altered, professional
+    // exam items must not reach an immediate-feedback lesson endpoint.
+    const safeQuestions = (questions ?? []).filter(
+      q => !['KS', 'PM.GEN', 'PM.MET'].includes(q.group_code)
+    )
+    if (safeQuestions.length === 0) return []
 
-    const questionIds = questions.map(q => q.id)
+    const questionIds = safeQuestions.map(q => q.id)
     const { data: options } = await supabase
       .from('question_options')
       .select('id, question_id, content_md, order_idx')
@@ -218,7 +223,7 @@ export const contentService = {
       optionsByQuestion.set(opt.question_id, list)
     }
 
-    return questions.map(q => ({
+    return safeQuestions.map(q => ({
       id: q.id,
       group_code: q.group_code,
       format: q.format,
