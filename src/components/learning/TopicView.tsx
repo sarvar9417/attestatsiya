@@ -839,13 +839,12 @@ export default function TopicView({
                   </p>
                   <button
                     onClick={handleTopicTestAction}
-                disabled={!hasTest}
+                    disabled={!hasTest}
                     className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-xl text-sm font-semibold hover:from-primary-700 hover:to-primary-600 transition-all shadow-xl shadow-primary-200 dark:shadow-primary-900/40 hover:shadow-2xl hover:-translate-y-0.5 animate-pop-in"
                   >
                     {hasTest
                       ? <><Target size={16} /> Bilimni tekshirish <ArrowRight size={16} /></>
                       : <><RefreshCw size={16} /> {isAppendix ? 'Bu ilova uchun test yo‘q' : 'Test hali tayyor emas'}</>
-                      
                   </button>
                 </div>
               </>
