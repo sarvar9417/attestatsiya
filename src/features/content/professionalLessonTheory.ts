@@ -64,11 +64,11 @@ export function markdownToTheoryBlocks(markdown: string): TheoryBlock[] {
         source.push(lines[i])
       }
       if (closed) {
-        result.push({ type: 'code', language, content: source.join('\\n') })
+        result.push({ type: 'code', language, content: source.join('\n') })
       } else {
         // Incomplete authored fence: show as text, never execute or silently
         // discard the source.
-        result.push({ type: 'text', content: ['```' + language, ...source].join('\\n') })
+        result.push({ type: 'text', content: ['```' + language, ...source].join('\n') })
       }
       continue
     }
