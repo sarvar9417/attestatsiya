@@ -78,26 +78,26 @@ END $patch_revision_publish$;
 -- correctly-marked option length as evidence that a distractor is semantically
 -- valid. Provenance marks owner waiver, not an expert signature.
 DO $owner_release$
-DECLARE actor uuid; q record; candidate uuid; n int; bad int;
+DECLARE actor uuid; rec record; candidate uuid; n int; bad int;
 BEGIN
  SELECT id INTO STRICT actor FROM public.profiles
   WHERE role='admin' AND NOT coalesce(is_blocked,false);
 
  -- stage 118 immutable-revision replacements, source correct text retained.
- FOR q IN
+ FOR rec IN
    SELECT r.source_question_id
    FROM public.pedagogy_revision_queue r
    JOIN public.questions p ON p.id=r.source_question_id
    WHERE r.revision_question_id IS NULL AND p.status='published'
    ORDER BY r.source_question_id
  LOOP
-   candidate := public.stage_pedagogy_revision(q.source_question_id,actor);
+   candidate := public.stage_pedagogy_revision(rec.source_question_id,actor);
    INSERT INTO public.pedagogy_owner_release_waivers(
       question_id,authorized_by,content_fingerprint,authority,provenance,source_question_id
    ) VALUES(candidate,actor,public.professional_question_fingerprint(candidate),
       'owner_explicit_no_external_expert_20261018',
       'Owner 2026-10-18 authorized AI-assisted distractor correction without separate expert; marked correct-answer text copied unchanged; editor review not falsely signed.',
-      q.source_question_id);
+      rec.source_question_id);
  END LOOP;
  SELECT count(*) INTO n FROM public.pedagogy_owner_release_waivers
   WHERE source_question_id IS NOT NULL
@@ -151,13 +151,13 @@ BEGIN
  IF n<>26 THEN RAISE EXCEPTION 'TASK212_ABORT_PUBLISH_KS_COUNT_%',n; END IF;
 
  -- Atomic published-new / archived-old revision swap.
- FOR q IN
+ FOR rec IN
    SELECT w.question_id,w.source_question_id
    FROM public.pedagogy_owner_release_waivers w
    WHERE w.source_question_id IS NOT NULL AND w.authority='owner_explicit_no_external_expert_20261018'
    ORDER BY w.source_question_id
  LOOP
-   PERFORM public.publish_pedagogy_revision(q.question_id,actor);
+   PERFORM public.publish_pedagogy_revision(rec.question_id,actor);
  END LOOP;
 
  -- Check exact scope, original snapshots remain in history, and no
