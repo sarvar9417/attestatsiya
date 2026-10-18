@@ -188,6 +188,39 @@ describe('resolveLessonUuid', () => {
     expect(mockEq).not.toHaveBeenCalledWith('slug', 'm16-03')
   })
 
+  it('M04.01–M04.06 always resolve six published source-backed lessons by module order', async () => {
+    const moduleId = '00000000-0000-0000-0000-000000001004'
+    const lessons = [
+      '94000000-0000-4000-8000-000000000001',
+      '94000000-0000-4000-8000-000000000002',
+      'e01431ea-f0cf-46e6-9f8d-8bc7bd0ee156',
+      '94000000-0000-4000-8000-000000000004',
+      '94000000-0000-4000-8000-000000000003',
+      'fa2dd826-ee77-4bcc-999a-6623a4a00bdd',
+    ]
+    mockEq.mockImplementation(() => ({ eq: mockEq, maybeSingle: mockMaybeSingle }))
+    mockMaybeSingle.mockResolvedValueOnce({ data: { id: moduleId }, error: null })
+    for (const id of lessons) {
+      mockMaybeSingle.mockResolvedValueOnce({ data: { id }, error: null })
+    }
+    for (let i=1; i<=6; i++) {
+      const code = `M04.${String(i).padStart(2,'0')}`
+      expect(await resolveLessonUuid(code)).toBe(lessons[i-1])
+      expect(mockEq).toHaveBeenCalledWith('order_idx', i)
+      expect(mockEq).not.toHaveBeenCalledWith('slug', code.toLowerCase().replace('.', '-'))
+    }
+    expect(mockEq).toHaveBeenCalledWith('module_id', moduleId)
+    expect(mockEq).toHaveBeenCalledWith('status', 'published')
+  })
+
+  it('M04.07 does not fall through to a legacy/draft lesson', async () => {
+    // The M04 module was cached by the preceding test.
+    mockEq.mockImplementation(() => ({ eq: mockEq, maybeSingle: mockMaybeSingle }))
+    mockMaybeSingle.mockResolvedValueOnce({ data: null, error: null })
+    expect(await resolveLessonUuid('M04.07')).toBeNull()
+    expect(mockEq).not.toHaveBeenCalledWith('slug', 'm04-07')
+  })
+
   it('tries exact slug match first', async () => {
     mockMaybeSingle.mockResolvedValueOnce({ data: { id: 'lesson-exact' }, error: null })
 
