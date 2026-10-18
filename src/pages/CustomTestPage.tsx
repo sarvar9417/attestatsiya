@@ -3,6 +3,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ArrowLeft, BookOpen, ChevronDown, ChevronRight, ClipboardCheck, LoaderCircle, ShieldCheck } from 'lucide-react'
 import {
   getCustomTestCatalog,
+  listCustomPresets,
+  saveCustomPreset,
+  deleteCustomPreset,
+  type CustomTestPreset,
   previewCustomTest,
   type CatalogModule,
   type CustomExamConfig,
@@ -21,6 +25,10 @@ const LEVEL_LABELS: Record<Level, string> = {
 export default function CustomTestPage() {
   const navigate = useNavigate()
   const [catalog, setCatalog] = useState<CatalogModule[]>([])
+  const [presets, setPresets] = useState<CustomTestPreset[]>([])
+  const [presetTitle, setPresetTitle] = useState('')
+  const [presetBusy, setPresetBusy] = useState(false)
+  const [presetError, setPresetError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [catalogError, setCatalogError] = useState<string | null>(null)
   const [openModules, setOpenModules] = useState<string[]>([])
@@ -47,6 +55,7 @@ export default function CustomTestPage() {
   }, [])
 
   useEffect(() => { void loadCatalog() }, [loadCatalog])
+  useEffect(() => { void listCustomPresets().then(setPresets).catch(() => setPresetError('Shablonlarni yuklab bo‘lmadi')) }, [])
 
   const update = (next: Selection) => {
     setSelected(next)
@@ -106,6 +115,51 @@ export default function CustomTestPage() {
     [catalog]
   )
   const changeSetting = () => { setPreview(null); setError(null) }
+
+  const applyPreset = (preset: CustomTestPreset) => {
+    const next: Selection = {}
+    for (const topic of preset.config.topics) {
+      const counts: QuantityMap = {}
+      for (const level of topic.difficulty_counts) {
+        counts[level.difficulty as Level] = level.count
+      }
+      next[topic.lesson_id] = counts
+    }
+    update(next)
+    setFormats(preset.config.formats)
+    setExposure(preset.config.exposure)
+    setMode(preset.config.mode)
+    setDuration(preset.config.duration_sec)
+    setPresetTitle(preset.title)
+    setPreview(null)
+  }
+
+  const storePreset = async () => {
+    if (invalid || !presetTitle.trim()) return
+    setPresetBusy(true)
+    setPresetError(null)
+    try {
+      const created = await saveCustomPreset(presetTitle.trim(), config)
+      setPresets(old => [created,...old])
+    } catch (failure) {
+      setPresetError(failure instanceof Error ? failure.message : 'Saqlashda xato yuz berdi')
+    } finally {
+      setPresetBusy(false)
+    }
+  }
+
+  const removePreset = async (id: string) => {
+    setPresetBusy(true)
+    setPresetError(null)
+    try {
+      await deleteCustomPreset(id)
+      setPresets(old => old.filter(p => p.id !== id))
+    } catch (failure) {
+      setPresetError(failure instanceof Error ? failure.message : 'O‘chirishda xato yuz berdi')
+    } finally {
+      setPresetBusy(false)
+    }
+  }
 
   const checkPool = async () => {
     if (invalid) return
@@ -211,6 +265,34 @@ export default function CustomTestPage() {
         </section>
 
         <aside className="space-y-4 lg:sticky lg:top-6">
+          <section className="space-y-3 rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-900">
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white">Saqlangan shablonlar</h2>
+            <label className="block space-y-1 text-sm text-gray-700 dark:text-gray-200">
+              <span>Shablon nomi</span>
+              <input value={presetTitle} onChange={event => setPresetTitle(event.target.value)}
+                maxLength={80} placeholder="Masalan: Python + Mantiq"
+                className="w-full rounded-lg border border-gray-300 bg-white p-2.5 dark:border-gray-700 dark:bg-gray-800"/>
+            </label>
+            <button type="button" disabled={invalid || !presetTitle.trim() || presetBusy}
+              onClick={() => void storePreset()}
+              className="min-h-11 w-full rounded-xl border border-indigo-500 px-4 py-2 text-sm font-semibold text-indigo-700 disabled:opacity-50 dark:text-indigo-300">
+              Sozlamani saqlash
+            </button>
+            {presetError && <p role="alert" className="text-xs text-red-600">{presetError}</p>}
+            {presets.map(preset => (
+              <div key={preset.id} className="flex items-center gap-2 rounded-lg bg-gray-50 p-2 dark:bg-gray-800">
+                <button type="button" onClick={() => applyPreset(preset)}
+                  className="min-w-0 flex-1 truncate text-left text-sm font-medium text-indigo-700 dark:text-indigo-300"
+                  title={preset.title}>{preset.title}</button>
+                <button type="button" disabled={presetBusy} onClick={() => void removePreset(preset.id)}
+                  aria-label={`${preset.title} shablonini o‘chirish`}
+                  className="rounded border border-gray-300 px-2 py-1 text-xs text-red-600 disabled:opacity-50">
+                  O‘chirish
+                </button>
+              </div>
+            ))}
+            {presets.length === 0 && <p className="text-xs text-gray-500">Hozircha saqlangan shablon yo‘q.</p>}
+          </section>
           <section className="space-y-4 rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-900">
             <h2 className="text-lg font-bold text-gray-900 dark:text-white">2. Test sozlamalari</h2>
             <fieldset className="space-y-2">
