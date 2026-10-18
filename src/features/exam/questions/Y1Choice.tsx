@@ -1,4 +1,5 @@
 import type { ExamOption } from '../contracts'
+import InlineText from '../../../components/learning/theory/InlineText'
 
 interface Y1ChoiceProps {
   prompt: string
@@ -18,7 +19,7 @@ export default function Y1Choice({
   return (
     <fieldset disabled={disabled}>
       <legend className="text-base font-medium text-gray-900 dark:text-white mb-4 whitespace-pre-wrap">
-        {prompt}
+        <InlineText text={prompt} />
       </legend>
       <div className="space-y-2">
         {options.map((option, index) => {
@@ -47,7 +48,7 @@ export default function Y1Choice({
                 {String.fromCharCode(65 + index)}
               </span>
               <span className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
-                {option.content_md}
+                <InlineText text={option.content_md} />
               </span>
             </button>
           )
