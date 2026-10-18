@@ -44,6 +44,12 @@ function mount(onComplete: (correct: number, total: number) => void) {
 
 describe('TopicView strict lesson completion guard', () => {
   beforeEach(() => {
+    vi.stubGlobal('IntersectionObserver', class {
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+      takeRecords() { return [] }
+    })
     vi.clearAllMocks()
     mock.getTopicContent.mockReturnValue({ ...base, kind: 'chapter' })
     mock.getLessonDetail.mockRejectedValue(new Error('No remote lesson'))
