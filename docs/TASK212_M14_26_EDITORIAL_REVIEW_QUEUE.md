@@ -49,3 +49,40 @@
 ## Releasedan oldingi shart
 
 M14ning 7/7 mavzusida 20 ta `published + keyed + canonical active` savolga yetish, barcha 26 savol bo‘yicha haqiqiy ekspert imzosi va no-mutating test preflight PASS, dedicated 15 va official 50 mock kvota/format/guruh/regressiya, exact Git SHA / production DB parity, foydalanuvchining yangi aniq release tasdig‘i. **Bular bajarilmaguncha `main`ga merge ham, production deploy yoki publish ham taqiqlanadi.**
+
+
+## 2026-10-18 · Birlamchi PDF va savollarni AI yordamida solishtirish
+
+**Manba topildi:** shaxsiy Library ichidagi “Pedagogning kasbiy standarti - qollanma.pdf”, 13 fizik PDF beti. Har bir M14 qo‘llanma bo‘limining sahifalari ajratildi; 26 REVIEW source locatorining tegishli tematik sohasi bilan matn mazmuni birlamchi solishtirildi. Bu mustaqil inson ekspertizasi va yakuniy ilmiy-normativ tasdiq EMAS. 26/26 savol PENDING saqlanadi.
+
+| M14 mavzu | PDF sohasi / bet | Dastlabki manba mavzusi |
+|---|---|---|
+| 01 | 1-soha, 2-bet | DTS, o‘quv dasturi, yoshga mos rejalashtirish, AKT |
+| 02 | 2-soha, 4–5-bet | Faol usullar, metakognitsiya, individual ehtiyojlar |
+| 03 | 3-soha, 6–7-bet | Hamkasb maslahatlari, diagnostik/formativ/summativ baholash |
+| 04 | 4-soha, 8–9-bet | O‘zini boshqarish, tolerantlik, sayohat/tadbir me’yorlari |
+| 05 | 5-soha, 10-bet | Teng imkoniyat, xavfsizlik, mediasavodxonlik, inklyuzivlik |
+| 06 | 6-soha, 12-bet | Kasbiy o‘sish, adabiyot, uslubiy kengash va refleksiya |
+| 07 | 7-soha, 13-bet | Ota-ona/mutaxassis/jamoatchilik bilan hamkorlik |
+
+### Dastlabki nomzod sifatida ajratilgan tahrir signallari
+
+Quyidagi lokatorlar hech qanday javob kalitini oshkor qilmaydi, faqat review uchun diagnostika:
+
+| Source locator (M14.topic, page, question) | Daraja | Masala |
+|---|---|---|
+| M14.01 · p2 · q1 | Termin aniqligi | Javobda keltirilgan standart/ta’lim talabi atamasi manbadagi rasmiy nom bilan satrma-satr bir xil emas; tahrirda tekshirish |
+| M14.01 · p2 · q3 | Distractor | Ba’zi muqobil javoblar pedagogik rejalashtirish bilan mazmunan uzoq |
+| M14.04 · p8 · q3 | Distractor / tahrir | Kutubxona yuritish haqidagi bir muqobil javob noaniq va past ishonchlilikda |
+| M14.04 · p8 · q6 | Distractor | Uch muqobil javobning bir qismi tarbiyaviy kompetensiyaga yaqin emas |
+| M14.06 · p12 · q2 | Distractor | Yolg‘on variantlar metodik kengash vaziyatida juda oson rad qilinadi |
+| M14.06 · p12 · q3 | Distractor | Asosiy javobdan boshqa variantlar mazmunga juda uzoq |
+| M14.07 · p13 · q1 | Grammar cue / distractor | Noto‘g‘ri variantlarning bir xil cheklovchi iboralar bilan boshlanishi topishni osonlashtiradi |
+| M14.07 · p13 · q3 | Distractor | Jamoatchilik hamkorligi vaziyatiga aloqasiz variantlar bor |
+
+**Bu ro‘yxat minimum diagnostik flaglar:** qolgan savollarga ekspert sifati bo‘yicha PASS berilmagan. Mashina hisoblagan 0 uzunlik flagi savolning yakkayu yagona to‘g‘ri javobga ega ekanini yoki distractorlarning mazmunan yaxshi ekanini isbotlamaydi.
+
+### Xavfsiz keyingi qadam
+1. Mualliflik/review huquqli muharrir uchun yuqoridagi 8 lokatorni original variantlar bilan ochish; xato semantik/chalg‘ituvchi variantlarni manba va o‘quv maqsadiga mos qayta yozish.
+2. Har bir o‘zgarishni oldingi source-key va archived/history integritetini saqlaydigan revision workflow orqali reviewda saqlash.
+3. Barcha 26 item bo‘yicha haqiqiy manba-bet, yagona javob, normativ dolzarblik va distractor eksperti tasdiqlamaguncha statusni reviewda qoldirish.
