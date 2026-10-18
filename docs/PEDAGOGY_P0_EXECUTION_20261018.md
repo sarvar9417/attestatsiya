@@ -24,7 +24,7 @@
 | P0-06: authorship provenance | 249 review uchun `pedagogy_question_provenance`: `ai_assisted_draft`, `pdf_source_rewrite`, `pedguli_import`, `other_import_unverified` sinflari; real `authored_by` bor bo‘lsagina yoziladi | **PARTIAL**: reviewer/approver alohida sahifadan to‘ldirilishi, author != reviewer/publisher server tomonidan enforce qilinishi kerak |
 | P0-07: release pariteti | Release taqiqlangan, merge/deploy yo‘q | **BLOCKED**: keyingi explicit user approval + full SHA/db parity |
 | P0-08: 15/50 exact quota | Avvalgi generatorlar o‘zgartirilmadi; 5+7+3, 35+5+7+3 va 8/35/7 kontrakti mavjud | **NEEDS E2E** |
-| P0-09: no key leaks | Learner lesson API endi `KS`, `PM.GEN`, `PM.MET` savollarni bermaydi (SQL filter + Node defense in depth); `POST /api/content/questions/check` shu guruhlar uchun kalitni bermaydi; M14–16 tezkor quiz o‘rniga server-scored mavzu examiga o‘tadi. 3-way regression tests | **PARTIAL:** browserning eski statik kontent bundlelarida M14–16 lokal kalitlar va boshqa guruhlarda answer-check oracle qolishi mumkin. Practice-only/exam holdout split va static JS extraction audit release blokeri |
+| P0-09: no key leaks | Learner lesson API endi `KS`, `PM.GEN`, `PM.MET` savollarni bermaydi (SQL filter + Node defense in depth); `POST /api/content/questions/check` shu guruhlar uchun kalitni bermaydi; M14–16 tezkor quiz o‘rniga server-scored mavzu examiga o‘tadi. 3-way regression tests | **PARTIAL:** M14–16 `topicContent.ts`dagi 49 ta kalitli eski mini-quiz olib tashlandi va 18 ta mavzu uchun regression test qo‘shildi. Boshqa guruhlarda answer-check oracle, alternative browser assets va exam holdout split auditi release blokeri |
 | P0-10: 18/18 real accept | No production user mutation, no fabricated passing results | **BLOCKED**: staging va test user approval |
 
 ## 3. Yangi API kontrakti
@@ -55,7 +55,8 @@ Ushbu JSON **namuna**, live API javobi emas. `ready` testni rejalash uchun oldin
 - [ ] Y1/Y2/Y3 online browser, mock/15 per-grade official blueprint, 18/18 E2E, JS scroll, 320px mobile and accessibility verification.
 - [ ] Source-to-objective fact check with referenced pages, editorial human approvals.
 - [x] Kasb standarti/pedagogika/metodika uchun `content/questions/check` va `lessons/:id/questions` orqali kalit/stem enumeration to‘siqlari + testlar.
-- [ ] Frontend bundle ichidagi eski M14–M16 savol/kalitlarini maxsus practice-bankga ajratish; umumiy informatikadagi quiz hamda official mock orasidagi holdout siyosatini tekshirish.
+- [x] 18 ta M14–M16 static `topicContent.ts` savol arrayini bo‘shatib, 49 ta kalitli eski mini-quizni JS manbasidan olib tashlash; 18/18 nazariya saqlanganlik testi.
+- [ ] Compiled JS bundle va boshqa assetlardagi javob leakage hamda umumiy informatika study banki / official mock holdout siyosatini mustaqil tekshirish.
 
 ## 5. Eslatmalar
 
@@ -72,4 +73,5 @@ Ushbu JSON **namuna**, live API javobi emas. `ready` testni rejalash uchun oldin
 - `backend/src/services/admin-content.service.ts`: authenticated staff ro‘yxatida `pedagogy_option_quality_flags` private view dan per-item flags qo‘shildi. Boshqa o‘quvchi APIga chiqmaydi.
 - `src/pages/admin/QuestionsPage.tsx`: muallif noma’lumligi, javob uzunligi, “Faqat” ishori va yaroqsiz Y1 tuzilmasi vizual ko‘rsatildi. 249 ta review savol **nashrga avtomatik yuborilmaydi**.
 - Regressiya: `backend/src/routes/__tests__/content.test.ts` professional javob kaliti 404; DB filter xatosida ham professional stem yashiriladi. `src/tests/lessonContentGateway.test.ts` pro mini-quiz yopiq. `src/tests/AdminContentPages.test.tsx` badge ko‘rsatkichlari.
-- **Qoldiq xavf**: M14–M16ga oid local testlar `src/data/topicContent.ts` ichida hali kompilyatsiya qilinishi mumkin. DB bilan literal savol mosligi va bundle-leak auditisiz “kalitlar to‘liq himoyalandi” deb aytish mumkin emas. Bundan tashqari boshqa guruhlar uchun `/api/content/questions/check` darhol kalit qaytaradi. Bu umumiy mock uchun mustaqil security release gate bo‘lib qoladi.
+- **Static manba tozalandi**: `src/data/topicContent.ts` ichidagi 18 M14–M16 mavzu uchun jami **49 hardcoded MCQ** javoblari ajratib tashlandi; nazariya bloklari o‘zgarishsiz. `src/tests/lessonContentGateway.test.ts` ushbu 18 kontentda savol massivlari bo‘sh va nazariya to‘liqligini tekshiradi.
+- **Qoldiq xavf**: boshqa assetlardagi/muqobil fallbacklar, shuningdek umumiy informatikaga oid `/api/content/questions/check` darhol javob kalitini qaytarishi mumkin. Test banki/mashq banki kesishmasini alohida audit qilish shart; “hamma javoblar 100% himoyalangan” deb aytilmaydi.
