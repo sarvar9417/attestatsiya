@@ -33,11 +33,11 @@ BEGIN
 END $$;
 
 -- Temporarily free unique slugs/locators while keeping original rows until copied.
-UPDATE public.lessons l SET slug='rekey-old-algo-v2-'||replace(l.id::text,'-','')
+UPDATE public.lessons l SET order_idx=l.order_idx+5000, slug='rekey-old-algo-v2-'||replace(l.id::text,'-','')
  FROM _al2_lmap m WHERE l.id=m.old;
 INSERT INTO public.lessons
- (id,module_id,order_idx,slug,title_uz,summary_uz,body_mdx,blocks,blocks_kind,est_minutes,topic_test_question_count,status,created_at,updated_at)
- SELECT m.new,l.module_id,l.order_idx,m.slug,l.title_uz,NULL,l.body_mdx,l.blocks,l.blocks_kind,l.est_minutes,l.topic_test_question_count,l.status,l.created_at,l.updated_at
+ (id,module_id,order_idx,slug,title_uz,body_mdx,blocks,blocks_kind,est_minutes,topic_test_question_count,status,created_at,updated_at)
+ SELECT m.new,l.module_id,l.order_idx-5000,m.slug,l.title_uz,l.body_mdx,l.blocks,l.blocks_kind,l.est_minutes,l.topic_test_question_count,l.status,l.created_at,l.updated_at
  FROM public.lessons l JOIN _al2_lmap m ON m.old=l.id;
 
 INSERT INTO public.lesson_constructs(lesson_id,construct_id,is_required,is_critical,min_questions)
