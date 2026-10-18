@@ -44,6 +44,7 @@ import { backendGateway } from './backendGateway'
 import ExamResultActions from './ExamResultActions'
 import InlineText from '../../components/learning/theory/InlineText'
 import Y1Choice from './questions/Y1Choice'
+import ExamQuestionAssets from './questions/ExamQuestionAssets'
 import Y2Match from './questions/Y2Match'
 import Y3Order from './questions/Y3Order'
 import { useAuth } from '../../hooks/useAuth'
@@ -1181,6 +1182,7 @@ export default function ExamRunner({
 
               <div className="exam-question-card">
                 <div className="exam-question-stem">
+                  <ExamQuestionAssets assets={currentItem.assets} />
                   {renderQuestion(currentItem)}
                 </div>
               </div>
