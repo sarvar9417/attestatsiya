@@ -185,6 +185,45 @@ export const contentService = {
   },
 
   /**
+   * Exactly matches the topic-test RPC eligibility/availability rules.
+   * Returns only counts and readiness — no keys or question content.
+   */
+  async getTopicTestPreview(id: string): Promise<{
+    question_count: number
+    duration_sec: number
+    configured_count: number
+    available_count: number
+    reason: string | null
+  }> {
+    const resolvedId = await resolveLessonUuid(id)
+    if (!resolvedId) throw new NotFoundError('Dars topilmadi')
+
+    const { data, error } = await supabase.rpc('topic_test_preview', {
+      p_lesson_id: resolvedId,
+    })
+    if (error) throw new AppError('Mavzu testi hajmini aniqlab bo‘lmadi', 500, 'TOPIC_PREVIEW_ERROR')
+
+    const value = data as Record<string, unknown> | null
+    if (
+      !value ||
+      !Number.isInteger(value.question_count) ||
+      !Number.isInteger(value.duration_sec) ||
+      !Number.isInteger(value.configured_count) ||
+      !Number.isInteger(value.available_count) ||
+      (value.reason !== null && typeof value.reason !== 'string')
+    ) {
+      throw new AppError('Mavzu testi hajmi noto‘g‘ri', 500, 'TOPIC_PREVIEW_INVALID')
+    }
+    return value as {
+      question_count: number
+      duration_sec: number
+      configured_count: number
+      available_count: number
+      reason: string | null
+    }
+  },
+
+  /**
    * Darsga tegishli published savollar (kalitsiz, learner uchun xavfsiz).
    * Savol egasi darsga source_lesson_id orqali bog'langan.
    */
