@@ -39,6 +39,19 @@ describe('lessonContentGateway', () => {
     vi.stubGlobal('fetch', fetchMock)
   })
 
+  it('M14–M16 bundled theory has no hardcoded MCQ answer indices', () => {
+    const professionalTopics = [
+      ...Array.from({ length: 7 }, (_, i) => `M14.${String(i + 1).padStart(2,'0')}`),
+      ...Array.from({ length: 8 }, (_, i) => `M15.${String(i + 1).padStart(2,'0')}`),
+      ...Array.from({ length: 3 }, (_, i) => `M16.${String(i + 1).padStart(2,'0')}`),
+    ]
+    expect(professionalTopics).toHaveLength(18)
+    for (const code of professionalTopics) {
+      expect(getTopicContent(code)?.questions ?? []).toEqual([])
+      expect((getTopicContent(code)?.theory ?? []).length).toBeGreaterThan(0)
+    }
+  })
+
   it('M14/M15/M16 professional topics do not expose local or backend quick-check keys', async () => {
     for (const code of ['M14.01','M15.01','M16.01']) {
       const result = await getLessonTestQuestions(code)
