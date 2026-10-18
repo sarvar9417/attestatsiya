@@ -102,7 +102,20 @@ begin
         and q.source_reference is not null
         and exists(select 1 from public.lesson_constructs lc
                    where lc.lesson_id=v_id and lc.construct_id=q.construct_id)
-        and exists(select 1 from public.question_options o where o.question_id=q.id)
+        and (
+          (q.format='Y1'::public.question_format
+            and (select count(*) from public.question_options o where o.question_id=q.id and o.side='a')>=2
+            and exists(select 1 from public.question_options o
+                       where o.question_id=q.id and o.side='a'
+                         and o.id::text=k.payload->>'correct_option_id'))
+          or (q.format='Y2'::public.question_format
+            and jsonb_typeof(k.payload->'pairs')='object'
+            and exists(select 1 from public.question_options o where o.question_id=q.id and o.side='a')
+            and exists(select 1 from public.question_options o where o.question_id=q.id and o.side='b'))
+          or (q.format='Y3'::public.question_format
+            and jsonb_typeof(k.payload->'order')='array'
+            and (select count(*) from public.question_options o where o.question_id=q.id and o.side='a')>=2)
+        )
         and (
           v_exposure='all'
           or (v_exposure='unseen' and not exists(
@@ -192,7 +205,20 @@ begin
           and q.source_reference is not null
           and exists(select 1 from public.lesson_constructs lc
                      where lc.lesson_id=v_lesson and lc.construct_id=q.construct_id)
-          and exists(select 1 from public.question_options o where o.question_id=q.id)
+          and (
+          (q.format='Y1'::public.question_format
+            and (select count(*) from public.question_options o where o.question_id=q.id and o.side='a')>=2
+            and exists(select 1 from public.question_options o
+                       where o.question_id=q.id and o.side='a'
+                         and o.id::text=k.payload->>'correct_option_id'))
+          or (q.format='Y2'::public.question_format
+            and jsonb_typeof(k.payload->'pairs')='object'
+            and exists(select 1 from public.question_options o where o.question_id=q.id and o.side='a')
+            and exists(select 1 from public.question_options o where o.question_id=q.id and o.side='b'))
+          or (q.format='Y3'::public.question_format
+            and jsonb_typeof(k.payload->'order')='array'
+            and (select count(*) from public.question_options o where o.question_id=q.id and o.side='a')>=2)
+        )
           and not(q.id=any(v_ids))
           and (
             v_exposure='all'
