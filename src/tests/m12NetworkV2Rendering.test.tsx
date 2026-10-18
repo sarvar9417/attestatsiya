@@ -11,7 +11,7 @@ const fixture = String.raw`# Kompyuter tarmoqlari
 | --- | --- |
 | /26 | 255.255.255.192 |
 
-\\[2^h - 2 \\ge H\\]
+\[2^h - 2 \ge H\]
 
 [[NETFIG:NET02]] Yulduz va halqa topologiyalari
 `
