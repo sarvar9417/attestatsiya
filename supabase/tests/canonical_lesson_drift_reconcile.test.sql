@@ -164,7 +164,8 @@ begin
         -- Do not exempt published items or non-V2 sources from drift checks.
         and not (lane.module_code IN ('M10','M11')
                  and q.status = 'review'::public.content_status
-                 and coalesce(q.source_reference,'') like 'GV2:GV-%'
+                 and (coalesce(q.source_reference,'') like 'GV2:GV-%'
+                      or coalesce(q.source_reference,'') like '%GV2-EXT-%')
                  and EXISTS (
                     SELECT 1 FROM public.lessons v2
                     WHERE v2.id=q.source_lesson_id
