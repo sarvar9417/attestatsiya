@@ -179,6 +179,7 @@ export const examHistoryItemSchema = z
       'takrorlash',
       'zaif',
       'pedagogik_15',
+      'custom',
     ]),
     lesson_id: uuidSchema.nullable(),
     lesson_slug: z.string().nullable(),
