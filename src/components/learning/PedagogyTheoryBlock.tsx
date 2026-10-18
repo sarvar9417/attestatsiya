@@ -4,10 +4,13 @@ import type { TheoryBlock as TheoryBlockData } from '../../data/topicContent'
 
 /** Render source Markdown emphasis as React nodes, never as injected HTML. */
 export function PedagogyInline({ text }: { text: string }): ReactNode {
-  const parts = text.split(/(\*\*[^*]+\*\*|__[^_]+__)/g)
+  const parts = text.split(/(\*\*[^*]+\*\*|__[^_]+__|`[^`]+`)/g)
   return parts.map((part, index) => {
     if (part.startsWith('**') && part.endsWith('**')) {
       return <strong key={index} className="font-bold text-gray-900 dark:text-white">{part.slice(2, -2)}</strong>
+    }
+    if (part.startsWith('`') && part.endsWith('`')) {
+      return <code key={index} className="rounded bg-slate-100 px-1 font-mono text-[0.9em] dark:bg-slate-800">{part.slice(1,-1)}</code>
     }
     if (part.startsWith('__') && part.endsWith('__')) {
       return <em key={index}>{part.slice(2, -2)}</em>
@@ -39,6 +42,15 @@ export default function PedagogyTheoryBlock({ block }: { block: TheoryBlockData 
         <FileText className="mt-1 shrink-0" size={15} aria-hidden="true" />
         <span><PedagogyInline text={block.content.replace(/^\*\*Manba(?: izi|lar)?\s*:\*\*/i, 'Manba:')} /></span>
       </aside>
+    )
+  }
+
+  if (block.type === 'code') {
+    return (
+      <div className="overflow-hidden rounded-xl border border-slate-700 bg-slate-950">
+        {block.language && <p className="border-b border-slate-700 px-4 py-2 text-xs font-semibold text-slate-300">{block.language}</p>}
+        <pre className="overflow-x-auto p-4 text-sm leading-6 text-slate-100"><code>{block.content}</code></pre>
+      </div>
     )
   }
 
