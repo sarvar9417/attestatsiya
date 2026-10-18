@@ -15,7 +15,7 @@ describe('M05: Sanoq sistemalari nazariyasining to‘liq integratsiyasi', () => 
       Array.from({ length: 11 }, (_, index) => `${index + 1}-bob`),
     )
     expect(topics.map(id => splitSections(getTopicContent(id)!.theory).length))
-      .toEqual([8, 14, 21])
+      .toEqual([9, 14, 21])
   })
 
   it('formulalar, jadvallar, yechimli misollar va izohlar yo‘qolmagan', () => {
@@ -28,6 +28,17 @@ describe('M05: Sanoq sistemalari nazariyasining to‘liq integratsiyasi', () => 
     expect(all.some(b => b.content.includes('davriy kasr'))).toBe(true)
     expect(all.some(b => b.content.includes('Noma’lum asos'))).toBe(true)
     expect(all.every(b => !/\\(?:bn|keyterm|source)\b/.test(b.content))).toBe(true)
+  })
+
+  it('darslikning tarixiy qamrovi va Y2/Y3 spetsifikatsiya formatlari kiritilgan', () => {
+    const a = walk(getTopicContent('M05.01')!.theory).map(b => b.content).join(' ')
+    const b = walk(getTopicContent('M05.02')!.theory).map(b => b.content).join(' ')
+    const c = walk(getTopicContent('M05.03')!.theory).map(b => b.content).join(' ')
+    expect(a).toContain('Mayya')
+    expect(a).toContain('Misr')
+    expect(a).toContain('beshlik')
+    expect(b).toContain('Y2')
+    expect(c).toContain('Y3')
   })
 
   it('mavjud offline-testlar va kitob sahifalash rejimi saqlanadi', () => {
