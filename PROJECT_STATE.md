@@ -1795,5 +1795,6 @@ Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user co
 - Database: Supabase plyqezulrfowyblsfpzy ga tracked migration 20261018220000_task220_m12_network_v2_review_import.sql qo'llandi. Oldingi M12 5 published dars va 91 S6.NET savol o'zgarmadi.
 - Staging: 10 draft bob, 300 review savol, 1200 variant, 300 protected key; har bir bobda 30 savol; 0 yangi published.
 - Verification: GitHub CI run 39131096051 backend/database/quality PASS; rollback dry run PASS; live SQL contract PASS.
-- OPEN: expert signoff, visual/math/table render, M12 frontend learner topic routing, topic preflight/E2E, PR review/merge, learner release.
+- DONE in staging: M12 all 10 draft theory chapters converted with 20 Markdown tables, 3 semantic SVG diagrams and 7 display equations; all 300 review questions now 280 Y1/10 native Y2/10 native Y3. Live Supabase reader and bank SQL regressions green. Frontend M12 UUID published-only routing, atomic 10/10 catalog and server preflight implemented on PR #155.
+- OPEN: independent expert signoff, real authorized learner E2E and visual mobile QA, PR review/merge, publication migration, production release.
 - Handoff: docs/TASK220_M12_NETWORK_V2_INTEGRATION.md. Do not publish AI-generated content without independent human approval.
