@@ -74,3 +74,12 @@ export const savePedguliEditorialReviewSchema = z.object({
   reviewer_notes: z.string().trim().min(20).max(4000),
 }).strict()
 export type SavePedguliEditorialReview = z.infer<typeof savePedguliEditorialReviewSchema>
+
+/** A private source inbox, not public question content. */
+export const pedagogyPdfSourceListQuerySchema = z.object({
+  page: z.coerce.number().int().min(1).max(100000).default(1),
+  page_size: z.coerce.number().int().min(1).max(50).default(20),
+  status: z.enum(['verified', 'accepted_general', 'rejected', 'needs_review']).optional(),
+  source_year: z.coerce.number().int().min(2020).max(2100).optional(),
+  unlinked_only: z.enum(['true','false']).transform(v => v === 'true').optional(),
+})
