@@ -77,65 +77,30 @@ async function resolveConstruct(constructId: string) {
   return data
 }
 
-async function replaceQuestionOptionsAndKey(
-  questionId: string,
-  input: SaveAdminQuestionInput
-): Promise<void> {
-  const { error: keyDeleteError } = await supabase
-    .from('question_keys')
-    .delete()
-    .eq('question_id', questionId)
-  if (keyDeleteError) {
-    throw new AppError('Eski javob kalitini tozalashda xatolik', 500, 'ADMIN_SAVE_ERROR')
+async function saveY1Atomically(
+  actorId: string, questionId: string | null, input: SaveAdminQuestionInput
+): Promise<string> {
+  if (input.format !== 'Y1' || !input.options || input.options.length !== 4 ||
+    input.correct_index === undefined) {
+    throw new AppError('Y1 javob variantlari to‘liq emas',400,'VALIDATION_ERROR')
   }
-
-  const { error: optionDeleteError } = await supabase
-    .from('question_options')
-    .delete()
-    .eq('question_id', questionId)
-  if (optionDeleteError) {
-    throw new AppError('Eski variantlarni tozalashda xatolik', 500, 'ADMIN_SAVE_ERROR')
-  }
-
-  if (input.format !== 'Y1') return
-
-  const options = input.options ?? []
-  const correctIndex = input.correct_index
-  if (options.length !== 4 || correctIndex === undefined) {
-    throw new AppError('Y1 savol konfiguratsiyasi to‘liq emas', 400, 'VALIDATION_ERROR')
-  }
-
-  const rows = options.map((option, index) => ({
-    question_id: questionId,
-    content_md: option.content_md.trim(),
-    order_idx: index,
-    // Y1 is one group of four options, all on side 'a'. a/b/c/d are NOT sides.
-    side: 'a',
-  }))
-
-  const { data: inserted, error: optionError } = await supabase
-    .from('question_options')
-    .insert(rows)
-    .select('id, order_idx')
-
-  if (optionError || !inserted) {
-    throw new AppError('Javob variantlarini saqlashda xatolik', 500, 'ADMIN_SAVE_ERROR')
-  }
-
-  const correctOption = inserted.find(option => option.order_idx === correctIndex)
-  if (!correctOption) {
-    throw new AppError('To‘g‘ri variant topilmadi', 500, 'ADMIN_SAVE_ERROR')
-  }
-
-  const { error: keyError } = await supabase.from('question_keys').insert({
-    question_id: questionId,
-    payload: { correct_option_id: correctOption.id },
-    explanation_md: input.explanation_md.trim(),
+  const {data,error}=await supabase.rpc('save_admin_y1_question',{
+    p_actor_id:actorId,
+    p_question_id:questionId,
+    p_construct_id:input.construct_id,
+    p_stem:input.stem_md,
+    p_cognitive:input.cognitive,
+    p_difficulty:input.difficulty,
+    p_options:input.options.map(o=>o.content_md),
+    p_correct_index:input.correct_index,
+    p_explanation:input.explanation_md,
   })
-
-  if (keyError) {
-    throw new AppError('Javob kalitini saqlashda xatolik', 500, 'ADMIN_SAVE_ERROR')
+  if(error?.message?.includes('ADMIN_Y1_')) {
+    throw new AppError('Savol yoki javob varianti xato; o‘zgarish saqlanmadi',409,'ADMIN_Y1_VALIDATION_FAILED')
   }
+  if(error || typeof data !== 'string')
+    throw new AppError('Savol va kalit birgalikda saqlanmadi',500,'ADMIN_SAVE_ERROR')
+  return data
 }
 
 const STATUS_TRANSITIONS: Record<AdminContentStatus, AdminContentStatus[]> = {
@@ -562,35 +527,11 @@ export const adminContentService = {
     if (input.format !== 'Y1') {
       throw new AppError('Y2/Y3 savollar faqat moslashtirish/ketma-ketlik kontent konveyeri orqali yaratiladi', 400, 'MULTIFORMAT_PIPELINE_REQUIRED')
     }
-    const construct = await resolveConstruct(input.construct_id)
-
-    const { data: question, error } = await supabase
-      .from('questions')
-      .insert({
-        stem_md: input.stem_md.trim(),
-        format: input.format,
-        cognitive: input.cognitive,
-        difficulty: input.difficulty,
-        status: 'draft',
-        construct_id: construct.id,
-        subject_id: construct.subject_id,
-        group_code: construct.group_code,
-        author_id: staff.id,
-      })
-      .select('id')
-      .single()
-
-    if (error || !question) {
-      throw new AppError(error?.message || 'Savol yaratilmadi', 400, 'ADMIN_SAVE_ERROR')
-    }
-
-    await replaceQuestionOptionsAndKey(question.id, input)
-    await writeAudit(staff.id, 'question.create', 'questions', question.id, {
-      format: input.format,
-      construct_id: construct.id,
+    const id=await saveY1Atomically(staff.id,null,input)
+    await writeAudit(staff.id,'question.create','questions',id,{
+      format:input.format,construct_id:input.construct_id,
     })
-
-    return { id: question.id }
+    return {id}
   },
 
   async updateQuestion(questionId: string, input: SaveAdminQuestionInput, userToken: string) {
@@ -624,28 +565,19 @@ export const adminContentService = {
         409, 'PUBLISHED_IMMUTABLE')
     }
 
-    const construct = await resolveConstruct(input.construct_id)
-
-    const { error } = await supabase
-      .from('questions')
-      .update({
-        stem_md: input.stem_md.trim(),
-        format: input.format,
-        cognitive: input.cognitive,
-        difficulty: input.difficulty,
-        construct_id: construct.id,
-        subject_id: construct.subject_id,
-        group_code: construct.group_code,
-        updated_at: new Date().toISOString(),
-      })
-      .eq('id', questionId)
-
-    if (error) throw new AppError('Savol yangilanmadi', 500, 'ADMIN_SAVE_ERROR')
-
-    // Y2 matching and Y3 ordering carry specialized server keys and option
-    // groups. A generic Y1 editor must never delete those payloads.
     if (input.format === 'Y1') {
-      await replaceQuestionOptionsAndKey(questionId, input)
+      // Atomic PostgreSQL RPC: no partial text, option or key changes survive failure.
+      await saveY1Atomically(staff.id,questionId,input)
+    } else {
+      // Structured Y2/Y3 keys and option groups must remain intact.
+      const construct=await resolveConstruct(input.construct_id)
+      const {error}=await supabase.from('questions').update({
+        stem_md:input.stem_md.trim(),cognitive:input.cognitive,
+        difficulty:input.difficulty,construct_id:construct.id,
+        subject_id:construct.subject_id,group_code:construct.group_code,
+        updated_at:new Date().toISOString(),
+      }).eq('id',questionId)
+      if(error) throw new AppError('Savol yangilanmadi',500,'ADMIN_SAVE_ERROR')
     }
     await writeAudit(staff.id, 'question.update', 'questions', questionId, {
       status: existing.status,
