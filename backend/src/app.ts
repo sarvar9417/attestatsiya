@@ -9,6 +9,7 @@ import { contentRoutes } from './routes/content.js'
 import { getZodIssues, sendError } from './lib/errors.js'
 import { authRoutes } from './routes/auth.js'
 import { adminRoutes } from './routes/admin.js'
+import { customExamRoutes } from './routes/custom-exam.js'
 
 /**
  * Fastify app'ni yig'adi (plugins + routes + error handler).
@@ -109,6 +110,7 @@ export async function buildApp() {
   await app.register(healthRoutes)
   await app.register(authRoutes)
   await app.register(examRoutes)
+  await app.register(customExamRoutes)
   await app.register(progressRoutes)
   await app.register(contentRoutes)
   await app.register(adminRoutes)

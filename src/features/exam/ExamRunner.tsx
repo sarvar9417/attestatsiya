@@ -48,6 +48,7 @@ import ExamQuestionAssets from './questions/ExamQuestionAssets'
 import Y2Match from './questions/Y2Match'
 import Y3Order from './questions/Y3Order'
 import { useAuth } from '../../hooks/useAuth'
+import type { CustomExamConfig } from '../custom-test/customTestApi'
 import { cycleTheme, getThemePreference } from '../../utils/theme'
 
 type RunnerPhase =
@@ -60,7 +61,8 @@ type RunnerPhase =
 
 interface ExamRunnerProps {
   gateway?: ExamGateway
-  examKind?: 'mock' | 'bolim' | 'mavzu' | 'mashq' | 'diagnostika' | 'takrorlash' | 'zaif' | 'pedagogik_15' | 'axb_bob'
+  examKind?: 'mock' | 'bolim' | 'mavzu' | 'mashq' | 'diagnostika' | 'takrorlash' | 'zaif' | 'pedagogik_15' | 'axb_bob' | 'custom'
+  customConfig?: CustomExamConfig
   moduleId?: string
   lessonId?: string
   axbChapter?: number
@@ -100,6 +102,7 @@ function initials(value: string | null | undefined): string {
 export default function ExamRunner({
   gateway = backendGateway,
   examKind = 'mock',
+  customConfig,
   moduleId,
   lessonId,
   axbChapter,
@@ -232,6 +235,11 @@ export default function ExamRunner({
           throw new Error('Axborot bobi testini boshlash xizmati mavjud emas.')
         }
         nextSession = await gateway.startAxborotChapter(axbChapter, axbCount)
+      } else if (examKind === 'custom') {
+        if (!customConfig || !gateway.startCustomExam) {
+          throw new Error('Shaxsiy test sozlamasi topilmadi. Konstruktorga qayting.')
+        }
+        nextSession = await gateway.startCustomExam(customConfig)
       } else if (examKind === 'bolim') {
         if (!moduleId) {
           throw new Error('Bo‘lim sinovi uchun modul identifikatori topilmadi.')
@@ -465,6 +473,7 @@ export default function ExamRunner({
   }
 
   const examTitle =
+    examKind === 'custom' ? 'Shaxsiy test' :
     examKind === 'axb_bob' ? `Axborot testlari — ${axbChapter}-bob` :
     examKind === 'pedagogik_15' ? 'Pedagogik mahorat va kasb standarti — 15 savol' :
     examKind === 'mock'
@@ -485,6 +494,7 @@ export default function ExamRunner({
   if (phase === 'intro' || phase === 'starting' || phase === 'start-error') {
     const starting = phase === 'starting'
     const questionLabel =
+      examKind === 'custom' ? `${customConfig?.total_count ?? 0} savol` :
       examKind === 'axb_bob' ? `${axbCount ?? 0} savol` :
       examKind === 'pedagogik_15' ? '15 savol (5 + 7 + 3)' :
       examKind === 'mock'
@@ -503,6 +513,7 @@ export default function ExamRunner({
                 ? `${topicPreview.questionCount} savol`
                 : 'Mavzu testi'
     const durationLabel =
+      examKind === 'custom' ? (customConfig?.duration_sec ? `${customConfig.duration_sec / 60} daqiqa` : 'Cheklanmagan') :
       examKind === 'axb_bob' ? `${(axbCount ?? 0) * 2} daqiqa (mashq)` :
       examKind === 'pedagogik_15' ? '30 daqiqa (mashq)' :
       examKind === 'mock'

@@ -6,6 +6,7 @@ import {
   ChevronLeft,
   ChevronRight,
   ClipboardCheck,
+  SlidersHorizontal,
   History,
   LayoutDashboard,
   Monitor,
@@ -38,6 +39,11 @@ const NAV_ITEMS: NavItem[] = [
     to: '/exam',
     icon: <ClipboardCheck size={18} aria-hidden="true" />,
     label: 'Testlar va mock imtihon',
+  },
+  {
+    to: '/custom-test',
+    icon: <SlidersHorizontal size={18} aria-hidden="true" />,
+    label: 'Shaxsiy test yaratish',
   },
   {
     to: '/professional-practice',

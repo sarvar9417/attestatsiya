@@ -49,14 +49,31 @@ export function useCatalog(): CatalogState {
         } catch {
           // Offline or incomplete rollout: retain the previously published M06.
         }
-        // TASK-220: do not surface M12 V2 until ALL ten source-backed lessons
-        // are published. Incomplete / errored rollout leaves the legacy catalog.
+        // TASK-212: Use the exact published seven-chapter M13 AXR edition,
+        // otherwise retain the previous M13 catalog. Never show review questions.
+        try {
+          const detail = await getModuleDetail('M13')
+          const chapters = detail.lessons.filter(
+            lesson => lesson.status === 'published' &&
+              /^m13-axr-0[1-7]$/.test(lesson.slug)
+          )
+          if (chapters.length === 7) {
+            const mod = base.find(module => module.code === 'M13')
+            if (mod) mod.subtopics = chapters
+              .sort((a, b) => a.order_idx - b.order_idx)
+              .map(lesson => ({
+                id: lesson.id, code: lesson.slug, title: lesson.title_uz,
+              }))
+          }
+        } catch {
+          // Legacy M13 stays available when API is offline or incomplete.
+        }
         let learnerModules = base
         try {
-          const detail = await getModuleDetail('M12')
-          learnerModules = usePublishedNetworkV2Catalog(base, detail)
+          // All ten V2 lessons must be published before showing any to students.
+          learnerModules = usePublishedNetworkV2Catalog(base, await getModuleDetail('M12'))
         } catch {
-          // Existing M12 remains usable if new edition is unavailable.
+          // Leave original module visible on offline or incomplete rollout.
         }
         if (!cancelled) setState({ modules: learnerModules, loading: false, online: true })
       })

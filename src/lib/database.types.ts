@@ -947,6 +947,7 @@ export type Database = {
         | "takrorlash"
         | "zaif"
         | "pedagogik_15"
+        | "custom"
       exam_section:
         | "specialty"
         | "professional_standard"
@@ -1093,6 +1094,7 @@ export const Constants = {
         "takrorlash",
         "zaif",
         "pedagogik_15",
+        "custom",
       ],
       exam_section: [
         "specialty",

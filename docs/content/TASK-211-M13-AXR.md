@@ -1,6 +1,6 @@
 # TASK-211 — M13: Axborot xavfsizligi va raqamli platformalar
 
-**Status:** REVIEW / NOT RELEASED. The content is staged exclusively in a migration; no live Supabase write, merge, or production deployment is part of this change.
+**Status (2026-10-18):** MERGED + IMPORTED TO PRODUCTION SUPABASE IN REVIEW; NOT PUBLISHED FOR LEARNERS. PR #145 was squash-merged; the new 7 lessons and 210 questions remain review-only until a separate expert-approved publication.
 
 ## Content
 - Theory: 7 standalone source-derived chapters adapted from the approved LaTeX book into readable Markdown; preserved in `docs/content/m13_axr_2026_lessons.json`.
@@ -20,7 +20,16 @@ The supplied source marks 7 Y2 and 7 Y3 questions, but **all 14 are four-option 
 2. Run migration on disposable LOCAL database only (not paid Supabase development, not production).
 3. Run DB QA, API/server-side scoring smoke checks, and UI navigation/scroll regression.
 4. Prepare conversion of these review lessons to approved/published **as a new release step** after human sign-off; ensure frontend resolves published lesson UUIDs and topic test pool preflight.
-5. Do not change immutable published records in-place. Obtain explicit approval for PR merge and production migration/deployment.
+5. Existing published records remain immutable. GitHub merge and production REVIEW import were approved and completed on 2026-10-18. Learner publication still requires human editorial signoff, API/UI validation and a separate release.
 
 ## Source note
 LaTeX original: `Axborot_xavfsizligi_2026_nazariya.tex`; test original: `Axborot_xavfsizligi_2026_savollar.json`. Content created for didactic practice, not copied from official examination questions.
+
+## Verified production import (2026-10-18)
+
+- GitHub PR #145 merged to `main`, merge commit `dde444fbb7e3a9acc07bae9663f5dede3e353d4c`.
+- Supabase project `attestatsiya100%` (`plyqezulrfowyblsfpzy`) migration `20261018130412_task211_m13_axr_review_content_20261019` applied successfully.
+- Read-only production audit: exactly 7 M13 AXR review lessons, exactly 210 review questions (30 per chapter), 840 options, 210 protected keys, no missing/invalid option keys, 210/210 valid source-lesson links.
+- Existing `S7.SEC` published questions remain 60; no new question has been published.
+- New chapter theory/questions are **not yet visible** through learner study routes because content service requires `published`.
+- Next task: expert verification and explicit promotion/release of a reviewed new edition. Do not infer approval from import/merge.

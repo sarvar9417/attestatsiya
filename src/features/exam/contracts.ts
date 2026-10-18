@@ -78,6 +78,7 @@ export const examSessionSchema = z
       'zaif',
       'pedagogik_15',
       'axb_bob',
+      'custom',
     ]),
     duration_sec: z.number().int().positive().nullable(),
     started_at: z.string().refine((value) => Number.isFinite(Date.parse(value)), {
@@ -180,6 +181,7 @@ export const examHistoryItemSchema = z
       'zaif',
       'pedagogik_15',
       'axb_bob',
+      'custom',
     ]),
     lesson_id: uuidSchema.nullable(),
     lesson_slug: z.string().nullable(),

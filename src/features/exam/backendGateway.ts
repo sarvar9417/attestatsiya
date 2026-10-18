@@ -12,6 +12,7 @@
  */
 
 import { z } from 'zod'
+import type { CustomExamConfig } from '../custom-test/customTestApi'
 import { api, isNetworkError } from '../../lib/apiClient'
 import {
   examSessionSchema,
@@ -99,6 +100,11 @@ const axbChaptersSchema = z.array(z.object({
 }).strict()).length(19)
 
 export const backendGateway: ExamGateway = {
+  async startCustomExam(config: CustomExamConfig): Promise<ExamSession> {
+    const data = await api.post<unknown>('/api/custom-tests/start', config)
+    return parseResponse(examSessionSchema, data, 'start_custom')
+  },
+
   async getAxborotChapters(): Promise<AXBChapter[]> {
     const data = await api.get<unknown>('/api/exam/axb/chapters')
     return parseResponse(axbChaptersSchema, data, 'axb_chapters')
