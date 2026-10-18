@@ -252,7 +252,8 @@ export const contentService = {
         typeof preflight.duration_sec !== 'number' ||
         typeof preflight.reason !== 'string' ||
         !Array.isArray(preflight.coverage) ||
-        !Array.isArray(preflight.critical_objective_gaps)) {
+        !Array.isArray(preflight.critical_objective_gaps) ||
+        !Array.isArray(preflight.missing_required_objectives)) {
       throw new AppError('Mavzu testi tayyorligi noto‘g‘ri qaytdi', 503, 'TOPIC_PREFLIGHT_INVALID')
     }
     return {
@@ -263,6 +264,7 @@ export const contentService = {
       reason: preflight.reason,
       coverage: preflight.coverage,
       critical_objective_gaps: preflight.critical_objective_gaps,
+      missing_required_objectives: preflight.missing_required_objectives,
     }
   },
 
