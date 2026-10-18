@@ -347,11 +347,14 @@ export default function TopicView({
   const isAppendix = content?.kind === 'appendix'
   /** Testga o'tish imkoni bormi. */
   const currentReadiness = topicReadiness?.subtopicId === subtopicId ? topicReadiness.data : null
-  const hasTest = currentReadiness?.ready === true
+  // Reference appendices (glossary/formula sheets/diagnostic aids) are not
+  // standalone assessed lessons. A shared construct pool may falsely report
+  // them ready (for example M01.09), but reading an appendix is enough.
+  const hasTest = !isAppendix && currentReadiness?.ready === true
   const displayedTestCount = currentReadiness?.required ?? 0
   const handleTopicTestAction = () => {
     if (hasTest) navigate(`/exam/mavzu/${moduleId}?lessonId=${subtopicId}`)
-    else if (!isProfessionalLesson && (!isAlgoritmlashV2 || isAppendix)) handleComplete(0, 0)
+    else if (isAppendix) handleComplete(0, 0)
   }
 
   // Theory type distribution
@@ -798,23 +801,22 @@ export default function TopicView({
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 mb-4">
                     {hasTest
                       ? `Endi bilimingizni sinab ko'ring — ${displayedTestCount} ta savol`
-                      : isProfessionalLesson
-                        ? currentReadiness
-                          ? `Mavzu testi tayyorlanmoqda: ${currentReadiness.available}/${currentReadiness.required} mos savol.`
-                          : 'Testning tayyorligini tekshirib bo‘lmadi.'
-                        : isAppendix
+                      : isAppendix
                         ? "Bu ilova takrorlash uchun — test ko'zda tutilmagan"
-                        : "Bu mavzu uchun test hali qo'shilmagan"}
+                        : currentReadiness
+                          ? `Mavzu testi tayyorlanmoqda: ${currentReadiness.available}/${currentReadiness.required} mos savol.`
+                          : 'Testning tayyorligini tekshirib bo‘lmadi.'}
                   </p>
                   <button
                     onClick={handleTopicTestAction}
-                disabled={(isProfessionalLesson || (isAlgoritmlashV2 && !isAppendix)) && !hasTest}
+                disabled={!isAppendix && !hasTest}
                     className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-xl text-sm font-semibold hover:from-primary-700 hover:to-primary-600 transition-all shadow-xl shadow-primary-200 dark:shadow-primary-900/40 hover:shadow-2xl hover:-translate-y-0.5 animate-pop-in"
                   >
                     {hasTest
                       ? <><Target size={16} /> Bilimni tekshirish <ArrowRight size={16} /></>
-                      : (isProfessionalLesson || isAlgoritmlashV2) ? <><RefreshCw size={16} /> Test hali tayyor emas</>
-                      : <><CheckCircle2 size={16} /> Mavzuni yakunlash <ArrowRight size={16} /></>}
+                      : isAppendix
+                        ? <><CheckCircle2 size={16} /> Mavzuni yakunlash <ArrowRight size={16} /></>
+                        : <><RefreshCw size={16} /> Test hali tayyor emas</>}
                   </button>
                 </div>
               </>
@@ -858,7 +860,7 @@ export default function TopicView({
               )}
               <button
                 onClick={handleTopicTestAction}
-                disabled={(isProfessionalLesson || (isAlgoritmlashV2 && !isAppendix)) && !hasTest}
+                disabled={!isAppendix && !hasTest}
                 className="inline-flex items-center gap-3 px-6 py-3.5 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-xl text-sm font-semibold hover:from-primary-700 hover:to-primary-600 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full sm:w-auto justify-center"
               >
                 <span className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
@@ -866,7 +868,7 @@ export default function TopicView({
                     ? <Target size={16} className="text-white" />
                     : <CheckCircle2 size={16} className="text-white" />}
                 </span>
-                <span>{hasTest ? 'Bilimni tekshirish' : (isProfessionalLesson || isAlgoritmlashV2) ? 'Mavzu testi tayyorlanmoqda' : 'Mavzuni yakunlash'}</span>
+                <span>{hasTest ? 'Bilimni tekshirish' : isAppendix ? 'Mavzuni yakunlash' : 'Mavzu testi tayyorlanmoqda'}</span>
                 {hasTest && (
                   <span className="text-[11px] bg-white/20 px-2.5 py-1 rounded-lg whitespace-nowrap">{displayedTestCount} ta savol</span>
                 )}

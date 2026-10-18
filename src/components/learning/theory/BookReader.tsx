@@ -199,11 +199,17 @@ export default function BookReader({
                 : 'Bu bob uchun test hali qo‘shilmagan'}
           </p>
 
-          <button type="button" onClick={onFinishReading} className="book-finish-cta">
+          <button
+            type="button"
+            onClick={onFinishReading}
+            disabled={!hasTest && !isAppendix}
+            aria-disabled={!hasTest && !isAppendix}
+            className="book-finish-cta disabled:cursor-not-allowed disabled:opacity-60"
+          >
             {hasTest ? <Target size={16} /> : <Check size={16} />}
-            {hasTest ? 'Testni boshlash' : 'Mavzuni yakunlash'}
+            {hasTest ? 'Testni boshlash' : isAppendix ? 'Mavzuni yakunlash' : 'Test hali tayyor emas'}
             {hasTest && <span className="book-finish-cta-meta">{questionCount} ta savol</span>}
-            <ArrowRight size={16} />
+            {hasTest && <ArrowRight size={16} />}
           </button>
 
           <div className="book-finish-links">
