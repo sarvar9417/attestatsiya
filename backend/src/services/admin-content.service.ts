@@ -264,7 +264,11 @@ export const adminContentService = {
         .from('pedagogy_option_quality_flags')
         .select('question_id, answer_length_signal, publish_word_balance_risk, absolute_word_cue, invalid_y1_contract, authorship_unknown')
         .in('question_id', professionalIds)
-      if (flagError) throw new AppError('Pedagogika sifat ko‘rsatkichlari yuklanmadi', 503, 'EDITORIAL_QUALITY_UNAVAILABLE')
+      if (flagError && !['PGRST205', '42P01'].includes(flagError.code ?? '')) {
+        throw new AppError('Pedagogika sifat ko‘rsatkichlari yuklanmadi', 503, 'EDITORIAL_QUALITY_UNAVAILABLE')
+      }
+      // The staff-only view may not yet exist in production until the separate
+      // database migration is authorized. Preserve CMS access; render no badges.
       quality = new Map(((flags ?? []) as QualityFlag[]).map(flag => [flag.question_id, flag]))
     }
     return {
