@@ -129,16 +129,16 @@ begin
   if v_session::text like '%correct_option_id%' or v_session::text like '%explanation_md%' then
     raise exception 'custom session leaked answer key';
   end if;
-  select count(*) into v_total from public.exam_items where exam_id=v_exam;
+  -- AUTHENTICATED callers must not query private exam_items or keys directly.
+  -- Inspect only the keyless public session payload returned by RPC.
+  v_total := jsonb_array_length(v_session->'items');
   if v_total<>7 then raise exception 'wrong item count %',v_total; end if;
-  select count(distinct question_id) into v_total
-  from public.exam_items where exam_id=v_exam;
+  select count(distinct item->>'question_id') into v_total
+  from jsonb_array_elements(v_session->'items') item;
   if v_total<>7 then raise exception 'duplicate custom question'; end if;
 
-  select ei.question_id into v_q from public.exam_items ei
-  where ei.exam_id=v_exam order by ei.order_idx limit 1;
-  select o.id into v_option from public.question_options o
-  where o.question_id=v_q order by o.order_idx limit 1;
+  v_q := (v_session->'items'->0->>'question_id')::uuid;
+  v_option := (v_session->'items'->0->'options'->0->>'id')::uuid;
   v_submit := public.submit_answer(v_exam,v_q,jsonb_build_object('option_id',v_option),1);
   if v_submit->>'saved'<>'true' or v_submit ? 'correct'
      or v_submit ? 'explanation_md' then
@@ -165,10 +165,6 @@ begin
     end if;
   end;
   if not v_failed then raise exception 'insufficient pool must fail before writing'; end if;
-  select count(*) into v_total from public.exams
-  where user_id='92100000-0000-4000-8000-000000000001' and kind='custom';
-  if v_total<>1 then raise exception 'failure created extra exam'; end if;
-
   v_finish := public.finish_exam(v_exam);
   if (v_finish->>'max_score')::int<>14 then raise exception 'custom scoring invalid: %',v_finish; end if;
   v_review := public.get_review(v_exam);
@@ -177,4 +173,18 @@ end
 $test$;
 
 reset role;
+
+do $admincheck$
+declare v_exam uuid;
+declare v_total int;
+begin
+  select id into v_exam from public.exams
+  where user_id='92100000-0000-4000-8000-000000000001' and kind='custom';
+  select count(*) into v_total from public.exams
+  where user_id='92100000-0000-4000-8000-000000000001' and kind='custom';
+  if v_total<>1 then raise exception 'failed start created extra exam'; end if;
+  select count(*) into v_total from public.exam_items where exam_id=v_exam;
+  if v_total<>7 then raise exception 'custom exam items count incorrect'; end if;
+end
+$admincheck$;
 rollback;
