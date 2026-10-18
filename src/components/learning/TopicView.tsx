@@ -145,7 +145,8 @@ export default function TopicView({
     : staticContent
   /** Kontent qo'llanmadan generatsiya qilinganmi (M01) — bo'limli o'qish rejimi. */
   const isBook = Boolean(content?.source)
-  const isPublishedPedagogy = moduleId === 'M15' && publishedTheory?.subtopicId === subtopicId
+  const isSemanticProfessional = /^M1[456]$/.test(moduleId) && publishedTheory?.subtopicId === subtopicId
+  const isPublishedPedagogy = moduleId === 'M15' && isSemanticProfessional
   const pedagogyStudyNotes = isPublishedPedagogy ? getPedagogyStudyNotes(subtopicId) : []
   const supplementalTheory = isPublishedPedagogy ? (content?.supplementalTheory ?? []) : []
 
@@ -530,11 +531,11 @@ export default function TopicView({
                 </span>
               ) : (
                 <span className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-2.5 py-1 rounded-lg">
-                  <BookText size={12} /> {isPublishedPedagogy ? 'Tartibli nazariya va misollar' : content.theory.length + ' ta blok'}
+                  <BookText size={12} /> {isSemanticProfessional ? 'Tartibli nazariya va misollar' : content.theory.length + ' ta blok'}
                 </span>
               )}
               {/* Theory type badges — scroll rejimidagi eski mavzular uchun */}
-              {isBook || isPublishedPedagogy
+              {isBook || isSemanticProfessional
                 ? null
                 : Object.entries(theoryTypeCount).map(([type, count]) => {
                     const cfg = THEORY_BLOCK_CONFIG[type as keyof typeof THEORY_BLOCK_CONFIG]
@@ -611,7 +612,7 @@ export default function TopicView({
                       </div>
                     </div>
                   )}
-                  {isPublishedPedagogy ? <PedagogyTheoryBlock block={block} /> : <TheoryBlock block={block} />}
+                  {isSemanticProfessional ? <PedagogyTheoryBlock block={block} /> : <TheoryBlock block={block} />}
                 </div>
               ))}
             </div>
@@ -649,7 +650,7 @@ export default function TopicView({
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
               {/* Show responsive: full dots on desktop, summary on mobile */}
-              <div className={isPublishedPedagogy ? 'hidden' : 'hidden sm:flex gap-1.5'}>
+              <div className={isSemanticProfessional ? 'hidden' : 'hidden sm:flex gap-1.5'}>
                 {content.theory.map((_, i) => (
                   <div 
                     key={i} 
