@@ -15,11 +15,15 @@ const mocks = vi.hoisted(() => ({
   questionEditor: vi.fn(),
   createQuestion: vi.fn(),
   updateQuestion: vi.fn(),
+  stagePedagogyRevision: vi.fn(),
 }))
 
 vi.mock('../../services/admin-content.service.js', () => ({
   adminContentService: mocks,
 }))
+
+const pdfMocks=vi.hoisted(()=>({list:vi.fn()}))
+vi.mock('../../services/pedagogy-pdf.service.js',()=>({pedagogyPdfService:pdfMocks}))
 
 const sourceMocks = vi.hoisted(() => ({
   importBatch: vi.fn(),
@@ -380,6 +384,44 @@ describe('admin CMS backend boundary', () => {
     expect(res.statusCode).toBe(200)
     expect(res.json().published).toBe(0)
     expect(sourceMocks.importStage4).toHaveBeenCalledWith('admin-token',body)
+    await app.close()
+  })
+
+  it('private PDF source queue rejects anonymous, pages and validates filters', async () => {
+    const app=makeApp()
+    await app.register(adminRoutes); await app.ready()
+    const uri='/api/admin/pedagogy-pdf-candidates'
+    expect((await app.inject({method:'GET',url:uri})).statusCode).toBe(401)
+    expect((await app.inject({method:'GET',url:uri+'?page_size=800',
+      headers:{authorization:'Bearer admin-token'}})).statusCode).toBe(400)
+    pdfMocks.list.mockResolvedValue({items:[],total:649,page:2,page_size:20})
+    const response=await app.inject({method:'GET',
+      url:uri+'?page=2&page_size=20&status=verified&source_year=2025&unlinked_only=true',
+      headers:{authorization:'Bearer admin-token'}})
+    expect(response.statusCode).toBe(200)
+    expect(response.headers['cache-control']).toBe('private, no-store')
+    expect(response.json().total).toBe(649)
+    expect(pdfMocks.list).toHaveBeenCalledWith('admin-token',{
+      page:2,page_size:20,status:'verified',source_year:2025,unlinked_only:true,
+    })
+    await app.close()
+  })
+
+  it('only authenticated CMS calls can stage a new review revision',async()=>{
+    const app=makeApp()
+    await app.register(adminRoutes);await app.ready()
+    const id='11111111-1111-4111-8111-111111111111'
+    const uri='/api/admin/questions/'+id+'/stage-revision'
+    expect((await app.inject({method:'POST',url:uri})).statusCode).toBe(401)
+    expect((await app.inject({method:'POST',
+      url:'/api/admin/questions/not-a-uuid/stage-revision',
+      headers:{authorization:'Bearer admin-token'}})).statusCode).toBe(400)
+    mocks.stagePedagogyRevision.mockResolvedValue({id:'22222222-2222-4222-8222-222222222222',status:'review'})
+    const result=await app.inject({method:'POST',url:uri,
+      headers:{authorization:'Bearer admin-token'}})
+    expect(result.statusCode).toBe(201)
+    expect(result.json().status).toBe('review')
+    expect(mocks.stagePedagogyRevision).toHaveBeenCalledWith(id,'admin-token')
     await app.close()
   })
 
