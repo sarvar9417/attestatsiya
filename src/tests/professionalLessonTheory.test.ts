@@ -51,7 +51,7 @@ describe('professional source-backed lesson to learner UI', () => {
     const table=theory.find(block=>block.type==='table')
     expect(table?.headers).toEqual(['Metod', 'Belgisi'])
     expect(table?.rows?.[0]).toEqual(['Akvarium', 'Kuzatuv'])
-    expect(table?.content).toContain('Jigsaw|Ekspert guruhi')
+    expect(table?.rows?.[1]).toEqual(['Jigsaw', 'Ekspert guruhi'])
   })
   it('shows published M15 lessons and keeps only local fallback questions', () => {
     const result=overlayPublishedProfessionalLesson(fallback,lesson)
