@@ -144,7 +144,22 @@ export function resolveLearnerTheoryContent(
   staticContent: TopicContent,
   publishedContent?: TopicContent | null,
 ): TopicContent {
-  // M02 renders the complete nine-part textbook-derived theory as four canonical lessons.
-  if (subtopicId.startsWith('M02.') || subtopicId.startsWith('M15.')) return staticContent
+  // M02 keeps its full, hand-curated 9-part static theory as the canonical core.
+  // Only the explicitly identified source-checked DB addendum may be appended.
+  // This prevents a short DB summary from replacing the learner's theory,
+  // while allowing approved additions edited in the database to reach the UI.
+  if (subtopicId.startsWith('M02.')) {
+    if (!publishedContent || publishedContent === staticContent) return staticContent
+    const newSection = publishedContent.theory.findIndex(
+      block => block.type === 'heading'
+        && block.content.startsWith('Tekshirilgan qo‘shimcha:'),
+    )
+    if (newSection < 0) return staticContent
+    return {
+      ...staticContent,
+      theory: [...staticContent.theory, ...publishedContent.theory.slice(newSection)],
+    }
+  }
+  if (subtopicId.startsWith('M15.')) return staticContent
   return publishedContent ?? staticContent
 }

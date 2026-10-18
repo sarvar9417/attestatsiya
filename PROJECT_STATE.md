@@ -1,3 +1,15 @@
+## TASK-230–238 — Shaxsiy test konstruktori: main merge, staging pending (2026-10-18)
+
+- **GitHub merged:** PR #168 (TASK-230–235) SHA 75a0797442119715caff548015aa77399ab96850; PR #172 (TASK-236 QA) SHA 792dd6a2aee01cad38f9f916a7da3f60ce7d9a51.
+- **CI:** PR #168 branch head a016c935, workflow 39137536934 (backend/database/quality success); PR #172 head bda694e7, workflow 39138376125 success.
+- **Implemented:** construct selection, owner-only finished analytics, session resume and idempotent start, learning-mode feedback, exact quota suggestion, admin coverage, mobile/keyboard QA and cross-user security tests.
+- **TASK-210 early production DB:** initial two SQL migrations 20261018230000 and 20261018231000 applied in production Supabase on 2026-10-18; 2-topic preflight succeeded. PR #144 and UUID fix #161 merged.
+- **TASK-230–234 DB:** five new SQL migrations in main but **not** applied to production.
+- **Vercel production:** last observed READY deployment SHA 73b48a79989b1f991eca7ed78803ba472e90d68e (old). No new production deployment was requested; prior create attempt was blocked by HTTP 402 daily deployment quota.
+- **Staging blocker:** Supabase project attestatsiya100% has no development branch. Creation asked for paid hourly cost confirmation; none given, so branch not created. Do not use Cambridge production or test/write into Attestatsiya production.
+- **Next gates:** TASK-237 isolated staging with cost agreement, real learner/admin acceptance, independent code/security review; TASK-238 owner-approved migration and production deploy with verified rollback.
+- **Handoff:** docs/TASK237_CUSTOM_BUILDER_STAGING_ACCEPTANCE.md.
+
 ## TASK-214 — Grafika va veb-texnologiyalar 380 test (2026-10-18)
 
 - **Holat:** IN_PROGRESS — 300 mavjud review bank saqlangan, 5 bo‘limga 8 ta Y2 + 8 ta Y3 qo‘shimcha, jami 380 (Y1=280, Y2=50, Y3=50). Source text: V2 nazariya va ICT/Cambridge boblari; yozilgan savollar original, mustaqil human QA kutmoqda.
@@ -14,10 +26,10 @@
 
 ## TASK-210 — Universal shaxsiy test konstruktori (2026-10-18, functional branch verified)
 
-- **Status:** IN_PROGRESS — draft PR #144; main/production o‘zgarmagan.
+- **Status:** IN_PROGRESS — PR #144 and #161 merged, early SQL migrations applied to production Supabase; production Vercel not yet updated and full acceptance remains open.
 - **Branch:** `task/TASK-210-custom-test-builder`; change scope: RFC, Zod quota parser/planner, safe catalog/preflight, atomic `custom` exam RPC and key-leak guard, frontend wizard and shared ExamRunner, history/result labels, SQL/backend/E2E tests.
 - **Validatsiya:** latest functional commit `68adea436e46` da CI backend, fresh PostgreSQL/database (jumladan `supabase/tests/custom_exam.test.sql`), quality/lint/typecheck/build/Playwright E2E = **SUCCESS**. Shu hujjat commitidan keyin CI qayta tekshirilsin.
-- **DB:** `20261018230000_task210_custom_exam.sql` va `20261018231000_task210_custom_exam_feedback_guard.sql` — productionga qo‘llanmagan. `exam_kind='custom'`, public `custom_exam_preflight(jsonb)`, `generate_custom_exam(jsonb)`; user auth, exact per-lesson A–E quotas, published/keyed/source-backed filters va all-or-nothing.
+- **DB:** `20261018230000_task210_custom_exam.sql` va `20261018231000_task210_custom_exam_feedback_guard.sql` — production Supabasega qo‘llangan (2026-10-18). `exam_kind='custom'`, public `custom_exam_preflight(jsonb)`, `generate_custom_exam(jsonb)`; user auth, exact per-lesson A–E quotas, published/keyed/source-backed filters va all-or-nothing.
 - **UI:** `/custom-test` protected wizard → `/exam/custom`, ko‘p modul, qo‘lda A–E kvota, Y1/Y2/Y3, exposure, mode, timer. All results in same server-authoritative history flow. Learning mode hozir feedbackni **yakunda** ko‘rsatadi.
 - **Qolgan va `DONE` uchun majburiy:** shaxsiy preset saqlash CRUD + RLS; construct-level microtopic selection; domain analytics/result breakdown by selected topic; active attempt resume/idempotent start; migration remote rollout / production acceptance, accessibility va UX smoke. Yakunlanmagan bo‘limlarni “Completed” deb belgilamang.
 - **Release restriction:** iznsiz `main` merge, Vercel production deploy yoki production DB migration yo‘q. PR #144 Draft qoladi.

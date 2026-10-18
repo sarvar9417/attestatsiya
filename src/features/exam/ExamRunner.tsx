@@ -274,9 +274,27 @@ export default function ExamRunner({
         if (answer !== undefined) initialDrafts[item.question_id] = answer
       }
 
+      // Restore only the owner's persisted answers; correctness and keys remain hidden.
+      for (const item of nextSession.items) {
+        const stored = nextSession.saved_answers?.[item.question_id]
+        if (!stored || typeof stored !== 'object' || Array.isArray(stored)) continue
+        const response = stored as Record<string, unknown>
+        if (item.format === 'Y1' && typeof response.option_id === 'string') {
+          initialDrafts[item.question_id] = response.option_id
+        } else if (item.format === 'Y2' && response.pairs && typeof response.pairs === 'object'
+          && !Array.isArray(response.pairs)) {
+          const entries = Object.entries(response.pairs)
+          if (entries.every(([, value]) => typeof value === 'string')) {
+            initialDrafts[item.question_id] = Object.fromEntries(entries) as Record<string, string>
+          }
+        } else if (item.format === 'Y3' && Array.isArray(response.order)
+          && response.order.every(value => typeof value === 'string')) {
+          initialDrafts[item.question_id] = response.order as string[]
+        }
+      }
       setSession(nextSession)
       setDrafts(initialDrafts)
-      setSavedQuestionIds(new Set())
+      setSavedQuestionIds(new Set(nextSession.answered_question_ids ?? []))
       setFlaggedQuestionIds(new Set())
       setCurrentIndex(0)
       setClockNow(Date.now())

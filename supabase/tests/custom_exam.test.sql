@@ -3,7 +3,9 @@
 begin;
 
 insert into auth.users(id,email)
-values ('92100000-0000-4000-8000-000000000001', 'task210@example.invalid');
+values
+  ('92100000-0000-4000-8000-000000000001', 'task210@example.invalid'),
+  ('92100000-0000-4000-8000-000000000002', 'task210-other@example.invalid');
 
 do $setup$
 declare
@@ -75,6 +77,9 @@ begin
      or has_function_privilege('anon','public.custom_exam_preflight(jsonb)','EXECUTE') then
     raise exception 'anonymous custom RPC access forbidden';
   end if;
+  if has_function_privilege('authenticated','public.admin_custom_exam_pool_coverage()','EXECUTE') then
+    raise exception 'learner can access staff-only pool coverage';
+  end if;
   if not has_function_privilege('authenticated','public.generate_custom_exam(jsonb)','EXECUTE')
      or not has_function_privilege('authenticated','public.custom_exam_preflight(jsonb)','EXECUTE') then
     raise exception 'authenticated custom RPC privileges missing';
@@ -97,6 +102,7 @@ declare
   v_submit jsonb;
   v_finish jsonb;
   v_review jsonb;
+  v_analysis jsonb;
   v_total int;
   v_failed boolean := false;
 begin
@@ -111,6 +117,19 @@ begin
     'formats',jsonb_build_array('Y1'),
     'exposure','all','mode','exam','duration_sec',900
   );
+
+  -- An objective not mapped to the selected lesson is rejected without creating an exam.
+  v_bad := jsonb_set(v_config,'{topics,0,construct_id}',
+    '"00000000-0000-4000-8000-000000000099"'::jsonb);
+  v_failed := false;
+  begin
+    perform public.custom_exam_preflight(v_bad);
+  exception when others then
+    if sqlerrm like '%custom_construct_unavailable%' then v_failed := true;
+    else raise;
+    end if;
+  end;
+  if not v_failed then raise exception 'unmapped construct was accepted'; end if;
 
   v_preview := public.custom_exam_preflight(v_config);
   if v_preview->>'ready'<>'true' or (v_preview->>'requested')::int<>7
@@ -137,6 +156,26 @@ begin
   from jsonb_array_elements(v_session->'items') item;
   if v_total<>7 then raise exception 'duplicate custom question'; end if;
 
+  -- No private analytics or answers before a custom exam finishes.
+  v_failed := false;
+  begin
+    perform public.get_custom_exam_analysis(v_exam);
+  exception when others then
+    if sqlerrm like '%custom_exam_not_finished%' then v_failed := true;
+    else raise;
+    end if;
+  end;
+  if not v_failed then raise exception 'unfinished custom exam analysis exposed'; end if;
+
+  v_session := public.get_active_custom_exam(v_config);
+  if (v_session->>'exam_id')::uuid is distinct from v_exam
+     or jsonb_array_length(v_session->'answered_question_ids')<>0
+     or v_session->'saved_answers'<>'{}'::jsonb
+     or v_session::text like '%correct_option_id%'
+     or v_session::text like '%explanation_md%' then
+    raise exception 'unsafe active custom exam payload: %',v_session;
+  end if;
+
   v_q := (v_session->'items'->0->>'question_id')::uuid;
   v_option := (v_session->'items'->0->'options'->0->>'id')::uuid;
   v_submit := public.submit_answer(v_exam,v_q,jsonb_build_object('option_id',v_option),1);
@@ -148,6 +187,37 @@ begin
   if v_submit->>'already_answered'<>'true' or v_submit ? 'correct' then
     raise exception 'custom duplicate submission leaks feedback: %',v_submit;
   end if;
+  -- Exact repeat start must reuse persisted submitted answers with no keys.
+  v_session := public.generate_custom_exam(v_config);
+  if (v_session->>'exam_id')::uuid is distinct from v_exam
+     or jsonb_array_length(v_session->'answered_question_ids')<>1
+     or v_session->'saved_answers'->v_q::text->>'option_id' is distinct from v_option::text
+     or v_session::text like '%correct_option_id%'
+     or v_session::text like '%explanation_md%' then
+    raise exception 'duplicate start lost response or leaked keys: %',v_session;
+  end if;
+  if public.get_active_custom_exam(jsonb_set(v_config,'{duration_sec}','null'::jsonb)) is not null then
+    raise exception 'resume ignored config filter';
+  end if;
+
+  -- Another learner must never see this active session or its analysis.
+  perform set_config('request.jwt.claim.sub',
+    '92100000-0000-4000-8000-000000000002',true);
+  if public.get_active_custom_exam() is not null then
+    raise exception 'other learner can resume exam';
+  end if;
+  v_failed := false;
+  begin
+    perform public.get_custom_exam_analysis(v_exam);
+  exception when others then
+    if sqlerrm like '%custom_exam_not_found%' then v_failed := true;
+    else raise;
+    end if;
+  end;
+  if not v_failed then raise exception 'other learner sees unfinished analytics'; end if;
+  perform set_config('request.jwt.claim.sub',
+    '92100000-0000-4000-8000-000000000001',true);
+
 
   v_bad := jsonb_set(v_config,'{topics,0,difficulty_counts,0,count}','5'::jsonb);
   v_bad := jsonb_set(v_bad,'{topics,0,count}','5'::jsonb);
@@ -166,7 +236,40 @@ begin
   end;
   if not v_failed then raise exception 'insufficient pool must fail before writing'; end if;
   v_finish := public.finish_exam(v_exam);
+  if public.get_active_custom_exam() is not null then
+    raise exception 'finished exam must not be returned as active';
+  end if;
   if (v_finish->>'max_score')::int<>14 then raise exception 'custom scoring invalid: %',v_finish; end if;
+  v_analysis := public.get_custom_exam_analysis(v_exam);
+  if (v_analysis->>'total')::int <> 7 or (v_analysis->>'answered')::int <> 1
+     or jsonb_array_length(v_analysis->'by_lesson')<>2 then
+    raise exception 'post-finish analytics mismatch %',v_analysis;
+  end if;
+  -- A completed report is also private, even when its UUID is known.
+  perform set_config('request.jwt.claim.sub',
+    '92100000-0000-4000-8000-000000000002',true);
+  v_failed := false;
+  begin
+    perform public.get_custom_exam_analysis(v_exam);
+  exception when others then
+    if sqlerrm like '%custom_exam_not_found%' then v_failed := true;
+    else raise;
+    end if;
+  end;
+  if not v_failed then raise exception 'other learner sees finished analytics'; end if;
+  perform set_config('request.jwt.claim.sub',
+    '92100000-0000-4000-8000-000000000001',true);
+
+  -- In learning mode only, correctness may appear after the answer was saved.
+  v_session := public.generate_custom_exam(jsonb_set(v_config,'{mode}','"learning"'::jsonb));
+  v_q := (v_session->'items'->0->>'question_id')::uuid;
+  v_option := (v_session->'items'->0->'options'->0->>'id')::uuid;
+  v_submit := public.submit_answer((v_session->>'exam_id')::uuid,v_q,
+    jsonb_build_object('option_id',v_option),1);
+  if v_submit->>'saved'<>'true' or not(v_submit ? 'correct')
+     or not(v_submit ? 'explanation_md') then
+    raise exception 'learning feedback not returned after submit: %',v_submit;
+  end if;
   v_review := public.get_review(v_exam);
   if jsonb_array_length(v_review)<>7 then raise exception 'post-finish review missing'; end if;
 end
@@ -182,7 +285,7 @@ begin
   where user_id='92100000-0000-4000-8000-000000000001' and kind='custom';
   select count(*) into v_total from public.exams
   where user_id='92100000-0000-4000-8000-000000000001' and kind='custom';
-  if v_total<>1 then raise exception 'failed start created extra exam'; end if;
+  if v_total<>2 then raise exception 'unexpected custom exam count after learning'; end if;
   select count(*) into v_total from public.exam_items where exam_id=v_exam;
   if v_total<>7 then raise exception 'custom exam items count incorrect'; end if;
 end

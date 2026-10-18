@@ -82,6 +82,13 @@ export async function adminRoutes(app: FastifyInstance) {
     }
   })
 
+  app.get('/api/admin/custom-test-coverage', async (req, reply) => {
+    const token = getToken(req)
+    if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
+    try { return reply.send(await adminContentService.customTestCoverage(token)) }
+    catch (error) { return sendError(reply,error) }
+  })
+
   app.get('/api/admin/dashboard', async (req, reply) => {
     const token = getToken(req)
     if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')

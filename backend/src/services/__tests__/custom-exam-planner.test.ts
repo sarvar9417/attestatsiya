@@ -44,6 +44,17 @@ describe('TASK-210 custom exam configuration', () => {
     expect(postgresUuidSchema.safeParse('5ac78901-23ab-0dab-0123-56789abcdezz').success).toBe(false)
   })
 
+  it('supports one optional construct filter per lesson, no arbitrary IDs', () => {
+    const filtered = { ...valid, topics: [
+      { ...valid.topics[0], construct_id: '10000000-0000-0000-0000-000000000015' },
+      valid.topics[1],
+    ] }
+    expect(buildCustomExamPlan(filtered).config.topics[0]?.construct_id).toBe('10000000-0000-0000-0000-000000000015')
+    expect(customExamConfigSchema.safeParse({ ...valid, topics: [
+      { ...valid.topics[0], construct_id: 'invalid' }, valid.topics[1],
+    ] }).success).toBe(false)
+  })
+
   it('rejects duplicate topic, duplicate difficulty and invalid total', () => {
     expect(customExamConfigSchema.safeParse({
       ...valid, topics: [valid.topics[0], valid.topics[0]], total_count: 14,
