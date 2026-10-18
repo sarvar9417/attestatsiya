@@ -38,10 +38,7 @@ BEGIN
    UNION ALL SELECT o.id::text FROM public.question_options o
       JOIN public.questions q ON q.id=o.question_id
       WHERE q.source_reference LIKE 'algoritmlash-v2:ALG-%'
- ) r WHERE id !~* '^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}
- IF c<>1 THEN RAISE EXCEPTION '14 worked examples appendix missing'; END IF;
-END $$;
-;
+ ) r WHERE id !~* '^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$';
  IF c<>0 THEN RAISE EXCEPTION 'Non-RFC UUIDs %',c; END IF;
  SELECT count(*) INTO c FROM public.questions q JOIN public.question_keys k ON k.question_id=q.id
  WHERE q.source_reference LIKE 'algoritmlash-v2:ALG-%' AND q.format='Y2'
