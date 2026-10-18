@@ -565,7 +565,7 @@ export default function ExamRunner({
                     : topicPreview?.ready
                       ? `Mavzu testi tayyor: ${topicPreview.questionCount} ta tekshirilgan savol · ${topicPreview.durationSec / 60} daqiqa.`
                       : topicPreview
-                        ? `Mavzu testi hozir tayyorlanmoqda: ${topicPreview.available}/${topicPreview.questionCount} ta mos savol. ${topicPreview.criticalObjectiveGaps.length ? 'Majburiy bilimlar qamrovida ham yetishmovchilik bor.' : 'Nazariyani o‘rganishni davom ettirishingiz mumkin.'}`
+                        ? `Mavzu testi hozir tayyorlanmoqda: ${topicPreview.available}/${topicPreview.questionCount} ta mos savol. ${topicPreview.missingRequiredObjectives.length ? 'Majburiy bilimlar qamrovida ham yetishmovchilik bor.' : 'Nazariyani o‘rganishni davom ettirishingiz mumkin.'}`
                         : 'Mavzu testi tayyorligini hozir tekshirib bo‘lmadi. Iltimos, qayta urinib ko‘ring.'}
                   {!topicPreflightLoading && topicPreview?.ready !== true && (
                     <button type="button" onClick={() => setPreflightRetry(n => n + 1)}
