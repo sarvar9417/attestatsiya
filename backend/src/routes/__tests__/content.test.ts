@@ -211,7 +211,8 @@ describe('GET /api/content/lessons/:id/questions', () => {
       select: vi.fn(() => ({
         eq: vi.fn(() => ({
           eq: vi.fn(() => ({
-            order: vi.fn(() => Promise.resolve({
+            not: vi.fn(() => ({
+              order: vi.fn(() => Promise.resolve({
               data: [
                 {
                   id: 'q-1',
@@ -223,6 +224,7 @@ describe('GET /api/content/lessons/:id/questions', () => {
                 },
               ],
               error: null,
+              })),
             })),
           })),
         })),
@@ -278,7 +280,9 @@ describe('GET /api/content/lessons/:id/questions', () => {
       select: vi.fn(() => ({
         eq: vi.fn(() => ({
           eq: vi.fn(() => ({
-            order: vi.fn(() => Promise.resolve({ data: [], error: null })),
+            not: vi.fn(() => ({
+              order: vi.fn(() => Promise.resolve({ data: [], error: null })),
+            })),
           })),
         })),
       })),
@@ -311,12 +315,12 @@ describe('POST /api/content/questions/check', () => {
     await app.close()
   })
 
-  function mockQuestionExists(exists: boolean) {
+  function mockQuestionExists(exists: boolean, groupCode = 'S1.INFO') {
     mockFrom.mockReturnValueOnce({
       select: vi.fn(() => ({
         eq: vi.fn(() => ({
           eq: vi.fn(() => ({
-            maybeSingle: vi.fn().mockResolvedValue({ data: exists ? { id: QUESTION_UUID } : null, error: null }),
+            maybeSingle: vi.fn().mockResolvedValue({ data: exists ? { id: QUESTION_UUID, group_code: groupCode } : null, error: null }),
           })),
         })),
       })),
@@ -385,6 +389,21 @@ describe('POST /api/content/questions/check', () => {
     const body = JSON.parse(response.body)
     expect(body.correct).toBe(false)
     expect(body.correct_option_id).toBe(OPTION_UUID)
+  })
+
+  it('pedagogika/KS/metodika savoli uchun javob kalitini qaytarmaydi', async () => {
+    for (const group of ['KS', 'PM.GEN', 'PM.MET']) {
+      mockFrom.mockReset()
+      mockQuestionExists(true, group)
+      const response = await app.inject({
+        method: 'POST',
+        url: '/api/content/questions/check',
+        payload: { question_id: QUESTION_UUID, option_id: OPTION_UUID },
+      })
+      expect(response.statusCode).toBe(404)
+      expect(JSON.stringify(response.json())).not.toContain('correct_option_id')
+      expect(mockFrom).toHaveBeenCalledTimes(1)
+    }
   })
 
   it('savol topilmasa 404 qaytaradi', async () => {
