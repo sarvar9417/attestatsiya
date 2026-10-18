@@ -1,6 +1,8 @@
 import type { FastifyInstance } from 'fastify'
 import { customExamConfigSchema } from '../schemas/custom-exam.js'
 import { customExamService } from '../services/custom-exam.service.js'
+import { presetPayloadSchema, presetUpdateSchema, presetIdSchema } from '../schemas/custom-presets.js'
+import { customPresetService } from '../services/custom-presets.service.js'
 import { sendError, AppError } from '../lib/errors.js'
 
 function requireToken(request: { headers: { authorization?: string } }): string {
@@ -37,4 +39,28 @@ export async function customExamRoutes(app: FastifyInstance) {
       return sendError(reply, error)
     }
   })
+  app.get('/api/custom-tests/presets', async (request, reply) => {
+    try { return reply.send(await customPresetService.list(requireToken(request))) }
+    catch (error) { return sendError(reply,error) }
+  })
+  app.post('/api/custom-tests/presets', async (request, reply) => {
+    try {
+      const input=presetPayloadSchema.parse(request.body)
+      return reply.status(201).send(await customPresetService.create(requireToken(request),input))
+    } catch(error) { return sendError(reply,error) }
+  })
+  app.patch('/api/custom-tests/presets/:id', async (request, reply) => {
+    try {
+      const {id}=presetIdSchema.parse(request.params)
+      const input=presetUpdateSchema.parse(request.body)
+      return reply.send(await customPresetService.update(requireToken(request),id,input))
+    } catch(error) { return sendError(reply,error) }
+  })
+  app.delete('/api/custom-tests/presets/:id', async (request, reply) => {
+    try {
+      const {id}=presetIdSchema.parse(request.params)
+      return reply.send(await customPresetService.remove(requireToken(request),id))
+    } catch(error) { return sendError(reply,error) }
+  })
+
 }
