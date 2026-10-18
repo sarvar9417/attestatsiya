@@ -110,4 +110,15 @@ describe('QuestionFormModal backend boundary', () => {
     expect(mocks.createAdminQuestion).not.toHaveBeenCalled()
     expect(mocks.captureException).not.toHaveBeenCalled()
   })
+  it('Y2 yaratish formasi noto‘g‘ri kalitsiz savol yozishiga yo‘l qo‘ymaydi',async()=>{
+    const user=userEvent.setup()
+    configureLoad()
+    render(<QuestionFormModal onClose={vi.fn()} onSaved={vi.fn()}/>)
+    await screen.findByRole('option',{name:'AX-01 — Axborot tushunchasi'})
+    await user.selectOptions(screen.getByRole('combobox',{name:'Test turi'}),'Y2')
+    await user.click(screen.getByRole('button',{name:'Yaratish'}))
+    expect(await screen.findByRole('alert')).toHaveTextContent('Y2/Y3 savollarni bu formada yaratib bo‘lmaydi')
+    expect(mocks.createAdminQuestion).not.toHaveBeenCalled()
+  })
+
 })

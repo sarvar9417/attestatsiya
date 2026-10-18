@@ -9,8 +9,8 @@ export default function ProfessionalPracticePage() {
   return <main className="mx-auto max-w-5xl space-y-6 px-4 py-8">
     <header className="rounded-3xl bg-indigo-700 p-7 text-white">
       <p className="text-sm text-indigo-100">Attestatsiya 2026 · 36–50-savollar</p>
-      <h1 className="mt-2 text-3xl font-bold">Pedagogik mahorat va kasb standartlari</h1>
-      <p className="mt-2 text-indigo-100">15 savol: 5 kasb standarti, 7 pedagogika, 3 informatika metodikasi. Har savol 2 ball, maksimum 30 ball.</p>
+      <h1 className="mt-2 text-3xl font-bold">Maxsus pedagogikadan tayyorlanish</h1>
+      <p className="mt-2 text-indigo-100">Pedagogik mahorat, kasb standartlari va informatika metodikasi: 15 savol (5 + 7 + 3). Har savol 2 ball, maksimum 30 ball.</p>
       <div className="mt-6 flex flex-wrap gap-3">
         <Link to="/exam/pedagogik_15" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-white px-5 py-3 font-semibold text-indigo-700"><ClipboardCheck size={18} /> 15 savollik praktikani boshlash</Link>
         <Link to="/learn/M15" className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-white/60 px-5 py-3 font-semibold text-white transition hover:bg-white/10"><BookOpen size={18} /> Umumiy pedagogika nazariyasi (8 mavzu)</Link>

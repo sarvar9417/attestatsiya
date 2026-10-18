@@ -205,6 +205,13 @@ jobs:
             -f supabase/tests/professional_120_canonical_links.test.sql \
             -f supabase/tests/pedguli_editorial_fingerprint_gate.test.sql \
             -f supabase/tests/task201_pedagogy_publish_gate.test.sql \
+            -f supabase/tests/task202_pedagogy_revision_queue.test.sql \
+            -f supabase/tests/task202_atomic_pedagogy_publish.test.sql \
+            -f supabase/tests/task202_verified_pdf_review_authoring.test.sql \
+            -f supabase/tests/task202_atomic_admin_y1_save.test.sql \
+            -f supabase/tests/task202_semantic_source_key_corrections.test.sql \
+            -f supabase/tests/task202_assistant_distractor_proposals.test.sql \
+            -f supabase/tests/task202_proposals_stage_e2e.test.sql \
             -f supabase/tests/pedguli_private_candidate_inbox.test.sql \
             -f supabase/tests/pedguli_candidate_human_review.test.sql \
             -f supabase/tests/pedguli_topic_suggestion_queue.test.sql \
@@ -221,6 +228,7 @@ jobs:
             -f supabase/tests/m15_umumiy_pedagogika_lessons.test.sql \
             -f supabase/tests/pedagogy_theory_corpus_expand.test.sql \
             -f supabase/tests/pedagogy_theory_corpus_complete.test.sql \
+            -f supabase/tests/m15_topic_bank_complete.test.sql \
             -f supabase/tests/pedagogy_pdf_private_candidate_inbox.test.sql \
             -f supabase/tests/pedagogy_pdf_candidate_triage.test.sql \
             -f supabase/tests/pedagogy_pdf_corpus_review_bank_v1.test.sql \

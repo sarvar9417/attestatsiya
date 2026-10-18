@@ -11,12 +11,15 @@ import { pedguliCandidateImportSchema, pedguliCandidateListQuerySchema, pedguliC
 import { contentCoverageService } from '../services/content-coverage.service.js'
 import { questionBankImportService } from '../services/question-bank-import.service.js'
 import { adminContentService } from '../services/admin-content.service.js'
+import { pedagogyPdfService } from '../services/pedagogy-pdf.service.js'
 import {
   adminQuestionsQuerySchema,
   createAdminModuleSchema,
   saveAdminQuestionSchema,
   transitionAdminQuestionSchema,
   savePedguliEditorialReviewSchema,
+  pedagogyPdfSourceListQuerySchema,
+  stagePedagogyPdfQuestionSchema,
 } from '../schemas/admin-content.js'
 
 function getToken(req: { headers: { authorization?: string } }): string | null {
@@ -111,12 +114,39 @@ export async function adminRoutes(app: FastifyInstance) {
     }
   })
 
+  /** PDF archive is staff-only; response must not be cached by public proxies. */
+  app.get('/api/admin/pedagogy-pdf-candidates', async (req, reply) => {
+    const token=getToken(req)
+    if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
+    const filters=pedagogyPdfSourceListQuerySchema.parse(req.query)
+    reply.header('Cache-Control','private, no-store')
+    try { return reply.send(await pedagogyPdfService.list(token,filters)) }
+    catch (error) { return sendError(reply,error) }
+  })
+
+  /** Verified private PDF source -> human-authored REVIEW, never publish. */
+  app.post('/api/admin/pedagogy-pdf-candidates/:id/stage-question', async (req, reply) => {
+    const token=getToken(req)
+    if (!token) throw new AppError('Token kerak',401,'TOKEN_REQUIRED')
+    const {id} = req.params as {id:string}
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) {
+      throw new AppError('Manba ID formati noto‘g‘ri',400,'INVALID_CANDIDATE_ID')
+    }
+    const input=stagePedagogyPdfQuestionSchema.parse(req.body)
+    reply.header('Cache-Control','private, no-store')
+    try { return reply.status(201).send(await pedagogyPdfService.stageQuestion(token,id,input)) }
+    catch(error){ return sendError(reply,error) }
+  })
+
   app.get('/api/admin/questions', async (req, reply) => {
     const token = getToken(req)
     if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
     const query = adminQuestionsQuerySchema.querystring.parse(req.query)
     try {
-      return reply.send(await adminContentService.listQuestions(query.status, token, query.source))
+      return reply.send(await adminContentService.listQuestions(
+        query.status, token, query.source, query.page, query.page_size,
+        query.group_code, query.query,
+      ))
     } catch (error) {
       return sendError(reply, error)
     }
@@ -157,6 +187,19 @@ export async function adminRoutes(app: FastifyInstance) {
     } catch (error) {
       return sendError(reply, error)
     }
+  })
+
+  /** Stage one length-biased legacy question as a NEW review-only revision. */
+  app.post('/api/admin/questions/:id/stage-revision', async (req, reply) => {
+    const token = getToken(req)
+    if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
+    const { id } = req.params as { id: string }
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) {
+      throw new AppError('Savol ID formati noto‘g‘ri', 400, 'INVALID_QUESTION_ID')
+    }
+    try {
+      return reply.status(201).send(await adminContentService.stagePedagogyRevision(id, token))
+    } catch (error) { return sendError(reply, error) }
   })
 
   app.get('/api/admin/question-editor/meta', async (req, reply) => {

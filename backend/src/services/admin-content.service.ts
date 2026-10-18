@@ -77,64 +77,30 @@ async function resolveConstruct(constructId: string) {
   return data
 }
 
-async function replaceQuestionOptionsAndKey(
-  questionId: string,
-  input: SaveAdminQuestionInput
-): Promise<void> {
-  const { error: keyDeleteError } = await supabase
-    .from('question_keys')
-    .delete()
-    .eq('question_id', questionId)
-  if (keyDeleteError) {
-    throw new AppError('Eski javob kalitini tozalashda xatolik', 500, 'ADMIN_SAVE_ERROR')
+async function saveY1Atomically(
+  actorId: string, questionId: string | null, input: SaveAdminQuestionInput
+): Promise<string> {
+  if (input.format !== 'Y1' || !input.options || input.options.length !== 4 ||
+    input.correct_index === undefined) {
+    throw new AppError('Y1 javob variantlari to‘liq emas',400,'VALIDATION_ERROR')
   }
-
-  const { error: optionDeleteError } = await supabase
-    .from('question_options')
-    .delete()
-    .eq('question_id', questionId)
-  if (optionDeleteError) {
-    throw new AppError('Eski variantlarni tozalashda xatolik', 500, 'ADMIN_SAVE_ERROR')
-  }
-
-  if (input.format !== 'Y1') return
-
-  const options = input.options ?? []
-  const correctIndex = input.correct_index
-  if (options.length !== 4 || correctIndex === undefined) {
-    throw new AppError('Y1 savol konfiguratsiyasi to‘liq emas', 400, 'VALIDATION_ERROR')
-  }
-
-  const rows = options.map((option, index) => ({
-    question_id: questionId,
-    content_md: option.content_md.trim(),
-    order_idx: index,
-    side: String.fromCharCode(97 + index),
-  }))
-
-  const { data: inserted, error: optionError } = await supabase
-    .from('question_options')
-    .insert(rows)
-    .select('id, order_idx')
-
-  if (optionError || !inserted) {
-    throw new AppError('Javob variantlarini saqlashda xatolik', 500, 'ADMIN_SAVE_ERROR')
-  }
-
-  const correctOption = inserted.find(option => option.order_idx === correctIndex)
-  if (!correctOption) {
-    throw new AppError('To‘g‘ri variant topilmadi', 500, 'ADMIN_SAVE_ERROR')
-  }
-
-  const { error: keyError } = await supabase.from('question_keys').insert({
-    question_id: questionId,
-    payload: { correct_option_id: correctOption.id },
-    explanation_md: input.explanation_md.trim(),
+  const {data,error}=await supabase.rpc('save_admin_y1_question',{
+    p_actor_id:actorId,
+    p_question_id:questionId,
+    p_construct_id:input.construct_id,
+    p_stem:input.stem_md,
+    p_cognitive:input.cognitive,
+    p_difficulty:input.difficulty,
+    p_options:input.options.map(o=>o.content_md),
+    p_correct_index:input.correct_index,
+    p_explanation:input.explanation_md,
   })
-
-  if (keyError) {
-    throw new AppError('Javob kalitini saqlashda xatolik', 500, 'ADMIN_SAVE_ERROR')
+  if(error?.message?.includes('ADMIN_Y1_')) {
+    throw new AppError('Savol yoki javob varianti xato; o‘zgarish saqlanmadi',409,'ADMIN_Y1_VALIDATION_FAILED')
   }
+  if(error || typeof data !== 'string')
+    throw new AppError('Savol va kalit birgalikda saqlanmadi',500,'ADMIN_SAVE_ERROR')
+  return data
 }
 
 const STATUS_TRANSITIONS: Record<AdminContentStatus, AdminContentStatus[]> = {
@@ -242,33 +208,90 @@ export const adminContentService = {
     return data
   },
 
-  async listQuestions(status: AdminContentStatus | undefined, userToken: string, source?: 'pedguli') {
+  async listQuestions(
+    status: AdminContentStatus | undefined, userToken: string,
+    source?: 'pedguli' | 'pedagogy_pdf', page = 1, pageSize = 25,
+    groupCode?: 'KS' | 'PM.GEN' | 'PM.MET', search?: string,
+  ) {
     await requireStaff(userToken)
 
     let query = supabase
       .from('questions')
-      .select('id, stem_md, format, cognitive, difficulty, status, group_code, construct_id, subject_id, source_reference, created_at')
+      .select('id, stem_md, format, cognitive, difficulty, status, group_code, construct_id, subject_id, source_reference, created_at', { count: 'exact' })
       .order('created_at', { ascending: false })
-      .limit(100)
+      .order('id', { ascending: false })
 
     if (status) query = query.eq('status', status)
     if (source === 'pedguli') query = query.like('source_reference', 'authored:pedguli-%')
-
-    const { data, error } = await query
+    if (source === 'pedagogy_pdf') query = query.like('source_reference', 'authored:pedagogy-pdf-corpus:%')
+    if (groupCode) query = query.eq('group_code', groupCode)
+    if (search?.trim()) {
+      // PostgREST parameterizes ilike(); escape wildcard metacharacters so
+      // the literal text search cannot silently become an unbounded scan.
+      const escaped = search.trim().replace(/[\\%_]/g, '\\$&')
+      query = query.ilike('stem_md', `%${escaped}%`)
+    }
+    const offset = (page - 1) * pageSize
+    const { data, count, error } = await query.range(offset, offset + pageSize - 1)
     if (error) throw new AppError('Savollarni yuklashda xatolik', 500, 'ADMIN_QUERY_ERROR')
-    return { items: data ?? [] }
+
+    const items = data ?? []
+    const professionalIds = items
+      .filter(item => ['KS', 'PM.GEN', 'PM.MET'].includes(item.group_code))
+      .map(item => item.id)
+    let queued = new Map<string, string | null>()
+    if (professionalIds.length) {
+      const { data: candidates, error: queueError } = await supabase
+        .from('pedagogy_revision_queue')
+        .select('source_question_id, revision_question_id')
+        .in('source_question_id', professionalIds)
+      if (queueError) throw new AppError('Pedagogika sifat navbati ochilmadi', 500, 'ADMIN_QUERY_ERROR')
+      queued = new Map((candidates ?? []).map(c => [c.source_question_id, c.revision_question_id]))
+    }
+    return {
+      items: items.map(item => ({
+        ...item,
+        length_bias_flag: queued.has(item.id),
+        revision_question_id: queued.get(item.id) ?? null,
+      })),
+      total: count ?? 0, page, page_size: pageSize,
+    }
+  },
+
+  async stagePedagogyRevision(questionId: string, userToken: string) {
+    const staff = await requireStaff(userToken)
+    if (staff.role !== 'admin') {
+      throw new ForbiddenError('Yangi tahrir yaratish uchun administrator kerak')
+    }
+    const { data, error } = await supabase.rpc('stage_pedagogy_revision', {
+      p_source_question_id: questionId,
+      p_actor_id: staff.id,
+    })
+    if (error?.message?.includes('PEDAGOGY_REVISION_NOT_QUEUED')) {
+      throw new AppError('Ushbu savol sifat navbatida yo‘q', 409, 'REVISION_NOT_QUEUED')
+    }
+    if (error || typeof data !== 'string') {
+      throw new AppError('Savolning yangi tahriri yaratilmagan', 500, 'REVISION_STAGE_ERROR')
+    }
+    await writeAudit(staff.id, 'pedagogy.revision_staged', 'questions', data, {
+      source_question_id: questionId,
+      status: 'review',
+    })
+    return { id: data, status: 'review' as const }
   },
 
   async getPedguliEditorialReview(questionId: string, userToken: string) {
     await requireStaff(userToken)
     const { data: question, error: questionError } = await supabase
       .from('questions')
-      .select('id, status, source_reference')
+      .select('id, status, source_reference, group_code')
       .eq('id', questionId).maybeSingle()
     if (questionError) throw new AppError('Savolni olishda xatolik', 500, 'ADMIN_QUERY_ERROR')
     if (!question) throw new NotFoundError('Savol topilmadi')
-    if (!question.source_reference?.startsWith('authored:pedguli-')) {
-      throw new AppError('Bu tekshiruv faqat Pedmahorat mavzularidagi mualliflik savollari uchun', 400, 'INVALID_EDITORIAL_SOURCE')
+    if (!(['KS','PM.GEN','PM.MET'].includes(question.group_code) ||
+      question.source_reference?.startsWith('authored:pedguli-') ||
+      question.source_reference?.startsWith('authored:pedagogy-pdf-corpus:'))) {
+      throw new AppError('Bu tekshiruv pedagogika va kasb standarti savollari uchun', 400, 'INVALID_EDITORIAL_SOURCE')
     }
     const { data, error } = await supabase.from('question_editorial_checks')
       .select('question_id, reviewer_id, reviewed_at, answer_verified, reference_verified, wording_verified, original_authorship_verified, reviewer_notes')
@@ -289,12 +312,15 @@ export const adminContentService = {
 
     const { data: question, error: questionError } = await supabase
       .from('questions')
-      .select('id, status, source_reference')
+      .select('id, status, source_reference, group_code')
       .eq('id', questionId).maybeSingle()
     if (questionError) throw new AppError('Savolni olishda xatolik', 500, 'ADMIN_QUERY_ERROR')
     if (!question) throw new NotFoundError('Savol topilmadi')
-    if (question.status !== 'review' || !question.source_reference?.startsWith('authored:pedguli-')) {
-      throw new AppError('Faqat Review holatidagi Pedmahorat savolini tekshirish mumkin', 409, 'INVALID_EDITORIAL_STATUS')
+    if (question.status !== 'review' || !(
+      ['KS','PM.GEN','PM.MET'].includes(question.group_code) ||
+      question.source_reference?.startsWith('authored:pedguli-') ||
+      question.source_reference?.startsWith('authored:pedagogy-pdf-corpus:'))) {
+      throw new AppError('Faqat Review holatidagi pedagogika savolini tasdiqlash mumkin', 409, 'INVALID_EDITORIAL_STATUS')
     }
 
     const { data, error } = await supabase.from('question_editorial_checks')
@@ -332,7 +358,7 @@ export const adminContentService = {
 
     const { data: current, error: readError } = await supabase
       .from('questions')
-      .select('id, status, author_id, source_reference, construct_id')
+      .select('id, status, author_id, source_reference, construct_id, group_code')
       .eq('id', questionId)
       .maybeSingle()
     if (readError) throw new AppError('Savol holatini olishda xatolik', 500, 'ADMIN_QUERY_ERROR')
@@ -379,7 +405,9 @@ export const adminContentService = {
       }
     }
 
-    if (nextStatus === 'published' && current.source_reference?.startsWith('authored:pedguli-')) {
+    if (nextStatus === 'published' && (['KS','PM.GEN','PM.MET'].includes((current as {group_code?:string}).group_code ?? '') ||
+      current.source_reference?.startsWith('authored:pedguli-') ||
+      current.source_reference?.startsWith('authored:pedagogy-pdf-corpus:'))) {
       const { data: approval, error: approvalError } = await supabase
         .from('question_editorial_checks')
         .select('answer_verified, reference_verified, wording_verified, original_authorship_verified')
@@ -392,6 +420,24 @@ export const adminContentService = {
       // DB fingerprint trigger checks that no question text/key changed after review.
     }
 
+    // A revision must not be published separately from archival of its
+    // original; otherwise both near-identical copies would enter exam pools.
+    if (nextStatus === 'published' &&
+        current.source_reference?.startsWith('revision:pedagogy:')) {
+      const { data, error } = await supabase.rpc('publish_pedagogy_revision', {
+        p_revision_question_id: questionId,
+        p_actor_id: staff.id,
+      })
+      if (error?.message?.includes('PEDAGOGY_')) {
+        throw new AppError('Mustaqil ekspert tekshiruvi yoki variantlar sifati yakunlanmagan', 409, 'EDITORIAL_APPROVAL_REQUIRED')
+      }
+      if (error || !data) throw new AppError('Yangi tahrir nashr etilmadi', 500, 'REVISION_PUBLISH_ERROR')
+      await writeAudit(staff.id, 'pedagogy.revision_published', 'questions', questionId, {
+        archived_source_question_id: (data as {archived_source_question_id?:string}).archived_source_question_id,
+      })
+      return { id: questionId, status: 'published' as const }
+    }
+
     const { data, error } = await supabase
       .from('questions')
       .update({ status: nextStatus, updated_at: new Date().toISOString() })
@@ -399,7 +445,9 @@ export const adminContentService = {
       .select('id, status')
       .single()
 
-    if (error?.message?.includes('PEDGULI_EDITORIAL_APPROVAL_REQUIRED')) {
+    if (error?.message?.includes('PEDGULI_EDITORIAL_APPROVAL_REQUIRED') ||
+        error?.message?.includes('PEDAGOGY_EDITORIAL_APPROVAL_REQUIRED') ||
+        error?.message?.includes('PEDAGOGY_Y1_DISTRACTOR_REVIEW_REQUIRED')) {
       throw new AppError('Tasdiq eskirgan yoki yetarli emas. Savolni qayta tekshiring', 409, 'EDITORIAL_APPROVAL_REQUIRED')
     }
     if (error || !data) throw new AppError('Savol holati yangilanmadi', 500, 'ADMIN_SAVE_ERROR')
@@ -476,35 +524,14 @@ export const adminContentService = {
 
   async createQuestion(input: SaveAdminQuestionInput, userToken: string) {
     const staff = await requireStaff(userToken)
-    const construct = await resolveConstruct(input.construct_id)
-
-    const { data: question, error } = await supabase
-      .from('questions')
-      .insert({
-        stem_md: input.stem_md.trim(),
-        format: input.format,
-        cognitive: input.cognitive,
-        difficulty: input.difficulty,
-        status: 'draft',
-        construct_id: construct.id,
-        subject_id: construct.subject_id,
-        group_code: construct.group_code,
-        author_id: staff.id,
-      })
-      .select('id')
-      .single()
-
-    if (error || !question) {
-      throw new AppError(error?.message || 'Savol yaratilmadi', 400, 'ADMIN_SAVE_ERROR')
+    if (input.format !== 'Y1') {
+      throw new AppError('Y2/Y3 savollar faqat moslashtirish/ketma-ketlik kontent konveyeri orqali yaratiladi', 400, 'MULTIFORMAT_PIPELINE_REQUIRED')
     }
-
-    await replaceQuestionOptionsAndKey(question.id, input)
-    await writeAudit(staff.id, 'question.create', 'questions', question.id, {
-      format: input.format,
-      construct_id: construct.id,
+    const id=await saveY1Atomically(staff.id,null,input)
+    await writeAudit(staff.id,'question.create','questions',id,{
+      format:input.format,construct_id:input.construct_id,
     })
-
-    return { id: question.id }
+    return {id}
   },
 
   async updateQuestion(questionId: string, input: SaveAdminQuestionInput, userToken: string) {
@@ -512,7 +539,7 @@ export const adminContentService = {
 
     const { data: existing, error: existingError } = await supabase
       .from('questions')
-      .select('id, status')
+      .select('id, status, format')
       .eq('id', questionId)
       .maybeSingle()
     if (existingError) throw new AppError('Savolni tekshirishda xatolik', 500, 'ADMIN_QUERY_ERROR')
@@ -525,29 +552,37 @@ export const adminContentService = {
       )
     }
 
-    const construct = await resolveConstruct(input.construct_id)
+    if (existing.format !== input.format) {
+      throw new AppError('Savol formatini o‘zgartirish uchun yangi tahrir yarating', 400, 'QUESTION_FORMAT_IMMUTABLE')
+    }
+    if (existing.status === 'archived') {
+      const { data: protectedRevision, error: lockError } = await supabase
+        .from('pedagogy_published_revisions')
+        .select('question_id').eq('question_id', questionId).maybeSingle()
+      if (lockError) throw new AppError('Savol himoyasini tekshirib bo‘lmadi', 500, 'ADMIN_QUERY_ERROR')
+      if (protectedRevision) throw new AppError(
+        'Arxivlangan nashrni tahrirlab bo‘lmaydi; yangi review nusxa yarating',
+        409, 'PUBLISHED_IMMUTABLE')
+    }
 
-    const { error } = await supabase
-      .from('questions')
-      .update({
-        stem_md: input.stem_md.trim(),
-        format: input.format,
-        cognitive: input.cognitive,
-        difficulty: input.difficulty,
-        construct_id: construct.id,
-        subject_id: construct.subject_id,
-        group_code: construct.group_code,
-        updated_at: new Date().toISOString(),
-      })
-      .eq('id', questionId)
-
-    if (error) throw new AppError('Savol yangilanmadi', 500, 'ADMIN_SAVE_ERROR')
-
-    await replaceQuestionOptionsAndKey(questionId, input)
+    if (input.format === 'Y1') {
+      // Atomic PostgreSQL RPC: no partial text, option or key changes survive failure.
+      await saveY1Atomically(staff.id,questionId,input)
+    } else {
+      // Structured Y2/Y3 keys and option groups must remain intact.
+      const construct=await resolveConstruct(input.construct_id)
+      const {error}=await supabase.from('questions').update({
+        stem_md:input.stem_md.trim(),cognitive:input.cognitive,
+        difficulty:input.difficulty,construct_id:construct.id,
+        subject_id:construct.subject_id,group_code:construct.group_code,
+        updated_at:new Date().toISOString(),
+      }).eq('id',questionId)
+      if(error) throw new AppError('Savol yangilanmadi',500,'ADMIN_SAVE_ERROR')
+    }
     await writeAudit(staff.id, 'question.update', 'questions', questionId, {
       status: existing.status,
       format: input.format,
-      construct_id: construct.id,
+      construct_id: input.construct_id,
     })
 
     return { id: questionId }

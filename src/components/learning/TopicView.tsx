@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { getTopicContent, type TestQuestion, type TheoryBlock } from '../../data/topicContent'
 import { getLessonTestQuestions, checkQuestionAnswer } from '../../features/content/lessonContentGateway'
 import { getLessonDetail } from '../../features/content/contentApi'
-import { overlayPublishedProfessionalLesson } from '../../features/content/professionalLessonTheory'
+import { overlayPublishedProfessionalLesson, resolveLearnerTheoryContent } from '../../features/content/professionalLessonTheory'
+import PedagogyTheoryBlock from './PedagogyTheoryBlock'
+import { getPedagogyStudyNotes } from '../../data/pedagogyStudyNotes'
 import type { TopicContent } from '../../data/topicContent'
 import { 
   CheckCircle2, XCircle, Lightbulb, BookOpen, ArrowRight, ArrowLeft, 
@@ -138,11 +140,26 @@ export default function TopicView({
 
   const [publishedTheory, setPublishedTheory] = useState<{ subtopicId: string; content: TopicContent } | null>(null)
   const staticContent = getTopicContent(subtopicId)
-  const content = publishedTheory?.subtopicId === subtopicId
+  const isPedagogyTopic = moduleId === 'M15' && /^M15\.\d{2}$/.test(subtopicId)
+  const loadedContent = publishedTheory?.subtopicId === subtopicId
     ? publishedTheory.content
-    : staticContent
+    : null
+  // M15 always keeps the original curated, colorful theory as primary content.
+  // Canonical source lessons are optional reading and NEVER replace the screen
+  // when the asynchronous request finishes.
+  const content = staticContent
+    ? resolveLearnerTheoryContent(subtopicId, staticContent, loadedContent)
+    : loadedContent
   /** Kontent qo'llanmadan generatsiya qilinganmi (M01) — bo'limli o'qish rejimi. */
   const isBook = Boolean(content?.source)
+  const isSemanticProfessional = !isPedagogyTopic && /^M1[46]$/.test(moduleId) && Boolean(loadedContent)
+  const pedagogyStudyNotes = isPedagogyTopic ? getPedagogyStudyNotes(subtopicId) : []
+  const serverTheory = isPedagogyTopic && loadedContent && loadedContent !== staticContent
+    ? loadedContent.theory
+    : []
+  const supplementalTheory = isPedagogyTopic && loadedContent
+    ? (loadedContent.supplementalTheory ?? [])
+    : []
 
   // mavzu almashganda o'qish holatini tozalaymiz
   useEffect(() => {
@@ -525,11 +542,11 @@ export default function TopicView({
                 </span>
               ) : (
                 <span className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-2.5 py-1 rounded-lg">
-                  <BookText size={12} /> {content.theory.length} ta blok
+                  <BookText size={12} /> {isSemanticProfessional ? 'Tartibli nazariya va misollar' : content.theory.length + ' ta blok'}
                 </span>
               )}
               {/* Theory type badges — scroll rejimidagi eski mavzular uchun */}
-              {isBook
+              {isBook || isSemanticProfessional
                 ? null
                 : Object.entries(theoryTypeCount).map(([type, count]) => {
                     const cfg = THEORY_BLOCK_CONFIG[type as keyof typeof THEORY_BLOCK_CONFIG]
@@ -606,10 +623,42 @@ export default function TopicView({
                       </div>
                     </div>
                   )}
-                  <TheoryBlock block={block} />
+                  {isSemanticProfessional ? <PedagogyTheoryBlock block={block} /> : <TheoryBlock block={block} />}
                 </div>
               ))}
             </div>
+          )}
+
+          {isPedagogyTopic && pedagogyStudyNotes.length > 0 && (
+            <details className="group mb-7 rounded-2xl border border-indigo-200 bg-indigo-50/60 p-4 shadow-sm open:bg-white dark:border-indigo-900 dark:bg-indigo-950/30 dark:open:bg-gray-900 sm:p-5">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-xl p-2 text-sm font-bold text-indigo-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:text-indigo-200">
+                <span className="flex items-center gap-2"><Lightbulb size={19} aria-hidden="true" /> Oddiy misollar va attestatsiyada farqlash</span>
+                <ChevronDown size={19} aria-hidden="true" className="shrink-0 transition group-open:rotate-180" />
+              </summary>
+              <p className="px-2 pb-3 pt-1 text-xs leading-6 text-gray-600 dark:text-gray-400">
+                Asosiy nazariyani o‘qib bo‘lgach, misollar yordamida tushunchalarni mustahkamlang.
+              </p>
+              <div className="space-y-3">
+                {pedagogyStudyNotes.map((block, i) => <PedagogyTheoryBlock key={i} block={block} />)}
+              </div>
+
+            </details>
+          )}
+
+          {isPedagogyTopic && (serverTheory.length > 0 || supplementalTheory.length > 0) && (
+            <details className="group mb-8 rounded-2xl border border-teal-200 bg-teal-50/50 p-4 shadow-sm dark:border-teal-900 dark:bg-teal-950/20 sm:p-5">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-xl p-2 text-sm font-bold text-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:text-teal-200">
+                <span className="flex items-center gap-2"><BookText size={19} aria-hidden="true" /> Batafsil nazariya — qo‘shimcha manba</span>
+                <ChevronDown className="shrink-0 transition group-open:rotate-180" size={19} aria-hidden="true" />
+              </summary>
+              <p className="px-2 pb-3 pt-1 text-xs leading-6 text-gray-600 dark:text-gray-400">
+                Asosiy dars o‘zgarmaydi. Batafsil manbaviy tushuntirishlarni xohlasangiz, ushbu bo‘limni oching.
+              </p>
+              <div className="space-y-3">
+                {serverTheory.map((block, i) => <PedagogyTheoryBlock key={i} block={block} />)}
+                {supplementalTheory.map((block, i) => <PedagogyTheoryBlock key={`extra-${i}`} block={block} />)}
+              </div>
+            </details>
           )}
 
           {/* ── Eski (LaTeX'siz) mavzular uchun scroll rejimi ── */}
@@ -618,7 +667,7 @@ export default function TopicView({
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
               {/* Show responsive: full dots on desktop, summary on mobile */}
-              <div className="hidden sm:flex gap-1.5">
+              <div className={isSemanticProfessional ? 'hidden' : 'hidden sm:flex gap-1.5'}>
                 {content.theory.map((_, i) => (
                   <div 
                     key={i} 
