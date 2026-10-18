@@ -3,6 +3,7 @@ import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import BookBlock from '../components/learning/theory/BookBlock'
 import BookReader, { splitSections } from '../components/learning/theory/BookReader'
+import { markdownToTheoryBlocks } from '../features/content/professionalLessonTheory'
 import InlineText, { plainText } from '../components/learning/theory/InlineText'
 import { M01_CONTENT } from '../data/topics/m01'
 import type { TheoryBlock } from '../data/topicContent'
@@ -248,5 +249,53 @@ describe('BookReader', () => {
       expect(captions, id).toEqual(diagrams.map(d => d.content))
       unmount()
     }
+  })
+})
+
+
+describe('M07 source-backed reader', () => {
+  const markdown = [
+    '1-bob. Scratch',
+    '',
+    '**Manbalar:** ICT 5-sinf',
+    '',
+    '## Sahna va koordinatalar',
+    'Scratch sahnasi 480×360 birlik.',
+    '',
+    '## Scratch bloklari',
+    'Bu bo‘limda bloklar haqidagi batafsil material.',
+    '',
+    '## Yakuniy amaliy topshiriq',
+    'LOGO va Pen bo‘yicha mashq.',
+  ].join('\\n')
+  const content = {
+    subtopicId: '97000000-0000-4000-8000-000000000001',
+    title: 'Scratch sahnasi',
+    source: 'Scratch/LOGO — 2026',
+    theory: markdownToTheoryBlocks(markdown),
+    questions: [],
+  }
+
+  it('preserves every backend theory block and enables previous/next navigation', async () => {
+    const user = userEvent.setup()
+    const sections = splitSections(content.theory)
+    expect(sections).toHaveLength(3)
+    expect(sections.flatMap(s => s.blocks)).toEqual(content.theory)
+    render(<BookReader content={content} questionCount={30} requireTest onFinishReading={() => undefined} />)
+    expect(screen.getByText('/3 bo‘lim')).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: /keyingi/i }))
+    expect(screen.getByRole('heading', { name: 'Scratch bloklari' })).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: /oldingi/i }))
+    expect(screen.getByRole('heading', { name: 'Sahna va koordinatalar' })).toBeInTheDocument()
+  })
+
+  it('never offers false completion while M07 topic-test readiness is pending', async () => {
+    const user = userEvent.setup()
+    let finished = false
+    render(<BookReader content={content} questionCount={0} requireTest onFinishReading={() => { finished = true }} />)
+    await user.click(screen.getByRole('tab', { name: /3-bo‘lim/i }))
+    expect(screen.getByRole('button', { name: /test tayyorligi kutilmoqda/i })).toBeDisabled()
+    expect(screen.queryByRole('button', { name: /mavzuni yakunlash/i })).not.toBeInTheDocument()
+    expect(finished).toBe(false)
   })
 })
