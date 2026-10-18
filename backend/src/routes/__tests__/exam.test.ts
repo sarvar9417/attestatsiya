@@ -78,6 +78,44 @@ describe('Exam Routes', () => {
     await app.close()
   })
 
+  it('GET /api/exam/axb/chapters requires a bearer token', async () => {
+    const response = await app.inject({
+      method: 'GET',
+      url: '/api/exam/axb/chapters',
+    })
+    expect(response.statusCode).toBe(401)
+    expect(response.json().error.code).toBe('TOKEN_REQUIRED')
+  })
+
+  it('POST /api/exam/axb/start rejects invalid chapter, excessive count and extra fields', async () => {
+    const invalid = [
+      { chapter_no: 20, question_count: 3 },
+      { chapter_no: 1, question_count: 31 },
+      { chapter_no: 1, question_count: 0 },
+      { chapter_no: 1, question_count: 3, correct_option_id: 'fake' },
+    ]
+    for (const payload of invalid) {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/api/exam/axb/start',
+        headers: { authorization: 'Bearer token-abc' },
+        payload,
+      })
+      expect(response.statusCode).toBe(400)
+      expect(response.json().error.code).toBe('VALIDATION_ERROR')
+    }
+  })
+
+  it('POST /api/exam/axb/start requires a bearer token', async () => {
+    const response = await app.inject({
+      method: 'POST',
+      url: '/api/exam/axb/start',
+      payload: { chapter_no: 16, question_count: 3 },
+    })
+    expect(response.statusCode).toBe(401)
+    expect(response.json().error.code).toBe('TOKEN_REQUIRED')
+  })
+
   it('POST /api/exam/start returns 401 without auth token', async () => {
     const response = await app.inject({
       method: 'POST',
