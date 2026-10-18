@@ -43,13 +43,14 @@ describe('professional source-backed lesson to learner UI', () => {
   it('renders headings and paragraphs without executing HTML', () => {
     const result=markdownToTheoryBlocks('## Mavzu\n\n<strong>oddiy matn</strong>')
     expect(result).toHaveLength(2)
-    expect(result[0].content).toBe('## Mavzu')
+    expect(result[0]).toEqual({ type: 'heading', content: 'Mavzu' })
     expect(result[1].content).toContain('<strong>')
   })
   it('converts markdown tables to the existing table block content contract', () => {
     const theory=markdownToTheoryBlocks(lesson.body_mdx!)
     const table=theory.find(block=>block.type==='table')
-    expect(table?.content).toContain('Metod|Belgisi\n---|---\nAkvarium|Kuzatuv')
+    expect(table?.headers).toEqual(['Metod', 'Belgisi'])
+    expect(table?.rows?.[0]).toEqual(['Akvarium', 'Kuzatuv'])
     expect(table?.content).toContain('Jigsaw|Ekspert guruhi')
   })
   it('shows published M15 lessons and keeps only local fallback questions', () => {
@@ -57,8 +58,25 @@ describe('professional source-backed lesson to learner UI', () => {
     expect(result.title).toContain('interfaol metodlar')
     expect(result.theory.length).toBeGreaterThan(3)
     expect(result.questions).toBe(fallback.questions)
-    expect(result.theory.some(b=>b.type==='note')).toBe(true)
+    expect(result.theory.some(b=>b.type==='source')).toBe(true)
   })
+  it('keeps source addenda separate from the easy-to-read core lesson', () => {
+    const enriched = { ...lesson, body_mdx: [
+      '## Maqsad',
+      'Asosiy nazariyani tushunish.',
+      '## Tushunchalar',
+      '**Didaktika** — ta’lim nazariyasi.',
+      '## Chuqurlashtirilgan nazariya — manba korpusi (2026-10-18)',
+      '## Vaziyat',
+      'O‘qituvchi misol keltiradi.',
+    ].join('\n') }
+    const result = overlayPublishedProfessionalLesson(fallback, enriched)
+    expect(result.theory.some(block => block.content.includes('Chuqurlashtirilgan'))).toBe(false)
+    expect(result.theory.find(block => block.type === 'goal')?.content).toContain('nazariyani')
+    expect(result.supplementalTheory?.some(block => block.content.includes('O‘qituvchi'))).toBe(true)
+    expect(result.questions).toBe(fallback.questions)
+  })
+
   it('does not show unpublished or empty remote content', () => {
     expect(overlayPublishedProfessionalLesson(fallback,{...lesson,status:'draft'})).toBe(fallback)
     expect(overlayPublishedProfessionalLesson(fallback,{...lesson,body_mdx:'   '})).toBe(fallback)
