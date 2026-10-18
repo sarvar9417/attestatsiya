@@ -268,7 +268,50 @@ export const adminContentService = {
     const offset = (page - 1) * pageSize
     const { data, count, error } = await query.range(offset, offset + pageSize - 1)
     if (error) throw new AppError('Savollarni yuklashda xatolik', 500, 'ADMIN_QUERY_ERROR')
-    return { items: data ?? [], total: count ?? 0, page, page_size: pageSize }
+
+    const items = data ?? []
+    const professionalIds = items
+      .filter(item => ['KS', 'PM.GEN', 'PM.MET'].includes(item.group_code))
+      .map(item => item.id)
+    let queued = new Map<string, string | null>()
+    if (professionalIds.length) {
+      const { data: candidates, error: queueError } = await supabase
+        .from('pedagogy_revision_queue')
+        .select('source_question_id, revision_question_id')
+        .in('source_question_id', professionalIds)
+      if (queueError) throw new AppError('Pedagogika sifat navbati ochilmadi', 500, 'ADMIN_QUERY_ERROR')
+      queued = new Map((candidates ?? []).map(c => [c.source_question_id, c.revision_question_id]))
+    }
+    return {
+      items: items.map(item => ({
+        ...item,
+        length_bias_flag: queued.has(item.id),
+        revision_question_id: queued.get(item.id) ?? null,
+      })),
+      total: count ?? 0, page, page_size: pageSize,
+    }
+  },
+
+  async stagePedagogyRevision(questionId: string, userToken: string) {
+    const staff = await requireStaff(userToken)
+    if (staff.role !== 'admin') {
+      throw new ForbiddenError('Yangi tahrir yaratish uchun administrator kerak')
+    }
+    const { data, error } = await supabase.rpc('stage_pedagogy_revision', {
+      p_source_question_id: questionId,
+      p_actor_id: staff.id,
+    })
+    if (error?.message?.includes('PEDAGOGY_REVISION_NOT_QUEUED')) {
+      throw new AppError('Ushbu savol sifat navbatida yo‘q', 409, 'REVISION_NOT_QUEUED')
+    }
+    if (error || typeof data !== 'string') {
+      throw new AppError('Savolning yangi tahriri yaratilmagan', 500, 'REVISION_STAGE_ERROR')
+    }
+    await writeAudit(staff.id, 'pedagogy.revision_staged', 'questions', data, {
+      source_question_id: questionId,
+      status: 'review',
+    })
+    return { id: data, status: 'review' as const }
   },
 
   async getPedguliEditorialReview(questionId: string, userToken: string) {
