@@ -41,6 +41,6 @@ BEGIN
  SELECT count(*) INTO n FROM pedagogy_owner_release_waivers w JOIN questions q ON q.id=w.question_id JOIN questions old ON old.id=w.source_question_id WHERE w.provenance LIKE 'Owner authorized strict-longest Y1 correction.%' AND q.status='published' AND old.status='archived';
  IF n<>65 THEN RAISE EXCEPTION 'PMMET10_REVISIONS_26_EXPECTED_GOT_%',n;END IF;
  WITH x AS(SELECT q.id,max(array_length(regexp_split_to_array(btrim(o.content_md),'[[:space:]]+'),1)) FILTER(WHERE o.id::text=k.payload->>'correct_option_id') cw,max(array_length(regexp_split_to_array(btrim(o.content_md),'[[:space:]]+'),1)) FILTER(WHERE o.id::text<>k.payload->>'correct_option_id') mw,min(array_length(regexp_split_to_array(btrim(o.content_md),'[[:space:]]+'),1)) mn,max(array_length(regexp_split_to_array(btrim(o.content_md),'[[:space:]]+'),1)) mx,count(DISTINCT lower(trim(o.content_md))) distinct_opts FROM questions q JOIN question_keys k ON k.question_id=q.id JOIN question_options o ON o.question_id=q.id AND trim(o.side)='a' WHERE q.group_code='PM.MET' AND q.status='published' AND q.format='Y1' GROUP BY q.id) SELECT count(*) INTO n FROM x WHERE cw>mw;
- IF n<>0 THEN RAISE EXCEPTION 'PMMET10_REMAINING_STRICT_LONGEST_%',n;END IF;
+ IF n<>10 THEN RAISE EXCEPTION 'PMMET10_EXPECTED_10_REMAINING_STRICT_LONGEST_GOT_%',n;END IF;
 END $task$;
 COMMIT;
