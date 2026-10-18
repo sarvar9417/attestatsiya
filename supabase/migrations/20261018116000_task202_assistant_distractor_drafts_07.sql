@@ -1,6 +1,7 @@
 -- TASK-202: PM.GEN pedagogical foundations, private revision suggestions only.
 begin;
-insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distractors) values
+insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distractors)
+select source_question_id::uuid, proposed_distractors from (values
 ('75000000-0000-4000-8000-000000000015',array[
 'O‘quvchilarning yoshiga doir psixologik rivojlanish davrlarini o‘rganadi',
 'Maktab jamoasining moliyaviy va tashkiliy boshqaruv tizimini o‘rganadi',
@@ -41,5 +42,8 @@ insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distra
 'Vazifani o‘zgartirmasdan, shovqinni faqat ogohlantirish orqali kamaytirish',
 'Barcha guruhlarni tarqatib, yakuniy natijani faqat o‘qituvchi bajarishi',
 'Guruh ishiga ajratilgan vaqtni mezonlarsiz yana uzaytirib qo‘yish'])
+) as proposed(source_question_id, proposed_distractors)
+where exists(select 1 from public.questions q where q.id=proposed.source_question_id::uuid
+  and q.status='published'::public.content_status and q.format='Y1'::public.question_format)
 on conflict(source_question_id) do nothing;
 commit;
