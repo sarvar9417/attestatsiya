@@ -154,3 +154,5 @@ Har task uchun kamida:
 
 
 | TASK-211 | IN_PROGRESS | TASK-056 | M13 “Axborot xavfsizligi va raqamli xizmatlar”: 7 yangi nazariya, 210 source-backed didaktik test, `review` migratsiya, oldingi published kontent saqlangan. Draft PR #145. Ekspert tasdiqlashi, local migration DB QA, lesson resolver/topic test E2E va alohida production release tasdig‘i OPEN. Docs: `docs/content/TASK-211-M13-AXR.md`. |
+
+| TASK-220 | IN_PROGRESS | TASK-056 | M12 kompyuter tarmoqlari V2: 10 ta draft nazariya, 300 ta review savol, source TEX/JSON, test va idempotent migratsiya Supabase'da staged. CI backend/database/quality yashil, live DB QA o'tdi. Learner release uchun ekspert tasdig'i, vizual/render QA, mavzu routing/preflight/E2E, PR #155 review/merge zarur. |
