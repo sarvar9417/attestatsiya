@@ -107,6 +107,43 @@ describe('ExamResultPage', () => {
     expect(getReview).toHaveBeenCalledWith(examId)
   })
 
+
+  it('yakunlangan testda javobsiz savollarni xato emas, Javobsiz deb ko‘rsatadi', async () => {
+    vi.spyOn(backendGateway, 'getResult').mockResolvedValue({
+      ...result,
+      total_score: 2,
+      max_score: 100,
+      passed: false,
+      breakdown: [{ group_code: 'S1.INFO', jami: 50, togri: 1 }],
+    })
+    const getReview = vi.spyOn(backendGateway, 'getReview').mockResolvedValue([
+      {
+        order_idx: 1, stem_md: 'Bajarilgan savol', format: 'Y1',
+        user_answer: { option_id: 'a' }, is_correct: true,
+        key: { correct_option_id: 'a' }, explanation_md: 'Izoh',
+      },
+      {
+        order_idx: 2, stem_md: 'Xato ishlangan savol', format: 'Y1',
+        user_answer: { option_id: 'b' }, is_correct: false,
+        key: { correct_option_id: 'a' }, explanation_md: null,
+      },
+      ...Array.from({ length: 48 }, (_, i) => ({
+        order_idx: i + 3, stem_md: `Javobsiz savol ${i + 3}`,
+        format: 'Y1' as const, user_answer: null, is_correct: null,
+        key: { correct_option_id: 'a' }, explanation_md: null,
+      })),
+    ])
+
+    renderPage()
+    await screen.findByText('2 / 100')
+    fireEvent.click(screen.getByRole('button', { name: /Tahlilni ochish/ }))
+    expect(await screen.findByText('Javobsiz savol 50')).toBeDefined()
+    expect(screen.getAllByText('Javobsiz')).toHaveLength(48)
+    expect(screen.getAllByText('Xato')).toHaveLength(1)
+    expect(screen.getAllByText('To‘g‘ri')).toHaveLength(1)
+    expect(getReview).toHaveBeenCalledWith(examId)
+  })
+
   it('result API xatosidan keyin retry qiladi', async () => {
     const getResult = vi
       .spyOn(backendGateway, 'getResult')
