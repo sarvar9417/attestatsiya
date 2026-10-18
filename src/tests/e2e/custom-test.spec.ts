@@ -165,9 +165,11 @@ test.describe('TASK-210 custom test construction', () => {
     await expect(page.getByText('Test shabloni saqlandi.')).toBeVisible()
     await expect(page.getByText('Takroriy mavzular', { exact: true })).toBeVisible()
 
-    await page.getByLabel('Axborot va kodlash', { exact: true }).uncheck()
+    // Editing a visible setting tests restoring the persisted config without
+    // coupling this flow to accordion scroll/expanded state.
+    await page.getByLabel('Test rejimi').selectOption('learning')
     await page.getByRole('button', { name: 'Yuklash', exact: true }).click()
-    await expect(page.getByLabel('Axborot va kodlash', { exact: true })).toBeChecked()
+    await expect(page.getByLabel('Test rejimi')).toHaveValue('exam')
     await expect(page.getByText('Shablon yuklandi. Savollar yetarliligini qayta tekshiring.')).toBeVisible()
 
     await page.getByRole('button', { name: 'Nomini o‘zgartirish' }).click()
