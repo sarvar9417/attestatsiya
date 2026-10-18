@@ -75,17 +75,20 @@ export async function contentRoutes(app: FastifyInstance) {
   })
 
   /**
-   * POST /api/content/questions/check
-   * Server-side answer check (question_keys never leaves the server)
+   * Legacy immediate-feedback route is permanently disabled.
+   * The same published question pool is used by official, server-scored exams;
+   * returning correct_option_id here leaks exam keys without even requiring
+   * an authenticated, completed attempt. Learn/test in /api/exam instead.
    */
   app.post('/api/content/questions/check', async (req, reply) => {
-    const { question_id, option_id } = checkAnswerSchema.body.parse(req.body)
-    try {
-      const result = await contentService.checkAnswer(question_id, option_id)
-      return reply.send(result)
-    } catch (error) {
-      return sendError(reply, error)
-    }
+    checkAnswerSchema.body.parse(req.body)
+    reply.header('Cache-Control', 'no-store')
+    return reply.status(410).send({
+      error: {
+        code: 'DIRECT_KEY_CHECK_DISABLED',
+        message: 'Savol javobi faqat serverda baholanadigan sinov yakunida ko‘rsatiladi.',
+      },
+    })
   })
 
   /**
