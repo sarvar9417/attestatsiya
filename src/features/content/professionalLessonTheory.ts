@@ -144,6 +144,7 @@ export function resolveLearnerTheoryContent(
   staticContent: TopicContent,
   publishedContent?: TopicContent | null,
 ): TopicContent {
-  if (subtopicId.startsWith('M15.')) return staticContent
+  // M02 renders the complete nine-part textbook-derived theory as four canonical lessons.
+  if (subtopicId.startsWith('M02.') || subtopicId.startsWith('M15.')) return staticContent
   return publishedContent ?? staticContent
 }

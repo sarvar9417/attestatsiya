@@ -62,8 +62,10 @@ export async function resolveLessonUuid(subtopicCode: string): Promise<string | 
   // slugs, not m05-01 style slugs. Resolve the *published* lesson by its
   // module + ordinal so topic tests, study previews and progress all agree.
   // Never silently fall through to a legacy/draft lesson for these modules.
-  const canonicalMatch = /^(M(?:05|1[456]))\.(0[1-9]|[1-9][0-9])$/.exec(subtopicCode.toUpperCase())
+  const canonicalMatch = /^(M(?:02|05|1[456]))\.(0[1-9]|[1-9][0-9])$/.exec(subtopicCode.toUpperCase())
   if (canonicalMatch) {
+    // M02 has exactly four canonical published lessons; never route M02.05–09 to archived lessons.
+    if (canonicalMatch[1] === 'M02' && Number(canonicalMatch[2]) > 4) return null
     const moduleId = await resolveModuleUuid(canonicalMatch[1])
     if (moduleId) {
       const { data: lesson, error } = await supabase
