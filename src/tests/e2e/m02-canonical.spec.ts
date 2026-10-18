@@ -58,8 +58,8 @@ test.describe('M02 canonical learner navigation (mocked session)', () => {
     // The complete canonical lesson is now paginated, not fully rendered on page 1.
     // Walk through real pages and verify the section was not truncated.
     const target = page.getByText('Texnik taʼminotni tanlash va tashxislash')
-    const nextPage = page.getByRole('button', { name: /Keyingi sahifa \\(\\d+\\/\\d+\\)/ })
-    for (let i = 0; i < 100 && await target.count() === 0 && await nextPage.count() > 0; i++) {
+    const nextPage = page.getByRole('button', { name: /Keyingi sahifa/ }).last()
+    for (let i = 0; i < 100 && await target.count() === 0 && await nextPage.isEnabled(); i++) {
       await nextPage.click()
     }
     await expect(target).toBeAttached()
