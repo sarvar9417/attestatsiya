@@ -92,12 +92,33 @@ if (typeof window !== 'undefined') {
   })
 }
 
-const axbChaptersSchema = z.array(z.object({
+// The sidebar is gone: this is the only M01 catalog. A malformed response
+// must never silently produce duplicate/missing chapter choices or fake quotas.
+export const axbChaptersSchema = z.array(z.object({
   chapter_no: z.number().int().min(1).max(19),
-  total_pdf: z.number().int().positive(),
-  published_count: z.number().int().nonnegative(),
-  review_count: z.number().int().nonnegative(),
-}).strict()).length(19)
+  total_pdf: z.literal(30),
+  published_count: z.number().int().nonnegative().max(30),
+  review_count: z.number().int().nonnegative().max(30),
+}).strict().refine(row => row.published_count + row.review_count <= row.total_pdf, {
+  message: 'Bobdagi nashr/tekshiruv savollari umumiy sondan oshdi',
+})).length(19).superRefine((rows, ctx) => {
+  const found = new Set<number>()
+  for (const [index, row] of rows.entries()) {
+    if (found.has(row.chapter_no)) {
+      ctx.addIssue({
+        code: 'custom',
+        path: [index, 'chapter_no'],
+        message: 'Takrorlangan AXB bobi',
+      })
+    }
+    found.add(row.chapter_no)
+  }
+  for (let chapter = 1; chapter <= 19; chapter++) {
+    if (!found.has(chapter)) {
+      ctx.addIssue({ code: 'custom', message: `AXB ${chapter}-bob mavjud emas` })
+    }
+  }
+})
 
 export const backendGateway: ExamGateway = {
   async startCustomExam(config: CustomExamConfig): Promise<ExamSession> {
