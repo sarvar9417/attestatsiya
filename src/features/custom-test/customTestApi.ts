@@ -56,8 +56,6 @@ export async function getCustomTestCatalog(): Promise<CatalogModule[]> {
   const validated = z.array(catalogModule).safeParse(payload)
   if (!validated.success) {
     // Never render a giant raw Zod issue array on the learner's page.
-    console.error('[customTestApi] Invalid catalog response paths:',
-      validated.error.issues.slice(0, 5).map(issue => issue.path.join('.')))
     throw new Error('Mavzular ro‘yxati serverdan noto‘g‘ri formatda keldi. Qayta urinib ko‘ring.')
   }
   return validated.data
