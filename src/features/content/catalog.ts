@@ -18,7 +18,7 @@
  *   orqali code → UUID ga o'tkaziladi, shuning uchun UI UUID tashimaydi.
  */
 import { type Module } from '../../data/contentTree'
-import { type ModuleSection, type ModuleSummary } from './contentApi'
+import { type ModuleSection, type ModuleSummary, type LessonSummary } from './contentApi'
 
 export interface CatalogSubtopic {
   id: string
@@ -92,4 +92,26 @@ function toCatalogSubtopic(s: { id: string; title: string; description?: string 
     title: s.title,
     ...(s.description ? { description: s.description } : {}),
   }
+}
+
+/**
+ * M07 has twelve published, source-backed Scratch/LOGO lessons in production.
+ * Do not silently substitute the six short, legacy static topics once that
+ * complete edition is available. Retain the static catalog if the API is
+ * unavailable or only a partially published edition is returned.
+ */
+export function publishedScratchLogoSubtopics(lessons: LessonSummary[]): CatalogSubtopic[] | null {
+  const published = lessons
+    .filter(lesson => lesson.status === 'published'
+      && Boolean(lesson.body_mdx?.trim())
+      && /^(?:scratch|logo)/i.test(lesson.slug))
+    .sort((a, b) => a.order_idx - b.order_idx)
+  const required = Array.from({ length: 12 }, (_, index) => index + 1)
+  if (!required.every(order => published.some(lesson => lesson.order_idx === order))) return null
+  if (new Set(published.map(lesson => lesson.order_idx)).size !== published.length) return null
+  return published.map(lesson => ({
+    id: lesson.id,
+    code: lesson.slug,
+    title: lesson.title_uz,
+  }))
 }

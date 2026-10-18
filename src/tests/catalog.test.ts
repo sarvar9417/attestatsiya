@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { MODULES } from '../data/contentTree'
-import { mergeCatalog } from '../features/content/catalog'
-import type { ModuleSummary } from '../features/content/contentApi'
+import { mergeCatalog, publishedScratchLogoSubtopics } from '../features/content/catalog'
+import type { ModuleSummary, LessonSummary } from '../features/content/contentApi'
 
 const SUMMARY: ModuleSummary = {
   id: 'uuid-m01',
@@ -77,5 +77,32 @@ describe('mergeCatalog', () => {
       apiModule({ code: 'M14', exam_section: 'professional_standard' }),
     ])
     expect(merged.find(m => m.code === 'M14')?.section).toBe('professional_standard')
+  })
+})
+
+
+describe('published Scratch/LOGO M07 catalog', () => {
+  const lessons: LessonSummary[] = Array.from({ length: 12 }, (_, index) => ({
+    id: `00000000-0000-4000-8000-${String(index + 1).padStart(12, '0')}`,
+    module_id: '00000000-0000-0000-0000-000000001007',
+    title_uz: `M07 lesson ${index + 1}`,
+    slug: index === 5 || index === 11 ? `logo-lesson-${index + 1}` : `scratch-lesson-${index + 1}`,
+    body_mdx: '# Intro\\n\\n## One\\nContent\\n\\n## Two\\nContent',
+    blocks: null, blocks_kind: null, est_minutes: 12,
+    order_idx: index + 1, status: 'published', constructs: [],
+  }))
+
+  it('shows all twelve source-backed lessons, not six legacy static summaries', () => {
+    const result = publishedScratchLogoSubtopics([...lessons].reverse())
+    expect(result).toHaveLength(12)
+    expect(result?.[0].title).toBe('M07 lesson 1')
+    expect(result?.[11].title).toBe('M07 lesson 12')
+    expect(result?.[0].id).toBe(lessons[0].id)
+  })
+
+  it('fails closed for incomplete, unpublished or contentless chapters', () => {
+    expect(publishedScratchLogoSubtopics(lessons.slice(0, 6))).toBeNull()
+    expect(publishedScratchLogoSubtopics(lessons.map((l, i) => i === 6 ? { ...l, status: 'review' } : l))).toBeNull()
+    expect(publishedScratchLogoSubtopics(lessons.map((l, i) => i === 3 ? { ...l, body_mdx: null } : l))).toBeNull()
   })
 })

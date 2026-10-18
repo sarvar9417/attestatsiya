@@ -43,6 +43,8 @@ interface Props {
   questionCount: number
   /** Ilova (formulalar varag'i, lug'at, manbalar) — test ko'zda tutilmagan. */
   isAppendix?: boolean
+  /** Published lesson tests are compulsory; never offer a false completion action while preflight loads. */
+  requireTest?: boolean
   /** Oxirgi bo'lim o'qilgach: testni boshlash yoki mavzuni yakunlash. */
   onFinishReading: () => void
   /** O'qilgan bo'limlar ulushi (0–100). */
@@ -59,7 +61,7 @@ interface Props {
  * "Oldingi / Keyingi", oxirgi bo'limda esa bitta aniq davom etish yo'li.
  */
 export default function BookReader({
-  content, questionCount, isAppendix, onFinishReading, onProgress, nextTopic, onOpenNextTopic,
+  content, questionCount, isAppendix, requireTest = false, onFinishReading, onProgress, nextTopic, onOpenNextTopic,
 }: Props) {
   const sections = useMemo(() => splitSections(content.theory), [content.theory])
   const [index, setIndex] = useState(0)
@@ -194,14 +196,16 @@ export default function BookReader({
           <p className="book-finish-sub">
             {hasTest
               ? `Endi ${questionCount} ta savol bilan o‘zingizni tekshiring`
-              : isAppendix
-                ? 'Bu ilova takrorlash uchun — test ko‘zda tutilmagan'
-                : 'Bu bob uchun test hali qo‘shilmagan'}
+              : requireTest
+                ? 'Testning tayyorligi tekshirilmoqda. Bir oz kuting yoki sahifani yangilang.'
+                : isAppendix
+                  ? 'Bu ilova takrorlash uchun — test ko‘zda tutilmagan'
+                  : 'Bu bob uchun test hali qo‘shilmagan'}
           </p>
 
-          <button type="button" onClick={onFinishReading} className="book-finish-cta">
+          <button type="button" disabled={requireTest && !hasTest} onClick={onFinishReading} className="book-finish-cta">
             {hasTest ? <Target size={16} /> : <Check size={16} />}
-            {hasTest ? 'Testni boshlash' : 'Mavzuni yakunlash'}
+            {hasTest ? 'Testni boshlash' : requireTest ? 'Test tayyorligi kutilmoqda' : 'Mavzuni yakunlash'}
             {hasTest && <span className="book-finish-cta-meta">{questionCount} ta savol</span>}
             <ArrowRight size={16} />
           </button>

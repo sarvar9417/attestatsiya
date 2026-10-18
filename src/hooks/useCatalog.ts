@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { MODULES } from '../data/contentTree'
 import { getModuleDetail, listModules } from '../features/content/contentApi'
-import { mergeCatalog, type CatalogModule } from '../features/content/catalog'
+import { mergeCatalog, publishedScratchLogoSubtopics, type CatalogModule } from '../features/content/catalog'
 
 export interface CatalogState {
   modules: CatalogModule[]
@@ -48,6 +48,16 @@ export function useCatalog(): CatalogState {
           }
         } catch {
           // Offline or incomplete rollout: retain the previously published M06.
+        }
+        // M07: prefer the complete 12-chapter published Scratch/LOGO curriculum.
+        // The old six static summaries are only an offline/incomplete fallback.
+        try {
+          const detail = await getModuleDetail('M07')
+          const chapters = publishedScratchLogoSubtopics(detail.lessons)
+          const mod = base.find(module => module.code === 'M07')
+          if (mod && chapters) mod.subtopics = chapters
+        } catch {
+          // Never hide the module when the API is offline.
         }
         // TASK-212: Use the exact published seven-chapter M13 AXR edition,
         // otherwise retain the previous M13 catalog. Never show review questions.
