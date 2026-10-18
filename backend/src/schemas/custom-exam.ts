@@ -5,8 +5,14 @@ const difficultyCountSchema = z.object({
   count: z.number().int().min(1).max(100),
 }).strict()
 
+/** Canonical PostgreSQL UUIDs include non-RFC imported/legacy identifiers. */
+export const postgresUuidSchema = z.string().regex(
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i,
+  'PostgreSQL UUID shakli noto‘g‘ri'
+)
+
 const customTopicSchema = z.object({
-  lesson_id: z.string().uuid(),
+  lesson_id: postgresUuidSchema,
   count: z.number().int().min(1).max(100),
   difficulty_counts: z.array(difficultyCountSchema).min(1).max(5),
 }).strict()
