@@ -455,6 +455,24 @@ export const adminContentService = {
       // DB fingerprint trigger checks that no question text/key changed after review.
     }
 
+    // A revision must not be published separately from archival of its
+    // original; otherwise both near-identical copies would enter exam pools.
+    if (nextStatus === 'published' &&
+        current.source_reference?.startsWith('revision:pedagogy:')) {
+      const { data, error } = await supabase.rpc('publish_pedagogy_revision', {
+        p_revision_question_id: questionId,
+        p_actor_id: staff.id,
+      })
+      if (error?.message?.includes('PEDAGOGY_')) {
+        throw new AppError('Mustaqil ekspert tekshiruvi yoki variantlar sifati yakunlanmagan', 409, 'EDITORIAL_APPROVAL_REQUIRED')
+      }
+      if (error || !data) throw new AppError('Yangi tahrir nashr etilmadi', 500, 'REVISION_PUBLISH_ERROR')
+      await writeAudit(staff.id, 'pedagogy.revision_published', 'questions', questionId, {
+        archived_source_question_id: (data as {archived_source_question_id?:string}).archived_source_question_id,
+      })
+      return { id: questionId, status: 'published' as const }
+    }
+
     const { data, error } = await supabase
       .from('questions')
       .update({ status: nextStatus, updated_at: new Date().toISOString() })
