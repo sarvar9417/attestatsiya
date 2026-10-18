@@ -1,3 +1,28 @@
+## TASK-214 — Grafika va veb-texnologiyalar 380 test (2026-10-18)
+
+- **Holat:** IN_PROGRESS — 300 mavjud review bank saqlangan, 5 bo‘limga 8 ta Y2 + 8 ta Y3 qo‘shimcha, jami 380 (Y1=280, Y2=50, Y3=50). Source text: V2 nazariya va ICT/Cambridge boblari; yozilgan savollar original, mustaqil human QA kutmoqda.
+- **GitHub:** TASK-213 Draft PR #152 branchida 5 ta yangi additive review migration + `task214_graphics_web_380_practice_review_contract.test.sql`; full fresh-DB CI natijasi bilan tasdiqlanishi kerak.
+- **Release xavfi:** Y2/Y3 uchun bir-biriga mos UUID pairs/order, mavjud 6 published lesson va 53 published savol o‘zgarmas; avtomatik nashr/deploy qilinmaydi. Barcha 380 savol ekspert ko‘rigi va learner E2E o‘tgachgina release mumkin.
+- **Batafsil:** `docs/TASK214_GRAPHICS_WEB_380_Y2_Y3.md`.
+
+## TASK-213 — Grafika va veb-texnologiyalar V2 (2026-10-18)
+
+- **Holat:** IN_PROGRESS — 6 review-only V2 lesson + 300 review-only question, 8 SVG diagrams in dedicated branch; existing published M10/M11 6 lessons and 53 S5.WEB published questions preserved.
+- **GitHub:** `task/TASK-213-graphics-web-v2-staging`; PR/CI and release verification pending.
+- **Security:** Y1/Y2/Y3 answer keys only in `question_keys`; never auto-publish unreviewed AI-authored questions.
+- **Acceptance blockers:** independent 300-item editorial review, 9 figure-question comparison, HTML/math/table BookReader parity, learner E2E, CI and verified production DB/deploy. See `docs/TASK213_GRAPHICS_WEB_V2_INTEGRATION.md`.
+
+## TASK-210 — Universal shaxsiy test konstruktori (2026-10-18, functional branch verified)
+
+- **Status:** IN_PROGRESS — draft PR #144; main/production o‘zgarmagan.
+- **Branch:** `task/TASK-210-custom-test-builder`; change scope: RFC, Zod quota parser/planner, safe catalog/preflight, atomic `custom` exam RPC and key-leak guard, frontend wizard and shared ExamRunner, history/result labels, SQL/backend/E2E tests.
+- **Validatsiya:** latest functional commit `68adea436e46` da CI backend, fresh PostgreSQL/database (jumladan `supabase/tests/custom_exam.test.sql`), quality/lint/typecheck/build/Playwright E2E = **SUCCESS**. Shu hujjat commitidan keyin CI qayta tekshirilsin.
+- **DB:** `20261018230000_task210_custom_exam.sql` va `20261018231000_task210_custom_exam_feedback_guard.sql` — productionga qo‘llanmagan. `exam_kind='custom'`, public `custom_exam_preflight(jsonb)`, `generate_custom_exam(jsonb)`; user auth, exact per-lesson A–E quotas, published/keyed/source-backed filters va all-or-nothing.
+- **UI:** `/custom-test` protected wizard → `/exam/custom`, ko‘p modul, qo‘lda A–E kvota, Y1/Y2/Y3, exposure, mode, timer. All results in same server-authoritative history flow. Learning mode hozir feedbackni **yakunda** ko‘rsatadi.
+- **Qolgan va `DONE` uchun majburiy:** shaxsiy preset saqlash CRUD + RLS; construct-level microtopic selection; domain analytics/result breakdown by selected topic; active attempt resume/idempotent start; migration remote rollout / production acceptance, accessibility va UX smoke. Yakunlanmagan bo‘limlarni “Completed” deb belgilamang.
+- **Release restriction:** iznsiz `main` merge, Vercel production deploy yoki production DB migration yo‘q. PR #144 Draft qoladi.
+
+
 ## TASK-203 — Pedagogika 249 owner-approved production bank Git parity (2026-10-18)
 
 - **Production audit:** KS/PM.GEN/PM.MET 424 published, 0 review. Of these 249 were approved as a **project-owner batch**, and 82 had wrong-option text AI-redrafted after initial approval for balanced length; never describe them as independent expert-signed certifications.
@@ -1768,3 +1793,11 @@ Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user co
 - **Format caveat:** source marks 7 Y2 + 7 Y3 but all 14 are Y1 multiple-choice combinations; DB format is Y1 until true native interaction is separately authored. `source_reference` preserves original kind.
 - **Regression:** new `task211_m13_axr_review_contract.test.sql`, plus exact review-corpus exemption to TASK-064 M13 canonical drift check while published drift remains rejected.
 - **Incomplete:** human source/key editorial review, local disposable PostgreSQL migration QA, frontend reader/resolver navigation/topic-preflight E2E, future expert-approved publication; merge, live Supabase migration and Vercel production deploy require separate user signoff.
+
+
+### TASK-211 merge/import handoff — 2026-10-18
+
+- **GitHub:** PR #145 merged into main (squash SHA `dde444fbb7e3a9acc07bae9663f5dede3e353d4c`). Rebased CI quality/backend/database all successful.
+- **Supabase:** project `plyqezulrfowyblsfpzy`, applied `20261018130412_task211_m13_axr_review_content_20261019`.
+- **Production read-only audit:** 7/7 new review lessons; 210/210 review questions; each chapter 30; 840 options; 210 keys; 210 correct lesson associations; 0 missing/invalid keys. Pre-existing 60 published S7.SEC questions remained.
+- **Release gate OPEN:** new lessons and questions are `review`, NOT visible to learners. Require expert signoff, promotion in a separate version-safe migration, topic-test preflight, API scoring and UI smoke test. Do not treat merge/import as publication approval.

@@ -190,6 +190,8 @@ jobs:
           psql -X -v ON_ERROR_STOP=1 -d attestatsiya_test \
             -f supabase/seed.sql \
             -f supabase/tests/security_hardening.test.sql \
+            -f supabase/tests/custom_exam.test.sql \
+            -f supabase/tests/custom_exam_presets.test.sql \
             -f supabase/tests/rls_product_access.test.sql \
             -f supabase/tests/onboarding_profile.test.sql \
             -f supabase/tests/mastery_srs_foundation.test.sql \
@@ -223,8 +225,11 @@ jobs:
             -f supabase/tests/a4_programming_lessons.test.sql \
             -f supabase/tests/m09_source_backed_lessons.test.sql \
             -f supabase/tests/m10_m11_graphics_web_lessons.test.sql \
+            -f supabase/tests/task213_graphics_web_v2_review_contract.test.sql \
+            -f supabase/tests/task214_graphics_web_380_practice_review_contract.test.sql \
             -f supabase/tests/m12_m13_network_security_lessons.test.sql \
             -f supabase/tests/m14_kasb_standarti_lessons.test.sql \
+            -f supabase/tests/axb_chapter_practice.test.sql \
             -f supabase/tests/review_question_option_rls.test.sql \
             -f supabase/tests/m16_informatika_metodikasi_lessons.test.sql \
             -f supabase/tests/m15_umumiy_pedagogika_lessons.test.sql \

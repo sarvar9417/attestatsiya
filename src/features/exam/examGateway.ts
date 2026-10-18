@@ -1,4 +1,6 @@
+import type { CustomExamConfig } from '../custom-test/customTestApi'
 import type { Json } from '../../lib/database.types'
+import type { AXBChapter } from '../axb/chapters'
 import type {
   DueReviewItem,
   ExamHistoryResponse,
@@ -17,7 +19,7 @@ export interface SubmitAnswerInput {
   timeSpentSec: number
 }
 
-export type ExamKind = 'mock' | 'bolim' | 'mavzu' | 'mashq' | 'diagnostika' | 'takrorlash' | 'zaif' | 'pedagogik_15'
+export type ExamKind = 'mock' | 'bolim' | 'mavzu' | 'mashq' | 'diagnostika' | 'takrorlash' | 'zaif' | 'pedagogik_15' | 'axb_bob'
 
 /**
  * Mavzu testi uchun boshlashdan oldin ko'rsatiladigan ma'lumot:
@@ -35,7 +37,10 @@ export interface TopicTestPreview {
 }
 
 export interface ExamGateway {
+  getAxborotChapters?(): Promise<AXBChapter[]>
+  startAxborotChapter?(chapter: number, count: number): Promise<ExamSession>
   startMockExam(): Promise<ExamSession>
+  startCustomExam?(config: CustomExamConfig): Promise<ExamSession>
   startModuleExam(moduleId: string): Promise<ExamSession>
   startTopicExam(lessonId: string): Promise<ExamSession>
   /** Server-calculated diagnostic/adaptive/review/weak-area sessionini boshlaydi. */

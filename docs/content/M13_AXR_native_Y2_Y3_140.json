@@ -1,0 +1,3094 @@
+{
+  "metadata": {
+    "topic": "Axborot xavfsizligi va raqamli platformalarda faoliyat olib borish",
+    "module": "M13",
+    "spec": "2026-yil 7-mazmun sohasi, 34–35-savollar",
+    "authors_note": "Darslik mavzularidan kelib chiqib yangidan yozilgan didaktik mashqlar; rasmiy imtihondan ko‘chirma emas; inson eksperti mustaqil tasdiqlamagan.",
+    "counts": {
+      "Y2": 70,
+      "Y3": 70
+    }
+  },
+  "questions": [
+    {
+      "id": "AXRN-01-Y2-01",
+      "chapter": 1,
+      "format": "Y2",
+      "stem": "Axborot xavfsizligining CIA xossalarini vaziyatlar bilan moslang.",
+      "pairs": [
+        {
+          "left": "Maxfiylik",
+          "right": "Begona shaxs shaxsiy baholarni o‘qiy olmaydi"
+        },
+        {
+          "left": "Yaxlitlik",
+          "right": "Baholar ruxsatsiz o‘zgartirilmaydi"
+        },
+        {
+          "left": "Mavjudlik",
+          "right": "Elektron jurnal kerak paytda ochiladi"
+        },
+        {
+          "left": "Audit izi",
+          "right": "O‘zgartirish kim va qachon qilgani qayd etiladi"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Maxfiylik → Begona shaxs shaxsiy baholarni o‘qiy olmaydi; Yaxlitlik → Baholar ruxsatsiz o‘zgartirilmaydi; Mavjudlik → Elektron jurnal kerak paytda ochiladi; Audit izi → O‘zgartirish kim va qachon qilgani qayd etiladi.",
+      "source_reference": "11-sinf informatika 2021: axborot xavfsizligi, PDF 256–265; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-01-Y2-02",
+      "chapter": 1,
+      "format": "Y2",
+      "stem": "Xavf tahlili tushunchalarini aniq misollarga moslang.",
+      "pairs": [
+        {
+          "left": "Aktiv",
+          "right": "O‘quvchilar ma’lumotlari bazasi"
+        },
+        {
+          "left": "Tahdid",
+          "right": "Begona kishi hisobga kirishga urinishi"
+        },
+        {
+          "left": "Zaiflik",
+          "right": "Hisobda juda oddiy parol qo‘llanishi"
+        },
+        {
+          "left": "Xavf",
+          "right": "Zaif parol sabab baholar oshkor bo‘lishi ehtimoli"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Aktiv → O‘quvchilar ma’lumotlari bazasi; Tahdid → Begona kishi hisobga kirishga urinishi; Zaiflik → Hisobda juda oddiy parol qo‘llanishi; Xavf → Zaif parol sabab baholar oshkor bo‘lishi ehtimoli.",
+      "source_reference": "11-sinf informatika 2021: axborot xavfsizligi, PDF 256–265; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-01-Y2-03",
+      "chapter": 1,
+      "format": "Y2",
+      "stem": "Himoya choralarini ularning vazifasi bilan moslang.",
+      "pairs": [
+        {
+          "left": "MFA",
+          "right": "Kirishni ikkinchi tasdiqlash omili bilan mustahkamlash"
+        },
+        {
+          "left": "Zaxira nusxa",
+          "right": "Yo‘qolgan ma’lumotni tiklash imkonini yaratish"
+        },
+        {
+          "left": "Rollar bo‘yicha ruxsat",
+          "right": "Har bir foydalanuvchiga zarur huquqni berish"
+        },
+        {
+          "left": "Xavfsizlik jurnali",
+          "right": "Kirish va o‘zgarish hodisalarini qayd etish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: MFA → Kirishni ikkinchi tasdiqlash omili bilan mustahkamlash; Zaxira nusxa → Yo‘qolgan ma’lumotni tiklash imkonini yaratish; Rollar bo‘yicha ruxsat → Har bir foydalanuvchiga zarur huquqni berish; Xavfsizlik jurnali → Kirish va o‘zgarish hodisalarini qayd etish.",
+      "source_reference": "11-sinf informatika 2021: axborot xavfsizligi, PDF 256–265; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-01-Y2-04",
+      "chapter": 1,
+      "format": "Y2",
+      "stem": "Nazorat turini xavfsizlik amali bilan moslang.",
+      "pairs": [
+        {
+          "left": "Oldini oluvchi nazorat",
+          "right": "Noma’lum qurilmadan kirishni cheklash"
+        },
+        {
+          "left": "Aniqlovchi nazorat",
+          "right": "G‘ayrioddiy kirish haqida ogohlantirish"
+        },
+        {
+          "left": "Tiklovchi nazorat",
+          "right": "Tekshirilgan backupdan ma’lumot qaytarish"
+        },
+        {
+          "left": "Tashkiliy nazorat",
+          "right": "Xodimlarga phishing bo‘yicha yo‘riqnoma berish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Oldini oluvchi nazorat → Noma’lum qurilmadan kirishni cheklash; Aniqlovchi nazorat → G‘ayrioddiy kirish haqida ogohlantirish; Tiklovchi nazorat → Tekshirilgan backupdan ma’lumot qaytarish; Tashkiliy nazorat → Xodimlarga phishing bo‘yicha yo‘riqnoma berish.",
+      "source_reference": "11-sinf informatika 2021: axborot xavfsizligi, PDF 256–265; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-01-Y2-05",
+      "chapter": 1,
+      "format": "Y2",
+      "stem": "Tashqi hodisa misollarini asosiy xavf turi bilan juftlang.",
+      "pairs": [
+        {
+          "left": "Elektr uzilishi",
+          "right": "Xizmatning vaqtincha mavjud bo‘lmasligi"
+        },
+        {
+          "left": "Qurilma o‘g‘irlanishi",
+          "right": "Saqlangan axborotning boshqalarga o‘tish xavfi"
+        },
+        {
+          "left": "Bahoni yashirin almashtirish",
+          "right": "Ma’lumot yaxlitligining buzilishi"
+        },
+        {
+          "left": "Ochiq qolgan sessiya",
+          "right": "Hisobga ruxsatsiz foydalanish xavfi"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Elektr uzilishi → Xizmatning vaqtincha mavjud bo‘lmasligi; Qurilma o‘g‘irlanishi → Saqlangan axborotning boshqalarga o‘tish xavfi; Bahoni yashirin almashtirish → Ma’lumot yaxlitligining buzilishi; Ochiq qolgan sessiya → Hisobga ruxsatsiz foydalanish xavfi.",
+      "source_reference": "11-sinf informatika 2021: axborot xavfsizligi, PDF 256–265; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-01-Y2-06",
+      "chapter": 1,
+      "format": "Y2",
+      "stem": "Foydalanuvchi amallarini xavfsizlik tamoyiliga moslang.",
+      "pairs": [
+        {
+          "left": "Minimal vakolat",
+          "right": "Xodimga faqat o‘z vazifasiga yetarli ruxsat berish"
+        },
+        {
+          "left": "Noyob parol",
+          "right": "Har bir xizmat uchun takrorlanmas maxfiy so‘z ishlatish"
+        },
+        {
+          "left": "Yangilash",
+          "right": "Ma’lum dasturiy zaiflikka tuzatish o‘rnatish"
+        },
+        {
+          "left": "Tekshirish",
+          "right": "Xabar manzilini mustaqil rasmiy kanal orqali tasdiqlash"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Minimal vakolat → Xodimga faqat o‘z vazifasiga yetarli ruxsat berish; Noyob parol → Har bir xizmat uchun takrorlanmas maxfiy so‘z ishlatish; Yangilash → Ma’lum dasturiy zaiflikka tuzatish o‘rnatish; Tekshirish → Xabar manzilini mustaqil rasmiy kanal orqali tasdiqlash.",
+      "source_reference": "11-sinf informatika 2021: axborot xavfsizligi, PDF 256–265; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-01-Y2-07",
+      "chapter": 1,
+      "format": "Y2",
+      "stem": "Hodisa dalillarini ehtimoliy buzilgan xossa bilan moslang.",
+      "pairs": [
+        {
+          "left": "Noma’lum odam hujjatni ko‘rgan",
+          "right": "Maxfiylik"
+        },
+        {
+          "left": "Fayl mazmuni izohsiz o‘zgargan",
+          "right": "Yaxlitlik"
+        },
+        {
+          "left": "Server soatlab ishlamagan",
+          "right": "Mavjudlik"
+        },
+        {
+          "left": "Xodim o‘zgartirish tarixini ko‘rmoqda",
+          "right": "Hisobdorlik va audit"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Noma’lum odam hujjatni ko‘rgan → Maxfiylik; Fayl mazmuni izohsiz o‘zgargan → Yaxlitlik; Server soatlab ishlamagan → Mavjudlik; Xodim o‘zgartirish tarixini ko‘rmoqda → Hisobdorlik va audit.",
+      "source_reference": "11-sinf informatika 2021: axborot xavfsizligi, PDF 256–265; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-01-Y2-08",
+      "chapter": 1,
+      "format": "Y2",
+      "stem": "Risk ballari misollarini hisoblangan natija bilan juftlang (ball = ehtimol × ta’sir).",
+      "pairs": [
+        {
+          "left": "Ehtimol 3, ta’sir 3",
+          "right": "9 ball"
+        },
+        {
+          "left": "Ehtimol 2, ta’sir 3",
+          "right": "6 ball"
+        },
+        {
+          "left": "Ehtimol 1, ta’sir 2",
+          "right": "2 ball"
+        },
+        {
+          "left": "Ehtimol 1, ta’sir 1",
+          "right": "1 ball"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Ehtimol 3, ta’sir 3 → 9 ball; Ehtimol 2, ta’sir 3 → 6 ball; Ehtimol 1, ta’sir 2 → 2 ball; Ehtimol 1, ta’sir 1 → 1 ball.",
+      "source_reference": "11-sinf informatika 2021: axborot xavfsizligi, PDF 256–265; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-01-Y2-09",
+      "chapter": 1,
+      "format": "Y2",
+      "stem": "Tahdidga javob choralarini asosiy maqsadi bilan moslang.",
+      "pairs": [
+        {
+          "left": "Qurilmani tarmoqdan ajratish",
+          "right": "Zararli trafikning davom etishini cheklash"
+        },
+        {
+          "left": "Parolni almashtirish",
+          "right": "Oshkor bo‘lgan kirish sirini bekor qilish"
+        },
+        {
+          "left": "Dalillarni saqlash",
+          "right": "Hodisani tekshirishga asos qoldirish"
+        },
+        {
+          "left": "Zaxiradan tiklash",
+          "right": "Buzilgan axborotni qayta ishga keltirish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Qurilmani tarmoqdan ajratish → Zararli trafikning davom etishini cheklash; Parolni almashtirish → Oshkor bo‘lgan kirish sirini bekor qilish; Dalillarni saqlash → Hodisani tekshirishga asos qoldirish; Zaxiradan tiklash → Buzilgan axborotni qayta ishga keltirish.",
+      "source_reference": "11-sinf informatika 2021: axborot xavfsizligi, PDF 256–265; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-01-Y2-10",
+      "chapter": 1,
+      "format": "Y2",
+      "stem": "Axborotga ishlov berish xatolarini ehtimoliy oqibat bilan moslang.",
+      "pairs": [
+        {
+          "left": "Ma’lumotni hamma uchun ochish",
+          "right": "Maxfiy ma’lumot sizishi"
+        },
+        {
+          "left": "Tasdiqsiz tahrirga ruxsat",
+          "right": "Yozuvlar noto‘g‘ri o‘zgarishi"
+        },
+        {
+          "left": "Bitta serverga suyanish",
+          "right": "U uzilganda xizmat to‘xtashi"
+        },
+        {
+          "left": "Zaxira nusxani sinamaslik",
+          "right": "Favqulodda tiklashda nosozlik aniqlanishi"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Ma’lumotni hamma uchun ochish → Maxfiy ma’lumot sizishi; Tasdiqsiz tahrirga ruxsat → Yozuvlar noto‘g‘ri o‘zgarishi; Bitta serverga suyanish → U uzilganda xizmat to‘xtashi; Zaxira nusxani sinamaslik → Favqulodda tiklashda nosozlik aniqlanishi.",
+      "source_reference": "11-sinf informatika 2021: axborot xavfsizligi, PDF 256–265; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-01-Y3-01",
+      "chapter": 1,
+      "format": "Y3",
+      "stem": "Axborot aktivi uchun sodda risk baholash bosqichlarini tartiblang.",
+      "steps": [
+        "Himoya qilinadigan axborot aktivini aniqlash",
+        "Unga tahdid va zaifliklarni belgilash",
+        "Ehtimol hamda ta’sirni baholash",
+        "Ustuvor himoya choralarini tanlash"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Himoya qilinadigan axborot aktivini aniqlash → Unga tahdid va zaifliklarni belgilash → Ehtimol hamda ta’sirni baholash → Ustuvor himoya choralarini tanlash.",
+      "source_reference": "11-sinf informatika 2021: axborot xavfsizligi, PDF 256–265; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-01-Y3-02",
+      "chapter": 1,
+      "format": "Y3",
+      "stem": "Shubhali hisobga kirish hodisasiga dastlabki xavfsiz javob tartibini ko‘rsating.",
+      "steps": [
+        "Kirish ogohlantirishining haqiqiyligini tekshirish",
+        "Rasmiy hisob sozlamalariga ishonchli yo‘l bilan kirish",
+        "Begona sessiyalarni bekor qilib parol va MFAni yangilash",
+        "Kirish tarixini qayta kuzatish va mas’ulga xabar berish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Kirish ogohlantirishining haqiqiyligini tekshirish → Rasmiy hisob sozlamalariga ishonchli yo‘l bilan kirish → Begona sessiyalarni bekor qilib parol va MFAni yangilash → Kirish tarixini qayta kuzatish va mas’ulga xabar berish.",
+      "source_reference": "11-sinf informatika 2021: axborot xavfsizligi, PDF 256–265; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-01-Y3-03",
+      "chapter": 1,
+      "format": "Y3",
+      "stem": "Maktab jurnalini favqulodda tiklash jarayonini tartiblang.",
+      "steps": [
+        "Jurnalning ishlamay qolganini aniqlash",
+        "Nosozlik sababini ajratib tizimni xavfsiz holatga keltirish",
+        "Tekshirilgan zaxira nusxadan ma’lumotni qaytarish",
+        "Natija yaxlitligi va xizmat ishlashini tasdiqlash"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Jurnalning ishlamay qolganini aniqlash → Nosozlik sababini ajratib tizimni xavfsiz holatga keltirish → Tekshirilgan zaxira nusxadan ma’lumotni qaytarish → Natija yaxlitligi va xizmat ishlashini tasdiqlash.",
+      "source_reference": "11-sinf informatika 2021: axborot xavfsizligi, PDF 256–265; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-01-Y3-04",
+      "chapter": 1,
+      "format": "Y3",
+      "stem": "Yangi xodimga minimal kirish huquqini berish bosqichlarini tartiblang.",
+      "steps": [
+        "Xodimning xizmat vazifasini aniqlash",
+        "Unga zarur eng kam ruxsatlar ro‘yxatini tuzish",
+        "Ruxsatlarni faqat tasdiqlangan rolga biriktirish",
+        "Kirishlarni sinash va keyinchalik qayta ko‘rib chiqish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Xodimning xizmat vazifasini aniqlash → Unga zarur eng kam ruxsatlar ro‘yxatini tuzish → Ruxsatlarni faqat tasdiqlangan rolga biriktirish → Kirishlarni sinash va keyinchalik qayta ko‘rib chiqish.",
+      "source_reference": "11-sinf informatika 2021: axborot xavfsizligi, PDF 256–265; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-01-Y3-05",
+      "chapter": 1,
+      "format": "Y3",
+      "stem": "MFA joriy etish bo‘yicha tushunarli ish tartibini aniqlang.",
+      "steps": [
+        "Rasmiy xizmatning xavfsizlik bo‘limini ochish",
+        "Ikkinchi omil turini tanlash",
+        "Ikkinchi omilni bog‘lab sinov kirishini bajarish",
+        "Tiklash kodlarini xavfsiz joyda saqlash"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Rasmiy xizmatning xavfsizlik bo‘limini ochish → Ikkinchi omil turini tanlash → Ikkinchi omilni bog‘lab sinov kirishini bajarish → Tiklash kodlarini xavfsiz joyda saqlash.",
+      "source_reference": "11-sinf informatika 2021: axborot xavfsizligi, PDF 256–265; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-01-Y3-06",
+      "chapter": 1,
+      "format": "Y3",
+      "stem": "Ruxsatsiz o‘zgargan fayl bilan ishlash tartibini tuzing.",
+      "steps": [
+        "Fayldagi kutilmagan o‘zgarishni aniqlash",
+        "O‘zgarish tarixi va mas’ul shaxsni tekshirish",
+        "Ishonchli versiya bilan farqni taqqoslash",
+        "Ruxsat asosida to‘g‘ri versiyani qayta tiklash"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Fayldagi kutilmagan o‘zgarishni aniqlash → O‘zgarish tarixi va mas’ul shaxsni tekshirish → Ishonchli versiya bilan farqni taqqoslash → Ruxsat asosida to‘g‘ri versiyani qayta tiklash.",
+      "source_reference": "11-sinf informatika 2021: axborot xavfsizligi, PDF 256–265; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-01-Y3-07",
+      "chapter": 1,
+      "format": "Y3",
+      "stem": "Kompaniyada oddiy zaxiralash siyosatini ishlab chiqish tartibini toping.",
+      "steps": [
+        "Muhim fayllar va ularning yo‘qolish oqibatini belgilash",
+        "Zaxiralash davriyligi va saqlash joylarini tanlash",
+        "Avtomatik zaxira yaratishni sozlash",
+        "Tiklash sinovini o‘tkazib natijani qayd etish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Muhim fayllar va ularning yo‘qolish oqibatini belgilash → Zaxiralash davriyligi va saqlash joylarini tanlash → Avtomatik zaxira yaratishni sozlash → Tiklash sinovini o‘tkazib natijani qayd etish.",
+      "source_reference": "11-sinf informatika 2021: axborot xavfsizligi, PDF 256–265; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-01-Y3-08",
+      "chapter": 1,
+      "format": "Y3",
+      "stem": "Yangi xavfsizlik zaifligi haqida xabar kelganda to‘g‘ri harakat tartibini ko‘rsating.",
+      "steps": [
+        "Xabarning rasmiy manbasini va dastur versiyasini tekshirish",
+        "Muammo o‘z tizimiga taalluqliligini aniqlash",
+        "Tuzatishni xavfsiz rejada o‘rnatish",
+        "Ishlashini sinash va yangilanishni qayd etish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Xabarning rasmiy manbasini va dastur versiyasini tekshirish → Muammo o‘z tizimiga taalluqliligini aniqlash → Tuzatishni xavfsiz rejada o‘rnatish → Ishlashini sinash va yangilanishni qayd etish.",
+      "source_reference": "11-sinf informatika 2021: axborot xavfsizligi, PDF 256–265; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-01-Y3-09",
+      "chapter": 1,
+      "format": "Y3",
+      "stem": "O‘quvchi ma’lumotini ulashishdan avvalgi tekshiruvlarni tartiblang.",
+      "steps": [
+        "Ulashishning aniq maqsadini belgilash",
+        "Qabul qiluvchining vakolati borligini aniqlash",
+        "Keraksiz shaxsiy maydonlarni olib tashlash",
+        "Ruxsatli kanal orqali yuborib kirishni nazorat qilish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Ulashishning aniq maqsadini belgilash → Qabul qiluvchining vakolati borligini aniqlash → Keraksiz shaxsiy maydonlarni olib tashlash → Ruxsatli kanal orqali yuborib kirishni nazorat qilish.",
+      "source_reference": "11-sinf informatika 2021: axborot xavfsizligi, PDF 256–265; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-01-Y3-10",
+      "chapter": 1,
+      "format": "Y3",
+      "stem": "Hisobotda xavfsizlik voqeasini hujjatlashtirish bosqichlarini joylang.",
+      "steps": [
+        "Voqea sanasi va kuzatilgan alomatlarni yozish",
+        "Dalillar hamda ta’sirlangan tizimlarni sanash",
+        "Ko‘rilgan choralar va tiklanish natijasini qayd etish",
+        "Kelgusida takrorlanmasligi uchun tavsiyalar tuzish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Voqea sanasi va kuzatilgan alomatlarni yozish → Dalillar hamda ta’sirlangan tizimlarni sanash → Ko‘rilgan choralar va tiklanish natijasini qayd etish → Kelgusida takrorlanmasligi uchun tavsiyalar tuzish.",
+      "source_reference": "11-sinf informatika 2021: axborot xavfsizligi, PDF 256–265; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-02-Y2-01",
+      "chapter": 2,
+      "format": "Y2",
+      "stem": "Zararli dasturlarni ularning asosiy belgilariga moslang.",
+      "pairs": [
+        {
+          "left": "Virus",
+          "right": "Boshqa fayl yoki dasturga birikib tarqalishi mumkin"
+        },
+        {
+          "left": "Qurt (worm)",
+          "right": "Tarmoq bo‘ylab mustaqil tarqalishi mumkin"
+        },
+        {
+          "left": "Troyan",
+          "right": "Foydali dastur ko‘rinishida zararli ishni yashiradi"
+        },
+        {
+          "left": "Spyware",
+          "right": "Foydalanuvchini yashirin kuzatib ma’lumot to‘playdi"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Virus → Boshqa fayl yoki dasturga birikib tarqalishi mumkin; Qurt (worm) → Tarmoq bo‘ylab mustaqil tarqalishi mumkin; Troyan → Foydali dastur ko‘rinishida zararli ishni yashiradi; Spyware → Foydalanuvchini yashirin kuzatib ma’lumot to‘playdi.",
+      "source_reference": "11-sinf informatika 2021: zararli dasturlar va axborot xavfsizligi, PDF 256–285; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-02-Y2-02",
+      "chapter": 2,
+      "format": "Y2",
+      "stem": "Hujum va aldov atamalarini tegishli vaziyat bilan moslang.",
+      "pairs": [
+        {
+          "left": "Phishing",
+          "right": "Soxta bank sahifasida parolni kiritishga undash"
+        },
+        {
+          "left": "Smishing",
+          "right": "SMS orqali soxta havola yuborib ma’lumot so‘rash"
+        },
+        {
+          "left": "Vishing",
+          "right": "Telefon qo‘ng‘irog‘ida o‘zini bank xodimi deyish"
+        },
+        {
+          "left": "Spear phishing",
+          "right": "Muayyan xodimga moslab shaxsiylashtirilgan aldov xati"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Phishing → Soxta bank sahifasida parolni kiritishga undash; Smishing → SMS orqali soxta havola yuborib ma’lumot so‘rash; Vishing → Telefon qo‘ng‘irog‘ida o‘zini bank xodimi deyish; Spear phishing → Muayyan xodimga moslab shaxsiylashtirilgan aldov xati.",
+      "source_reference": "11-sinf informatika 2021: zararli dasturlar va axborot xavfsizligi, PDF 256–285; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-02-Y2-03",
+      "chapter": 2,
+      "format": "Y2",
+      "stem": "Zararli faoliyatni undagi xavf bilan moslang.",
+      "pairs": [
+        {
+          "left": "Ransomware",
+          "right": "Fayllarni yopib tiklash evaziga to‘lov talab qilish"
+        },
+        {
+          "left": "Keylogger",
+          "right": "Klaviatura bosishlarini yashirin qayd etish"
+        },
+        {
+          "left": "Adware",
+          "right": "Istalmagan reklama oynalarini chiqarish"
+        },
+        {
+          "left": "Botnet",
+          "right": "Zararlangan qurilmalarni masofadan birgalikda boshqarish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Ransomware → Fayllarni yopib tiklash evaziga to‘lov talab qilish; Keylogger → Klaviatura bosishlarini yashirin qayd etish; Adware → Istalmagan reklama oynalarini chiqarish; Botnet → Zararlangan qurilmalarni masofadan birgalikda boshqarish.",
+      "source_reference": "11-sinf informatika 2021: zararli dasturlar va axborot xavfsizligi, PDF 256–285; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-02-Y2-04",
+      "chapter": 2,
+      "format": "Y2",
+      "stem": "Shubhali xabar belgilarini mos izoh bilan juftlang.",
+      "pairs": [
+        {
+          "left": "Shoshilinch talab",
+          "right": "O‘ylash va tekshirish vaqtini qisqartirishga urinish"
+        },
+        {
+          "left": "Notanish domen",
+          "right": "Haqiqiy tashkilotga o‘xshatilgan boshqa manzil"
+        },
+        {
+          "left": "Parol so‘rovi",
+          "right": "Maxfiy hisob ma’lumotini qo‘lga kiritish niyati"
+        },
+        {
+          "left": "Noma’lum ilova",
+          "right": "Zararli faylni ishga tushirtirish xavfi"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Shoshilinch talab → O‘ylash va tekshirish vaqtini qisqartirishga urinish; Notanish domen → Haqiqiy tashkilotga o‘xshatilgan boshqa manzil; Parol so‘rovi → Maxfiy hisob ma’lumotini qo‘lga kiritish niyati; Noma’lum ilova → Zararli faylni ishga tushirtirish xavfi.",
+      "source_reference": "11-sinf informatika 2021: zararli dasturlar va axborot xavfsizligi, PDF 256–285; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-02-Y2-05",
+      "chapter": 2,
+      "format": "Y2",
+      "stem": "Yuqish kanallarini ehtimoliy tashuvchiga moslang.",
+      "pairs": [
+        {
+          "left": "Email ilovasi",
+          "right": "Hujjat ko‘rinishida yuborilgan zararli fayl"
+        },
+        {
+          "left": "USB qurilma",
+          "right": "Tekshirilmagan tashqi xotira"
+        },
+        {
+          "left": "Soxta yangilanish",
+          "right": "Rasmiy bo‘lmagan saytdagi o‘rnatgich"
+        },
+        {
+          "left": "Zararli reklama",
+          "right": "Boshqa manzilga olib ketadigan reklama havolasi"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Email ilovasi → Hujjat ko‘rinishida yuborilgan zararli fayl; USB qurilma → Tekshirilmagan tashqi xotira; Soxta yangilanish → Rasmiy bo‘lmagan saytdagi o‘rnatgich; Zararli reklama → Boshqa manzilga olib ketadigan reklama havolasi.",
+      "source_reference": "11-sinf informatika 2021: zararli dasturlar va axborot xavfsizligi, PDF 256–285; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-02-Y2-06",
+      "chapter": 2,
+      "format": "Y2",
+      "stem": "Ijtimoiy muhandislik usullarini belgilari bilan moslang.",
+      "pairs": [
+        {
+          "left": "Pretexting",
+          "right": "Oldindan to‘qilgan xizmat hikoyasi bilan ishontirish"
+        },
+        {
+          "left": "Baiting",
+          "right": "Jozibali bepul fayl orqali qiziqtirish"
+        },
+        {
+          "left": "Quid pro quo",
+          "right": "Soxta xizmat yordami evaziga maxfiy ma’lumot so‘rash"
+        },
+        {
+          "left": "Shoulder surfing",
+          "right": "Ekran yoki klaviaturani yon tomondan kuzatish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Pretexting → Oldindan to‘qilgan xizmat hikoyasi bilan ishontirish; Baiting → Jozibali bepul fayl orqali qiziqtirish; Quid pro quo → Soxta xizmat yordami evaziga maxfiy ma’lumot so‘rash; Shoulder surfing → Ekran yoki klaviaturani yon tomondan kuzatish.",
+      "source_reference": "11-sinf informatika 2021: zararli dasturlar va axborot xavfsizligi, PDF 256–285; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-02-Y2-07",
+      "chapter": 2,
+      "format": "Y2",
+      "stem": "Phishing xabariga xavfsiz javoblarni muayyan vaziyatga moslang.",
+      "pairs": [
+        {
+          "left": "Bankdan kelgan soxta havola",
+          "right": "Rasmiy ilova yoki qo‘lda kiritilgan manzildan tekshirish"
+        },
+        {
+          "left": "Shubhali .exe fayl",
+          "right": "Ishga tushirmasdan mas’ulga xabar berish"
+        },
+        {
+          "left": "Kiritib yuborilgan parol",
+          "right": "Ishonchli qurilmadan parol va sessiyalarni almashtirish"
+        },
+        {
+          "left": "Soxta qo‘ng‘iroqdagi kod so‘rovi",
+          "right": "Bir martalik kodni bermasdan aloqani tugatish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Bankdan kelgan soxta havola → Rasmiy ilova yoki qo‘lda kiritilgan manzildan tekshirish; Shubhali .exe fayl → Ishga tushirmasdan mas’ulga xabar berish; Kiritib yuborilgan parol → Ishonchli qurilmadan parol va sessiyalarni almashtirish; Soxta qo‘ng‘iroqdagi kod so‘rovi → Bir martalik kodni bermasdan aloqani tugatish.",
+      "source_reference": "11-sinf informatika 2021: zararli dasturlar va axborot xavfsizligi, PDF 256–285; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-02-Y2-08",
+      "chapter": 2,
+      "format": "Y2",
+      "stem": "Zararli dastur va hujum mexanizmini natijaga moslang.",
+      "pairs": [
+        {
+          "left": "Troyan o‘rnatilishi",
+          "right": "Yashirin ruxsat yoki nazorat paydo bo‘lishi"
+        },
+        {
+          "left": "Qurt tarqalishi",
+          "right": "Tarmoqdagi ko‘p qurilmalarga yuqish"
+        },
+        {
+          "left": "Ransomware faollashishi",
+          "right": "Fayllarga kirish cheklanishi"
+        },
+        {
+          "left": "Phishing muvaffaqiyati",
+          "right": "Foydalanuvchi sirining aldov bilan olinishi"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Troyan o‘rnatilishi → Yashirin ruxsat yoki nazorat paydo bo‘lishi; Qurt tarqalishi → Tarmoqdagi ko‘p qurilmalarga yuqish; Ransomware faollashishi → Fayllarga kirish cheklanishi; Phishing muvaffaqiyati → Foydalanuvchi sirining aldov bilan olinishi.",
+      "source_reference": "11-sinf informatika 2021: zararli dasturlar va axborot xavfsizligi, PDF 256–285; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-02-Y2-09",
+      "chapter": 2,
+      "format": "Y2",
+      "stem": "Hujumdan himoya vositalarini nazorat turiga moslang.",
+      "pairs": [
+        {
+          "left": "Havola domenini tekshirish",
+          "right": "Aldov manzilini aniqlashga yordam beradi"
+        },
+        {
+          "left": "Ilovani antivirusda tekshirish",
+          "right": "Ma’lum zararli kodni aniqlashga yordam beradi"
+        },
+        {
+          "left": "MFAni yoqish",
+          "right": "O‘g‘irlangan parol bilan kirishni qiyinlashtiradi"
+        },
+        {
+          "left": "Oflayn zaxira saqlash",
+          "right": "Shifrlash hujumidan keyingi tiklashga yordam beradi"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Havola domenini tekshirish → Aldov manzilini aniqlashga yordam beradi; Ilovani antivirusda tekshirish → Ma’lum zararli kodni aniqlashga yordam beradi; MFAni yoqish → O‘g‘irlangan parol bilan kirishni qiyinlashtiradi; Oflayn zaxira saqlash → Shifrlash hujumidan keyingi tiklashga yordam beradi.",
+      "source_reference": "11-sinf informatika 2021: zararli dasturlar va axborot xavfsizligi, PDF 256–285; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-02-Y2-10",
+      "chapter": 2,
+      "format": "Y2",
+      "stem": "Hujumning turini aniq holat bilan juftlang.",
+      "pairs": [
+        {
+          "left": "Dastur faylga yopishgan",
+          "right": "Virus yuqishi"
+        },
+        {
+          "left": "Xodim nomiga mos soxta xat",
+          "right": "Maqsadli phishing"
+        },
+        {
+          "left": "Tarmoq bo‘ylab o‘zi ko‘paygan kod",
+          "right": "Qurt tarqalishi"
+        },
+        {
+          "left": "Yordam dasturi niqobidagi zararli kod",
+          "right": "Troyan ishlashi"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Dastur faylga yopishgan → Virus yuqishi; Xodim nomiga mos soxta xat → Maqsadli phishing; Tarmoq bo‘ylab o‘zi ko‘paygan kod → Qurt tarqalishi; Yordam dasturi niqobidagi zararli kod → Troyan ishlashi.",
+      "source_reference": "11-sinf informatika 2021: zararli dasturlar va axborot xavfsizligi, PDF 256–285; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-02-Y3-01",
+      "chapter": 2,
+      "format": "Y3",
+      "stem": "Phishing xabarini xavfsiz tekshirish bosqichlarini tartiblang.",
+      "steps": [
+        "Xabarni bosmasdan yuboruvchi va mazmunini ko‘rib chiqish",
+        "Shubhali domen hamda shoshiltirish belgilarini aniqlash",
+        "Tashkilot bilan rasmiy mustaqil kanalda bog‘lanish",
+        "Xabarni belgilash yoki mas’ulga yuborib o‘chirish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Xabarni bosmasdan yuboruvchi va mazmunini ko‘rib chiqish → Shubhali domen hamda shoshiltirish belgilarini aniqlash → Tashkilot bilan rasmiy mustaqil kanalda bog‘lanish → Xabarni belgilash yoki mas’ulga yuborib o‘chirish.",
+      "source_reference": "11-sinf informatika 2021: zararli dasturlar va axborot xavfsizligi, PDF 256–285; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-02-Y3-02",
+      "chapter": 2,
+      "format": "Y3",
+      "stem": "Aldov havolasiga parol kiritilganidan keyingi xavfsiz choralarni tartiblang.",
+      "steps": [
+        "Shubhali saytni yopib kirishni to‘xtatish",
+        "Toza qurilmadan haqiqiy xizmatga mustaqil kirish",
+        "Parolni almashtirib faol sessiyalarni tugatish",
+        "MFAni yangilab hodisa haqida mas’ulga xabar berish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Shubhali saytni yopib kirishni to‘xtatish → Toza qurilmadan haqiqiy xizmatga mustaqil kirish → Parolni almashtirib faol sessiyalarni tugatish → MFAni yangilab hodisa haqida mas’ulga xabar berish.",
+      "source_reference": "11-sinf informatika 2021: zararli dasturlar va axborot xavfsizligi, PDF 256–285; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-02-Y3-03",
+      "chapter": 2,
+      "format": "Y3",
+      "stem": "Zararlangan USB xotirani tekshirish jarayonini tartiblang.",
+      "steps": [
+        "USBni ishonchsiz manba deb baholash",
+        "Avtomatik ishga tushirishni cheklash",
+        "Yangilangan himoya vositasida fayllarni tekshirish",
+        "Tekshiruv natijasiga ko‘ra xavfsiz fayllarni ajratish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: USBni ishonchsiz manba deb baholash → Avtomatik ishga tushirishni cheklash → Yangilangan himoya vositasida fayllarni tekshirish → Tekshiruv natijasiga ko‘ra xavfsiz fayllarni ajratish.",
+      "source_reference": "11-sinf informatika 2021: zararli dasturlar va axborot xavfsizligi, PDF 256–285; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-02-Y3-04",
+      "chapter": 2,
+      "format": "Y3",
+      "stem": "Shubhali dastur o‘rnatilgan qurilmaga javob ketma-ketligini ko‘rsating.",
+      "steps": [
+        "G‘ayrioddiy faoliyatni sezib foydalanishni to‘xtatish",
+        "Kerak bo‘lsa qurilmani tarmoqdan ajratish",
+        "IT mas’uliga xabar berib tekshiruv o‘tkazish",
+        "Tozalash yoki ishonchli nusxadan tiklashni tekshirish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: G‘ayrioddiy faoliyatni sezib foydalanishni to‘xtatish → Kerak bo‘lsa qurilmani tarmoqdan ajratish → IT mas’uliga xabar berib tekshiruv o‘tkazish → Tozalash yoki ishonchli nusxadan tiklashni tekshirish.",
+      "source_reference": "11-sinf informatika 2021: zararli dasturlar va axborot xavfsizligi, PDF 256–285; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-02-Y3-05",
+      "chapter": 2,
+      "format": "Y3",
+      "stem": "Soxta texnik yordam qo‘ng‘irog‘ini aniqlash tartibini toping.",
+      "steps": [
+        "Suhbatdosh talab qilayotgan ma’lumotni anglash",
+        "Maxfiy kod va parolni oshkor qilmaslik",
+        "Rasmiy telefon raqamini mustaqil topish",
+        "Haqiqiy xizmatga qayta murojaat qilib da’voni tekshirish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Suhbatdosh talab qilayotgan ma’lumotni anglash → Maxfiy kod va parolni oshkor qilmaslik → Rasmiy telefon raqamini mustaqil topish → Haqiqiy xizmatga qayta murojaat qilib da’voni tekshirish.",
+      "source_reference": "11-sinf informatika 2021: zararli dasturlar va axborot xavfsizligi, PDF 256–285; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-02-Y3-06",
+      "chapter": 2,
+      "format": "Y3",
+      "stem": "Ransomware gumon qilinganda dastlabki choralarni tartiblang.",
+      "steps": [
+        "Fayllar ochilmay qolganini va talab xabarini qayd etish",
+        "Qurilmani tarmoqdan ajratib tarqalishni cheklash",
+        "Mas’ul IT guruhiga xabar berish va dalilni saqlash",
+        "Tekshirilgan toza zaxiradan tiklash rejasini qo‘llash"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Fayllar ochilmay qolganini va talab xabarini qayd etish → Qurilmani tarmoqdan ajratib tarqalishni cheklash → Mas’ul IT guruhiga xabar berish va dalilni saqlash → Tekshirilgan toza zaxiradan tiklash rejasini qo‘llash.",
+      "source_reference": "11-sinf informatika 2021: zararli dasturlar va axborot xavfsizligi, PDF 256–285; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-02-Y3-07",
+      "chapter": 2,
+      "format": "Y3",
+      "stem": "Shubhali email ilovasini qabul qilish bo‘yicha xavfsiz qaror jarayonini tartiblang.",
+      "steps": [
+        "Ilovani ishga tushirmasdan turini va kontekstini aniqlash",
+        "Yuboruvchining haqiqiyligini boshqa kanal orqali tekshirish",
+        "Xavfsizlik tekshiruvi va ruxsat siyosatiga rioya qilish",
+        "Tasdiqsiz faylni ochmaslik yoki xabarni eskalatsiya qilish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Ilovani ishga tushirmasdan turini va kontekstini aniqlash → Yuboruvchining haqiqiyligini boshqa kanal orqali tekshirish → Xavfsizlik tekshiruvi va ruxsat siyosatiga rioya qilish → Tasdiqsiz faylni ochmaslik yoki xabarni eskalatsiya qilish.",
+      "source_reference": "11-sinf informatika 2021: zararli dasturlar va axborot xavfsizligi, PDF 256–285; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-02-Y3-08",
+      "chapter": 2,
+      "format": "Y3",
+      "stem": "Phishing voqeasidan keyin xodimlarga ogohlantirish berish tartibini toping.",
+      "steps": [
+        "Hujum namunasi va domen belgilarini to‘plash",
+        "Hodisaga oid maxfiy ma’lumotni yashirish",
+        "Aniqlash belgilari va xavfsiz harakatni qisqa bayon qilish",
+        "Ogohlantirishni xodimlarga yetkazib qayta aloqa olish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Hujum namunasi va domen belgilarini to‘plash → Hodisaga oid maxfiy ma’lumotni yashirish → Aniqlash belgilari va xavfsiz harakatni qisqa bayon qilish → Ogohlantirishni xodimlarga yetkazib qayta aloqa olish.",
+      "source_reference": "11-sinf informatika 2021: zararli dasturlar va axborot xavfsizligi, PDF 256–285; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-02-Y3-09",
+      "chapter": 2,
+      "format": "Y3",
+      "stem": "Virus va qurtni tekshiruvchi mutaxassis ish bosqichlarini tartiblang.",
+      "steps": [
+        "Zararlanish alomatlarini qayd etish",
+        "Tarqalish usuli va zararlangan qurilmalar ko‘lamini aniqlash",
+        "Yuqtirish yo‘lini cheklash va tekshirish",
+        "Tizimlarni tozalab yangilash hamda qayta kuzatish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Zararlanish alomatlarini qayd etish → Tarqalish usuli va zararlangan qurilmalar ko‘lamini aniqlash → Yuqtirish yo‘lini cheklash va tekshirish → Tizimlarni tozalab yangilash hamda qayta kuzatish.",
+      "source_reference": "11-sinf informatika 2021: zararli dasturlar va axborot xavfsizligi, PDF 256–285; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-02-Y3-10",
+      "chapter": 2,
+      "format": "Y3",
+      "stem": "Soxta dastur yangilanishidan himoyalanish jarayonini tartiblang.",
+      "steps": [
+        "Yangilanish haqida chiqayotgan xabar manbasini aniqlash",
+        "Dastur ishlab chiqaruvchisining rasmiy manzilini topish",
+        "Versiya va raqamli imzo kabi ishonchlilik belgilarini tekshirish",
+        "Yangilanishni faqat tekshirilgan manbadan o‘rnatish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Yangilanish haqida chiqayotgan xabar manbasini aniqlash → Dastur ishlab chiqaruvchisining rasmiy manzilini topish → Versiya va raqamli imzo kabi ishonchlilik belgilarini tekshirish → Yangilanishni faqat tekshirilgan manbadan o‘rnatish.",
+      "source_reference": "11-sinf informatika 2021: zararli dasturlar va axborot xavfsizligi, PDF 256–285; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-03-Y2-01",
+      "chapter": 3,
+      "format": "Y2",
+      "stem": "Antivirus tekshiruv turlarini vazifasi bilan moslang.",
+      "pairs": [
+        {
+          "left": "Real vaqt himoyasi",
+          "right": "Fayl ochilishi va bajarilishida kuzatish"
+        },
+        {
+          "left": "Tezkor skan",
+          "right": "Eng ko‘p zararlanish ehtimoli bo‘lgan joylarni tekshirish"
+        },
+        {
+          "left": "To‘liq skan",
+          "right": "Tanlangan xotiraning barcha tegishli qismlarini tekshirish"
+        },
+        {
+          "left": "Karantin",
+          "right": "Shubhali obyektni odatdagi ishlashdan ajratish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Real vaqt himoyasi → Fayl ochilishi va bajarilishida kuzatish; Tezkor skan → Eng ko‘p zararlanish ehtimoli bo‘lgan joylarni tekshirish; To‘liq skan → Tanlangan xotiraning barcha tegishli qismlarini tekshirish; Karantin → Shubhali obyektni odatdagi ishlashdan ajratish.",
+      "source_reference": "11-sinf informatika 2021: antivirus, PDF 266–275; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-03-Y2-02",
+      "chapter": 3,
+      "format": "Y2",
+      "stem": "Xavfsizlik vositalarini asosiy himoya funksiyasi bilan moslang.",
+      "pairs": [
+        {
+          "left": "Antivirus",
+          "right": "Zararli dastur belgilarini izlab topish"
+        },
+        {
+          "left": "Firewall",
+          "right": "Tarmoq aloqalarini qoida asosida filtrlash"
+        },
+        {
+          "left": "Zaxira nusxa",
+          "right": "Ma’lumotni yo‘qotishdan keyin qayta tiklash"
+        },
+        {
+          "left": "Parol menejeri",
+          "right": "Noyob kuchli parollarni boshqarish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Antivirus → Zararli dastur belgilarini izlab topish; Firewall → Tarmoq aloqalarini qoida asosida filtrlash; Zaxira nusxa → Ma’lumotni yo‘qotishdan keyin qayta tiklash; Parol menejeri → Noyob kuchli parollarni boshqarish.",
+      "source_reference": "11-sinf informatika 2021: antivirus, PDF 266–275; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-03-Y2-03",
+      "chapter": 3,
+      "format": "Y2",
+      "stem": "Antivirus aniqlash usullarini tavsifi bilan moslang.",
+      "pairs": [
+        {
+          "left": "Signatura asosida",
+          "right": "Ma’lum zararli kod naqshini qidirish"
+        },
+        {
+          "left": "Hevristik tahlil",
+          "right": "Shubhali xususiyatlardan taxminiy xavfni ajratish"
+        },
+        {
+          "left": "Xulq-atvor tahlili",
+          "right": "Dastur bajarayotgan xavfli amallarni kuzatish"
+        },
+        {
+          "left": "Reputatsiya xizmati",
+          "right": "Fayl yoki manba haqidagi ishonchlilik ma’lumotidan foydalanish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Signatura asosida → Ma’lum zararli kod naqshini qidirish; Hevristik tahlil → Shubhali xususiyatlardan taxminiy xavfni ajratish; Xulq-atvor tahlili → Dastur bajarayotgan xavfli amallarni kuzatish; Reputatsiya xizmati → Fayl yoki manba haqidagi ishonchlilik ma’lumotidan foydalanish.",
+      "source_reference": "11-sinf informatika 2021: antivirus, PDF 266–275; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-03-Y2-04",
+      "chapter": 3,
+      "format": "Y2",
+      "stem": "Zaxira strategiyalari va ularning farqlarini juftlang.",
+      "pairs": [
+        {
+          "left": "To‘liq zaxira",
+          "right": "Tanlangan barcha ma’lumot nusxasini olish"
+        },
+        {
+          "left": "Inkremental zaxira",
+          "right": "Oxirgi zaxiradan keyin o‘zgarganlarni saqlash"
+        },
+        {
+          "left": "Differensial zaxira",
+          "right": "Oxirgi to‘liq zaxiradan keyingi o‘zgarishlarni saqlash"
+        },
+        {
+          "left": "Oflayn zaxira",
+          "right": "Doimiy ulangan tarmoqdan ajratilgan nusxa saqlash"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: To‘liq zaxira → Tanlangan barcha ma’lumot nusxasini olish; Inkremental zaxira → Oxirgi zaxiradan keyin o‘zgarganlarni saqlash; Differensial zaxira → Oxirgi to‘liq zaxiradan keyingi o‘zgarishlarni saqlash; Oflayn zaxira → Doimiy ulangan tarmoqdan ajratilgan nusxa saqlash.",
+      "source_reference": "11-sinf informatika 2021: antivirus, PDF 266–275; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-03-Y2-05",
+      "chapter": 3,
+      "format": "Y2",
+      "stem": "Himoya vositasi signalini xavfsiz harakat bilan moslang.",
+      "pairs": [
+        {
+          "left": "Zararli fayl karantinga tushdi",
+          "right": "Tekshirmasdan qayta tiklamaslik"
+        },
+        {
+          "left": "Bazalar eskirib qoldi",
+          "right": "Yangilanishni rasmiy xizmatdan olish"
+        },
+        {
+          "left": "Firewall noma’lum trafikni to‘sdi",
+          "right": "Qoidani va dastur manbasini tekshirish"
+        },
+        {
+          "left": "Backup tiklanmadi",
+          "right": "Nusxa yaxlitligini qayta tekshirish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Zararli fayl karantinga tushdi → Tekshirmasdan qayta tiklamaslik; Bazalar eskirib qoldi → Yangilanishni rasmiy xizmatdan olish; Firewall noma’lum trafikni to‘sdi → Qoidani va dastur manbasini tekshirish; Backup tiklanmadi → Nusxa yaxlitligini qayta tekshirish.",
+      "source_reference": "11-sinf informatika 2021: antivirus, PDF 266–275; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-03-Y2-06",
+      "chapter": 3,
+      "format": "Y2",
+      "stem": "Tizim himoyasi darajalarini muayyan amallar bilan moslang.",
+      "pairs": [
+        {
+          "left": "Operatsion tizim",
+          "right": "Xavfsizlik patchlarini o‘rnatish"
+        },
+        {
+          "left": "Hisob darajasi",
+          "right": "MFA va kuchli paroldan foydalanish"
+        },
+        {
+          "left": "Tarmoq darajasi",
+          "right": "Keraksiz port va ulanishlarni cheklash"
+        },
+        {
+          "left": "Ma’lumot darajasi",
+          "right": "Muhim fayllarni zaxiralash yoki shifrlash"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Operatsion tizim → Xavfsizlik patchlarini o‘rnatish; Hisob darajasi → MFA va kuchli paroldan foydalanish; Tarmoq darajasi → Keraksiz port va ulanishlarni cheklash; Ma’lumot darajasi → Muhim fayllarni zaxiralash yoki shifrlash.",
+      "source_reference": "11-sinf informatika 2021: antivirus, PDF 266–275; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-03-Y2-07",
+      "chapter": 3,
+      "format": "Y2",
+      "stem": "Tahdid belgilarini mos nazorat bilan juftlang.",
+      "pairs": [
+        {
+          "left": "Noma’lum jarayon tez ko‘paymoqda",
+          "right": "Xulq-atvor monitoringi"
+        },
+        {
+          "left": "Bir xil zararli kod ko‘p faylda uchradi",
+          "right": "Signatura tekshiruvi"
+        },
+        {
+          "left": "Keraksiz tashqi ulanish bor",
+          "right": "Firewall jurnali"
+        },
+        {
+          "left": "Fayl avvalgi holatidan farq qildi",
+          "right": "Yaxlitlikni tekshirish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Noma’lum jarayon tez ko‘paymoqda → Xulq-atvor monitoringi; Bir xil zararli kod ko‘p faylda uchradi → Signatura tekshiruvi; Keraksiz tashqi ulanish bor → Firewall jurnali; Fayl avvalgi holatidan farq qildi → Yaxlitlikni tekshirish.",
+      "source_reference": "11-sinf informatika 2021: antivirus, PDF 266–275; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-03-Y2-08",
+      "chapter": 3,
+      "format": "Y2",
+      "stem": "Himoyaning noto‘g‘ri qarashlarini to‘g‘ri izohga moslang.",
+      "pairs": [
+        {
+          "left": "Antivirus hamma narsani to‘sadi",
+          "right": "Qo‘shimcha yangilash va ehtiyotkorlik zarur"
+        },
+        {
+          "left": "Zaxira nusxa antivirusni almashtiradi",
+          "right": "Backup tiklaydi, lekin zararlanishni to‘xtatmaydi"
+        },
+        {
+          "left": "MFA phishingni butunlay yo‘q qiladi",
+          "right": "Ikkinchi omil ayrim kirish xavflarini kamaytiradi"
+        },
+        {
+          "left": "Yashil qulf saytni to‘liq tasdiqlaydi",
+          "right": "HTTPS ulanishni himoyalaydi, tashkilot haqiqiyligini kafolatlamaydi"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Antivirus hamma narsani to‘sadi → Qo‘shimcha yangilash va ehtiyotkorlik zarur; Zaxira nusxa antivirusni almashtiradi → Backup tiklaydi, lekin zararlanishni to‘xtatmaydi; MFA phishingni butunlay yo‘q qiladi → Ikkinchi omil ayrim kirish xavflarini kamaytiradi; Yashil qulf saytni to‘liq tasdiqlaydi → HTTPS ulanishni himoyalaydi, tashkilot haqiqiyligini kafolatlamaydi.",
+      "source_reference": "11-sinf informatika 2021: antivirus, PDF 266–275; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-03-Y2-09",
+      "chapter": 3,
+      "format": "Y2",
+      "stem": "Zararlangan kompyuterga doir amallarni ularning maqsadi bilan moslang.",
+      "pairs": [
+        {
+          "left": "Izolyatsiya",
+          "right": "Zarar tarqalish yo‘lini cheklash"
+        },
+        {
+          "left": "Skanerlash",
+          "right": "Shubhali fayl va jarayonlarni aniqlash"
+        },
+        {
+          "left": "Karantin",
+          "right": "Topilgan obyektni vaqtincha xavfsiz ajratish"
+        },
+        {
+          "left": "Qayta tekshirish",
+          "right": "Tiklangan tizimda alomat qaytmaganini tekshirish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Izolyatsiya → Zarar tarqalish yo‘lini cheklash; Skanerlash → Shubhali fayl va jarayonlarni aniqlash; Karantin → Topilgan obyektni vaqtincha xavfsiz ajratish; Qayta tekshirish → Tiklangan tizimda alomat qaytmaganini tekshirish.",
+      "source_reference": "11-sinf informatika 2021: antivirus, PDF 266–275; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-03-Y2-10",
+      "chapter": 3,
+      "format": "Y2",
+      "stem": "Dastur yangilanishi turlarini tavsifi bilan moslang.",
+      "pairs": [
+        {
+          "left": "Xavfsizlik patchi",
+          "right": "Aniqlangan zaiflikni tuzatish"
+        },
+        {
+          "left": "Funksional yangilanish",
+          "right": "Dasturga yangi imkoniyat qo‘shish"
+        },
+        {
+          "left": "Antivirus bazasi yangilanishi",
+          "right": "Yangi zararli namunalar haqidagi ma’lumotni kengaytirish"
+        },
+        {
+          "left": "Drayver yangilanishi",
+          "right": "Qurilma bilan ishlashning muvofiqligini tuzatish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Xavfsizlik patchi → Aniqlangan zaiflikni tuzatish; Funksional yangilanish → Dasturga yangi imkoniyat qo‘shish; Antivirus bazasi yangilanishi → Yangi zararli namunalar haqidagi ma’lumotni kengaytirish; Drayver yangilanishi → Qurilma bilan ishlashning muvofiqligini tuzatish.",
+      "source_reference": "11-sinf informatika 2021: antivirus, PDF 266–275; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-03-Y3-01",
+      "chapter": 3,
+      "format": "Y3",
+      "stem": "Kompyuterda to‘liq antivirus skanini xavfsiz boshlash tartibini ko‘rsating.",
+      "steps": [
+        "Himoya dasturining rasmiy va faol ekanini tekshirish",
+        "Aniqlash bazasini yangilash",
+        "To‘liq tekshiruvni ishga tushirish",
+        "Natijadagi shubhali obyektlarni qoidalarga muvofiq ko‘rib chiqish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Himoya dasturining rasmiy va faol ekanini tekshirish → Aniqlash bazasini yangilash → To‘liq tekshiruvni ishga tushirish → Natijadagi shubhali obyektlarni qoidalarga muvofiq ko‘rib chiqish.",
+      "source_reference": "11-sinf informatika 2021: antivirus, PDF 266–275; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-03-Y3-02",
+      "chapter": 3,
+      "format": "Y3",
+      "stem": "Zararli fayl karantinga olinganidan keyingi qarorni tartiblang.",
+      "steps": [
+        "Ogohlantirish tafsiloti va fayl joyini o‘qish",
+        "Fayl kelib chiqishini mustaqil tekshirish",
+        "Zararsizligi tasdiqlanmaguncha karantinda qoldirish",
+        "Tasdiqlangan holatdagina tiklash yoki xavfsiz o‘chirish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Ogohlantirish tafsiloti va fayl joyini o‘qish → Fayl kelib chiqishini mustaqil tekshirish → Zararsizligi tasdiqlanmaguncha karantinda qoldirish → Tasdiqlangan holatdagina tiklash yoki xavfsiz o‘chirish.",
+      "source_reference": "11-sinf informatika 2021: antivirus, PDF 266–275; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-03-Y3-03",
+      "chapter": 3,
+      "format": "Y3",
+      "stem": "Yangi ishchi kompyuterni himoyalash bosqichlarini tartiblang.",
+      "steps": [
+        "Operatsion tizimning qonuniy versiyasini o‘rnatish",
+        "Xavfsizlik yangilanishlarini qo‘llash",
+        "Firewall va himoya vositasini sozlash",
+        "Zaxiralash va foydalanuvchi kirishini sinash"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Operatsion tizimning qonuniy versiyasini o‘rnatish → Xavfsizlik yangilanishlarini qo‘llash → Firewall va himoya vositasini sozlash → Zaxiralash va foydalanuvchi kirishini sinash.",
+      "source_reference": "11-sinf informatika 2021: antivirus, PDF 266–275; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-03-Y3-04",
+      "chapter": 3,
+      "format": "Y3",
+      "stem": "Muhim hujjatlarni zaxiralash jarayonini tartiblang.",
+      "steps": [
+        "Qaysi fayllar muhimligini aniqlash",
+        "Mustaqil saqlash joyi va davriylikni tanlash",
+        "Zaxirani yaratib muvaffaqiyatli yakunlanganini tekshirish",
+        "Faylni sinov tariqasida tiklash"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Qaysi fayllar muhimligini aniqlash → Mustaqil saqlash joyi va davriylikni tanlash → Zaxirani yaratib muvaffaqiyatli yakunlanganini tekshirish → Faylni sinov tariqasida tiklash.",
+      "source_reference": "11-sinf informatika 2021: antivirus, PDF 266–275; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-03-Y3-05",
+      "chapter": 3,
+      "format": "Y3",
+      "stem": "Firewall bloklagan ulanishni tekshirish tartibini ko‘rsating.",
+      "steps": [
+        "Bloklangan dasturni va manzilni aniqlash",
+        "Ulanish xizmat vazifasi uchun zarurligini tekshirish",
+        "Xavfsizlik siyosati bo‘yicha aniq qoida tanlash",
+        "Ruxsat berilgan bo‘lsa ulanishni sinab jurnalni ko‘rish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Bloklangan dasturni va manzilni aniqlash → Ulanish xizmat vazifasi uchun zarurligini tekshirish → Xavfsizlik siyosati bo‘yicha aniq qoida tanlash → Ruxsat berilgan bo‘lsa ulanishni sinab jurnalni ko‘rish.",
+      "source_reference": "11-sinf informatika 2021: antivirus, PDF 266–275; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-03-Y3-06",
+      "chapter": 3,
+      "format": "Y3",
+      "stem": "Tizimga patch o‘rnatish tartibini joylang.",
+      "steps": [
+        "Yangilanishning rasmiyligi va mosligini aniqlash",
+        "Zarur ish fayllarini saqlash yoki zaxiralash",
+        "Patchni o‘rnatish va kerak bo‘lsa qayta yuklash",
+        "Tizim va asosiy dasturlar ishlashini tekshirish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Yangilanishning rasmiyligi va mosligini aniqlash → Zarur ish fayllarini saqlash yoki zaxiralash → Patchni o‘rnatish va kerak bo‘lsa qayta yuklash → Tizim va asosiy dasturlar ishlashini tekshirish.",
+      "source_reference": "11-sinf informatika 2021: antivirus, PDF 266–275; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-03-Y3-07",
+      "chapter": 3,
+      "format": "Y3",
+      "stem": "Kundalik antivirus monitoringini yuritish tartibini aniqlang.",
+      "steps": [
+        "Himoya holati va oxirgi yangilanishni ko‘rish",
+        "Yangi ogohlantirishlar ro‘yxatini tekshirish",
+        "Shubhali obyekt bo‘lsa qoidaga muvofiq javob berish",
+        "Natijani qayd etib keyingi kuzatuv vaqtini belgilash"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Himoya holati va oxirgi yangilanishni ko‘rish → Yangi ogohlantirishlar ro‘yxatini tekshirish → Shubhali obyekt bo‘lsa qoidaga muvofiq javob berish → Natijani qayd etib keyingi kuzatuv vaqtini belgilash.",
+      "source_reference": "11-sinf informatika 2021: antivirus, PDF 266–275; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-03-Y3-08",
+      "chapter": 3,
+      "format": "Y3",
+      "stem": "Ransomwaredan tiklashning xavfsiz bosqichlarini tartiblang.",
+      "steps": [
+        "Zararlangan tizimni izolyatsiya qilish",
+        "Yuqish sababi va saqlangan zaxiraning tozaligini tekshirish",
+        "Toza tizimda zaxirani qayta tiklash",
+        "Fayllar yaxlitligi va himoya choralarini sinash"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Zararlangan tizimni izolyatsiya qilish → Yuqish sababi va saqlangan zaxiraning tozaligini tekshirish → Toza tizimda zaxirani qayta tiklash → Fayllar yaxlitligi va himoya choralarini sinash.",
+      "source_reference": "11-sinf informatika 2021: antivirus, PDF 266–275; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-03-Y3-09",
+      "chapter": 3,
+      "format": "Y3",
+      "stem": "Antivirus noto‘g‘ri ogohlantirishi ehtimolini tekshirish tartibini toping.",
+      "steps": [
+        "Ogohlantirishdagi fayl va aniqlash nomini qayd etish",
+        "Rasmiy manba va raqamli imzoni tekshirish",
+        "Ishonchli qo‘shimcha usul bilan baholash",
+        "Faqat asosli dalildan keyin karantinni boshqarish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Ogohlantirishdagi fayl va aniqlash nomini qayd etish → Rasmiy manba va raqamli imzoni tekshirish → Ishonchli qo‘shimcha usul bilan baholash → Faqat asosli dalildan keyin karantinni boshqarish.",
+      "source_reference": "11-sinf informatika 2021: antivirus, PDF 266–275; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-03-Y3-10",
+      "chapter": 3,
+      "format": "Y3",
+      "stem": "O‘quv kompyuter sinfida himoya siyosatini joriy etish tartibini toping.",
+      "steps": [
+        "Foydalanish qoidalari va aktivlarni aniqlash",
+        "Foydalanuvchi hisoblariga cheklangan ruxsat berish",
+        "Yangilanish, antivirus va zaxiralashni sozlash",
+        "Davriy monitoring va o‘quvchilarni xabardor qilish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Foydalanish qoidalari va aktivlarni aniqlash → Foydalanuvchi hisoblariga cheklangan ruxsat berish → Yangilanish, antivirus va zaxiralashni sozlash → Davriy monitoring va o‘quvchilarni xabardor qilish.",
+      "source_reference": "11-sinf informatika 2021: antivirus, PDF 266–275; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-04-Y2-01",
+      "chapter": 4,
+      "format": "Y2",
+      "stem": "Elektron davlat xizmatlari tushunchalarini vazifalari bilan moslang.",
+      "pairs": [
+        {
+          "left": "Elektron hukumat",
+          "right": "Davlat xizmatlarini raqamli kanallar orqali tashkil etish"
+        },
+        {
+          "left": "Yagona portal",
+          "right": "Turli davlat xizmatlariga bir joydan murojaat qilish"
+        },
+        {
+          "left": "Elektron ariza",
+          "right": "Davlat xizmatini so‘rab raqamli shaklda yuborilgan murojaat"
+        },
+        {
+          "left": "Elektron natija",
+          "right": "Xizmatdan olinadigan raqamli hujjat yoki bildirishnoma"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Elektron hukumat → Davlat xizmatlarini raqamli kanallar orqali tashkil etish; Yagona portal → Turli davlat xizmatlariga bir joydan murojaat qilish; Elektron ariza → Davlat xizmatini so‘rab raqamli shaklda yuborilgan murojaat; Elektron natija → Xizmatdan olinadigan raqamli hujjat yoki bildirishnoma.",
+      "source_reference": "11-sinf informatika 2021: elektron hukumat, PDF 311–330; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-04-Y2-02",
+      "chapter": 4,
+      "format": "Y2",
+      "stem": "Elektron identifikatsiya atamalarini mos izoh bilan juftlang.",
+      "pairs": [
+        {
+          "left": "Identifikatsiya",
+          "right": "Foydalanuvchi kim ekanini ko‘rsatish"
+        },
+        {
+          "left": "Autentifikatsiya",
+          "right": "Da’vo qilingan shaxsni tekshirish"
+        },
+        {
+          "left": "Avtorizatsiya",
+          "right": "Tasdiqlangan shaxsga mos huquqni aniqlash"
+        },
+        {
+          "left": "Audit",
+          "right": "Tizimdagi muhim amallar tarixini qayd etish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Identifikatsiya → Foydalanuvchi kim ekanini ko‘rsatish; Autentifikatsiya → Da’vo qilingan shaxsni tekshirish; Avtorizatsiya → Tasdiqlangan shaxsga mos huquqni aniqlash; Audit → Tizimdagi muhim amallar tarixini qayd etish.",
+      "source_reference": "11-sinf informatika 2021: elektron hukumat, PDF 311–330; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-04-Y2-03",
+      "chapter": 4,
+      "format": "Y2",
+      "stem": "Elektron imzoga oid atamalarni ularning vazifasi bilan moslang.",
+      "pairs": [
+        {
+          "left": "Yopiq kalit",
+          "right": "Imzo yaratishda maxfiy saqlanadigan kriptografik kalit"
+        },
+        {
+          "left": "Ochiq kalit",
+          "right": "Tegishli imzoni tekshirish uchun foydalaniladigan kalit"
+        },
+        {
+          "left": "Sertifikat",
+          "right": "Ochiq kalitni identifikatsiya ma’lumoti bilan bog‘lovchi hujjat"
+        },
+        {
+          "left": "Imzoni tekshirish",
+          "right": "Hujjat va imzo mosligini nazorat qilish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Yopiq kalit → Imzo yaratishda maxfiy saqlanadigan kriptografik kalit; Ochiq kalit → Tegishli imzoni tekshirish uchun foydalaniladigan kalit; Sertifikat → Ochiq kalitni identifikatsiya ma’lumoti bilan bog‘lovchi hujjat; Imzoni tekshirish → Hujjat va imzo mosligini nazorat qilish.",
+      "source_reference": "11-sinf informatika 2021: elektron hukumat, PDF 311–330; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-04-Y2-04",
+      "chapter": 4,
+      "format": "Y2",
+      "stem": "Raqamli davlat xizmatlari holatini foydalanuvchi harakati bilan juftlang.",
+      "pairs": [
+        {
+          "left": "Ariza loyihasi",
+          "right": "Hali yuborilmagan ma’lumotlarni tahrirlash"
+        },
+        {
+          "left": "Yuborilgan ariza",
+          "right": "Qabul qilingan so‘rov holatini kuzatish"
+        },
+        {
+          "left": "Qo‘shimcha talab",
+          "right": "Yetishmagan hujjat yoki ma’lumotni taqdim etish"
+        },
+        {
+          "left": "Yakunlangan xizmat",
+          "right": "Natija hujjatini rasmiy kabinetdan olish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Ariza loyihasi → Hali yuborilmagan ma’lumotlarni tahrirlash; Yuborilgan ariza → Qabul qilingan so‘rov holatini kuzatish; Qo‘shimcha talab → Yetishmagan hujjat yoki ma’lumotni taqdim etish; Yakunlangan xizmat → Natija hujjatini rasmiy kabinetdan olish.",
+      "source_reference": "11-sinf informatika 2021: elektron hukumat, PDF 311–330; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-04-Y2-05",
+      "chapter": 4,
+      "format": "Y2",
+      "stem": "Raqamli hujjat xavfsizlik belgilarini vazifasi bilan moslang.",
+      "pairs": [
+        {
+          "left": "Rasmiy domen",
+          "right": "Sayt manzilini tashkilot bilan bog‘lab tekshirish"
+        },
+        {
+          "left": "HTTPS",
+          "right": "Brauzer va server orasidagi trafikni shifrlash"
+        },
+        {
+          "left": "Elektron imzo",
+          "right": "Hujjat imzolovchisi va o‘zgarmaganligini tekshirishga xizmat qilish"
+        },
+        {
+          "left": "MFA",
+          "right": "Hisobga kirishda ikkinchi tasdiqlashni talab qilish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Rasmiy domen → Sayt manzilini tashkilot bilan bog‘lab tekshirish; HTTPS → Brauzer va server orasidagi trafikni shifrlash; Elektron imzo → Hujjat imzolovchisi va o‘zgarmaganligini tekshirishga xizmat qilish; MFA → Hisobga kirishda ikkinchi tasdiqlashni talab qilish.",
+      "source_reference": "11-sinf informatika 2021: elektron hukumat, PDF 311–330; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-04-Y2-06",
+      "chapter": 4,
+      "format": "Y2",
+      "stem": "Elektron hujjat almashish elementlarini izohiga moslang.",
+      "pairs": [
+        {
+          "left": "Yuboruvchi",
+          "right": "Hujjatni jo‘natuvchi vakolatli tomon"
+        },
+        {
+          "left": "Qabul qiluvchi",
+          "right": "Hujjat manzillangan tomon"
+        },
+        {
+          "left": "Vaqt belgisi",
+          "right": "Harakat qachon qayd etilganini ko‘rsatadigan ma’lumot"
+        },
+        {
+          "left": "Ro‘yxat raqami",
+          "right": "Murojaatni izlash va kuzatish identifikatori"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Yuboruvchi → Hujjatni jo‘natuvchi vakolatli tomon; Qabul qiluvchi → Hujjat manzillangan tomon; Vaqt belgisi → Harakat qachon qayd etilganini ko‘rsatadigan ma’lumot; Ro‘yxat raqami → Murojaatni izlash va kuzatish identifikatori.",
+      "source_reference": "11-sinf informatika 2021: elektron hukumat, PDF 311–330; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-04-Y2-07",
+      "chapter": 4,
+      "format": "Y2",
+      "stem": "Portal bilan ishlashdagi xatolarni mos oqibatga bog‘lang.",
+      "pairs": [
+        {
+          "left": "Soxta portalga kirish",
+          "right": "Shaxsiy ma’lumot va parolni yo‘qotish xavfi"
+        },
+        {
+          "left": "Yopiq kalitni ulashish",
+          "right": "Begona kishi nomingizdan imzo qo‘yishi xavfi"
+        },
+        {
+          "left": "Yaroqsiz fayl yuklash",
+          "right": "Ariza qayta ishlanmasligi yoki rad etilishi"
+        },
+        {
+          "left": "Holatni kuzatmaslik",
+          "right": "Qo‘shimcha talab uchun belgilangan muddatni o‘tkazish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Soxta portalga kirish → Shaxsiy ma’lumot va parolni yo‘qotish xavfi; Yopiq kalitni ulashish → Begona kishi nomingizdan imzo qo‘yishi xavfi; Yaroqsiz fayl yuklash → Ariza qayta ishlanmasligi yoki rad etilishi; Holatni kuzatmaslik → Qo‘shimcha talab uchun belgilangan muddatni o‘tkazish.",
+      "source_reference": "11-sinf informatika 2021: elektron hukumat, PDF 311–330; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-04-Y2-08",
+      "chapter": 4,
+      "format": "Y2",
+      "stem": "Elektron hukumat subyektlarini xizmat modeliga moslang.",
+      "pairs": [
+        {
+          "left": "G2C",
+          "right": "Davlatdan fuqaroga elektron xizmat"
+        },
+        {
+          "left": "G2B",
+          "right": "Davlatdan biznesga elektron xizmat"
+        },
+        {
+          "left": "G2G",
+          "right": "Davlat idoralari o‘rtasidagi raqamli hamkorlik"
+        },
+        {
+          "left": "G2E",
+          "right": "Davlatning o‘z xodimlariga raqamli xizmatlari"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: G2C → Davlatdan fuqaroga elektron xizmat; G2B → Davlatdan biznesga elektron xizmat; G2G → Davlat idoralari o‘rtasidagi raqamli hamkorlik; G2E → Davlatning o‘z xodimlariga raqamli xizmatlari.",
+      "source_reference": "11-sinf informatika 2021: elektron hukumat, PDF 311–330; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-04-Y2-09",
+      "chapter": 4,
+      "format": "Y2",
+      "stem": "Hujjatga tegishli amallarni ma’nosi bilan moslang.",
+      "pairs": [
+        {
+          "left": "Tasdiqlash",
+          "right": "Yuborilgan ma’lumotlarning to‘g‘riligini e’tirof etish"
+        },
+        {
+          "left": "Imzolash",
+          "right": "Hujjatga kriptografik imzo qo‘llash"
+        },
+        {
+          "left": "Tekshirish",
+          "right": "Imzo va sertifikat haqiqiyligini aniqlash"
+        },
+        {
+          "left": "Arxivlash",
+          "right": "Hujjatni belgilangan tartibda saqlash"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Tasdiqlash → Yuborilgan ma’lumotlarning to‘g‘riligini e’tirof etish; Imzolash → Hujjatga kriptografik imzo qo‘llash; Tekshirish → Imzo va sertifikat haqiqiyligini aniqlash; Arxivlash → Hujjatni belgilangan tartibda saqlash.",
+      "source_reference": "11-sinf informatika 2021: elektron hukumat, PDF 311–330; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-04-Y2-10",
+      "chapter": 4,
+      "format": "Y2",
+      "stem": "Davlat xizmatiga murojaat bosqichlaridagi artefaktlarni moslang.",
+      "pairs": [
+        {
+          "left": "Xizmat tavsifi",
+          "right": "Talab va muddat to‘g‘risidagi yo‘riqnoma"
+        },
+        {
+          "left": "Shaxsiy kabinet",
+          "right": "Murojaat yuborish va ko‘rish interfeysi"
+        },
+        {
+          "left": "Ariza identifikatori",
+          "right": "So‘rov holatini kuzatish raqami"
+        },
+        {
+          "left": "Natija fayli",
+          "right": "Xizmat bajarilgandan keyingi hujjat"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Xizmat tavsifi → Talab va muddat to‘g‘risidagi yo‘riqnoma; Shaxsiy kabinet → Murojaat yuborish va ko‘rish interfeysi; Ariza identifikatori → So‘rov holatini kuzatish raqami; Natija fayli → Xizmat bajarilgandan keyingi hujjat.",
+      "source_reference": "11-sinf informatika 2021: elektron hukumat, PDF 311–330; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-04-Y3-01",
+      "chapter": 4,
+      "format": "Y3",
+      "stem": "Davlat xizmatiga elektron murojaat yuborish ketma-ketligini tartiblang.",
+      "steps": [
+        "Rasmiy portalda kerakli xizmatni topish",
+        "Talab va hujjatlar ro‘yxatini tekshirish",
+        "Shaxsiy kabinetda arizani to‘ldirib yuborish",
+        "Murojaat raqami bilan holatni kuzatish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Rasmiy portalda kerakli xizmatni topish → Talab va hujjatlar ro‘yxatini tekshirish → Shaxsiy kabinetda arizani to‘ldirib yuborish → Murojaat raqami bilan holatni kuzatish.",
+      "source_reference": "11-sinf informatika 2021: elektron hukumat, PDF 311–330; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-04-Y3-02",
+      "chapter": 4,
+      "format": "Y3",
+      "stem": "Elektron imzo bilan hujjat yuborish bosqichlarini tartiblang.",
+      "steps": [
+        "Hujjat mazmuni va qabul qiluvchini tekshirish",
+        "Imzo vositasi hamda sertifikatning amal qilishini tekshirish",
+        "Hujjatni rasmiy usulda elektron imzolash",
+        "Imzolangan fayl va qabul tasdig‘ini saqlash"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Hujjat mazmuni va qabul qiluvchini tekshirish → Imzo vositasi hamda sertifikatning amal qilishini tekshirish → Hujjatni rasmiy usulda elektron imzolash → Imzolangan fayl va qabul tasdig‘ini saqlash.",
+      "source_reference": "11-sinf informatika 2021: elektron hukumat, PDF 311–330; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-04-Y3-03",
+      "chapter": 4,
+      "format": "Y3",
+      "stem": "Davlat portaliga xavfsiz kirish tartibini ko‘rsating.",
+      "steps": [
+        "Xizmatning rasmiy manzilini mustaqil topish",
+        "Brauzerda domen va ulanishni tekshirish",
+        "Shaxsiy identifikatsiyadan o‘tish",
+        "Ish tugagach kabinetdan chiqish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Xizmatning rasmiy manzilini mustaqil topish → Brauzerda domen va ulanishni tekshirish → Shaxsiy identifikatsiyadan o‘tish → Ish tugagach kabinetdan chiqish.",
+      "source_reference": "11-sinf informatika 2021: elektron hukumat, PDF 311–330; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-04-Y3-04",
+      "chapter": 4,
+      "format": "Y3",
+      "stem": "Elektron arizaga ilova qo‘shish jarayonini tartiblang.",
+      "steps": [
+        "Talab qilinadigan hujjat nomi va formatini o‘qish",
+        "Asl hujjatdan mos raqamli faylni tayyorlash",
+        "Faylni to‘g‘ri maydonga yuklash",
+        "Yuborishdan oldin fayl va arizani tekshirish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Talab qilinadigan hujjat nomi va formatini o‘qish → Asl hujjatdan mos raqamli faylni tayyorlash → Faylni to‘g‘ri maydonga yuklash → Yuborishdan oldin fayl va arizani tekshirish.",
+      "source_reference": "11-sinf informatika 2021: elektron hukumat, PDF 311–330; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-04-Y3-05",
+      "chapter": 4,
+      "format": "Y3",
+      "stem": "Elektron hujjatning imzosini tekshirish tartibini aniqlang.",
+      "steps": [
+        "Hujjat va elektron imzo ma’lumotini olish",
+        "Tekshirish uchun rasmiy vositani ochish",
+        "Sertifikat hamda imzo mosligini tekshirish",
+        "Natijani baholab tasdiq yoki xatoni qayd etish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Hujjat va elektron imzo ma’lumotini olish → Tekshirish uchun rasmiy vositani ochish → Sertifikat hamda imzo mosligini tekshirish → Natijani baholab tasdiq yoki xatoni qayd etish.",
+      "source_reference": "11-sinf informatika 2021: elektron hukumat, PDF 311–330; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-04-Y3-06",
+      "chapter": 4,
+      "format": "Y3",
+      "stem": "Elektron xizmatda xato topilganda ish jarayonini tartiblang.",
+      "steps": [
+        "Xato xabari va xizmat raqamini qayd etish",
+        "Talab qilingan maydon hamda hujjatlarni ko‘rib chiqish",
+        "Rasmiy yordam kanali yoki tuzatish imkonini topish",
+        "Tuzatilgan arizani qayta yuborib holatni tekshirish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Xato xabari va xizmat raqamini qayd etish → Talab qilingan maydon hamda hujjatlarni ko‘rib chiqish → Rasmiy yordam kanali yoki tuzatish imkonini topish → Tuzatilgan arizani qayta yuborib holatni tekshirish.",
+      "source_reference": "11-sinf informatika 2021: elektron hukumat, PDF 311–330; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-04-Y3-07",
+      "chapter": 4,
+      "format": "Y3",
+      "stem": "Elektron hukumatdan olingan hujjatni saqlash tartibini joylashtiring.",
+      "steps": [
+        "Rasmiy kabinetda xizmat natijasini ochish",
+        "Hujjatdagi shaxsiy ma’lumotlarni tekshirish",
+        "Faylni himoyalangan joyga saqlash",
+        "Kerak bo‘lsa haqiqiyligini mustaqil tekshirish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Rasmiy kabinetda xizmat natijasini ochish → Hujjatdagi shaxsiy ma’lumotlarni tekshirish → Faylni himoyalangan joyga saqlash → Kerak bo‘lsa haqiqiyligini mustaqil tekshirish.",
+      "source_reference": "11-sinf informatika 2021: elektron hukumat, PDF 311–330; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-04-Y3-08",
+      "chapter": 4,
+      "format": "Y3",
+      "stem": "Elektron murojaatning holatini ko‘rib chiqish tartibini aniqlang.",
+      "steps": [
+        "Portalda shaxsiy kabinetga kirish",
+        "Yuborilgan murojaat identifikatorini topish",
+        "Joriy holat va qo‘shimcha talablarni o‘qish",
+        "Muddat bo‘yicha kerakli javob harakatini bajarish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Portalda shaxsiy kabinetga kirish → Yuborilgan murojaat identifikatorini topish → Joriy holat va qo‘shimcha talablarni o‘qish → Muddat bo‘yicha kerakli javob harakatini bajarish.",
+      "source_reference": "11-sinf informatika 2021: elektron hukumat, PDF 311–330; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-04-Y3-09",
+      "chapter": 4,
+      "format": "Y3",
+      "stem": "Yopiq elektron imzo kalitini himoyalash tartibini tartiblang.",
+      "steps": [
+        "Kalitga kimlar kira olishini cheklash",
+        "Kalitni maxfiy saqlash va mustahkam himoya qo‘llash",
+        "Shubhali foydalanish alomatlarini kuzatish",
+        "Kalit oshkor bo‘lsa sertifikatni bekor qilish tartibini boshlash"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Kalitga kimlar kira olishini cheklash → Kalitni maxfiy saqlash va mustahkam himoya qo‘llash → Shubhali foydalanish alomatlarini kuzatish → Kalit oshkor bo‘lsa sertifikatni bekor qilish tartibini boshlash.",
+      "source_reference": "11-sinf informatika 2021: elektron hukumat, PDF 311–330; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-04-Y3-10",
+      "chapter": 4,
+      "format": "Y3",
+      "stem": "Fuqaroga davlat xizmatini tanlashda yordam berish bosqichlarini tartiblang.",
+      "steps": [
+        "Fuqaroning ehtiyoji va xizmat nomini aniqlash",
+        "Rasmiy portalda mos xizmatning shartlarini topish",
+        "Kerakli ma’lumot va ilovalarni tayyorlashga yo‘naltirish",
+        "Arizani yuborish va natijani kuzatish yo‘lini tushuntirish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Fuqaroning ehtiyoji va xizmat nomini aniqlash → Rasmiy portalda mos xizmatning shartlarini topish → Kerakli ma’lumot va ilovalarni tayyorlashga yo‘naltirish → Arizani yuborish va natijani kuzatish yo‘lini tushuntirish.",
+      "source_reference": "11-sinf informatika 2021: elektron hukumat, PDF 311–330; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-05-Y2-01",
+      "chapter": 5,
+      "format": "Y2",
+      "stem": "Raqamli platforma qisqartmalarini asosiy vazifasi bilan moslang.",
+      "pairs": [
+        {
+          "left": "SMM",
+          "right": "Ijtimoiy tarmoqlarda auditoriya bilan marketing aloqasi"
+        },
+        {
+          "left": "CMS",
+          "right": "Sayt kontentini boshqarish tizimi"
+        },
+        {
+          "left": "LMS",
+          "right": "O‘quv jarayonini boshqarish tizimi"
+        },
+        {
+          "left": "MOOC",
+          "right": "Ko‘plab foydalanuvchilarga ochiq onlayn kurs shakli"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: SMM → Ijtimoiy tarmoqlarda auditoriya bilan marketing aloqasi; CMS → Sayt kontentini boshqarish tizimi; LMS → O‘quv jarayonini boshqarish tizimi; MOOC → Ko‘plab foydalanuvchilarga ochiq onlayn kurs shakli.",
+      "source_reference": "8-sinf informatika 2020: SMM, CMS, LMS, MOOC, PDF 5–94; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-05-Y2-02",
+      "chapter": 5,
+      "format": "Y2",
+      "stem": "SMM natija ko‘rsatkichlarini ularning ma’nosiga moslang.",
+      "pairs": [
+        {
+          "left": "Reach",
+          "right": "Kontentni ko‘rgan noyob foydalanuvchilar soni"
+        },
+        {
+          "left": "Impressions",
+          "right": "Kontent ko‘rsatilgan jami holatlar soni"
+        },
+        {
+          "left": "Engagement",
+          "right": "Layk, izoh, ulashish kabi reaksiyalar"
+        },
+        {
+          "left": "Conversion",
+          "right": "Maqsadli harakatni bajargan auditoriya natijasi"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Reach → Kontentni ko‘rgan noyob foydalanuvchilar soni; Impressions → Kontent ko‘rsatilgan jami holatlar soni; Engagement → Layk, izoh, ulashish kabi reaksiyalar; Conversion → Maqsadli harakatni bajargan auditoriya natijasi.",
+      "source_reference": "8-sinf informatika 2020: SMM, CMS, LMS, MOOC, PDF 5–94; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-05-Y2-03",
+      "chapter": 5,
+      "format": "Y2",
+      "stem": "CMS imkoniyatlarini mos foydalanuvchi amali bilan juftlang.",
+      "pairs": [
+        {
+          "left": "Post editor",
+          "right": "Maqola matni va rasmini tahrirlash"
+        },
+        {
+          "left": "Theme",
+          "right": "Sayt tashqi ko‘rinishini boshqarish"
+        },
+        {
+          "left": "Plugin",
+          "right": "Sayt imkoniyatiga qo‘shimcha funksiya qo‘shish"
+        },
+        {
+          "left": "Role",
+          "right": "Muallif va administrator huquqini farqlash"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Post editor → Maqola matni va rasmini tahrirlash; Theme → Sayt tashqi ko‘rinishini boshqarish; Plugin → Sayt imkoniyatiga qo‘shimcha funksiya qo‘shish; Role → Muallif va administrator huquqini farqlash.",
+      "source_reference": "8-sinf informatika 2020: SMM, CMS, LMS, MOOC, PDF 5–94; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-05-Y2-04",
+      "chapter": 5,
+      "format": "Y2",
+      "stem": "LMS tarkibiy qismlarini vazifasi bilan juftlang.",
+      "pairs": [
+        {
+          "left": "Kurs moduli",
+          "right": "Dars va materiallarni mavzular bo‘yicha joylash"
+        },
+        {
+          "left": "Topshiriq",
+          "right": "O‘quvchidan bajarilgan ishni qabul qilish"
+        },
+        {
+          "left": "Baholash kitobi",
+          "right": "Topshiriq va test natijalarini jamlash"
+        },
+        {
+          "left": "Forum",
+          "right": "O‘quvchi va o‘qituvchi muhokamasini tashkil etish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Kurs moduli → Dars va materiallarni mavzular bo‘yicha joylash; Topshiriq → O‘quvchidan bajarilgan ishni qabul qilish; Baholash kitobi → Topshiriq va test natijalarini jamlash; Forum → O‘quvchi va o‘qituvchi muhokamasini tashkil etish.",
+      "source_reference": "8-sinf informatika 2020: SMM, CMS, LMS, MOOC, PDF 5–94; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-05-Y2-05",
+      "chapter": 5,
+      "format": "Y2",
+      "stem": "MOOC atamalarini mazmuni bilan moslang.",
+      "pairs": [
+        {
+          "left": "Ochiq ro‘yxatdan o‘tish",
+          "right": "Keng auditoriyaga kursga kirish imkonini berish"
+        },
+        {
+          "left": "Video dars",
+          "right": "Asinxron ko‘riladigan o‘quv materiali"
+        },
+        {
+          "left": "Peer assessment",
+          "right": "O‘quvchilar bir-birining ishini baholashi"
+        },
+        {
+          "left": "Completion certificate",
+          "right": "Kurs yakunlanishiga oid tasdiq hujjati"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Ochiq ro‘yxatdan o‘tish → Keng auditoriyaga kursga kirish imkonini berish; Video dars → Asinxron ko‘riladigan o‘quv materiali; Peer assessment → O‘quvchilar bir-birining ishini baholashi; Completion certificate → Kurs yakunlanishiga oid tasdiq hujjati.",
+      "source_reference": "8-sinf informatika 2020: SMM, CMS, LMS, MOOC, PDF 5–94; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-05-Y2-06",
+      "chapter": 5,
+      "format": "Y2",
+      "stem": "Ijtimoiy media kontent formatlarini vazifasi bilan moslang.",
+      "pairs": [
+        {
+          "left": "Story",
+          "right": "Qisqa muddatli vizual yangilik ulashish"
+        },
+        {
+          "left": "Carousel",
+          "right": "Bir postda bir nechta kartochka ko‘rsatish"
+        },
+        {
+          "left": "Live",
+          "right": "Jonli efirda auditoriya bilan muloqot qilish"
+        },
+        {
+          "left": "Short video",
+          "right": "Qisqa videoda mavzuni tez tushuntirish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Story → Qisqa muddatli vizual yangilik ulashish; Carousel → Bir postda bir nechta kartochka ko‘rsatish; Live → Jonli efirda auditoriya bilan muloqot qilish; Short video → Qisqa videoda mavzuni tez tushuntirish.",
+      "source_reference": "8-sinf informatika 2020: SMM, CMS, LMS, MOOC, PDF 5–94; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-05-Y2-07",
+      "chapter": 5,
+      "format": "Y2",
+      "stem": "Veb-sayt boshqarishdagi rollarni huquqlariga moslang.",
+      "pairs": [
+        {
+          "left": "Administrator",
+          "right": "Tizim sozlamalari va foydalanuvchilarni boshqarish"
+        },
+        {
+          "left": "Muharrir",
+          "right": "Boshqa mualliflar materialini tekshirib chiqarish"
+        },
+        {
+          "left": "Muallif",
+          "right": "O‘z maqolasini yaratish va tahrirlash"
+        },
+        {
+          "left": "O‘quvchi",
+          "right": "Ruxsat berilgan e’lon qilingan kontentni ko‘rish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Administrator → Tizim sozlamalari va foydalanuvchilarni boshqarish; Muharrir → Boshqa mualliflar materialini tekshirib chiqarish; Muallif → O‘z maqolasini yaratish va tahrirlash; O‘quvchi → Ruxsat berilgan e’lon qilingan kontentni ko‘rish.",
+      "source_reference": "8-sinf informatika 2020: SMM, CMS, LMS, MOOC, PDF 5–94; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-05-Y2-08",
+      "chapter": 5,
+      "format": "Y2",
+      "stem": "O‘qituvchi uchun raqamli xizmatlarni maqsadiga moslang.",
+      "pairs": [
+        {
+          "left": "LMS testi",
+          "right": "O‘quvchi bilimini onlayn baholash"
+        },
+        {
+          "left": "MOOC kursi",
+          "right": "Ommaviy masofaviy mavzu o‘rganish"
+        },
+        {
+          "left": "CMS sahifasi",
+          "right": "O‘quv markazi saytiga maqola joylash"
+        },
+        {
+          "left": "SMM sahifasi",
+          "right": "Kurs haqidagi e’lonni auditoriyaga yetkazish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: LMS testi → O‘quvchi bilimini onlayn baholash; MOOC kursi → Ommaviy masofaviy mavzu o‘rganish; CMS sahifasi → O‘quv markazi saytiga maqola joylash; SMM sahifasi → Kurs haqidagi e’lonni auditoriyaga yetkazish.",
+      "source_reference": "8-sinf informatika 2020: SMM, CMS, LMS, MOOC, PDF 5–94; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-05-Y2-09",
+      "chapter": 5,
+      "format": "Y2",
+      "stem": "Marketing kampaniya bosqichi va o‘lchovi o‘rtasidagi moslikni aniqlang.",
+      "pairs": [
+        {
+          "left": "Auditoriya tanlovi",
+          "right": "Kimga murojaat qilish kerakligini belgilash"
+        },
+        {
+          "left": "Kontent rejasi",
+          "right": "Qaysi mavzu qachon berilishini belgilash"
+        },
+        {
+          "left": "Nashr",
+          "right": "Materialni tanlangan kanalga chiqarish"
+        },
+        {
+          "left": "Analitika",
+          "right": "Natijani ko‘rsatkichlar bilan o‘lchash"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Auditoriya tanlovi → Kimga murojaat qilish kerakligini belgilash; Kontent rejasi → Qaysi mavzu qachon berilishini belgilash; Nashr → Materialni tanlangan kanalga chiqarish; Analitika → Natijani ko‘rsatkichlar bilan o‘lchash.",
+      "source_reference": "8-sinf informatika 2020: SMM, CMS, LMS, MOOC, PDF 5–94; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-05-Y2-10",
+      "chapter": 5,
+      "format": "Y2",
+      "stem": "Raqamli platformalardagi himoya usulini xatarga moslang.",
+      "pairs": [
+        {
+          "left": "CMS plugin yangilanishi",
+          "right": "Eskirgan qo‘shimcha moduldagi zaiflikni kamaytirish"
+        },
+        {
+          "left": "LMS rolini cheklash",
+          "right": "O‘quvchi bahoni ruxsatsiz o‘zgartirmasligini ta’minlash"
+        },
+        {
+          "left": "SMM sahifa MFA",
+          "right": "Sahifa hisobini egallab olish xavfini kamaytirish"
+        },
+        {
+          "left": "MOOC parolini himoyalash",
+          "right": "Kurs foydalanuvchisining profilini himoya qilish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: CMS plugin yangilanishi → Eskirgan qo‘shimcha moduldagi zaiflikni kamaytirish; LMS rolini cheklash → O‘quvchi bahoni ruxsatsiz o‘zgartirmasligini ta’minlash; SMM sahifa MFA → Sahifa hisobini egallab olish xavfini kamaytirish; MOOC parolini himoyalash → Kurs foydalanuvchisining profilini himoya qilish.",
+      "source_reference": "8-sinf informatika 2020: SMM, CMS, LMS, MOOC, PDF 5–94; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-05-Y3-01",
+      "chapter": 5,
+      "format": "Y3",
+      "stem": "SMM kampaniyasini yaratish bosqichlarini tartiblang.",
+      "steps": [
+        "Kampaniya maqsadi va auditoriyani belgilash",
+        "Mos platforma va kontent formatini tanlash",
+        "Kontentni tayyorlab reja asosida nashr qilish",
+        "Statistikani tekshirib kelgusi postlarni yaxshilash"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Kampaniya maqsadi va auditoriyani belgilash → Mos platforma va kontent formatini tanlash → Kontentni tayyorlab reja asosida nashr qilish → Statistikani tekshirib kelgusi postlarni yaxshilash.",
+      "source_reference": "8-sinf informatika 2020: SMM, CMS, LMS, MOOC, PDF 5–94; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-05-Y3-02",
+      "chapter": 5,
+      "format": "Y3",
+      "stem": "CMS orqali yangi maqola chiqarish bosqichlarini tartiblang.",
+      "steps": [
+        "Administrator tomonidan maqola yaratish huquqini tekshirish",
+        "Muharrirda sarlavha va asosiy matnni yozish",
+        "Havola, rasm va imlo xatolarini ko‘rib chiqish",
+        "Maqolani nashr qilib saytda ochilishini tekshirish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Administrator tomonidan maqola yaratish huquqini tekshirish → Muharrirda sarlavha va asosiy matnni yozish → Havola, rasm va imlo xatolarini ko‘rib chiqish → Maqolani nashr qilib saytda ochilishini tekshirish.",
+      "source_reference": "8-sinf informatika 2020: SMM, CMS, LMS, MOOC, PDF 5–94; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-05-Y3-03",
+      "chapter": 5,
+      "format": "Y3",
+      "stem": "LMSda yangi kurs yaratish tartibini ko‘rsating.",
+      "steps": [
+        "Kurs maqsadi va o‘quvchilar guruhini belgilash",
+        "Kursning mavzu bo‘limlari va materiallarini joylash",
+        "Topshiriq hamda test mezonlarini sozlash",
+        "O‘quvchi ko‘rinishini sinab kursni ochish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Kurs maqsadi va o‘quvchilar guruhini belgilash → Kursning mavzu bo‘limlari va materiallarini joylash → Topshiriq hamda test mezonlarini sozlash → O‘quvchi ko‘rinishini sinab kursni ochish.",
+      "source_reference": "8-sinf informatika 2020: SMM, CMS, LMS, MOOC, PDF 5–94; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-05-Y3-04",
+      "chapter": 5,
+      "format": "Y3",
+      "stem": "MOOC kursida o‘qishni boshlash jarayonini tartiblang.",
+      "steps": [
+        "Qiziqtirgan kursni va dasturini tanlash",
+        "Platformada ro‘yxatdan o‘tish yoki kirish",
+        "Modullar bo‘yicha videolarni ko‘rib topshiriq bajarish",
+        "Yakuniy talablar bajarilganini tekshirish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Qiziqtirgan kursni va dasturini tanlash → Platformada ro‘yxatdan o‘tish yoki kirish → Modullar bo‘yicha videolarni ko‘rib topshiriq bajarish → Yakuniy talablar bajarilganini tekshirish.",
+      "source_reference": "8-sinf informatika 2020: SMM, CMS, LMS, MOOC, PDF 5–94; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-05-Y3-05",
+      "chapter": 5,
+      "format": "Y3",
+      "stem": "SMM postining samaradorligini baholash tartibini aniqlang.",
+      "steps": [
+        "Postdan kutilgan maqsadni qayd etish",
+        "Reach va engagement kabi ma’lumotlarni olish",
+        "Natijalarni maqsad hamda oldingi postlar bilan solishtirish",
+        "Keyingi kontent uchun o‘zgarish rejasini ishlab chiqish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Postdan kutilgan maqsadni qayd etish → Reach va engagement kabi ma’lumotlarni olish → Natijalarni maqsad hamda oldingi postlar bilan solishtirish → Keyingi kontent uchun o‘zgarish rejasini ishlab chiqish.",
+      "source_reference": "8-sinf informatika 2020: SMM, CMS, LMS, MOOC, PDF 5–94; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-05-Y3-06",
+      "chapter": 5,
+      "format": "Y3",
+      "stem": "CMS saytining xavfsiz plugin yangilanishini tartiblang.",
+      "steps": [
+        "Plugin manbasi va yangi versiyasi haqiqiyligini tekshirish",
+        "Sayt va ma’lumotlar bazasining zaxirasini yaratish",
+        "Yangilanishni tasdiqlangan tartibda o‘rnatish",
+        "Sayt sahifalari va shakllarini sinash"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Plugin manbasi va yangi versiyasi haqiqiyligini tekshirish → Sayt va ma’lumotlar bazasining zaxirasini yaratish → Yangilanishni tasdiqlangan tartibda o‘rnatish → Sayt sahifalari va shakllarini sinash.",
+      "source_reference": "8-sinf informatika 2020: SMM, CMS, LMS, MOOC, PDF 5–94; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-05-Y3-07",
+      "chapter": 5,
+      "format": "Y3",
+      "stem": "LMS orqali onlayn test o‘tkazish jarayonini tartiblang.",
+      "steps": [
+        "Baholanadigan mavzu va savollarni belgilash",
+        "Testning vaqti hamda baholash qoidasini sozlash",
+        "O‘quvchilar uchun testni ochish",
+        "Natijalarni tekshirib qayta aloqa berish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Baholanadigan mavzu va savollarni belgilash → Testning vaqti hamda baholash qoidasini sozlash → O‘quvchilar uchun testni ochish → Natijalarni tekshirib qayta aloqa berish.",
+      "source_reference": "8-sinf informatika 2020: SMM, CMS, LMS, MOOC, PDF 5–94; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-05-Y3-08",
+      "chapter": 5,
+      "format": "Y3",
+      "stem": "MOOC sertifikatini olishning umumiy bosqichlarini tartiblang.",
+      "steps": [
+        "Kursning sertifikat talablarini tekshirish",
+        "Majburiy bo‘lim va mashqlarni bajarish",
+        "Yakuniy nazoratdan o‘tish",
+        "Talab bajarilgan bo‘lsa sertifikat natijasini olish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Kursning sertifikat talablarini tekshirish → Majburiy bo‘lim va mashqlarni bajarish → Yakuniy nazoratdan o‘tish → Talab bajarilgan bo‘lsa sertifikat natijasini olish.",
+      "source_reference": "8-sinf informatika 2020: SMM, CMS, LMS, MOOC, PDF 5–94; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-05-Y3-09",
+      "chapter": 5,
+      "format": "Y3",
+      "stem": "SMM hisobiga yangi muharrir qo‘shish tartibini tuzing.",
+      "steps": [
+        "Muharrirning vazifasi va vakolatini aniqlash",
+        "Mavjud admin hisobida ruxsat bo‘limini ochish",
+        "Eng kam zarur rolni biriktirish",
+        "Yangi foydalanuvchi kirishini sinab keyin nazorat qilish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Muharrirning vazifasi va vakolatini aniqlash → Mavjud admin hisobida ruxsat bo‘limini ochish → Eng kam zarur rolni biriktirish → Yangi foydalanuvchi kirishini sinab keyin nazorat qilish.",
+      "source_reference": "8-sinf informatika 2020: SMM, CMS, LMS, MOOC, PDF 5–94; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-05-Y3-10",
+      "chapter": 5,
+      "format": "Y3",
+      "stem": "CMS saytining kontent auditini bajarish tartibini ko‘rsating.",
+      "steps": [
+        "Saytdagi e’lon qilingan sahifalarni ro‘yxatlash",
+        "Eskirgan yoki noto‘g‘ri ma’lumotni aniqlash",
+        "Yangilanishlarni muharrir tasdig‘idan o‘tkazish",
+        "O‘zgargan sahifani qayta ko‘rib chiqish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Saytdagi e’lon qilingan sahifalarni ro‘yxatlash → Eskirgan yoki noto‘g‘ri ma’lumotni aniqlash → Yangilanishlarni muharrir tasdig‘idan o‘tkazish → O‘zgargan sahifani qayta ko‘rib chiqish.",
+      "source_reference": "8-sinf informatika 2020: SMM, CMS, LMS, MOOC, PDF 5–94; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-06-Y2-01",
+      "chapter": 6,
+      "format": "Y2",
+      "stem": "Kontent strategiyasi elementlarini vazifasi bilan juftlang.",
+      "pairs": [
+        {
+          "left": "Maqsadli auditoriya",
+          "right": "Xabar yo‘naltirilgan foydalanuvchilar guruhi"
+        },
+        {
+          "left": "Kontent maqsadi",
+          "right": "Nashrdan kutilgan aniq natija"
+        },
+        {
+          "left": "Kontent formati",
+          "right": "Matn, video, infografika kabi ifoda shakli"
+        },
+        {
+          "left": "Tarqatish kanali",
+          "right": "Material yetkaziladigan platforma yoki tarmoq"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Maqsadli auditoriya → Xabar yo‘naltirilgan foydalanuvchilar guruhi; Kontent maqsadi → Nashrdan kutilgan aniq natija; Kontent formati → Matn, video, infografika kabi ifoda shakli; Tarqatish kanali → Material yetkaziladigan platforma yoki tarmoq.",
+      "source_reference": "8-sinf informatika 2020: SMM auditoriya/kontent va loyihalar, PDF 5–36; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-06-Y2-02",
+      "chapter": 6,
+      "format": "Y2",
+      "stem": "Auditoriya segmentlarini qiziqishi bilan moslang.",
+      "pairs": [
+        {
+          "left": "Yangi o‘quvchi",
+          "right": "Kursga kirish shartlari va kirish darsiga qiziqadi"
+        },
+        {
+          "left": "Faol tinglovchi",
+          "right": "Murakkab topshiriq va qo‘shimcha mashqlarga qiziqadi"
+        },
+        {
+          "left": "Ota-ona",
+          "right": "Dars jadvali va farzandi natijasini izlaydi"
+        },
+        {
+          "left": "O‘qituvchi",
+          "right": "Metodik resurs va baholash mezonini izlaydi"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Yangi o‘quvchi → Kursga kirish shartlari va kirish darsiga qiziqadi; Faol tinglovchi → Murakkab topshiriq va qo‘shimcha mashqlarga qiziqadi; Ota-ona → Dars jadvali va farzandi natijasini izlaydi; O‘qituvchi → Metodik resurs va baholash mezonini izlaydi.",
+      "source_reference": "8-sinf informatika 2020: SMM auditoriya/kontent va loyihalar, PDF 5–36; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-06-Y2-03",
+      "chapter": 6,
+      "format": "Y2",
+      "stem": "Marketing metrikalarini ularning hisoblanadigan mazmuniga moslang.",
+      "pairs": [
+        {
+          "left": "CTR",
+          "right": "Bosishlar sonining ko‘rsatishlarga nisbati"
+        },
+        {
+          "left": "Engagement rate",
+          "right": "Reaksiyalar ulushini ko‘rsatadigan ko‘rsatkich"
+        },
+        {
+          "left": "Conversion rate",
+          "right": "Maqsadli amal bajarganlar ulushi"
+        },
+        {
+          "left": "Retention",
+          "right": "Foydalanuvchi yana qaytib foydalanish darajasi"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: CTR → Bosishlar sonining ko‘rsatishlarga nisbati; Engagement rate → Reaksiyalar ulushini ko‘rsatadigan ko‘rsatkich; Conversion rate → Maqsadli amal bajarganlar ulushi; Retention → Foydalanuvchi yana qaytib foydalanish darajasi.",
+      "source_reference": "8-sinf informatika 2020: SMM auditoriya/kontent va loyihalar, PDF 5–36; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-06-Y2-04",
+      "chapter": 6,
+      "format": "Y2",
+      "stem": "Raqamli xabar formatini mos vazifaga juftlang.",
+      "pairs": [
+        {
+          "left": "Infografika",
+          "right": "Raqamli taqqoslashni ko‘rgazmali ko‘rsatish"
+        },
+        {
+          "left": "Qisqa video",
+          "right": "Amalni tez va jonli namoyish etish"
+        },
+        {
+          "left": "Maqola",
+          "right": "Mavzuni izchil yozma tushuntirish"
+        },
+        {
+          "left": "So‘rovnoma",
+          "right": "Auditoriya fikrini yig‘ish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Infografika → Raqamli taqqoslashni ko‘rgazmali ko‘rsatish; Qisqa video → Amalni tez va jonli namoyish etish; Maqola → Mavzuni izchil yozma tushuntirish; So‘rovnoma → Auditoriya fikrini yig‘ish.",
+      "source_reference": "8-sinf informatika 2020: SMM auditoriya/kontent va loyihalar, PDF 5–36; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-06-Y2-05",
+      "chapter": 6,
+      "format": "Y2",
+      "stem": "Kontent sifati mezonini mos baholash savoliga bog‘lang.",
+      "pairs": [
+        {
+          "left": "Aniqlik",
+          "right": "Faktlar tekshirilganmi?"
+        },
+        {
+          "left": "Dolzarblik",
+          "right": "Ma’lumot hali yangimi?"
+        },
+        {
+          "left": "Tushunarlilik",
+          "right": "Tinglovchi matnni anglay oladimi?"
+        },
+        {
+          "left": "Erkin foydalanish huquqi",
+          "right": "Rasm va matndan qonuniy foydalanilyaptimi?"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Aniqlik → Faktlar tekshirilganmi?; Dolzarblik → Ma’lumot hali yangimi?; Tushunarlilik → Tinglovchi matnni anglay oladimi?; Erkin foydalanish huquqi → Rasm va matndan qonuniy foydalanilyaptimi?.",
+      "source_reference": "8-sinf informatika 2020: SMM auditoriya/kontent va loyihalar, PDF 5–36; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-06-Y2-06",
+      "chapter": 6,
+      "format": "Y2",
+      "stem": "Kontent rejasidagi ustunlarni ularning maqsadi bilan moslang.",
+      "pairs": [
+        {
+          "left": "Sana",
+          "right": "Postning chiqarilish vaqti"
+        },
+        {
+          "left": "Mavzu",
+          "right": "Nima haqida gapirilishi"
+        },
+        {
+          "left": "Platforma",
+          "right": "Qaysi kanalga joylanishi"
+        },
+        {
+          "left": "Metrika",
+          "right": "Natija qanday o‘lchanishi"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Sana → Postning chiqarilish vaqti; Mavzu → Nima haqida gapirilishi; Platforma → Qaysi kanalga joylanishi; Metrika → Natija qanday o‘lchanishi.",
+      "source_reference": "8-sinf informatika 2020: SMM auditoriya/kontent va loyihalar, PDF 5–36; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-06-Y2-07",
+      "chapter": 6,
+      "format": "Y2",
+      "stem": "Auditoriya harakatlarini ularning raqamli izohiga moslang.",
+      "pairs": [
+        {
+          "left": "Ko‘rish",
+          "right": "Kontent ekranda namoyish etilishi"
+        },
+        {
+          "left": "Bosish",
+          "right": "Havola yoki tugma tanlanishi"
+        },
+        {
+          "left": "Ro‘yxatdan o‘tish",
+          "right": "Foydalanuvchi ma’lumotlarini taqdim etib hisob ochishi"
+        },
+        {
+          "left": "Qayta tashrif",
+          "right": "Foydalanuvchining keyin yana kelishi"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Ko‘rish → Kontent ekranda namoyish etilishi; Bosish → Havola yoki tugma tanlanishi; Ro‘yxatdan o‘tish → Foydalanuvchi ma’lumotlarini taqdim etib hisob ochishi; Qayta tashrif → Foydalanuvchining keyin yana kelishi.",
+      "source_reference": "8-sinf informatika 2020: SMM auditoriya/kontent va loyihalar, PDF 5–36; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-06-Y2-08",
+      "chapter": 6,
+      "format": "Y2",
+      "stem": "Raqamli kontent muammosini tavsiya qilingan yechim bilan juftlang.",
+      "pairs": [
+        {
+          "left": "Matn juda uzun",
+          "right": "Asosiy g‘oyani ixcham sarlavha va bo‘limlarga ajratish"
+        },
+        {
+          "left": "Video ovozi noaniq",
+          "right": "Ovoz sifatini va subtitrni yaxshilash"
+        },
+        {
+          "left": "Telefon ekrani uchun noqulay",
+          "right": "Moslashuvchan o‘lcham va joylashuv ishlatish"
+        },
+        {
+          "left": "Manbasiz raqamlar",
+          "right": "Dalil va manba ko‘rsatkichini kiritish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Matn juda uzun → Asosiy g‘oyani ixcham sarlavha va bo‘limlarga ajratish; Video ovozi noaniq → Ovoz sifatini va subtitrni yaxshilash; Telefon ekrani uchun noqulay → Moslashuvchan o‘lcham va joylashuv ishlatish; Manbasiz raqamlar → Dalil va manba ko‘rsatkichini kiritish.",
+      "source_reference": "8-sinf informatika 2020: SMM auditoriya/kontent va loyihalar, PDF 5–36; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-06-Y2-09",
+      "chapter": 6,
+      "format": "Y2",
+      "stem": "Kontentni yetkazish usullarini xususiyatlari bilan moslang.",
+      "pairs": [
+        {
+          "left": "Organik qamrov",
+          "right": "To‘lovsiz tarqalish va foydalanuvchi ulashishi"
+        },
+        {
+          "left": "Pullik reklama",
+          "right": "Belgilangan byudjet asosida targ‘ib qilish"
+        },
+        {
+          "left": "Email xabarnoma",
+          "right": "Obuna bo‘lgan manzilga maqsadli xabar yuborish"
+        },
+        {
+          "left": "Sayt maqolasi",
+          "right": "Qidiruv orqali uzoqroq muddat topiladigan material"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Organik qamrov → To‘lovsiz tarqalish va foydalanuvchi ulashishi; Pullik reklama → Belgilangan byudjet asosida targ‘ib qilish; Email xabarnoma → Obuna bo‘lgan manzilga maqsadli xabar yuborish; Sayt maqolasi → Qidiruv orqali uzoqroq muddat topiladigan material.",
+      "source_reference": "8-sinf informatika 2020: SMM auditoriya/kontent va loyihalar, PDF 5–36; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-06-Y2-10",
+      "chapter": 6,
+      "format": "Y2",
+      "stem": "Mualliflik va etikaga oid atamalarni vazifasiga moslang.",
+      "pairs": [
+        {
+          "left": "Mualliflik huquqi",
+          "right": "Yaratilgan asardan foydalanish tartibini himoyalash"
+        },
+        {
+          "left": "Manba ko‘rsatish",
+          "right": "Olingan axborot qayerdan kelganini ochiq berish"
+        },
+        {
+          "left": "Rozilik",
+          "right": "Shaxs tasviridan foydalanishga ruxsat olish"
+        },
+        {
+          "left": "Shaxsiy ma’lumot minimalligi",
+          "right": "Faqat zarur ma’lumotni to‘plash"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Mualliflik huquqi → Yaratilgan asardan foydalanish tartibini himoyalash; Manba ko‘rsatish → Olingan axborot qayerdan kelganini ochiq berish; Rozilik → Shaxs tasviridan foydalanishga ruxsat olish; Shaxsiy ma’lumot minimalligi → Faqat zarur ma’lumotni to‘plash.",
+      "source_reference": "8-sinf informatika 2020: SMM auditoriya/kontent va loyihalar, PDF 5–36; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-06-Y3-01",
+      "chapter": 6,
+      "format": "Y3",
+      "stem": "Ta’lim markazi uchun auditoriyani aniqlash jarayonini tartiblang.",
+      "steps": [
+        "Kurs maqsadi va xizmat foydasini aniqlash",
+        "Yoshi, ehtiyoji va qiziqishi bo‘yicha segmentlarni ajratish",
+        "Har segment uchun asosiy xabarni tanlash",
+        "Tanlangan xabarni kichik sinov orqali baholash"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Kurs maqsadi va xizmat foydasini aniqlash → Yoshi, ehtiyoji va qiziqishi bo‘yicha segmentlarni ajratish → Har segment uchun asosiy xabarni tanlash → Tanlangan xabarni kichik sinov orqali baholash.",
+      "source_reference": "8-sinf informatika 2020: SMM auditoriya/kontent va loyihalar, PDF 5–36; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-06-Y3-02",
+      "chapter": 6,
+      "format": "Y3",
+      "stem": "Ijtimoiy media uchun kontent reja tuzish tartibini toping.",
+      "steps": [
+        "Oylik kommunikatsiya maqsadini belgilash",
+        "Auditoriya va mos mavzularni aniqlash",
+        "Post formatlari va sanalarini jadvalga yozish",
+        "Natijalarni kuzatish mezonlarini belgilash"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Oylik kommunikatsiya maqsadini belgilash → Auditoriya va mos mavzularni aniqlash → Post formatlari va sanalarini jadvalga yozish → Natijalarni kuzatish mezonlarini belgilash.",
+      "source_reference": "8-sinf informatika 2020: SMM auditoriya/kontent va loyihalar, PDF 5–36; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-06-Y3-03",
+      "chapter": 6,
+      "format": "Y3",
+      "stem": "Shubhali statistik da’voni e’lon qilishdan oldingi tartibni ko‘rsating.",
+      "steps": [
+        "Da’vo nimaga asoslanayotganini aniqlash",
+        "Dastlabki ma’lumot va muallifni topish",
+        "Boshqa ishonchli manbalar bilan solishtirish",
+        "Tasdiqlangan mazmun va manbani e’lon qilish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Da’vo nimaga asoslanayotganini aniqlash → Dastlabki ma’lumot va muallifni topish → Boshqa ishonchli manbalar bilan solishtirish → Tasdiqlangan mazmun va manbani e’lon qilish.",
+      "source_reference": "8-sinf informatika 2020: SMM auditoriya/kontent va loyihalar, PDF 5–36; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-06-Y3-04",
+      "chapter": 6,
+      "format": "Y3",
+      "stem": "CTR hisobini izohlash bosqichlarini tartiblang.",
+      "steps": [
+        "Ko‘rsatishlar sonini aniqlash",
+        "Havolaga bosishlar sonini aniqlash",
+        "Bosishlarni ko‘rsatishlarga bo‘lib 100 ga ko‘paytirish",
+        "Chiqqan foizni kampaniya maqsadi bilan solishtirish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Ko‘rsatishlar sonini aniqlash → Havolaga bosishlar sonini aniqlash → Bosishlarni ko‘rsatishlarga bo‘lib 100 ga ko‘paytirish → Chiqqan foizni kampaniya maqsadi bilan solishtirish.",
+      "source_reference": "8-sinf informatika 2020: SMM auditoriya/kontent va loyihalar, PDF 5–36; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-06-Y3-05",
+      "chapter": 6,
+      "format": "Y3",
+      "stem": "Yangi reklama postini sinash tartibini tuzing.",
+      "steps": [
+        "O‘lchanadigan maqsadni tanlash",
+        "Taqqoslanadigan ikki matn yoki rasm variantini tayyorlash",
+        "Bir xil sharoitda variantlarni sinab ko‘rish",
+        "Natijaga qarab samaraliroq variantni tanlash"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: O‘lchanadigan maqsadni tanlash → Taqqoslanadigan ikki matn yoki rasm variantini tayyorlash → Bir xil sharoitda variantlarni sinab ko‘rish → Natijaga qarab samaraliroq variantni tanlash.",
+      "source_reference": "8-sinf informatika 2020: SMM auditoriya/kontent va loyihalar, PDF 5–36; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-06-Y3-06",
+      "chapter": 6,
+      "format": "Y3",
+      "stem": "Auditoriya sharhlariga javob berish tartibini ko‘rsating.",
+      "steps": [
+        "Sharh mazmunini xolis o‘qish",
+        "Savol va muammoni aniqlashtirish",
+        "Hurmat bilan foydali javob yoki yechim berish",
+        "Muammo hal bo‘lganini tekshirish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Sharh mazmunini xolis o‘qish → Savol va muammoni aniqlashtirish → Hurmat bilan foydali javob yoki yechim berish → Muammo hal bo‘lganini tekshirish.",
+      "source_reference": "8-sinf informatika 2020: SMM auditoriya/kontent va loyihalar, PDF 5–36; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-06-Y3-07",
+      "chapter": 6,
+      "format": "Y3",
+      "stem": "Telefon uchun video dars kontentini tayyorlash bosqichlarini tartiblang.",
+      "steps": [
+        "Mavzu va asosiy o‘quv maqsadini belgilash",
+        "Qisqa ssenariy va tasvir rejasini yozish",
+        "Ovoz va tasvirni sifatli yozib olish",
+        "Subtitr qo‘shib kichik ekranda tekshirish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Mavzu va asosiy o‘quv maqsadini belgilash → Qisqa ssenariy va tasvir rejasini yozish → Ovoz va tasvirni sifatli yozib olish → Subtitr qo‘shib kichik ekranda tekshirish.",
+      "source_reference": "8-sinf informatika 2020: SMM auditoriya/kontent va loyihalar, PDF 5–36; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-06-Y3-08",
+      "chapter": 6,
+      "format": "Y3",
+      "stem": "Shaxsiy ma’lumotdan foydalaniladigan postni tekshirish tartibini aniqlang.",
+      "steps": [
+        "Postda kimning shaxsiy ma’lumoti borligini aniqlash",
+        "Nashr uchun aniq rozilik va huquqiy asosni tekshirish",
+        "Keraksiz shaxsiy belgilarni olib tashlash",
+        "Tasdiqlangan variantni belgilangan kanalda e’lon qilish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Postda kimning shaxsiy ma’lumoti borligini aniqlash → Nashr uchun aniq rozilik va huquqiy asosni tekshirish → Keraksiz shaxsiy belgilarni olib tashlash → Tasdiqlangan variantni belgilangan kanalda e’lon qilish.",
+      "source_reference": "8-sinf informatika 2020: SMM auditoriya/kontent va loyihalar, PDF 5–36; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-06-Y3-09",
+      "chapter": 6,
+      "format": "Y3",
+      "stem": "Kampaniya natijalarini sharhlash ketma-ketligini joylang.",
+      "steps": [
+        "Dastlab belgilangan ko‘rsatkich va maqsadni olish",
+        "Amaldagi analitika ma’lumotlarini yig‘ish",
+        "Reja bilan real natijadagi farqni hisoblash",
+        "Keyingi kontent uchun asoslangan taklif tuzish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Dastlab belgilangan ko‘rsatkich va maqsadni olish → Amaldagi analitika ma’lumotlarini yig‘ish → Reja bilan real natijadagi farqni hisoblash → Keyingi kontent uchun asoslangan taklif tuzish.",
+      "source_reference": "8-sinf informatika 2020: SMM auditoriya/kontent va loyihalar, PDF 5–36; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-06-Y3-10",
+      "chapter": 6,
+      "format": "Y3",
+      "stem": "Eski kontentni yangilash jarayonini tartiblang.",
+      "steps": [
+        "Qaysi ma’lumot eskirganini topish",
+        "Yangi rasmiy dalillar va sanani aniqlash",
+        "Matn va grafikni yangilash",
+        "Yangilangan postni tekshirib qayta nashr qilish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Qaysi ma’lumot eskirganini topish → Yangi rasmiy dalillar va sanani aniqlash → Matn va grafikni yangilash → Yangilangan postni tekshirib qayta nashr qilish.",
+      "source_reference": "8-sinf informatika 2020: SMM auditoriya/kontent va loyihalar, PDF 5–36; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-07-Y2-01",
+      "chapter": 7,
+      "format": "Y2",
+      "stem": "Freelance ish atamalarini vazifasi bilan moslang.",
+      "pairs": [
+        {
+          "left": "Portfolio",
+          "right": "Bajarilgan ishlar namunalari to‘plami"
+        },
+        {
+          "left": "Brief",
+          "right": "Mijozning vazifa va talablar bayoni"
+        },
+        {
+          "left": "Milestone",
+          "right": "Loyihaning kelishilgan nazorat bosqichi"
+        },
+        {
+          "left": "Deadline",
+          "right": "Ishni topshirishning so‘nggi muddati"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Portfolio → Bajarilgan ishlar namunalari to‘plami; Brief → Mijozning vazifa va talablar bayoni; Milestone → Loyihaning kelishilgan nazorat bosqichi; Deadline → Ishni topshirishning so‘nggi muddati.",
+      "source_reference": "8-sinf informatika 2020: web-freelance, PDF 94–112; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-07-Y2-02",
+      "chapter": 7,
+      "format": "Y2",
+      "stem": "Freelance ish yo‘nalishlarini xizmat turi bilan juftlang.",
+      "pairs": [
+        {
+          "left": "Veb-dasturlash",
+          "right": "Sayt funksiyasi va kodini yaratish"
+        },
+        {
+          "left": "Grafik dizayn",
+          "right": "Logotip va vizual material tayyorlash"
+        },
+        {
+          "left": "Kopirayting",
+          "right": "Reklama va maqola matnini yozish"
+        },
+        {
+          "left": "Tarjima",
+          "right": "Matnni bir tildan boshqasiga o‘girish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Veb-dasturlash → Sayt funksiyasi va kodini yaratish; Grafik dizayn → Logotip va vizual material tayyorlash; Kopirayting → Reklama va maqola matnini yozish; Tarjima → Matnni bir tildan boshqasiga o‘girish.",
+      "source_reference": "8-sinf informatika 2020: web-freelance, PDF 94–112; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-07-Y2-03",
+      "chapter": 7,
+      "format": "Y2",
+      "stem": "Freelance buyurtma jarayoni rolini mas’uliyati bilan moslang.",
+      "pairs": [
+        {
+          "left": "Mijoz",
+          "right": "Talab va qabul mezonlarini belgilash"
+        },
+        {
+          "left": "Ijrochi",
+          "right": "Kelishilgan ishni bajarib taqdim etish"
+        },
+        {
+          "left": "Platforma",
+          "right": "Buyurtma va aloqa uchun xizmat muhiti berish"
+        },
+        {
+          "left": "Moderator",
+          "right": "Qoidabuzarlik bo‘yicha tekshiruv va tartibga rioya qilishni nazorat qilish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Mijoz → Talab va qabul mezonlarini belgilash; Ijrochi → Kelishilgan ishni bajarib taqdim etish; Platforma → Buyurtma va aloqa uchun xizmat muhiti berish; Moderator → Qoidabuzarlik bo‘yicha tekshiruv va tartibga rioya qilishni nazorat qilish.",
+      "source_reference": "8-sinf informatika 2020: web-freelance, PDF 94–112; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-07-Y2-04",
+      "chapter": 7,
+      "format": "Y2",
+      "stem": "Loyiha hajmini bildiruvchi atamalarni tegishli hujjat bilan juftlang.",
+      "pairs": [
+        {
+          "left": "Scope",
+          "right": "Kelishilgan ish chegarasi"
+        },
+        {
+          "left": "Deliverable",
+          "right": "Topshiriladigan aniq natija"
+        },
+        {
+          "left": "Revision",
+          "right": "Kelishilgan tahrir bosqichi"
+        },
+        {
+          "left": "Acceptance criteria",
+          "right": "Natija qabul qilinishining oldindan belgilangan mezoni"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Scope → Kelishilgan ish chegarasi; Deliverable → Topshiriladigan aniq natija; Revision → Kelishilgan tahrir bosqichi; Acceptance criteria → Natija qabul qilinishining oldindan belgilangan mezoni.",
+      "source_reference": "8-sinf informatika 2020: web-freelance, PDF 94–112; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-07-Y2-05",
+      "chapter": 7,
+      "format": "Y2",
+      "stem": "Freelancer profilidagi qismlarni maqsadi bilan moslang.",
+      "pairs": [
+        {
+          "left": "Sarlavha",
+          "right": "Asosiy kasbiy yo‘nalishni qisqa ifodalash"
+        },
+        {
+          "left": "Ko‘nikmalar",
+          "right": "Qaysi texnologiya va vazifa bajarilishini ko‘rsatish"
+        },
+        {
+          "left": "Portfolio havolasi",
+          "right": "Real ish namunasiga olib borish"
+        },
+        {
+          "left": "Mijoz fikri",
+          "right": "Oldingi loyiha tajribasi haqida baho berish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Sarlavha → Asosiy kasbiy yo‘nalishni qisqa ifodalash; Ko‘nikmalar → Qaysi texnologiya va vazifa bajarilishini ko‘rsatish; Portfolio havolasi → Real ish namunasiga olib borish; Mijoz fikri → Oldingi loyiha tajribasi haqida baho berish.",
+      "source_reference": "8-sinf informatika 2020: web-freelance, PDF 94–112; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-07-Y2-06",
+      "chapter": 7,
+      "format": "Y2",
+      "stem": "Onlayn to‘lov va shart tushunchalarini moslang.",
+      "pairs": [
+        {
+          "left": "Fixed price",
+          "right": "Butun loyiha uchun kelishilgan aniq haq"
+        },
+        {
+          "left": "Hourly rate",
+          "right": "Ishlangan soat bo‘yicha haq"
+        },
+        {
+          "left": "Deposit",
+          "right": "Ish boshlanishidan oldingi kelishilgan qism to‘lovi"
+        },
+        {
+          "left": "Invoice",
+          "right": "Ko‘rsatilgan xizmat uchun to‘lov hujjati"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Fixed price → Butun loyiha uchun kelishilgan aniq haq; Hourly rate → Ishlangan soat bo‘yicha haq; Deposit → Ish boshlanishidan oldingi kelishilgan qism to‘lovi; Invoice → Ko‘rsatilgan xizmat uchun to‘lov hujjati.",
+      "source_reference": "8-sinf informatika 2020: web-freelance, PDF 94–112; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-07-Y2-07",
+      "chapter": 7,
+      "format": "Y2",
+      "stem": "Freelance xavfsizlik xatarlarini mos himoya bilan juftlang.",
+      "pairs": [
+        {
+          "left": "Shubhali .exe fayl",
+          "right": "Tekshirilmaguncha ishga tushirmaslik"
+        },
+        {
+          "left": "Platformadan tashqari noma’lum to‘lov",
+          "right": "Rasmiy to‘lov siyosati va shartni tekshirish"
+        },
+        {
+          "left": "Parol yoki MFA kodini so‘rash",
+          "right": "Maxfiy kodni hech kimga bermaslik"
+        },
+        {
+          "left": "Mijozning maxfiy fayli",
+          "right": "Shartga muvofiq himoyalangan saqlash"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Shubhali .exe fayl → Tekshirilmaguncha ishga tushirmaslik; Platformadan tashqari noma’lum to‘lov → Rasmiy to‘lov siyosati va shartni tekshirish; Parol yoki MFA kodini so‘rash → Maxfiy kodni hech kimga bermaslik; Mijozning maxfiy fayli → Shartga muvofiq himoyalangan saqlash.",
+      "source_reference": "8-sinf informatika 2020: web-freelance, PDF 94–112; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-07-Y2-08",
+      "chapter": 7,
+      "format": "Y2",
+      "stem": "Veb-loyiha topshiriq qismlarini natija bilan moslang.",
+      "pairs": [
+        {
+          "left": "Wireframe",
+          "right": "Sahifalarning dastlabki sxemasi"
+        },
+        {
+          "left": "Mockup",
+          "right": "Kelajak interfeysning vizual namunasi"
+        },
+        {
+          "left": "Prototype",
+          "right": "Bosilishi mumkin bo‘lgan sinov modeli"
+        },
+        {
+          "left": "Production build",
+          "right": "Foydalanishga tayyor yakuniy dastur to‘plami"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Wireframe → Sahifalarning dastlabki sxemasi; Mockup → Kelajak interfeysning vizual namunasi; Prototype → Bosilishi mumkin bo‘lgan sinov modeli; Production build → Foydalanishga tayyor yakuniy dastur to‘plami.",
+      "source_reference": "8-sinf informatika 2020: web-freelance, PDF 94–112; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-07-Y2-09",
+      "chapter": 7,
+      "format": "Y2",
+      "stem": "Freelancer va mijoz o‘rtasidagi hujjatlarni farqlang.",
+      "pairs": [
+        {
+          "left": "Texnik topshiriq",
+          "right": "Bajariladigan funksiyalar ro‘yxati"
+        },
+        {
+          "left": "Shartnoma",
+          "right": "Tomonlarning huquq va majburiyatlari"
+        },
+        {
+          "left": "Qabul dalolatnomasi",
+          "right": "Topshirilgan ish qabul qilinganini qayd etish"
+        },
+        {
+          "left": "Maxfiylik kelishuvi",
+          "right": "Ma’lumotni oshkor qilmaslik shartlarini belgilash"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Texnik topshiriq → Bajariladigan funksiyalar ro‘yxati; Shartnoma → Tomonlarning huquq va majburiyatlari; Qabul dalolatnomasi → Topshirilgan ish qabul qilinganini qayd etish; Maxfiylik kelishuvi → Ma’lumotni oshkor qilmaslik shartlarini belgilash.",
+      "source_reference": "8-sinf informatika 2020: web-freelance, PDF 94–112; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-07-Y2-10",
+      "chapter": 7,
+      "format": "Y2",
+      "stem": "Freelance ish sifatini ta’minlash choralarini moslang.",
+      "pairs": [
+        {
+          "left": "Versiyalar nazorati",
+          "right": "Koddagi o‘zgarishlar tarixini saqlash"
+        },
+        {
+          "left": "Testlash",
+          "right": "Funksiyalar talabga mos ishlashini tekshirish"
+        },
+        {
+          "left": "Zaxiralash",
+          "right": "Ishchi fayllarni yo‘qotishdan himoyalash"
+        },
+        {
+          "left": "Dokumentatsiya",
+          "right": "Loyiha qanday ishlashini tushuntirib yozish"
+        }
+      ],
+      "explanation": "To‘g‘ri moslik: Versiyalar nazorati → Koddagi o‘zgarishlar tarixini saqlash; Testlash → Funksiyalar talabga mos ishlashini tekshirish; Zaxiralash → Ishchi fayllarni yo‘qotishdan himoyalash; Dokumentatsiya → Loyiha qanday ishlashini tushuntirib yozish.",
+      "source_reference": "8-sinf informatika 2020: web-freelance, PDF 94–112; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-07-Y3-01",
+      "chapter": 7,
+      "format": "Y3",
+      "stem": "Freelance platformada ish boshlash tartibini aniqlang.",
+      "steps": [
+        "Yo‘nalish va taklif qilinadigan xizmatni tanlash",
+        "Halol profil va portfolio tayyorlash",
+        "Talabga mos buyurtmalarni izlash",
+        "Aniq taklif yuborib shartlarni kelishish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Yo‘nalish va taklif qilinadigan xizmatni tanlash → Halol profil va portfolio tayyorlash → Talabga mos buyurtmalarni izlash → Aniq taklif yuborib shartlarni kelishish.",
+      "source_reference": "8-sinf informatika 2020: web-freelance, PDF 94–112; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-07-Y3-02",
+      "chapter": 7,
+      "format": "Y3",
+      "stem": "Mijoz bilan veb-sayt yaratish loyihasini yuritish tartibini ko‘rsating.",
+      "steps": [
+        "Mijozning maqsadi va talabini aniqlashtirish",
+        "Hajm, muddat va narx bo‘yicha kelishish",
+        "Saytni bosqichma-bosqich yaratib sinash",
+        "Yakuniy ishni topshirib qabul tasdig‘ini olish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Mijozning maqsadi va talabini aniqlashtirish → Hajm, muddat va narx bo‘yicha kelishish → Saytni bosqichma-bosqich yaratib sinash → Yakuniy ishni topshirib qabul tasdig‘ini olish.",
+      "source_reference": "8-sinf informatika 2020: web-freelance, PDF 94–112; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-07-Y3-03",
+      "chapter": 7,
+      "format": "Y3",
+      "stem": "Freelancer uchun xavfsiz buyurtma tanlash jarayonini tartiblang.",
+      "steps": [
+        "Buyurtma va mijoz profilini ko‘rib chiqish",
+        "Texnik vazifa hamda to‘lov shartini aniqlashtirish",
+        "Shubhali havola va maxfiy kod so‘rovini rad etish",
+        "Xavfsiz platforma doirasida kelishuvni rasmiylashtirish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Buyurtma va mijoz profilini ko‘rib chiqish → Texnik vazifa hamda to‘lov shartini aniqlashtirish → Shubhali havola va maxfiy kod so‘rovini rad etish → Xavfsiz platforma doirasida kelishuvni rasmiylashtirish.",
+      "source_reference": "8-sinf informatika 2020: web-freelance, PDF 94–112; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 2
+    },
+    {
+      "id": "AXRN-07-Y3-04",
+      "chapter": 7,
+      "format": "Y3",
+      "stem": "Veb-loyiha uchun mijozdan fikr yig‘ish tartibini toping.",
+      "steps": [
+        "Dastlabki dizayn yoki prototipni tayyorlash",
+        "Namuna va qabul mezonlarini mijozga ko‘rsatish",
+        "Izoh va tuzatishlar ro‘yxatini yig‘ish",
+        "Kelishilgan tuzatishlarni bajarib qayta ko‘rsatish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Dastlabki dizayn yoki prototipni tayyorlash → Namuna va qabul mezonlarini mijozga ko‘rsatish → Izoh va tuzatishlar ro‘yxatini yig‘ish → Kelishilgan tuzatishlarni bajarib qayta ko‘rsatish.",
+      "source_reference": "8-sinf informatika 2020: web-freelance, PDF 94–112; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-07-Y3-05",
+      "chapter": 7,
+      "format": "Y3",
+      "stem": "Freelance ish portfolioga qo‘shilishidan oldingi tartibni toping.",
+      "steps": [
+        "Loyiha natijasi va o‘z hissasini ajratish",
+        "Mijoz bilan e’lon qilishga ruxsatni tekshirish",
+        "Maxfiy yoki shaxsiy ma’lumotni olib tashlash",
+        "Ruxsatli ish namunasini portfolio sahifasiga joylash"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Loyiha natijasi va o‘z hissasini ajratish → Mijoz bilan e’lon qilishga ruxsatni tekshirish → Maxfiy yoki shaxsiy ma’lumotni olib tashlash → Ruxsatli ish namunasini portfolio sahifasiga joylash.",
+      "source_reference": "8-sinf informatika 2020: web-freelance, PDF 94–112; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-07-Y3-06",
+      "chapter": 7,
+      "format": "Y3",
+      "stem": "Veb-sayt buyurtmasini topshirish ketma-ketligini aniqlang.",
+      "steps": [
+        "Funktsiyalarni texnik topshiriqqa mos tekshirish",
+        "Turli ekranlarda ishlash va xatolarni sinash",
+        "Hujjatlar hamda foydalanish ko‘rsatmasini tayyorlash",
+        "Mijozga demo va fayllarni topshirib qabulni qayd etish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Funktsiyalarni texnik topshiriqqa mos tekshirish → Turli ekranlarda ishlash va xatolarni sinash → Hujjatlar hamda foydalanish ko‘rsatmasini tayyorlash → Mijozga demo va fayllarni topshirib qabulni qayd etish.",
+      "source_reference": "8-sinf informatika 2020: web-freelance, PDF 94–112; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "qollash",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-07-Y3-07",
+      "chapter": 7,
+      "format": "Y3",
+      "stem": "Ish hajmi o‘zgarganda kelishuvni yangilash tartibini toping.",
+      "steps": [
+        "Mijozning yangi talabini yozib olish",
+        "Dastlabki scope bilan farqini aniqlash",
+        "Qo‘shimcha vaqt va haq haqida kelishish",
+        "Yangilangan vazifani shart asosida bajarish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Mijozning yangi talabini yozib olish → Dastlabki scope bilan farqini aniqlash → Qo‘shimcha vaqt va haq haqida kelishish → Yangilangan vazifani shart asosida bajarish.",
+      "source_reference": "8-sinf informatika 2020: web-freelance, PDF 94–112; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 3
+    },
+    {
+      "id": "AXRN-07-Y3-08",
+      "chapter": 7,
+      "format": "Y3",
+      "stem": "Soatbay haq asosida loyiha hisobini chiqarish tartibini ko‘rsating.",
+      "steps": [
+        "Soatlik tarifni kelishib olish",
+        "Amalda ishlangan vaqtni qayd etish",
+        "Soatlar sonini tarifga ko‘paytirib hisoblash",
+        "Hisob-kitob va natijani mijozga taqdim etish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Soatlik tarifni kelishib olish → Amalda ishlangan vaqtni qayd etish → Soatlar sonini tarifga ko‘paytirib hisoblash → Hisob-kitob va natijani mijozga taqdim etish.",
+      "source_reference": "8-sinf informatika 2020: web-freelance, PDF 94–112; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-07-Y3-09",
+      "chapter": 7,
+      "format": "Y3",
+      "stem": "Onlayn hamkorlikda xavfsiz fayl almashish bosqichlarini tartiblang.",
+      "steps": [
+        "Almashinadigan fayllar va ularning maxfiyligini baholash",
+        "Ruxsat etilgan ishonchli saqlash kanalini tanlash",
+        "Faqat kerakli shaxslarga ulashish ruxsatini berish",
+        "Ish tugagach keraksiz ulashish huquqlarini bekor qilish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Almashinadigan fayllar va ularning maxfiyligini baholash → Ruxsat etilgan ishonchli saqlash kanalini tanlash → Faqat kerakli shaxslarga ulashish ruxsatini berish → Ish tugagach keraksiz ulashish huquqlarini bekor qilish.",
+      "source_reference": "8-sinf informatika 2020: web-freelance, PDF 94–112; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    },
+    {
+      "id": "AXRN-07-Y3-10",
+      "chapter": 7,
+      "format": "Y3",
+      "stem": "Loyiha nizosini hujjatli tarzda hal etish tartibini aniqlang.",
+      "steps": [
+        "Shartnoma va dastlabki talablarga qaytish",
+        "Topshirilgan ish hamda yozishmalardagi dalillarni jamlash",
+        "Mijoz bilan kelishilgan yechimni muhokama qilish",
+        "Zaruratda platformaning rasmiy nizolar mexanizmiga murojaat qilish"
+      ],
+      "explanation": "Mantiqiy ketma-ketlik: Shartnoma va dastlabki talablarga qaytish → Topshirilgan ish hamda yozishmalardagi dalillarni jamlash → Mijoz bilan kelishilgan yechimni muhokama qilish → Zaruratda platformaning rasmiy nizolar mexanizmiga murojaat qilish.",
+      "source_reference": "8-sinf informatika 2020: web-freelance, PDF 94–112; 2026 spetsifikatsiya 7-bo‘lim",
+      "cognitive": "mulohaza",
+      "difficulty": 4
+    }
+  ]
+}

@@ -40,7 +40,7 @@ export default function ExamResultActions({
       </Link>
       <Link to={returnUrl} className={secondaryLink}>
         <ArrowLeft size={16} aria-hidden="true" />
-        {isProfessionalPractice ? 'Testlarga qaytish' : 'Bo‘limga qaytish'}
+        {examKind === 'custom' ? 'Test konstruktori' : isProfessionalPractice ? 'Testlarga qaytish' : 'Bo‘limga qaytish'}
       </Link>
       <Link to={theoryUrl} className={secondaryLink}>
         <BookOpen size={16} aria-hidden="true" />

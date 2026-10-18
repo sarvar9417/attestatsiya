@@ -1,3 +1,15 @@
+## TASK-214 — Grafika va veb-texnologiyalar: qo‘shimcha Y2/Y3
+
+| ID | Status | Dependency | Deliverable |
+|---|---|---|---|
+| TASK-214 | IN_PROGRESS | TASK-213 review-only bank | 5 × (8 Y2 + 8 Y3) = 80 yangi original topshiriq; jami 380 (280/50/50), bazaga qo‘shimcha review migratsiyalari va testlari. Qolgan ekspert ko‘rigi / release shartlari: `docs/TASK214_GRAPHICS_WEB_380_Y2_Y3.md`. |
+
+## TASK-213 — Grafika va veb-texnologiyalar V2 integratsiyasi
+
+| ID | Status | Dependency | Deliverable |
+|---|---|---|---|
+| TASK-213 | IN_PROGRESS | M10/M11 original lessons + active `S5.WEB` constructs | 6 review lessons + 300 review questions (Y1/Y2/Y3), 8 SVG, additive migrations, fresh DB invariant, guarded editorial approval and production verification; see `docs/TASK213_GRAPHICS_WEB_V2_INTEGRATION.md` |
+
 # TASKS.md — atomik backlog
 
 > Loyiha React+Vite, Supabase, files/ spec bo'yicha.
@@ -154,3 +166,9 @@ Har task uchun kamida:
 
 
 | TASK-211 | IN_PROGRESS | TASK-056 | M13 “Axborot xavfsizligi va raqamli xizmatlar”: 7 yangi nazariya, 210 source-backed didaktik test, `review` migratsiya, oldingi published kontent saqlangan. Draft PR #145. Ekspert tasdiqlashi, local migration DB QA, lesson resolver/topic test E2E va alohida production release tasdig‘i OPEN. Docs: `docs/content/TASK-211-M13-AXR.md`. |
+
+## TASK-210 — Universal shaxsiy test konstruktori
+
+| ID | Status | Dependency | Deliverable |
+|---|---|---|---|
+| TASK-210 | IN_PROGRESS | T-013, T-014, T-015 (DONE) | RFC + backend/API + atomic DB generator, answer-leak guard, universal UI, history and SQL/backend/Playwright regressiyalar branchda ishlangan va CI yashil. Preset CRUD/RLS, microtopic filtr, analytics, resume, production verification OPEN. [RFC](docs/TASK210_UNIVERSAL_CUSTOM_TEST_BUILDER.md), [status](PROJECT_STATE.md), [PR #144](https://github.com/sarvar9417/attestatsiya/pull/144). |
