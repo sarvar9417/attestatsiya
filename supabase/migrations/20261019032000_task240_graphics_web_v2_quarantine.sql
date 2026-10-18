@@ -491,7 +491,9 @@ begin
     raise exception 'TASK-240 expected 53 remaining published S5.WEB questions';
   end if;
 
-  if exists (
+  -- Only the production-drift path is expected to retain a learner-ready S5
+  -- baseline. A fresh chain intentionally keeps the whole GV2 bank in review.
+  if v_quarantined=380 and exists (
     with bp as (
       select * from public.blueprints where is_active order by version desc limit 1
     ), pool as (
