@@ -26,6 +26,10 @@ export type ExamKind = 'mock' | 'bolim' | 'mavzu' | 'mashq' | 'diagnostika' | 't
 export interface TopicTestPreview {
   questionCount: number
   durationSec: number
+  /** Null bo'lsa sinov boshlash mumkin, aks holda nimaligini tushuntiradi. */
+  reason?: string | null
+  configuredCount?: number
+  availableCount?: number
 }
 
 export interface ExamGateway {
