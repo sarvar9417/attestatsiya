@@ -92,7 +92,7 @@ describe('T-014 server-authoritative natija ekrani', () => {
     expect(screen.getByText('Ball: olingan / maksimal')).toBeDefined()
     expect(screen.getByText('1 / 1 ta savol to‘g‘ri')).toBeDefined()
     expect(screen.getByText('100% natija')).toBeDefined()
-    expect(screen.getByRole('link', { name: 'Orqaga qaytish' }).getAttribute('href')).toBe('/exam')
+    expect(screen.getByRole('link', { name: 'Bo‘limga qaytish' }).getAttribute('href')).toBe('/learn')
     expect(screen.getByRole('link', { name: 'Bosh sahifa' }).getAttribute('href')).toBe('/')
 
     // 100% bo'lsa ham server passed=false bergani uchun frontend qarorni

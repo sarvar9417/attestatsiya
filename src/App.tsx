@@ -1,6 +1,6 @@
 import { useState, useEffect, lazy, Suspense } from 'react'
 import { SimpleLoadingSkeleton } from './components/ui/PageSkeleton'
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { reportWebVitals } from './lib/performance'
 import { useAuth } from './hooks/useAuth'
 import { monitoring } from './lib/monitoring'
@@ -23,6 +23,7 @@ import LearningPage from './pages/LearningPage'
 import ModulePage from './pages/ModulePage'
 import DashboardPage from './pages/DashboardPage'
 import ExamPage from './pages/ExamPage'
+import CustomTestPage from './pages/CustomTestPage'
 import ReviewPage from './pages/ReviewPage'
 import ExamHistoryPage from './pages/ExamHistoryPage'
 import ProfessionalPracticePage from './pages/ProfessionalPracticePage'
@@ -93,7 +94,7 @@ function MainLayout() {
         )}
         <main
           id="main-content"
-          className={`min-h-0 flex-1 flex flex-col overflow-y-auto scrollable ${immersiveExamRoute ? '' : 'mobile-safe-bottom'}`}
+          className={`min-h-0 flex-1 flex flex-col ${immersiveExamRoute ? 'overflow-hidden' : 'overflow-y-auto mobile-safe-bottom scrollable'}`}
         >
           {!immersiveExamRoute && (
           <div className="sticky top-0 z-20 flex items-center justify-between px-3 py-2 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-gray-100 dark:border-gray-800 lg:hidden min-h-[48px]">
@@ -105,14 +106,16 @@ function MainLayout() {
           </div>
           )}
           <Suspense fallback={<SimpleLoadingSkeleton />}>
-            <div className="animate-page-enter">
+            <div className={immersiveExamRoute ? 'animate-page-enter h-full min-h-0' : 'animate-page-enter'}>
               <Routes>
                 <Route path="/" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
                 <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
                 <Route path="/learn" element={<ProtectedRoute><LearningPage /></ProtectedRoute>} />
                 <Route path="/learn/:moduleId" element={<ProtectedRoute><ModulePage /></ProtectedRoute>} />
                 <Route path="/professional-practice" element={<ProtectedRoute><ProfessionalPracticePage /></ProtectedRoute>} />
+                <Route path="/practice/axb" element={<ProtectedRoute><Navigate to="/learn/M01?extra=axb" replace /></ProtectedRoute>} />
                 <Route path="/exam" element={<ProtectedRoute><ExamPage /></ProtectedRoute>} />
+                <Route path="/custom-test" element={<ProtectedRoute><CustomTestPage /></ProtectedRoute>} />
                 <Route path="/exam/:kind" element={<ProtectedRoute><ExamPage /></ProtectedRoute>} />
                 <Route path="/exam/:kind/:moduleId" element={<ProtectedRoute><ExamPage /></ProtectedRoute>} />
                 <Route path="/review" element={<ProtectedRoute><ReviewPage /></ProtectedRoute>} />

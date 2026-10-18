@@ -29,6 +29,16 @@ begin
 
   insert into auth.users(id,email) values (v_reviewer,'pedguli-qa-local@example.test');
 
+  -- Old fixture was deliberately length-biased; balance distractors
+  -- before signing it to exercise the stricter TASK-201 publication rule.
+  update public.question_options
+     set content_md=case order_idx
+       when 2 then 'O‘quvchi dars davomida ko‘p narsani bilib olganini his etadi'
+       when 3 then 'O‘qituvchi mavzu bo‘yicha batafsil taqdimot tayyorlab namoyish qilishga ulguradi'
+       when 4 then 'Mashg‘ulot oxirida barcha slaydlar chiroyli ko‘rinishda namoyish etiladi'
+       else content_md end
+   where question_id=v_question and side='a' and order_idx in (2,3,4);
+
   insert into public.question_editorial_checks(
     question_id,reviewer_id,answer_verified,reference_verified,
     wording_verified,original_authorship_verified,reviewer_notes,content_fingerprint)

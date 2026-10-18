@@ -40,7 +40,7 @@ from (
 cross join lateral (
   select id, subject_id, group_code
     from public.constructs
-   where is_active
+   where is_active and group_code not in ('KS','PM.GEN','PM.MET')
    order by code
    limit 1
 ) as construct;

@@ -1,0 +1,410 @@
+\documentclass[11pt,a4paper,openany,oneside]{book}
+\input{sanoq_style.tex}
+\begin{document}
+\coverpage{NAZARIYA VA YECHIMLI MASALALAR}{Sanoq sistemalarini puxta o‘zlashtirish}{Darslikdagi tushuncha → algoritm → yechim → murakkab attestatsiya vaziyati}
+\frontmatter
+\chapter*{Qo‘llanmadan foydalanish}
+\addcontentsline{toc}{chapter}{Qo‘llanmadan foydalanish}
+Ushbu nashr \textbf{2026-yil informatika o‘qituvchilari attestatsiyasi} uchun \emph{sanoq sistemalari} mavzusini izchil o‘rgatadi. Spetsifikatsiya uchta natijani talab qiladi: asoslarni bilish, sanoq sistemalari orasida o‘tkaza olish va turli asosdagi arifmetik amallarni bajara olish. Mazkur mazmun bo‘yicha imtihonda ikki topshiriq rejalashtirilgan; qo‘llanmadagi ko‘p misollar o‘sha ikki savolga tayyorlaydigan mashqdir. \source{SPETS, PDF 3–4}
+
+\begin{important}
+\textbf{Manba tartibi:} bilim va maktab terminologiyasi uchun birinchi tayanch — 7-sinf \emph{Informatika va axborot texnologiyalari} darsligining 2–4-darslari (PDF 9–20); boshqa sinflar darsliklari, 2026-yil spetsifikatsiyasi va eski attestatsiya savollari qo‘shimcha solishtirish uchun ishlatilgan. Yechimli namunalar mualliflik asosida qayta tuzilgan. Asl darslikdagi so‘zma-so‘z savollar sifatida berilmaydi.
+\end{important}
+\begin{center}
+\renewcommand{\arraystretch}{1.28}
+\begin{tabularx}{\textwidth}{@{}>{\bfseries}p{31mm}X>{\raggedright\arraybackslash}p{25mm}@{}}\toprule
+Kompetensiya & Qo‘llanmadagi qamrov & Tekshiruv \\ \midrule
+Asoslarni bilish & 1–2-boblar: asos, alifbo, pozitsiya, razryad, yozuvlarning qonuniyligi, son miqdori & A–B daraja \\
+O‘tkazish & 3–5-boblar: yoyiq yozuv, butun va kasr son, diada/triada/tetrada, ketma-ket o‘tkazish & B–D daraja \\
+Arifmetika & 6–8-boblar: to‘rtta amal, turli asosli ifoda, noma’lum asos va raqam & C–E daraja \\
+\bottomrule\end{tabularx}
+\end{center}
+\textbf{O‘rganish protokoli:} (1) ta’rifni yodlashdan oldin misol bilan tushunish; (2) yechimni yopib mustaqil hisoblash; (3) boshqa yo‘l bilan qayta tekshirish; (4) javobning \emph{asosi} va \emph{birligini} yozish; (5) test bankida C–E darajalarga alohida e’tibor berish.
+
+\tableofcontents
+\mainmatter
+\chapter{Sanoq sistemasining mohiyati}
+\sectionintro{Son bitta qiymat, lekin uni yozish shakli tanlangan asosga bog‘liq. Masalan, \(13_{10}=1101_2=15_8=\mathrm D_{16}\).}
+\section{Asosiy atamalar va ularning farqi}
+\begin{definition}
+\keyterm{Sanoq sistemasi} — sonlarni belgilash va ular bilan amallar bajarishning muayyan qoidalari tizimi. \keyterm{Raqam} — sonni yozishda qatnashadigan alohida belgi; \keyterm{son} — miqdorni ifodalovchi tushuncha. \keyterm{Alifbo} — ruxsat etilgan raqamlar to‘plami; \keyterm{asos} \(p\) — shu to‘plamdagi turli raqamlar soni; \keyterm{razryad} — raqamning yozuvdagi o‘rni. \source{ICT7, PDF 9–11}
+\end{definition}
+\textbf{Misol:} \(256\) yozuvida uchta raqam bor; ularning belgilari \(2,5,6\). Lekin \(256\) — bitta son. \(101_2\) yozuvida esa raqamlar soni uchta bo‘lsa-da, miqdor \(5_{10}\) ga teng.
+
+\section{Sanoq sistemasining asosi va alifbosi}
+\begin{center}\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{@{}c l X l@{}}\toprule
+Asos & Nomi & Ruxsat etilgan belgilar & Oxirgi raqam \\ \midrule
+2 & ikkilik & 0, 1 & 1 \\
+3 & uchlik & 0, 1, 2 & 2 \\
+4 & to‘rtlik & 0, 1, 2, 3 & 3 \\
+8 & sakkizlik & 0, 1, 2, 3, 4, 5, 6, 7 & 7 \\
+10 & o‘nlik & 0, 1, \ldots, 9 & 9 \\
+12 & o‘n ikkilik & 0–9, A, B & B \\
+16 & o‘n oltilik & 0–9, A, B, C, D, E, F & F \\
+\bottomrule\end{tabularx}\end{center}
+\textbf{Muhim qoida:} asos \(p\) bo‘lsa, raqam qiymati \(0\le a_i<p\). \(p>10\) bo‘lganda \(A=10, B=11,\ldots, F=15\) deb olinadi. Asos indeksda ko‘rsatiladi: \(\bn{1011}{2}\), \(\bn{7A}{16}\). \source{ICT7, PDF 10–11}
+\begin{worked}
+\(\bn{5072}{8}\) to‘g‘ri yozilganmi? Ha: 5, 0, 7, 2 raqamlarining barchasi sakkizdan kichik. \(\bn{5182}{8}\) esa noto‘g‘ri: bu yozuvda 8 raqami qatnashgan. \(\bn{2F}{16}\) to‘g‘ri, chunki \(F=15<16\).
+\end{worked}
+\begin{important}
+Raqamning o‘zida ko‘rsatilgan belgini asos bilan adashtirmang: \(\bn{10}{8}\) — o‘n emas, sakkiz. Asos 8 bo‘lgani uchun 7 dan keyingi son \(10_8\) tarzida yoziladi.
+\end{important}
+\section{Pozitsiyali va pozitsiyali bo‘lmagan sistemalar}
+\begin{definition}
+\keyterm{Pozitsiyali} sistemada raqamning hissasi qaysi xonada yozilganiga bog‘liq. Masalan, \(232_{10}\) sonidagi ikki dona 2 turli razryadlarda: 200 va 2 ni bildiradi. \keyterm{Pozitsiyali bo‘lmagan} tizimda belgilarning o‘zi asosiy qiymatlarni ifodalaydi; Rim raqamlari maktabdagi asosiy misol. \source{ICT7, PDF 10–12}
+\end{definition}
+Rim yozuvida \(I=1,V=5,X=10,L=50,C=100,D=500,M=1000\). Standart ayirma juftlariga (masalan, IV, IX, XL, XC, CD, CM) e’tibor beriladi. \(\mathrm{MCMXCIV}=1994\). Rim yozuviga \(p\) asosli pozitsiyali yoyiq formula bevosita qo‘llanmaydi.
+\subsection{Darslikdagi tarixiy sanoq sistemalari}
+7-sinf darsligining tarixiy ma'lumotlarida dastlabki hisoblash belgilaridan arqon tugunlari, tosh va taxta belgilari keltiriladi. Barmoqlarda hisoblash beshlik, o'nlik, o'n ikkilik va yigirmalik sanoq tizimlarining shakllanishi bilan bog'lanadi. Darslikda Afrikaning ayrim hududlari va Xitoydagi beshlik, qadimgi Misrdagi o'nlik hamda Mayya xalqidagi yigirmalik tizim misol qilinadi. \source{ICT7, PDF 9--10}
+
+\begin{important}
+Qadimgi Misrning o'nlik belgilarga tayangan tizimi bilan hozirgi pozitsiyali o'nlik yozuvni adashtirmang: ikkisi ham o'nlik miqdorlarga asoslanishi mumkin, ammo ramzlarning razryadga bog'liqligi farq qiladi. \source{ICT7, PDF 9--10}
+\end{important}
+\begin{worked}
+Tarixiy tizim haqidagi manbani aynan nusxalamasdan, pozitsiyali asoslar bilan mustaqil mashq qilamiz: \(\bn{34}{5}=3\cdot5+4=19_{10}\) va \(\bn{1A}{12}=12+10=22_{10}\).
+\end{worked}
+
+\section{Ketma-ket sanash va xonalar almashinuvi}
+\(4\)-likda: \(0,1,2,3,10,11,12,13,20,\ldots,33,100\). Bir xonadagi eng katta raqamdan keyin navbatdagi xonaga o‘tiladi.
+\begin{worked}
+\(\bn{127}{8}\) dan keyingi sonni yozing: oxirgi 7 raqami 0 ga aylanadi, oldingi 2 birga oshadi. Natija: \(\bn{130}{8}\). \(\bn{FF}{16}+1=\bn{100}{16}\).
+\end{worked}
+\begin{mistake}
+\(\bn{19}{8}\) yoki \(\bn{2A}{10}\) qiymatini hisoblashga urinishdan avval yozuvning \emph{qonuniyligi} tekshiriladi. Bu raqamlar o‘sha alifboda yo‘q.
+\end{mistake}
+
+\chapter{Razryad, yoyiq yozuv va chegaralar}
+\section{Darajali yozuv}
+\sectionintro{Pozitsiyali sanoq sistemasidagi son — asos darajalarining mos raqamlarga ko‘paytmalari yig‘indisidir.}
+\begin{definition}
+\(p\) asosli \(a_na_{n-1}\ldots a_0\) butun sonning qiymati
+\[\boxed{(a_na_{n-1}\ldots a_0)_p=\sum_{i=0}^{n}a_ip^i}\]
+bo‘ladi. Butun sonning o‘ng chetidagi razryad \(p^0=1\), undan chapdagi \(p^1\), so‘ng \(p^2\) va hokazo. \source{ICT7, PDF 11}
+\end{definition}
+\begin{worked}
+\[\bn{2A3}{16}=2\cdot16^2+10\cdot16+3=512+160+3=\bn{675}{10}.\]
+\[\bn{132}{5}=1\cdot5^2+3\cdot5+2=\bn{42}{10}.\]
+Natijani aniqlagach, sonning yoniga yangi asosni yozish shart.
+\end{worked}
+\section{Gorner sxemasi: tezroq hisoblash}
+Ko‘p xonali sonni ketma-ket ko‘paytirish va qo‘shish bilan hisoblash mumkin. Masalan, \(\bn{3241}{5}\) ni Gorner sxemasida yozamiz:
+\[((3\cdot5+2)\cdot5+4)\cdot5+1=(17\cdot5+4)\cdot5+1=89\cdot5+1=446.\]
+\begin{important}
+Gorner sxemasi ham, darajali yoyish ham bir xil qiymat berishi kerak. Attestatsiya masalasida bitta yondashuv bilan topib, ikkinchisi bilan tekshirish hisob xatolarini kamaytiradi.
+\end{important}
+\section{Kasr razryadlari}
+Verguldan (yoki nuqtadan) o‘ng tomonda \(p^{-1},p^{-2},\ldots\) vaznlar joylashadi:
+\[\bn{101{,}101}{2}=1\cdot2^2+1\cdot2^0+1\cdot2^{-1}+1\cdot2^{-3}=\bn{5{,}625}{10}.\]
+\begin{worked}
+\(\bn{2A{,}8}{16}\) qiymatini o‘nlikda aniqlang:
+\[2\cdot16+10+8\cdot16^{-1}=42+0{,}5=42{,}5.\]
+\end{worked}
+\section{Eng katta, eng kichik va sonlar soni}
+\begin{center}\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{@{}X X@{}}\toprule
+Vaziyat & Qonuniyat \\ \midrule
+\(n\) xonali eng kichik musbat son & \(10\ldots0_p=p^{n-1}\) \\
+\(n\) xonali eng katta son & \((p-1)(p-1)\ldots(p-1)_p=p^n-1\) \\
+\(n\) xonali sonlar soni (boshi 0 emas) & \((p-1)p^{n-1}\) \\
+\(n\) razryadli kodlar soni (boshidagi 0 ruxsat) & \(p^n\) \\
+\(n\) bitli ishorasiz qiymatlar & \(0,1,\ldots,2^n-1\) \\
+\bottomrule\end{tabularx}\end{center}
+\begin{worked}
+5 xonali uchlik sonlar nechta? \((3-1)3^4=162\). Eng kattasi \(\bn{22222}{3}=3^5-1=242\). Eng kichigi \(\bn{10000}{3}=81\). Besh belgili \emph{kod} esa \(3^5=243\) ta: bunda \(00000\) ham ruxsat.
+\end{worked}
+\begin{mistake}
+\emph{«5 razryadli kod»} va \emph{«5 xonali son»} bir xil sanalmaydi: sonning birinchi raqami noldan boshqa bo‘lishi lozim; qat’iy uzunlikli kodda oldingi nollar ham qonuniy.
+\end{mistake}
+
+\chapter{Butun sonlarni o‘tkazish}
+\section{Ixtiyoriy asosdan o‘nlikka}
+Eng ishonchli yo‘l — yoyiq yozuv. \(\bn{317}{8}=3\cdot64+1\cdot8+7=207_{10}\). Ko‘p xonali son uchun Gorner sxemasi foydali. \source{ICT7, PDF 13–15}
+\begin{worked}
+\(\bn{3D2}{16}\) ni o‘nlikka o‘tkazing:
+\[3\cdot16^2+13\cdot16+2=768+208+2=978.\]
+\textbf{Tekshiruv:} \(978:16=61\) (qoldiq 2), \(61:16=3\) (qoldiq 13) \(\Rightarrow 3D2_{16}\).
+\end{worked}
+\section{O‘nlikdan boshqa asosga: qoldiqli bo‘lish}
+\begin{definition}
+\(N_{10}\) ni \(p\) asosli butun songa o‘tkazish uchun \(N\) ni \(p\) ga ketma-ket \emph{butun bo‘lish} kerak. Qoldiqlar \textbf{oxirgisidan boshlab teskari tartibda} yoziladi. \source{ICT7, PDF 15}
+\end{definition}
+\begin{worked}
+\(202_{10}\) ni sakkizlikka o‘tkazing:
+\[\begin{aligned}
+202 &= 25\cdot8+2,\\ 25&=3\cdot8+1,\\3&=0\cdot8+3.
+\end{aligned}\]
+Pastdan yuqoriga: \(\boxed{\bn{202}{10}=\bn{312}{8}}\). Tekshiruv: \(3\cdot64+1\cdot8+2=202\).
+\end{worked}
+\begin{worked}
+\(4094_{10}\) ni o‘n oltilikka o‘tkazing:
+\(4094=255\cdot16+14\;(E)\), \(255=15\cdot16+15\;(F)\), \(15=0\cdot16+15\;(F)\). Natija: \(\bn{FFE}{16}\).
+\end{worked}
+\section{Ikki o‘nlik bo‘lmagan asos orasidagi ko‘prik}
+Agar \(p\) va \(q\) asoslarining o‘zaro tezkor guruhlash qoidasi bo‘lmasa, avval o‘nlikka o‘tkazing, keyin yangi asosga o‘ting.
+\begin{worked}
+\(\bn{243}{5}\to ?_7\). Avval \(2\cdot25+4\cdot5+3=73_{10}\). \(73=10\cdot7+3\), \(10=1\cdot7+3\), \(1=0\cdot7+1\). Demak, \(\bn{243}{5}=\bn{133}{7}\).
+\end{worked}
+\begin{important}
+\textbf{Y2 moslashtirish mashqi:} \(\bn{1011110}{2}\), \(\bn{136}{8}\), \(\bn{5E}{16}\) yozuvlari bir xil \(94_{10}\) qiymatni bildiradi. Elektron testda chapdagi sanoq tizimlari o'ngdagi mos yozuvlar bilan alohida juftlanadi. Bu uslub 2026-yil spetsifikatsiyasidagi Y2 turiga mosdir. \source{ICT7, PDF 13--16; SPETS, PDF 3--4; SS-E-002}
+\end{important}
+\section{Raqamning asosi o‘zgarganda qiymat o‘zgarmaydi}
+\(\bn{1111}{2}=\bn{17}{8}=\bn{15}{10}=\bn{F}{16}\). Bir-biriga teng yozuvlarda belgilar soni farq qiladi, lekin sonning miqdori bir xil.
+\begin{important}
+«\(\bn{101}{2}\) ni 10 ga o‘tkazing» degan savolda 101 raqamlarini odatdagi o‘nlik son sifatida o‘qish xato. Avval asosni aniqlang, so‘ng darajali yoki qoldiqli algoritmni tanlang.
+\end{important}
+
+\chapter{Kasrlarni o‘tkazish va davriylik}
+\section{O‘nlik kasrni boshqa asosga ko‘paytirish}
+Kasr qism \(p\) ga ko‘paytiriladi; har qadamda hosil bo‘lgan \emph{butun qism} yozib olinadi. Bu safar butun qismlar \textbf{yuqoridan pastga} o‘qiladi. \source{ICT7, PDF 13–16; AXB, PDF 34}
+\begin{worked}
+\(\bn{0{,}6875}{10}\to ?_2\):
+\[\begin{aligned}
+0{,}6875\cdot2&=1{,}375 &&\Rightarrow 1,\\
+0{,}375\cdot2&=0{,}75 &&\Rightarrow 0,\\
+0{,}75\cdot2&=1{,}5 &&\Rightarrow 1,\\
+0{,}5\cdot2&=1{,}0 &&\Rightarrow 1.
+\end{aligned}\]
+\(\boxed{\bn{0{,}6875}{10}=\bn{0{,}1011}{2}}\). Tekshiruv: \(\tfrac12+\tfrac18+\tfrac1{16}=\tfrac{11}{16}\).
+\end{worked}
+\section{Butun va kasr qismini alohida o‘tkazish}
+\(\bn{13{,}625}{10}\) uchun \(13_{10}=1101_2\) va \(0{,}625_{10}=0{,}101_2\). Natija \(\bn{1101{,}101}{2}\).
+\section{Tugaydigan va davriy kasrlar}
+\(\tfrac12=0{,}1_2\), \(\tfrac18=0{,}001_2\) kabi kasrlar ikkilikda tugaydi. \(0{,}1_{10}\) esa ikkilikda tugamaydigan davriy kasr hosil qiladi: berilgan bit soniga qisqartirilsa, yaqinlashtirish yuz beradi. \emph{Bitta asosdagi kasr barcha asoslardagi yozuvda tugaydi} degan fikr noto‘g‘ri.
+\begin{important}
+To‘xtash sharti masalada belgilangan aniqlikka bog‘liq. Kasr ko‘paytirishida oraliq kasr 0 ga aylansa, aniq yozuv tugaydi; aks holda masaladagi bitlar soni yoki yaxlitlash mezoniga rioya qiling.
+\end{important}
+\section{Verguldan keyingi guruhlarni saqlash}
+\(\bn{1011{,}101}{2}\) sakkizlikka aylantirilsa, \(001\;011\,.\,101\Rightarrow\bn{13{,}5}{8}\). \textbf{Kasrdagi} guruhlash verguldan \emph{o‘ngga}, butun qismniki esa o‘ngdan \emph{chapga} yuradi.
+
+\chapter{Diada, triada, tetrada}
+\section{Nega guruhlash ishlaydi?}
+Asoslar \(4=2^2\), \(8=2^3\), \(16=2^4\) bo‘lgani uchun ikkilikni mos ravishda 2, 3, 4 bitli guruhlarga ajratish mumkin. Maktab darsligida bular \keyterm{diada}, \keyterm{triada} va \keyterm{tetrada} deb yuritiladi. \source{ICT7, PDF 13–16}
+\begin{center}\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}c c c c@{}}\toprule
+Qiymat (10) & 2-lik & 8-lik (triada) & 16-lik (tetrada) \\ \midrule
+0 & 0000 & 000 & 0000 \\
+1 & 0001 & 001 & 0001 \\
+2 & 0010 & 010 & 0010 \\
+3 & 0011 & 011 & 0011 \\
+4 & 0100 & 100 & 0100 \\
+5 & 0101 & 101 & 0101 \\
+6 & 0110 & 110 & 0110 \\
+7 & 0111 & 111 & 0111 \\
+8 & 1000 & -- & 1000 \\
+9 & 1001 & -- & 1001 \\
+10/A & 1010 & -- & 1010 \\
+11/B & 1011 & -- & 1011 \\
+12/C & 1100 & -- & 1100 \\
+13/D & 1101 & -- & 1101 \\
+14/E & 1110 & -- & 1110 \\
+15/F & 1111 & -- & 1111 \\
+\bottomrule\end{tabular}\end{center}
+\section{Triada: ikkilik va sakkizlik}
+\begin{worked}
+\(\bn{1101011101}{2}\) ni sakkizlikka aylantiring. O‘ngdan 3 talik bo‘linadi: \(001\;101\;011\;101\); triadalar \(1,5,3,5\). \(\boxed{\bn{1535}{8}}\).
+\end{worked}
+\section{Tetrada: ikkilik va o‘n oltilik}
+\begin{worked}
+\(\bn{5C9}{16}\) ni ikkilikka aylantiring:
+\(5\to0101,\ C\to1100,\ 9\to1001\). Demak \(0101\;1100\;1001_2=10111001001_2\). Boshdagi bitta 0 sonni o‘zgartirmaydi.
+\end{worked}
+\section{Diada: ikkilik va to‘rtlik}
+\(\bn{1100111010}{2}=\underbrace{11}_{3}\underbrace{00}_{0}\underbrace{11}_{3}\underbrace{10}_{2}\underbrace{10}_{2}=\bn{30322}{4}\).
+\section{Sakkizlik bilan o‘n oltilik orasida}
+To‘g‘ridan-to‘g‘ri bir raqamdan boshqasiga moslik yo‘q: avval ikkilik ko‘prik. Masalan, \(\bn{37}{8}=011\;111_2=0001\;1111_2=\bn{1F}{16}\).
+\begin{mistake}
+\(8\leftrightarrow16\) o‘tkazishda triada va tetradani alohida joylarga bir xilda tekislamang; avval butun ikkilik ketma-ketlikni yozing, keyin qaytadan \emph{o‘ngdan} tetradalarga ajrating.
+\end{mistake}
+\section{Bitlar soni bilan tez tekshirish}
+\(n\) ta sakkizlik raqam odatda 3\(n\) bit bilan, \(n\) ta o‘n oltilik raqam 4\(n\) bit bilan ifodalanadi (boshlang‘ich nollar hisobga olinganda). Masalan, 4 xonali hex sonning to‘liq tetrada yozuvi 16 bit bo‘ladi.
+
+\chapter{Turli asoslarda arifmetik amallar}
+\section{Umumiy qoida: ko‘tarma va qarzning qiymati asosga teng}
+\begin{definition}
+\(p\) asosli qo‘shishda xonadagi yig‘indi \(\ge p\) bo‘lsa, natija \(p\) ga bo‘linadi: qoldiq joriy xonaga, bo‘linma keyingi razryadga yoziladi. Ayirishda o‘ng xonaga «qarz» olish \(p\) birlik qo‘shadi. \source{ICT7, PDF 17–20}
+\end{definition}
+\begin{important}
+\textbf{Y3 ketma-ketlik mashqi:} turli asosli arifmetik ifoda uchun (1) operandlarning asoslari va raqamlarining qonuniyligi tekshiriladi; (2) ular umumiy asosga keltiriladi; (3) amallar bajariladi; (4) natija talab etilgan asosga o'tkaziladi. Elektron Y3 topshiriqda shu bosqichlarning barchasi to'g'ri tartibga qo'yiladi. \source{ICT7, PDF 17--20; SPETS, PDF 3--4; SS-E-008}
+\end{important}
+\section{Qo‘shish}
+\begin{worked}
+\(\bn{576}{8}+\bn{345}{8}\) ni sakkizlikda hisoblang. Oxirgi xona: \(6+5=11_{10}=13_8\), 3 yozilib 1 ko‘tariladi. Keyingi xona: \(7+4+1=12_{10}=14_8\), 4 va 1 ko‘tarma. Yuqori xona: \(5+3+1=9_{10}=11_8\). Natija \(\boxed{\bn{1143}{8}}\). Tekshiruv: \(382+229=611_{10}\), \(1143_8=611_{10}\).
+\end{worked}
+\begin{worked}
+\(\bn{A7}{16}+\bn{5D}{16}\) ni hisoblang. \(7+D=7+13=20=16+4\), 4 va ko‘tarma 1. \(A+5+1=16\), natija \(\boxed{\bn{104}{16}}\).
+\end{worked}
+\section{Ayirish}
+\begin{worked}
+\(\bn{602}{8}-\bn{275}{8}\) ni hisoblang. \(2-5\) mumkin emas: 1 ta qarz olib \(2+8-5=5\). O‘rtadagi 0 (qarzdan keyin -1) bilan ishlaganda yuqori razryaddan qarz olish kerak; natija \(\boxed{\bn{305}{8}}\). Tekshiruv: \(386_{10}-189_{10}=197_{10}=305_8\).
+\end{worked}
+\section{Ko‘paytirish va bo‘lish}
+\begin{worked}
+\(\bn{13}{8}\cdot\bn{5}{8}\) ni sakkizlikda ko‘paytiring: \(13_8=11_{10}\), \(11\cdot5=55_{10}=67_8\). Natija \(\boxed{\bn{67}{8}}\). Muqobil yo‘l — uzun ko‘paytirishda har xona ko‘tarmasini 8 asosda hisoblash.
+\end{worked}
+\begin{worked}
+\(\bn{144}{8}:\bn{4}{8}\). \(144_8=100_{10}\), \(100:4=25_{10}=31_8\). \(\boxed{\bn{31}{8}}\); tekshiruv \(31_8\cdot4_8=144_8\).
+\end{worked}
+\section{Ikkilik arifmetika jadvali}
+\begin{center}\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}l l l@{}}\toprule
+Qo‘shish & Ayirish & Ko‘paytirish \\ \midrule
+\(0+0=0\) & \(0-0=0\) & \(0\cdot0=0\) \\
+\(1+0=1\) & \(1-0=1\) & \(0\cdot1=0\) \\
+\(1+1=10_2\) & \(10_2-1=1\) & \(1\cdot1=1\) \\
+\(1+1+1=11_2\) & \(1-1=0\) & \(1\cdot0=0\) \\
+\bottomrule\end{tabular}\end{center}
+\begin{worked}
+\[\bn{11011}{2}+\bn{10101}{2}=\bn{110000}{2},\qquad
+\bn{10111}{2}\cdot\bn{101}{2}=\bn{1110011}{2}.\]
+Tekshirish: \(27+21=48\), \(23\cdot5=115\).
+\end{worked}
+\section{Kasr sonlar ustida amallar}
+\begin{worked}
+\(\bn{101{,}11}{2}+\bn{1{,}01}{2}=\bn{111{,}00}{2}=\bn{111}{2}\). Tekshiruv: \(5{,}75+1{,}25=7\). Vergullarni moslab, teng razryadlarda ishlash lozim. \source{ICT7, PDF 18}
+\end{worked}
+\section{Aralash sanoq sistemalari}
+\begin{important}
+Turli asosli sonlar qatnashgan ifodada \emph{raqamlar satrlarini} to‘g‘ridan-to‘g‘ri qo‘shmang. Avval har bir operandning qiymatini bir xil asosda ifodalang, so‘ng amallarni bajaring va so‘ralgan asosga qaytaring.
+\end{important}
+\begin{worked}
+\(\bn{10110}{2}+\bn{27}{8}-\bn{A}{16}\) ning o‘nlik qiymatini toping:
+\[22+23-10=\boxed{35_{10}}.\]
+\end{worked}
+\begin{worked}
+\(\bn{12A}{16}-\bn{75}{8}\) ni ikkilikda yozing. \(12A_{16}=298_{10}\), \(75_8=61_{10}\); farq \(237_{10}=\boxed{11101101_2}\).
+\end{worked}
+
+\chapter{Noma’lum asos, raqam va mantiqiy tahlil}
+\section{Noma’lum asosni topish}
+\sectionintro{Asos — topiladigan noma’lum butun son; barcha raqamlar shu asosdan kichik bo‘lishi shart. Tenglamaning algebraik ildizi hamisha yaroqli asos degani emas.}
+\begin{worked}
+\(\bn{42}{p}=30_{10}\) bo‘lsa, \(4p+2=30\), ya’ni \(p=7\). Bu yechim yaroqli, chunki eng katta raqam 4 va \(7>4\).
+\end{worked}
+\begin{worked}
+\(\bn{121}{p}=36_{10}\). \(p^2+2p+1=36\Rightarrow(p+1)^2=36\Rightarrow p=5\) (manfiy ildiz rad qilinadi). Tekshiruv: \(25+10+1=36\).
+\end{worked}
+\section{Noma’lum raqam}\begin{worked}
+\(\bn{2x3}{8}=147_{10}\) bo‘lsa, \(128+8x+3=147\Rightarrow8x=16\Rightarrow x=2\). Yechim raqam oralig‘ida: \(0\le2\le7\).
+\end{worked}
+\section{Noma’lum asosning yagona bo‘lmasligi}
+\(\bn{123}{p}\) yozuvi uchun raqamlar qonuniy bo‘lishi faqat \(p\ge4\) shartini beradi, \emph{p ning aniq qiymatini} emas. Qo‘shimcha tenglik yoki shart talab qilinadi.
+\section{O‘sish-kamayish tartibi}
+\begin{worked}
+\(\bn{10111}{2}\), \(\bn{27}{8}\), \(\bn{1A}{16}\) ni o‘sish tartibida qo‘ying. \(23_{10},23_{10},26_{10}\); demak, dastlabki ikkitasi teng, uchinchisi katta. «Qat’iy o‘sish» deb yozib yuborish noto‘g‘ri.
+\end{worked}
+\section{Asos chegaralari orqali tez taqqoslash}
+\(p>1\) bo‘lganda \(p\) asosli \(n\) xonali musbat son \(p^{n-1}\) dan \(p^n-1\) gacha qiymat oladi. Shuning uchun bir xil asosda xonalar soni katta bo‘lsa, boshida 0 bo‘lmagan son ham katta. Turli asoslar orasida esa faqat xonalar sonini solishtirish yetarli emas.
+\section{Qoldiqlar va bo‘linish alomatlari}
+\(p\) asosli butun sonning eng oxirgi raqami \(p\) ga bo‘lgandagi qoldiqni beradi. Masalan, \(\bn{2341}{5}\) soni 5 ga bo‘linganda qoldiq 1. Chunki \(p^k\) (\(k\ge1\)) ning p ga qoldig‘i 0.
+\begin{worked}
+\(\bn{2B7}{16}\) ning 16 ga bo‘lgandagi qoldig‘i nechchi? So‘nggi raqam \(7\), demak qoldiq \(7_{10}\). \(16^2\) yoki butun sonni o‘nlikka o‘tkazish shart emas.
+\end{worked}
+\section{Ketma-ket amalning yagona to‘g‘ri tartibi}
+Aralash ifodani xavfsiz yechish:
+\begin{enumerate}
+\item Har operandning asosini va qonuniyligini tekshirish.
+\item Kerak bo‘lsa, bir xil asosga o‘tkazish.
+\item Qavs, ko‘paytirish/bo‘lish, qo‘shish/ayirish tartibida hisoblash.
+\item So‘ralgan asosga o‘tkazish.
+\item Teskari hisoblash yoki boshqa usul bilan tekshirish.
+\end{enumerate}
+Bu ketma-ketlik Y3 turidagi topshiriqlarga tayyorlaydi.
+
+\chapter{Kompyuterda sonlarning ifodalanishi}
+\section{Ishorasiz butun son}
+\(n\) bitli qat’iy uzunlikli ishorasiz kodda \(2^n\) ta holat mavjud va sonlar \(0\) dan \(2^n-1\) gacha qiymat oladi. Masalan, 8 bitli ishorasiz butun sonlarda \(0\ldots255\). \source{ICT7, PDF 19}
+\section{Ishora-modul va qo‘shimcha kod — alohida modellar}
+7-sinf darsligi 8 xonali katakdagi chapdagi bitni ishora sifatida ajratib, qolgan bitlarda modulni tasvirlash modelini bayon qiladi. Bunday \emph{ishora-modul} usulida 8 bitdagi musbat va manfiy modullar chegarasi \(127\), shuningdek \(+0\) va \(-0\) kodlari mavjud. \emph{Ikkining to‘ldiruvchisi} (two's complement) esa boshqa amaliy model: 8 bitda odatda \(-128\ldots127\). Testda qaysi model berilganini aniqlash zarur. \source{ICT7, PDF 19}
+\begin{important}
+Darslik modelini zamonaviy protsessorlarning universal ishlash prinsipi sifatida umumlashtirmang. «Ishora-modul» va «two's complement» chegaralari har xil. Model aytilmagan savol ikki ma’noli bo‘lishi mumkin.
+\end{important}
+\section{Qo‘zg‘almas va qo‘zg‘aluvchan nuqta}
+Darslikda qo‘zg‘almas va qo‘zg‘aluvchan nuqtali tasvir tushunchalari o‘rgatiladi. Son \(m\cdot p^e\) ko‘rinishda yozilganda \(m\) — mantissa, \(e\) — daraja/tartib. Aniqlik (signifikand bitlari) cheklanganligi sababli ayrim kasrlarning yaqinlashtirib saqlanishi mumkin. \source{ICT7, PDF 19–20}
+
+\chapter{Murakkab attestatsiya masalalari}
+\sectionintro{Bu bobda bir savol ichida ikki yoki undan ortiq ko‘nikma tekshiriladi. Har yechimda natija ham, tekshiruv ham keltiriladi.}
+\begin{worked}
+\textbf{1-masala.} Sinfdagi jami o‘quvchilar \(\bn{2D}{16}\), o‘g‘il bolalar \(\bn{19}{16}\). Qizlar sonini o‘nlikda toping.
+\(2D_{16}=45\), \(19_{16}=25\), farq \(20\). \textbf{Javob:} \(20_{10}\). \emph{Ilhom manbasi: 13.04.2026 testlar, PDF 8, 16-lik sondan ayirish tipidagi savol; raqamlar yangilangan.}
+\end{worked}
+\begin{worked}
+\textbf{2-masala.} \(\bn{1A}{16}+\bn{34}{8}-\bn{101}{2}\) ning o‘nlik qiymati nechchi?
+\[26+28-5=\boxed{49}.\]
+Tekshiruv: \(49_{10}=31_{16}\).
+\end{worked}
+\begin{worked}
+\textbf{3-masala.} \(\bn{3x}{7}=26_{10}\) dagi \(x\) ni toping. \(21+x=26\), \(x=5\). \(x<7\) bo‘lgani uchun javob yaroqli.
+\end{worked}
+\begin{worked}
+\textbf{4-masala.} \(\bn{110110}{2}\) va \(\bn{66}{8}\) tengmi? \(110110_2=54_{10}\), \(66_8=54_{10}\). Ha, teng; turli yozuvlar bitta miqdorni ifodalagan.
+\end{worked}
+\begin{worked}
+\textbf{5-masala.} \(\bn{A0}{16}\) sonini ikkilikka o‘tkazib, 8 bitdan iboratligini tekshiring. \(A=1010_2,0=0000_2\Rightarrow10100000_2\). Sakkiz bitdan iborat, qiymati \(160_{10}\).
+\end{worked}
+\begin{worked}
+\textbf{6-masala.} \(\bn{144}{p}=84_{10}\) bo‘lsa, \(p^2+4p+4=84\Rightarrow(p+2)^2=84\). Butun \(p\) topilmaydi. Demak, masalada \emph{musbat butun sanoq asosi} mavjud emas. Bu noto‘g‘ri shartli savolga misol.
+\end{worked}
+\begin{worked}
+\textbf{7-masala.} \(\bn{10011}{2}\cdot\bn{7}{8}+\bn{D}{16}\) ni 16-likka o‘tkazing: \(19\cdot7+13=146_{10}=\bn{92}{16}\).
+\end{worked}
+\begin{worked}
+\textbf{8-masala.} \(\bn{3C}{16}\) ni 4-likka o‘tkazing. \(3C_{16}=0011\;1100_2=00\;11\;11\;00_2=\bn{330}{4}\). Tekshiruv: \(3\cdot16+3\cdot4=60_{10}\).
+\end{worked}
+\section{Natijani tekshirishning beshta usuli}
+\begin{enumerate}
+\item \textbf{Yoyiq yozuv:} yozuvni asos darajalariga ajratish.
+\item \textbf{Teskari o‘tkazish:} hisoblangan natijani dastlabki asosga qaytarish.
+\item \textbf{Arifmetik tekshiruv:} ayirishni qo‘shish bilan, bo‘lishni ko‘paytirish bilan tekshirish.
+\item \textbf{Qiymat chegarasi:} xonalar sonidan minimal va maksimal qiymatni baholash.
+\item \textbf{Alifboni tekshirish:} hech bir raqam asosga teng yoki katta emasligini tasdiqlash.
+\end{enumerate}
+\section{Tezkor diagnostika — javobni berkitib ishlang}
+\begin{enumerate}
+\item \(\bn{2F}{16}\to ?_{10}\).
+\item \(\bn{1011110}{2}\to ?_8\).
+\item \(\bn{356}{8}+\bn{127}{8}=?_8\).
+\item \(\bn{23}{p}=19_{10}\) bo‘lsa, \(p=?\).
+\item \(\bn{1101{,}01}{2}\to ?_{10}\).
+\item \(\bn{2B}{16}-\bn{17}{8}=?_{10}\).
+\end{enumerate}
+\textbf{Javoblar:} 1) 47; 2) \(136_8\); 3) \(505_8\); 4) 8; 5) \(13{,}25\); 6) \(43-15=28\). Har javobda yozuvning asosini ham ko‘rsating.
+
+\chapter{Xatolar reyestri va yechish strategiyasi}
+\begin{center}\small\renewcommand{\arraystretch}{1.3}\begin{tabularx}{\textwidth}{@{}p{38mm}X@{}}\toprule
+Xato & To‘g‘ri qaror \\ \midrule
+Raqamni son bilan chalkashtirish & Alifbodagi bitta belgi — raqam; bir yoki ko‘p raqamli yozuv — son \\
+Asosdan katta raqamni qabul qilish & Har raqam \(0\le a<p\) shartni bajarsin \\
+Qoldiqni teskari yozmaslik & Bo‘lish algoritmida pastdan yuqoriga \\
+Kasrni noto‘g‘ri o‘qish & Ko‘paytirishda butun qismlar yuqoridan pastga \\
+Triada/tetradani chapdan ajratish & Butun qismni o‘ngdan; kasr qismini chapdan guruhlash \\
+Aralash asosdagi sonlarni bevosita qo‘shish & Avval yagona asosda hisoblash \\
+Noma’lum asosni nazoratsiz qoldirish & Butun \(p>\max(a_i)\) shartni tekshirish \\
+Ikki raqam bilan ikki xonali kodni chalkashtirish & Boshdagi nol kodda mumkin; odatiy son yozuvida eng oldingi nol kerakmas \\
+Ishora kodlarini aralashtirish & Ishora-modul va ikki to‘ldiruvchisi alohida model \\
+\bottomrule\end{tabularx}\end{center}
+\section{5–10 daqiqalik takrorlash jadvali}
+\begin{enumerate}
+\item 2 daqiqa: asos, raqam va darajali yozuvni so‘zlab berish.
+\item 3 daqiqa: ikki xil o‘tkazish va bir triada/tetrada mashqi.
+\item 3 daqiqa: bir aralash asosli ifoda.
+\item 2 daqiqa: noma’lum asos yoki xatoni topish.
+\end{enumerate}
+\begin{important}
+Bu kitobdagi misollar yakuniy imtihon savollarining kafolatlangan nusxasi emas. Ular 2026-yil spetsifikatsiyasidagi kompetensiyalarga muvofiq \emph{mustaqil tuzilgan mashqlar}; haqiqiy testlarning matnlari va shakli o‘zgarishi mumkin.
+\end{important}
+
+\appendix
+\chapter{Manbalar va qamrov reyestri}
+\begin{center}\small\renewcommand{\arraystretch}{1.18}\begin{tabularx}{\textwidth}{@{}p{21mm}X p{34mm}@{}}\toprule
+Kod & Manba va yo‘nalish & PDF betlari \\ \midrule
+SPETS & 2026-yil Informatika va axborot texnologiyalari o‘qituvchilari uchun malaka sinovi spetsifikatsiyasi & 3–4 (Sanoq: 4) \\
+ICT7 & 7-sinf Informatika va axborot texnologiyalari (2021); 2-, 3-, 4-darslar & 9–20 \\
+ICT5 & 5-sinf Informatika va axborot texnologiyalari (2020); axborotni kodlash va birliklar bilan aloqador tushunchalar & 17–23 \\
+CAM10–11 & Cambridge moslashtirilgan 10–11-sinf informatika; hisoblash va kodlash mavzulari uchun qo‘shimcha manba & mavzuga oid boblar \\
+AXB & \emph{Axborot va axborot jarayonlari} avvalgi attestatsiya qo‘llanmasi, 6-bob & 32–36 \\
+TEST2019 & \emph{Test.pdf}: «Sanoq sistemalari va ular ustida amallar bajarish» testlari (eski savollarda xato bo‘lishi mumkinligi qayd etilgan) & 34–36 va keyingi betlar \\
+APR2026 & \emph{13.04.2026 Attetasiya Tushgan savollar.pdf}, 16-lik sinf sonlari masalasi & 8 \\
+\bottomrule\end{tabularx}\end{center}
+\textbf{Manba siyosati:} darsliklar mavzu va terminologiyada ustuvor; yangi namunalar esa mustaqil ishlab chiqilgan. Eski testlarda xatolar ehtimoli sababli, ularning javoblari tekshiruvsiz ko‘chirilmagan. Mualliflik huquqi bilan himoyalangan darsliklar katta hajmda aynan takrorlanmagan.
+\end{document}

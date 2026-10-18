@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import CustomTestPoolCoverage from '../../features/admin/CustomTestPoolCoverage'
 import {
   AlertTriangle,
   CheckCircle2,
@@ -168,6 +169,8 @@ export default function CoveragePage() {
           icon={<Link2 size={17} />}
         />
       </section>
+
+      <CustomTestPoolCoverage moduleCode={moduleCode} reloadKey={reloadKey}/>
 
       {report && (
         <>

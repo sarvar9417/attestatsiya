@@ -49,7 +49,7 @@ select
   'RLS own-exam key question',
   'published'::public.content_status
 from public.constructs c
-where c.is_active
+where c.is_active and c.group_code not in ('KS','PM.GEN','PM.MET')
 order by c.code
 limit 1;
 
@@ -68,7 +68,7 @@ select
   'RLS foreign key question',
   'published'::public.content_status
 from public.constructs c
-where c.is_active
+where c.is_active and c.group_code not in ('KS','PM.GEN','PM.MET')
 order by c.code
 limit 1;
 

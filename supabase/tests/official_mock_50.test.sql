@@ -91,7 +91,9 @@ begin
       else 4
     end,
     'T045 ' || group_code || ' ' || cognitive::text || ' ' || n,
-    'published'::public.content_status,
+    case when group_code in ('KS','PM.GEN','PM.MET')
+      then 'draft'::public.content_status
+      else 'published'::public.content_status end,
     'T045:' || group_code || ':' || cognitive::text || ':' || n
   from rows_to_insert
   where construct_id is not null;

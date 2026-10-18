@@ -56,6 +56,16 @@ export interface AdminQuestionRow {
   subject_id: string | null
   created_at: string
   source_reference: string | null
+  length_bias_flag?: boolean
+  revision_question_id?: string | null
+  quality_flags?: {
+    question_id: string
+    answer_length_signal: boolean
+    publish_word_balance_risk: boolean
+    absolute_word_cue: boolean
+    invalid_y1_contract: boolean
+    authorship_unknown: boolean
+  } | null
 }
 
 export interface AdminConstructRow {
@@ -109,18 +119,29 @@ export function createAdminModule(input: {
   return api.post<AdminModuleRow>('/api/admin/modules', input)
 }
 
+export interface AdminQuestionsPage {
+  items: AdminQuestionRow[]
+  total: number
+  page: number
+  page_size: number
+}
+export type AdminPedagogyGroup = 'KS' | 'PM.GEN' | 'PM.MET'
+
 export async function listAdminQuestions(
   status?: AdminContentStatus,
-  source?: 'pedguli',
-): Promise<AdminQuestionRow[]> {
+  source?: 'pedguli' | 'pedagogy_pdf',
+  page = 1,
+  groupCode?: AdminPedagogyGroup,
+  query?: string,
+): Promise<AdminQuestionsPage> {
   const params = new URLSearchParams()
   if (status) params.set('status', status)
   if (source) params.set('source', source)
-  const suffix = params.size ? `?${params.toString()}` : ''
-  const data = await api.get<{ items: AdminQuestionRow[] }>(
-    `/api/admin/questions${suffix}`
-  )
-  return data.items
+  if (groupCode) params.set('group_code', groupCode)
+  if (query?.trim()) params.set('query', query.trim())
+  params.set('page', String(page))
+  params.set('page_size', '25')
+  return api.get<AdminQuestionsPage>(`/api/admin/questions?${params.toString()}`)
 }
 
 export function transitionAdminQuestionStatus(
@@ -130,6 +151,12 @@ export function transitionAdminQuestionStatus(
   return api.patch<{ id: string; status: AdminContentStatus }>(
     `/api/admin/questions/${encodeURIComponent(questionId)}/status`,
     { status }
+  )
+}
+
+export function stageAdminPedagogyRevision(questionId: string): Promise<{ id: string; status: 'review' }> {
+  return api.post<{ id: string; status: 'review' }>(
+    `/api/admin/questions/${encodeURIComponent(questionId)}/stage-revision`, {}
   )
 }
 

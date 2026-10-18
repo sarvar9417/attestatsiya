@@ -1,5 +1,6 @@
 import { useCallback } from 'react'
-import { useParams, useSearchParams } from 'react-router-dom'
+import { Navigate, useLocation, useParams, useSearchParams } from 'react-router-dom'
+import { customExamConfigSchema } from '../features/custom-test/customTestApi'
 import ExamRunner from '../features/exam/ExamRunner'
 import type { ExamGateway } from '../features/exam/examGateway'
 import type { FinishExamResponse } from '../features/exam/contracts'
@@ -12,8 +13,13 @@ interface ExamPageProps {
 
 export default function ExamPage({ gateway }: ExamPageProps) {
   const { kind, moduleId } = useParams()
+  const location = useLocation()
+  const customParsed = customExamConfigSchema.safeParse((location.state as { customConfig?: unknown } | null)?.customConfig)
+  const customConfig = customParsed.success ? customParsed.data : undefined
   const [searchParams] = useSearchParams()
   const lessonId = searchParams.get('lessonId')
+  const axbChapter = Number(searchParams.get('chapter'))
+  const axbCount = Number(searchParams.get('count'))
   const completeTopic = useProgressStore((s) => s.completeTopic)
 
   const examKind =
@@ -24,12 +30,17 @@ export default function ExamPage({ gateway }: ExamPageProps) {
     kind === 'diagnostika' ||
     kind === 'takrorlash' ||
     kind === 'pedagogik_15' ||
+    kind === 'custom' ||
+    kind === 'axb_bob' ||
     kind === 'zaif'
       ? kind
       : 'mock'
 
   const backUrl =
-    examKind === 'takrorlash' || examKind === 'zaif'
+    examKind === 'custom' ? '/custom-test' :
+    examKind === 'axb_bob'
+      ? '/learn/M01?extra=axb'
+      :     examKind === 'takrorlash' || examKind === 'zaif'
       ? '/review'
       : examKind === 'diagnostika'
         ? '/'
@@ -62,12 +73,17 @@ export default function ExamPage({ gateway }: ExamPageProps) {
     [completeTopic, examKind, lessonId, moduleId]
   )
 
+  if (examKind === 'custom' && !customConfig) return <Navigate to="/custom-test" replace />
+
   return (
     <ExamRunner
       gateway={gateway}
       examKind={examKind}
+      customConfig={customConfig}
       moduleId={moduleId}
       lessonId={lessonId ?? undefined}
+      axbChapter={axbChapter}
+      axbCount={axbCount}
       backUrl={backUrl}
       onFinished={handleFinished}
     />

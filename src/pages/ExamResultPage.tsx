@@ -11,6 +11,7 @@ import {
   X,
 } from 'lucide-react'
 import { backendGateway } from '../features/exam/backendGateway'
+import CustomExamAnalysis from '../features/custom-test/CustomExamAnalysis'
 import type {
   ExamResultDetail,
   ExamReviewItem,
@@ -25,6 +26,8 @@ const KIND_LABELS: Record<ExamResultDetail['kind'], string> = {
   takrorlash: 'Takrorlash',
   zaif: 'Zaif mavzular',
   pedagogik_15: 'Pedagogika va kasb standarti · 15',
+  axb_bob: 'Axborot boblari · qo‘shimcha mashq',
+  custom: 'Shaxsiy test',
 }
 
 function formatDate(value: string): string {
@@ -176,6 +179,8 @@ export default function ExamResultPage() {
           </div>
         </div>
       </section>
+
+      {result.kind === 'custom' && examId && <CustomExamAnalysis examId={examId} />}
 
       {result.breakdown && result.breakdown.length > 0 && (
         <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900 sm:p-6">
