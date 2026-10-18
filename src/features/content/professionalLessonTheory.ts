@@ -48,6 +48,31 @@ export function markdownToTheoryBlocks(markdown: string): TheoryBlock[] {
     // Migration markers and Markdown comments are metadata, not learner-facing prose.
     if (/^<!--.*-->$/.test(line)) { flush(); continue }
 
+    // Preserve indented source code verbatim. Without this branch Markdown
+    // fenced code (especially Python whitespace) would be flattened to prose.
+    if (/^```/.test(line)) {
+      flush()
+      const language = line.slice(3).trim() || 'text'
+      const source: string[] = []
+      let closed = false
+      while (i + 1 < lines.length) {
+        i++
+        if (lines[i].trim() === '```') {
+          closed = true
+          break
+        }
+        source.push(lines[i])
+      }
+      if (closed) {
+        result.push({ type: 'code', language, content: source.join('\\n') })
+      } else {
+        // Incomplete authored fence: show as text, never execute or silently
+        // discard the source.
+        result.push({ type: 'text', content: ['```' + language, ...source].join('\\n') })
+      }
+      continue
+    }
+
     const heading = /^(#{1,4})\s+(.+)$/.exec(line)
     if (heading) {
       flush()
