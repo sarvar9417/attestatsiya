@@ -39,6 +39,14 @@ describe('lessonContentGateway', () => {
     vi.stubGlobal('fetch', fetchMock)
   })
 
+  it('M14/M15/M16 professional topics do not expose local or backend quick-check keys', async () => {
+    for (const code of ['M14.01','M15.01','M16.01']) {
+      const result = await getLessonTestQuestions(code)
+      expect(result).toEqual([])
+    }
+    expect(fetchMock).not.toHaveBeenCalled()
+  })
+
   it('backend savollarini TestQuestion shakliga o‘tkazadi (kalitsiz)', async () => {
     fetchMock.mockResolvedValue(okJson([backendQuestion()]))
 
