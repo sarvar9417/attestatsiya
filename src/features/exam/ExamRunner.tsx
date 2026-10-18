@@ -42,6 +42,7 @@ import {
 } from './examGateway'
 import { backendGateway } from './backendGateway'
 import ExamResultActions from './ExamResultActions'
+import InlineText from '../../components/learning/theory/InlineText'
 import Y1Choice from './questions/Y1Choice'
 import Y2Match from './questions/Y2Match'
 import Y3Order from './questions/Y3Order'
@@ -822,7 +823,7 @@ export default function ExamRunner({
                         )}
                       </div>
                       <p className="mt-3 whitespace-pre-wrap text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">
-                        {item.stem_md}
+                        <InlineText text={item.stem_md} />
                       </p>
                     </div>
 
@@ -846,7 +847,7 @@ export default function ExamRunner({
                   {item.explanation_md && (
                     <div className="mt-4 rounded-xl bg-indigo-50/70 p-3 text-sm leading-6 text-indigo-900 dark:bg-indigo-950/30 dark:text-indigo-100">
                       <span className="font-semibold">Izoh: </span>
-                      <span className="whitespace-pre-wrap">{item.explanation_md}</span>
+                      <span className="whitespace-pre-wrap"><InlineText text={item.explanation_md} /></span>
                     </div>
                   )}
                 </article>
