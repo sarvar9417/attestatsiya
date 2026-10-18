@@ -483,7 +483,10 @@ begin
       v_archived,v_review,v_published,v_quarantined;
   end if;
 
-  if (select count(*) from public.questions
+  -- The production-drift path had exactly 53 pre-existing published S5 rows.
+  -- A fresh chain can legitimately have a different historical baseline; its
+  -- release invariant is the blueprint-feasibility check immediately below.
+  if v_quarantined=380 and (select count(*) from public.questions
       where status='published'::public.content_status and group_code='S5.WEB')<>53 then
     raise exception 'TASK-240 expected 53 remaining published S5.WEB questions';
   end if;

@@ -33,8 +33,9 @@ begin
     raise exception 'TASK-240 expected 380 keyed GV2 review revisions, found %',v_count;
   end if;
 
-  if (select count(*) from public.questions
-      where status='published'::public.content_status and group_code='S5.WEB')<>53 then
+  if (select count(*) from public.question_quality_quarantines)=380
+     and (select count(*) from public.questions
+          where status='published'::public.content_status and group_code='S5.WEB')<>53 then
     raise exception 'TASK-240 expected the 53 pre-existing published S5.WEB questions';
   end if;
 
