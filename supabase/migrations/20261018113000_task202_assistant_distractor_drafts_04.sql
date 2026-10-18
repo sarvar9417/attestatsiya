@@ -6,9 +6,9 @@ insert into public.pedagogy_rewrite_proposals(source_question_id,proposed_distra
 'Mutaxassis qarorini o‘quvchi va uning oilasi bilan kelishmasdan darhol yagona reja sifatida qo‘llash',
 'Kelishmovchilikda yordam rejasini tuzmasdan, barcha tomonlarning fikri tenglashishini kutib turish']),
 ('88bb73ab-11b5-4a58-be6f-9e2580841032',array[
-'Maqsadga yetish uchun o‘quvchilar tushunchalarni ko‘proq yod olishi va ularni qayta aytishi yetarli',
-'Faoliyat va baholash bir xil bo‘lgani uchun reja maqsaddagi tahlil talabiga ham mos keladi',
-'Darsda ta’rif eslash ko‘p mashq qilingani sababli baholash bosqichini qo‘shimcha murakkablashtirish zarur emas']),
+'Faoliyat bilan baholash mos, shuning uchun tahlil maqsadi ham bajarilgan',
+'Ta’rifni eslash topshiriqlari darsdagi tahlil maqsadini tekshirish uchun yetarli',
+'Kognitiv darajani oshirish o‘rniga mavzu izohlarini kengaytirishning o‘zi kifoya']),
 ('963717dd-c758-4057-8621-05238b92bc52',array[
 'O‘quvchining olgan baholarini boshqa o‘quvchilar baholari bilan taqqoslashiga',
 'O‘quvchining yangi ma’lumotni qancha vaqtda eslab qolganini aniqlashiga',
