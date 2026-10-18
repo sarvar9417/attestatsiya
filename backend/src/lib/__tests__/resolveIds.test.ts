@@ -126,6 +126,42 @@ describe('resolveLessonUuid', () => {
     expect(mockFrom).not.toHaveBeenCalled()
   })
 
+  it('M05.01 resolves the source-backed published lesson instead of searching m05-01', async () => {
+    mockMaybeSingle
+      .mockResolvedValueOnce({ data: { id: 'module-m05' }, error: null })
+      .mockResolvedValueOnce({ data: { id: '95000000-0000-4000-8000-000000000001' }, error: null })
+    mockEq.mockImplementation(() => ({ eq: mockEq, maybeSingle: mockMaybeSingle }))
+
+    const resolved = await resolveLessonUuid('M05.01')
+    expect(resolved).toBe('95000000-0000-4000-8000-000000000001')
+    expect(mockEq).toHaveBeenCalledWith('module_id', 'module-m05')
+    expect(mockEq).toHaveBeenCalledWith('order_idx', 1)
+    expect(mockEq).toHaveBeenCalledWith('status', 'published')
+    expect(mockEq).not.toHaveBeenCalledWith('slug', 'm05-01')
+  })
+
+  it('M02.03 resolves its human-readable published lesson via module and order', async () => {
+    mockMaybeSingle
+      .mockResolvedValueOnce({ data: { id: 'module-m02-resolved' }, error: null })
+      .mockResolvedValueOnce({ data: { id: '92000000-0000-4000-8000-000000000003' }, error: null })
+    mockEq.mockImplementation(() => ({ eq: mockEq, maybeSingle: mockMaybeSingle }))
+
+    const resolved = await resolveLessonUuid('M02.03')
+    expect(resolved).toBe('92000000-0000-4000-8000-000000000003')
+    expect(mockEq).toHaveBeenCalledWith('order_idx', 3)
+    expect(mockEq).toHaveBeenCalledWith('status', 'published')
+  })
+
+  it('M05 missing canonical published lesson never falls back to another lesson', async () => {
+    // M05 module is already cached by the M05.01 test above.
+    mockMaybeSingle.mockResolvedValueOnce({ data: null, error: null })
+    mockEq.mockImplementation(() => ({ eq: mockEq, maybeSingle: mockMaybeSingle }))
+
+    const resolved = await resolveLessonUuid('M05.09')
+    expect(resolved).toBeNull()
+    expect(mockEq).not.toHaveBeenCalledWith('slug', 'm05-09')
+  })
+
   it('M15.08 always prefers canonical published lesson order, never legacy m15-08', async () => {
     const moduleId = 'bb0da462-a1fa-4c09-8544-7718ebc12ba4'
     mockMaybeSingle
