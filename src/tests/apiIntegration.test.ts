@@ -258,25 +258,25 @@ describe('frontend ↔ backend API integration', () => {
     fetchMock.mockResolvedValue(okJson({
       ready: true, required: 20, available: 26, duration_sec: 2400,
       reason: 'ready', coverage: [{ objective: 'PM.GEN.01', required: true, critical: false, minimum: 1, available: 26 }],
-      critical_objective_gaps: [],
+      critical_objective_gaps: [], missing_required_objectives: [],
     }))
     const preview = await backendGateway.previewTopicTest?.('M15.01')
     expect(fetchMock.mock.calls[0][0]).toContain('/api/content/lessons/M15.01/topic-test-preflight')
     expect(preview).toEqual({
       questionCount: 20, durationSec: 2400, ready: true, available: 26,
-      reason: 'ready', criticalObjectiveGaps: [],
+      reason: 'ready', criticalObjectiveGaps: [], missingRequiredObjectives: [],
     })
   })
 
   it('previewTopicTest — 15 savol bilan 20 talik testni tayyor deb ko‘rsatmaydi', async () => {
     fetchMock.mockResolvedValue(okJson({
       ready: false, required: 20, available: 15, duration_sec: 2400,
-      reason: 'pool_insufficient', coverage: [], critical_objective_gaps: [],
+      reason: 'pool_insufficient', coverage: [], critical_objective_gaps: [], missing_required_objectives: [],
     }))
     const preview = await backendGateway.previewTopicTest?.('M14.02')
     expect(preview).toEqual({
       questionCount: 20, durationSec: 2400, ready: false, available: 15,
-      reason: 'pool_insufficient', criticalObjectiveGaps: [],
+      reason: 'pool_insufficient', criticalObjectiveGaps: [], missingRequiredObjectives: [],
     })
   })
 
