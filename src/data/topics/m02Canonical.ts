@@ -10,6 +10,7 @@
  * pending 528 KTD questions or expose their keys.
  */
 import type { TopicContent, TheoryBlock } from '../topicContent'
+import { M02_SOURCE_THEORY } from './m02SourceTheory'
 
 export interface CanonicalM02Group {
   id: string
@@ -68,6 +69,7 @@ export function buildCanonicalM02Topic(
       questions.push(q)
     }
   }
+  theory.push(...(M02_SOURCE_THEORY[id] ?? []))
   theory.push({ type: 'source', content: group.sourceHint })
   return {
     subtopicId: id,
