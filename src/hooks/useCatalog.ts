@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { MODULES } from '../data/contentTree'
 import { getModuleDetail, listModules } from '../features/content/contentApi'
-import { mergeCatalog, type CatalogModule } from '../features/content/catalog'
+import { mergeCatalog, usePublishedNetworkV2Catalog, type CatalogModule } from '../features/content/catalog'
 
 export interface CatalogState {
   modules: CatalogModule[]
@@ -49,7 +49,16 @@ export function useCatalog(): CatalogState {
         } catch {
           // Offline or incomplete rollout: retain the previously published M06.
         }
-        if (!cancelled) setState({ modules: base, loading: false, online: true })
+        // TASK-220: do not surface M12 V2 until ALL ten source-backed lessons
+        // are published. Incomplete / errored rollout leaves the legacy catalog.
+        let learnerModules = base
+        try {
+          const detail = await getModuleDetail('M12')
+          learnerModules = usePublishedNetworkV2Catalog(base, detail)
+        } catch {
+          // Existing M12 remains usable if new edition is unavailable.
+        }
+        if (!cancelled) setState({ modules: learnerModules, loading: false, online: true })
       })
       .catch(() => {
         if (cancelled) return
