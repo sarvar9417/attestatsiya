@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight, BookOpen, ClipboardCheck, FileText, ShieldCheck } from 'lucide-react'
 import { MODULES } from '../data/contentTree'
+import { PEDAGOGY_SPEC_OBJECTIVES } from '../data/pedagogySpec2026'
 
 /**
  * Official 2026 distribution: KS=5, PM.GEN=7, PM.MET=3.
@@ -76,10 +77,18 @@ export default function ProfessionalPracticePage() {
                   {topics.map(topic => (
                     <li key={topic.id} className="flex items-start gap-2 text-xs leading-5">
                       <span className="shrink-0 font-mono text-indigo-600 dark:text-indigo-300">{topic.id}</span>
-                      <span className="text-gray-700 dark:text-gray-300">{topic.title}</span>
+                      <span className="min-w-0 text-gray-700 dark:text-gray-300">
+                        <span className="block font-semibold">{topic.title}</span>
+                        <span className="mt-0.5 block text-gray-500 dark:text-gray-400">
+                          {PEDAGOGY_SPEC_OBJECTIVES[topic.id]?.skill ?? 'Rasmiy spetsifikatsiya bilan moslik tekshirilmoqda'}
+                        </span>
+                      </span>
                     </li>
                   ))}
                 </ol>
+                <p className="border-t border-gray-200 px-3 py-2 text-[11px] leading-5 text-gray-500 dark:border-gray-700 dark:text-gray-400">
+                  Ko‘nikmalar: 2026-yilgi informatika attestatsiyasi spetsifikatsiyasi, 2-jadval, 6–7-betlar. Bu mavzu boshiga alohida savol kvotasi emas.
+                </p>
               </details>
 
               <div className="mt-4 rounded-xl bg-indigo-50/60 p-3 dark:bg-indigo-950/30">
