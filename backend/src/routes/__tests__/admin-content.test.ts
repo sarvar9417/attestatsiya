@@ -22,7 +22,7 @@ vi.mock('../../services/admin-content.service.js', () => ({
   adminContentService: mocks,
 }))
 
-const pdfMocks=vi.hoisted(()=>({list:vi.fn()}))
+const pdfMocks=vi.hoisted(()=>({list:vi.fn(),stageQuestion:vi.fn()}))
 vi.mock('../../services/pedagogy-pdf.service.js',()=>({pedagogyPdfService:pdfMocks}))
 
 const sourceMocks = vi.hoisted(() => ({
@@ -422,6 +422,38 @@ describe('admin CMS backend boundary', () => {
     expect(result.statusCode).toBe(201)
     expect(result.json().status).toBe('review')
     expect(mocks.stagePedagogyRevision).toHaveBeenCalledWith(id,'admin-token')
+    await app.close()
+  })
+
+  it('verified PDF manual stage rejects malformed payload and returns review-only',async()=>{
+    const app=makeApp()
+    await app.register(adminRoutes);await app.ready()
+    const id='11111111-1111-4111-8111-111111111111'
+    const uri='/api/admin/pedagogy-pdf-candidates/'+id+'/stage-question'
+    expect((await app.inject({method:'POST',url:uri,payload:{}})).statusCode).toBe(401)
+    const denied=await app.inject({method:'POST',url:uri,
+      headers:{authorization:'Bearer editor-token'},
+      payload:{stem_md:'Original didaktik vazifa uchun namunaviy savol',options:['A'],correct_index:0,explanation_md:'Izoh'} })
+    expect(denied.statusCode).toBe(400)
+    expect(pdfMocks.stageQuestion).not.toHaveBeenCalled()
+    const body={
+      stem_md:'Pedagogik mashg‘ulot samaradorligini qanday aniqlash mumkin?',
+      options:[
+        'Natijani o‘quv maqsadi bilan solishtirish',
+        'Faqat dars ko‘rgazmalarini batafsil sanash',
+        'Faqat vaqt jadvallarini batafsil yozish',
+        'Faqat xona bezaklarini to‘liq hisoblash',
+      ],
+      correct_index:0,
+      explanation_md:'Natija aniq pedagogik maqsadga bog‘lanadi.',
+    }
+    pdfMocks.stageQuestion.mockResolvedValue({id,status:'review'})
+    const response=await app.inject({method:'POST',url:uri,
+      headers:{authorization:'Bearer editor-token'},payload:body})
+    expect(response.statusCode).toBe(201)
+    expect(response.headers['cache-control']).toBe('private, no-store')
+    expect(response.json().status).toBe('review')
+    expect(pdfMocks.stageQuestion).toHaveBeenCalledWith('editor-token',id,body)
     await app.close()
   })
 
