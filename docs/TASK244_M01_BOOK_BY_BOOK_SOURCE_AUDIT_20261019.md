@@ -75,6 +75,6 @@
 
 **Oraliq release-gates:** har kitobdagi barcha M01ga daxldor sahifalar, jadvallar/rasmlarni solishtirish; har bir addendum uchun hujjatlashtirilgan page trace; yakuniy CI typecheck/test/build; real mobil/desktop reader va autentifikatsiyalangan nazariya-test E2E; insonning alohida release roziligi.
 
-**Hozirgi umumiy holat:** **7/13 darslik** (ICT5–11) M01ga taalluqli materiallari sahifalar bo‘yicha tekshirildi, **6/13 Cambridge+ darsliklari navbatda**. `src/data/topics/m01TextbookAudit.ts` jami **32 ta manbaga bog‘langan qo‘shimcha** (6+4+7+4+3+3+5) birlashtiradi. 11-sinf bo‘yicha reyestr: `docs/TASK244_ICT11_M01_PAGE_CONCORDANCE_20261019.md`. CI yakuniy commit hamda authenticated learner visual QA alohida release-gate. Keyingi darslik **Cambridge+ 5-sinf**.
+**Hozirgi umumiy holat:** **8/13 darslik** M01 materiallari sahifa bilan qiyoslandi; 5 ta Cambridge+ kitob navbatda. Manbaga izlangan nazariya paketlari **36 ta** (ICT5–11: 32; Cambridge+5: 4). Cambridge+5 PDF 93–131 qiyosi: `docs/TASK244_CAMBRIDGE5_M01_PAGE_CONCORDANCE_20261019.md`. Keyingi Cambridge+6. Merge/deploy/production DB yozuvi qilinmadi. Yakuniy CI va o‘quvchi UI vizual QA zarur.
 
 **Oldingi M02/M03 nazariyalari hali ushbu yangi sahifama-sahifa usulda qayta tekshirilmagan.**
