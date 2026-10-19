@@ -51,7 +51,7 @@ describe('TASK-284: M01-style content is a substantive chapter, not a design ski
 
   it('still keeps short unreviewed neighboring chapters distinct from the sourced Word book', () => {
     const expanded = getTopicContent('M03.01')
-    const unchanged = getTopicContent('M15.07')
+    const unchanged = getTopicContent('M16.03')
     expect(expanded?.source).toContain('Cambridge')
     expect(expanded?.theory.length).toBeGreaterThan(60)
     expect(unchanged).toBeDefined()
