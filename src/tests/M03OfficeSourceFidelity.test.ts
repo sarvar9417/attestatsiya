@@ -12,7 +12,7 @@ describe('TASK-268: original-textbook Office fallback accuracy', () => {
 
   it('distinguishes COUNT numeric cells from COUNTA nonblank cells', () => {
     const content = getTopicContent('M03.05')
-    const table = content?.theory.find(block => block.type === 'table')?.content ?? ''
+    const table = content?.theory.find(block => block.type === 'table' && block.content.includes('COUNT | =COUNT(A1:A10)'))?.content ?? ''
     expect(table).toContain('COUNT | =COUNT(A1:A10) | Son yozilgan kataklarni sanash')
     expect(table).toContain("COUNTA | =COUNTA(A1:A10) | Bo'sh bo'lmagan kataklarni sanash")
     expect(table).not.toContain('COUNTA | =COUNTA(A1:A10) | Barcha qiymatlarni sanash')
