@@ -71,7 +71,7 @@ describe('TASK-303 — 13-betlik kasbiy standartga tayangan M14 kitobi', () => {
     expect(mediation).toContain('O‘RQ-482')
     expect(mediation).toContain('taraflar')
     expect(mediation).toContain('mediator')
-    expect(mediation).toContain('qonunning qo‘llanish')
+    expect(mediation).toContain('Qonunning qo‘llanish')
   })
 
   it('ekspert ruxsatisiz amaldagi nashr qilingan dars o‘zgarmaydi', () => {
