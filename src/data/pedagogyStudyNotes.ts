@@ -124,7 +124,7 @@ export function getPedagogyStudyNotes(subtopicId: string): TheoryBlock[] {
  * completeness. No unreviewed server/DB supplement is automatically promoted.
  */
 export function withPedagogyStudyNotes(content: TopicContent): TopicContent {
-  if (!/^M15\\.0[1-8]$/.test(content.subtopicId)) return content
+  if (!/^M15\.0[1-8]$/.test(content.subtopicId)) return content
   const extraBlocks = getPedagogyStudyNotes(content.subtopicId)
   if (extraBlocks.length === 0) return content
   return { ...content, theory: [...content.theory, ...extraBlocks] }
