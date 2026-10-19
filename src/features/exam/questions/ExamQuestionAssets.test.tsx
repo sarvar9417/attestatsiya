@@ -44,9 +44,34 @@ describe('Kuzgi demo original cropped pictures', () => {
     const { container } = render(<ExamQuestionAssets assets={[
       { kind: 'image', diagram_id: 'demo_q04_options', src: 'https://drive.google.com/unknown.png', alt: 'remote' },
       { kind: 'image', diagram_id: 'demo_q14_labyrinth', src: '/kuzgi-demo/../../secrets.svg', alt: 'path traversal' },
-      { kind: 'image', diagram_id: 'demo_q30_logic', src: '/kuzgi-demo/demo_q30_logic.svg', alt: 'not audited' },
+      { kind: 'image', diagram_id: 'demo_q99_logic', src: '/kuzgi-demo/demo_q99_logic.svg', alt: 'not audited' },
       { kind: 'source_screenshot', drive_file_id: 'some-drive-id', image_ordinals: ['q04'] },
     ]} />)
     expect(container.querySelectorAll('img')).toHaveLength(0)
+  })
+})
+
+describe('Kuzgi demo question 30 logic diagram', () => {
+  it('renders the cropped first-party AND/OR diagram and a full-size link', () => {
+    render(<ExamQuestionAssets assets={[{
+      kind: 'image',
+      diagram_id: 'demo_q30_logic',
+      src: '/kuzgi-demo/demo_q30_logic.svg',
+      alt: 'A, B va C kirishli AND/OR mantiqiy sxemasi',
+    }]} />)
+    expect(screen.getByRole('img', { name: 'A, B va C kirishli AND/OR mantiqiy sxemasi' })
+      .getAttribute('src')).toBe('/kuzgi-demo/demo_q30_logic.svg')
+    expect(screen.getByRole('link', { name: /AND\/OR mantiqiy sxemasi.*to‘liq hajmda/ })
+      .getAttribute('href')).toBe('/kuzgi-demo/demo_q30_logic.svg')
+  })
+
+  it('rejects a spoofed asset path for the allowlisted q30 diagram', () => {
+    const { container } = render(<ExamQuestionAssets assets={[{
+      kind: 'image',
+      diagram_id: 'demo_q30_logic',
+      src: 'https://example.invalid/diagram.svg',
+      alt: 'Untrusted',
+    }]} />)
+    expect(container.querySelector('img')).toBeNull()
   })
 })
