@@ -143,6 +143,7 @@ export default function ExamRunner({
   const autosaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const latestDraftsRef = useRef<Record<string, AnswerValue>>({})
   const locallyQueuedRef = useRef<Set<string>>(new Set())
+  const lastMockRevisionRef = useRef(0)
 
   useEffect(() => {
     if (examKind !== 'mavzu' || phase !== 'intro') return
@@ -212,6 +213,7 @@ export default function ExamRunner({
     setDrafts({})
     latestDraftsRef.current = {}
     locallyQueuedRef.current = new Set()
+    lastMockRevisionRef.current = 0
     if (autosaveTimerRef.current) clearTimeout(autosaveTimerRef.current)
     setSavedQuestionIds(new Set())
     setQueuedQuestionIds(new Set())
@@ -421,11 +423,13 @@ export default function ExamRunner({
       return
     }
     try {
+      lastMockRevisionRef.current = Math.max(Date.now(), lastMockRevisionRef.current + 1)
       gateway.queueMockAnswer({
         examId: session.exam_id,
         examKind: session.kind,
         questionId: currentItem.question_id,
-        answer: encodeAnswer(currentItem, value),
+        answer: { ...(encodeAnswer(currentItem, value) as Record<string, unknown>),
+          _client_revision: lastMockRevisionRef.current },
         timeSpentSec: Math.min(86_400, Math.max(0,
           Math.floor((Date.now() - questionOpenedAtRef.current) / 1000))),
       })
