@@ -1,7 +1,7 @@
 # TASK-244 — M01 nazariyasi: darsliklarni bittalab, sahifa asosida tekshirish
 
 **Boshlangan sana:** 2026-10-19  
-**Status:** IN_PROGRESS — kitob 1/13 (ICT 5-sinf) va kitob 2/13 (ICT 6-sinf) bo‘yicha M01ga daxldor sahifalar o‘qildi; qo‘shimcha nazariya yozildi. Barcha M01 mavzulari va barcha darsliklar **hali to‘liq tasdiqlanmagan**.  
+**Status:** IN_PROGRESS — kitob 1/13 (ICT 5-sinf), 2/13 (ICT 6-sinf) va 3/13 (ICT 7-sinf) bo‘yicha M01ga daxldor sahifalar o‘qildi; qo‘shimcha nazariya yozildi. Barcha M01 mavzulari va barcha darsliklar **hali to‘liq tasdiqlanmagan**.  
 **Ish branchi:** `task/TASK-244-m01-book-by-book-source-audit`.  
 **Release qoidasi:** `main`ga merge qilinmaydi, production deploy, DB write yoki test publish amalga oshirilmaydi.
 
@@ -61,7 +61,7 @@
 |---:|---|---|
 | 1 | ICT 5-sinf (2020) | **M01 PDF 6–24 o‘qildi, original izohlar kiritildi; CI kutilmoqda** |
 | 2 | ICT 6-sinf (2021) | **M01 PDF 76–127 o‘qildi; 4 ta sahifali addendum qo‘shildi; CI yakuniga bog‘liq**. Tafsilot: `docs/TASK244_ICT6_M01_PAGE_CONCORDANCE_20261019.md` |
-| 3 | ICT 7-sinf (2021) | NOT STARTED |
+| 3 | ICT 7-sinf (2021) | **M01 PDF 4–46 hamda 80–83 o‘qildi; 7 ta sahifali addendum.** `docs/TASK244_ICT7_M01_PAGE_CONCORDANCE_20261019.md` |
 | 4 | ICT 8-sinf (2020) | NOT STARTED |
 | 5 | ICT 9-sinf (2020) | NOT STARTED |
 | 6 | ICT 10-sinf (2021) | NOT STARTED |
@@ -75,6 +75,6 @@
 
 **Oraliq release-gates:** har kitobdagi barcha M01ga daxldor sahifalar, jadvallar/rasmlarni solishtirish; har bir addendum uchun hujjatlashtirilgan page trace; yakuniy CI typecheck/test/build; real mobil/desktop reader va autentifikatsiyalangan nazariya-test E2E; insonning alohida release roziligi.
 
-**Hozirgi umumiy holat:** 2/13 darslik M01-relevant bo‘limi sahifalar bilan solishtirildi; 11/13 hali navbatda. `src/data/topics/m01TextbookAudit.ts` endi ICT5 va ICT6 qo‘shimchalarini birlashtiradi, jami 10 ta sahifali insert (6+4). ICT6 batafsil reyestr: `docs/TASK244_ICT6_M01_PAGE_CONCORDANCE_20261019.md`.
+**Hozirgi umumiy holat:** 3/13 darslik M01ga daxldor bo‘limi sahifalar bilan solishtirildi; 10/13 hali navbatda. `src/data/topics/m01TextbookAudit.ts` ICT5, ICT6 va ICT7 qo‘shimchalarini birlashtiradi, jami **17 ta** sahifali qo‘shimcha (6+4+7). Sahifama-sahifa reyestrlar: `docs/TASK244_ICT6_M01_PAGE_CONCORDANCE_20261019.md` va `docs/TASK244_ICT7_M01_PAGE_CONCORDANCE_20261019.md`. ICT7 36-PDF sahifadagi noto‘g‘ri audio hisob javobi alohida tuzatildi.
 
 **Oldingi M02/M03 nazariyalari hali ushbu yangi sahifama-sahifa usulda qayta tekshirilmagan.**
