@@ -1,3 +1,7 @@
+## TASK-262 — Nazariya darslarining yagona kitob dizayni (2026-10-19)
+
+| TASK-262 | IN_PROGRESS — CODE IN FEATURE BRANCH / QA OPEN | T-M01-002, T-M01-003 DONE | M01 BookReader/BookBlock standartini barcha mavjud M02–M16 nazariy darslariga qo‘llash; Markdown jadval/ro‘yxat compatibility; regression test; docs/TASK262_UNIFIED_LESSON_BOOK_DESIGN_20261019.md. Final lint, typecheck, unit, mobil/auth UI QA va release approval ochiq. Merge/deploy YO‘Q. |
+
 ## TASK-261 — M09 DB/Access 5-mavzu review QA
 
 | TASK-261 | IN_PROGRESS — INVENTORY DONE / EDITORIAL BLOCKED | TASK-251 | M09 5 canonical topics: 75 missing published slots, 309 mapped keyed review occurrences (189 Y1/60 Y2/60 Y3), 0 signed editorial checks, only 21 canonical source_lesson matches. ICT 11 PDF 4–52 source crosswalk and safe SQL/test added; no keys/publish/deploy. See docs/TASK261_M09_DB_ACCESS_SOURCE_QA_20261019.md. |
