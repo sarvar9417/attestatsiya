@@ -2,6 +2,7 @@ import { M01_CONTENT } from './topics/m01'
 import { withVerifiedM01Additions } from './topics/m01TextbookAudit'
 import { M05_THEORY } from './topics/m05'
 import { buildCanonicalM02Topic } from './topics/m02Canonical'
+import { M16_SOURCE_THEORY_ADDITIONS } from './topics/m16SourceTheoryAdditions'
 // M14–M16 use server-scored exams exclusively. Legacy mini-quiz answer keys
 // have intentionally been stripped from the shipped JavaScript bundle.
 
@@ -1393,6 +1394,14 @@ for (const [id, theory] of Object.entries(M05_THEORY)) {
     source: 'src/content/sanoq/Sanoq_sistemalari_nazariya.tex',
     kind: 'chapter',
   }
+}
+
+// TASK-273: retain every original M16 block and append separately traced
+// methodology explanations to the offline canonical fallback. Server-backed
+// M16 lessons attach the same blocks in overlayPublishedProfessionalLesson.
+for (const [subtopicId, additions] of Object.entries(M16_SOURCE_THEORY_ADDITIONS)) {
+  const local = TOPIC_CONTENT[subtopicId]
+  if (local) TOPIC_CONTENT[subtopicId] = { ...local, theory: [...local.theory, ...additions] }
 }
 
 // M02 canonical chapters combine multiple lengthy source lessons. Rebuilding
