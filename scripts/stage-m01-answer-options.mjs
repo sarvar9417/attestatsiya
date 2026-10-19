@@ -10,6 +10,7 @@
  * reproducibility; it is NOT a secrecy boundary or runtime exam randomizer.
  */
 import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const SOURCE = new URL('../Axborot_va_axborot_jarayonlari_LaTeX/Axborot_va_raqamli_savodxonlik_400_TEST.json', import.meta.url)
@@ -96,6 +97,6 @@ function main() {
   }
 }
 
-if (process.argv[1] && fileURLToPath(import.meta.url) === fileURLToPath(new URL('file://' + process.argv[1]))) {
+if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
   main()
 }
