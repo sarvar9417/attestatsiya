@@ -17,6 +17,20 @@ Date: 2026-10-19. Evidence: SELECT-only production Supabase aggregates and exist
 - The 19 require actual stem/answer/distractor and original source review, not an automatic de-duplication that could change the correct response. They remain unpublished.
 - All detected review Y1/Y2/Y3 had stored keys, nonempty stems and sources, active constructs, matching group and valid difficulty ranges in the checked sample-wide aggregate. These structural checks are **not** semantic correctness signoff.
 
+## All-question private-key reference integrity — full read-only scan
+
+Verified production aggregate (2026-10-19), without selecting or exposing any key payload value:
+
+| Status | Y1 | Y2 | Y3 | Invalid referenced option IDs |
+|---|---:|---:|---:|---:|
+| Published | 2,810 | 270 | 264 | 0 |
+| Review | 1,973 | 315 | 315 | 0 |
+| **Total** | **4,783** | **585** | **579** | **0 / 5,947** |
+
+Y1 validation: protected correct-option ID exists among that question's alternatives. Y3 validation: the private ordering array contains every option ID once and only once. Y2 validation: either complete left→right mapping through stored a/b sides or the guarded, proven legacy 8-a → 4+4 projection (22 published and four review). **All 585 Y2 maps were structurally resolvable:** 248+311 normal and 22+4 legacy.
+
+Source references, academic answer correctness, distractor plausibility, official 2026 objectives and genuinely independent editorial sign-offs require separate human-source review. The 19 review Y1 duplicate-choice items remain blocked; **none of the published Y1** showed duplicate alternative text in this normalized comparison.
+
 ## Acceptance status and release controls
 
 1. Fresh CI: database, backend, quality/Playwright E2E smoke must pass on the final head. The additional test must cover the full seeded legacy published Y2 set, not just one item.
