@@ -14,7 +14,7 @@ TASK-262 faqat `BookReader` orqali yagona ko‘rinish berdi. Nazariya matnlarini
 - Mavjud didaktik misollar, taqqoslash jadvallari, manba izlari endi boshqa yopiq bo‘limga o‘tishni talab qilmay, `BookReader` mundarijasi va progressiga kiradi.
 - Pedagogika konspekti bo‘yicha ikki karra render oldi olindi (pastdagi eski accordion olib tashlandi).
 - 8/8 mavzuning bloklari birorta ham tushib qolmasligi uchun regression test qo‘shildi.
-- M15.01 chuqurroq bo‘lishi uchun Mirzayeva 2-mavzu matnidan pedagogika fanlari tizimi, sakkiz guruh ilmiy-tadqiqot metodlari, jadval, metodika/didaktika chegarasi, tadqiqot vaziyati va manba izi bo‘yicha **8 ta yangi original nazariya bloki** yozildi. Endi M15.01 avvalgi 4 yadro + mavjud 11 note + yangi 8 blokni (jami 23 blok) qamrab oladi.
+- M15.01 chuqurroq bo‘lishi uchun Mirzayeva 2-mavzu matnidan pedagogika fanlari tizimi, ilmiy-pedagogik tadqiqot metodlari (suhbat va intervyu alohida), jadval, metodika/didaktika chegarasi, tadqiqot vaziyati va manba izi bo‘yicha **8 ta yangi original nazariya bloki** yozildi. Endi M15.01 avvalgi 4 yadro + mavjud 11 note + yangi 8 blokni (jami 23 blok) qamrab oladi.
 - **Bu baribir kitoblardagi barcha bob va sahifalar to‘liq kiritildi degani emas.**
 
 ## Manba yo‘li / aniqlangan holat
@@ -43,3 +43,7 @@ Mirzayeva materialining o‘qiladigan matni pedagogika obyekti, predmeti, analit
 Har bir mavzu uchun: `lesson_id`, konstrukt, darslik-nashr, bob, bosma sahifa, PDF sahifa, manbadagi atama/diagramma/jadval/tajriba, asosiy nazariyadagi tegishli blok, qamrov natijasi `verified/partial/gap/unverified`, ekspert tekshirgan sana. Manbaga zid umumlashtirish va mos kelmagan bob `gap` yoki `unverified` bo‘lsin. 100% ta’kidi faqat 1:1 manba qamrovi va barcha qabul testlaridan keyin mumkin.
 
 Serverdagi published darslar, production DB, exam generator, server-answer keys, deploy o‘zgartirilmasin. Ish faqat branch/PRda; tegishli sahifa-bet auditi va ekspert tasdig‘isiz release qilinmaydi.
+
+### Mirzayeva 2-mavzu PDF matni bilan qayta tekshiruv (2026-10-19)
+
+Original Drive faylidan matn qayta olindi. «PEDAGOGIK TADQIQOT METODLARI» ro‘yxatida **suhbat (2)** va **intervyu (4)** alohida nomlangan; oldingi nazariya jadvali ikkisini yagona satrda berib, darslikdagi farqni yashirgan. Endi ularning vazifalari alohida bayon qilindi. Matnda ko‘rinadigan raqamlar **1–8 va 10**, 9-band ko‘rinmaydi; «10 metodning barchasi tasdiqlandi» degan xulosa chiqarilmaydi. Matn ekstraksiyasi to‘liq tasvirli PDF sahifasining ekspert tekshiruvi emas. Ushbu nomuvofiqlik M15.01 source-note va regressiya bilan ochiq qayd qilindi.
