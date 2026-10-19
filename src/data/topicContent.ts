@@ -14,6 +14,7 @@ import { M12_05_CANONICAL_BOOK } from './topics/m12IPv4CanonicalBook'
 import { M08_TEXTBOOK_STUDY_ADDITIONS } from './topics/m08TextbookStudyAdditions'
 import { M14_NORMATIVE_SOURCE_ADDITIONS } from './topics/m14NormativeSourceAdditions'
 import { M16_SOURCE_THEORY_ADDITIONS } from './topics/m16SourceTheoryAdditions'
+import { M04_DEEP_CHAPTERS } from './topics/m04DeepChapters'
 import { M08_DEEP_CHAPTERS } from './topics/m08DeepChapters'
 import { M11_DEEP_CHAPTERS } from './topics/m11DeepChapters'
 import { M15_DEEP_CHAPTERS } from './topics/m15DeepChapters'
@@ -1558,6 +1559,7 @@ if (pedagogyBase) {
 // Live UUID/server-published lessons are a separate review path and are not
 // falsely marked complete by these offline books.
 for (const [id, book] of Object.entries({
+  ...M04_DEEP_CHAPTERS,
   ...M08_DEEP_CHAPTERS,
   ...M11_DEEP_CHAPTERS,
   ...M15_DEEP_CHAPTERS,
