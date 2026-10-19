@@ -70,7 +70,7 @@ export default function CodeBlock({ code, language = 'c' }: CodeBlockProps) {
  */
 export function parseCodeBlocks(text: string): Array<{ type: 'text' | 'code'; content: string; language?: string }> {
   const segments: Array<{ type: 'text' | 'code'; content: string; language?: string }> = []
-  const regex = /```(\w*)\n([\s\S]*?)```/g
+  const regex = /```([a-zA-Z0-9_+#.-]*)[ \t]*(?:\r?\n|[ \t]+)([\s\S]*?)[ \t]*```/g
   let lastIndex = 0
   let match: RegExpExecArray | null
 
@@ -83,7 +83,7 @@ export function parseCodeBlocks(text: string): Array<{ type: 'text' | 'code'; co
     segments.push({
       type: 'code',
       language: match[1] || 'c',
-      content: match[2].trim(),
+      content: match[2].replace(/^\r?\n|\r?\n$/g, ''),
     })
     lastIndex = match.index + match[0].length
   }
