@@ -160,10 +160,12 @@ begin
     select selection_meta into strict v_meta
     from public.exams where id = v_exam;
 
-    if (v_meta->>'selector_version') <> 'official-mock-v1'
+    if (v_meta->>'selector_version') <> 'official-mock-v2'
        or (v_meta->>'target_count')::int <> 50
        or (v_meta->>'selected_count')::int <> 50
-       or (v_meta->>'duration_sec')::int <> 7200 then
+       or (v_meta->>'duration_sec')::int <> 7200
+       or v_meta->>'selection_strategy' <> 'least_exposure_then_random'
+       or not (v_meta->'rules' ? 'randomized_within_exposure_tier') then
       raise exception 'selection metadata invalid: %', v_meta;
     end if;
 
@@ -181,6 +183,24 @@ begin
 
     if v_count <> 50 then
       raise exception 'assembly % contains duplicate questions', i;
+    end if;
+
+    -- This cell has at least 3x its quota in the fixture. Even though
+    -- selection is randomized, an unused eligible question MUST be preferred.
+    if exists (
+      select 1
+        from public.exam_items current_item
+        join public.questions q on q.id = current_item.question_id
+        join public.exam_items prior_item
+          on prior_item.question_id = current_item.question_id
+         and prior_item.exam_id <> v_exam
+        join public.exams prior_exam on prior_exam.id = prior_item.exam_id
+       where current_item.exam_id = v_exam
+         and q.group_code = 'S1.INFO'
+         and prior_exam.user_id = '73000000-0000-4000-8000-000000000001'::uuid
+         and prior_exam.kind = 'mock'::public.exam_kind
+    ) then
+      raise exception 'assembly % repeated S1.INFO before unseen pool exhausted', i;
     end if;
 
     select
@@ -266,5 +286,21 @@ begin
   end if;
 end
 $$;
+
+-- Selector audit: randomized candidate ordering must be present in
+-- the actual function (option shuffling by itself is not sufficient).
+do $
+declare
+  v_ddl text;
+begin
+  select pg_get_functiondef('public.generate_official_mock()'::regprocedure)
+  into v_ddl;
+  if position('random(),' in v_ddl) = 0
+     or position('official_mock_blueprint_invalid: 2026_subject_group_quotas' in v_ddl) = 0
+     or position('official-mock-v2' in v_ddl) = 0 then
+    raise exception '2026 selector randomization / quota guard missing';
+  end if;
+end
+$;
 
 rollback;
