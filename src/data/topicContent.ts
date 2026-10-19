@@ -11,6 +11,9 @@ import { M03_OFFICE_TEXTBOOK_ADDITIONS } from './topics/m03OfficeTextbookAdditio
 import { M03_05_CANONICAL_BOOK } from './topics/m03ExcelCanonicalBook'
 import { M03_04_CANONICAL_BOOK } from './topics/m03ExcelFoundationsCanonicalBook'
 import { M03_06_CANONICAL_BOOK, M03_07_CANONICAL_BOOK } from './topics/m03ExcelAnalysisCanonicalBooks'
+import { M03_08_CANONICAL_BOOK } from './topics/m03PowerPointDesignCanonicalBook'
+import { M03_09_CANONICAL_BOOK } from './topics/m03PowerPointMultimediaCanonicalBook'
+import { M03_10_CANONICAL_BOOK } from './topics/m03PowerPointAnimationCanonicalBook'
 import { M15_05_CANONICAL_BOOK, M15_06_CANONICAL_BOOK } from './topics/m15ProfessionalPracticeCanonicalBooks'
 import { M15_04_CANONICAL_BOOK } from './topics/m15LessonPlanningCanonicalBook'
 import { M15_01_CANONICAL_BOOK } from './topics/m15PedagogyCanonicalBook'
@@ -1655,6 +1658,25 @@ for (const [id, book, source] of [
     kind: 'chapter',
     source,
     theory: [...book, ...tracedOffice],
+  }
+}
+
+// TASK-289: Each PowerPoint topic opens a source-guided long-form chapter
+// before the previously reviewed Office source appendix. Keep original quiz
+// questions, correctIndex values and publication semantics unchanged.
+for (const [id, book, source] of [
+  ['M03.08', M03_08_CANONICAL_BOOK, 'Cambridge+ ICT 9, chapter 19 — presentation design'],
+  ['M03.09', M03_09_CANONICAL_BOOK, 'Cambridge+ ICT 9, chapter 19 — objects and multimedia'],
+  ['M03.10', M03_10_CANONICAL_BOOK, 'Cambridge+ ICT 7/9 — animations and slide transitions'],
+] as const) {
+  const previous = TOPIC_CONTENT[id]
+  if (!previous) continue
+  const reviewedAppendix = M03_OFFICE_TEXTBOOK_ADDITIONS[id] ?? []
+  TOPIC_CONTENT[id] = {
+    ...previous,
+    source,
+    kind: 'chapter',
+    theory: [...book, ...reviewedAppendix],
   }
 }
 
