@@ -1,3 +1,7 @@
+## TASK-260 — M11.01 HTML Y1 draft and Y2/Y3 review QA
+
+| TASK-260 | IN_PROGRESS — DRAFT CANDIDATES / EDITORIAL BLOCKED | TASK-251 audit | 8 review Y2/Y3 key structures and source-lesson mapping triaged; 13 PDF-page-cited Y1 candidate prompts + four unique options in docs/audits/TASK260_M11_HTML_Y1_CANDIDATES.json; automated guard test. No human approval, answer keys, DB import or production release. See docs/TASK260_M11_HTML_SOURCE_AND_CANDIDATE_QA_20261019.md. |
+
 ## TASK-250 — M02 34 Y1 savol source-review
 
 | ID | Status | Natija | Ekspert/shart |
