@@ -29,3 +29,7 @@ Fayziyeva va boshqalar, *Informatika va axborot texnologiyalari*, 6-sinf (2021),
 `src/features/content/catalog.ts` esa M07 uchun 12 ta published Scratch/LOGO darsini afzal ko‘radi. Shu sababli qolgan aniq xavf: **statik mavzu bilan live published darslarning bir-biridan farqlanishi**. Runtime learner lesson ID va sahifadagi mazmunni ko‘rmaguncha M07.03 butunlay yakunlandi deyilmaydi.
 
 **Mavjud kodga oʻzgartirish kiritilmadi**, chunki hozir aniqlangan ta’riflar takroran yozilmasligi kerak. Keyingi ish — `catalog.ts` va published darslar orasidagi mappingni test orqali tekshirish.
+
+## Keyingi o‘qilgan darslik bo‘limi — 4-dars, bosma 16–22
+
+Google Drive ICT 6 (2021) asosiy matnida `forever`, `repeat`, `repeat until` taqqoslandi. `repeat` sanalgan marta ishlaydi; `repeat until` shart boshida rost bo‘lsa tanani hatto bir marta ham bajarmaydi; `forever` tashqi to‘xtatish yoki skript bekor qilinmaguncha davom etadi. 17–18-betlarda ichma-ich sikllar, 19–21-betlarda Sensing/Operators bloklari va shartli takrorlash yoritiladi. `M07.04`dagi qisqa statik nazariya bu uch blokni umumiy to‘g‘ri farqlagan, ammo u 16–22-betlardagi real amaliy rasmlarning to‘liq aksi emas; vizual kod tekshiruvi ochiq. Bosma 22-betdan boshlanadigan amaliy mashqlar ham alohida sahifama-sahifa yakuniy tekshiruvga muhtoj. Bu qo‘shimcha na savol kalitini, na DB statusini o‘zgartiradi.
