@@ -15,14 +15,22 @@ describe('TASK-252 professional informatics methodology source and quality', () 
     }
   })
 
-  it('discloses where the recommended original methodology textbook remains unchecked', () => {
+  it('cites verified physical book pages but does not claim all 460 pages are checked', () => {
     for (const id of ['M16.01', 'M16.02', 'M16.03']) {
       const txt = allText(id)
-      expect(txt).toContain('2.2 «Informatika o‘qitish metodikasi»')
+      expect(txt).toContain('2026 informatika attestatsiyasi spetsifikatsiyasi')
       expect(txt).toContain('Mamarajabov')
-      expect(txt).toContain('fizik sahifalari ushbu auditda hali tekshirilmagan')
-      expect(txt).toContain('rasmiy kalit emas')
+      expect(txt).toContain('2023')
+      expect(txt).toContain('https://turan-edu.uz/media/books/2024/05/22/1708324536.pdf')
+      expect(txt).toMatch(/460/)
+      expect(txt).toContain('audit')
     }
+  })
+
+  it('keeps chapter-specific physical PDF page locators traceable', () => {
+    expect(allText('M16.01')).toContain('172–174')
+    expect(allText('M16.02')).toContain('45–46')
+    expect(allText('M16.03')).toContain('89–91')
   })
 
   it('contrasts curriculum content, pedagogy and spiral sequencing in M16.01', () => {
