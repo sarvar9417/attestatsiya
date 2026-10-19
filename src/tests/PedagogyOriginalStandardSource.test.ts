@@ -36,4 +36,12 @@ describe('TASK-252 scanned original professional standard provenance', () => {
   it('keeps all seven standard topics as keyless study materials', () => {
     for (const [id] of codes) expect(getTopicContent(id)?.questions, id).toEqual([])
   })
+  it('locates each primary-standard labor function on its scanned PDF pages', () => {
+    const pages = ['4–5', '6–8', '8–9', '9–11', '11–13', '15–16', '16–17']
+    codes.forEach(([topic], i) => {
+      const trace = getTopicContent(topic)?.theory.find(block => block.type === 'source')?.content ?? ''
+      expect(trace).toContain('PDF ' + pages[i] + '-sahifalarida')
+    })
+  })
+
 })
