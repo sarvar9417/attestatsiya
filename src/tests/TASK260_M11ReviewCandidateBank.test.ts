@@ -61,7 +61,8 @@ describe('TASK-260: source-grounded M11 HTML draft candidates', () => {
       expect(q.stem.length).toBeGreaterThan(48)
       expect(q.options).toHaveLength(4)
       expect(q.options.every(option => option.trim().length > 0)).toBe(true)
-      expect(new Set(q.options.map(option => option.trim().toLowerCase())).size).toBe(4)
+      // Roman and alphabetic list markers are case-sensitive (I vs i, C vs c).
+      expect(new Set(q.options.map(option => option.trim())).size).toBe(4)
       expect(q.difficulty).toBeGreaterThanOrEqual(1)
       expect(q.difficulty).toBeLessThanOrEqual(5)
     }
