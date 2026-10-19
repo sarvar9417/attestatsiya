@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { getTopicContent } from '../data/topicContent'
+import { M04_DEEP_CHAPTERS } from '../data/topics/m04DeepChapters'
 import { M08_DEEP_CHAPTERS } from '../data/topics/m08DeepChapters'
 import { M11_DEEP_CHAPTERS } from '../data/topics/m11DeepChapters'
 import { M15_DEEP_CHAPTERS } from '../data/topics/m15DeepChapters'
@@ -8,18 +9,18 @@ import { splitSections } from '../components/learning/theory/BookReader'
 import { withPedagogyStudyNotes } from '../data/pedagogyStudyNotes'
 
 const books = {
-  ...M08_DEEP_CHAPTERS, ...M11_DEEP_CHAPTERS,
+  ...M04_DEEP_CHAPTERS, ...M08_DEEP_CHAPTERS, ...M11_DEEP_CHAPTERS,
   ...M15_DEEP_CHAPTERS, ...OFFICE_SQL_DEEP_CHAPTERS,
 }
 
 describe('TASK-285 textbook-style theories in real learner data', () => {
-  it('covers all ten explicitly authored chapters without a missing lesson ID', () => {
+  it('covers all thirteen explicitly authored chapters without a missing lesson ID', () => {
     expect(Object.keys(books).sort()).toEqual([
-      'M03.01', 'M08.05', 'M08.06', 'M08.07',
+      'M03.01', 'M04.01', 'M04.02', 'M04.03', 'M08.05', 'M08.06', 'M08.07',
       'M09.06', 'M11.01', 'M11.03', 'M11.05',
       'M15.03', 'M15.04',
     ])
-    expect(Object.values(books).reduce((n, theory) => n + theory.length, 0)).toBe(300)
+    expect(Object.values(books).reduce((n, theory) => n + theory.length, 0)).toBe(382)
   })
 
   for (const [id, theory] of Object.entries(books)) {
