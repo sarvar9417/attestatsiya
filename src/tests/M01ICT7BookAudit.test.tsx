@@ -29,7 +29,7 @@ describe('TASK-244 — ICT 7-sinf 2021, PDF sahifali M01 manba tekshiruvi', () =
     expect(13381632000 / 8).toBe(1672704000)
 
     const audio = ICT7_M01_PAGE_ADDENDA.find(item =>
-      item.beforeHeading === 'Audioaxborot: namunalash, bit chuqurligi va hajm')!
+      item.beforeHeading === 'Video va multimedia: kadr, FPS, bitrate va hajm')!
     const worked = audio.blocks.find(block => block.type === 'solved')!
     expect(worked.children?.filter(block => block.type === 'keyformula')).toHaveLength(2)
     expect(worked.children?.some(block => block.content.includes('17 280 000 bayt'))).toBe(true)
@@ -47,6 +47,21 @@ describe('TASK-244 — ICT 7-sinf 2021, PDF sahifali M01 manba tekshiruvi', () =
       expect(learner.theory.filter(block => !newlyInserted.includes(block))).toEqual(original.theory)
       expect(learner.questions).toBe(original.questions)
     }
+  })
+
+  it('places graphics in graphics section and audio in audio section, not the previous topic', () => {
+    const theory = getTopicContent('M01.06')!.theory
+    const sectionFor = (heading: string) => {
+      const begin = theory.findIndex(block => block.type === 'heading' && block.content === heading)
+      const next = theory.findIndex((block, i) => i > begin && block.type === 'heading')
+      return theory.slice(begin, next < 0 ? undefined : next)
+    }
+    const graphics = sectionFor('Grafik axborot: rastr, vektor, rang va hajm')
+    const audio = sectionFor('Audioaxborot: namunalash, bit chuqurligi va hajm')
+    const video = sectionFor('Video va multimedia: kadr, FPS, bitrate va hajm')
+    expect(graphics.some(block => block.content.includes('7-sinf: bir bitli rastr'))).toBe(true)
+    expect(audio.some(block => block.content.includes('7-sinf kitobida hisob'))).toBe(true)
+    expect(video.some(block => block.content.includes('7-sinf: animatsiya'))).toBe(true)
   })
 
   it('documents Unicode limits and textbook unit conventions rather than treating them as universal', () => {
