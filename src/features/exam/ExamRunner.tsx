@@ -145,6 +145,7 @@ export default function ExamRunner({
   const latestDraftsRef = useRef<Record<string, AnswerValue>>({})
   const locallyQueuedRef = useRef<Set<string>>(new Set())
   const lastMockRevisionRef = useRef(0)
+  const rejectedMockRef = useRef<Set<string>>(new Set())
 
   useEffect(() => {
     if (examKind !== 'mavzu' || phase !== 'intro') return
@@ -215,6 +216,7 @@ export default function ExamRunner({
     latestDraftsRef.current = {}
     locallyQueuedRef.current = new Set()
     lastMockRevisionRef.current = 0
+    rejectedMockRef.current = new Set()
     if (autosaveTimerRef.current) clearTimeout(autosaveTimerRef.current)
     setSavedQuestionIds(new Set())
     setQueuedQuestionIds(new Set())
@@ -337,11 +339,12 @@ export default function ExamRunner({
     try {
       const report = await gateway.flushQueuedAnswers(session.exam_id)
       const rejected = new Set(report.rejected ?? [])
+      for (const id of rejected) rejectedMockRef.current.add(id)
       const remaining = new Set(session.items.filter(item =>
         gateway.getPendingAnswer?.(session.exam_id, item.question_id)).map(item => item.question_id))
       setSavedQuestionIds(previous => {
         const next = new Set(previous)
-        for (const id of locallyQueuedRef.current) if (!remaining.has(id) && !rejected.has(id)) next.add(id)
+        for (const id of locallyQueuedRef.current) if (!remaining.has(id) && !rejectedMockRef.current.has(id)) next.add(id)
         return next
       })
       setQueuedQuestionIds(remaining)
@@ -437,6 +440,7 @@ export default function ExamRunner({
           Math.floor((Date.now() - questionOpenedAtRef.current) / 1000))),
       })
       locallyQueuedRef.current.add(currentItem.question_id)
+      rejectedMockRef.current.delete(currentItem.question_id)
       setQueuedQuestionIds(prev => new Set([...prev, currentItem.question_id]))
       setSavedQuestionIds(prev => {
         const next = new Set(prev)
