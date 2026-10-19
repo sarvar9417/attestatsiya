@@ -1,3 +1,14 @@
+## 2026-10-19 — TASK-243: M02 darslik, nazariya va dizayn
+
+- **Status:** IN_PROGRESS / release BLOCKED. 2026 rasmiy specs: 2 ta M02 savol, 4 kanonik konstrukt, 9 legacy mavzu turli bo‘limlarga birlashtirilgan.
+- **Branch:** `task/TASK-243-m02-source-and-theory-audit` (`TASK-242` branchdan). `main`ga tegilmagan.
+- **Darsliklar:** Drive’dagi ICT5/10, Cambridge+9/10–11 darsliklari matni va 2026 specs o‘qildi; oldingi M02 13-book sampled index foydali, ammo to‘liq page-by-page audit emas.
+- **Fix:** SSD/NAND nomlanishi, RAM/cache, ROM/flash BIOS, virtual memory, fayl/papka/katalog, kengaytma, Windows filename, litsenziya vs narx, Android bozori va tarixiy ENIAC wording. Statik 34 savol ichida 7 tasi `Y2` (pairs yo‘q), endi `Y1` ID/correctIndex saqlangan; metadata/quiz productionga yozilmadi. Source jadval `rows` original to‘liq bayonga mos.
+- **UX:** 4 M02 topicda heading orphan qilmaydigan paginatsiya; boshqa modullarning standart pagination o‘zgarmagan.
+- **QA:** `src/tests/M02SourceFidelity.test.tsx` canonical/group/question/source/pagination regressiyalari; GitHub Actions terminal CI natijasi va authenticated learner E2E tekshirilishi kerak.
+- **Evidence & gates:** `docs/TASK243_M02_SOURCE_AND_DESIGN_AUDIT_20261019.md`.
+- **No production release:** merge, deploy, migrations, published question status o‘zgartirilmadi.
+
 ## 2026-10-19 — TASK-242: M01 nazariya manba va dizayn auditi
 
 - **Status:** IN_PROGRESS / EDITORIAL REVIEW PENDING; owner request: M01 birinchi, so‘ng M02–M16 ketma-ket; merge va deploy uchun alohida ruxsat kerak.
