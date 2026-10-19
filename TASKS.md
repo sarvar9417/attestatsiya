@@ -1,8 +1,8 @@
-## TASK-244 — M01 darsliklarni bittalab, sahifama-sahifa qayta audit qilish (2026-10-19)
+## TASK-244 — M01: 13 ta darslikni bittalab, asl sahifasi bo‘yicha nazariya tekshiruvi (2026-10-19)
 
-| ID | Status | Manbalar/navbat | Natija / release shartlar |
+| ID | Status | Scope | Natija va qolgan release sharti |
 | --- | --- | --- | --- |
-| TASK-244 | IN_PROGRESS (4/13 darslik, release BLOCKED) | ICT5: PDF 6–24; ICT6: PDF 76–127; ICT7: PDF 4–46/80–83; ICT8: PDF 5–36, 94–104 va CMS/LMS/MOOC 37–93 bo‘yicha relevant qiyos. Keyingisi ICT9, ICT10, ICT11 va 6 Cambridge+ kitobi | **6+4+7+4=21 ta** sahifali original nazariya paketi, generatsiyalangan M01 matni saqlangan; ICT7 PDF 36 audio bosma javob xatosi tuzatilgan; source-to-topic reyestrlari: `docs/TASK244_M01_BOOK_BY_BOOK_SOURCE_AUDIT_20261019.md` va `docs/TASK244_ICT{6,7,8}_M01_PAGE_CONCORDANCE_20261019.md`. CI yakuniy commit, 9 darslik va authenticated visual learner audit tugamaguncha FULLY COMPLETE emas. Merge/deploy/production DB changes yo‘q. |
+| TASK-244 | SOURCE AUDIT 13/13; FINAL QA IN_PROGRESS / RELEASE BLOCKED | ICT 5–11 + Cambridge+ 5, 6, 7, 8, 9, 10–11; 12 M01 mavzu, asl PDF sahifa va UI kontent integratsiyasi | **59 ta page-cited original theory additions**; `m01.ts` generated base va questions saqlangan, regressiyalar `src/tests/M01*BookAudit.test.tsx`. Har darslik uchun PDF concordance: `docs/TASK244_M01_BOOK_BY_BOOK_SOURCE_AUDIT_20261019.md`, `docs/TASK244_*_M01_PAGE_CONCORDANCE_20261019.md`. CI final run, yakuniy real authenticated learner desktop/mobile visual QA, attestatsiya specs bo‘yicha savol–mavzu ekspert review hali release gate. **NO merge, NO deploy, NO production DB changes.** |
 
 ## TASK-243 — M02 nazariya va dizayn auditi (2026-10-19)
 
