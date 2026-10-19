@@ -4,6 +4,7 @@ import { M01_CONTENT } from '../data/topics/m01'
 import { getTopicContent } from '../data/topicContent'
 import {
   ICT5_M01_PAGE_ADDENDA,
+  ALL_M01_PAGE_ADDENDA,
   withVerifiedM01Additions,
 } from '../data/topics/m01TextbookAudit'
 import { splitSections } from '../components/learning/theory/BookReader'
@@ -27,7 +28,7 @@ describe('TASK-244 — ICT 5-sinf (2020) PDF-by-PDF-page M01 review', () => {
   it('preserves every original handbook block exactly, in the original order', () => {
     for (const id of Object.keys(M01_CONTENT)) {
       const original = M01_CONTENT[id].theory
-      const added = ICT5_M01_PAGE_ADDENDA
+      const added = ALL_M01_PAGE_ADDENDA
         .filter(insertion => insertion.topicId === id)
         .flatMap(insertion => insertion.blocks)
       const learner = getTopicContent(id)!
