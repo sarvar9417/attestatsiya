@@ -39,7 +39,7 @@ export const M15_02_CANONICAL_BOOK: TheoryBlock[] = [
     "content": "Bitta dars odatda bir necha tamoyilga tayanadi. Masalan, ma’lumotni saralashda ilmiylik tushunchani to‘g‘ri beradi; ko‘rgazmalilik jadvaldagi natijani ko‘rsatadi; onglilik o‘quvchini sababni tushuntirishga undaydi; amaliyot esa mustaqil filtrdan foydalanish bilan tekshiriladi."
   },
   {
-    "type": "diagram",
+    "type": "text",
     "content": "Maqsad → ilmiy asos → tushunarli tartib → faol mashq → qayta aloqa → mustahkam natija. Ushbu yozma sxema tamoyillar ketma-ket raqam bilan yodlanishini emas, ularning o‘zaro xizmat qilishini tasvirlaydi."
   },
   {
