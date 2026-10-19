@@ -13,10 +13,16 @@ describe('TASK-284 M01-depth quality gate', () => {
     expect(rows.every(row => row.pageVerification === 'unverified')).toBe(true)
   })
 
-  it('detects that uniform BookReader styling does not mean uniform theory depth', () => {
+  it('promotes M03.01/M15.02 above briefing depth while identifying the remaining short lessons', () => {
     expect(rows.some(row => row.depthTriage === 'brief')).toBe(true)
-    expect(byId['M03.01'].characters).toBeLessThan(benchmarkChars)
-    expect(byId['M15.02'].characters).toBeLessThan(benchmarkChars)
+    for (const id of ['M03.01', 'M15.02']) {
+      expect(byId[id].characters, id).toBeGreaterThan(10_000)
+      expect(byId[id].blocks, id).toBeGreaterThanOrEqual(60)
+      expect(byId[id].sections, id).toBeGreaterThanOrEqual(12)
+      expect(byId[id].pageVerification, id).toBe('unverified')
+    }
+    expect(byId['M03.02'].characters).toBeLessThan(benchmarkChars)
+    expect(byId['M15.03'].characters).toBeLessThan(benchmarkChars)
   })
 
   it('new exemplary books have meaningful chapter structure and preserve legacy', () => {
