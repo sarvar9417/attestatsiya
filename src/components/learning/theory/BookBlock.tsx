@@ -220,9 +220,17 @@ export default function BookBlock({ block, index, nested }: Props) {
 
     case 'source':
       return (
-        <section className="book-source">
-          <Library size={13} className="shrink-0 mt-0.5" />
-          <p><InlineText text={block.content} /></p>
+        <section className="book-source" aria-label={block.label || 'Manba izi'}>
+          <Library size={13} className="shrink-0 mt-0.5" aria-hidden="true" />
+          <div className="min-w-0 flex-1">
+            {block.label && block.label !== 'Manba izi' && (
+              <p className="mb-2 font-semibold"><InlineText text={block.label} /></p>
+            )}
+            {block.content && <p><InlineText text={block.content} /></p>}
+            {block.children?.map((child, i) => (
+              <BookBlock key={i} block={child} index={i} nested />
+            ))}
+          </div>
         </section>
       )
 
