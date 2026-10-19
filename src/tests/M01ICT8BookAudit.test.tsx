@@ -8,7 +8,7 @@ import { splitSections } from '../components/learning/theory/BookReader'
 describe('TASK-244 — ICT 8-sinf 2020, social-media source fidelity', () => {
   it('places four page-traced digital literacy supplements in the correct learner topic', () => {
     expect(ICT8_M01_PAGE_ADDENDA).toHaveLength(4)
-    expect(ALL_M01_PAGE_ADDENDA).toHaveLength(36)
+    expect(ALL_M01_PAGE_ADDENDA).toHaveLength(40)
     for (const item of ICT8_M01_PAGE_ADDENDA) {
       expect(item.topicId).toBe('M01.04')
       expect(M01_CONTENT['M01.04'].theory.some(block =>
