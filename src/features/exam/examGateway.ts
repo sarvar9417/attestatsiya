@@ -37,6 +37,8 @@ export interface TopicTestPreview {
 }
 
 export interface ExamGateway {
+  /** The current owner's first offline submission, never a correct-answer key. */
+  getPendingAnswer?(examId: string, questionId: string): Json | undefined
   getAxborotChapters?(): Promise<AXBChapter[]>
   startAxborotChapter?(chapter: number, count: number): Promise<ExamSession>
   startMockExam(): Promise<ExamSession>

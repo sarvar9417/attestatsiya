@@ -7,7 +7,7 @@ const postgresUuidSchema = z.string().regex(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4
 // ─── Module List ────────────────────────────────────────────────
 export const moduleListSchema = {
   querystring: z.object({
-    status: z.enum(['published', 'draft', 'archived']).optional(),
+    status: z.literal('published').optional(),
     section: z.enum(['specialty', 'professional_standard', 'pedagogy', 'methodology']).optional(),
   }),
 }

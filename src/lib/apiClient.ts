@@ -10,7 +10,7 @@
  * to'g'ridan-to'g'ri Supabase'ga ulanmaydi.
  */
 
-import { sessionStore, emitSessionExpired } from '../features/auth/sessionStore'
+import { sessionStore, emitSessionExpired, type AuthSession } from '../features/auth/sessionStore'
 
 export function resolveApiBaseUrl(
   explicitBaseUrl: string | undefined,
@@ -68,7 +68,8 @@ const NO_REFRESH_PATHS = new Set([
   '/api/auth/resend-confirmation',
 ])
 
-let refreshPromise: Promise<{ outcome: RefreshOutcome; token: string | null }> | null = null
+let refreshInFlight: { refreshToken: string; promise: Promise<RefreshResult> } | null = null
+type RefreshResult = { outcome: RefreshOutcome; token: string | null }
 
 /**
  * Refresh natijasi:
@@ -77,14 +78,9 @@ let refreshPromise: Promise<{ outcome: RefreshOutcome; token: string | null }> |
  * - 'network' — tarmoq xatosi (session SAQLANADI — foydalanuvchi
  *               vaqtincha uzilishda tizimdan chiqarib tashlanmaydi)
  */
-type RefreshOutcome = 'ok' | 'invalid' | 'network'
+type RefreshOutcome = 'ok' | 'invalid' | 'network' | 'changed'
 
-async function tryRefreshSession(): Promise<{ outcome: RefreshOutcome; token: string | null }> {
-  const session = sessionStore.get()
-  if (!session?.refresh_token) {
-    return { outcome: 'invalid', token: null }
-  }
-
+async function tryRefreshSession(session: AuthSession): Promise<RefreshResult> {
   try {
     const response = await fetchWithTimeout(`${API_BASE_URL}/api/auth/refresh`, {
       method: 'POST',
@@ -92,30 +88,49 @@ async function tryRefreshSession(): Promise<{ outcome: RefreshOutcome; token: st
       body: JSON.stringify({ refresh_token: session.refresh_token }),
     })
 
+    // An old request must never clear/restore a session after logout or login.
+    if (sessionStore.get()?.refresh_token !== session.refresh_token) {
+      return { outcome: 'changed', token: null }
+    }
     if (!response.ok) {
-      sessionStore.clear()
-      return { outcome: 'invalid', token: null }
+      if ([400, 401, 403].includes(response.status)) {
+        sessionStore.clear()
+        return { outcome: 'invalid', token: null }
+      }
+      // Rate limits and server outages are not rejected credentials.
+      return { outcome: 'network', token: null }
     }
 
-    const data = await response.json()
+    const data = await response.json() as AuthSession
+    if (sessionStore.get()?.refresh_token !== session.refresh_token) {
+      return { outcome: 'changed', token: null }
+    }
+    if (!data.access_token || !data.refresh_token || !Number.isFinite(data.expires_at) ||
+        data.user?.id !== session.user.id) {
+      return { outcome: 'network', token: null }
+    }
     sessionStore.set(data)
-    return { outcome: 'ok', token: data.access_token as string }
+    return { outcome: 'ok', token: data.access_token }
   } catch {
     return { outcome: 'network', token: null }
   }
 }
 
-/**
- * Mutex bilan ishlaydigan refresh: bir vaqtning o'zida bitta refresh
- * chaqiruvi davom etadi; qolganlar o'sha natijani kutadi.
- */
-function refreshSession(): Promise<{ outcome: RefreshOutcome; token: string | null }> {
-  if (!refreshPromise) {
-    refreshPromise = tryRefreshSession().finally(() => {
-      refreshPromise = null
-    })
+/** Coalesce refreshes only for the same account and refresh token. */
+function refreshSession(session: AuthSession): Promise<RefreshResult> {
+  const current = sessionStore.get()
+  if (!current || current.user.id !== session.user.id) {
+    return Promise.resolve({ outcome: 'changed', token: null })
   }
-  return refreshPromise
+  if (current.refresh_token !== session.refresh_token) {
+    return Promise.resolve({ outcome: 'ok', token: current.access_token })
+  }
+  if (refreshInFlight?.refreshToken === session.refresh_token) return refreshInFlight.promise
+  const promise = tryRefreshSession(session).finally(() => {
+    if (refreshInFlight?.promise === promise) refreshInFlight = null
+  })
+  refreshInFlight = { refreshToken: session.refresh_token, promise }
+  return promise
 }
 
 /**
@@ -181,8 +196,12 @@ async function request<T>(
   }
 
   // 401 bo'lsa refresh qilib qayta urinamiz (faqat bir marta)
-  if (response.status === 401 && canRefresh) {
-    const result = await refreshSession()
+  if (response.status === 401 && canRefresh && session) {
+    const result = await refreshSession(session)
+    if (result.outcome === 'changed' ||
+        (result.outcome === 'ok' && sessionStore.get()?.user.id !== session.user.id)) {
+      throw new ApiError('Hisob o‘zgardi. Sahifani qayta oching.', 409, 'SESSION_CHANGED')
+    }
     if (result.outcome === 'ok' && result.token) {
       try {
         response = await doRequest(method, path, body, result.token)
