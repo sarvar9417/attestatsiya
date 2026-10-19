@@ -45,3 +45,18 @@ SELECT module,
  COUNT(*) FILTER(WHERE available<target) underfilled_lessons,
  SUM(GREATEST(target-available,0)) missing_published_slots
 FROM r GROUP BY module ORDER BY module;
+
+-- P0: identify published Drive-sourced entries without real editorial checks.
+-- This is detection only; DO NOT automatically archive or sign off these revisions.
+SELECT q.group_code,
+ COUNT(*) AS drive_sourced_published,
+ COUNT(*) FILTER(WHERE NOT EXISTS(
+   SELECT 1 FROM public.question_editorial_checks ec WHERE ec.question_id=q.id
+      AND ec.answer_verified AND ec.reference_verified
+      AND ec.wording_verified AND ec.original_authorship_verified
+      AND NULLIF(btrim(ec.reviewer_notes),'') IS NOT NULL
+ )) AS published_without_complete_independent_signoff
+FROM public.questions q
+WHERE q.status='published'
+  AND q.source_reference LIKE 'Drive:Attestatsiya/%'
+GROUP BY q.group_code ORDER BY q.group_code;
