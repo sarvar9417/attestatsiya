@@ -58,7 +58,7 @@ describe('19 chapter AXB practice', () => {
     })
     await waitFor(() => {
       expect(screen.getByRole('link', { name: /3 savol/ })).toBeDefined()
-      expect(screen.getAllByRole('link', { name: /30 savol/ }))
+      expect(screen.getAllByRole('link', { name: /30 savol/ })
         .some(link => link.getAttribute('href')?.includes('chapter=16'))).toBe(false)
     })
   })
