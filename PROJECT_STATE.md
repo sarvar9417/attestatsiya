@@ -1,3 +1,15 @@
+## 2026-10-19 — TASK-244: M01 13/13 original ICT/Cambridge+ textbooks, page-by-page source review
+
+- **Status:** 13/13 **M01-relevant** textbook sections compared with original Google Drive PDFs; 59 **page-cited** original learner-theory insertions; generated `m01.ts` unchanged. **NOT yet final release-ready:** final GitHub CI, real mobile/desktop authenticated lesson display and editorial/spec question coverage review are outstanding.
+- **Branch:** `task/TASK-244-m01-book-by-book-source-audit`, created from TASK-243; merge authorized (2026-10-19), no manual production deploy, no production DB writes.
+- **ICT books:** 5-sinf (6 inserts), 6-sinf (4), 7-sinf (7), 8-sinf (4), 9-sinf (3), 10-sinf (3), 11-sinf (5); sum **32**.
+- **Cambridge+ books:** 5-sinf (4), 6-sinf (4), 7-sinf (3), 8-sinf (3), 9-sinf (6), 10–11-sinf (7); sum **27**. Total **59**.
+- **Code:** `src/data/topics/m01TextbookAudit*.ts`, `src/data/topicContent.ts`. Inserts use exact pre-existing canonical topic/heading, preserve every source block, source provenance and question object unchanged.
+- **Test:** `src/tests/M01ICT5BookAudit.test.tsx`, `M01ICT6BookAudit.test.tsx` ... `M01ICT11BookAudit.test.tsx`, `M01Cambridge5BookAudit.test.tsx` ... `M01Cambridge1011BookAudit.test.tsx`, `src/tests/m01Content.test.ts`; source references and base-preservation regressions.
+- **Source page evidence:** `docs/TASK244_M01_BOOK_BY_BOOK_SOURCE_AUDIT_20261019.md`; each subsequent book has `docs/TASK244_ICT{6,7,8,9,10,11}_M01_PAGE_CONCORDANCE_20261019.md` and `docs/TASK244_CAMBRIDGE{5,6,7,8,9,1011}_M01_PAGE_CONCORDANCE_20261019.md`.
+- **Important factual defects distinguished:** ICT7 2021 audio 48 kHz×16 bit×3min = 17,280,000 B ≈ 16.48 MiB, not printed “1,64 Mb”; ICT9 46×40×67 one-byte text ≈0.118 MiB; four-colour raw 2048×1366 =683 KiB; Cambridge9 and 10–11 data validation≠verification, archival codecs and privacy; dynamic/primary/secondary source meanings.
+- **Limit:** PDFs were inventoried in full by accessible text/chapters and M01-relevant sections individually read; **not all pages/pictures of every volume have independent visual QA**. Cross-check of every textbook exercise/test vs official attestatsiya specs and final in-browser authenticated mobile/desktop QA **not complete**. Never label FULLY COMPLETE until these release gates pass.
+
 ## TASK-249 — M01.05/M01.06 remaining 210 source-page traces (2026-10-19)
 
 - **Status:** IN_PROGRESS; `task/TASK-249-m01-encoding-media-source-trace`.

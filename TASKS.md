@@ -1,3 +1,9 @@
+## TASK-244 — M01: 13 ta darslikni bittalab, asl sahifasi bo‘yicha nazariya tekshiruvi (2026-10-19)
+
+| ID | Status | Scope | Natija va qolgan release sharti |
+| --- | --- | --- | --- |
+| TASK-244 | SOURCE AUDIT 13/13; FINAL QA IN_PROGRESS / RELEASE BLOCKED | ICT 5–11 + Cambridge+ 5, 6, 7, 8, 9, 10–11; 12 M01 mavzu, asl PDF sahifa va UI kontent integratsiyasi | **59 ta page-cited original theory additions**; `m01.ts` generated base va questions saqlangan, regressiyalar `src/tests/M01*BookAudit.test.tsx`. Har darslik uchun PDF concordance: `docs/TASK244_M01_BOOK_BY_BOOK_SOURCE_AUDIT_20261019.md`, `docs/TASK244_*_M01_PAGE_CONCORDANCE_20261019.md`. CI final run, yakuniy real authenticated learner desktop/mobile visual QA, attestatsiya specs bo‘yicha savol–mavzu ekspert review hali release gate. **Merge authorized on 2026-10-19; no manual deploy or production DB write.** |
+
 ## TASK-249 — M01.05/M01.06 darslik manbalari
 
 | ID | Status | Natija | Ochiq ish |
