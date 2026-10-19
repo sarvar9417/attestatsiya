@@ -79,3 +79,7 @@ Tarixiy Telegram/test PDFdagi «to‘g‘ri javob» yorlig‘i mustaqil ekspert 
 - **Tarixiy testlar:** 2025 bahor (5)/(6) PDF connector o‘qigan **88 088 belgilik matn bo‘yicha aynan bir xil**; 2025 kuzgi asosiy/(1) esa faqat dastlabki 3000 belgi teng, to‘liq matn boshqa. Ularni avtomatik ikkita alohida bank deb import qilmaslik.
 - **QA:** `src/tests/PedagogyBloomSource.test.ts`da 12 ta test yozildi. Human semantic source signoff, full test-suite exact SHA va 18/18 sahifa auditlari hali tugamagan.
 - **Production:** faqat `task/TASK-247-pedagogy-source-intake-20261019`; merge/deploy/DB migration o‘zgarmadi.
+
+## 7. Rasmiy spetsifikatsiya va full text-extract inventar
+
+Sarvar Drive Informatika Testlar spesifikatsiyasi.pdf (Toshkent, 2026), 2-jadvalga ko‘ra KS=5, PM.GEN=7 va PM.MET=3, jami 15 ta; 7+8+3 esa o‘quv mavzulari soni. Pedagogika/files katalogida 59 PDF va 5 DOCX bor: barcha 59 PDFda fetch urinish; 55 PDF matnli, 4 PDF matnsiz; 5/5 DOCX matni olindi. Shaxsiy reyting mavjud 2 PDF va bir reklama fayli o‘quv korpusiga import qilinmadi. M14.01–07 (7/7) offline fallback nazariya va published dars ostida optional source table; M15.01–08 manbaviy izohlar boyitilgan. 2026 spetsifikatsiyadagi «persiptiv-pedagogik», qo‘llanmadagi «Perseptiv» shakllari alohida ko‘rsatildi. 24 ta Vitest pedagogika testi yozilgan. 18/18 sahifalab tahrir, savol-kalit ekspertizasi, exact SHA CI, mobile E2E va release approval hali OPEN.
