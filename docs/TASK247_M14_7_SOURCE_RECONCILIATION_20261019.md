@@ -42,3 +42,7 @@
 - Fizik betlar bo‘yicha 7 kompetensiya uchun test banki → manba → official 2026 objective crosswalk.
 - Published M14 question pool 7/7 mavzu bo‘yicha expert-reviewed, Y1/Y2/Y3 native format, variant kalit va server score E2E.
 - M15/M16 davomli audit, to‘liq CI va owner UX acceptance; aytilmaguncha release qilmaslik.
+
+## Rasmiy 2026 spetsifikatsiyasiga so‘nggi moslashtirish
+
+Sarvar Drive hisobidagi Informatika Testlar spesifikatsiyasi.pdf (2026) bevosita o‘qildi. 2-jadvalda KS=5, PM.GEN=7, PM.MET=3, jami 15 test belgilangan. 7+8+3 platforma mavzulari esa savol kvotasi emas. Rasmiy spetsifikatsiyaning M15.07 ro‘yxatida «persiptiv-pedagogik qobiliyat», qo‘llanmada «Perseptiv qobiliyat» shakli bor. Har ikkala imlo tahrir qilinmasdan manbalar farqi sifatida izohlangan. Spetsifikatsiyada testlar tavsiya qilingan kitoblardan to‘g‘ridan to‘g‘ri ko‘chirib olinmasligi eslatilgan.
