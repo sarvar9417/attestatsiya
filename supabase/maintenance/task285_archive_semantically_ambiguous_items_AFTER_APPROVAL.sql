@@ -19,8 +19,8 @@ declare
 begin
   for v_original_id in select unnest(array[
     '9fedf9a4-6ac2-44c7-b318-6fb2f8af6a57'::uuid, -- Excel: B3 contains salary AND formula
-    '12eb6f56-f305-b7c7-e2ec-b0d68c0ac2e9'::uuid, -- Python: two results 4
-    'b4dcdda7-1c0b-a57b-ce0f-f296fbd17a99'::uuid  -- Python: three results 2
+    '12eb6f56-f305-b7c7-e2ec-b0d68c0ac2e9'::uuid, -- Python: duplicated computed RHS value
+    'b4dcdda7-1c0b-a57b-ce0f-f296fbd17a99'::uuid  -- Python: duplicated computed RHS values
   ]) loop
     select * into strict v_old
     from public.questions q where q.id=v_original_id for update;
