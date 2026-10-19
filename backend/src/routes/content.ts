@@ -1,7 +1,7 @@
 import type { FastifyInstance } from 'fastify'
 import { contentService } from '../services/content.service.js'
 import { moduleListSchema, moduleDetailSchema, lessonDetailSchema, lessonQuestionsSchema, checkAnswerSchema } from '../schemas/content.js'
-import { sendError } from '../lib/errors.js'
+import { AppError, sendError } from '../lib/errors.js'
 
 export async function contentRoutes(app: FastifyInstance) {
   /**
@@ -10,8 +10,8 @@ export async function contentRoutes(app: FastifyInstance) {
    */
   app.get('/api/content/modules', async (req, reply) => {
     try {
-      const { status, section } = moduleListSchema.querystring.parse(req.query)
-      const result = await contentService.listModules(section, status)
+      const { section } = moduleListSchema.querystring.parse(req.query)
+      const result = await contentService.listModules(section)
       return reply.send(result)
     } catch (error) {
       return sendError(reply, error)
@@ -76,13 +76,14 @@ export async function contentRoutes(app: FastifyInstance) {
 
   /**
    * POST /api/content/questions/check
-   * Server-side answer check (question_keys never leaves the server)
+   * Retired: feedback must go through authenticated exam submit/review.
+   * A question ID alone must never reveal answers from the shared exam bank.
    */
   app.post('/api/content/questions/check', async (req, reply) => {
-    const { question_id, option_id } = checkAnswerSchema.body.parse(req.body)
     try {
-      const result = await contentService.checkAnswer(question_id, option_id)
-      return reply.send(result)
+      checkAnswerSchema.body.parse(req.body)
+      reply.header('Cache-Control', 'no-store')
+      throw new AppError('Javobni tekshirish uchun mavzu sinovini boshlang.', 410, 'PRACTICE_SESSION_REQUIRED')
     } catch (error) {
       return sendError(reply, error)
     }

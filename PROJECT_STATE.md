@@ -1,3 +1,12 @@
+## TASK-240 — Platform security and answer reliability audit (2026-10-18)
+
+- **Owner:** Codex; claimed 2026-10-18T15:28:44Z on `task/TASK-240-platform-audit-fixes`.
+- **Authorization:** user requested a deeper audit and fixes; scope is code, regression tests and a reviewable PR. No production database changes or release.
+- **Dependencies:** existing content/exam foundation and TASK-236 are DONE. TASK-237/238 staging and release remain separate.
+- **Status:** CODE COMPLETE; REVIEW PENDING. Publication boundaries, answer-key disclosure, exam persistence/finish races and auth refresh defects are corrected with regression tests. GitHub write access was restored on 2026-10-19; dedicated remote branch created. PR/CI review follows.
+- **Baseline:** main `d83db40`; 472 frontend and 225 backend tests pass locally. Existing green tests do not cover all identified boundaries.
+- **Validation:** rebased onto `40c3d49`; 516 frontend and 238 backend tests pass, lint and TypeScript pass. See `docs/TASK240_PLATFORM_AUDIT.md` for build evidence and outstanding browser/database gates.
+
 ## 2026-10-18 — TASK-239 Office 2.0 release gate
 - Owner: Office V2 integration task. Branch: `task/TASK-239-office-v2-visual-assets`; PR #178.
 - DB read-only audit (active project `plyqezulrfowyblsfpzy`): M03 office-v2 9 review lessons, 270 questions (162 Y1, 54 Y2, 54 Y3), 263 review + 7 draft visual questions. Other 4 published Office lessons remain untouched.

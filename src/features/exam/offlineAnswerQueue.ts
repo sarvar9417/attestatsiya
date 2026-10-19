@@ -1,8 +1,9 @@
+import { sessionStore } from '../auth/sessionStore'
 import { isNetworkError } from '../../lib/apiClient'
 import type { SubmitAnswerResponse } from './contracts'
 import type { SubmitAnswerInput } from './examGateway'
 
-const STORAGE_KEY = 'attestatsiya:exam:pending-answers:v1'
+const STORAGE_KEY = 'attestatsiya:exam:pending-answers:v2'
 const MAX_PENDING_ANSWERS = 200
 
 export interface PendingAnswer extends SubmitAnswerInput {
@@ -35,11 +36,12 @@ function isPendingAnswer(value: unknown): value is PendingAnswer {
   )
 }
 
-function readQueue(): PendingAnswer[] {
+function readQueue(ownerId = sessionStore.get()?.user.id): PendingAnswer[] {
+  if (!ownerId) return []
   const target = storage()
   if (!target) return []
 
-  const raw = target.getItem(STORAGE_KEY)
+  const raw = target.getItem(`${STORAGE_KEY}:${ownerId}`)
   if (!raw) return []
 
   try {
@@ -51,16 +53,17 @@ function readQueue(): PendingAnswer[] {
   }
 }
 
-function writeQueue(queue: readonly PendingAnswer[]): void {
+function writeQueue(queue: readonly PendingAnswer[], ownerId = sessionStore.get()?.user.id): void {
+  if (!ownerId) throw new Error('Javobni saqlash uchun hisobga kiring.')
   const target = storage()
   if (!target) return
 
   if (queue.length === 0) {
-    target.removeItem(STORAGE_KEY)
+    target.removeItem(`${STORAGE_KEY}:${ownerId}`)
     return
   }
 
-  target.setItem(STORAGE_KEY, JSON.stringify(queue.slice(0, MAX_PENDING_ANSWERS)))
+  target.setItem(`${STORAGE_KEY}:${ownerId}`, JSON.stringify(queue))
 }
 
 function queueIdentity(input: Pick<SubmitAnswerInput, 'examId' | 'questionId'>): string {
@@ -72,17 +75,22 @@ function queueIdentity(input: Pick<SubmitAnswerInput, 'examId' | 'questionId'>):
  * Serverdagi first-submit immutable qoidasiga mos ravishda keyingi urinish
  * mavjud navbatdagi javobni almashtirmaydi.
  */
-export function enqueuePendingAnswer(input: SubmitAnswerInput): PendingAnswer {
-  const queue = readQueue()
+export function enqueuePendingAnswer(
+  input: SubmitAnswerInput, ownerId = sessionStore.get()?.user.id
+): PendingAnswer {
+  const queue = readQueue(ownerId)
   const identity = queueIdentity(input)
   const existing = queue.find(item => queueIdentity(item) === identity)
   if (existing) return existing
 
+  if (queue.length >= MAX_PENDING_ANSWERS) {
+    throw new Error('Saqlanmagan javoblar navbati to‘ldi. Internetga ulanib qayta urining.')
+  }
   const pending: PendingAnswer = {
     ...input,
     queuedAt: new Date().toISOString(),
   }
-  writeQueue([...queue, pending])
+  writeQueue([...queue, pending], ownerId)
   return pending
 }
 
@@ -94,9 +102,9 @@ export function clearPendingAnswers(): void {
   writeQueue([])
 }
 
-export function removePendingAnswer(examId: string, questionId: string): void {
+export function removePendingAnswer(examId: string, questionId: string, ownerId = sessionStore.get()?.user.id): void {
   const identity = `${examId}:${questionId}`
-  writeQueue(readQueue().filter(item => queueIdentity(item) !== identity))
+  writeQueue(readQueue(ownerId).filter(item => queueIdentity(item) !== identity), ownerId)
 }
 
 /**
@@ -106,17 +114,21 @@ export function removePendingAnswer(examId: string, questionId: string): void {
  * chiqariladi.
  */
 export async function flushPendingAnswers(
-  sender: AnswerSender
+  sender: AnswerSender,
+  examId?: string,
 ): Promise<FlushPendingAnswersResult> {
-  const snapshot = readQueue()
+  const ownerId = sessionStore.get()?.user.id
+  const forExam = (item: PendingAnswer) => !examId || item.examId === examId
+  const snapshot = readQueue(ownerId).filter(forExam)
   let flushed = 0
   let stoppedByNetwork = false
 
   for (const pending of snapshot) {
+    if (sessionStore.get()?.user.id !== ownerId) break
     try {
       const response = await sender(pending)
       if ('saved' in response || 'error' in response) {
-        removePendingAnswer(pending.examId, pending.questionId)
+        removePendingAnswer(pending.examId, pending.questionId, ownerId)
         flushed += 1
       }
     } catch (error) {
@@ -133,7 +145,7 @@ export async function flushPendingAnswers(
 
   return {
     flushed,
-    remaining: readQueue().length,
+    remaining: readQueue(ownerId).filter(forExam).length,
     stoppedByNetwork,
   }
 }

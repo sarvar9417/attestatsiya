@@ -1,3 +1,9 @@
+## TASK-240 — Platform audit fixes
+
+| ID | Status | Dependency | Acceptance |
+|---|---|---|---|
+| TASK-240 | REVIEW PENDING (code complete) | TASK-P0-004, TASK-236 (DONE) | Publication, session and exam-persistence fixes validated: 516 frontend + 238 backend tests. GitHub access restored; dedicated branch prepared for PR review. Browser/fresh-database gates and production release remain separate. |
+
 ## TASK-239 — Office V2 grafik savollarini yakunlash
 | ID | Status | Dependency | Natija / release sharti |
 |---|---|---|---|
