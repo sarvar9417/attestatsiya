@@ -70,3 +70,18 @@ Across all 450 published pedagogy questions:
 - **0** difficulty values outside the allowed 1–5 range.
 
 These are structural quality checks only. They do not verify semantic correctness, answer keys, difficulty calibration, discrimination, or the exact book page.
+
+## Y1 longest-answer length cue: updated audit
+
+A fresh read-only aggregation of all **426 published Y1** rows found:
+
+| Group | Published Y1 | Correct answer uniquely longest | Of those, correct length less than 30% above the next longest |
+|---|---:|---:|---:|
+| KS | 130 | 24 | 20 |
+| PM.GEN | 223 | 55 | 51 |
+| PM.MET | 73 | 6 | 5 |
+| **Total** | **426** | **85** | **76** |
+
+Method: whitespace-normalized option content length, join `question_keys.payload.correct_option_id` to `question_options.id` **inside SQL**, aggregate counts only (no keys, stems, option content, or user data returned). "Uniquely longest" means longer than **every** distractor; threshold is `(length(correct)-length(longest distractor))/length(longest distractor)<0.30`. This is an editorial heuristic, not proof that a question is invalid. Earlier PR #149 cited **75** such examples using a different/historical audit; the counts must not be considered directly identical without exact metric parity and timestamps.
+
+**Review action:** 76 close-gap examples are a priority reading queue; the remaining 9 uniquely-longest items require a separate cue judgment too. Do not bulk shorten correct options or rewrite distractors without human review and immutable-version preservation.
