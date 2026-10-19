@@ -1,0 +1,27 @@
+# TASK-258: PRIVATE REVIEW QUESTIONS — METADATA ONLY; NO ANSWER KEYS OR STEMS
+# Thematic PDF pages are NOT exact original source citations; manual item-level verification still required.
+module	lesson	source_ref	format	status	key_record_present	editorial_record_present	thematic_pdf	thematic_physical_pages_not_per_item_citation	item_exact_page_verified	independent_key_reviewed	distractors_reviewed	expert_signoff	eligible_for_publish	editor_notes
+M06	masala-algoritmini-tuzish	specgap-2026:ZC-A03-Y1-001	Y1	review	true	false	ICT 9_sinf-2020(1).pdf	28-32	NO	NO	NO	NO	NO	
+M06	masala-algoritmini-tuzish	specgap-2026:ZC-A03-Y1-002	Y1	review	true	false	ICT 9_sinf-2020(1).pdf	28-32	NO	NO	NO	NO	NO	
+M06	masala-algoritmini-tuzish	specgap-2026:ZC-A03-Y1-003	Y1	review	true	false	ICT 9_sinf-2020(1).pdf	28-32	NO	NO	NO	NO	NO	
+M06	masala-algoritmini-tuzish	specgap-2026:ZC-A03-Y1-004	Y1	review	true	false	ICT 9_sinf-2020(1).pdf	28-32	NO	NO	NO	NO	NO	
+M06	masala-algoritmini-tuzish	specgap-2026:ZC-A03-Y2-001	Y2	review	true	false	ICT 9_sinf-2020(1).pdf	28-32	NO	NO	NO	NO	NO	
+M06	masala-algoritmini-tuzish	specgap-2026:ZC-A03-Y3-001	Y3	review	true	false	ICT 9_sinf-2020(1).pdf	28-32	NO	NO	NO	NO	NO	
+M08	javascript-sintaksis-asoslari	specgap-2026:ZC-JS04-Y1-001	Y1	review	true	false	10-11-sinf informatika (Cambridge +)(1).pdf	316-319	NO	NO	NO	NO	NO	
+M08	javascript-sintaksis-asoslari	specgap-2026:ZC-JS04-Y1-002	Y1	review	true	false	10-11-sinf informatika (Cambridge +)(1).pdf	316-319	NO	NO	NO	NO	NO	
+M08	javascript-sintaksis-asoslari	specgap-2026:ZC-JS04-Y1-003	Y1	review	true	false	10-11-sinf informatika (Cambridge +)(1).pdf	316-319	NO	NO	NO	NO	NO	
+M08	javascript-sintaksis-asoslari	specgap-2026:ZC-JS04-Y1-004	Y1	review	true	false	10-11-sinf informatika (Cambridge +)(1).pdf	316-319	NO	NO	NO	NO	NO	
+M08	javascript-sintaksis-asoslari	specgap-2026:ZC-JS04-Y2-001	Y2	review	true	false	10-11-sinf informatika (Cambridge +)(1).pdf	316-319	NO	NO	NO	NO	NO	
+M08	javascript-sintaksis-asoslari	specgap-2026:ZC-JS04-Y3-001	Y3	review	true	false	10-11-sinf informatika (Cambridge +)(1).pdf	316-319	NO	NO	NO	NO	NO	
+M12	arxitektura-va-topologiyalar	specgap-2026:ZC-N02-Y1-001	Y1	review	true	false	ICT 11_sinf-2021(1).pdf	140-145;167-170	NO	NO	NO	NO	NO	
+M12	arxitektura-va-topologiyalar	specgap-2026:ZC-N02-Y1-002	Y1	review	true	false	ICT 11_sinf-2021(1).pdf	140-145;167-170	NO	NO	NO	NO	NO	
+M12	arxitektura-va-topologiyalar	specgap-2026:ZC-N02-Y1-003	Y1	review	true	false	ICT 11_sinf-2021(1).pdf	140-145;167-170	NO	NO	NO	NO	NO	
+M12	arxitektura-va-topologiyalar	specgap-2026:ZC-N02-Y1-004	Y1	review	true	false	ICT 11_sinf-2021(1).pdf	140-145;167-170	NO	NO	NO	NO	NO	
+M12	arxitektura-va-topologiyalar	specgap-2026:ZC-N02-Y2-001	Y2	review	true	false	ICT 11_sinf-2021(1).pdf	140-145;167-170	NO	NO	NO	NO	NO	
+M12	arxitektura-va-topologiyalar	specgap-2026:ZC-N02-Y3-001	Y3	review	true	false	ICT 11_sinf-2021(1).pdf	140-145;167-170	NO	NO	NO	NO	NO	
+M12	internetdan-xavfsiz-va-maqsadli-foydalanish	specgap-2026:ZC-N04-Y1-001	Y1	review	true	false	ICT 6_sinf-2021(1).pdf	80-83;96-97	NO	NO	NO	NO	NO	
+M12	internetdan-xavfsiz-va-maqsadli-foydalanish	specgap-2026:ZC-N04-Y1-002	Y1	review	true	false	ICT 6_sinf-2021(1).pdf	80-83;96-97	NO	NO	NO	NO	NO	
+M12	internetdan-xavfsiz-va-maqsadli-foydalanish	specgap-2026:ZC-N04-Y1-003	Y1	review	true	false	ICT 6_sinf-2021(1).pdf	80-83;96-97	NO	NO	NO	NO	NO	
+M12	internetdan-xavfsiz-va-maqsadli-foydalanish	specgap-2026:ZC-N04-Y1-004	Y1	review	true	false	ICT 6_sinf-2021(1).pdf	80-83;96-97	NO	NO	NO	NO	NO	
+M12	internetdan-xavfsiz-va-maqsadli-foydalanish	specgap-2026:ZC-N04-Y2-001	Y2	review	true	false	ICT 6_sinf-2021(1).pdf	80-83;96-97	NO	NO	NO	NO	NO	
+M12	internetdan-xavfsiz-va-maqsadli-foydalanish	specgap-2026:ZC-N04-Y3-001	Y3	review	true	false	ICT 6_sinf-2021(1).pdf	80-83;96-97	NO	NO	NO	NO	NO	
