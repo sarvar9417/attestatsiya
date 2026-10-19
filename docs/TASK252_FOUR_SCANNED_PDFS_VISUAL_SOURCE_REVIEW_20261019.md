@@ -18,6 +18,8 @@ Manba: [Maktab pedagoglari - Kasb standarti (Oʻzbek tili).pdf](https://drive.go
 
 2-sahifadagi **A** yo‘nalishi = ta’lim/tarbiya jarayonini boshqarish (5 vazifa), **B** yo‘nalishi = kasbiy rivojlanish va hamkorlik (2 vazifa). 6-sahifada A/02.6 faol usullar, metakognitsiya, differensial yordam; 12-sahifada A/05.6 xavfsiz/inkluziv muhit kabi mehnat vazifalari ko‘rildi. 17-sahifada hamkorlik yakuni va imzo/muhr joyi ko‘rildi. Bunday skanerlangan hujjatning amaldagi yuridik kuchini aniqlash uchun tegishli vakolatli organ/normativ reyestr bilan mustaqil tasdiq talab etiladi.
 
+**Kengaytirilgan page pass:** asl 17/17 sahifaning har biri vizual kompozitlarda ko‘rildi: 1-sahifa titul, 2-sahifa umumiy xarita, 3-sahifa umumiy kasbiy talablar, 4–5-sahifalar A/01.6 rejalash, 6–8-sahifalar A/02.6 samaradorlik, 8–9-sahifalar A/03.6 baholash, 9–11-sahifalar A/04.6 tarbiya, 11–13-sahifalar A/05.6 xavfsiz muhit, 13–14-sahifalar B yo‘nalishi umumiy talablar, 15–16-sahifalar B/01.6 kasbiy o‘sish, 16–17-sahifalar B/02.6 hamkorlik. Sahifalar chegaradagi bob o‘tishlarida ustma-ust tushadi. Bu **17/17 sahifa vizual orientatsiya**, har bir normativ iboraning yuridik validatsiyasi yoki human pedagogic expert signoff emas.
+
 7 ta statik M14 manba bloki endi o‘sha asl hujjat 2-sahifasini va alohida vazifa kodini ko‘rsatadi; ikkilamchi Kasb-standarti.pdf matn nusxasi faqat taqqoslashda qo‘llanadi.
 
 ## 2. 2026 diagnostik test — mos bo‘limini ajratish
