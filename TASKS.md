@@ -1,3 +1,9 @@
+## TASK-250 — M02 Y1 test savollari uchun source review
+
+| ID | Status | Natija | Ochiq ish |
+|---|---|---|---|
+| TASK-250 | IN_PROGRESS | 4 kanonik guruhdagi 34 legacy Y1 savol uchun darslikning sahifa nomzodi, 6 risk flag, regression gate | Savol, kalit va barcha muqobil javoblar ekspert tasdig‘i; 528 ta alohida KTD review bankini hali nashr qilmaslik |
+
 ## TASK-249 — M01.05/M01.06 darslik manbalari
 
 | ID | Status | Natija | Ochiq ish |
