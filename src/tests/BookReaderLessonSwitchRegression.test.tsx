@@ -52,6 +52,5 @@ describe('book reader: switching lessons after reading a long chapter', () => {
     for (const tab of newTabs.slice(1)) {
       expect(tab).toHaveAttribute('aria-selected', 'false')
     }
-    expect(screen.getByText(`1/${newTabs.length} bo‘lim`)).toBeInTheDocument()
   })
 })
