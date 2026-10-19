@@ -140,6 +140,9 @@ export default function ExamRunner({
   const finishInFlightRef = useRef(false)
   const submitInFlightRef = useRef(false)
   const autoFinishAttemptedRef = useRef(false)
+  const autosaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const latestDraftsRef = useRef<Record<string, AnswerValue>>({})
+  const locallyQueuedRef = useRef<Set<string>>(new Set())
 
   useEffect(() => {
     if (examKind !== 'mavzu' || phase !== 'intro') return
@@ -159,7 +162,9 @@ export default function ExamRunner({
 
   const currentItem = session?.items[currentIndex]
   const total = session?.items.length ?? 0
-  const savedCount = savedQuestionIds.size
+  const savedCount = session?.kind === 'mock'
+    ? new Set([...savedQuestionIds, ...queuedQuestionIds]).size
+    : savedQuestionIds.size
   const unansweredCount = Math.max(0, total - savedCount)
 
   const deadlineMs = useMemo(() => {
@@ -205,6 +210,9 @@ export default function ExamRunner({
     setReviewLoading(false)
     setReviewError(null)
     setDrafts({})
+    latestDraftsRef.current = {}
+    locallyQueuedRef.current = new Set()
+    if (autosaveTimerRef.current) clearTimeout(autosaveTimerRef.current)
     setSavedQuestionIds(new Set())
     setQueuedQuestionIds(new Set())
     setFlaggedQuestionIds(new Set())
@@ -279,8 +287,10 @@ export default function ExamRunner({
 
       // Restore only the owner's persisted answers; correctness and keys remain hidden.
       for (const item of nextSession.items) {
-        const stored = nextSession.saved_answers?.[item.question_id] ??
-          gateway.getPendingAnswer?.(nextSession.exam_id, item.question_id)
+        const pending = gateway.getPendingAnswer?.(nextSession.exam_id, item.question_id)
+        const stored = nextSession.kind === 'mock'
+          ? pending ?? nextSession.saved_answers?.[item.question_id]
+          : nextSession.saved_answers?.[item.question_id] ?? pending
         if (!stored || typeof stored !== 'object' || Array.isArray(stored)) continue
         const response = stored as Record<string, unknown>
         if (item.format === 'Y1' && typeof response.option_id === 'string') {
@@ -297,6 +307,9 @@ export default function ExamRunner({
         }
       }
       setSession(nextSession)
+      latestDraftsRef.current = initialDrafts
+      locallyQueuedRef.current = new Set(nextSession.items.filter(item =>
+        gateway.getPendingAnswer?.(nextSession.exam_id, item.question_id)).map(item => item.question_id))
       setDrafts(initialDrafts)
       setSavedQuestionIds(new Set(nextSession.answered_question_ids ?? []))
       setQueuedQuestionIds(new Set(nextSession.items.filter(item =>
@@ -314,6 +327,45 @@ export default function ExamRunner({
     }
   }
 
+  // Persist the latest completed mock choices without leaking answer keys.
+  const syncMockAnswers = useCallback(async () => {
+    if (!session || session.kind !== 'mock' || !gateway.flushQueuedAnswers) return
+    if (!session.items.some(item => gateway.getPendingAnswer?.(session.exam_id, item.question_id))) return
+    try {
+      await gateway.flushQueuedAnswers(session.exam_id)
+      const remaining = new Set(session.items.filter(item =>
+        gateway.getPendingAnswer?.(session.exam_id, item.question_id)).map(item => item.question_id))
+      setSavedQuestionIds(previous => {
+        const next = new Set(previous)
+        for (const id of locallyQueuedRef.current) if (!remaining.has(id)) next.add(id)
+        return next
+      })
+      setQueuedQuestionIds(remaining)
+    } catch (error) {
+      // A failed network request does not clear the durable local answer.
+      setMessage(errorMessage(error))
+    }
+  }, [session, gateway])
+
+  useEffect(() => {
+    if (phase !== 'active' || session?.kind !== 'mock') return
+    const onReconnect = () => { void syncMockAnswers() }
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') void syncMockAnswers()
+    }
+    const interval = window.setInterval(() => {
+      if (navigator.onLine) void syncMockAnswers()
+    }, 5_000)
+    window.addEventListener('online', onReconnect)
+    document.addEventListener('visibilitychange', onVisible)
+    void syncMockAnswers()
+    return () => {
+      window.clearInterval(interval)
+      window.removeEventListener('online', onReconnect)
+      document.removeEventListener('visibilitychange', onVisible)
+    }
+  }, [phase, session?.kind, session?.exam_id, syncMockAnswers])
+
   const finishExam = useCallback(async () => {
     if (!session || finishInFlightRef.current || submitInFlightRef.current) return
 
@@ -322,6 +374,12 @@ export default function ExamRunner({
     setMessage(null)
 
     try {
+      if (session.kind === 'mock' && gateway.flushQueuedAnswers) {
+        const pending = await gateway.flushQueuedAnswers(session.exam_id)
+        if (pending.remaining > 0) {
+          throw new Error('Ba’zi javoblar hali serverga saqlanmadi. Internetni tekshiring va yakunlashni qayta bosing.')
+        }
+      }
       const nextResult = await gateway.finishExam(session.exam_id)
       setResult(nextResult)
       setPhase('result')
