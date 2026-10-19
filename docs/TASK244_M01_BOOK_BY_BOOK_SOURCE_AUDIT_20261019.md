@@ -1,7 +1,7 @@
 # TASK-244 — M01 nazariyasi: darsliklarni bittalab, sahifa asosida tekshirish
 
 **Boshlangan sana:** 2026-10-19  
-**Status:** IN_PROGRESS — kitob 1/13 (ICT5), 2/13 (ICT6), 3/13 (ICT7), 4/13 (ICT8) bo‘yicha M01ga daxldor sahifalar o‘qildi; qo‘shimcha nazariya yozildi. Barcha M01 mavzulari va barcha darsliklar **hali to‘liq tasdiqlanmagan**.  
+**Status:** IN_PROGRESS — kitob 1/13 (ICT5), 2/13 (ICT6), 3/13 (ICT7), 4/13 (ICT8), 5/13 (ICT9) bo‘yicha M01ga daxldor sahifalar o‘qildi; tegishli nazariya to‘ldirildi. Barcha M01 mavzulari va barcha darsliklar **hali to‘liq tasdiqlanmagan**.  
 **Ish branchi:** `task/TASK-244-m01-book-by-book-source-audit`.  
 **Release qoidasi:** `main`ga merge qilinmaydi, production deploy, DB write yoki test publish amalga oshirilmaydi.
 
@@ -63,7 +63,7 @@
 | 2 | ICT 6-sinf (2021) | **M01 PDF 76–127 o‘qildi; 4 ta sahifali addendum qo‘shildi; CI yakuniga bog‘liq**. Tafsilot: `docs/TASK244_ICT6_M01_PAGE_CONCORDANCE_20261019.md` |
 | 3 | ICT 7-sinf (2021) | **M01 PDF 4–46 hamda 80–83 o‘qildi; 7 ta sahifali addendum.** `docs/TASK244_ICT7_M01_PAGE_CONCORDANCE_20261019.md` |
 | 4 | ICT 8-sinf (2020) | **M01 raqamli savodxonlik PDF 5–36, 94–104 o‘qildi, CMS/LMS/MOOC konseptlari 37–93 bilan qiyoslandi; 4 ta original sahifali addendum.** `docs/TASK244_ICT8_M01_PAGE_CONCORDANCE_20261019.md` |
-| 5 | ICT 9-sinf (2020) | NOT STARTED |
+| 5 | ICT 9-sinf (2020) | **114 sahifa boblari xaritalandi; PDF 5–27 o‘qildi, M01ga tegishli PDF 19–22 va 27 hisoblari tekshirildi; 3 ta original addendum.** M04ga tegishli darslik nomuvofiqliklari reyestrga yozildi. `docs/TASK244_ICT9_M01_PAGE_CONCORDANCE_20261019.md` |
 | 6 | ICT 10-sinf (2021) | NOT STARTED |
 | 7 | ICT 11-sinf (2021) | NOT STARTED |
 | 8 | Cambridge+ 5-sinf | NOT STARTED |
@@ -75,6 +75,6 @@
 
 **Oraliq release-gates:** har kitobdagi barcha M01ga daxldor sahifalar, jadvallar/rasmlarni solishtirish; har bir addendum uchun hujjatlashtirilgan page trace; yakuniy CI typecheck/test/build; real mobil/desktop reader va autentifikatsiyalangan nazariya-test E2E; insonning alohida release roziligi.
 
-**Hozirgi umumiy holat:** 4/13 darslikning M01ga daxldor materiallari sahifalar bilan qiyoslandi; 9/13 hali navbatda. `src/data/topics/m01TextbookAudit.ts` ICT5, ICT6, ICT7 va ICT8 qo‘shimchalarini birlashtiradi, jami **21 ta** sahifali paket (6+4+7+4). Manba reyestrlari: `docs/TASK244_M01_BOOK_BY_BOOK_SOURCE_AUDIT_20261019.md` (ICT5), `docs/TASK244_ICT6_M01_PAGE_CONCORDANCE_20261019.md`, `docs/TASK244_ICT7_M01_PAGE_CONCORDANCE_20261019.md`, `docs/TASK244_ICT8_M01_PAGE_CONCORDANCE_20261019.md`. ICT7 PDF 36 dagi audio hisob bosma xatosi aniq ajratildi. Keyingi ICT9 (2020).
+**Hozirgi umumiy holat:** 5/13 darslikning M01ga daxldor materiali sahifalar bo‘yicha qiyoslandi; 8/13 hali navbatda. `src/data/topics/m01TextbookAudit.ts` ICT5, ICT6, ICT7, ICT8 va ICT9 qo‘shimchalarini birlashtiradi, jami **24 ta** sahifali paket (6+4+7+4+3). ICT9 manbasi: `docs/TASK244_ICT9_M01_PAGE_CONCORDANCE_20261019.md`. M04 materiallari bo‘lgan mantiq, model turlarining M01da ortiqcha takrorlanishiga yo‘l qo‘yilmadi. **Keyingi kitob ICT10 (2021).** CI/learner UI rejalashtirilgan release-gatelari saqlanadi.
 
 **Oldingi M02/M03 nazariyalari hali ushbu yangi sahifama-sahifa usulda qayta tekshirilmagan.**
