@@ -1,3 +1,7 @@
+## TASK-262 — M08 Python va JavaScript source QA
+
+| TASK-262 | IN_PROGRESS — METADATA DONE / EDITORIAL BLOCKED | TASK-251 | 5 canonical M08 lessons; 45/100 eligible published, 55 deficit, 426 mapped keyed review occurrences (256 Y1/85 Y2/85 Y3), 0 independent approvals, only 6 matching canonical source_lesson. Python ICT9 PDF52–108 vs JS Cambridge+10–11 PDF316–329. Read-only SQL/report/test; no release. See docs/TASK262_M08_PYTHON_JS_SOURCE_QA_20261019.md. |
+
 ## TASK-261 — M09 DB/Access 5-mavzu review QA
 
 | TASK-261 | IN_PROGRESS — INVENTORY DONE / EDITORIAL BLOCKED | TASK-251 | M09 5 canonical topics: 75 missing published slots, 309 mapped keyed review occurrences (189 Y1/60 Y2/60 Y3), 0 signed editorial checks, only 21 canonical source_lesson matches. ICT 11 PDF 4–52 source crosswalk and safe SQL/test added; no keys/publish/deploy. See docs/TASK261_M09_DB_ACCESS_SOURCE_QA_20261019.md. |
