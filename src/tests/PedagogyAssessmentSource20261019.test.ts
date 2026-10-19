@@ -92,6 +92,17 @@ describe('pedagogika M14.03 and M15 source-and-safety reconciliation', () => {
     expect(table).toContain('| Ekologik |')
   })
 
+  it('separates ability classification from authoritarian teaching style and gives source pages', () => {
+    const blocks = theory('M15.07')
+    const text = blocks.map(x => x.content).join('\n')
+    expect(text).toContain('«avtoritar uslub»')
+    expect(text).toContain('aynan bitta tushuncha emas')
+    expect(text).toContain('fizik 3-sahifa')
+    expect(text).toContain('6-sahifa')
+    expect(text).toContain('19–20-sahifalar')
+    expect(text).toContain('1vx6tDQ62fQ8AomiVexBsplHHhpCpJuqZ')
+  })
+
   it('preserves untouched lessons and the server-scored-only guard', () => {
     for (const id of ['M15.02', 'M15.04']) {
       expect(theory(id).length, id).toBeGreaterThan(0)
