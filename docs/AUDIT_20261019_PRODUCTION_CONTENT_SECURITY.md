@@ -25,6 +25,14 @@ Normalized question stem bo‘yicha **9 ta takrorlovchi matn guruhi** aniqlandi,
 
 **Tuzatildi (branch):** `requestId` orqali faqat eng so‘nggi so‘rovning natijasi va xatolari UI ga chiqadi; unmount paytida eski so‘rovlar bekor hisoblanadi. Regressiya testi out-of-order ikki so‘rovni sinaydi. Server banki, test tarixlari, haqiqiy savollar va mavzu nazariyasi o‘zgartirilmadi.
 
+## Natijalar sahifasida parallel so‘rovlar (qo‘shimcha P1 tuzatish)
+
+**Aniqlangan xato:** `src/pages/ExamResultPage.tsx` foydalanuvchi `/results/:examId` marshruti orqali boshqa test natijasiga o‘tganda eski `getResult` yoki `getReview` so‘rovlari kech tugashi mumkin edi. Oldingi sahifaning natijasi yoki javoblar tahlili yangi sinov oynasida paydo bo‘lish xavfi mavjud edi.
+
+**Tuzatildi (faqat audit branchida):** result va review so‘rovlari mustaqil `requestId` bilan nazorat qilinadi; navigatsiya, retry, StrictMode cleanup va unmount oldingi javoblarni bekor hisoblaydi; yangi natija yuklanganda oldingi review tozalanadi; backend qaytargan `exam_id` URL’dagi qiymatga aynan mos kelishi shart. Natija sahifasi eski imtihon holatini yangi URL ostida ko‘rsatmaydi.
+
+**Regressiya:** `src/tests/ExamResultPage.test.tsx`ga (1) eski natija kech kelgan ikki URL senariysi va (2) eski savollar tahlili kech kelgan ikki URL senariysi qo‘shildi. Haqiqiy foydalanuvchi imtihonlari va server bazasi o‘zgartirilmadi. CI va mobil/real brauzer qabul sinovi alohida release sharti.
+
 ## Release bloklari va alohida tekshirilishi zarur qismlar
 1. **Deployment SHA parity:** `main` hozir o‘ta faol, shuning uchun Vercel target=production dagi tayyor commitni `main` bilan alohida qiyoslash kerak. Preview `READY` production bilan bir xil degani emas.
 2. **Authenticated E2E**: barcha 16 modul, 19 AXB bob kirishlari, mavzu→test→natija, 15 / 50 savollik blueprintlar, admin muharrirlik, mobil, offline retry, test tarixini real browser orqali tekshirish zarur. Bunga green unit/SQL CI yetarli emas.
