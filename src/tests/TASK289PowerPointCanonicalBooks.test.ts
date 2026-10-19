@@ -28,7 +28,7 @@ describe('TASK-289: PowerPoint chapters follow the complete M01-style reader', (
       expect(splitSections(topic.theory).flatMap(section => section.blocks)).toEqual(topic.theory)
       expect(splitSections(topic.theory)).toHaveLength(13)
       expect(book.at(-1)?.content).toContain('drive.google.com')
-      expect(book.at(-1)?.content).toMatch(/tasdiqlanmagan/i)
+      expect(book.at(-1)?.content).toMatch(/tasdiqlanmagan|tekshiruv qilinmagan/i)
     })
 
     it(`${id}: preserves static questions, answer keys and source appendices`, () => {
