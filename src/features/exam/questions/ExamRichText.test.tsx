@@ -33,6 +33,7 @@ describe('ExamRichText fenced code', () => {
   it('falls back to inline prose when no code fence exists', () => {
     render(<ExamRichText text={'**Natija**: `print(1)`'} />)
     expect(screen.getByText('Natija')).toBeTruthy()
-    expect(screen.queryByRole('code')).toBeNull()
+    expect(document.querySelectorAll('pre')).toHaveLength(0)
+    expect(document.querySelector('code.book-code')?.textContent).toBe('print(1)')
   })
 })
