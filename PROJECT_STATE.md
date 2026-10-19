@@ -1,3 +1,12 @@
+## TASK-250 — M02 local Y1 bank source-candidate review (2026-10-19)
+
+- **Status:** IN_PROGRESS / EDITORIAL REVIEW PENDING.
+- **Scope:** 34 ta eski statik Y1 savolning 4 ta kanonik M02 mavzuga yo‘nalishini `docs/audits/TASK250_M02_34_STATIC_QUESTION_SOURCE_REVIEW.tsv`da 1:1 tekshirish.
+- **Provenance:** barcha 34 qator `topic_candidate`, `needs_item_editorial_review`; darslik sarlavhasi/bet diapazoni mutlaq javob tasdig‘i emas.
+- **QA:** `src/tests/M02StaticQuizSourceTrace.test.ts`da ID, guruh, format, manba va review flag regressiyasi.
+- **Risk:** ENIAC tarixiy formulirovkasi, BIOS/flash, Android ulushi, Linux server universalligi, SSD defragmentatsiyasi, fayl nomidagi OS-specific belgilar — 6 ta editorial qayta ko‘rik.
+- **Chegara:** mavjud 528 KTD private/review kontent bilan aralashtirilmaydi; published revision, production DB va deployment o‘zgarmaydi.
+
 ## TASK-249 — M01.05/M01.06 remaining 210 source-page traces (2026-10-19)
 
 - **Status:** IN_PROGRESS; `task/TASK-249-m01-encoding-media-source-trace`.
