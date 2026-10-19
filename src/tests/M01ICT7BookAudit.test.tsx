@@ -54,7 +54,7 @@ describe('TASK-244 — ICT 7-sinf 2021, PDF sahifali M01 manba tekshiruvi', () =
       .map(block => [block.content, ...(block.children ?? []).map(child => child.content)].join(' '))
       .join('\n')
     expect(text).toContain('1 830 600 bayt')
-    expect(text).toContain('256')
+    expect(text).toContain('16 777 216')
     expect(text).toContain('64 bit = 8 bayt')
     expect(text).toContain('kB')
     expect(text).toContain('KiB')
