@@ -1,3 +1,12 @@
+## TASK-303 — M14 kasbiy standart qo‘llanmasi va testlar (2026-10-19)
+
+- **Holat:** Source-backed 7 lesson authoring + test regression + 140-question read-only QA + one KS.03/Y2 draft revision migration staged. **REVIEW / BLOCKED**, completed release emas.
+- **Branch:** `task/TASK-303-m14-professional-standard-guide-qa` (main’dan; merge/deploy yo‘q).
+- **Manba:** «Pedagogning kasbiy standarti - qollanma.pdf», 13 bet, SHA256 `404bf773e4fd6daea75a96a45543ddbe5be9f94d2cf7e711be7917bb2d95d9b2`.
+- **Production SELECT audit:** 7 konstrukt, 7×20=140 published; 130 Y1 / 8 Y2 / 2 Y3, barcha option/key mavjud; 37 complete `question_editorial_checks` flags, 103 missing; one Y2 published option topology invalid (8×a, 0×b); one shared stem with substantively different matching sets. Existing published content untouched.
+- **Artifacts:** `src/data/topics/m14ProfessionalStandardGuide.ts`, `src/data/topicContent.ts`, `src/features/content/professionalLessonTheory.ts`, `src/tests/M14ProfessionalStandardGuide.test.ts`, `supabase/migrations/20261019200000_task303_m14_y2_draft_revision.sql`, `docs/audits/TASK303_M14_KS_140_QUESTION_AUDIT.sql`, `docs/TASK303_M14_PROFESSIONAL_STANDARD_GUIDE_AND_QUESTION_QA.md`.
+- **Gate:** ekspert sahifa/ma’no tasdig‘i, barcha item kalit/distraktor ko‘rigi, staging migration va auth/mobil sinov, GitHub CI, 20/20 preflight, release authorization. AI-created content draft PR’dan learnerga nashr qilinmaydi.
+
 ## TASK-261 — M09 Access/SQL source/provenance triage (2026-10-19)
 
 - **Status:** 5/5 canonical lesson metadata audit DONE; 75 missing exact-20 slots, 309 mapped keyed review occurrences (not unique approved), 0 full editorial approvals and 21 matching canonical source_lesson occurrences. ICT11 PDF 4–52 candidate topic-page crosswalk; production SELECT-only. Human key/source review, unique question reconciliation, authenticated acceptance, production release OPEN/BLOCKED. Task branch task/TASK-261-m09-db-access-review-audit. See docs/TASK261_M09_DB_ACCESS_SOURCE_QA_20261019.md.
