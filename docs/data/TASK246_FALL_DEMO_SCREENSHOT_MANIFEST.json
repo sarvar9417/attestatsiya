@@ -1,0 +1,1086 @@
+{
+  "schemaVersion": 1,
+  "sourceDriveFileId": "13VVttASqpDVP4R1fsVtt3YARHs4uHnB8",
+  "sourceFileName": "Informatika Kuzgi demo testlari.docx",
+  "sourceMedia": "docx_inline_screenshot_images",
+  "imageCount": 54,
+  "candidateQuestionCount": 50,
+  "reviewOnly": true,
+  "gradingKeysIncluded": false,
+  "questions": [
+    {
+      "inventoryId": "FALL26-Q01",
+      "ordinal": 1,
+      "sourceImages": [
+        {
+          "imageNumber": 1,
+          "part": "full"
+        }
+      ],
+      "topicHint": "PowerPoint: yozib olingan audio amallari",
+      "constructFamilyCandidate": "S2.OFFICE",
+      "formatCandidate": "Y1",
+      "notes": "Y1; ilova UI rasmlari",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q02",
+      "ordinal": 2,
+      "sourceImages": [
+        {
+          "imageNumber": 2,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Mantiqiy ifodani baholash",
+      "constructFamilyCandidate": "S3.LOGIC",
+      "formatCandidate": "Y1",
+      "notes": "Y1; formula",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q03",
+      "ordinal": 3,
+      "sourceImages": [
+        {
+          "imageNumber": 3,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Scratch: kiritish, sikl va o‘zgaruvchi",
+      "constructFamilyCandidate": "S4.SCRATCH",
+      "formatCandidate": "Y1",
+      "notes": "Y1; kod bloklari",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q04",
+      "ordinal": 4,
+      "sourceImages": [
+        {
+          "imageNumber": 4,
+          "part": "full"
+        },
+        {
+          "imageNumber": 5,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Scratch Pen: chizma va kod orasidagi moslik",
+      "constructFamilyCandidate": "S4.SCRATCH",
+      "formatCandidate": "Y1",
+      "notes": "Y1; ikki skrinshot bir savol",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q05",
+      "ordinal": 5,
+      "sourceImages": [
+        {
+          "imageNumber": 6,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Excel: shartli formulani qayta hisoblash",
+      "constructFamilyCandidate": "S2.OFFICE",
+      "formatCandidate": "Y1",
+      "notes": "Y1; formula",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q06",
+      "ordinal": 6,
+      "sourceImages": [
+        {
+          "imageNumber": 7,
+          "part": "full"
+        }
+      ],
+      "topicHint": "HTTPS va phishing bilan xavfsiz ishlash",
+      "constructFamilyCandidate": "S7.SECURITY",
+      "formatCandidate": "Y1",
+      "notes": "Y1; vaziyat",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q07",
+      "ordinal": 7,
+      "sourceImages": [
+        {
+          "imageNumber": 8,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Python: kodning bajarilish natijasi",
+      "constructFamilyCandidate": "S4.CODE",
+      "formatCandidate": "Y1",
+      "notes": "Y1; kod",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q08",
+      "ordinal": 8,
+      "sourceImages": [
+        {
+          "imageNumber": 9,
+          "part": "full"
+        }
+      ],
+      "topicHint": "JavaScript: satr amallari",
+      "constructFamilyCandidate": "S4.CODE",
+      "formatCandidate": "Y1",
+      "notes": "Y1; kod",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q09",
+      "ordinal": 9,
+      "sourceImages": [
+        {
+          "imageNumber": 10,
+          "part": "full"
+        }
+      ],
+      "topicHint": "SMM, CMS, LMS, MOOC atamalarini farqlash",
+      "constructFamilyCandidate": "S7.DIGITAL",
+      "formatCandidate": "Y1",
+      "notes": "Y1; moslikka o‘xshash",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q10",
+      "ordinal": 10,
+      "sourceImages": [
+        {
+          "imageNumber": 11,
+          "part": "full"
+        },
+        {
+          "imageNumber": 12,
+          "part": "full"
+        }
+      ],
+      "topicHint": "MS Access: so‘rov jadvali va natija",
+      "constructFamilyCandidate": "S4.DATABASE",
+      "formatCandidate": "Y1",
+      "notes": "Y1; ikki rasm bir savol",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q11",
+      "ordinal": 11,
+      "sourceImages": [
+        {
+          "imageNumber": 13,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Excel xato kodlarini farqlash",
+      "constructFamilyCandidate": "S2.OFFICE",
+      "formatCandidate": "Y1",
+      "notes": "Y1",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q12",
+      "ordinal": 12,
+      "sourceImages": [
+        {
+          "imageNumber": 14,
+          "part": "full"
+        },
+        {
+          "imageNumber": 15,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Logo/robot: chizma va algoritm",
+      "constructFamilyCandidate": "S4.SCRATCH",
+      "formatCandidate": "Y1",
+      "notes": "Y1; ikki rasm bir savol",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q13",
+      "ordinal": 13,
+      "sourceImages": [
+        {
+          "imageNumber": 16,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Ma’lumot, axborot va bilimni farqlash",
+      "constructFamilyCandidate": "S1.INFO",
+      "formatCandidate": "Y1",
+      "notes": "Y1",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q14",
+      "ordinal": 14,
+      "sourceImages": [
+        {
+          "imageNumber": 17,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Grafik muharrir: Photoshop qatlam/tasvir",
+      "constructFamilyCandidate": "S5.GRAPHICS",
+      "formatCandidate": "Y1",
+      "notes": "Y1; ko‘rsatma rasm",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q15",
+      "ordinal": 15,
+      "sourceImages": [
+        {
+          "imageNumber": 18,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Algoritm: blok-sxemadan natija",
+      "constructFamilyCandidate": "S3.ALGO",
+      "formatCandidate": "Y1",
+      "notes": "Y1; sxema",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q16",
+      "ordinal": 16,
+      "sourceImages": [
+        {
+          "imageNumber": 19,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Word: tasvirning matn bilan joylashuvi",
+      "constructFamilyCandidate": "S2.OFFICE",
+      "formatCandidate": "Y1",
+      "notes": "Y1; UI rasm",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q17",
+      "ordinal": 17,
+      "sourceImages": [
+        {
+          "imageNumber": 20,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Access SQL: WHERE shartlari",
+      "constructFamilyCandidate": "S4.DATABASE",
+      "formatCandidate": "Y1",
+      "notes": "Y1; SQL",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q18",
+      "ordinal": 18,
+      "sourceImages": [
+        {
+          "imageNumber": 21,
+          "part": "full"
+        },
+        {
+          "imageNumber": 22,
+          "part": "full"
+        }
+      ],
+      "topicHint": "HTML/CSS natijani topish",
+      "constructFamilyCandidate": "S5.WEB",
+      "formatCandidate": "Y1",
+      "notes": "Y1; ikki rasm bir savol",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q19",
+      "ordinal": 19,
+      "sourceImages": [
+        {
+          "imageNumber": 23,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Sanoq sistemalari: ifoda",
+      "constructFamilyCandidate": "S3.NUM",
+      "formatCandidate": "Y1",
+      "notes": "Y1",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q20",
+      "ordinal": 20,
+      "sourceImages": [
+        {
+          "imageNumber": 24,
+          "part": "full"
+        }
+      ],
+      "topicHint": "HTML: ro‘yxat/tuzilma",
+      "constructFamilyCandidate": "S5.WEB",
+      "formatCandidate": "Y1",
+      "notes": "Y1; kod",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q21",
+      "ordinal": 21,
+      "sourceImages": [
+        {
+          "imageNumber": 25,
+          "part": "full"
+        }
+      ],
+      "topicHint": "JavaScript: massiv/shart operatori",
+      "constructFamilyCandidate": "S4.CODE",
+      "formatCandidate": "Y1",
+      "notes": "Y1; kod",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q22",
+      "ordinal": 22,
+      "sourceImages": [
+        {
+          "imageNumber": 26,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Sanoq sistemalari orasida o‘tkazish",
+      "constructFamilyCandidate": "S3.NUM",
+      "formatCandidate": "Y1",
+      "notes": "Y1",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q23",
+      "ordinal": 23,
+      "sourceImages": [
+        {
+          "imageNumber": 27,
+          "part": "full"
+        },
+        {
+          "imageNumber": 28,
+          "part": "full"
+        }
+      ],
+      "topicHint": "HTML jadval: birlashtirilgan kataklar",
+      "constructFamilyCandidate": "S5.WEB",
+      "formatCandidate": "Y1",
+      "notes": "Y1; ikki rasm bir savol",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q24",
+      "ordinal": 24,
+      "sourceImages": [
+        {
+          "imageNumber": 29,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Tasvirning bit chuqurligi",
+      "constructFamilyCandidate": "S5.GRAPHICS",
+      "formatCandidate": "Y1",
+      "notes": "Y1",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q25",
+      "ordinal": 25,
+      "sourceImages": [
+        {
+          "imageNumber": 30,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Mantiqiy sxema",
+      "constructFamilyCandidate": "S3.LOGIC",
+      "formatCandidate": "Y1",
+      "notes": "Y1; sxema",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q26",
+      "ordinal": 26,
+      "sourceImages": [
+        {
+          "imageNumber": 31,
+          "part": "a"
+        }
+      ],
+      "topicHint": "Antivirus/himoya",
+      "constructFamilyCandidate": "S7.SECURITY",
+      "formatCandidate": "Y1",
+      "notes": "Y1; 31-rasm birinchi savol",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q27",
+      "ordinal": 27,
+      "sourceImages": [
+        {
+          "imageNumber": 31,
+          "part": "b"
+        }
+      ],
+      "topicHint": "Protsessor va uning vazifalari",
+      "constructFamilyCandidate": "S2.HARDWARE",
+      "formatCandidate": "Y1",
+      "notes": "Y1; 31-rasm ikkinchi savol",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q28",
+      "ordinal": 28,
+      "sourceImages": [
+        {
+          "imageNumber": 32,
+          "part": "a"
+        }
+      ],
+      "topicHint": "Tizimli va amaliy dasturiy ta’minot",
+      "constructFamilyCandidate": "S2.SOFTWARE",
+      "formatCandidate": "Y1",
+      "notes": "Y1; 32-rasm birinchi savol",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q29",
+      "ordinal": 29,
+      "sourceImages": [
+        {
+          "imageNumber": 32,
+          "part": "b"
+        }
+      ],
+      "topicHint": "Ma’lumot uzatish va vaqt hisobi",
+      "constructFamilyCandidate": "S1.INFO",
+      "formatCandidate": "Y1",
+      "notes": "Y1; 32-rasm ikkinchi savol",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q30",
+      "ordinal": 30,
+      "sourceImages": [
+        {
+          "imageNumber": 33,
+          "part": "full"
+        }
+      ],
+      "topicHint": "HTML/CSS: rang/formatlash",
+      "constructFamilyCandidate": "S5.WEB",
+      "formatCandidate": "Y1",
+      "notes": "Y1",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q31",
+      "ordinal": 31,
+      "sourceImages": [
+        {
+          "imageNumber": 34,
+          "part": "full"
+        },
+        {
+          "imageNumber": 35,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Logo/turtle: koddan chizma",
+      "constructFamilyCandidate": "S4.SCRATCH",
+      "formatCandidate": "Y1",
+      "notes": "Y1; ikki rasm bir savol",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q32",
+      "ordinal": 32,
+      "sourceImages": [
+        {
+          "imageNumber": 36,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Algoritm: bo‘luvchilarni hisoblash",
+      "constructFamilyCandidate": "S3.ALGO",
+      "formatCandidate": "Y1",
+      "notes": "Y1",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q33",
+      "ordinal": 33,
+      "sourceImages": [
+        {
+          "imageNumber": 37,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Kompyuter tarmog‘i/router va mulohazalar",
+      "constructFamilyCandidate": "S6.NET",
+      "formatCandidate": "Y1",
+      "notes": "Y1",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q34",
+      "ordinal": 34,
+      "sourceImages": [
+        {
+          "imageNumber": 38,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Mantiqiy qonun: distributivlik",
+      "constructFamilyCandidate": "S3.LOGIC",
+      "formatCandidate": "Y1",
+      "notes": "Y1; formula",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q35",
+      "ordinal": 35,
+      "sourceImages": [
+        {
+          "imageNumber": 39,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Word: matn atrofida tasvir joylashuvi",
+      "constructFamilyCandidate": "S2.OFFICE",
+      "formatCandidate": "Y1",
+      "notes": "Y1; UI rasm",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q36",
+      "ordinal": 36,
+      "sourceImages": [
+        {
+          "imageNumber": 40,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Xavfsiz rivojlantiruvchi ta’lim muhiti",
+      "constructFamilyCandidate": "S8.PROFESSIONAL",
+      "formatCandidate": "Y1",
+      "notes": "Y1; 5 ta kasbiy standartdan 1",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q37",
+      "ordinal": 37,
+      "sourceImages": [
+        {
+          "imageNumber": 41,
+          "part": "full"
+        }
+      ],
+      "topicHint": "O‘quvchi individual xususiyatlariga moslashtirish",
+      "constructFamilyCandidate": "S8.PROFESSIONAL",
+      "formatCandidate": "Y1",
+      "notes": "Y1",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q38",
+      "ordinal": 38,
+      "sourceImages": [
+        {
+          "imageNumber": 42,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Pedagogning o‘z-o‘zini rivojlantirishi",
+      "constructFamilyCandidate": "S8.PROFESSIONAL",
+      "formatCandidate": "Y1",
+      "notes": "Y1",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q39",
+      "ordinal": 39,
+      "sourceImages": [
+        {
+          "imageNumber": 43,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Ota-ona va hamkasblar bilan hamkorlik",
+      "constructFamilyCandidate": "S8.PROFESSIONAL",
+      "formatCandidate": "Y1",
+      "notes": "Y1",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q40",
+      "ordinal": 40,
+      "sourceImages": [
+        {
+          "imageNumber": 44,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Tarbiyaviy faoliyatni tashkil etish",
+      "constructFamilyCandidate": "S8.PROFESSIONAL",
+      "formatCandidate": "Y1",
+      "notes": "Y1",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q41",
+      "ordinal": 41,
+      "sourceImages": [
+        {
+          "imageNumber": 45,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Ta’lim texnologiyasini tanlash",
+      "constructFamilyCandidate": "S9.PEDAGOGY",
+      "formatCandidate": "Y1",
+      "notes": "Y1",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q42",
+      "ordinal": 42,
+      "sourceImages": [
+        {
+          "imageNumber": 46,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Tarbiyaning turi",
+      "constructFamilyCandidate": "S9.PEDAGOGY",
+      "formatCandidate": "Y1",
+      "notes": "Y1",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q43",
+      "ordinal": 43,
+      "sourceImages": [
+        {
+          "imageNumber": 47,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Didaktik tamoyillar",
+      "constructFamilyCandidate": "S9.PEDAGOGY",
+      "formatCandidate": "Y1",
+      "notes": "Y1",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q44",
+      "ordinal": 44,
+      "sourceImages": [
+        {
+          "imageNumber": 48,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Dars turi va takrorlash",
+      "constructFamilyCandidate": "S9.PEDAGOGY",
+      "formatCandidate": "Y1",
+      "notes": "Y1",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q45",
+      "ordinal": 45,
+      "sourceImages": [
+        {
+          "imageNumber": 49,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Pedagogik muloqot va nutq",
+      "constructFamilyCandidate": "S9.PEDAGOGY",
+      "formatCandidate": "Y1",
+      "notes": "Y1",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q46",
+      "ordinal": 46,
+      "sourceImages": [
+        {
+          "imageNumber": 50,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Tarbiyaning turlari va natijalari",
+      "constructFamilyCandidate": "S9.PEDAGOGY",
+      "formatCandidate": "Y1",
+      "notes": "Y1; jadval",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q47",
+      "ordinal": 47,
+      "sourceImages": [
+        {
+          "imageNumber": 51,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Didaktika kategoriyalari",
+      "constructFamilyCandidate": "S9.PEDAGOGY",
+      "formatCandidate": "Y1",
+      "notes": "Y1",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q48",
+      "ordinal": 48,
+      "sourceImages": [
+        {
+          "imageNumber": 52,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Pedagogik takt va muloqot",
+      "constructFamilyCandidate": "S9.PEDAGOGY",
+      "formatCandidate": "Y1",
+      "notes": "Y1",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q49",
+      "ordinal": 49,
+      "sourceImages": [
+        {
+          "imageNumber": 53,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Ta’lim metodlarini farqlash",
+      "constructFamilyCandidate": "S9.PEDAGOGY",
+      "formatCandidate": "Y1",
+      "notes": "Y1",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    },
+    {
+      "inventoryId": "FALL26-Q50",
+      "ordinal": 50,
+      "sourceImages": [
+        {
+          "imageNumber": 54,
+          "part": "full"
+        }
+      ],
+      "topicHint": "Pedagogikaning bo‘limlari",
+      "constructFamilyCandidate": "S9.PEDAGOGY",
+      "formatCandidate": "Y1",
+      "notes": "Y1",
+      "editorialStatus": "review",
+      "transcriptionVerified": false,
+      "answerKeyVerified": false,
+      "distractorsVerified": false,
+      "sourcePageVerified": false,
+      "duplicateChecked": false,
+      "rightsVerified": false
+    }
+  ]
+}
