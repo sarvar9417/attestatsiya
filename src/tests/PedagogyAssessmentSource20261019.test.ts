@@ -86,7 +86,7 @@ describe('pedagogika M14.03 and M15 source-and-safety reconciliation', () => {
   })
 
   it('preserves civic upbringing as a separate direction in the extracted source', () => {
-    const table = theory('M15.03').find(x => x.type === 'table')?.content ?? ''
+    const table = theory('M15.03').find(x => x.type === 'table' && x.content.includes('| Fuqarolik |'))?.content ?? ''
     expect(table).toContain('| Fuqarolik |')
     expect(table).toContain('| Huquqiy |')
     expect(table).toContain('| Ekologik |')
