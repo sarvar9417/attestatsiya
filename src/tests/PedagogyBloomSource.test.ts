@@ -52,7 +52,7 @@ describe('pedagogy source-based Bloom explanation', () => {
     expect(first).toContain('suhbat')
     expect(first).toContain('anketa')
     expect(first).toContain('eksperiment')
-    expect(first).toContain('aniq fizik betlari hali tekshirilmagan')
+    expect(first).toContain('fizik 1, 3–6-sahifalari tasvir orqali tekshirildi')
   })
 
   it('uses all six didactic lesson types listed in the extracted source, not lesson formats', () => {
