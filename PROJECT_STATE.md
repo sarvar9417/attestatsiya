@@ -1,3 +1,11 @@
+## TASK-304 — M14 source-verified QA audit handoff (2026-10-19)
+
+- **Branch:** `task/TASK-304-m14-final-qa-safe-merge`; 2026-10-19 main'dan yangi olingan; eski TASK-303 branch 23 main commit ortida qolgani uchun eski ishlar bilan konflikt chiqarmaslik maqsadida yangi branch ishlatildi.
+- **Scope:** 13 betlik `Pedagogning kasbiy standarti - qollanma.pdf` (SHA256 `404bf773e4fd6daea75a96a45543ddbe5be9f94d2cf7e711be7917bb2d95d9b2`) va Drive `Informatika Testlar spesifikatsiyasi.pdf`. 7×12 review-only canonical pedagogical theory blocks; PDF 5/6 cover numbering vs main chapters mismatch va PDF 11-bet mediator/2025 amaldagi LexUZ mediatsiya farqi ochiq qayd etildi.
+- **Production SELECT QA:** 140/140 KS published stems+130 Y1 keyed correct contents semantically checked; 8 Y2 four-pair content + 2 Y3 order individually reviewed; 1 broken KS.03 Y2 side mapping (8a/0b), 37/140 full editorial flags, 103 remaining; no keys/source edits, no API/exam edits, no DB writes. Staging-only draft repair SQL in docs, NOT migrations.
+- **Files:** `src/data/topics/m14ProfessionalStandardGuide.ts`, `src/tests/M14ProfessionalStandardGuide.test.ts`, `docs/audits/TASK303_M14_FINAL_SOURCE_SEMANTIC_QA_20261019.md`, related source/SQL audit docs.
+- **Safety:** new theory is not wired to learner; published immutable; human editorial publish gate & authenticated learner staging smoke open. After CI success this QA artifact may be merged as source/evidence only; no deployment requested.
+
 ## TASK-261 — M09 Access/SQL source/provenance triage (2026-10-19)
 
 - **Status:** 5/5 canonical lesson metadata audit DONE; 75 missing exact-20 slots, 309 mapped keyed review occurrences (not unique approved), 0 full editorial approvals and 21 matching canonical source_lesson occurrences. ICT11 PDF 4–52 candidate topic-page crosswalk; production SELECT-only. Human key/source review, unique question reconciliation, authenticated acceptance, production release OPEN/BLOCKED. Task branch task/TASK-261-m09-db-access-review-audit. See docs/TASK261_M09_DB_ACCESS_SOURCE_QA_20261019.md.
