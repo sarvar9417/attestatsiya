@@ -112,7 +112,7 @@ describe('stable theory in learner module', () => {
 
     mount('M14', 'M14.06')
     expect(screen.getByRole('status').textContent).toContain('Asosiy nazariya tayyorlanmoqda')
-    request.resolve(server('## Kasb standarti\\n\\nServerdagi tasdiqlangan nazariya'))
+    request.resolve(server('## Kasb standarti\n\nServerdagi tasdiqlangan nazariya'))
     expect(await screen.findByText('Serverdagi tasdiqlangan nazariya')).toBeDefined()
     expect(screen.queryByText('Bu mavzu uchun kontent tayyor emas')).toBeNull()
   })
