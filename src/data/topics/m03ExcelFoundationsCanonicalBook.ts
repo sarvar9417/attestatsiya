@@ -24,7 +24,7 @@ export const M03_04_CANONICAL_BOOK: TheoryBlock[] = [
   },
   {
     "type": "table",
-    "content": "| Vaziyat | Elektron jadvalning foydasi | Cheklov |\n|---|---|---|\n| Sinf xarajatlari | Yig‘indi va foizni avtomatik hisoblash | Kirishdagi xato natijani buzadi |\n| Baholar tahlili | Saralash, o‘rtacha va trend | Ballni noto‘g‘ri talqin qilish mumkin |\n| Kichik inventar | Miqdor, narx, qiymatni ko‘rish | Katta ko‘p foydalanuvchili tizimda baza yaxshiroq |\n| Tadbir rejası | Sana, mas’ul, holat filtri | Reja hamisha qo‘lda yangilanadi |\n| Tajriba natijasi | Ustunli/chiziqli diagramma | Grafik sababiyatni avtomatik isbotlamaydi |"
+    "content": "| Vaziyat | Elektron jadvalning foydasi | Cheklov |\n|---|---|---|\n| Sinf xarajatlari | Yig‘indi va foizni avtomatik hisoblash | Kirishdagi xato natijani buzadi |\n| Baholar tahlili | Saralash, o‘rtacha va trend | Ballni noto‘g‘ri talqin qilish mumkin |\n| Kichik inventar | Miqdor, narx, qiymatni ko‘rish | Katta ko‘p foydalanuvchili tizimda baza yaxshiroq |\n| Tadbir rejasi | Sana, mas’ul, holat filtri | Reja hamisha qo‘lda yangilanadi |\n| Tajriba natijasi | Ustunli/chiziqli diagramma | Grafik sababiyatni avtomatik isbotlamaydi |"
   },
   {
     "type": "example",
@@ -208,7 +208,7 @@ export const M03_04_CANONICAL_BOOK: TheoryBlock[] = [
   },
   {
     "type": "case",
-    "content": "**Vaziyat.** Sinfning shaxsiy natijalarini hamma kiradigan faylga joylash noto‘g‘ri. Ta’lim maqsadi uchun umumlashtirilgan/anonym ma’lumotdan foydalanib, asl faylga kirishni cheklash kerak."
+    "content": "**Vaziyat.** Sinfning shaxsiy natijalarini hamma kiradigan faylga joylash noto‘g‘ri. Ta’lim maqsadi uchun umumlashtirilgan/shaxsi aniqlanmaydigan umumlashtirilgan ma’lumotdan foydalanib, asl faylga kirishni cheklash kerak."
   },
   {
     "type": "heading",
@@ -248,6 +248,6 @@ export const M03_04_CANONICAL_BOOK: TheoryBlock[] = [
   },
   {
     "type": "source",
-    "content": "**Manba izi:** Cambridge+ «Informatika va axborot texnologiyalari», 10–11-sinf (2021), 8-bob «Elektron jadvallar» (bosma 103-betdan), ayniqsa «8.01 Elektron jadval yaratish», katak, diapazon, funksiya, validation/verification, import/eksport tushunchalari — https://drive.google.com/file/d/1hEDk0WefYtkU2pGSUQSEN2pWIzGagUMQ/view ; Cambridge+ 7-sinf elektron jadval va diagrammalar amaliyoti — https://drive.google.com/file/d/1RhIRuHi8i7i18mkrd3eQQt2lJrbnfCkS/view . Mazmun mustaqil pedagogik qayta bayon bo‘lib, darslik sahifalarini to‘liq nusxalash yoki rasmlarni tekshirib tasdiqlash degani emas."
+    "content": "**Manba izi:** Cambridge+ «Informatika va axborot texnologiyalari», 10–11-sinf (2021), 8-bob «Elektron jadvallar» (bosma 103-betdan), ayniqsa «8.01 Elektron jadval yaratish», katak, diapazon, funksiya, validation/verification, import/eksport tushunchalari — https://drive.google.com/file/d/1hEDk0WefYtkU2pGSUQSEN2pWIzGagUMQ/view ; Cambridge+ 7-sinf elektron jadval va diagrammalar amaliyoti — https://drive.google.com/file/d/1RhIRuHi8i7i18mkrd3eQQt2lJrbnfCkS/view . Mazmun mustaqil pedagogik qayta bayon bo‘lib, sahifama-sahifa to‘liq ko‘chirma emas; darslik rasmlari va ko‘rinishi alohida vizual tekshiruvni talab qiladi."
   }
 ]
