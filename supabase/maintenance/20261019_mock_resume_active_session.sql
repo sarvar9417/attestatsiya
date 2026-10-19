@@ -382,6 +382,7 @@ begin
 
   v_meta := jsonb_build_object(
     'selector_version', 'official-mock-v2',
+    'answer_revision_policy', 'mutable-v1',
     'blueprint_id', v_bp.id,
     'blueprint_version', v_bp.version,
     'target_count', v_target,
