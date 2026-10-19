@@ -50,9 +50,9 @@ export default function Y1Choice({
               >
                 {String.fromCharCode(65 + index)}
               </span>
-              <span className="min-w-0 flex-1 text-gray-700 dark:text-gray-300">
+              <div className="min-w-0 flex-1 text-gray-700 dark:text-gray-300">
                 <ExamRichText text={option.content_md} />
-              </span>
+              </div>
             </button>
           )
         })}
