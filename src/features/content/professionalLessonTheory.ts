@@ -84,7 +84,7 @@ export function markdownToTheoryBlocks(markdown: string): TheoryBlock[] {
       i += 2
       while (i < lines.length && lines[i].trim().startsWith('|')) {
         const cells = rowCells(lines[i])
-        if (cells.length === headers.length) rows.push(cells)
+        rows.push(cells) // Preserve irregular source rows instead of silently deleting their text.
         i++
       }
       i--
@@ -189,7 +189,8 @@ export function appendDistinctTheory(existing: TheoryBlock[], extras: TheoryBloc
 }
 
 /**
- * M02 and M15 must keep their original complete local chapters, rather than
+ * Compatibility resolver for callers outside TopicView. M02 and M15 must keep
+ * their original complete local chapters, rather than
  * displaying a short remote summary as the book. Only source-marked sections
  * from a PUBLISHED remote lesson join the primary reading flow, and the API
  * finishes before the first BookReader render to avoid reflow mid-reading.

@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { cleanup, render, screen } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import TopicView from '../components/learning/TopicView'
 import type { TopicContent } from '../data/topicContent'
@@ -135,6 +135,17 @@ describe('stable theory in learner module', () => {
     expect(await screen.findByText('Bu mavzu uchun kontent tayyor emas')).toBeDefined()
     expect(screen.queryByRole('status')).toBeNull()
     expect(screen.getByRole('button', { name: /Orqaga qaytish/ })).toBeDefined()
+  })
+
+  it('failed source loading is explicit and retry restores the complete stable book', async () => {
+    mocks.getLessonDetail.mockRejectedValueOnce(new Error('Offline'))
+      .mockResolvedValueOnce(server('## Manba qaytdi\n\nTiklangan manbali nazariya'))
+    mount('M16', 'M16.01')
+    expect(await screen.findByText(/Manbali darsni yuklab bo‘lmadi/)).toBeDefined()
+    expect(screen.getByText('Birlamchi nazariya matni')).toBeDefined()
+    fireEvent.click(screen.getByRole('button', { name: 'To‘liq nazariyani qayta yuklash' }))
+    expect(await screen.findByText('Tiklangan manbali nazariya')).toBeDefined()
+    expect(screen.queryByText(/Manbali darsni yuklab bo‘lmadi/)).toBeNull()
   })
 
   it('M02 loads the source-marked published section before the first book render', async () => {
