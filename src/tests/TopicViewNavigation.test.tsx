@@ -50,7 +50,7 @@ describe('M11 unified book theory navigation regression', () => {
 
     await user.click(within(navigation).getByRole('button', { name: /Keyingi/i }))
     expect(screen.getByText(/o‘qib bo‘lindi/)).toBeInTheDocument()
-    expect(screen.getByText(/tartibsiz ro‘yxat/)).toBeInTheDocument()
+    expect(screen.getByText(/tartibsiz ro.yxat/)).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /test tayyorligi kutilmoqda/i })).toBeDisabled()
 
     await user.click(screen.getByRole('button', { name: /Oldingi mavzu/ }))
