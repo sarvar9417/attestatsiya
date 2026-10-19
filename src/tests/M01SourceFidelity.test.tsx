@@ -58,6 +58,19 @@ describe('M01 source and learner layout regression', () => {
     expect(container.textContent).not.toContain('@@Oddiy@@')
   })
 
+  it('renders the nested M01.12 source bibliography instead of dropping it', () => {
+    const appendix = M01_CONTENT['M01.12']
+    const source = appendix.theory.find(block => block.type === 'source' &&
+      block.label === 'Birlashtirilgan fayllar')
+    expect(source).toBeDefined()
+    expect(source?.content).toBe('')
+    expect(source?.children).toHaveLength(1)
+    render(<BookBlock block={source!} index={0} />)
+    expect(screen.getByText('Birlashtirilgan fayllar')).toBeInTheDocument()
+    expect(screen.getByText(/Axborotlar_3_0/)).toBeInTheDocument()
+    expect(screen.getByRole('list')).toBeInTheDocument()
+  })
+
   it('keeps source locators distinct from difficulty and preserves inline math', () => {
     const all = Object.values(M01_CONTENT).flatMap(topic => nestedBlocks(topic.theory))
     const content = all.map(block => [block.content, block.label ?? ''].join(' ')).join('\n')
