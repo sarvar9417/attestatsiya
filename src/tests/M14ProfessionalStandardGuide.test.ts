@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { getTopicContent } from '../data/topicContent'
 import { M14_PROFESSIONAL_STANDARD_GUIDE } from '../data/topics/m14ProfessionalStandardGuide'
-import { overlayPublishedProfessionalLesson } from '../features/content/professionalLessonTheory'
 
 const expected: Record<string, string> = {
   'M14.01': '2–3',
@@ -46,7 +45,9 @@ describe('TASK-303 — 13-betlik kasbiy standartga tayangan M14 kitobi', () => {
       }
       expect(theory.filter(block => block.type === 'example')).toHaveLength(1)
       expect(theory.filter(block => block.type === 'exam')).toHaveLength(1)
-      expect(getTopicContent(id)?.theory).toEqual(theory)
+      expect(getTopicContent(id)).toBeDefined()
+      // A review draft does not replace the already-published learner curriculum.
+      expect(getTopicContent(id)?.theory).not.toEqual(theory)
       expect(getTopicContent(id)?.questions).toEqual([])
     }
   })
@@ -62,35 +63,12 @@ describe('TASK-303 — 13-betlik kasbiy standartga tayangan M14 kitobi', () => {
     expect(page5).toContain('mediatsiya')
   })
 
-  it('nashr qilingan eski qisqa konspektni ko‘paytirmasdan yagona kitobni tayyorlaydi', () => {
-    const base = getTopicContent('M14.01')
-    expect(base).toBeDefined()
-    if (!base) throw new Error('M14.01 missing')
-    const lesson = {
-      status: 'published',
-      body_mdx: '## Maqsad\\n\\nEski qisqa konspekt\\n\\n## Kasb standarti: to‘liq nazariya xaritasi\\n\\nEski takror',
-      title_uz: 'O‘quv jarayonini rejalashtirish',
-    } as Parameters<typeof overlayPublishedProfessionalLesson>[1]
-    const result = overlayPublishedProfessionalLesson(base, lesson)
-    expect(result.theory).toEqual(M14_PROFESSIONAL_STANDARD_GUIDE['M14.01'])
-    expect(result.theory.some(block => block.content.includes('Eski takror'))).toBe(false)
-    expect(result.questions).toBe(base.questions)
-  })
-
-  it('nashr qilinmagan darsni foydalanuvchiga ochmaslik qoidasini saqlaydi', () => {
-    const base = getTopicContent('M14.01')
-    expect(base).toBeDefined()
-    if (!base) throw new Error('M14.01 missing')
-    const lesson = {
-      status: 'review',
-      body_mdx: '## Draft\\n\\nHali ekspert tasdig‘i yo‘q',
-      title_uz: 'Draft',
-    } as Parameters<typeof overlayPublishedProfessionalLesson>[1]
-    expect(overlayPublishedProfessionalLesson(base, lesson)).toBe(base)
-    expect(overlayPublishedProfessionalLesson(base, {
-      ...lesson,
-      status: 'published',
-      body_mdx: '',
-    })).toBe(base)
+  it('ekspert ruxsatisiz amaldagi nashr qilingan dars o‘zgarmaydi', () => {
+    for (const id of Object.keys(expected)) {
+      const live = getTopicContent(id)
+      expect(live).toBeDefined()
+      expect(live?.theory).not.toEqual(M14_PROFESSIONAL_STANDARD_GUIDE[id])
+      expect(live?.questions).toEqual([])
+    }
   })
 })
