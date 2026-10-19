@@ -60,7 +60,7 @@ export const CAMBRIDGE5_M01_PAGE_ADDENDA: readonly VerifiedTextbookInsertion[] =
           ['Trash/Bin', 'O‘chirishga ajratilgan xatlar', 'Tiklash va saqlash muddati provayderga bog‘liq'],
         ],
       },
-      { type: 'trap', content: 'Email servislarining **Outbox/Sent/Drafts/Trash** nomlari va avtomatik saqlash qoidalari har xil bo‘lishi mumkin. `Re:` odatda javob zanjirini bildiruvchi mavzu prefiksi; uning kelib chiqishi bo‘yicha darslikdagi etimologik izoh universal email-protokol taʼrifi emas. Trash papkasidan o‘chirilgan xatni hech qachon tiklab bo‘lmaydi deyish ham barcha tizimlarda to‘g‘ri emas.' },
+      { type: 'trap', content: 'Email provayderlarining **Outbox/Sent/Drafts/Trash** nomlari va avtomatik saqlash qoidalari har xil bo‘lishi mumkin. `Re:` odatda javob zanjirini bildiruvchi mavzu prefiksi; uning kelib chiqishi bo‘yicha darslikdagi etimologik izoh universal email-protokol taʼrifi emas. Trash papkasidan o‘chirilgan xatni hech qachon tiklab bo‘lmaydi deyish ham barcha tizimlarda to‘g‘ri emas.' },
       { type: 'source', content: 'Cambridge+ 5-sinf, 2021, PDF 109–125 (bosma 106–122-betlar), 6-modul «Elektron pochtada ishlashni boshlash»: xat sarlavhasi, Reply/Re, papkalar, CC. Xizmatga qarab farqlanadigan xususiyatlar izohlandi.' },
     ],
   },
