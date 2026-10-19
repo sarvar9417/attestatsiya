@@ -45,6 +45,11 @@ const notes: Record<string, TheoryBlock[]> = {
     { type: 'example', content: 'O‘qituvchi birinchi navbatda uy vazifasini tekshiradi, keyin yangi materialni tushuntiradi, mashq qildiradi va baholaydi. Bu **aralash dars**ga xos. Dars mazmunining ilmiyligi tekshirilsa esa **didaktik tahlil** bo‘ladi.' },
     { type: 'trap', content: '**Didaktik tahlil** — mazmun va ta’lim sifati; **uslubiy tahlil** — metod tanlovi; **psixologik tahlil** — diqqat va ruhiy muhit. **Pedagogik** va **metodologik** tahlil atamalari ham manbada alohida berilgan: so‘rovning asosiy belgisiga e’tibor bering.' },
     { type: 'source', content: 'Manbalar: Dars turlari.pdf, 1–2-betlar; dars tahlili turlari.pdf, 1-bet.' },
+    { type: 'heading', content: 'Dars tahlilining besh yo‘nalishi — nima tekshiriladi?' },
+    { type: 'table', content: '| Tahlil turi | Yetakchi savol |\n|---|---|\n| Didaktik | Mavzu ilmiy, izchil, tushunarli va hayotiy ochib berildimi? |\n| Uslubiy | Tanlangan metodlar dars maqsadi va o‘quvchilarning yoshiga mosmi? |\n| Metodologik | Ta’limdagi normativ, madaniy yoki dunyoqarash asoslari o‘rinli yoritildimi? |\n| Psixologik | O‘quvchi diqqati, ruhiy holati, motivatsiyasi va sinf muhiti hisobga olindimi? |\n| Pedagogik | Muomala, odob, tarbiyaviy ta’sir va o‘qituvchi nutqi qanchalik o‘rinli? |' },
+    { type: 'example', content: 'Informatika darsida mavzu murakkabligi bosqichma-bosqich tushuntirilgani **didaktik**; vizual namoyish usuli to‘g‘ri tanlangani **uslubiy**; o‘quvchilarning xavotiri va diqqati kuzatilgani **psixologik** tahlil dalili bo‘ladi.' },
+    { type: 'trap', content: '**Dars turi** (masalan, nazorat darsi) va **dars tahlili turi** (masalan, psixologik tahlil) boshqa mezonlar bo‘yicha ajratiladi. «Metodologik»ni «uslubiy» bilan bir ma’noda ishlatmang.' },
+    { type: 'source', content: 'Manba: «dars tahlili turlari.pdf» — beshta nomlangan tahlil turi; barnoyevak Google Drive/ChatExport_2026-10-19/files. Soddalashtirilgan ikkilamchi konspekt; sahifa koordinatasi va mustaqil rasmiy status aniqlanmagan.' },
   ],
   'M15.05': [
     { type: 'heading', content: 'Hamkorlik nima uchun kerak?' },
@@ -66,6 +71,11 @@ const notes: Record<string, TheoryBlock[]> = {
     { type: 'example', content: 'O‘qituvchi o‘quvchining ikkilanishini ko‘rdi — **perseptiv** qobiliyat. Unga yangi misol bilan mavzuni tushuntirdi — **didaktik** qobiliyat. Ikki amal bir vaziyatda qatnashgan, lekin test qaysi harakatni so‘raganini ajrating.' },
     { type: 'trap', content: 'Manbada qobiliyatlarning **turli mualliflar bo‘yicha turlicha tasniflari** uchraydi. Muallif ko‘rsatilgan savolda aynan o‘sha tasnifga tayangan holda javob bering; barcha ro‘yxatlarni bitta tasnif deb qabul qilmang.' },
     { type: 'source', content: 'Manba: Pedagogik qobilyatlar umumiy.pdf, 1–3-betlar; Xoliqov, Pedagogik mahorat, 1–2-betlar.' },
+    { type: 'heading', content: 'Perseptiv, empatik va kommunikativ qobiliyatlar — nozik farq' },
+    { type: 'table', content: '| Qobiliyat | Vaziyatdagi belgi |\n|---|---|\n| Perseptiv | O‘quvchining kayfiyati va holatidagi belgilarni sezish, idrok qilish |\n| Empatik | O‘quvchining his-tuyg‘usini tushunib, unga hamdard munosabat bildirish |\n| Kommunikativ | O‘quvchi bilan konstruktiv muloqot va ijobiy aloqa o‘rnatish |\n| Didaktik | Bilimni tushunarli usulda o‘rgatish |\n| Tashkilotchilik | Hamkorlikdagi faoliyatni tartibga solish |' },
+    { type: 'example', content: 'Darsda o‘quvchi jim qolganini sezish — **perseptiv**; uning xavotirini tushunib qo‘llab-quvvatlash — **empatik**; tushunarli savol berib ochiq suhbat boshlash — **kommunikativ** qobiliyat ko‘rinishi.' },
+    { type: 'trap', content: 'Manbada bir nechta muallifning turli tasniflari yonma-yon berilgan. «Avtoritar qobiliyat» atamasi ayrim tarixiy tasnifda shaxsiy obro‘ va ta’sir bilan bog‘langan; bu bolaga qo‘pol munosabat yoki majburlashni oqlamaydi.' },
+    { type: 'source', content: 'Manba: «Pedagogik qobilyatlar umumiy.pdf», «Perseptiv qobiliyat», «Empatik qobiliyat» va boshqa pedagogik qobiliyatlar tavsifi; barnoyevak Google Drive/ChatExport_2026-10-19/files. Hali fizik sahifalar bo‘yicha locator ekspertizasi o‘tkazilmagan.' },
   ],
   'M15.08': [
     { type: 'heading', content: 'Ta’lim texnologiyalarini tanlash' },
