@@ -1,0 +1,303 @@
+{
+  "task": "TASK-260",
+  "created_on": "2026-10-19",
+  "purpose": "Source-grounded M11 HTML Y1 candidate-only editorial queue; not a DB migration or public learner bank",
+  "specification": "Informatika Testlar spesifikatsiyasi.pdf, PDF 5, 2026 questions 27–31: HTML text/image/list/table/form + CSS",
+  "source_note": "ICT 7-sinf (2021) PDF 119–126; paraphrased, not copied; source page support does not certify answer/distractors",
+  "published_or_approved": false,
+  "items": [
+    {
+      "id": "M11H-001",
+      "lesson_id": "b1100000-0000-4000-8000-000000000001",
+      "construct": "S5.WEB.04",
+      "question_type": "Y1",
+      "difficulty": 2,
+      "objective": "list_semantics",
+      "source_pdf": "ICT 7_sinf-2021(1).pdf",
+      "source_pdf_pages": [
+        120,
+        121
+      ],
+      "stem": "Bajarilish tartibi ahamiyatsiz bo‘lgan beshta jihoz nomini punktlar bilan chiqarish uchun qaysi HTML konteyneri mos?",
+      "options": [
+        "<ol>",
+        "<ul>",
+        "<table>",
+        "<form>"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required"
+    },
+    {
+      "id": "M11H-002",
+      "lesson_id": "b1100000-0000-4000-8000-000000000001",
+      "construct": "S5.WEB.04",
+      "question_type": "Y1",
+      "difficulty": 3,
+      "objective": "list_start",
+      "source_pdf": "ICT 7_sinf-2021(1).pdf",
+      "source_pdf_pages": [
+        121
+      ],
+      "stem": "Kodda `<ol start=\"4\"><li>Olma</li><li>Behi</li></ol>` yozildi. Ikki band qanday raqamlanadi?",
+      "options": [
+        "1 va 2",
+        "4 va 5",
+        "3 va 4",
+        "4 va 4"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required"
+    },
+    {
+      "id": "M11H-003",
+      "lesson_id": "b1100000-0000-4000-8000-000000000001",
+      "construct": "S5.WEB.04",
+      "question_type": "Y1",
+      "difficulty": 2,
+      "objective": "list_type",
+      "source_pdf": "ICT 7_sinf-2021(1).pdf",
+      "source_pdf_pages": [
+        121
+      ],
+      "stem": "Uch bandli tartiblangan ro‘yxat `<ol type=\"I\">` bilan yaratilsa, bandlar boshidagi belgilar qanday ko‘rinadi?",
+      "options": [
+        "i, ii, iii",
+        "A, B, C",
+        "I, II, III",
+        "1, 2, 3"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required"
+    },
+    {
+      "id": "M11H-004",
+      "lesson_id": "b1100000-0000-4000-8000-000000000001",
+      "construct": "S5.WEB.04",
+      "question_type": "Y1",
+      "difficulty": 4,
+      "objective": "nested_lists",
+      "source_pdf": "ICT 7_sinf-2021(1).pdf",
+      "source_pdf_pages": [
+        120,
+        121,
+        122
+      ],
+      "stem": "«Fanlar» nomli tashqi tartiblangan ro‘yxat bandining ichida ikki punktli tartiblanmagan kichik ro‘yxat kerak. Qaysi kod ichma-ich tuzilmani to‘g‘ri beradi?",
+      "options": [
+        "<ol><li>Fanlar</li></ol><ul><li>Fizika</li><li>Kimyo</li></ul>",
+        "<ul><li>Fanlar<ol><li>Fizika</li><li>Kimyo</li></ol></li></ul>",
+        "<ol><li>Fanlar</li><ul><li>Fizika</li><li>Kimyo</li></ul></ol>",
+        "<ol><li>Fanlar<ul><li>Fizika</li><li>Kimyo</li></ul></li></ol>"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required"
+    },
+    {
+      "id": "M11H-005",
+      "lesson_id": "b1100000-0000-4000-8000-000000000001",
+      "construct": "S5.WEB.04",
+      "question_type": "Y1",
+      "difficulty": 3,
+      "objective": "list_reversed",
+      "source_pdf": "ICT 7_sinf-2021(1).pdf",
+      "source_pdf_pages": [
+        121
+      ],
+      "stem": "Uchta `<li>` bandi bor `<ol reversed>` ro‘yxati boshlang‘ich raqam ko‘rsatilmasdan yaratilgan. Belgilar qanday ketadi?",
+      "options": [
+        "1, 2, 3",
+        "3, 2, 1",
+        "0, -1, -2",
+        "3, 3, 3"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required"
+    },
+    {
+      "id": "M11H-006",
+      "lesson_id": "b1100000-0000-4000-8000-000000000001",
+      "construct": "S5.WEB.04",
+      "question_type": "Y1",
+      "difficulty": 2,
+      "objective": "img_src",
+      "source_pdf": "ICT 7_sinf-2021(1).pdf",
+      "source_pdf_pages": [
+        122,
+        123
+      ],
+      "stem": "HTML fayli bilan bir papkada `images` nomli kichik papka bor. Undagi `tabiat.png` rasmiga qaysi `src` qiymati nisbiy yo‘lni to‘g‘ri ko‘rsatadi?",
+      "options": [
+        "tabiat/images.png",
+        "images\\tabiat.png",
+        "images/tabiat.png",
+        "/tabiat.png/images"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required"
+    },
+    {
+      "id": "M11H-007",
+      "lesson_id": "b1100000-0000-4000-8000-000000000001",
+      "construct": "S5.WEB.04",
+      "question_type": "Y1",
+      "difficulty": 3,
+      "objective": "img_alt",
+      "source_pdf": "ICT 7_sinf-2021(1).pdf",
+      "source_pdf_pages": [
+        123
+      ],
+      "stem": "`<img src=\"images/rasm.png\" alt=\"Maktab kutubxonasi\">` elementida `alt` atributining asosiy vazifasi nima?",
+      "options": [
+        "Rasmni avtomatik siqish",
+        "Rasm kengligini ikki baravar oshirish",
+        "Rasm faylini serverga yuklash",
+        "Rasmning matnli muqobil tavsifini taqdim etish"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required"
+    },
+    {
+      "id": "M11H-008",
+      "lesson_id": "b1100000-0000-4000-8000-000000000001",
+      "construct": "S5.WEB.04",
+      "question_type": "Y1",
+      "difficulty": 3,
+      "objective": "img_title",
+      "source_pdf": "ICT 7_sinf-2021(1).pdf",
+      "source_pdf_pages": [
+        123
+      ],
+      "stem": "Bir xil rasmda `alt` va `title` atributlari berildi. Darslikda `title` qanday foydalanish holati uchun ko‘rsatilgan?",
+      "options": [
+        "Ko‘rsatkich rasm ustida turganda izoh paydo bo‘lishi",
+        "Rasmning manbasini belgilash",
+        "Yuklanmagan rasm o‘rnidagi majburiy muqobil matn",
+        "Rasm piksel o‘lchamini o‘zgartirish"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required"
+    },
+    {
+      "id": "M11H-009",
+      "lesson_id": "b1100000-0000-4000-8000-000000000001",
+      "construct": "S5.WEB.04",
+      "question_type": "Y1",
+      "difficulty": 3,
+      "objective": "img_dimensions",
+      "source_pdf": "ICT 7_sinf-2021(1).pdf",
+      "source_pdf_pages": [
+        123,
+        124
+      ],
+      "stem": "`<img src=\"grafik.png\" width=\"320\" height=\"180\" alt=\"Grafik\">` kodida berilgan o‘lchamlarga qaysi talqin mos?",
+      "options": [
+        "Rasm eni 180, bo‘yi 320 birlikda ko‘rsatiladi",
+        "Rasm eni 320, bo‘yi 180 birlikda ko‘rsatiladi",
+        "Fayl 320 bayt va 180 bitdan iborat",
+        "Rasm sahifaga 320 marta takrorlanadi"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required"
+    },
+    {
+      "id": "M11H-010",
+      "lesson_id": "b1100000-0000-4000-8000-000000000001",
+      "construct": "S5.WEB.04",
+      "question_type": "Y1",
+      "difficulty": 4,
+      "objective": "figure_caption",
+      "source_pdf": "ICT 7_sinf-2021(1).pdf",
+      "source_pdf_pages": [
+        126
+      ],
+      "stem": "Rasm bilan birga foydalanuvchiga ko‘rinadigan izohni HTML5 semantik tuzilmasida bog‘lash kerak. Qaysi kod bunga mos?",
+      "options": [
+        "<img src=\"gul.png\"><title>Bahor rasmi</title>",
+        "<figure><figcaption>Bahor rasmi</figure></figcaption>",
+        "<figure><img src=\"gul.png\" alt=\"Gul\"><figcaption>Bahor rasmi</figcaption></figure>",
+        "<figcaption><img src=\"gul.png\"></figcaption><figure>Bahor rasmi</figure>"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required"
+    },
+    {
+      "id": "M11H-011",
+      "lesson_id": "b1100000-0000-4000-8000-000000000001",
+      "construct": "S5.WEB.04",
+      "question_type": "Y1",
+      "difficulty": 2,
+      "objective": "text_structure",
+      "source_pdf": "ICT 7_sinf-2021(1).pdf",
+      "source_pdf_pages": [
+        119,
+        120
+      ],
+      "stem": "Sahifa nomi yirik sarlavha sifatida, uning ostidagi izoh esa alohida abzats sifatida berilishi kerak. Qaysi juft teg mantiqan mos?",
+      "options": [
+        "<img> va <li>",
+        "<ol> va <ul>",
+        "<form> va <table>",
+        "<h1> va <p>"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required"
+    },
+    {
+      "id": "M11H-012",
+      "lesson_id": "b1100000-0000-4000-8000-000000000001",
+      "construct": "S5.WEB.04",
+      "question_type": "Y1",
+      "difficulty": 3,
+      "objective": "list_item_count",
+      "source_pdf": "ICT 7_sinf-2021(1).pdf",
+      "source_pdf_pages": [
+        121,
+        122
+      ],
+      "stem": "`<ul><li>Bir</li><li>Ikki</li><li>Uch</li></ul>` kodi brauzerda nechta alohida ro‘yxat bandini hosil qiladi?",
+      "options": [
+        "3 ta",
+        "1 ta",
+        "2 ta",
+        "4 ta"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required"
+    },
+    {
+      "id": "M11H-013",
+      "lesson_id": "b1100000-0000-4000-8000-000000000001",
+      "construct": "S5.WEB.04",
+      "question_type": "Y1",
+      "difficulty": 4,
+      "objective": "list_type_start",
+      "source_pdf": "ICT 7_sinf-2021(1).pdf",
+      "source_pdf_pages": [
+        121
+      ],
+      "stem": "`<ol type=\"a\" start=\"3\"><li>Qadam</li><li>Natija</li></ol>` kodidagi markerlar qanday bo‘ladi?",
+      "options": [
+        "a va b",
+        "I va II",
+        "c va d",
+        "3 va 4"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required"
+    }
+  ]
+}
