@@ -37,6 +37,29 @@ export function splitSections(theory: TheoryBlock[]): Section[] {
   return sections
 }
 
+/**
+ * Eski (M02–M16) darslarni M01 dagi book-reader shakliga moslaydi.
+ * Hech bir nazariya bloki qo‘shilmaydi, o‘chirilmaydi yoki tartibi o‘zgarmaydi.
+ * Sarlavhadan boshlangan bo‘limlar alohida qoladi, uzun bo‘limlar mobil
+ * o‘qish uchun ixcham bo‘laklarga ajratiladi.
+ */
+export function splitAdaptiveSections(theory: TheoryBlock[], pageSize = 3): Section[] {
+  if (!Number.isInteger(pageSize) || pageSize < 1) throw new Error('Invalid section size')
+  if (theory.length === 0) return splitSections(theory)
+  const sections: Section[] = []
+  for (const group of splitSections(theory)) {
+    for (let start = 0; start < group.blocks.length; start += pageSize) {
+      const part = group.blocks.slice(start, start + pageSize)
+      const number = sections.length + 1
+      const title = group.title
+        ? (start === 0 ? group.title : `${group.title} — davomi`)
+        : `${number}-bo‘lim`
+      sections.push({ title, blocks: part })
+    }
+  }
+  return sections
+}
+
 interface Props {
   content: TopicContent
   /** Mavzudagi test savollari soni. */
@@ -66,7 +89,10 @@ export default function BookReader({
   content, questionCount, isAppendix, requireTest = false, onFinishReading, onProgress,
   previousTopic, onOpenPreviousTopic, nextTopic, onOpenNextTopic,
 }: Props) {
-  const sections = useMemo(() => splitSections(content.theory), [content.theory])
+  const sections = useMemo(
+    () => content.source ? splitSections(content.theory) : splitAdaptiveSections(content.theory),
+    [content.source, content.theory],
+  )
   const [index, setIndex] = useState(0)
   const [visited, setVisited] = useState<Set<number>>(() => new Set([0]))
   const [outlineOpen, setOutlineOpen] = useState(false)
