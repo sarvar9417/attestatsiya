@@ -48,7 +48,8 @@ describe('TASK-273 source-grounded informatics teaching methodology', () => {
       expect(output.theory.some(x => x.content === 'Mavjud bazadagi asl matn.')).toBe(true)
       expect(output.theory.slice(-addons.length)).toEqual(addons)
       expect(output.theory.filter(x => x.content === addons[0].content)).toHaveLength(1)
-      expect(output.supplementalTheory?.some(x => x.content.includes('Shartli qo‘shimcha'))).toBe(true)
+      expect(output.theory.some(x => x.content.includes('Shartli qo‘shimcha'))).toBe(true)
+      expect(output.supplementalTheory).toBeUndefined()
       expect(output.questions).toBe(offline.questions)
     })
   }
