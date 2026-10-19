@@ -1,15 +1,14 @@
-## 2026-10-19 — TASK-244: M01 book-by-book textbook review (4 of 13)
+## 2026-10-19 — TASK-244: M01 13/13 original ICT/Cambridge+ textbooks, page-by-page source review
 
-- User directive: read each connected Drive textbook one at a time; every M01-relevant passage, formula, table and visual against existing learner theory, correct verified defects and track exact PDF pages.
-- Work branch `task/TASK-244-m01-book-by-book-source-audit` continues prior fixes and does NOT merge, manually deploy or write to production DB.
-- Book 1: ICT 5-sinf 2020, 113-page PDF, relevant p6–24, 6 page-cited learner additions, concordance in master.
-- Book 2: ICT 6-sinf 2021, 160-page PDF, relevant p76–127, 4 page-cited learner additions, 52-row page registry.
-- Book 3: ICT 7-sinf 2021, 160-page PDF, relevant p4–46/p80–83, 7 page-cited additions, 47-row page registry. Corrected original textbook p36 mono audio exercise = 17,280,000 B ≈ 16.48 MiB, not printed 1,64 Mb.
-- Book 4: ICT 8-sinf 2020, 113-page PDF, SHA256 `096c7386574f01655a3ba3bb3773785bcf68dd0e8ec15bcd4d2ede9e55db5e64`, relevant SMM p5–36, digital collaboration p94–104, supporting CMS/LMS/MOOC p37–93; 4 page-cited, originally written M01.04 inserts; platform-specific tutorials assigned to other modules.
-- Architecture: `src/data/topics/m01TextbookAudit.ts` aggregates 21 patches from ICT5/6/7/8, keeps generated `m01.ts` unchanged and anchors each addition in existing topic. Regression: `src/tests/M01ICT{5,6,7,8}BookAudit.test.tsx`, updated `src/tests/m01Content.test.ts` preservation semantics.
-- Source records: `docs/TASK244_M01_BOOK_BY_BOOK_SOURCE_AUDIT_20261019.md`, `docs/TASK244_ICT6_M01_PAGE_CONCORDANCE_20261019.md`, `docs/TASK244_ICT7_M01_PAGE_CONCORDANCE_20261019.md`, `docs/TASK244_ICT8_M01_PAGE_CONCORDANCE_20261019.md`.
-- Remaining M01 textbooks: ICT9/10/11 and Cambridge+5/6/7/8/9/10–11 = 9. Final CI, real reader mobile+desktop, authenticated E2E and human release approval outstanding.
-- No release approval. No merge, no production deploy or production database modification.
+- **Status:** 13/13 **M01-relevant** textbook sections compared with original Google Drive PDFs; 59 **page-cited** original learner-theory insertions; generated `m01.ts` unchanged. **NOT yet final release-ready:** final GitHub CI, real mobile/desktop authenticated lesson display and editorial/spec question coverage review are outstanding.
+- **Branch:** `task/TASK-244-m01-book-by-book-source-audit`, created from TASK-243; no merge, no manual production deploy, no production DB writes.
+- **ICT books:** 5-sinf (6 inserts), 6-sinf (4), 7-sinf (7), 8-sinf (4), 9-sinf (3), 10-sinf (3), 11-sinf (5); sum **32**.
+- **Cambridge+ books:** 5-sinf (4), 6-sinf (4), 7-sinf (3), 8-sinf (3), 9-sinf (6), 10–11-sinf (7); sum **27**. Total **59**.
+- **Code:** `src/data/topics/m01TextbookAudit*.ts`, `src/data/topicContent.ts`. Inserts use exact pre-existing canonical topic/heading, preserve every source block, source provenance and question object unchanged.
+- **Test:** `src/tests/M01ICT5BookAudit.test.tsx`, `M01ICT6BookAudit.test.tsx` ... `M01ICT11BookAudit.test.tsx`, `M01Cambridge5BookAudit.test.tsx` ... `M01Cambridge1011BookAudit.test.tsx`, `src/tests/m01Content.test.ts`; source references and base-preservation regressions.
+- **Source page evidence:** `docs/TASK244_M01_BOOK_BY_BOOK_SOURCE_AUDIT_20261019.md`; each subsequent book has `docs/TASK244_ICT{6,7,8,9,10,11}_M01_PAGE_CONCORDANCE_20261019.md` and `docs/TASK244_CAMBRIDGE{5,6,7,8,9,1011}_M01_PAGE_CONCORDANCE_20261019.md`.
+- **Important factual defects distinguished:** ICT7 2021 audio 48 kHz×16 bit×3min = 17,280,000 B ≈ 16.48 MiB, not printed “1,64 Mb”; ICT9 46×40×67 one-byte text ≈0.118 MiB; four-colour raw 2048×1366 =683 KiB; Cambridge9 and 10–11 data validation≠verification, archival codecs and privacy; dynamic/primary/secondary source meanings.
+- **Limit:** PDFs were inventoried in full by accessible text/chapters and M01-relevant sections individually read; **not all pages/pictures of every volume have independent visual QA**. Cross-check of every textbook exercise/test vs official attestatsiya specs and final in-browser authenticated mobile/desktop QA **not complete**. Never label FULLY COMPLETE until these release gates pass.
 
 ## 2026-10-19 — TASK-243: M02 darslik, nazariya va dizayn
 
