@@ -18,7 +18,7 @@ import { M03_02_CANONICAL_BOOK, M03_03_CANONICAL_BOOK } from './topics/m03WordAd
 import { M15_03_CANONICAL_BOOK } from './topics/m15UpbringingCanonicalBook'
 import { M12_05_CANONICAL_BOOK } from './topics/m12IPv4CanonicalBook'
 import { M08_TEXTBOOK_STUDY_ADDITIONS } from './topics/m08TextbookStudyAdditions'
-import { M14_NORMATIVE_SOURCE_ADDITIONS } from './topics/m14NormativeSourceAdditions'
+import { M14_PROFESSIONAL_STANDARD_GUIDE } from './topics/m14ProfessionalStandardGuide'
 import { M16_SOURCE_THEORY_ADDITIONS } from './topics/m16SourceTheoryAdditions'
 // M14–M16 use server-scored exams exclusively. Legacy mini-quiz answer keys
 // have intentionally been stripped from the shipped JavaScript bundle.
@@ -1505,14 +1505,17 @@ for (const [subtopicId, additions] of Object.entries(M08_TEXTBOOK_STUDY_ADDITION
   if (local) TOPIC_CONTENT[subtopicId] = { ...local, theory: [...local.theory, ...additions] }
 }
 
-// TASK-273: retain every original M16 block and append separately traced
-// methodology explanations to the offline canonical fallback. Server-backed
-// M16 lessons attach the same blocks in overlayPublishedProfessionalLesson.
-// Original labor-task explanations for M14 are kept after the legacy offline
-// theory as supplementary study blocks, without changing answer keys.
-for (const [subtopicId, additions] of Object.entries(M14_NORMATIVE_SOURCE_ADDITIONS)) {
+// TASK-303: one linear, source-page-traced professional-standard chapter
+// per M14 topic. Original learner questions stay untouched; this authored
+// curriculum is review-only until an independent human expert signs off.
+for (const [subtopicId, theory] of Object.entries(M14_PROFESSIONAL_STANDARD_GUIDE)) {
   const local = TOPIC_CONTENT[subtopicId]
-  if (local) TOPIC_CONTENT[subtopicId] = { ...local, theory: [...local.theory, ...additions] }
+  if (local) TOPIC_CONTENT[subtopicId] = {
+    ...local,
+    source: 'Pedagogning kasbiy standarti, 13 bet, TASK-303 expert review pending',
+    kind: 'chapter',
+    theory,
+  }
 }
 
 for (const [subtopicId, additions] of Object.entries(M16_SOURCE_THEORY_ADDITIONS)) {
