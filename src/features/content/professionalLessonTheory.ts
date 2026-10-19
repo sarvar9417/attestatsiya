@@ -174,3 +174,22 @@ export function verifiedM02Supplement(publishedContent: TopicContent | null): Th
   )
   return index < 0 ? [] : publishedContent.theory.slice(index)
 }
+
+
+/**
+ * M16 uses the published backend lesson as the canonical reading. Once it is
+ * loaded, expose the latest source-audited static methodological tables and
+ * examples as an explicitly optional addendum, never as a replacement and
+ * never with bundled quiz answers. Offline fallback already shows these blocks
+ * as the primary theory, so do not duplicate them without a published lesson.
+ */
+export function verifiedM16MethodologySummary(
+  subtopicId: string,
+  staticContent: TopicContent | undefined,
+  publishedContent: TopicContent | null,
+): TheoryBlock[] {
+  if (!/^M16\.0[1-3]$/.test(subtopicId) || !staticContent || !publishedContent) return []
+  if (staticContent.subtopicId !== subtopicId || publishedContent.subtopicId !== subtopicId) return []
+  const permitted: TheoryBlock['type'][] = ['heading', 'table', 'example', 'note', 'trap', 'source']
+  return staticContent.theory.filter(block => permitted.includes(block.type))
+}
