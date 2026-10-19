@@ -8,6 +8,11 @@
 - Oldin `src/data/topicContent.ts` dagi aynan **M09.05** statik fallback mavzusi **«Import va eksport»** edi; shu ID bilan berilgan uchta Y1 mashq ham import, MP3 eksport va ODBC haqida edi.
 - Backenddan kanonik mavzu matnini olish imkonsiz bo‘lgan fallback yo‘lda shu farq o‘quvchini boshqa ko‘nikmaga yo‘naltirishi mumkin. Static fallback va productionda published DB darsi aynan bitta narsa deb taxmin qilinmaydi.
 
+
+### M09.04 ham manbaga moslashtirildi
+
+Kanonik M09.04 bitta jadvaldagi so‘rov, maydon va tanlash mezonlari bilan ishlaydi. Eski statik fallback uning o‘rniga forma va hisobot turlariga urg‘u bergan edi. ICT 11-sinf bosma **44–50-betlar** asosida Query Design, jadval qo‘shish, maydon tanlash va Criteria bo‘yicha nazariya hamda uchta yangi manbaga bog‘langan lokal Y1 mashq kiritildi. Oldingi `M09.04-q1…q3` IDlar qayta ishlatilmadi; ularni avvalgi mazmun bilan tenglashtirish mumkin emas.
+
 ## Original manbaga qayta bog‘lash
 
 **ICT 11-sinf (2021)**, Xaytullayeva va boshqalar, 7-dars «Ma’lumotlarni so‘rovlar yordamida saralash», **bosma 44–52-betlar**. Sarvar Drive fayl ID: `1CFmUVZnq7S7YmZxHGaI1q58ogdD-2fEi`.
@@ -18,7 +23,7 @@
 
 ## Tuzatish doirasi
 
-1. M09.05 statik fallback nazariyasi va uchta **lokal mashq** so‘rovlar mavzusiga ko‘chirildi. Oldingi savol IDlari qayta ishlatilmadi — yangi source-versioned IDlar tarixiy xotira bilan aralashmaydi.
+1. M09.04–M09.05 statik fallback nazariyasi va har biridagi uchta **lokal mashq** so‘rovlar mavzusiga ko‘chirildi. Oldingi savol IDlari qayta ishlatilmadi — yangi source-versioned IDlar tarixiy xotira bilan aralashmaydi.
 2. Import/eksportga doir eski mazmun manba nuqtai nazaridan alohida qo‘shimcha darsga rejalashtirilsin; u M09.05 bo‘yicha so‘rov testini almashtirmasligi kerak. Eski uchta mini-quiz professional bankga import qilinmagan va bu audit ularni nashr qilmaydi.
 3. Regression test mavzu sarlavhasi, darslikdagi `Like/Not Like/Between`, yangi IDlar, indekslar va to‘rt noyob variantni tekshiradi.
 
