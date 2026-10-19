@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useMemo, lazy, Suspense } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getTopicContent, type TestQuestion, type TheoryBlock } from '../../data/topicContent'
-import { getLessonTestQuestions, checkQuestionAnswer } from '../../features/content/lessonContentGateway'
+import { checkQuestionAnswer } from '../../features/content/lessonContentGateway'
 import { paginateTheoryBlocks } from '../../features/content/theoryPagination'
 import { getTopicTestPreflight, type TopicTestPreflight } from '../../features/content/contentApi'
 import { getLessonDetail } from '../../features/content/contentApi'
@@ -316,16 +316,8 @@ export default function TopicView({
     return () => { active = false }
   }, [subtopicId, isProfessionalLesson, isAlgoritmlashV2, isAxrM13, readinessRetry])
 
-  // Savollar backend-first: gateway backend xatosida statik kontentga tushadi
-  useEffect(() => {
-    let cancelled = false
-    getLessonTestQuestions(subtopicId).then((qs) => {
-      if (!cancelled) setLiveQuestions(qs)
-    })
-    return () => {
-      cancelled = true
-    }
-  }, [subtopicId])
+  // Tests start in ExamRunner through the authenticated session API.
+  // Do not preload shared exam-bank questions into the theory page.
 
   // Legacy lessons use real pages, not viewport-scrolling heuristics. The former
   // document-level 100% progress could appear while the learner was on block 1/4.

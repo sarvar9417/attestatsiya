@@ -122,6 +122,7 @@ export default function ExamRunner({
   const [savedQuestionIds, setSavedQuestionIds] = useState<Set<string>>(
     new Set()
   )
+  const [queuedQuestionIds, setQueuedQuestionIds] = useState<Set<string>>(new Set())
   const [flaggedQuestionIds, setFlaggedQuestionIds] = useState<Set<string>>(
     new Set()
   )
@@ -137,6 +138,7 @@ export default function ExamRunner({
   const [preflightRetry, setPreflightRetry] = useState(0)
   const questionOpenedAtRef = useRef(Date.now())
   const finishInFlightRef = useRef(false)
+  const submitInFlightRef = useRef(false)
   const autoFinishAttemptedRef = useRef(false)
 
   useEffect(() => {
@@ -204,6 +206,7 @@ export default function ExamRunner({
     setReviewError(null)
     setDrafts({})
     setSavedQuestionIds(new Set())
+    setQueuedQuestionIds(new Set())
     setFlaggedQuestionIds(new Set())
     setCurrentIndex(0)
     setSubmittingId(null)
@@ -276,7 +279,8 @@ export default function ExamRunner({
 
       // Restore only the owner's persisted answers; correctness and keys remain hidden.
       for (const item of nextSession.items) {
-        const stored = nextSession.saved_answers?.[item.question_id]
+        const stored = nextSession.saved_answers?.[item.question_id] ??
+          gateway.getPendingAnswer?.(nextSession.exam_id, item.question_id)
         if (!stored || typeof stored !== 'object' || Array.isArray(stored)) continue
         const response = stored as Record<string, unknown>
         if (item.format === 'Y1' && typeof response.option_id === 'string') {
@@ -295,6 +299,8 @@ export default function ExamRunner({
       setSession(nextSession)
       setDrafts(initialDrafts)
       setSavedQuestionIds(new Set(nextSession.answered_question_ids ?? []))
+      setQueuedQuestionIds(new Set(nextSession.items.filter(item =>
+        gateway.getPendingAnswer?.(nextSession.exam_id, item.question_id)).map(item => item.question_id)))
       setFlaggedQuestionIds(new Set())
       setCurrentIndex(0)
       setClockNow(Date.now())
@@ -309,7 +315,7 @@ export default function ExamRunner({
   }
 
   const finishExam = useCallback(async () => {
-    if (!session || finishInFlightRef.current) return
+    if (!session || finishInFlightRef.current || submitInFlightRef.current) return
 
     finishInFlightRef.current = true
     setPhase('finishing')
@@ -330,6 +336,7 @@ export default function ExamRunner({
   useEffect(() => {
     if (
       phase !== 'active' ||
+      submittingId !== null ||
       remainingSeconds !== 0 ||
       autoFinishAttemptedRef.current
     ) {
@@ -338,10 +345,11 @@ export default function ExamRunner({
 
     autoFinishAttemptedRef.current = true
     void finishExam()
-  }, [finishExam, phase, remainingSeconds])
+  }, [finishExam, phase, remainingSeconds, submittingId])
 
   const updateDraft = (value: AnswerValue) => {
-    if (!currentItem || savedQuestionIds.has(currentItem.question_id)) return
+    if (!currentItem || savedQuestionIds.has(currentItem.question_id) || queuedQuestionIds.has(currentItem.question_id) ||
+        (session && gateway.getPendingAnswer?.(session.exam_id, currentItem.question_id))) return
 
     setDrafts((current) => ({
       ...current,
@@ -364,7 +372,8 @@ export default function ExamRunner({
   }
 
   const submitCurrentAnswer = async () => {
-    if (!session || !currentItem) return
+    if (!session || !currentItem || submitInFlightRef.current || finishInFlightRef.current ||
+        phase !== 'active' || savedQuestionIds.has(currentItem.question_id)) return
 
     const answer = drafts[currentItem.question_id]
     if (!isAnswerComplete(currentItem, answer)) {
@@ -372,6 +381,7 @@ export default function ExamRunner({
       return
     }
 
+    submitInFlightRef.current = true
     setSubmittingId(currentItem.question_id)
     setMessage(null)
 
@@ -393,6 +403,8 @@ export default function ExamRunner({
       if ('error' in response) {
         if (response.error === 'vaqt_tugadi') {
           setMessage('Sinov vaqti tugadi. Natija hisoblanmoqda.')
+          submitInFlightRef.current = false
+          setSubmittingId(null)
           await finishExam()
           return
         }
@@ -415,8 +427,12 @@ export default function ExamRunner({
         moveToNextUnsaved(currentItem.question_id)
       }
     } catch (error) {
+      if (gateway.getPendingAnswer?.(session.exam_id, currentItem.question_id)) {
+        setQueuedQuestionIds(current => new Set([...current, currentItem.question_id]))
+      }
       setMessage(errorMessage(error))
     } finally {
+      submitInFlightRef.current = false
       setSubmittingId(null)
     }
   }
@@ -425,6 +441,8 @@ export default function ExamRunner({
     const value = drafts[item.question_id]
     const disabled =
       savedQuestionIds.has(item.question_id) ||
+      queuedQuestionIds.has(item.question_id) ||
+      Boolean(session && gateway.getPendingAnswer?.(session.exam_id, item.question_id)) ||
       submittingId === item.question_id ||
       phase !== 'active'
 
@@ -1313,6 +1331,7 @@ export default function ExamRunner({
                 </button>
                 <button
                   type="button"
+                  disabled={interactionBusy}
                   onClick={() => void finishExam()}
                   className="exam-finish-confirm-btn"
                 >
