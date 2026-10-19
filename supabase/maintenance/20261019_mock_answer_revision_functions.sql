@@ -137,7 +137,10 @@ begin
          answered_at = now()
    where id = v_item.id;
 
-  if v_item.answered_at is null and v_exam.kind in ('mavzu', 'bolim', 'takrorlash', 'zaif', 'diagnostika', 'axb_bob') then
+  if v_item.answered_at is null and (
+    v_exam.kind in ('mavzu', 'bolim', 'takrorlash', 'zaif', 'diagnostika', 'axb_bob')
+    or (v_exam.kind = 'mock' and v_exam.selection_meta ->> 'answer_revision_policy' is distinct from 'mutable-v1')
+  ) then
     perform public.apply_sm2(v_user, v_item.construct_id, v_correct);
   end if;
 
@@ -179,7 +182,7 @@ begin
   end if;
   -- Mock answers can be edited until finish. Apply adaptive learning once,
   -- against the FINAL answer, not the first choice.
-  if v_exam.kind = 'mock' then
+  if v_exam.kind = 'mock' and v_exam.selection_meta ->> 'answer_revision_policy' = 'mutable-v1' then
     perform public.apply_sm2(v_user, x.construct_id, x.is_correct)
     from public.exam_items x
     where x.exam_id = p_exam_id and x.answered_at is not null;
