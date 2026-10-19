@@ -1,3 +1,13 @@
+## TASK-244 — Y2 moslashtirish testlarining to‘liqligi va tanlov sifati (2026-10-19)
+
+- **Status:** IN_PROGRESS.
+- **Owner:** ChatGPT; foydalanuvchi 2026-10-19 sanasida testlar sifati uchun ruxsat berdi.
+- **Branch:** `task/TASK-244-y2-matching-quality`.
+- **Dependency:** TASK-240 DONE; published kontent va production DB joyida o‘zgarmaydi.
+- **Scope:** Y2 matchingning bir-biriga mos (one-to-one) tanlovi, bo‘sh/duplicate javoblarni rad etish va variantlarning qayta renderda o‘zgarmasligi; regressiya testlari.
+- **Source boundary:** Drive darsliklari va attestatsiya spetsifikatsiyasi semantik review uchun; xususiy savol matni/answer key public Gitga kiritilmaydi.
+- **Release:** mustaqil ekspert approval bo‘lmasa savollar published qilinmaydi; foydalanuvchi alohida aytmaguncha merge, deploy va production migration yo‘q.
+
 ## TASK-240 — Informatika savollar banki chuqur sifat nazorati (2026-10-18)
 
 - **Status:** DONE (kritik exposure tuzatildi; qolgan ekspert release shartlari hisobotda).
