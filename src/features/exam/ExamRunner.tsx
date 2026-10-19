@@ -335,15 +335,17 @@ export default function ExamRunner({
     if (!session || session.kind !== 'mock' || !gateway.flushQueuedAnswers) return
     if (!session.items.some(item => gateway.getPendingAnswer?.(session.exam_id, item.question_id))) return
     try {
-      await gateway.flushQueuedAnswers(session.exam_id)
+      const report = await gateway.flushQueuedAnswers(session.exam_id)
+      const rejected = new Set(report.rejected ?? [])
       const remaining = new Set(session.items.filter(item =>
         gateway.getPendingAnswer?.(session.exam_id, item.question_id)).map(item => item.question_id))
       setSavedQuestionIds(previous => {
         const next = new Set(previous)
-        for (const id of locallyQueuedRef.current) if (!remaining.has(id)) next.add(id)
+        for (const id of locallyQueuedRef.current) if (!remaining.has(id) && !rejected.has(id)) next.add(id)
         return next
       })
       setQueuedQuestionIds(remaining)
+      if (rejected.size > 0) setMessage('Ayrim javoblar vaqt tugagani sababli serverda qabul qilinmadi.')
     } catch (error) {
       // A failed network request does not clear the durable local answer.
       setMessage(errorMessage(error))
