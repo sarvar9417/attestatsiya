@@ -7,6 +7,7 @@
  * This module does not copy textbook pages or reuse copyrighted diagrams.
  */
 import type { TheoryBlock, TopicContent } from '../topicContent'
+import { ICT6_M01_PAGE_ADDENDA } from './m01TextbookAuditICT6'
 
 export interface VerifiedTextbookInsertion {
   /** Canonical learner topic (not the source file or an arbitrary keyword hit). */
@@ -108,9 +109,14 @@ export const ICT5_M01_PAGE_ADDENDA: readonly VerifiedTextbookInsertion[] = [
   },
 ]
 
+export const ALL_M01_PAGE_ADDENDA: readonly VerifiedTextbookInsertion[] = [
+  ...ICT5_M01_PAGE_ADDENDA,
+  ...ICT6_M01_PAGE_ADDENDA,
+]
+
 export function withVerifiedM01Additions(
   base: Readonly<Record<string, TopicContent>>,
-  additions: readonly VerifiedTextbookInsertion[] = ICT5_M01_PAGE_ADDENDA,
+  additions: readonly VerifiedTextbookInsertion[] = ALL_M01_PAGE_ADDENDA,
 ): Record<string, TopicContent> {
   const result: Record<string, TopicContent> = { ...base }
   for (const addition of additions) {
