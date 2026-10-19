@@ -46,7 +46,7 @@ export const ICT6_M01_PAGE_ADDENDA: readonly VerifiedTextbookInsertion[] = [
   },
   {
     topicId: 'M01.04',
-    beforeHeading: 'Bob bo‘yicha mustahkamlash savollari',
+    beforeHeading: "Bob bo'yicha mustahkamlash savollari",
     blocks: [
       { type: 'subheading', content: '6-sinf darsligidagi onlayn xavflarga vaziyatli javob' },
       { type: 'case', content: 'Notanish odam sovg‘a yoki yordamni vaʼda qilib, shaxsiy manzil, parol yoki alohida uchrashuv so‘rasa, suhbatni to‘xtating, shaxsiy maʼlumot yubormang, holatni ishonchli kattaga yoki platforma moderatoriga xabar qiling. Bunday yaqinlashishning xavfli shakli **grooming** deb ataladi. Tahdidli yoki haqoratli xabarlar **kiberbulling** bo‘lishi mumkin; dalillarni xavfsiz saqlash, bloklash va yordam so‘rash muhim.' },
