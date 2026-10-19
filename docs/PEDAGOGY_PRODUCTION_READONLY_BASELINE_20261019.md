@@ -58,3 +58,15 @@ group by q.group_code,q.format order by 1,2;
 3. Compare all answer keys, distractors, explanation text and Y2/Y3 side/order contracts *privately*, preserving key secrecy and immutable revisions.
 4. Review the two KS.03 Y2 prompts before considering a dedupe; they have different option sets.
 5. Re-run the production SELECT snapshot after each authorized release and log deltas; no automatic publication from this audit.
+
+## Additional read-only integrity assertions
+
+Across all 450 published pedagogy questions:
+
+- **0** missing constructs.
+- **0** mismatches between the question group and the linked construct group.
+- **0** missing source lesson rows.
+- **0** stems shorter than 20 characters.
+- **0** difficulty values outside the allowed 1–5 range.
+
+These are structural quality checks only. They do not verify semantic correctness, answer keys, difficulty calibration, discrimination, or the exact book page.
