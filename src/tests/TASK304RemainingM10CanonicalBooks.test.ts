@@ -48,7 +48,7 @@ describe('TASK-304: M10.04–07 source-first reader books and assessment parity'
     const s = M10_06_CANONICAL_BOOK.map(x => x.content).join('\n')
     expect(s).toContain('maintenance mode')
     expect(s).toContain('2026')
-    expect(s).toContain('tugat')
+    expect(s).toContain('to‘xtatilmasligini')
     expect(s).toContain('FPS')
     expect(s).toContain('Tween')
     expect(s).toContain('Keyframe')
