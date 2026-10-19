@@ -49,7 +49,7 @@ describe('pedagogika M14.03 and M15 source-and-safety reconciliation', () => {
     expect(methods).toContain('rag‘batlantirish')
     expect(methods).toContain('qadr-qimmatini')
     expect(methods).not.toContain('majburlash')
-    const note = blocks.find(x => x.type === 'note')?.content ?? ''
+    const note = blocks.find(x => x.type === 'note' && x.content.includes('«majburlash»'))?.content ?? ''
     expect(note).toContain('«majburlash»')
     expect(note).toContain('zo‘ravonlik yoki kamsitishni')
   })
