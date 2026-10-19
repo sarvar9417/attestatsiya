@@ -9,7 +9,7 @@ Audit doirasi: GitHub `main`, Vercel production, Supabase production (read-only)
 - Supabase savollar: jami **6719**, published **4603**, review **1360**, archived **737**, draft **19**. Nashr qilingan savollar ichida kalitsiz **0**; `Y1` formatida to‘rt `side='a'` varianti bo‘lmagan savollar **0** (SQL cross-check).
 - Darslar soni va nashr holati mavzular bo‘yicha turlicha: masalan M06 14 published/3 review, M08 19/3, M09 5/6, M13 13/0. Katalog modulga xos nashr siyosatiga qat’iy amal qilishi kerak.
 - AXB 19 boblik bankida jami 570 savol, 540 published; 16-bob 3 published, 19-bob 27 published; API generatorlari production Supabase’da ishlashini avvalgi rollback-only smoke-testlar tasdiqlagan.
-- **M14 status drift:** 26 ta manba asosida yozilgan `authored:ai-assisted:m14-closed-20261018:%` savol hozir `published` (avval review edi). Audit muallif/imzo tasdiqlarini hali tasdiqlamadi; publication ma’lumoti mustaqil inson ekspertizasi dalili emas.
+- **M14 editorial bypass / status drift (production):** 26 ta AI-assisted M14 savoldan **23 published, 3 archived**, **0 author_id identified**, **0 four-part editorial checks**. Bu nazorat nuqtayi nazaridan **P0**: mazmun xato deb avtomatik hukm chiqarilmaydi, ammo inson tomonidan tasdiq yozuvlari mavjud emas. Nashr tarixini, tasdiqlovchi rollarni va istisno qoidalarini tekshirish zarur; mavjud imtihon tarixini buzib yuboradigan bulk-update mumkin emas.
 
 ## Topilgan UI xato va tuzatish
 
@@ -19,7 +19,7 @@ Audit doirasi: GitHub `main`, Vercel production, Supabase production (read-only)
 
 1. **P0 Deployment parity:** main SHA va production READY SHA farqi. Vercel deploy qachon va nima sababdan kechikayotganini o‘rganish; tasdiqsiz production deploy qilinmaydi.
 2. **P0 Answer-key oracle:** umumiy darsning tezkor javob API’si `correct_option_id` qaytaradi; professional KS/PM bloklari himoyalangan, lekin boshqa fanlarda practice-only va rasmiy 50-test banki kesishishi xavfi mavjud. Rasmiy mock candidate-set va public learning endpoint cross-match qilinmasdan “to‘liq yopiq” deb aytib bo‘lmaydi. Buning uchun mustaqil xususiy bank / holdout siyosati kerak.
-3. **P1 M14 nashr izlari:** 26 AI-assisted item uchun haqiqiy tahririy tasdiq yozuvlari, source-page verifikatsiyasi va test tarixi tekshiruvi kerak. Avtomatik revoke yoki re-publish qilishga ruxsat yo‘q.
+3. **P0 M14 editorial integrity:** 23 published/3 archived AI-assisted itemda haqiqiy muallif va to‘rtta tasdiq yozuvi **0**. 23 ta published savolni alohida ekspert tekshiruviga qo‘yish, ularning exam usage tarixini aniqlash, shundan so‘ng tasdiqlangan reviziya yoki release siyosati bo‘yicha boshqarish. Avtomatik revoke yoki re-publish qilishga ruxsat yo‘q.
 4. **P1 18/18 pedagogy and overall 15/50 E2E:** CI yagona haqiqiy foydalanuvchi hisobida browser-to-database full-flow o‘rnini bosmaydi.
 5. **P1 Katalog pariteti:** M06/M08/M09 turli dars statuslari frontendga `published`dan boshqa holatda tasodifan chiqmasligi tekshirilsin.
 
