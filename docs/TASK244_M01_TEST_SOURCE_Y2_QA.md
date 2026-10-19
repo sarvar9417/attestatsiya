@@ -35,6 +35,21 @@ Bundan tashqari, `docs/AXBOROT_BANK_IMPORT_AUDIT.md` bo‘yicha **alohida xususi
 
 `TopicView`ning eski `phase='test'` render bo‘limi hozirgi rasmiy testni boshlash yo‘li emas: zamonaviy flow `/exam/mavzu/...` orqali `src/features/exam/ExamRunner.tsx`ga o‘tadi. Shu sabab real flow himoyasi alohida `contracts.ts`ga ham qo‘shildi.
 
+## Testologik ko‘rsatkichlar — ekspert ko‘rigi uchun signal
+
+400 itemlik mavjud ARS bankida quyidagi heuristikalar hisoblandi:
+
+| Tekshiruv | Natija | Talqin |
+|---|---:|---|
+| Aynan bir xil normalizatsiyalangan savol matnlari | 0 | Exact stem duplicate aniqlanmadi; semantik duplicate alohida tekshiriladi |
+| Aynan bir xil **variantlar to‘plami** ishlatilgan juftlar | 69 juft / 138 savol | Bu avtomatik xato emas, lekin mavzu ichidagi test xilma-xilligini predmet/testolog eksperti ko‘rishi kerak |
+| To‘g‘ri javob **yagona eng uzun** variant | 86/400 | Variant uzunligidan javobni topish xavfi bo‘yicha ko‘rish uchun signal |
+| To‘g‘ri javob **yagona eng qisqa** variant | 73/400 | Bir qarashda xato emas; masala keng kontekstda baholanadi |
+| Bir xil «eng aniq ta’rifini toping» andozasi | 58 savol | Kognitiv va dizayn xilma-xilligini oshirish uchun takrorlanuvchi konstruktsiya |
+| To‘g‘ri javob A/B/C/D indekslari | 100/100/100/100 | Pozitsiyalar teng taqsimlangan, lekin learner real imtihonda variantlar shuffle qilinadi |
+
+Bu raqamlar javob kaliti yoki pedagogik xato **hukmi emas**. 69 juft variantlar to‘plamidan maqsadli ishlatilganlari saqlanadi, lekin semantik takror va distractor kontrasti bo‘yicha tekshiruvga olinadi. Published savollar avtomatik qayta yozilmaydi.
+
 ## Keyingi sifat nazorati va release cheklovi
 
 - Barcha Drive testlarini alohida inventarizatsiya qilib external ID, manba/sahifa, rasm/kod/jadval, daraja, rasmiy construct, dars mavzusi, javob va tushuntirish bilan 1:1 reyestr yaratish.
