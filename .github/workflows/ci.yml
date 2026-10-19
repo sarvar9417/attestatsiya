@@ -402,3 +402,24 @@ jobs:
             -f supabase/tests/canonical_lesson_drift_reconcile.test.sql \
             -f supabase/tests/spec_zero_construct_review_bank.test.sql \
             -f supabase/tests/anon_rpc_hardening.test.sql
+
+  # Branch rules may require a quality CHECK RUN from GitHub Actions.
+  # A same-named commit status alone may not meet an app-pinned rule.
+  # Retain legacy commit status AND expose an Actions check-run quality gate.
+  quality:
+    name: quality
+    needs: [frontend-quality, backend, database]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Require frontend, backend and database checks
+        env:
+          FRONTEND_RESULT: ${{ needs['frontend-quality'].result }}
+          BACKEND_RESULT: ${{ needs.backend.result }}
+          DATABASE_RESULT: ${{ needs.database.result }}
+        run: |
+          echo "frontend-quality=${FRONTEND_RESULT}; backend=${BACKEND_RESULT}; database=${DATABASE_RESULT}"
+          test "${FRONTEND_RESULT}" = "success"
+          test "${BACKEND_RESULT}" = "success"
+          test "${DATABASE_RESULT}" = "success"
