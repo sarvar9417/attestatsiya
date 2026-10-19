@@ -174,7 +174,7 @@ export default function TopicView({
     : loadedContent
   /** Kontent qo'llanmadan generatsiya qilinganmi (M01) — bo'limli o'qish rejimi. */
   const isBook = Boolean(content?.source)
-  const theoryPages = useMemo(() => paginateTheoryBlocks(content?.theory ?? []), [content])
+  const theoryPages = useMemo(() => paginateTheoryBlocks(content?.theory ?? [], 2, moduleId === 'M02'), [content, moduleId])
   const activeTheoryPage = Math.min(theoryPage, Math.max(0, theoryPages.length - 1))
   const isLastTheoryPage = activeTheoryPage === theoryPages.length - 1
   const isSemanticProfessional = !isPedagogyTopic && /^M1[46]$/.test(moduleId) && Boolean(loadedContent)
@@ -1029,22 +1029,70 @@ function highlightTerms(text: string): (string | JSX.Element)[] {
       return (
         <span key={i} className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 font-semibold text-[13px]">
           <Quote size={10} className="shrink-0" />
-          {part.replace(/[«»]/g, '')}
+          <InlineText text={part.slice(1, -1)} />
         </span>
       )
     }
-    return part
+    return <InlineText key={i} text={part} />
   })
 }
 
 // ═══════════════════════════════════════════════════════════════════
 // THEORY BLOCK — Rich visual component per type
 // ═══════════════════════════════════════════════════════════════════
-function TheoryBlock({ block }: { block: TheoryBlock }) {
+export function TheoryBlock({ block }: { block: TheoryBlock }) {
   const cfg = THEORY_BLOCK_CONFIG[block.type as keyof typeof THEORY_BLOCK_CONFIG] || THEORY_BLOCK_CONFIG.text
   const Icon = cfg.icon
 
   switch (block.type) {
+    case 'heading':
+      return (
+        <h3 className="mt-5 border-b border-gray-200 pb-3 text-lg font-bold leading-7 text-gray-950 dark:border-gray-800 dark:text-white">
+          <InlineText text={block.content} />
+        </h3>
+      )
+
+    case 'subheading':
+      return (
+        <h4 className="pt-2 text-base font-semibold leading-7 text-indigo-800 dark:text-indigo-200">
+          <InlineText text={block.content} />
+        </h4>
+      )
+
+    case 'source':
+      return (
+        <aside aria-label="Foydalanilgan manba" className="flex items-start gap-2 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-xs leading-6 text-gray-600 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400">
+          <BookMarked size={15} className="mt-1 shrink-0" aria-hidden="true" />
+          <p><InlineText text={block.content} /></p>
+        </aside>
+      )
+
+    case 'trap':
+    case 'case':
+      return (
+        <section className={`rounded-2xl border p-5 shadow-sm ${block.type === 'trap'
+          ? 'border-rose-200 bg-rose-50/70 dark:border-rose-900 dark:bg-rose-950/20'
+          : 'border-sky-200 bg-sky-50/70 dark:border-sky-900 dark:bg-sky-950/20'}`}>
+          <h4 className="mb-2 text-sm font-bold text-gray-900 dark:text-white">
+            {block.type === 'trap' ? 'Ko‘p uchraydigan xato' : 'Vaziyat tahlili'}
+          </h4>
+          <p className="whitespace-pre-wrap text-sm leading-7 text-gray-700 dark:text-gray-200">
+            {highlightTerms(block.content)}
+          </p>
+        </section>
+      )
+
+    case 'list':
+      return block.ordered ? (
+        <ol className="list-decimal space-y-2 rounded-2xl border border-gray-200 bg-white p-5 pl-10 text-sm leading-7 text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-200">
+          {(block.items ?? block.content.split('\n')).map((item, i) => <li key={i}><InlineText text={item} /></li>)}
+        </ol>
+      ) : (
+        <ul className="list-disc space-y-2 rounded-2xl border border-gray-200 bg-white p-5 pl-10 text-sm leading-7 text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-200">
+          {(block.items ?? block.content.split('\n')).map((item, i) => <li key={i}><InlineText text={item} /></li>)}
+        </ul>
+      )
+
     case 'definition':
       return (
         <div className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${cfg.gradient} border-l-4 ${cfg.border} border border-gray-100 dark:border-gray-800 shadow-sm group hover:shadow-md transition-all duration-300`}>
@@ -1123,9 +1171,9 @@ function TheoryBlock({ block }: { block: TheoryBlock }) {
               <span className={`text-xs font-bold uppercase tracking-wider ${cfg.accent}`}>Misol</span>
             </div>
             <div className="bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm rounded-xl p-4 border border-gray-200 dark:border-gray-700">
-              <code className="block text-sm text-gray-700 dark:text-gray-300 font-mono whitespace-pre-wrap leading-relaxed">
-                {block.content}
-              </code>
+              <p className="block whitespace-pre-wrap text-sm leading-7 text-gray-700 dark:text-gray-300">
+                {highlightTerms(block.content)}
+              </p>
             </div>
           </div>
         </div>
@@ -1141,7 +1189,7 @@ function TheoryBlock({ block }: { block: TheoryBlock }) {
               </div>
               <div className="min-w-0 flex-1">
                 <span className={`text-xs font-bold uppercase tracking-wider block mb-1.5 ${cfg.accent}`}>Eslatma</span>
-                <p className="text-sm text-gray-800 dark:text-gray-200 leading-relaxed">{block.content}</p>
+                <p className="text-sm text-gray-800 dark:text-gray-200 leading-relaxed">{highlightTerms(block.content)}</p>
               </div>
             </div>
           </div>
@@ -1160,25 +1208,25 @@ function TheoryBlock({ block }: { block: TheoryBlock }) {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               {(() => {
-                const rows = block.content.split('\n').filter(r => r.trim())
-                if (rows.length < 2) return null
-                // Row 0: header row, Row 1: separator (---|---), Row 2+: data
-                const headerCells = rows[0].split('|').filter(c => c.trim())
-                const dataRows = rows.slice(2)
+                const lines = block.content.split('\n').filter(line => line.trim())
+                const markdownCells = (line: string) => line.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map(cell => cell.trim())
+                const headerCells = block.headers?.length ? block.headers : lines.length ? markdownCells(lines[0]) : []
+                const dataRows = block.rows?.length ? block.rows : lines.slice(2).map(markdownCells)
+                if (!headerCells.length) return null
                 return (
                   <>
                     <thead>
                       <tr className="bg-gray-50 dark:bg-gray-800/50">
                         {headerCells.map((cell, ci) => (
-                          <th key={ci} className="px-5 py-3.5 text-left text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider border-b border-gray-100 dark:border-gray-700">
-                            {cell.trim()}
+                          <th scope="col" key={ci} className="px-5 py-3.5 text-left text-xs font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider border-b border-gray-100 dark:border-gray-700">
+                            <InlineText text={cell} />
                           </th>
                         ))}
                       </tr>
                     </thead>
                     <tbody>
                       {dataRows.map((row, ri) => {
-                        const cells = row.split('|').filter(c => c.trim())
+                        const cells = row
                         return (
                           <tr key={ri} className="border-b border-gray-50 dark:border-gray-800 last:border-0 hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
                             {cells.map((cell, ci) => (
@@ -1187,7 +1235,7 @@ function TheoryBlock({ block }: { block: TheoryBlock }) {
                                   ? 'font-medium text-gray-800 dark:text-gray-200' 
                                   : 'text-gray-600 dark:text-gray-400'
                               }`}>
-                                {cell.trim()}
+                                <InlineText text={cell} />
                               </td>
                             ))}
                           </tr>
