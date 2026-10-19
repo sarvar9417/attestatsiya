@@ -9,7 +9,7 @@ describe('TASK-244 — 2021 ICT grade-six page-by-page source audit', () => {
     expect(ICT6_M01_PAGE_ADDENDA).toHaveLength(4)
     expect(ICT6_M01_PAGE_ADDENDA.map(x => x.topicId))
       .toEqual(['M01.04', 'M01.04', 'M01.04', 'M01.06'])
-    expect(ALL_M01_PAGE_ADDENDA).toHaveLength(27)
+    expect(ALL_M01_PAGE_ADDENDA).toHaveLength(32)
     for (const insertion of ICT6_M01_PAGE_ADDENDA) {
       expect(M01_CONTENT[insertion.topicId].theory.some(block =>
         block.type === 'heading' && block.content === insertion.beforeHeading,
