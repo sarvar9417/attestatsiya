@@ -74,8 +74,9 @@ begin
   -- per-group cognitive counts, 1-5 difficulty bands, or Y1/Y2/Y3 shares.
   -- Keep those latter details configurable; reject deviations from official facts.
   if v_bp.effective_year = 2026 then
-    if v_target <> 50 or v_bp.duration_min <> 120 then
-      raise exception 'official_mock_blueprint_invalid: 2026_duration_or_total';
+    if v_target <> 50 or v_bp.duration_min <> 120
+       or v_bp.points_per_item is distinct from 2 then
+      raise exception 'official_mock_blueprint_invalid: 2026_duration_total_or_scoring';
     end if;
 
     if (
