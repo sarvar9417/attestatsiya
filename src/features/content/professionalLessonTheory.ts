@@ -2,8 +2,9 @@
  * Adapts source-backed lessons into meaningful theory blocks instead of flattening
  * headings, tables, emphasis and examples into visually identical paragraphs.
  *
- * The first eight M15 lessons remain the core curriculum. Optional 2026-10-18
- * source supplements are separated for progressive disclosure.
+ * The first eight M15 lessons remain the curated core. Only published and
+ * explicitly marked source supplements join the main book; short server
+ * summaries never replace the textbook-backed core.
  */
 import type { TheoryBlock, TopicContent } from '../../data/topicContent'
 import type { LessonSummary } from './contentApi'
@@ -143,35 +144,80 @@ export function overlayPublishedProfessionalLesson(
   const sourceAdditions = M16_SOURCE_THEORY_ADDITIONS[staticContent.subtopicId] ?? M14_NORMATIVE_SOURCE_ADDITIONS[staticContent.subtopicId] ?? []
   if (!theory.length) return staticContent
 
+  // M14 used to repeat part of its reviewed professional-standard explanation
+  // in a collapsed card below BookReader. Put distinct authored material in
+  // the same linear chapter. Never replace the published canonical text.
+  const m14Legacy = /^M14\.0[1-7]$/.test(staticContent.subtopicId)
+    ? staticContent.theory.filter(block =>
+        !sourceAdditions.includes(block) &&
+        ['heading', 'subheading', 'definition', 'text', 'table', 'example', 'case', 'note', 'source', 'trap'].includes(block.type))
+    : []
+  const publishedCore = appendDistinctTheory(theory, m14Legacy)
+  // The published M14/M16 deeper corpus belongs to this same reader, but the
+  // source-checked local additions must retain their established final order.
+  const deeper = extraMarkdown.trim() ? markdownToTheoryBlocks(extraMarkdown) : []
+  const isCanonicalProfessional = /^M1[46]\.\d{2}$/.test(staticContent.subtopicId)
+  const withDeeper = isCanonicalProfessional ? appendDistinctTheory(publishedCore, deeper) : publishedCore
+  const withSources = appendDistinctTheory(withDeeper, sourceAdditions)
+
   return {
     ...staticContent,
     title: lesson.title_uz || staticContent.title,
-    theory: sourceAdditions.length > 0 ? [...theory, ...sourceAdditions] : theory,
-    supplementalTheory: extraMarkdown.trim() ? markdownToTheoryBlocks(extraMarkdown) : undefined,
+    theory: withSources,
+    supplementalTheory: !isCanonicalProfessional && deeper.length > 0 ? deeper : undefined,
     // Keep the existing offline static quiz as fallback. Live scoring remains on the backend.
     questions: staticContent.questions,
   }
 }
 
 /**
- * M15 has a hand-designed, pedagogically structured primary lesson.
- * Server content is an optional deeper reading for M15, never a replacement.
- * This prevents the visible theory layout from switching after async fetch.
- * M14 and M16 retain their existing canonical backend-first behavior.
+ * Deduplicate repeated source blocks while preserving authored order and
+ * references. This helper never mutates the canonical questions or content.
+ */
+export function appendDistinctTheory(existing: TheoryBlock[], extras: TheoryBlock[]): TheoryBlock[] {
+  if (extras.length === 0) return existing
+  const fingerprint = (block: TheoryBlock) =>
+    `${block.type}: ${block.content.replace(/\s+/g, ' ').trim()}`
+  const seen = new Set(existing.map(fingerprint))
+  const unique = extras.filter(block => {
+    const key = fingerprint(block)
+    if (seen.has(key)) return false
+    seen.add(key)
+    return true
+  })
+  return unique.length ? [...existing, ...unique] : existing
+}
+
+/**
+ * M02 and M15 must keep their original complete local chapters, rather than
+ * displaying a short remote summary as the book. Only source-marked sections
+ * from a PUBLISHED remote lesson join the primary reading flow, and the API
+ * finishes before the first BookReader render to avoid reflow mid-reading.
  */
 export function resolveLearnerTheoryContent(
   subtopicId: string,
   staticContent: TopicContent,
   publishedContent?: TopicContent | null,
 ): TopicContent {
-  // M02 and M15 keep their curated core. DB supplements are opt-in, never
-  // appended during reading or allowed to replace the current lesson.
-  if (subtopicId.startsWith('M02.') || subtopicId.startsWith('M15.')) return staticContent
-  return publishedContent ?? staticContent
+  if (!/^M(?:02|15)\./.test(subtopicId)) return publishedContent ?? staticContent
+  if (!publishedContent || publishedContent === staticContent) return staticContent
+  const isM02 = subtopicId.startsWith('M02.')
+  const extras = isM02 ? verifiedM02Supplement(publishedContent) : (publishedContent.supplementalTheory ?? [])
+  if (extras.length === 0) return staticContent
+  const withHeading: TheoryBlock[] = isM02 ? extras : [
+    { type: 'heading', content: 'Manba korpusidan chuqurlashtirilgan nazariya' },
+    ...extras,
+  ]
+  const merged = appendDistinctTheory(staticContent.theory, withHeading)
+  return merged === staticContent.theory ? staticContent : {
+    ...staticContent,
+    theory: merged,
+    supplementalTheory: undefined,
+  }
 }
 
 
-/** A source-checked M02 addendum is optional, never part of the main lesson. */
+/** A source-checked M02 addendum is never used to replace its full canonical book. */
 export function verifiedM02Supplement(publishedContent: TopicContent | null): TheoryBlock[] {
   if (!publishedContent) return []
   const index = publishedContent.theory.findIndex(
