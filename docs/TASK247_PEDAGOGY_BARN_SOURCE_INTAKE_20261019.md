@@ -68,3 +68,14 @@ Tarixiy Telegram/test PDFdagi «to‘g‘ri javob» yorlig‘i mustaqil ekspert 
 - **Tests:** 7 ta Vitest testi yozildi; yakuniy exact SHA uchun CI va barcha regressiyalar hali tasdiqlanmagan.
 - **Blocker:** ZIPni o‘zi o‘qilmaydi, ammo foydalanuvchi extracted `files` papkasini yuklayotgani tufayli manbalarga kirish mumkin. Qolgan xavf: yuklash tugamagan, barcha fayllar betma-bet tekshirilmagan.
 - **Release:** HOLD; **merge/deploy yo‘q**.
+
+
+## 6. Ikkinchi wave — ko‘rilgan manbalarni nazariyaga kiritish
+
+- Faylma-fayl audit inventari: [TASK247_PDF_SOURCE_INVENTORY_20261019.md](TASK247_PDF_SOURCE_INVENTORY_20261019.md), barcha joriy 59 PDF ro‘yxatga olindi (to‘liq matn 2 qisqa konspekt; boshqa 8 manbadan parchalar o‘qildi; ikki PDF oddiy text fetch’da bo‘sh qaytdi; qolganlari navbatda). Bu snapshot yuklash davomida o‘zgaradi.
+- **M15.04:** «Dars turlari.pdf» dagi oltita yetakchi didaktik maqsad bilan statik nazariya jadvali moslashtirildi. Laboratoriya/ekskursiya alohida didaktik maqsad sifatida tasniflanmadi. «dars tahlili turlari.pdf» dagi besh tahlil — didaktik, uslubiy, metodologik, psixologik, pedagogik — ajratildi.
+- **M15.07:** «Pedagogik qobilyatlar umumiy.pdf» asosida perseptiv, empatik, kommunikativ va didaktik qobiliyatlar uchun farqlovchi vaziyatlar yozildi. «Avtoritar» tarixiy tasnifdagi termin o‘quvchini kamsitishni oqlamasligi tushuntirildi.
+- **M15.08:** Qodirova/Pulatova (2022) darsligining kirish/ta’riflari bilan statik inklyuziya izohi kengaytirildi: ehtiyojga mos moslashtirish, teng imkoniyat, mazmunli ishtirok va vaziyatli misol.
+- **Tarixiy testlar:** 2025 bahor (5)/(6) PDF connector o‘qigan **88 088 belgilik matn bo‘yicha aynan bir xil**; 2025 kuzgi asosiy/(1) esa faqat dastlabki 3000 belgi teng, to‘liq matn boshqa. Ularni avtomatik ikkita alohida bank deb import qilmaslik.
+- **QA:** `src/tests/PedagogyBloomSource.test.ts`da 12 ta test yozildi. Human semantic source signoff, full test-suite exact SHA va 18/18 sahifa auditlari hali tugamagan.
+- **Production:** faqat `task/TASK-247-pedagogy-source-intake-20261019`; merge/deploy/DB migration o‘zgarmadi.
