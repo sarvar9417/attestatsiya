@@ -9,6 +9,10 @@ import { M10_02_CANONICAL_BOOK } from './topics/m10PaintPhotoshopCanonicalBook'
 import { M10_03_CANONICAL_BOOK } from './topics/m10SelectionsLayersCanonicalBook'
 import { M12_NETWORK_TEXTBOOK_ADDITIONS } from './topics/m12NetworkTextbookAdditions'
 import { M11_WEB_TEXTBOOK_ADDITIONS } from './topics/m11WebTextbookAdditions'
+import { M11_04_CANONICAL_BOOK } from './topics/m11HtmlLinksMediaCanonicalBook'
+import { M11_05_CANONICAL_BOOK } from './topics/m11CssColorsCanonicalBook'
+import { M11_06_CANONICAL_BOOK } from './topics/m11CssLayoutCanonicalBook'
+import { M11_07_CANONICAL_BOOK } from './topics/m11WebDesignQaCanonicalBook'
 import { M09_DATABASE_TEXTBOOK_ADDITIONS } from './topics/m09DatabaseTextbookAdditions'
 import { M03_OFFICE_TEXTBOOK_ADDITIONS } from './topics/m03OfficeTextbookAdditions'
 import { M03_05_CANONICAL_BOOK } from './topics/m03ExcelCanonicalBook'
@@ -987,7 +991,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'code', content: '<!-- Audio -->\n<audio controls>\n  <source src="ovoz.mp3" type="audio/mpeg">\n</audio>\n\n<!-- Video -->\n<video width="640" height="360" controls>\n  <source src="video.mp4" type="video/mp4">\n</video>', language: 'html' },
     { type: 'note', content: '🔗 target="_blank" — havolani yangi oynada ochadi. controls atributi audio/video pleyerni ko\'rsatadi.' },
   ], [
-    { id: 'M11.04-q1', text: 'Havolani yangi oynada ochish uchun qaysi atribut ishlatiladi?', options: ['target="_self"', 'target="_blank"', 'target="_new"', 'target="_top"'], correctIndex: 1, explanation: 'target="_blank" — havolani yangi oynada ochadi', type: 'Y1' },
+    { id: 'M11.04-q1', text: 'Havolani yangi brauzer kontekstida (yangi tab yoki oynada) ochish uchun qaysi target qiymati ishlatiladi?', options: ['target="_self"', 'target="_blank"', 'target="_new"', 'target="_top"'], correctIndex: 1, explanation: 'target="_blank" yangi browsing context ochadi; brauzer buni tab yoki oyna sifatida tanlaydi. Tashqi havolalarda rel="noopener"ni ham ko‘rib chiqing.', type: 'Y1' },
     { id: 'M11.04-q2', text: 'Iframe nima vazifani bajaradi?', options: ['Rasm ko\'rsatadi', 'Boshqa sahifani ichki ko\'rsatadi', 'Video o\'ynatadi', 'Forma yaratadi'], correctIndex: 1, explanation: 'Iframe — hozirgi sahifa ichida boshqa sahifani ko\'rsatadi', type: 'Y1' },
   ]),
 
@@ -1710,6 +1714,21 @@ for (const [id, book, source] of [
   if (!previous) continue
   const appendix = M10_GRAPHICS_TEXTBOOK_ADDITIONS[id] ?? []
   TOPIC_CONTENT[id] = { ...previous, kind: 'chapter', source, theory: [...book, ...appendix] }
+}
+
+// TASK-306: Four complete HTML/CSS/website QA books in the single reader.
+// Keep prior reviewed Cambridge+ appendix; avoid duplicating the five-block
+// pre-source seed and preserve all offline quiz IDs/keys/Y types.
+for (const [id, book, source] of [
+  ['M11.04', M11_04_CANONICAL_BOOK, 'Cambridge+ ICT 8/9 + MDN — links, embeds and media'],
+  ['M11.05', M11_05_CANONICAL_BOOK, 'Cambridge+ ICT 9 + MDN/W3C — CSS foundations and color'],
+  ['M11.06', M11_06_CANONICAL_BOOK, 'Cambridge+ ICT 9 + MDN — CSS box model and responsive UI'],
+  ['M11.07', M11_07_CANONICAL_BOOK, 'Cambridge+ ICT 9/10–11 + W3C — web design, test and validation'],
+] as const) {
+  const original = TOPIC_CONTENT[id]
+  if (!original) continue
+  const appendix = M11_WEB_TEXTBOOK_ADDITIONS[id] ?? []
+  TOPIC_CONTENT[id] = { ...original, kind: 'chapter', source, theory: [...book, ...appendix] }
 }
 
 // M02 canonical chapters combine multiple lengthy source lessons. Rebuilding
