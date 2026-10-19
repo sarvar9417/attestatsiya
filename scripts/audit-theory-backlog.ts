@@ -5,6 +5,7 @@
  *   npx tsx scripts/audit-theory-backlog.ts --json
  */
 import { getTopicContent } from '../src/data/topicContent'
+import { withPedagogyStudyNotes } from '../src/data/pedagogyStudyNotes'
 import { inspectOfflineTheory, type TheoryDepthRow } from './audit-theory-depth'
 
 export type TheoryGap =
@@ -29,8 +30,12 @@ export interface TheoryModuleBacklog {
   missingAnswers: number
 }
 
-const hasExerciseAnswers = (id: string) =>
-  getTopicContent(id)?.theory.some(block => block.type === 'answers') ?? false
+const hasExerciseAnswers = (id: string) => {
+  const topic = getTopicContent(id)
+  if (!topic) return false
+  const theory = id.startsWith('M15.') ? withPedagogyStudyNotes(topic).theory : topic.theory
+  return theory.some(block => block.type === 'answers')
+}
 
 export function inspectTheoryBacklog(): {
   scope: string
