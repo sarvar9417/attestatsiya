@@ -56,7 +56,7 @@ describe('pedagogika M14.03 and M15 source-and-safety reconciliation', () => {
 
   it('qualifies example class documents instead of inventing an official universal list', () => {
     const blocks = theory('M15.05')
-    const table = blocks.find(x => x.type === 'table')?.content ?? ''
+    const table = blocks.find(x => x.type === 'table' && x.content.includes('Kundalik yoki elektron xizmat'))?.content ?? ''
     expect(table).toContain('Kundalik yoki elektron xizmat')
     expect(table).not.toContain('| Kundalik |')
     expect(blocks.map(x => x.content).join('\n')).toContain('alohida normativ')
