@@ -54,4 +54,35 @@ describe('pedagogy source-based Bloom explanation', () => {
     expect(first).toContain('eksperiment')
     expect(first).toContain('aniq fizik betlari hali tekshirilmagan')
   })
+
+  it('uses all six didactic lesson types listed in the extracted source, not lesson formats', () => {
+    const blocks = getTopicContent('M15.04')?.theory ?? []
+    const table = blocks.find(block => block.type === 'table')?.content ?? ''
+    expect(table).toContain('Aralash (kombinatsiyalashgan)')
+    expect(table).toContain('Yangi bilimni o‘rganish')
+    expect(table).toContain('Mustahkamlash va takrorlash')
+    expect(table).toContain('Umumlashtirish va tizimlashtirish')
+    expect(table).toContain('Ko‘nikma va malaka hosil qilish')
+    expect(table).toContain('Bilimlarni tekshirish (nazorat)')
+    expect(table).not.toContain('| Laboratoriya |')
+    expect(table).not.toContain('| Ekskursiya |')
+    expect(blocks.map(block => block.content).join('\n')).toContain('alohida didaktik maqsad')
+  })
+
+  it('keeps course-form and lesson-analysis categories distinct from lesson types', () => {
+    const text = getTopicContent('M15.04')?.theory.map(block => block.content).join('\n') ?? ''
+    expect(text).toContain('«dars tahlili turlari.pdf»')
+    expect(text).toContain('didaktik maqsad tasnifi')
+    expect(text).toContain('ikkilamchi konspekt')
+  })
+
+  it('describes inclusive education as meaningful participation rather than identical work', () => {
+    const blocks = getTopicContent('M15.08')?.theory ?? []
+    const text = blocks.map(block => block.content).join('\n')
+    expect(text).toContain('teng imkoniyat')
+    expect(text).toContain('mazmunli ishtirok')
+    expect(text).toContain('hamma o‘quvchiga aynan bir xil topshiriq berish emas')
+    expect(text).toContain('Qodirova')
+    expect(text).toContain('2022')
+  })
 })
