@@ -1,5 +1,6 @@
 import { getAuthedClient } from '../lib/supabase.js'
 import { resolveModuleUuid, resolveLessonUuid } from '../lib/resolveIds.js'
+import { contentService } from './content.service.js'
 import { AppError, NotFoundError } from '../lib/errors.js'
 import type {
   StartExamInput,
@@ -72,7 +73,20 @@ export const examService = {
     }
 
     let result
+    let configuredTopicSize: number | null = null
     if (kind === 'mavzu' && resolvedLessonId) {
+      // Do not trust the legacy database's adaptive generator: before invoking
+      // any mutating RPC, require the *configured* lesson size and objectives.
+      const readiness = await contentService.topicTestPreflight(resolvedLessonId)
+      if (!readiness.ready || readiness.required <= 0 ||
+          readiness.available < readiness.required) {
+        throw new AppError(
+          'Mavzu uchun belgilangan savollar to‘liq tayyor emas.',
+          409,
+          'TOPIC_POOL_INSUFFICIENT'
+        )
+      }
+      configuredTopicSize = readiness.required
       result = await client.rpc('generate_topic_test', { p_lesson_id: resolvedLessonId })
     } else if (kind === 'bolim' && resolvedModuleId) {
       result = await client.rpc('generate_section_mock', {
@@ -169,6 +183,23 @@ export const examService = {
         throw new AppError('Avtorizatsiyadan o\'tmagansiz', 401, 'AUTH_REQUIRED')
       }
       throw new AppError('Imtihonni boshlashda xatolik', 500, 'EXAM_START_ERROR')
+    }
+
+    // Defense in depth until strict SQL is deployed: never return a legacy
+    // partial session even if the database changed between preflight and RPC.
+    // Its attempted row may exist in old databases; strict migration is still
+    // needed to make the RPC itself fail atomically for *all* callers.
+    if (configuredTopicSize !== null) {
+      const payload = result.data as ExamStartResponse | null
+      if (!payload || !Array.isArray(payload.items) ||
+          payload.items.length !== configuredTopicSize ||
+          payload.selection_meta?.target_count !== configuredTopicSize) {
+        throw new AppError(
+          'Mavzu testi hajmi tasdiqlangan rejaga mos emas.',
+          409,
+          'TOPIC_POOL_INSUFFICIENT'
+        )
+      }
     }
 
     return result.data as unknown as ExamStartResponse

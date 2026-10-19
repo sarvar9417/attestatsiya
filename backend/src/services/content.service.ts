@@ -1,6 +1,7 @@
 import { supabase } from '../lib/supabase.js'
 import { resolveModuleUuid, resolveLessonUuid } from '../lib/resolveIds.js'
 import { NotFoundError, AppError } from '../lib/errors.js'
+import { reconcileStrictTopicPreview, type TopicReadinessBaseline } from './topicReadiness.js'
 import type {
   ModuleResponse,
   LessonResponse,
@@ -98,61 +99,23 @@ async function legacyTopicPreflight(lessonId: string) {
 }
 
 /**
- * Harmonize legacy strict preflight with the currently deployed adaptive
- * generator. Required/critical objective gaps continue to fail closed.
- *
- * Uses the same service-role-only RPC as the generator's eligibility query;
- * does NOT expose keys or create any exam session.
+ * Enforce the configured topic size even while production still exposes its
+ * legacy adaptive preview RPC. Previewing 6/20 never authorizes a 6-item exam.
+ * The complete strict SQL migration remains necessary to protect direct RPC
+ * callers, but the backend must not weaken its preflight in the meantime.
+ * Read-only; never exposes answer keys or creates exam sessions.
  */
 async function withAdaptiveTopicCount(
   lessonId: string,
-  baseline: {
-    ready: boolean
-    required: number
-    available: number
-    duration_sec: number
-    reason: string
-    coverage: unknown[]
-    missing_required_objectives: string[]
-    critical_objective_gaps: string[]
-  },
+  baseline: TopicReadinessBaseline,
 ) {
   const { data, error } = await supabase.rpc('topic_test_preview', {
     p_lesson_id: lessonId,
   })
-  if (error || !data || typeof data !== 'object' || Array.isArray(data)) {
+  if (error) {
     throw new AppError('Mavzu testi haqiqiy hajmini tekshirib bo‘lmadi', 503, 'TOPIC_PREFLIGHT_UNAVAILABLE')
   }
-
-  const actual = data as Record<string, unknown>
-  const count = actual.question_count
-  const available = actual.available_count
-  const duration = actual.duration_sec
-  if (
-    typeof count !== 'number' || !Number.isInteger(count) || count < 0 ||
-    typeof available !== 'number' || !Number.isInteger(available) || available < 0 ||
-    typeof duration !== 'number' || !Number.isInteger(duration) || duration < 0
-  ) {
-    throw new AppError('Mavzu testi hisoblash javobi noto‘g‘ri', 503, 'TOPIC_PREFLIGHT_INVALID')
-  }
-
-  // Missing requirements are never weakened by the adaptive limit.
-  const blockedByObjectives =
-    baseline.reason === 'blueprint_missing' ||
-    baseline.reason === 'blueprint_invalid' ||
-    baseline.reason === 'objective_gap' ||
-    baseline.missing_required_objectives.length > 0
-  const ready = !blockedByObjectives && actual.reason === null && count > 0
-
-  return {
-    ...baseline,
-    ready,
-    required: count > 0 ? count : baseline.required,
-    available,
-    duration_sec: ready ? duration : baseline.duration_sec,
-    reason: blockedByObjectives ? baseline.reason :
-      ready ? 'ready' : 'pool_insufficient',
-  }
+  return reconcileStrictTopicPreview(baseline, data)
 }
 
 /** Service-role reads must enforce publication independently of UUID resolution. */
