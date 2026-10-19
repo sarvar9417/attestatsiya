@@ -10,7 +10,7 @@ declare
   v_group text;
   v_cognitive public.cognitive_level;
   v_key jsonb;
-  n int;
+  v_idx int;
 begin
   select id into strict v_subject
   from public.subjects
@@ -120,12 +120,12 @@ begin
     union all
     select 'Y3'::public.question_format, 'S1.INFO'::text, 'bilish'::public.cognitive_level
   loop
-    for n in 1..9 loop
+    for v_idx in 1..9 loop
       select c.id into strict v_construct
       from public.constructs c
       where c.group_code = v_group and c.is_active
       order by c.code, c.id
-      offset (case when v_group = 'S5.WEB' then (n - 1) % 3 else 0 end)
+      offset (case when v_group = 'S5.WEB' then (v_idx - 1) % 3 else 0 end)
       limit 1;
 
       insert into public.questions (
@@ -133,9 +133,9 @@ begin
         stem_md, status, source_reference
       ) values (
         v_subject, v_construct, v_group, v_format, v_cognitive, 3,
-        'T045-V3 ' || v_group || ' ' || v_format::text || ' ' || n,
+        'T045-V3 ' || v_group || ' ' || v_format::text || ' ' || v_idx,
         'published'::public.content_status,
-        'T045:V3:' || v_group || ':' || v_format::text || ':' || n
+        'T045:V3:' || v_group || ':' || v_format::text || ':' || v_idx
       ) returning id into v_qid;
 
       if v_format = 'Y2'::public.question_format then
