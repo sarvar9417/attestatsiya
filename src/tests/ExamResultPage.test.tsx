@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { MemoryRouter, Route, Routes } from 'react-router-dom'
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { Link, MemoryRouter, Route, Routes } from 'react-router-dom'
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import ExamResultPage from '../pages/ExamResultPage'
 import { backendGateway } from '../features/exam/backendGateway'
 import type { ExamResultDetail } from '../features/exam/contracts'
@@ -160,4 +160,67 @@ describe('ExamResultPage', () => {
       await screen.findByRole('heading', { name: 'Axborot hajmini hisoblash' })
     ).toBeDefined()
   })
+  it('keeps the new exam result when the previous exam request finishes late', async () => {
+    const otherId = '00000000-0000-4000-8000-000000000202'
+    const otherResult: ExamResultDetail = {
+      ...result, exam_id: otherId, lesson_title_uz: 'Ikkinchi sinov natijasi',
+    }
+    let resolveFirst: (value: ExamResultDetail) => void = () => {}
+    const first = new Promise<ExamResultDetail>(resolve => { resolveFirst = resolve })
+    const getResult = vi.spyOn(backendGateway, 'getResult').mockImplementation(id =>
+      id === examId ? first : Promise.resolve(otherResult)
+    )
+
+    render(
+      <MemoryRouter initialEntries={[`/results/${examId}`]}>
+        <Link to={`/results/${otherId}`}>Ikkinchi sinovga o‘tish</Link>
+        <Routes><Route path="/results/:examId" element={<ExamResultPage />} /></Routes>
+      </MemoryRouter>
+    )
+    await waitFor(() => expect(getResult).toHaveBeenCalledWith(examId))
+    fireEvent.click(screen.getByRole('link', { name: 'Ikkinchi sinovga o‘tish' }))
+    expect(await screen.findByRole('heading', { name: 'Ikkinchi sinov natijasi' })).toBeDefined()
+    await act(async () => { resolveFirst(result) })
+    expect(screen.getByRole('heading', { name: 'Ikkinchi sinov natijasi' })).toBeDefined()
+    expect(screen.queryByRole('heading', { name: 'Axborot hajmini hisoblash' })).toBeNull()
+  })
+
+  it('does not leak the previous attempt review into a new result route', async () => {
+    const otherId = '00000000-0000-4000-8000-000000000202'
+    vi.spyOn(backendGateway, 'getResult').mockImplementation(id => Promise.resolve({
+      ...result, exam_id: id,
+      lesson_title_uz: id === examId ? 'Birinchi natija' : 'Ikkinchi natija',
+    }))
+    type ReviewData = Awaited<ReturnType<typeof backendGateway.getReview>>
+    let resolveOld: (value: ReviewData) => void = () => {}
+    const oldRequest = new Promise<ReviewData>(resolve => { resolveOld = resolve })
+    const getReview = vi.spyOn(backendGateway, 'getReview').mockImplementation(id =>
+      id === examId ? oldRequest : Promise.resolve([])
+    )
+
+    render(
+      <MemoryRouter initialEntries={[`/results/${examId}`]}>
+        <Link to={`/results/${otherId}`}>Keyingi natijaga o‘tish</Link>
+        <Routes><Route path="/results/:examId" element={<ExamResultPage />} /></Routes>
+      </MemoryRouter>
+    )
+    expect(await screen.findByRole('heading', { name: 'Birinchi natija' })).toBeDefined()
+    fireEvent.click(screen.getByRole('button', { name: /Tahlilni ochish/ }))
+    await waitFor(() => expect(getReview).toHaveBeenCalledWith(examId))
+    fireEvent.click(screen.getByRole('link', { name: 'Keyingi natijaga o‘tish' }))
+    expect(await screen.findByRole('heading', { name: 'Ikkinchi natija' })).toBeDefined()
+
+    await act(async () => {
+      resolveOld([{
+        order_idx: 1, stem_md: 'Faqat eski imtihon savoli', format: 'Y1',
+        user_answer: null, is_correct: null, key: null, explanation_md: null,
+      }])
+    })
+    expect(screen.queryByText('Faqat eski imtihon savoli')).toBeNull()
+    fireEvent.click(screen.getByRole('button', { name: /Tahlilni ochish/ }))
+    await waitFor(() => expect(getReview).toHaveBeenCalledWith(otherId))
+    expect(await screen.findByText('Savollar tahlili mavjud emas.')).toBeDefined()
+    expect(screen.queryByText('Faqat eski imtihon savoli')).toBeNull()
+  })
+
 })
