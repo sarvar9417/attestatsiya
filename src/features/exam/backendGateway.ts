@@ -38,6 +38,7 @@ import {
   enqueuePendingAnswer,
   listPendingAnswers,
   removePendingAnswer,
+  acknowledgePendingAnswer,
   flushPendingAnswers,
   type FlushPendingAnswersResult,
 } from './offlineAnswerQueue'
@@ -124,6 +125,16 @@ export const backendGateway: ExamGateway = {
   getPendingAnswer(examId, questionId) {
     return listPendingAnswers().find(item => item.examId === examId && item.questionId === questionId)?.answer
   },
+  queueMockAnswer(input) {
+    if (input.examKind !== 'mock') throw new Error('Faqat mock sinovda avtomatik saqlanadi.')
+    const ownerId = sessionStore.get()?.user.id
+    if (!ownerId) throw new Error('Javobni saqlash uchun hisobga kiring.')
+    enqueuePendingAnswer(input, ownerId)
+  },
+  async flushQueuedAnswers(examId) {
+    const state = await flushOfflineAnswers(examId)
+    return { remaining: state.remaining }
+  },
   async startCustomExam(config: CustomExamConfig): Promise<ExamSession> {
     const data = await api.post<unknown>('/api/custom-tests/start', config)
     return parseResponse(examSessionSchema, data, 'start_custom')
@@ -192,16 +203,20 @@ export const backendGateway: ExamGateway = {
 
   async submitAnswer(input: SubmitAnswerInput): Promise<SubmitAnswerResponse> {
     const ownerId = sessionStore.get()?.user.id
-    const firstAttempt = listPendingAnswers().find(item =>
-      item.examId === input.examId && item.questionId === input.questionId) ?? input
+    const pending = listPendingAnswers().find(item =>
+      item.examId === input.examId && item.questionId === input.questionId)
+    const firstAttempt = input.examKind === 'mock' ? input : (pending ?? input)
     try {
       const response = await sendAnswerToServer(firstAttempt)
-      if (ownerId) removePendingAnswer(input.examId, input.questionId, ownerId)
+      if (ownerId) {
+        if (pending && input.examKind === 'mock') acknowledgePendingAnswer(pending, ownerId)
+        else removePendingAnswer(input.examId, input.questionId, ownerId)
+      }
       return response
     } catch (error) {
       if (isNetworkError(error) && ownerId) {
         // Auth token yoki answer key saqlanmaydi — faqat user answer payload.
-        // Bir savol uchun birinchi offline urinish immutable saqlanadi.
+        // Mock: oxirgi tanlov; qolgan turlar: birinchi offline javob.
         enqueuePendingAnswer(firstAttempt, ownerId)
         throw new ApiError('Internet uzildi. Javob shu qurilmada saqlandi; ulanish tiklangach qayta yuboriladi.', 0, 'NETWORK_ERROR')
       }
