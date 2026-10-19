@@ -978,12 +978,12 @@ export const M01_CONTENT: Record<string, TopicContent> = {
       },
       {
         type: "solved",
-        label: "Tushuntiruvchi misol",
+        label: "Ishlangan usul. Ma'lumotni saralashdan xulosagacha ==Bosqichli tahlil==",
         content: "",
         children: [
           {
             type: "text",
-            content: "{Ishlangan usul. Ma'lumotni saralashdan xulosagacha @@Bosqichli tahlil@@} O'quvchilarning test ballari va sinflari berilgan. “Qaysi sinfga qo'shimcha mashg'ulot ko'proq kerak?” savoliga javob berish kerak.",
+            content: "O'quvchilarning test ballari va sinflari berilgan. “Qaysi sinfga qo'shimcha mashg'ulot ko'proq kerak?” savoliga javob berish kerak.",
           },
           {
             type: "solved",
@@ -1149,12 +1149,12 @@ export const M01_CONTENT: Record<string, TopicContent> = {
       },
       {
         type: "solved",
-        label: "Tushuntiruvchi misol",
+        label: "1-misol. Juft parity bitini topish ==Oddiy==",
         content: "",
         children: [
           {
             type: "text",
-            content: "{1-misol. Juft parity bitini topish @@Oddiy@@} Ma'lumot biti `1011001`. Juft parity ishlatilsa, parity biti nima bo'ladi?",
+            content: "Ma'lumot biti `1011001`. Juft parity ishlatilsa, parity biti nima bo'ladi?",
           },
           {
             type: "solved",
@@ -1165,12 +1165,12 @@ export const M01_CONTENT: Record<string, TopicContent> = {
       },
       {
         type: "solved",
-        label: "Tushuntiruvchi misol",
+        label: "2-misol. Parity nimani aniqladi? ==O'rta==",
         content: "",
         children: [
           {
             type: "text",
-            content: "{2-misol. Parity nimani aniqladi? @@O'rta@@} Juft parity bilan uzatilgan baytda qabul tomoni 1 lar sonini toq deb topdi.",
+            content: "Juft parity bilan uzatilgan baytda qabul tomoni 1 lar sonini toq deb topdi.",
           },
           {
             type: "solved",
@@ -1181,12 +1181,12 @@ export const M01_CONTENT: Record<string, TopicContent> = {
       },
       {
         type: "solved",
-        label: "Tushuntiruvchi misol",
+        label: "3-misol. Validatsiya va verifikatsiya birga ==Murakkab==",
         content: "",
         children: [
           {
             type: "text",
-            content: "{3-misol. Validatsiya va verifikatsiya birga @@Murakkab@@} Onlayn forma tug'ilgan yilni 1900-2026 oralig'ida qabul qiladi va foydalanuvchidan elektron pochta manzilini ikki marta yozishni so'raydi. Har bir nazorat turini aniqlang va cheklovini ayting.",
+            content: "Onlayn forma tug'ilgan yilni 1900-2026 oralig'ida qabul qiladi va foydalanuvchidan elektron pochta manzilini ikki marta yozishni so'raydi. Har bir nazorat turini aniqlang va cheklovini ayting.",
           },
           {
             type: "solved",
@@ -2322,12 +2322,12 @@ export const M01_CONTENT: Record<string, TopicContent> = {
       },
       {
         type: "solved",
-        label: "Tushuntiruvchi misol",
+        label: "1-misol. Takrorlanadigan PIN ==Oddiy==",
         content: "",
         children: [
           {
             type: "text",
-            content: "{1-misol. Takrorlanadigan PIN @@Oddiy@@} 0-9 raqamlaridan tuzilgan 4 xonali PINda raqamlar takrorlanishi va 0 bilan boshlanishi mumkin. Nechta PIN bor?",
+            content: "0-9 raqamlaridan tuzilgan 4 xonali PINda raqamlar takrorlanishi va 0 bilan boshlanishi mumkin. Nechta PIN bor?",
           },
           {
             type: "solved",
@@ -2338,12 +2338,12 @@ export const M01_CONTENT: Record<string, TopicContent> = {
       },
       {
         type: "solved",
-        label: "Tushuntiruvchi misol",
+        label: "2-misol. Takrorlanmaydigan kod ==O'rta==",
         content: "",
         children: [
           {
             type: "text",
-            content: "{2-misol. Takrorlanmaydigan kod @@O'rta@@} A, B, C, D, E belgilaridan 3 belgili, takrorlanmaydigan kodlar soni?",
+            content: "A, B, C, D, E belgilaridan 3 belgili, takrorlanmaydigan kodlar soni?",
           },
           {
             type: "solved",
@@ -2354,12 +2354,12 @@ export const M01_CONTENT: Record<string, TopicContent> = {
       },
       {
         type: "solved",
-        label: "Tushuntiruvchi misol",
+        label: "3-misol. Birinchi raqam cheklovi ==Murakkab==",
         content: "",
         children: [
           {
             type: "text",
-            content: "{3-misol. Birinchi raqam cheklovi @@Murakkab@@} 0-9 raqamlaridan 5 xonali identifikator tuziladi; birinchi raqam 0 bo'lmaydi, qolganlari takrorlanishi mumkin. Nechta variant?",
+            content: "0-9 raqamlaridan 5 xonali identifikator tuziladi; birinchi raqam 0 bo'lmaydi, qolganlari takrorlanishi mumkin. Nechta variant?",
           },
           {
             type: "solved",
@@ -3192,12 +3192,12 @@ export const M01_CONTENT: Record<string, TopicContent> = {
       },
       {
         type: "solved",
-        label: "Tushuntiruvchi misol",
+        label: "1-misol. Metrikani farqlash ==Oddiy==",
         content: "",
         children: [
           {
             type: "text",
-            content: "{1-misol. Metrikani farqlash @@Oddiy@@} 80 MB fayl 20 MB bo'ldi. Koeffitsiyent va kamayish foizi?",
+            content: "80 MB fayl 20 MB bo'ldi. Koeffitsiyent va kamayish foizi?",
           },
           {
             type: "solved",
@@ -3208,24 +3208,24 @@ export const M01_CONTENT: Record<string, TopicContent> = {
       },
       {
         type: "solved",
-        label: "Tushuntiruvchi misol",
+        label: "2-misol. Foizdan yangi hajm ==O'rta==",
         content: "",
         children: [
           {
             type: "text",
-            content: "{2-misol. Foizdan yangi hajm @@O'rta@@} 2,4 GB video hajmi 35% ga kamaytirildi. Yangi hajm?",
+            content: "2,4 GB video hajmi 35% ga kamaytirildi. Yangi hajm?",
           },
           { type: "solved", label: "Bosqichma-bosqich yechimlar", content: "65% qoladi: $2,4\\cdot0,65=1,56$ GB." },
         ],
       },
       {
         type: "solved",
-        label: "Tushuntiruvchi misol",
+        label: "3-misol. Ikki bosqichli qayta kodlash ==Murakkab==",
         content: "",
         children: [
           {
             type: "text",
-            content: "{3-misol. Ikki bosqichli qayta kodlash @@Murakkab@@} 600 MB xom media avval 5 marta siqildi, so'ng olingan fayl yana 20% ga kamaytirildi. Yakuniy hajm va umumiy koeffitsiyent?",
+            content: "600 MB xom media avval 5 marta siqildi, so'ng olingan fayl yana 20% ga kamaytirildi. Yakuniy hajm va umumiy koeffitsiyent?",
           },
           {
             type: "solved",
