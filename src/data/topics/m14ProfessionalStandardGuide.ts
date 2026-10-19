@@ -5,7 +5,8 @@
  */
 import type { TheoryBlock } from '../topicContent'
 
-export const M14_PROFESSIONAL_STANDARD_GUIDE: Record<string, TheoryBlock[]> = {
+export const M14_PROFESSIONAL_STANDARD_GUIDE: Record<string, TheoryBlock[]> = 
+{
   "M14.01": [
     {
       "type": "intro",
@@ -384,7 +385,7 @@ export const M14_PROFESSIONAL_STANDARD_GUIDE: Record<string, TheoryBlock[]> = {
     },
     {
       "type": "exam",
-      "content": "Qo‘llanmada nizoni hal qilishning uch modeli farqlanadi: **arbitraj** — hakam vaziyatni o‘rganib qaror belgilaydi; **muzokara** — tomonlar kelishuvga o‘zlari keladi; **mediatsiya** — xolis vositachi muloqotni qo‘llaydi. Vositachining xolis bo‘lishi muhim; o‘qituvchi nizoda taraf bo‘lsa, boshqa mutaxassis jalb qilinishi mumkin."
+      "content": "Qo‘llanmaning 11-betida uch xil nizoni hal qilish usuli berilgan: **arbitraj** — hakam vaziyatni o‘rganib qaror belgilaydi; **muzokara** — tomonlar o‘zaro kelishuv izlaydi; **mediatsiya** — xolis vositachi muloqotni qo‘llaydi. **Manbalar o‘rtasidagi tafovut:** metodik PDF mediatsiya bo‘limida vositachi «yakuniy qarorni qabul qiladi» deb yozgan. Biroq O‘zbekiston Respublikasining «Mediatsiya to‘g‘risida»gi Qonuni 4-, 7–9-moddalari bo‘yicha rasmiy mediatsiyada o‘zaro maqbul qarorga **taraflar** mediator ko‘magida, ixtiyoriy ravishda erishadi; mediator kelishuvni majburan belgilamaydi. Qonunning qo‘llanish sohasi barcha maktab ichidagi pedagogik nizolarni avtomatik qamrab olmaydi. @@Asos: qo‘llanma, PDF 11-bet; O‘RQ-482, 4-, 7–9-moddalar, https://lex.uz/uz/docs/-3805227@@"
     },
     {
       "type": "source",
