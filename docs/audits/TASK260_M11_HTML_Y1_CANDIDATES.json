@@ -2,7 +2,7 @@
   "task": "TASK-260",
   "created_on": "2026-10-19",
   "purpose": "Source-grounded M11 HTML Y1 candidate-only editorial queue; not a DB migration or public learner bank",
-  "specification": "Informatika Testlar spesifikatsiyasi.pdf, PDF 5–6, 2026 questions 27–31: HTML text/image/list/table/form + CSS",
+  "specification": "Informatika Testlar spesifikatsiyasi.pdf, PDF 5, 2026 questions 27–31: HTML text/image/list/table/form + CSS",
   "source_note": "ICT 7-sinf (2021) PDF 119–126; paraphrased, not copied; source page support does not certify answer/distractors",
   "published_or_approved": false,
   "items": [
@@ -42,8 +42,8 @@
       ],
       "stem": "Kodda `<ol start=\"4\"><li>Olma</li><li>Behi</li></ol>` yozildi. Ikki band qanday raqamlanadi?",
       "options": [
-        "4 va 5",
         "1 va 2",
+        "4 va 5",
         "3 va 4",
         "4 va 4"
       ],
@@ -64,9 +64,9 @@
       ],
       "stem": "Uch bandli tartiblangan ro‘yxat `<ol type=\"I\">` bilan yaratilsa, bandlar boshidagi belgilar qanday ko‘rinadi?",
       "options": [
-        "I, II, III",
         "i, ii, iii",
         "A, B, C",
+        "I, II, III",
         "1, 2, 3"
       ],
       "status": "draft_candidate",
@@ -88,10 +88,10 @@
       ],
       "stem": "«Fanlar» nomli tashqi tartiblangan ro‘yxat bandining ichida ikki punktli tartiblanmagan kichik ro‘yxat kerak. Qaysi kod ichma-ich tuzilmani to‘g‘ri beradi?",
       "options": [
-        "<ol><li>Fanlar<ul><li>Fizika</li><li>Kimyo</li></ul></li></ol>",
         "<ol><li>Fanlar</li></ol><ul><li>Fizika</li><li>Kimyo</li></ul>",
         "<ul><li>Fanlar<ol><li>Fizika</li><li>Kimyo</li></ol></li></ul>",
-        "<ol><li>Fanlar</li><ul><li>Fizika</li><li>Kimyo</li></ul></ol>"
+        "<ol><li>Fanlar</li><ul><li>Fizika</li><li>Kimyo</li></ul></ol>",
+        "<ol><li>Fanlar<ul><li>Fizika</li><li>Kimyo</li></ul></li></ol>"
       ],
       "status": "draft_candidate",
       "human_answer_verification": "required",
@@ -110,8 +110,8 @@
       ],
       "stem": "Uchta `<li>` bandi bor `<ol reversed>` ro‘yxati boshlang‘ich raqam ko‘rsatilmasdan yaratilgan. Belgilar qanday ketadi?",
       "options": [
-        "3, 2, 1",
         "1, 2, 3",
+        "3, 2, 1",
         "0, -1, -2",
         "3, 3, 3"
       ],
@@ -133,9 +133,9 @@
       ],
       "stem": "HTML fayli bilan bir papkada `images` nomli kichik papka bor. Undagi `tabiat.png` rasmiga qaysi `src` qiymati nisbiy yo‘lni to‘g‘ri ko‘rsatadi?",
       "options": [
-        "images/tabiat.png",
         "tabiat/images.png",
         "images\\tabiat.png",
+        "images/tabiat.png",
         "/tabiat.png/images"
       ],
       "status": "draft_candidate",
@@ -155,10 +155,10 @@
       ],
       "stem": "`<img src=\"images/rasm.png\" alt=\"Maktab kutubxonasi\">` elementida `alt` atributining asosiy vazifasi nima?",
       "options": [
-        "Rasmning matnli muqobil tavsifini taqdim etish",
         "Rasmni avtomatik siqish",
         "Rasm kengligini ikki baravar oshirish",
-        "Rasm faylini serverga yuklash"
+        "Rasm faylini serverga yuklash",
+        "Rasmning matnli muqobil tavsifini taqdim etish"
       ],
       "status": "draft_candidate",
       "human_answer_verification": "required",
@@ -200,8 +200,8 @@
       ],
       "stem": "`<img src=\"grafik.png\" width=\"320\" height=\"180\" alt=\"Grafik\">` kodida berilgan o‘lchamlarga qaysi talqin mos?",
       "options": [
-        "Rasm eni 320, bo‘yi 180 birlikda ko‘rsatiladi",
         "Rasm eni 180, bo‘yi 320 birlikda ko‘rsatiladi",
+        "Rasm eni 320, bo‘yi 180 birlikda ko‘rsatiladi",
         "Fayl 320 bayt va 180 bitdan iborat",
         "Rasm sahifaga 320 marta takrorlanadi"
       ],
@@ -222,9 +222,9 @@
       ],
       "stem": "Rasm bilan birga foydalanuvchiga ko‘rinadigan izohni HTML5 semantik tuzilmasida bog‘lash kerak. Qaysi kod bunga mos?",
       "options": [
-        "<figure><img src=\"gul.png\" alt=\"Gul\"><figcaption>Bahor rasmi</figcaption></figure>",
         "<img src=\"gul.png\"><title>Bahor rasmi</title>",
         "<figure><figcaption>Bahor rasmi</figure></figcaption>",
+        "<figure><img src=\"gul.png\" alt=\"Gul\"><figcaption>Bahor rasmi</figcaption></figure>",
         "<figcaption><img src=\"gul.png\"></figcaption><figure>Bahor rasmi</figure>"
       ],
       "status": "draft_candidate",
@@ -245,10 +245,10 @@
       ],
       "stem": "Sahifa nomi yirik sarlavha sifatida, uning ostidagi izoh esa alohida abzats sifatida berilishi kerak. Qaysi juft teg mantiqan mos?",
       "options": [
-        "<h1> va <p>",
         "<img> va <li>",
         "<ol> va <ul>",
-        "<form> va <table>"
+        "<form> va <table>",
+        "<h1> va <p>"
       ],
       "status": "draft_candidate",
       "human_answer_verification": "required",
@@ -290,9 +290,9 @@
       ],
       "stem": "`<ol type=\"a\" start=\"3\"><li>Qadam</li><li>Natija</li></ol>` kodidagi markerlar qanday bo‘ladi?",
       "options": [
-        "c va d",
         "a va b",
         "C va D",
+        "c va d",
         "3 va 4"
       ],
       "status": "draft_candidate",
