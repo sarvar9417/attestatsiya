@@ -88,7 +88,6 @@ describe('T-014 server-authoritative natija ekrani', () => {
 
     await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
     await user.click(await screen.findByRole('button', { name: /Variant A/ }))
-    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
     await user.click(screen.getByRole('button', { name: 'Sinovni yakunlash' }))
 
     expect(
@@ -178,7 +177,6 @@ describe('T-014 server-authoritative natija ekrani', () => {
 
     await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
     await user.click(await screen.findByRole('button', { name: /Variant A/ }))
-    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
     await user.click(screen.getByRole('button', { name: 'Sinovni yakunlash' }))
 
     expect(
@@ -243,7 +241,6 @@ describe('T-014 server-authoritative natija ekrani', () => {
     renderMock(examGateway)
     await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
     await user.click(await screen.findByRole('button', { name: /Variant A/ }))
-    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
     await user.click(screen.getByRole('button', { name: 'Sinovni yakunlash' }))
 
     expect(await screen.findByText('Baholash qarori mavjud emas')).toBeDefined()
