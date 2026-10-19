@@ -28,9 +28,9 @@ describe('TASK-252 professional informatics methodology source and quality', () 
   })
 
   it('keeps chapter-specific physical PDF page locators traceable', () => {
-    expect(allText('M16.01')).toContain('172–174')
-    expect(allText('M16.02')).toContain('45–46')
-    expect(allText('M16.03')).toContain('89–91')
+    expect(allText('M16.01')).toContain('173–175')
+    expect(allText('M16.02')).toContain('46–47')
+    expect(allText('M16.03')).toContain('90–91')
   })
 
   it('contrasts curriculum content, pedagogy and spiral sequencing in M16.01', () => {
