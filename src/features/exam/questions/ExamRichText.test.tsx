@@ -18,6 +18,12 @@ describe('ExamRichText fenced code', () => {
     expect(screen.getByLabelText('JavaScript kodi').textContent).toContain('console.log(f(0));')
   })
 
+  it('removes accidental bold wrapping from legacy fenced code', () => {
+    render(<ExamRichText text={'**Savol**\\n\\n**```javascript function f(x){return x;} ```**'} />)
+    expect(screen.getByLabelText('JavaScript kodi').textContent).toContain('function f(x)')
+    expect(screen.queryByText('**')).toBeNull()
+  })
+
   it('never treats code as HTML or runs script', () => {
     render(<ExamRichText text={'```html\n<script>window.injected=true</script>\n```'} />)
     expect(document.querySelector('script')).toBeNull()
