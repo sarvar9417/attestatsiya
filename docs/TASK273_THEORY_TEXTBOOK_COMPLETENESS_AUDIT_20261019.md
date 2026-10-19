@@ -47,3 +47,7 @@ Serverdagi published darslar, production DB, exam generator, server-answer keys,
 ### Mirzayeva 2-mavzu PDF matni bilan qayta tekshiruv (2026-10-19)
 
 Original Drive faylidan matn qayta olindi. «PEDAGOGIK TADQIQOT METODLARI» ro‘yxatida **suhbat (2)** va **intervyu (4)** alohida nomlangan; oldingi nazariya jadvali ikkisini yagona satrda berib, darslikdagi farqni yashirgan. Endi ularning vazifalari alohida bayon qilindi. Matnda ko‘rinadigan raqamlar **1–8 va 10**, 9-band ko‘rinmaydi; «10 metodning barchasi tasdiqlandi» degan xulosa chiqarilmaydi. Matn ekstraksiyasi to‘liq tasvirli PDF sahifasining ekspert tekshiruvi emas. Ushbu nomuvofiqlik M15.01 source-note va regressiya bilan ochiq qayd qilindi.
+
+### Xoliqov I bob original manbasining mustaqil qayta tekshiruvi (2026-10-19)
+
+Barnoyevak Drive’dagi `1lPKtFtuZOhS_3zpQvVFPHMAWX5gLtzUj` faylining 1-bob matni qayta olindi. Pedagogik mahorat tizimining 4 asosiy komponenti alohida yozilgan: **pedagogik insonparvarlik**, **kasbga oid fanlararo bilim**, **pedagogik qobiliyat**, **pedagogik texnika**. M15.01 konspektidagi to‘rtta tayanch shu asl bobning matniga mazmunan mos. Mustaqil PDF sahifa-tasvirni tekshirish va butun M15 korpusining darslik qamrovi hali ochiq, bu tekshiruv faqat aniq 4 komponent manbasiga taalluqli.
