@@ -72,8 +72,28 @@ describe('pedagogika M14.03 and M15 source-and-safety reconciliation', () => {
     expect(text).not.toContain('Didaktik qobiliyat — eng muhim')
   })
 
+  it('uses original Mahmudov source to teach seven speech qualities without confusing them with voice volume', () => {
+    const blocks = theory('M15.06')
+    const table = blocks.find(x => x.type === 'table' && x.content.includes('Jo‘yalilik'))
+    const source = blocks.find(x => x.type === 'source' && x.content.includes('Mahmudov'))
+    expect(table).toBeDefined()
+    for (const word of ['To‘g‘rilik', 'Aniqlik', 'Mantiqiylik', 'Soflik', 'Boylik', 'Jo‘yalilik', 'Ifodalilik']) {
+      expect(table?.content).toContain(word)
+    }
+    expect(source?.content).toContain('1MUrT_uKKg-0jWwV16j97AzkcbU6LGpHL')
+    expect(source?.content).toContain('OCR buzilishlari')
+    expect(blocks.map(x => x.content).join('\n')).toContain('Ovozni balandlatishning o‘zi')
+  })
+
+  it('preserves civic upbringing as a separate direction in the extracted source', () => {
+    const table = theory('M15.03').find(x => x.type === 'table')?.content ?? ''
+    expect(table).toContain('| Fuqarolik |')
+    expect(table).toContain('| Huquqiy |')
+    expect(table).toContain('| Ekologik |')
+  })
+
   it('preserves untouched lessons and the server-scored-only guard', () => {
-    for (const id of ['M15.02', 'M15.04', 'M15.06']) {
+    for (const id of ['M15.02', 'M15.04']) {
       expect(theory(id).length, id).toBeGreaterThan(0)
     }
   })
