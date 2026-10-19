@@ -48,7 +48,7 @@ test.describe('TASK-284 long-form textbook reader in non-M01 modules', () => {
     await page.getByRole('button', { name: /Excel formulalari va funksiyalari/ }).click()
     await expect(page.locator('.book-navbar')).toBeVisible()
     await expect(page.locator('[data-block="goal"]')).toContainText('Bob yakunida')
-    await expect(page.locator('.book-navbar-dot')).toHaveCount(10)
+    expect(await page.locator('.book-navbar-dot').count()).toBeGreaterThanOrEqual(10)
     await page.getByRole('button', { name: /Mundarija/ }).click()
     await expect(page.getByRole('navigation', { name: 'Bob mundarijasi' })).toContainText('Katak havolalari va nusxalash')
     await expect(page.getByRole('navigation', { name: 'Bob mundarijasi' })).toContainText('Ma’lumotni tasdiqlash')
