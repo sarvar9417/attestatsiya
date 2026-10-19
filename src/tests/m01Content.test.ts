@@ -50,10 +50,21 @@ describe('M01 kontenti', () => {
     }
   })
 
-  it('TOPIC_CONTENT M01 ni generatsiya qilingan fayldan oladi', () => {
+  it('TOPIC_CONTENT asl M01 bloklarini yo‘qotmasdan sahifali darslik ilovalarini qo‘shadi', () => {
     for (const id of IDS) {
-      expect(TOPIC_CONTENT[id]).toBe(M01_CONTENT[id])
-      expect(TOPIC_CONTENT[id].source).toBe(SOURCE)
+      const original = M01_CONTENT[id]
+      const learner = TOPIC_CONTENT[id]
+      expect(learner.source).toBe(SOURCE)
+      expect(learner.title).toBe(original.title)
+      expect(learner.questions).toBe(original.questions)
+      expect(learner.kind).toBe(original.kind)
+      // Har bir generatsiyalangan blok o‘sha obyekt sifatida va shu tartibda qolishi shart.
+      const originalBlocks = new Set(original.theory)
+      expect(learner.theory.filter(block => originalBlocks.has(block))).toEqual(original.theory)
+      // Qo‘shimcha berilmagan mavzu uchun hech qanday nusxalash yoki qayta tartiblash yo‘q.
+      if (learner.theory.length === original.theory.length) {
+        expect(learner).toBe(original)
+      }
     }
   })
 

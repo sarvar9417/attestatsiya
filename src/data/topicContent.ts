@@ -1,4 +1,5 @@
 import { M01_CONTENT } from './topics/m01'
+import { withVerifiedM01Additions } from './topics/m01TextbookAudit'
 import { M05_THEORY } from './topics/m05'
 import { buildCanonicalM02Topic } from './topics/m02Canonical'
 // M14–M16 use server-scored exams exclusively. Legacy mini-quiz answer keys
@@ -108,7 +109,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   // ========= M01: AXBOROT VA RAQAMLI SAVODXONLIK =========
   // Kontent "Axborot va axborot jarayonlari" LaTeX qo'llanmasidan
   // generatsiya qilingan (src/data/topics/m01.ts).
-  ...M01_CONTENT,
+  ...withVerifiedM01Additions(M01_CONTENT),
 
   // ========= M02: KOMPYUTER TIZIMLARI VA DASTURIY MUHIT =========
 

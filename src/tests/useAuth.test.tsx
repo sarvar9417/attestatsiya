@@ -89,7 +89,7 @@ describe('useAuth', () => {
 
   it('refresh xatosida session tozalanadi', async () => {
     sessionStore.set(makeSession({ expires_at: Date.now() - 1000 }))
-    authClientMock.refresh.mockRejectedValue(new Error('Session tugagan'))
+    authClientMock.refresh.mockRejectedValue(new ApiError('Session tugagan', 401, 'INVALID_TOKEN'))
 
     const { result } = renderHook(() => useAuth())
 
@@ -356,4 +356,13 @@ describe('useAuth', () => {
     expect(error).toBeNull()
     expect(authClientMock.resendConfirmation).toHaveBeenCalledWith('test@test.com')
   })
+  it.each([429, 500, 503])('preserves an expired session during a temporary refresh HTTP %s failure', async status => {
+    const session = makeSession({ expires_at: Date.now() - 1000 })
+    sessionStore.set(session)
+    authClientMock.refresh.mockRejectedValue(new ApiError('Temporary failure', status, 'SERVER_ERROR'))
+    const { result } = renderHook(() => useAuth())
+    await waitFor(() => expect(result.current.loading).toBe(false))
+    expect(sessionStore.get()).toEqual(session)
+  })
+
 })

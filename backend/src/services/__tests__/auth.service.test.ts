@@ -4,6 +4,7 @@ import { authService } from '../auth.service.js'
 const { mockAuth, mockFrom } = vi.hoisted(() => {
   const mockAuth = {
     getUser: vi.fn(),
+    refreshSession: vi.fn(),
     signUp: vi.fn(),
     resend: vi.fn(),
     admin: {
@@ -147,4 +148,28 @@ describe('authService', () => {
       })
     )
   })
+  it.each([0, 429, 500, 503])('refresh: preserves retryable upstream status %s instead of returning 401', async status => {
+    mockAuth.refreshSession.mockResolvedValue({ data: { session: null },
+      error: { status, name: status === 0 ? 'AuthRetryableFetchError' : 'AuthApiError', message: 'Temporary outage' } })
+    await expect(authService.refresh('test-refresh')).rejects.toMatchObject({
+      statusCode: status === 429 ? 429 : 503, code: 'AUTH_REFRESH_UNAVAILABLE',
+    })
+    expect(mockFrom).not.toHaveBeenCalled()
+  })
+
+  it('refresh: still rejects an invalid refresh token', async () => {
+    mockAuth.refreshSession.mockResolvedValue({ data: { session: null },
+      error: { status: 400, name: 'AuthApiError', message: 'Invalid refresh token' } })
+    await expect(authService.refresh('invalid')).rejects.toMatchObject({ statusCode: 401 })
+  })
+
+  it('refresh: returns refreshed credentials and the verified profile', async () => {
+    mockAuth.refreshSession.mockResolvedValue({ data: { session: {
+      access_token: 'new-access', refresh_token: 'new-refresh', expires_in: 3600, user: USER,
+    } }, error: null })
+    await expect(authService.refresh('old-refresh')).resolves.toMatchObject({
+      access_token: 'new-access', refresh_token: 'new-refresh', user: { id: USER.id, role: 'user' },
+    })
+  })
+
 })

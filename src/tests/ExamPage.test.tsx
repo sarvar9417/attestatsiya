@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
@@ -441,4 +441,72 @@ describe('secure ExamRunner', () => {
     expect((screen.getByRole('button', { name: 'Sinovni boshlash' }) as HTMLButtonElement).disabled).toBe(true)
     expect(gateway.startTopicExam).not.toHaveBeenCalled()
   })
+  it('does not finish from an already-open confirmation while an answer is saving', async () => {
+    const user = userEvent.setup()
+    const gateway = successfulGateway()
+    let resolveSave!: (value: { saved: true }) => void
+    vi.mocked(gateway.submitAnswer).mockImplementationOnce(() => new Promise(resolve => { resolveSave = resolve }))
+    renderExam(gateway)
+    await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
+    await user.click(screen.getByRole('button', { name: /Variant A/ }))
+    await user.click(screen.getByRole('button', { name: 'Sinovni yakunlash' }))
+    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
+    const confirm = screen.getByRole('button', { name: 'Yakunlash' })
+    expect(confirm).toBeDisabled()
+    await user.click(confirm)
+    expect(gateway.finishExam).not.toHaveBeenCalled()
+    await act(async () => { resolveSave({ saved: true }) })
+    expect(await screen.findByText('Elementlarni moslang')).toBeDefined()
+  })
+
+  it('keeps the first offline answer locked after a background reconnect flush', async () => {
+    const user = userEvent.setup()
+    const gateway = successfulGateway()
+    let queued: { option_id: string } | undefined
+    gateway.getPendingAnswer = vi.fn(() => queued)
+    vi.mocked(gateway.submitAnswer).mockImplementationOnce(async () => {
+      queued = { option_id: ids.optionA }
+      throw new Error('Javob qurilmada saqlandi')
+    })
+    renderExam(gateway)
+    await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
+    await user.click(screen.getByRole('button', { name: /Variant A/ }))
+    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
+    await screen.findByText('Javob qurilmada saqlandi')
+    // Reconnect already delivered A, so the queue is now empty. The UI must
+    // still prevent changing to B before obtaining the idempotent receipt.
+    queued = undefined
+    expect(screen.getByRole('button', { name: /Variant B/ })).toBeDisabled()
+    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
+    expect(gateway.submitAnswer).toHaveBeenLastCalledWith(expect.objectContaining({ answer: { option_id: ids.optionA } }))
+    expect(await screen.findByText('Elementlarni moslang')).toBeDefined()
+  })
+
+  it('waits for an in-flight save before automatic timeout finalization', async () => {
+    vi.useFakeTimers({ toFake: ['setInterval', 'clearInterval'] })
+    const now = Date.now()
+    const clock = vi.spyOn(Date, 'now').mockReturnValue(now)
+    try {
+      const user = userEvent.setup()
+      const gateway = successfulGateway()
+      vi.mocked(gateway.startMockExam).mockResolvedValue({ ...examSession(),
+        started_at: new Date(now).toISOString(), duration_sec: 1 })
+      let resolveSave!: (value: { saved: true }) => void
+      vi.mocked(gateway.submitAnswer).mockImplementationOnce(() => new Promise(resolve => { resolveSave = resolve }))
+      renderExam(gateway)
+      await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
+      await user.click(screen.getByRole('button', { name: /Variant A/ }))
+      await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
+      clock.mockReturnValue(now + 1500)
+      act(() => { vi.advanceTimersByTime(1000) })
+      expect(gateway.finishExam).not.toHaveBeenCalled()
+      await act(async () => { resolveSave({ saved: true }) })
+      expect(await screen.findByRole('heading', { name: 'Sinov yakunlandi' })).toBeDefined()
+      expect(gateway.finishExam).toHaveBeenCalledTimes(1)
+    } finally {
+      clock.mockRestore()
+      vi.useRealTimers()
+    }
+  })
+
 })

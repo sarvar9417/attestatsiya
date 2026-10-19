@@ -214,6 +214,11 @@ export const authService = {
       refresh_token: refreshToken,
     })
 
+    if (error && (error.name === 'AuthRetryableFetchError' || error.status === 0 ||
+        error.status === 429 || (error.status !== undefined && error.status >= 500))) {
+      throw new AppError('Hisobni yangilash xizmati vaqtincha ishlamayapti. Qayta urinib ko‘ring.',
+        error.status === 429 ? 429 : 503, 'AUTH_REFRESH_UNAVAILABLE')
+    }
     if (error || !data.session) {
       throw new AuthError('Session muddati tugagan. Qayta kiring.')
     }
