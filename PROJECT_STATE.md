@@ -1,3 +1,7 @@
+## TASK-261 — M09 Access/SQL source/provenance triage (2026-10-19)
+
+- **Status:** 5/5 canonical lesson metadata audit DONE; 75 missing exact-20 slots, 309 mapped keyed review occurrences (not unique approved), 0 full editorial approvals and 21 matching canonical source_lesson occurrences. ICT11 PDF 4–52 candidate topic-page crosswalk; production SELECT-only. Human key/source review, unique question reconciliation, authenticated acceptance, production release OPEN/BLOCKED. Task branch task/TASK-261-m09-db-access-review-audit. See docs/TASK261_M09_DB_ACCESS_SOURCE_QA_20261019.md.
+
 ## TASK-260 — M11.01 HTML source and draft-candidate pool remediation (2026-10-19)
 
 - **Status:** draft pool + source/key triage staged on branch task/TASK-260-m11-html-review-candidates; 7/20 production eligible, 8 construct-mapped review-only Y2/Y3 (0 expert signatures), 13 new source-page-cited draft Y1 candidate items WITHOUT keys. Editorial, duplicate/revision/construct verification and live authenticated QA still BLOCKED. No production DB mutation/deployment. See docs/TASK260_M11_HTML_SOURCE_AND_CANDIDATE_QA_20261019.md.
