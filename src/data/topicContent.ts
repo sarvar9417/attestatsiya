@@ -90,6 +90,11 @@ export interface TestQuestion {
   source?: 'static' | 'backend'
 }
 
+/** Original cognitive level for lesson badges; question.type remains the interaction format. */
+export function displayedCognitiveLevel(question: Pick<TestQuestion, 'type' | 'cognitiveLevel'>): TestQuestion['type'] {
+  return question.cognitiveLevel ?? question.type
+}
+
 export interface TopicContent {
   subtopicId: string
   title: string
