@@ -10,12 +10,15 @@ import InlineText from '../../../components/learning/theory/InlineText'
 export function splitExamContent(input: string):
   Array<{ kind: 'prose' | 'code'; text: string; language?: string }> {
   const parts: Array<{ kind: 'prose' | 'code'; text: string; language?: string }> = []
+  // Some imported questions incorrectly wrapped a whole fenced block in **bold**.
+  // Remove only that outer wrapper; leave legitimate bold prose untouched.
+  const content = input.replace(/\*\*(```[\s\S]*?```)\*\*/g, '$1')
   const fence = /```([a-zA-Z0-9_+#.-]*)[ \t]*(?:\r?\n|[ \t]+)([\s\S]*?)[ \t]*```/g
   let cursor = 0
   let match: RegExpExecArray | null
-  while ((match = fence.exec(input)) !== null) {
+  while ((match = fence.exec(content)) !== null) {
     if (match.index > cursor) {
-      parts.push({ kind: 'prose', text: input.slice(cursor, match.index) })
+      parts.push({ kind: 'prose', text: content.slice(cursor, match.index) })
     }
     parts.push({
       kind: 'code',
@@ -24,7 +27,7 @@ export function splitExamContent(input: string):
     })
     cursor = match.index + match[0].length
   }
-  if (cursor < input.length) parts.push({ kind: 'prose', text: input.slice(cursor) })
+  if (cursor < content.length) parts.push({ kind: 'prose', text: content.slice(cursor) })
   return parts.length ? parts : [{ kind: 'prose', text: input }]
 }
 
