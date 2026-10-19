@@ -55,7 +55,7 @@ export interface ExamGateway {
   /** Persist a complete mock draft locally immediately; no answer keys. */
   queueMockAnswer?(input: SubmitAnswerInput): void
   /** Replay locally queued drafts and return server-pending count. */
-  flushQueuedAnswers?(examId: string): Promise<{ remaining: number }>
+  flushQueuedAnswers?(examId: string): Promise<{ remaining: number; rejected?: string[] }>
   submitAnswer(input: SubmitAnswerInput): Promise<SubmitAnswerResponse>
   finishExam(examId: string): Promise<FinishExamResponse>
   getReview(examId: string): Promise<ExamReviewItem[]>
