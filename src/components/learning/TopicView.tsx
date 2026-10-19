@@ -2,15 +2,16 @@ import { useState, useRef, useEffect, useMemo, lazy, Suspense } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getTopicContent, type TestQuestion, type TheoryBlock } from '../../data/topicContent'
 import { getLessonTestQuestions, checkQuestionAnswer } from '../../features/content/lessonContentGateway'
+import { paginateTheoryBlocks } from '../../features/content/theoryPagination'
 import { getTopicTestPreflight, type TopicTestPreflight } from '../../features/content/contentApi'
 import { getLessonDetail } from '../../features/content/contentApi'
-import { markdownToTheoryBlocks, overlayPublishedProfessionalLesson, resolveLearnerTheoryContent } from '../../features/content/professionalLessonTheory'
+import { markdownToTheoryBlocks, overlayPublishedProfessionalLesson, resolveLearnerTheoryContent, verifiedM02Supplement } from '../../features/content/professionalLessonTheory'
 import PedagogyTheoryBlock from './PedagogyTheoryBlock'
 import { getPedagogyStudyNotes } from '../../data/pedagogyStudyNotes'
 import type { TopicContent } from '../../data/topicContent'
 import { 
   CheckCircle2, XCircle, Lightbulb, BookOpen, ArrowRight, ArrowLeft, 
-  Sparkles, ChevronRight, ChevronUp, ChevronDown, BookText, GraduationCap, 
+  Sparkles, ChevronUp, ChevronDown, BookText, GraduationCap, 
   Brain, FileQuestion, Target, RotateCcw, RefreshCw, ListChecks,
   Sigma, Table2, Quote, FileCode, BadgeInfo,
   BookMarked, Layers, Trophy, Eye,
@@ -33,6 +34,7 @@ interface Props {
   onComplete: (correct: number, total: number) => void
   onBack: () => void
   /** Modul ro'yxatidagi keyingi mavzu — o'qish yakunida taklif qilinadi. */
+  previousSubtopic?: { id: string; title: string } | null
   nextSubtopic?: { id: string; title: string } | null
   /** Boshqa mavzuga o'tish (modul sahifasi boshqaradi). */
   onOpenTopic?: (subtopicId: string) => void
@@ -127,22 +129,27 @@ const THEORY_BLOCK_CONFIG = {
 // ═══════════════════════════════════════════════════════════════════
 export default function TopicView({
   moduleId, subtopicId, moduleTitle, subtopicIndex, subtopicCount,
-  onComplete, onBack, nextSubtopic, onOpenTopic,
+  onComplete, onBack, previousSubtopic, nextSubtopic, onOpenTopic,
 }: Props) {
   const navigate = useNavigate()
   const [phase, setPhase] = useState<Phase>('theory')
   const [answers, setAnswers] = useState<Record<string, unknown>>({})
   const [submitted, setSubmitted] = useState<Record<string, boolean>>({})
   const [readProgress, setReadProgress] = useState(0)
-  const [currentSection, setCurrentSection] = useState(0)
+  const [theoryPage, setTheoryPage] = useState(0)
+  const [furthestTheoryPage, setFurthestTheoryPage] = useState(0)
   const [animComplete, setAnimComplete] = useState(false)
   const [liveQuestions, setLiveQuestions] = useState<TestQuestion[] | null>(null)
   const [checking, setChecking] = useState<Record<string, boolean>>({})
   const contentRef = useRef<HTMLDivElement>(null)
 
   const [publishedTheory, setPublishedTheory] = useState<{ subtopicId: string; content: TopicContent } | null>(null)
+  const [theoryResolved, setTheoryResolved] = useState<string | null>(null)
+  const [supplementRequest, setSupplementRequest] = useState<{ id: string; attempt: number } | null>(null)
+  const [supplementStatus, setSupplementStatus] = useState<{ id: string; state: 'loading' | 'ready' | 'error' } | null>(null)
   const [topicReadiness, setTopicReadiness] = useState<{ subtopicId: string; data: TopicTestPreflight } | null>(null)
   const [readinessRetry, setReadinessRetry] = useState(0)
+  const [readinessErrorTopic, setReadinessErrorTopic] = useState<string | null>(null)
   const [checkErrors, setCheckErrors] = useState<Record<string, string>>({})
   const isProfessionalLesson = /^(?:M04|M1[456])\.\d{2}$/.test(subtopicId)
   const isAlgoritmlashV2 = moduleId === 'M06' &&
@@ -151,7 +158,10 @@ export default function TopicView({
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
   const isAxrM13 = moduleId === 'M13' &&
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
-  const staticContent = getTopicContent(subtopicId)
+  const isCanonicalPublishedTheory = /^(?:M04|M14|M16)\.\d{2}$/.test(subtopicId) ||
+    isAlgoritmlashV2 || isAxrM13 || isPublishedScratchLogoLesson
+  // Keep the same canonical core object during unrelated progress/test updates.
+  const staticContent = useMemo(() => getTopicContent(subtopicId), [subtopicId])
   const isPedagogyTopic = moduleId === 'M15' && /^M15\.\d{2}$/.test(subtopicId)
   const loadedContent = publishedTheory?.subtopicId === subtopicId
     ? publishedTheory.content
@@ -164,14 +174,19 @@ export default function TopicView({
     : loadedContent
   /** Kontent qo'llanmadan generatsiya qilinganmi (M01) — bo'limli o'qish rejimi. */
   const isBook = Boolean(content?.source)
+  const theoryPages = useMemo(() => paginateTheoryBlocks(content?.theory ?? []), [content])
+  const activeTheoryPage = Math.min(theoryPage, Math.max(0, theoryPages.length - 1))
+  const isLastTheoryPage = activeTheoryPage === theoryPages.length - 1
   const isSemanticProfessional = !isPedagogyTopic && /^M1[46]$/.test(moduleId) && Boolean(loadedContent)
   const pedagogyStudyNotes = isPedagogyTopic ? getPedagogyStudyNotes(subtopicId) : []
-  const serverTheory = isPedagogyTopic && loadedContent && loadedContent !== staticContent
-    ? loadedContent.theory
-    : []
-  const supplementalTheory = isPedagogyTopic && loadedContent
-    ? (loadedContent.supplementalTheory ?? [])
-    : []
+  const isOptionalSupplement = /^M02\.\d{2}$/.test(subtopicId) || isPedagogyTopic
+  const isSupplementLoading = supplementStatus?.id === subtopicId && supplementStatus.state === 'loading'
+  const supplementError = supplementStatus?.id === subtopicId && supplementStatus.state === 'error'
+  const supplementalTheory = isPedagogyTopic
+    ? (loadedContent?.supplementalTheory ?? [])
+    : /^M02\.\d{2}$/.test(subtopicId)
+      ? verifiedM02Supplement(loadedContent)
+      : []
 
   // mavzu almashganda o'qish holatini tozalaymiz
   useEffect(() => {
@@ -179,16 +194,43 @@ export default function TopicView({
     setAnswers({})
     setSubmitted({})
     setReadProgress(0)
-    setCurrentSection(0)
+    setTheoryPage(0)
+    setFurthestTheoryPage(0)
+    setReadinessErrorTopic(null)
     setLiveQuestions(null)
     setChecking({})
     setCheckErrors({})
+    setSupplementRequest(null)
+    setSupplementStatus(null)
   }, [subtopicId])
 
-  // M04 and M14-M16 canonical source-backed lessons must reach the student's theory
-  // view, not just the admin API. Keep static theory as offline fallback.
+  // Opening an optional supplement is an explicit student action. Never fetch
+  // it in the background and append content while the main theory is being read.
   useEffect(() => {
-    if (!/^(?:M02|M04|M1[456])\.\d{2}$/.test(subtopicId)) return
+    if (!supplementRequest || supplementRequest.id !== subtopicId || !isOptionalSupplement) return
+    let cancelled = false
+    const fallback = getTopicContent(subtopicId)
+    if (!fallback) return
+    setSupplementStatus({ id: subtopicId, state: 'loading' })
+    getLessonDetail(subtopicId)
+      .then(lesson => {
+        if (cancelled) return
+        setPublishedTheory({
+          subtopicId,
+          content: overlayPublishedProfessionalLesson(fallback, lesson),
+        })
+        setSupplementStatus({ id: subtopicId, state: 'ready' })
+      })
+      .catch(() => {
+        if (!cancelled) setSupplementStatus({ id: subtopicId, state: 'error' })
+      })
+    return () => { cancelled = true }
+  }, [supplementRequest, subtopicId, isOptionalSupplement])
+
+  // Resolve published core BEFORE first render, rather than replacing an already
+  // visible theory when its asynchronous request finally completes.
+  useEffect(() => {
+    if (!/^(?:M04|M14|M16)\.\d{2}$/.test(subtopicId)) return
     let cancelled = false
     const fallback = getTopicContent(subtopicId)
     if (!fallback) return
@@ -199,10 +241,11 @@ export default function TopicView({
             subtopicId,
             content: overlayPublishedProfessionalLesson(fallback, lesson),
           })
+          setTheoryResolved(subtopicId)
         }
       })
       .catch(() => {
-        // For published lesson API/network errors, preserve existing static content.
+        if (!cancelled) setTheoryResolved(subtopicId)
       })
     return () => { cancelled = true }
   }, [subtopicId])
@@ -231,6 +274,7 @@ export default function TopicView({
         })
       })
       .catch(() => { /* Fail closed on unpublished or unavailable theory. */ })
+      .finally(() => { if (!cancelled) setTheoryResolved(subtopicId) })
     return () => { cancelled = true }
   }, [isAlgoritmlashV2, isAxrM13, subtopicId])
 
@@ -258,6 +302,7 @@ export default function TopicView({
         })
       })
       .catch(() => { /* Fail closed: do not display incomplete draft theory. */ })
+      .finally(() => { if (!cancelled) setTheoryResolved(subtopicId) })
     return () => { cancelled = true }
   }, [isPublishedScratchLogoLesson, subtopicId])
 
@@ -266,8 +311,8 @@ export default function TopicView({
   useEffect(() => {
     let active = true
     getTopicTestPreflight(subtopicId)
-      .then(data => { if (active) setTopicReadiness({ subtopicId, data }) })
-      .catch(() => { if (active) setTopicReadiness(null) })
+      .then(data => { if (active) { setTopicReadiness({ subtopicId, data }); setReadinessErrorTopic(null) } })
+      .catch(() => { if (active) { setTopicReadiness(null); setReadinessErrorTopic(subtopicId) } })
     return () => { active = false }
   }, [subtopicId, isProfessionalLesson, isAlgoritmlashV2, isAxrM13, readinessRetry])
 
@@ -282,82 +327,20 @@ export default function TopicView({
     }
   }, [subtopicId])
 
+  // Legacy lessons use real pages, not viewport-scrolling heuristics. The former
+  // document-level 100% progress could appear while the learner was on block 1/4.
   useEffect(() => {
-    if (isBook || phase !== 'theory' || !content) return
-    // Use IntersectionObserver for reliable scroll tracking
-    const blocks = document.querySelectorAll<HTMLElement>('[data-section-index]')
-    if (blocks.length === 0) return
-
-    // Count fully visible blocks
-    // Track which blocks have been seen (in viewport at least once)
-    const seenBlocks = new Set<number>()
-    
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(e => {
-          const idx = parseInt(e.target.getAttribute('data-section-index') || '0')
-          if (e.isIntersecting) {
-            seenBlocks.add(idx)
-          }
-        })
-        // Progress = (scroll-based + block-based) / 2 for smooth tracking
-        const scrollTop = window.scrollY
-        const docHeight = document.documentElement.scrollHeight
-        const winHeight = window.innerHeight
-        const maxScroll = docHeight - winHeight
-        const scrollPct = maxScroll > 0 ? Math.min((scrollTop / maxScroll) * 100, 100) : 100
-        const blockPct = (seenBlocks.size / Math.max(blocks.length, 1)) * 100
-        // Use the higher of the two for a more accurate reading
-        setReadProgress(Math.max(scrollPct, blockPct))
-      },
-      { threshold: [0.1, 0.5, 0.9] }
-    )
-    blocks.forEach(b => observer.observe(b))
-
-    // Also listen to scroll for more granular progress
-    const scrollHandler = () => {
-      const scrollTop = window.scrollY
-      const docHeight = document.documentElement.scrollHeight
-      const winHeight = window.innerHeight
-      const maxScroll = docHeight - winHeight
-      const scrollPct = maxScroll > 0 ? Math.min((scrollTop / maxScroll) * 100, 100) : 100
-      const blockPct = (seenBlocks.size / Math.max(blocks.length, 1)) * 100
-      setReadProgress(Math.max(scrollPct, blockPct))
+    if (!isBook && phase === 'theory' && content) {
+      setReadProgress(Math.round(100 * Math.min(furthestTheoryPage + 1, theoryPages.length) / Math.max(theoryPages.length, 1)))
     }
-    window.addEventListener('scroll', scrollHandler, { passive: true })
-    scrollHandler()
+  }, [isBook, phase, content, furthestTheoryPage, theoryPages.length])
 
-    return () => {
-      observer.disconnect()
-      window.removeEventListener('scroll', scrollHandler)
-    }
-  }, [isBook, phase, content])
-
-  useEffect(() => {
-    if (isBook || phase !== 'theory' || !content) return
-    let ticking = false
-    const handleScroll = () => {
-      if (!ticking) {
-        ticking = true
-        requestAnimationFrame(() => {
-          const sections = document.querySelectorAll<HTMLElement>('[data-section-index]')
-          if (sections.length === 0) { ticking = false; return }
-          let closestIdx = 0
-          let closestDist = Infinity
-          sections.forEach((s, i) => {
-            const rect = s.getBoundingClientRect()
-            const dist = Math.abs(rect.top - 100) // offset for header
-            if (dist < closestDist) { closestDist = dist; closestIdx = i }
-          })
-          setCurrentSection(closestIdx)
-          ticking = false
-        })
-      }
-    }
-    handleScroll()
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [isBook, phase, content])
+  const goTheoryPage = (next: number) => {
+    const target = Math.min(Math.max(next, 0), Math.max(theoryPages.length - 1, 0))
+    setTheoryPage(target)
+    setFurthestTheoryPage(previous => Math.max(previous, target))
+    contentRef.current?.scrollIntoView?.({ behavior: 'smooth', block: 'start' })
+  }
 
   useEffect(() => {
     if (phase === 'result') {
@@ -378,9 +361,11 @@ export default function TopicView({
   const currentReadiness = topicReadiness?.subtopicId === subtopicId ? topicReadiness.data : null
   const hasTest = currentReadiness?.ready === true
   const displayedTestCount = currentReadiness?.required ?? 0
+  const testCheckFailed = readinessErrorTopic === subtopicId
+  const isTestChecking = !currentReadiness && !testCheckFailed
   const handleTopicTestAction = () => {
     if (hasTest) navigate(`/exam/mavzu/${moduleId}?lessonId=${subtopicId}`)
-    else if (!isProfessionalLesson && !isPublishedScratchLogoLesson && (!isAlgoritmlashV2 || isAppendix)) handleComplete(0, 0)
+    else if (isAppendix) handleComplete(0, 0)
   }
 
   // Theory type distribution
@@ -438,6 +423,15 @@ export default function TopicView({
   const handleComplete = (correct: number, total: number) => {
     syncTopicProgress(subtopicId).catch(() => {})
     onComplete(correct, total)
+  }
+
+  if (isCanonicalPublishedTheory && theoryResolved !== subtopicId) {
+    return (
+      <div role="status" aria-live="polite" className="flex min-h-[60vh] items-center justify-center gap-3 text-gray-600 dark:text-gray-300">
+        <RefreshCw className="animate-spin" size={22} aria-hidden="true" />
+        <span>Asosiy nazariya tayyorlanmoqda…</span>
+      </div>
+    )
   }
 
   if (!content) {
@@ -633,7 +627,7 @@ export default function TopicView({
                 </span>
               ) : (
                 <span className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-2.5 py-1 rounded-lg">
-                  <BookText size={12} /> {isSemanticProfessional ? 'Tartibli nazariya va misollar' : content.theory.length + ' ta blok'}
+                  <BookText size={12} /> {content.theory.length} ta blok · {theoryPages.length} sahifa
                 </span>
               )}
               {/* Theory type badges — scroll rejimidagi eski mavzular uchun */}
@@ -652,7 +646,7 @@ export default function TopicView({
               <span className="flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-md bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400">
                 <FileQuestion size={10} /> {hasTest
                   ? `${displayedTestCount} ta savol`
-                  : isAppendix ? "ma'lumotnoma" : "test tayyorlanmoqda"}
+                  : isAppendix ? "ma'lumotnoma" : isTestChecking ? "test tekshirilmoqda" : testCheckFailed ? "test serveri ulanmagan" : "test tayyor emas"}
               </span>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
@@ -685,10 +679,10 @@ export default function TopicView({
             <div role="status" aria-live="polite"
               className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-amber-200 bg-amber-50/70 px-4 py-3 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950/20 dark:text-amber-100">
               <div>
-                <strong>Mavzu testi hali tayyor emas.</strong>{' '}
+                <strong>{isTestChecking ? 'Mavzu testi tekshirilmoqda.' : testCheckFailed ? 'Test serveriga ulanib bo‘lmadi.' : 'Mavzu testi hozircha tayyor emas.'}</strong>{' '}
                 {currentReadiness
                   ? `Hozir ${currentReadiness.available}/${currentReadiness.required} ta mos savol mavjud. Nazariyani o‘rganishda davom etishingiz mumkin.`
-                  : 'Test holatini serverdan olib bo‘lmadi. Nazariyani o‘rganishda davom etishingiz mumkin.'}
+                  : testCheckFailed ? 'Bu test umuman mavjud emas degani emas. Qayta tekshiring yoki keyingi mavzuga o‘ting.' : 'Server javobi kutilmoqda. Nazariyani o‘rganishda davom etishingiz mumkin.'}
               </div>
               <button type="button"
                 onClick={() => setReadinessRetry(n => n + 1)}
@@ -710,9 +704,13 @@ export default function TopicView({
                   content={content}
                   questionCount={hasTest ? displayedTestCount : 0}
                   isAppendix={isAppendix}
-                  requireTest={isPublishedScratchLogoLesson}
+                  requireTest={!isAppendix}
                   onProgress={setReadProgress}
                   onFinishReading={handleTopicTestAction}
+                  previousTopic={previousSubtopic ?? null}
+                  onOpenPreviousTopic={previousSubtopic && onOpenTopic
+                    ? () => onOpenTopic(previousSubtopic.id)
+                    : undefined}
                   nextTopic={nextSubtopic ?? null}
                   onOpenNextTopic={nextSubtopic && onOpenTopic
                     ? () => onOpenTopic(nextSubtopic.id)
@@ -721,17 +719,20 @@ export default function TopicView({
               </Suspense>
             </div>
           ) : (
-            <div className="space-y-3 mb-8">
-              {content.theory.map((block, i) => (
-                <div key={i} data-section-index={i} className="animate-block-entrance" style={{ animationDelay: `${i * 60}ms` }}>
-                  {/* Section divider (except first) */}
-                  {i > 0 && (
-                    <div className="content-divider">
-                      <div className="content-divider-icon">
-                        <div className="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-gray-600" />
-                      </div>
-                    </div>
-                  )}
+            <div className="mb-8 space-y-4">
+              <nav aria-label="Nazariya sahifalari" className="flex items-center justify-between gap-3 rounded-xl border border-indigo-100 bg-indigo-50/60 p-3 dark:border-indigo-900 dark:bg-indigo-950/20">
+                <button type="button" disabled={activeTheoryPage === 0} onClick={() => goTheoryPage(activeTheoryPage - 1)}
+                  className="inline-flex min-h-10 items-center gap-1 rounded-lg px-3 text-sm font-semibold text-indigo-700 hover:bg-indigo-100 disabled:cursor-not-allowed disabled:opacity-40 dark:text-indigo-300">
+                  <ArrowLeft size={15} /> Oldingi sahifa
+                </button>
+                <span className="text-sm font-bold tabular-nums text-indigo-700 dark:text-indigo-200">{activeTheoryPage + 1}/{theoryPages.length} sahifa</span>
+                <button type="button" disabled={isLastTheoryPage} onClick={() => goTheoryPage(activeTheoryPage + 1)}
+                  className="inline-flex min-h-10 items-center gap-1 rounded-lg px-3 text-sm font-semibold text-indigo-700 hover:bg-indigo-100 disabled:cursor-not-allowed disabled:opacity-40 dark:text-indigo-300">
+                  Keyingi sahifa <ArrowRight size={15} />
+                </button>
+              </nav>
+              {(theoryPages[activeTheoryPage] ?? []).map((block, i) => (
+                <div key={activeTheoryPage * 2 + i} className="animate-block-entrance">
                   {isSemanticProfessional ? <PedagogyTheoryBlock block={block} /> : <TheoryBlock block={block} />}
                 </div>
               ))}
@@ -754,157 +755,82 @@ export default function TopicView({
             </details>
           )}
 
-          {isPedagogyTopic && (serverTheory.length > 0 || supplementalTheory.length > 0) && (
-            <details className="group mb-8 rounded-2xl border border-teal-200 bg-teal-50/50 p-4 shadow-sm dark:border-teal-900 dark:bg-teal-950/20 sm:p-5">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-xl p-2 text-sm font-bold text-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:text-teal-200">
-                <span className="flex items-center gap-2"><BookText size={19} aria-hidden="true" /> Batafsil nazariya — qo‘shimcha manba</span>
-                <ChevronDown className="shrink-0 transition group-open:rotate-180" size={19} aria-hidden="true" />
+          {isOptionalSupplement && (
+            <details
+              key={subtopicId}
+              onToggle={event => {
+                if (!event.currentTarget.open) return
+                if (supplementStatus?.id === subtopicId && supplementStatus.state === 'ready') return
+                if (supplementStatus?.id === subtopicId && supplementStatus.state === 'loading') return
+                setSupplementRequest(previous => ({ id: subtopicId, attempt: (previous?.attempt ?? 0) + 1 }))
+              }}
+              className="group mb-8 rounded-2xl border border-teal-200 bg-white p-4 shadow-sm dark:border-teal-900 dark:bg-gray-900 sm:p-5"
+            >
+              <summary className="flex cursor-pointer items-center justify-between gap-3 rounded-xl p-2 text-sm font-bold text-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:text-teal-200">
+                <span className="flex items-center gap-2"><BookText size={19} aria-hidden="true" /> Tekshirilgan qo‘shimcha material (ixtiyoriy)</span>
+                <ChevronDown size={19} aria-hidden="true" className="shrink-0 transition group-open:rotate-180" />
               </summary>
-              <p className="px-2 pb-3 pt-1 text-xs leading-6 text-gray-600 dark:text-gray-400">
-                Asosiy dars o‘zgarmaydi. Batafsil manbaviy tushuntirishlarni xohlasangiz, ushbu bo‘limni oching.
+              <p className="px-2 pb-3 text-xs leading-6 text-gray-600 dark:text-gray-400">
+                Asosiy nazariya o‘zgarmaydi. Qo‘shimcha material faqat bu bo‘lim ochilganda yuklanadi.
               </p>
-              <div className="space-y-3">
-                {serverTheory.map((block, i) => <PedagogyTheoryBlock key={i} block={block} />)}
-                {supplementalTheory.map((block, i) => <PedagogyTheoryBlock key={`extra-${i}`} block={block} />)}
-              </div>
+              {isSupplementLoading && <p role="status" className="p-3 text-sm">Qo‘shimcha material yuklanmoqda…</p>}
+              {supplementError && <p role="alert" className="p-3 text-sm text-amber-700 dark:text-amber-300">Materialni olib bo‘lmadi. Qayta urinish uchun bo‘limni yopib oching.</p>}
+              {!isSupplementLoading && !supplementError && supplementStatus?.id === subtopicId && supplementStatus.state === 'ready' && (
+                supplementalTheory.length > 0
+                  ? <div className="space-y-3">{supplementalTheory.map((block, i) => <PedagogyTheoryBlock key={i} block={block} />)}</div>
+                  : <p className="p-3 text-sm text-gray-500">Bu darsga alohida tekshirilgan qo‘shimcha kiritilmagan.</p>
+              )}
             </details>
           )}
 
-          {/* ── Eski (LaTeX'siz) mavzular uchun scroll rejimi ── */}
-          {!isBook && (<>
-          {/* ── Section Progress ── */}
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              {/* Show responsive: full dots on desktop, summary on mobile */}
-              <div className={isSemanticProfessional ? 'hidden' : 'hidden sm:flex gap-1.5'}>
-                {content.theory.map((_, i) => (
-                  <div 
-                    key={i} 
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      i === currentSection 
-                        ? 'bg-primary-500 scale-125 w-3' 
-                        : i < currentSection 
-                          ? 'bg-primary-300' 
-                          : 'bg-gray-200 dark:bg-gray-700'
-                    }`} 
-                  />
-                ))}
-              </div>
-              {/* Mobile: condensed progress bar */}
-              <div className="sm:hidden w-24 h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
-                <div 
-                  className="h-full rounded-full bg-gradient-to-r from-primary-500 to-primary-400 transition-all duration-300" 
-                  style={{ width: `${(currentSection + 1) / content.theory.length * 100}%` }} 
-                />
-              </div>
-              <span className="text-xs text-gray-400 dark:text-gray-500 font-medium tabular-nums">
-                <span className="text-primary-600 dark:text-primary-400 font-semibold">{currentSection + 1}</span>
-                <span className="text-gray-300 dark:text-gray-600">/{content.theory.length}</span>
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              {/* Reading progress with visual bar */}
-              <div className="hidden sm:block w-16 h-1 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
-                <div className="h-full rounded-full bg-gradient-to-r from-emerald-400 to-emerald-500 transition-all duration-300" style={{ width: `${Math.round(readProgress)}%` }} />
-              </div>
-              <span className={`text-xs font-medium tabular-nums ${
-                readProgress > 80 ? 'text-emerald-600 dark:text-emerald-400' : 'text-gray-400 dark:text-gray-500'
-              }`}>
-                {Math.round(readProgress)}%
-              </span>
-            </div>
-          </div>
-
-          {/* ── Reading Complete CTA ── */}
-          <div className="relative text-center py-16">
-            {readProgress > 70 && (
-              <>
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary-50/50 to-transparent dark:via-primary-950/20 rounded-3xl" />
-                <div className="relative animate-pop-in">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-primary-200 dark:shadow-primary-900/30 animate-pulse-glow">
-                    <Brain size={32} className="text-white" />
-                  </div>
-                  <p className="font-bold text-gray-900 dark:text-white text-lg">Nazariy qism yakunlandi</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 mb-4">
-                    {hasTest
-                      ? `Endi bilimingizni sinab ko'ring — ${displayedTestCount} ta savol`
-                      : isProfessionalLesson
-                        ? currentReadiness
-                          ? `Mavzu testi tayyorlanmoqda: ${currentReadiness.available}/${currentReadiness.required} mos savol.`
-                          : 'Testning tayyorligini tekshirib bo‘lmadi.'
-                        : isAppendix
-                        ? "Bu ilova takrorlash uchun — test ko'zda tutilmagan"
-                        : "Bu mavzu uchun test hali qo'shilmagan"}
+          {/* Page and topic navigation are separate: no duplicate completion CTAs. */}
+          {!isBook && (
+            <div className="mt-8 space-y-4" aria-label="Nazariyani davom ettirish">
+              {!isLastTheoryPage ? (
+                <button type="button" onClick={() => goTheoryPage(activeTheoryPage + 1)}
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 font-semibold text-white hover:bg-indigo-700">
+                  Keyingi sahifa ({activeTheoryPage + 2}/{theoryPages.length}) <ArrowRight size={17} />
+                </button>
+              ) : (
+                <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800">
+                  <p className="font-semibold text-gray-900 dark:text-white">Nazariyaning barcha {theoryPages.length} sahifasi ko‘rsatildi.</p>
+                  <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+                    {hasTest ? `Endi ${displayedTestCount} ta savoldan iborat testni boshlashingiz mumkin.`
+                      : isTestChecking ? 'Test tekshirilmoqda; keyingi mavzuga o‘tishingiz mumkin.'
+                      : testCheckFailed ? 'Test serveri javob bermadi; bu test mavjud emas degani emas.'
+                      : currentReadiness ? 'Mavzu testi hozircha tayyor emas.'
+                      : 'Test holati aniqlanmoqda.'}
                   </p>
-                  <button
-                    onClick={handleTopicTestAction}
-                disabled={(isProfessionalLesson || (isAlgoritmlashV2 && !isAppendix)) && !hasTest}
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-xl text-sm font-semibold hover:from-primary-700 hover:to-primary-600 transition-all shadow-xl shadow-primary-200 dark:shadow-primary-900/40 hover:shadow-2xl hover:-translate-y-0.5 animate-pop-in"
-                  >
-                    {hasTest
-                      ? <><Target size={16} /> Bilimni tekshirish <ArrowRight size={16} /></>
-                      : (isProfessionalLesson || isAlgoritmlashV2) ? <><RefreshCw size={16} /> Test hali tayyor emas</>
-                      : <><CheckCircle2 size={16} /> Mavzuni yakunlash <ArrowRight size={16} /></>}
-                  </button>
-                </div>
-              </>
-            )}
-            {readProgress <= 70 && (
-              <div className="relative">
-                <div className="flex items-center justify-center gap-2 text-sm text-gray-400">
-                  <div className="w-5 h-5 rounded-full border-2 border-gray-300 dark:border-gray-600 flex items-center justify-center">
-                    <div className="w-2 h-2 rounded-full bg-gray-300 dark:bg-gray-600" />
-                  </div>
-                  <span>Sahifani pastga surib o'qishni davom ettiring</span>
-                  <ChevronDown size={16} className="animate-scroll-indicator" />
-                </div>
-                <div className="flex justify-center mt-4">
-                  <div className="flex gap-1.5">
-                    {content.theory.slice(-3).map((_, i) => (
-                      <div key={i} className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                        currentSection >= content.theory.length - 3 + i 
-                          ? 'bg-primary-500' 
-                          : 'bg-gray-200 dark:bg-gray-700'
-                      }`} />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* ── Start Test Button ── */}
-          <div className={`sticky bottom-20 sm:bottom-6 flex justify-center transition-all duration-700 z-30 ${
-            readProgress > 10 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6 pointer-events-none'
-          }`}>
-            <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-2xl shadow-xl border border-gray-100 dark:border-gray-800 p-3 sm:p-4">
-              {readProgress < 100 && (
-                <div className="flex items-center gap-2 mb-2 px-1">
-                  <div className="flex-1 h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
-                    <div className="h-full rounded-full bg-gradient-to-r from-primary-500 to-primary-400 transition-all duration-300" style={{ width: `${Math.round(readProgress)}%` }} />
-                  </div>
-                  <span className="text-[10px] font-medium text-gray-400">{Math.round(readProgress)}%</span>
+                  {hasTest && (
+                    <button type="button" onClick={handleTopicTestAction}
+                      className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-xl bg-indigo-600 px-5 font-semibold text-white hover:bg-indigo-700">
+                      <Target size={16} /> Testni boshlash <ArrowRight size={16} />
+                    </button>
+                  )}
+                  {isAppendix && !hasTest && (
+                    <button type="button" onClick={handleTopicTestAction}
+                      className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-xl border border-indigo-500 px-5 font-semibold text-indigo-700 dark:text-indigo-300">
+                      Mavzuni yakunlash
+                    </button>
+                  )}
                 </div>
               )}
-              <button
-                onClick={handleTopicTestAction}
-                disabled={(isProfessionalLesson || (isAlgoritmlashV2 && !isAppendix)) && !hasTest}
-                className="inline-flex items-center gap-3 px-6 py-3.5 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-xl text-sm font-semibold hover:from-primary-700 hover:to-primary-600 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full sm:w-auto justify-center"
-              >
-                <span className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
-                  {hasTest
-                    ? <Target size={16} className="text-white" />
-                    : <CheckCircle2 size={16} className="text-white" />}
-                </span>
-                <span>{hasTest ? 'Bilimni tekshirish' : (isProfessionalLesson || isAlgoritmlashV2) ? 'Mavzu testi tayyorlanmoqda' : 'Mavzuni yakunlash'}</span>
-                {hasTest && (
-                  <span className="text-[11px] bg-white/20 px-2.5 py-1 rounded-lg whitespace-nowrap">{displayedTestCount} ta savol</span>
+              <nav aria-label="Mavzular orasida harakat" className="flex flex-wrap items-center justify-between gap-3">
+                {previousSubtopic && onOpenTopic ? (
+                  <button type="button" onClick={() => onOpenTopic(previousSubtopic.id)}
+                    className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-gray-300 px-4 font-semibold text-gray-700 dark:border-gray-700 dark:text-gray-200">
+                    <ArrowLeft size={16} /> Oldingi mavzu
+                  </button>
+                ) : <span />}
+                {nextSubtopic && onOpenTopic && (
+                  <button type="button" onClick={() => onOpenTopic(nextSubtopic.id)}
+                    className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-indigo-600 px-5 font-semibold text-white hover:bg-indigo-700">
+                    Keyingi mavzu: {nextSubtopic.title} <ArrowRight size={16} />
+                  </button>
                 )}
-                <ChevronRight size={18} />
-              </button>
+              </nav>
             </div>
-          </div>
-          </>)}
+          )}
 
         </div>
       )}

@@ -98,6 +98,7 @@ export default function ModulePage() {
     activeSubtopicId === null
       ? null
       : mod.subtopics.find(subtopic => subtopic.id === activeSubtopicId) ?? null
+  const previousSubtopic = currentIndex > 0 ? mod.subtopics[currentIndex - 1] : null
   const nextSubtopic =
     currentIndex >= 0 && currentIndex < totalTopics - 1
       ? mod.subtopics[currentIndex + 1]
@@ -121,6 +122,7 @@ export default function ModulePage() {
           moduleTitle={mod.title}
           subtopicIndex={currentIndex}
           subtopicCount={totalTopics}
+          previousSubtopic={previousSubtopic}
           nextSubtopic={nextSubtopic}
           onOpenTopic={setActiveSubtopicId}
           onComplete={(correct, total) =>
