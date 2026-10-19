@@ -6,7 +6,7 @@ const report = readFileSync(resolve('docs/TASK261_M09_DB_ACCESS_SOURCE_QA_202610
 const sql = readFileSync(resolve('scripts/sql/TASK261_M09_REVIEW_QA_READONLY.sql'), 'utf8')
 
 const rows = report.split(/\r?\n/).filter(line =>
-  /^\| M09\.0[1-5] /.test(line),
+  /^\| M09\.0[1-5] /.test(line) && line.split('|').length >= 9,
 )
 
 describe('TASK-261: M09 source and safety audit contract', () => {
