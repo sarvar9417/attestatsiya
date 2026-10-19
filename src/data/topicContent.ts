@@ -10,6 +10,8 @@ import { M09_DATABASE_TEXTBOOK_ADDITIONS } from './topics/m09DatabaseTextbookAdd
 import { M03_OFFICE_TEXTBOOK_ADDITIONS } from './topics/m03OfficeTextbookAdditions'
 import { M03_05_CANONICAL_BOOK } from './topics/m03ExcelCanonicalBook'
 import { M03_04_CANONICAL_BOOK } from './topics/m03ExcelFoundationsCanonicalBook'
+import { M03_06_CANONICAL_BOOK, M03_07_CANONICAL_BOOK } from './topics/m03ExcelAnalysisCanonicalBooks'
+import { M15_05_CANONICAL_BOOK, M15_06_CANONICAL_BOOK } from './topics/m15ProfessionalPracticeCanonicalBooks'
 import { M15_04_CANONICAL_BOOK } from './topics/m15LessonPlanningCanonicalBook'
 import { M15_01_CANONICAL_BOOK } from './topics/m15PedagogyCanonicalBook'
 import { M03_01_CANONICAL_BOOK } from './topics/m03WordCanonicalBook'
@@ -1632,6 +1634,27 @@ if (planningBase) {
     source: 'F. O. Mirzayeva, Pedagogika nazariyasi va tarixi, 6-mavzu',
     kind: 'chapter',
     theory: M15_04_CANONICAL_BOOK,
+  }
+}
+
+// TASK-288: Replace formerly thin M03.06/M03.07 and M15.05/M15.06
+// offline fallbacks with cohesive original books. Previously reviewed Office
+// source appendices and server-backed pedagogy study notes remain. Test keys
+// and publishing metadata are inherited verbatim.
+for (const [id, book, source] of [
+  ['M03.06', M03_06_CANONICAL_BOOK, 'Cambridge+ ICT 10–11, chapter 8 — sort and filter'],
+  ['M03.07', M03_07_CANONICAL_BOOK, 'Cambridge+ ICT 10–11, chapter 8 — chart design'],
+  ['M15.05', M15_05_CANONICAL_BOOK, 'Pedagog kasbiy standarti — ota-onalar bilan hamkorlik'],
+  ['M15.06', M15_06_CANONICAL_BOOK, 'N. Mahmudov + N. Muslimov — pedagogik nutq va etika'],
+] as const) {
+  const original = TOPIC_CONTENT[id]
+  if (!original) continue
+  const tracedOffice = id.startsWith('M03.') ? (M03_OFFICE_TEXTBOOK_ADDITIONS[id] ?? []) : []
+  TOPIC_CONTENT[id] = {
+    ...original,
+    kind: 'chapter',
+    source,
+    theory: [...book, ...tracedOffice],
   }
 }
 
