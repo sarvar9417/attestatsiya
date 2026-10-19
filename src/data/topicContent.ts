@@ -761,15 +761,16 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { id: 'M09.03-q3', text: 'Ikki jadval o\'rtasida M:M munosabat qanday amalga oshiriladi?', options: ['To\'g\'ridan-to\'g\'ri FK bilan', 'Oraliq jadval orqali', 'Birlamchi kalit orqali', 'Unikal kalit orqali'], correctIndex: 1, explanation: 'Ko\'pga-ko\'p munosabatda oraliq jadval yaratiladi', type: 'Y2' },
   ]),
 
-  'M09.04': t('M09.04', 'MS Access forma, so\'rov va hisobotlari', [
-    { type: 'definition', content: 'MS Access — Microsoft Office tarkibidagi relyatsion MBBT. Asosiy obyektlari: jadval, forma, so\'rov, hisobot, makros va modul.' },
-    { type: 'table', content: '| Obyekt | Vazifasi |\n|--------|---------|\n| Jadval | Ma\'lumotlarni saqlash |\n| Forma | Ma\'lumot kiritish va ko\'rish interfeysi |\n| So\'rov (Query) | Ma\'lumotlarni qidirish, saralash, filtrlash |\n| Hisobot (Report) | Ma\'lumotlarni chop etish va ko\'rinishi |' },
-    { type: 'text', content: 'Forma — foydalanuvchilarga qulay ma\'lumot kiritish imkonini beradi. So\'rov — SQL yoki grafik interfeys orqali ma\'lumotlarni tanlash, yangilash, qo\'shish, o\'chirish. Hisobot — ma\'lumotlarni tartibli chop etish uchun mo\'ljallangan.' },
-    { type: 'note', content: '📋 MS Access da so\'rovlar QBE (Query by Example) yoki SQL ko\'rinishida yaratilishi mumkin.' },
+  'M09.04': t('M09.04', 'Accessda oddiy so‘rovlar va tanlash shartlari', [
+    { type: 'definition', content: 'So‘rov (Query) — bazadagi bir yoki bir nechta jadvaldan berilgan talabga mos yozuv va maydonlarni ko‘rsatish vositasi. Oddiy so‘rov bir jadval ma’lumotlaridan foydalanishi mumkin.' },
+    { type: 'text', content: 'Accessda Query Design (Конструктор запросов) orqali jadval tanlanadi, kerakli maydonlar so‘rov panjarasiga qo‘shiladi va mezon (Criteria / Условия отбора) ko‘rsatiladi. So‘rov natijasi jadvalning barcha satrlarini avtomatik ko‘rsatishi shart emas: tanlash mezoni ishlatilsa, faqat unga mos yozuvlar olinadi.' },
+    { type: 'table', content: '| Amal | Vazifasi |\n|---|---|\n| Jadvalni qo‘shish | So‘rov ma’lumot manbasini tanlash |\n| Maydonni tanlash | Natijada ko‘rinadigan ustunlarni belgilash |\n| Criteria | Yozuvlarni shart bo‘yicha tanlash |\n| Run/Execute | So‘rov natijasini hisoblash va ko‘rsatish |' },
+    { type: 'example', content: '“Kitoblar” jadvalidan “Muallif” va “Kitob nomi” maydonlari tanlandi. Muallif mezoniga muayyan yozuvchi nomi berilsa, natijada o‘sha yozuvchiga mos kitoblar chiqadi. Mezon qo‘yilmagan maydon natijani ko‘rsatishda ishlatilishi mumkin.' },
+    { type: 'source', content: 'Manba: Informatika va axborot texnologiyalari, 11-sinf (2021), 7-dars, bosma 44–50-betlar — Access oddiy/ko‘p jadvalli so‘rovlarni loyihalash va ishlatish.' },
   ], [
-    { id: 'M09.04-q1', text: 'MS Access da ma\'lumot kiritish uchun qaysi obyekt ishlatiladi?', options: ['Jadval', 'Forma', 'So\'rov', 'Hisobot'], correctIndex: 1, explanation: 'Forma — ma\'lumot kiritish va ko\'rish uchun qulay interfeys', type: 'Y1' },
-    { id: 'M09.04-q2', text: 'MS Access da ma\'lumotlarni chop etish uchun qaysi obyekt mo\'ljallangan?', options: ['Jadval', 'Forma', 'So\'rov', 'Hisobot'], correctIndex: 3, explanation: 'Hisobot (Report) — ma\'lumotlarni chop etish uchun', type: 'Y1' },
-    { id: 'M09.04-q3', text: 'QBE nima?', options: ['Dasturlash tili', 'So\'rov yaratish usuli', 'Ma\'lumot turi', 'Hisobot turi'], correctIndex: 1, explanation: 'QBE (Query by Example) — grafik interfeys orqali so\'rov yaratish usuli', type: 'Y2' },
+    { id: 'M09.04-2021-query-q1', text: 'Accessda so‘rov loyihasiga jadval va kerakli maydonlarni qo‘shish uchun qaysi vosita mos?', options: ['Report Wizard', 'Query Design', 'Form View', 'Slide Master'], correctIndex: 1, explanation: 'Query Design so‘rov uchun jadval, maydon va mezonlarni belgilash imkonini beradi.', type: 'Y1' },
+    { id: 'M09.04-2021-query-q2', text: 'Access so‘rovining Criteria (Условия отбора) qatori nimaga xizmat qiladi?', options: ['Jadvalni butunlay o‘chirishga', 'Yangi hisobot sahifasini bezashga', 'Dastur interfeysini tarjima qilishga', 'Natijaga tushadigan yozuvlarni shart bilan tanlashga'], correctIndex: 3, explanation: 'Criteria — so‘rov natijasidagi yozuvlarni filtrlaydigan tanlash mezoni.', type: 'Y1' },
+    { id: 'M09.04-2021-query-q3', text: 'So‘rovdagi maydonni tanlash va unga mezon yozish o‘rtasidagi farq qaysi?', options: ['Maydon natijadagi ustunni, mezon esa mos yozuvlarni belgilaydi', 'Ikkalasi faqat satrni o‘chiradi', 'Maydon faqat rangni o‘zgartiradi', 'Mezon har doim barcha yozuvni qaytaradi'], correctIndex: 0, explanation: 'Maydon tanlash qaysi ustun ishlatilishini, mezon esa qaysi satrlar mos kelishini aniqlaydi.', type: 'Y1' },
   ]),
 
   'M09.05': t('M09.05', 'Murakkab so‘rovlar va tanlash mezonlari', [
