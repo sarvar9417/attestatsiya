@@ -41,6 +41,7 @@ import {
   type TopicTestPreview,
 } from './examGateway'
 import { backendGateway } from './backendGateway'
+import type { Json } from '../../lib/database.types'
 import ExamResultActions from './ExamResultActions'
 import InlineText from '../../components/learning/theory/InlineText'
 import Y1Choice from './questions/Y1Choice'
@@ -428,7 +429,7 @@ export default function ExamRunner({
         examId: session.exam_id,
         examKind: session.kind,
         questionId: currentItem.question_id,
-        answer: { ...(encodeAnswer(currentItem, value) as Record<string, unknown>),
+        answer: { ...(encodeAnswer(currentItem, value) as Record<string, Json>),
           _client_revision: lastMockRevisionRef.current },
         timeSpentSec: Math.min(86_400, Math.max(0,
           Math.floor((Date.now() - questionOpenedAtRef.current) / 1000))),
