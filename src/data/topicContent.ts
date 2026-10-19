@@ -518,11 +518,11 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
 
   'M06.01': t('M06.01', 'Algoritm tushunchasi va xossalari', [
     { type: 'definition', content: 'Algoritm — muayyan maqsadga erishish uchun bajariladigan amallarning aniq, tushunarli va chekli ketma-ketligi.' },
-    { type: 'text', content: 'Algoritm xossalari: diskretlik (qadamlarga bo\'linish), aniqilik (noaniqlik yo\'q), tushunarlilik (ijrochiga mos), natijalilik (chekli qadamda natija), ommaviylik (turli ma\'lumotlar uchun mos).' },
+    { type: 'text', content: 'Algoritm xossalari: diskretlik (qadamlarga bo\'linish), aniqlik (noaniqlik yo\'q), tushunarlilik (ijrochiga mos), natijalilik (chekli qadamda natija), ommaviylik (turli ma\'lumotlar uchun mos).' },
     { type: 'table', content: '| Ifodalash usuli | Tavsif | Misol |\n|----------------|--------|-------|\n| So\'zlar bilan | Tabiiy tilda | "Agar yomg\'ir yog\'sa, soyabon ol" |\n| Blok-sxema | Grafik shakl | Geometrik figuralar bilan |\n| Psevdokod | Dasturga o\'xshash | Agar A>B: chiqar A |\n| Dastur kodi | Til operatorlari | if (a > b) print(a) |' },
     { type: 'example', content: 'Blok-sxema elementlari:\n   Oval — boshlash/tugatish\n   Parallelogramm — kiritish/chiqarish\n   Romb — shart tekshirish\n   To\'g\'ri to\'rtburchak — amal bajarish' },
   ], [
-    { id: 'M06.01-q1', text: 'Algoritmning qaysi xossasi uning chekli qadamlardan iboratligini anglatadi?', options: ['Aniqilik', 'Diskretlik', 'Natijalilik', 'Ommaviylik'], correctIndex: 1, explanation: 'Diskretlik — algoritmning alohida qadamlarga bo\'linishi', type: 'Y1' },
+    { id: 'M06.01-q1', text: 'Algoritmning qaysi xossasi ishni alohida bosqichlarga ajratishni anglatadi?', options: ['Aniqilik', 'Diskretlik', 'Natijalilik', 'Ommaviylik'], correctIndex: 1, explanation: 'Diskretlik — algoritmning alohida bosqichlarga bo\'linishi; chekli muddatda yakunlanishi natijalilik bilan bog\'liq', type: 'Y1' },
     { id: 'M06.01-q2', text: 'Algoritmni grafik shaklda ifodalash usuli qanday nomlanadi?', options: ['Psevdokod', 'Blok-sxema', 'Dastur kodi', 'So\'zlar bilan'], correctIndex: 1, explanation: 'Blok-sxema — algoritmni geometrik figuralar orqali ifodalash', type: 'Y1' },
     { id: 'M06.01-q3', text: 'Algoritmning ommaviylik xossasi nimani anglatadi?', options: ['Faqat bir marta ishlatiladi', 'Turli ma\'lumotlar uchun mos', 'Tez bajariladi', 'Ko\'p joy egallaydi'], correctIndex: 1, explanation: 'Ommaviylik — algoritm bir turdagi turli boshlang\'ich ma\'lumotlar uchun ishlatilishi mumkin', type: 'Y2' },
   ]),
@@ -552,40 +552,40 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   ]),
 
   'M06.04': t('M06.04', 'Algoritmni tekshirish, tahlil qilish va eng maqbulini tanlash', [
-    { type: 'definition', content: 'Algoritmni tekshirish va tahlil qilish — uning to\'g\'riligi, samaradorligi va optimalligini baholash jarayoni. Eng maqbul algoritm — kam vaqt va xotira sarflab natija beradigan algoritm.' },
+    { type: 'definition', content: 'Algoritmni tekshirish va tahlil qilish — uning to\'g\'riligi, samaradorligi va optimalligini baholash jarayoni. Eng maqbul algoritm — vazifa, ma’lumot hajmi, xotira va vaqt cheklovlariga nisbatan mos tanlangan yechim; barcha holatda bitta universal eng tez algoritm bo‘lmaydi.' },
     { type: 'text', content: 'Algoritm samaradorligi mezonlari:\n- Vaqt murakkabligi (qancha tez bajariladi)\n- Xotira murakkabligi (qancha joy egallaydi)\n- Resurs sarfi (energiya, tarmoq trafigi)\nAlgoritmlarni taqqoslashda O-notatsiyasi (Big O) ishlatiladi: O(1) — doimiy, O(n) — chiziqli, O(n²) — kvadratik.' },
     { type: 'table', content: '| Murakkablik | Belgilanishi | Misol |\n|-------------|-------------|-------|\n| Doimiy | O(1) | Massiv elementiga murojaat |\n| Chiziqli | O(n) | Bir martalik sikl |\n| Kvadratik | O(n²) | Ichma-ich sikllar |\n| Logarifmik | O(log n) | Ikkilik qidiruv |' },
-    { type: 'example', content: '1000 ta sonni saralash:\n- Buble sort: O(n²) = 1 000 000 taqqoslash\n- Quick sort: O(n log n) ≈ 10 000 taqqoslash\nTezkor saralash (Quick Sort) katta hajmlarda ancha samarali.' },
+    { type: 'example', content: '1000 ta sonni saralash:\n- Bubble sort: odatda O(n²), lekin taqqoslashlarning aniq soni amalga oshirish va kirish tartibiga bog‘liq.\n- Quick sort: o‘rtacha O(n log n), eng yomon holatda O(n²).\nUlarni aniq vaziyat, xotira va ma’lumot taqsimotida solishtiring.' },
     { type: 'note', content: '⏱ Dastur ishlash vaqtini hisoblash: `time` moduli yoki `datetime` yordamida. Algoritm tanlashda ma\'lumotlar hajmi va cheklovlarini hisobga olish muhim.' },
   ], [
     { id: 'M06.04-q1', text: 'O(1) qanday murakkablikni anglatadi?', options: ['Chiziqli', 'Kvadratik', 'Doimiy', 'Logarifmik'], correctIndex: 2, explanation: 'O(1) — doimiy murakkablik, ma\'lumotlar hajmiga bog\'liq emas', type: 'Y1' },
-    { id: 'M06.04-q2', text: 'Bitta sikl operatori qanday murakkablikka ega?', options: ['O(1)', 'O(n)', 'O(n²)', 'O(log n)'], correctIndex: 1, explanation: 'Bitta sikl n marta takrorlanadi — O(n) chiziqli murakkablik', type: 'Y1' },
+    { id: 'M06.04-q2', text: 'n ta elementni bir martadan tekshiradigan oddiy siklning vaqt murakkabligi qanday?', options: ['O(1)', 'O(n)', 'O(n²)', 'O(log n)'], correctIndex: 1, explanation: 'Bitta sikl n marta takrorlanadi — O(n) chiziqli murakkablik', type: 'Y1' },
     { id: 'M06.04-q3', text: 'Algoritmning eng maqbulligi qanday mezonlar bilan aniqlanadi?', options: ['Faqat tezlik', 'Faqat xotira', 'Vaqt, xotira va resurs sarfi', 'Faqat kod uzunligi'], correctIndex: 2, explanation: 'Eng maqbul algoritm vaqt, xotira va resurs sarfining optimal nisbati bilan aniqlanadi', type: 'Y2' },
   ]),
 
   // ===================== M07: SCRATCH VA LOGO =====================
 
   'M07.01': t('M07.01', 'Scratch muhiti, sprayt va koordinatalar', [
-    { type: 'definition', content: 'Scratch — Massachusets universiteti professori Mitchel Resnick tomonidan yaratilgan, LEGO konstruktori prinsipi asosida ishlab chiqilgan vizual dasturlash muhiti. Scratch inglizcha so\'z bo\'lib, "chiziq", "pero" ma\'nolarini anglatadi.' },
+    { type: 'definition', content: 'Scratch — MIT Media Labdagi Lifelong Kindergarten guruhi tomonidan ishlab chiqilgan blokli dasturlash muhiti. Dastlabki Scratch loyihasiga professor Mitchel Resnick boshchilik qilgan. Scratch 3.0 loyihasi hozir Scratch Foundation tomonidan rivojlantiriladi.' },
     { type: 'text', content: 'Scratch asosiy tushunchalari:\n- Sprayt (Sprite) — sahna ustida harakatlanuvchi grafik obyekt\n- Sahna (Stage) — spraytlar harakatlanadigan maydon (480×360 birlik)\n- Skript — bloklardan tuzilgan dastur\n- Kostyum (Costume) — spraytning tashqi ko\'rinishi\n- Bloklar paneli — buyruqlar guruhlangan bo\'lim' },
     { type: 'example', content: 'Scratch koordinatalar tizimi:\n- Markaz: x=0, y=0\n- Chap chekka: x=-240, o\'ng: x=240\n- Pastki: y=-180, yuqori: y=180\n- "go to x: 0 y: 0" — spraytni markazga olib boradi\n- "move 10 steps" — spraytni 10 birlik oldinga siljitadi' },
     { type: 'note', content: '🎨 Scratch interfeysi: bloklar palitrasi (chapda), skriptlar maydoni (markazda), sahna (yuqori o\'ngda), spraytlar paneli (pastki o\'ngda). 2 xil rejim: rastrli va vektorli grafik.' },
   ], [
     { id: 'M07.01-q1', text: 'Scratch dasturlash muhitidagi grafik obyekt nima deb ataladi?', options: ['Sahna', 'Sprayt', 'Kostyum', 'Blok'], correctIndex: 1, explanation: 'Sprayt (Sprite) — sahna ustida harakatlanuvchi grafik obyekt', type: 'Y1' },
     { id: 'M07.01-q2', text: 'Scratch sahnasining o\'lchami necha birlik?', options: ['320×240', '480×360', '640×480', '800×600'], correctIndex: 1, explanation: 'Scratch sahnasi 480 birlik eni va 360 birlik bo\'yi', type: 'Y1' },
-    { id: 'M07.01-q3', text: 'Scratch sahnasida spraytning boshlang\'ich koordinatasi?', options: ['x=240, y=180', 'x=0, y=0', 'x=-240, y=-180', 'x=100, y=100'], correctIndex: 1, explanation: 'Sprayt dastur ishga tushganda sahna markazida (x=0, y=0) joylashadi', type: 'Y2' },
+    { id: 'M07.01-q3', text: 'Scratch sahnasining markazidagi nuqta koordinatasi qanday?', options: ['x=240, y=180', 'x=0, y=0', 'x=-240, y=-180', 'x=100, y=100'], correctIndex: 1, explanation: 'Scratch sahnasi markazi (x=0, y=0), biroq spraytning haqiqiy boshlang\'ich joyi loyiha holati va skriptlarga bog\'liq', type: 'Y2' },
   ]),
 
   'M07.02': t('M07.02', 'Scratch bloklari va hodisalar', [
     { type: 'definition', content: 'Scratch bloklari — ranglar bo\'yicha guruhlangan buyruqlar. Har bir blok ma\'lum bir vazifani bajaradi. Bloklar bir-biriga LEGO kabi ulanish orqali skript (dastur) hosil qiladi.' },
-    { type: 'table', content: '| Bo\'lim | Rangi | Vazifasi |\n|--------|-------|---------|\n| Motion | To\'q ko\'k | Harakat bloklari |\n| Looks | Binafsha | Tashqi ko\'rinish |\n| Sound | Pushti | Ovoz |\n| Events | Sariq | Hodisalar |\n| Control | To\'q sariq | Shart va sikllar |\n| Sensing | Moviy | Sensor bloklari |\n| Operators | Yashil | Matematik va mantiqiy |\n| Variables | To\'q sariq | O\'zgaruvchilar |' },
+    { type: 'table', content: '| Bo\'lim | Rangi | Vazifasi |\n|--------|-------|---------|\n| Motion | To\'q ko\'k | Harakat bloklari |\n| Looks | Binafsha | Tashqi ko\'rinish |\n| Sound | Pushti | Ovoz |\n| Events | Sariq | Hodisalar |\n| Control | To\'q sariq | Shart va sikllar |\n| Sensing | Moviy | Sensor bloklari |\n| Operators | Yashil | Matematik va mantiqiy |\n| Variables | To\'q sariq | O\'zgaruvchilar |\n| My Blocks | Pushti/to‘q qizil | Foydalanuvchi yaratadigan buyruqlar |' },
     { type: 'text', content: 'Hodisalar (Events) — dasturning bajarilishini boshlaydi. "when flag clicked" — yashil bayroq bosilganda ishga tushadi. "when key pressed" — tugma bosilganda ishlaydi. "when sprite clicked" — sprayt bosilganda ishlaydi.' },
     { type: 'example', content: 'Misol: Mushuk harakati\nwhen flag clicked\nforever\n  move 10 steps\n  if on edge, bounce' },
     { type: 'note', content: '🔹 Skriptlar spraytga biriktiriladi. Har bir sprayt o\'zining skriptlariga ega bo\'ladi. Bloklar faqat mantiqiy ketma-ketlikda ulanishi mumkin.' },
   ], [
     { id: 'M07.02-q1', text: 'Scratchda dasturni boshlash uchun qaysi hodisa bloki ishlatiladi?', options: ['when key pressed', 'when flag clicked', 'when sprite clicked', 'when backdrop switches'], correctIndex: 1, explanation: '"when flag clicked" — yashil bayroqcha bosilganda dastur ishga tushadi', type: 'Y1' },
     { id: 'M07.02-q2', text: 'Motion bo\'limi bloklari qanday rangda?', options: ['Sariq', 'To\'q ko\'k', 'Yashil', 'Binafsha'], correctIndex: 1, explanation: 'Motion (harakat) bloklari to\'q ko\'k rangda', type: 'Y1' },
-    { id: 'M07.02-q3', text: 'Scratchda nechta asosiy blok bo\'limi mavjud?', options: ['6', '7', '8', '9'], correctIndex: 2, explanation: '8 ta asosiy bo\'lim: Motion, Looks, Sound, Events, Control, Sensing, Operators, Variables', type: 'Y2' },
+    { id: 'M07.02-q3', text: 'Scratch 3.0 dagi My Blocks bo‘limi nima uchun ishlatiladi?', options: ['Harakat tezligini oshiradi', 'Faqat ovoz yozadi', 'Foydalanuvchi buyruq bloklarini yaratadi', 'Sahnani avtomatik o‘chiradi'], correctIndex: 2, explanation: 'Scratch 3.0 standart interfeysida My Blocks ham mavjud. To‘qqizta asosiy bo‘lim va qo‘shimcha Extensions kutubxonasi versiya va loyihaga qarab kengayadi; faqat sakkizta deb cheklamang. Eski sakkiz bo‘lim ro‘yxati: Motion, Looks, Sound, Events, Control, Sensing, Operators, Variables', type: 'Y2' },
   ]),
 
   'M07.03': t('M07.03', 'Scratch o\'zgaruvchi va ro\'yxatlari', [
