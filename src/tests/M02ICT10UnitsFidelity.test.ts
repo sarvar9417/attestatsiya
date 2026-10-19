@@ -5,7 +5,7 @@ import { M02_SOURCE_THEORY } from '../data/topics/m02SourceTheory'
 describe('TASK-272: textbook correction for CPU frequency and capacity units', () => {
   it('never repeats incorrect 1000 Hz = 1 MHz as a true equality', () => {
     const blocks = M02_SOURCE_THEORY['M02.01']
-    const note = blocks.find(b => b.type === 'trap' && b.content.includes('SI'))
+    const note = blocks.find(b => b.type === 'trap' && b.content.includes('1000 Hz'))
     expect(note).toBeDefined()
     expect(note?.content).toContain('1000 Hz = 1 kHz')
     expect(note?.content).toContain('1000 kHz = 1 MHz')
