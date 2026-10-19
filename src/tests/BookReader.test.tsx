@@ -75,10 +75,10 @@ describe('BookBlock', () => {
     expect(screen.getAllByRole('listitem')).toHaveLength(2)
   })
 
-  it('noma’lum diagramma identifikatorida hech nima chizmaydi', () => {
+  it('noma’lum diagramma identifikatorida mavjud izohni saqlaydi', () => {
     const { container } = render(
       <BookBlock index={0} block={block({ type: 'diagram', content: 'Sxema', diagram: 'yo-q' })} />)
-    expect(container).toBeEmptyDOMElement()
+    expect(container).toHaveTextContent('Sxema')
   })
 })
 

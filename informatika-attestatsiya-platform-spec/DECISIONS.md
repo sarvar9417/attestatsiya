@@ -176,3 +176,10 @@ Har yangi muhim qaror `ADR-###` bilan qo‘shiladi. Eski qaror o‘chirilmaydi; 
 - Xavfsizlik: published+source+key, auth/RLS, server timer/answer check, preflight fail-closed, answer key protected until finish, all-or-nothing insert va immutable published revision.
 - O‘zgarmaydi: rasmiy 50/120 mock blueprint va mavzu/bo‘lim testi qamrov minimumlari. Personal natija rasmiy attestatsiya reytingi emas.
 - Hozirgi UX cheklovi: learning explanation faqat session yakunida beriladi. Preset, construct-level filtr va resume separate implementation/review talab qiladi.
+
+## ADR-022 — Mavjud nazariya yagona kitob ketma-ketligida
+
+- Holat: TASK-301 merge uchun tasdiqlangan; deploy emas. Foydalanuvchi 2026-10-19 barcha darslarni M01 namunasiga moslashtirish va kamaygan kontentni qaytarishni so‘radi.
+- Qaror: mavjud mahalliy izohlar va tekshirilgan published manbali bo‘limlar asosiy BookReader mundarijasi va sahifalariga kiradi. M02 tekshirilgan asosni saqlaydi; eski belgisiz DB konspekti qabul qilinmaydi. M14/M16ning `main`dagi kanonik published/source tartibi saqlanadi; M15 curated asosdan keyin notes va marker bilan ajratilgan manba korpusi keladi.
+- M02/M15 ning oldingi opt-in qo‘shimcha UI siyosati shu talab uchun almashtirildi: barcha kerakli ma’lumot birinchi renderdan oldin olinadi, o‘qish davomida kechikkan javob sahifalarni almashtirmaydi. Xatoda fallback holati ochiq ko‘rsatiladi va retry mavjud.
+- Chegara: published yozuvlar o‘zgarmaydi, draft/review material ko‘rsatilmaydi, savollar/scoring o‘zgarmaydi, yangi nazariya avtomatik tasdiqlanmaydi. Merge tasdiqlangan; deploy taqiqlangan.

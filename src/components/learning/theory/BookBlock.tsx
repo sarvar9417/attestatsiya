@@ -35,6 +35,7 @@ function BoxBody({ block }: { block: TheoryBlock }) {
   if (block.children?.length) {
     return (
       <div className="book-box-body">
+        {block.content && <p className="book-paragraph"><InlineText text={block.content} /></p>}
         {block.children.map((child, i) => <BookBlock key={i} block={child} index={i} nested />)}
       </div>
     )
@@ -107,7 +108,9 @@ function DataTable({ block }: { block: TheoryBlock }) {
   const { headers, rows } = tableData(block)
   const isGlossary = headers[0]?.toLowerCase() === 'atama' && rows.length >= 30
   const [search, setSearch] = useState('')
-  if (rows.length === 0) return null
+  if (rows.length === 0) {
+    return <p className="book-paragraph"><InlineText text={block.content || (block.headers ?? []).join(' · ')} /></p>
+  }
   const query = search.trim().toLocaleLowerCase('uz')
   const visibleRows = isGlossary && query
     ? rows.filter(row => row.some(cell => plainText(cell).toLocaleLowerCase('uz').includes(query)))
@@ -192,6 +195,7 @@ function BookList({ block }: { block: TheoryBlock }) {
 }
 
 function DefList({ block }: { block: TheoryBlock }) {
+  if (!block.terms?.length) return <p className="book-paragraph"><InlineText text={block.content} /></p>
   return (
     <dl className="book-deflist">
       {(block.terms ?? []).map((t, i) => (
@@ -217,7 +221,7 @@ function Formula({ block, accent }: { block: TheoryBlock; accent?: boolean }) {
 
 function Diagram({ block }: { block: TheoryBlock }) {
   const Component = block.diagram ? BOOK_DIAGRAMS[block.diagram] : undefined
-  if (!Component) return null
+  if (!Component) return <p className="book-paragraph"><InlineText text={block.content} /></p>
   return (
     <figure className="book-diagram">
       <Component />

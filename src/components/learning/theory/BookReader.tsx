@@ -97,9 +97,21 @@ export default function BookReader({
     () => content.source ? splitSections(content.theory) : splitAdaptiveSections(content.theory),
     [content.source, content.theory],
   )
-  const [index, setIndex] = useState(0)
+  const [pageIndex, setIndex] = useState(0)
   const [visited, setVisited] = useState<Set<number>>(() => new Set([0]))
   const [outlineOpen, setOutlineOpen] = useState(false)
+  const [readingContent, setReadingContent] = useState(content)
+  // Reset before rendering: an effect runs too late when a shorter lesson
+  // replaces a longer one and sections[index] no longer exists.
+  const contentChanged = readingContent.subtopicId !== content.subtopicId
+    || readingContent.theory !== content.theory || readingContent.source !== content.source
+  const index = contentChanged ? 0 : pageIndex
+  if (contentChanged) {
+    setReadingContent(content)
+    setIndex(0)
+    setVisited(new Set([0]))
+    setOutlineOpen(false)
+  }
   const topRef = useRef<HTMLDivElement>(null)
   const headingRef = useRef<HTMLDivElement>(null)
   const firstRender = useRef(true)
@@ -151,7 +163,7 @@ export default function BookReader({
     return () => window.removeEventListener('keydown', onKey)
   }, [go, index])
 
-  const section = sections[index]
+  const section = sections[Math.min(index, total - 1)]
   const paginated = total > 1
 
   return (
@@ -224,7 +236,7 @@ export default function BookReader({
             <Check size={18} />
           </div>
           <p className="book-finish-title">
-            {paginated ? 'Bob o‘qib bo‘lindi' : 'Mavzu o‘qib bo‘lindi'}
+            {visited.size < total ? 'Bobning oxirgi bo‘limi' : paginated ? 'Bob o‘qib bo‘lindi' : 'Mavzu o‘qib bo‘lindi'}
           </p>
           <p className="book-finish-sub">
             {hasTest
