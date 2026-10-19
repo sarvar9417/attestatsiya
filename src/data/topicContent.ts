@@ -1287,7 +1287,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'text', content: 'Pedagogika fanining **obyekti** — yaxlit pedagogik jarayon; **predmeti** — ta’lim-tarbiyaning mazmuni, qonuniyatlari, tamoyillari, shakl, metod va vositalari. Ilmiy pedagogik kuzatish, suhbat, anketa va eksperimentni sinfda o‘qitish metodi bilan bir tushuncha deb qabul qilmang.' },
     { type: 'example', content: 'O‘quvchi Python dasturidagi siklni tushuntirsa — bilimini namoyon qiladi; kodni yoza olsa — ko‘nikmasini ko‘rsatadi; uni mustaqil muammo yechishga moslashtirsa — kompetensiyasi namoyon bo‘ladi. Ushbu misol o‘quv maqsadini bosqichma-bosqich kuzatish uchun berilgan.' },
     { type: 'trap', content: '«Bilim olish» o‘quvchining faoliyatini ifodalaydi; uni ushbu manbadagi «bilim», «ko‘nikma», «malaka», «kompetensiya» kategoriyalaridan birining o‘rniga qo‘ymang. Bilim, malaka va kompetensiya ham o‘zaro sinonim emas.' },
-    { type: 'source', content: 'Manba: «Mirzayeva Pedagogika nazriyasi qollanma 2-mavzu.pdf», «Pedagogika fan sifatida», «Pedagogika fanining asosiy kategoriyalari» va «Tadqiqot metodlari» bo‘limlari — https://drive.google.com/file/d/1woZMas8dNbzk6yephzNH_XdmT19ess-l/view . Ikkilamchi konspekt matni bilan solishtirilgan, fizik sahifalar tekshirilmagan.' },
+    { type: 'source', content: 'Manba: «Mirzayeva Pedagogika nazriyasi qollanma 2-mavzu.pdf», «Pedagogika fan sifatida», «Pedagogika fanining asosiy kategoriyalari» va «Tadqiqot metodlari» bo‘limlari — https://drive.google.com/file/d/1woZMas8dNbzk6yephzNH_XdmT19ess-l/view . Ikkilamchi konspektning fizik 1, 3–6-sahifalari ko‘rib chiqildi: didaktika (1), kategoriyalar (3–4), tadqiqot metodlari (4–6). Material mustaqil normativ hujjat emas.' },
   ], []),
 
   'M15.02': t('M15.02', 'Ta\'lim tamoyillari', [
@@ -1304,7 +1304,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'text', content: 'Tarbiya metodlariga tushuntirish va ishontirish, ijobiy namuna, mashq qildirish, rag‘batlantirish, asosli talab qo‘yish hamda pedagogik nazorat kiradi. Metod vaziyat va tarbiyaviy maqsadga muvofiq, o‘quvchining qadr-qimmatini saqlagan holda tanlanadi.' },
     { type: 'example', content: 'Axloqiy tarbiya: yaxshi va yomon xulq haqida suhbat, axloqiy vaziyatlarni tahlil qilish, ijobiy namunalar ko\'rsatish.' },
     { type: 'note', content: 'Tarbiya **yo‘nalishi** (masalan, ekologik), **metodi** (masalan, namuna) va **shakli** (masalan, loyiha) alohida mezonlardir. Ayrim tarixiy tasniflarda «majburlash» atamasi uchrashi mumkin; uni o‘quvchiga zo‘ravonlik yoki kamsitishni tavsiya qilish deb talqin qilmang.' },
-    { type: 'source', content: 'Manba: «Mirzayeva Pedagogika nazriyasi qollanma 2-mavzu.pdf», «Tarbiya nazariyasi» va «Ijtimoiy tarbiya» qismlari — https://drive.google.com/file/d/1woZMas8dNbzk6yephzNH_XdmT19ess-l/view . Tarbiya usullari haqidagi didaktik misollar muharrir izohi bo‘lib, konspektdan so‘zma-so‘z ko‘chirma emas.' },
+    { type: 'source', content: 'Manba: «Mirzayeva Pedagogika nazriyasi qollanma 2-mavzu.pdf», «Tarbiya nazariyasi» va «Ijtimoiy tarbiya» qismlari — https://drive.google.com/file/d/1woZMas8dNbzk6yephzNH_XdmT19ess-l/view . PDFning fizik 1-sahifasida tarbiya nazariyasi va tarbiya yo‘nalishlari sanalgan; 3–4-sahifalarda tarbiya kategoriyalari ko‘rinadi. Tarbiya usullari haqidagi didaktik misollar muharrir izohi bo‘lib, konspektdan so‘zma-so‘z ko‘chirma emas.' },
   ], []),
 
   'M15.04': t('M15.04', 'Dars turlari, rejalashtirish va sinfni boshqarish', [
