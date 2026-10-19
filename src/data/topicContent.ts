@@ -5,6 +5,7 @@ import { buildCanonicalM02Topic } from './topics/m02Canonical'
 import { M16_SOURCE_THEORY_ADDITIONS } from './topics/m16SourceTheoryAdditions'
 import { M14_NORMATIVE_SOURCE_ADDITIONS } from './topics/m14NormativeSourceAdditions'
 import { M08_TEXTBOOK_STUDY_ADDITIONS } from './topics/m08TextbookStudyAdditions'
+import { M03_OFFICE_TEXTBOOK_ADDITIONS } from './topics/m03OfficeTextbookAdditions'
 // M14–M16 use server-scored exams exclusively. Legacy mini-quiz answer keys
 // have intentionally been stripped from the shipped JavaScript bundle.
 
@@ -1396,6 +1397,13 @@ for (const [id, theory] of Object.entries(M05_THEORY)) {
     source: 'src/content/sanoq/Sanoq_sistemalari_nazariya.tex',
     kind: 'chapter',
   }
+}
+
+// Cambridge+ Word, Excel and PowerPoint thematic study examples (10 topics).
+// Keep the previous theory blocks and question keys exactly as authored.
+for (const [subtopicId, additions] of Object.entries(M03_OFFICE_TEXTBOOK_ADDITIONS)) {
+  const local = TOPIC_CONTENT[subtopicId]
+  if (local) TOPIC_CONTENT[subtopicId] = { ...local, theory: [...local.theory, ...additions] }
 }
 
 // National ICT 9 Python and Cambridge+ 10/11 JavaScript / AI source notes.
