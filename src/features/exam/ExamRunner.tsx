@@ -406,14 +406,41 @@ export default function ExamRunner({
   }, [finishExam, phase, remainingSeconds, submittingId])
 
   const updateDraft = (value: AnswerValue) => {
-    if (!currentItem || savedQuestionIds.has(currentItem.question_id) || queuedQuestionIds.has(currentItem.question_id) ||
-        (session && gateway.getPendingAnswer?.(session.exam_id, currentItem.question_id))) return
+    if (!currentItem || !session || phase !== 'active') return
+    if (session.kind !== 'mock' &&
+        (savedQuestionIds.has(currentItem.question_id) || queuedQuestionIds.has(currentItem.question_id) ||
+         gateway.getPendingAnswer?.(session.exam_id, currentItem.question_id))) return
 
-    setDrafts((current) => ({
-      ...current,
-      [currentItem.question_id]: value,
-    }))
+    latestDraftsRef.current = { ...latestDraftsRef.current, [currentItem.question_id]: value }
+    setDrafts(latestDraftsRef.current)
     setMessage(null)
+
+    if (session.kind !== 'mock' || !isAnswerComplete(currentItem, value)) return
+    if (!gateway.queueMockAnswer || !gateway.flushQueuedAnswers) {
+      setMessage('Avtomatik saqlash xizmati mavjud emas. Sahifani yangilab qayta urining.')
+      return
+    }
+    try {
+      gateway.queueMockAnswer({
+        examId: session.exam_id,
+        examKind: session.kind,
+        questionId: currentItem.question_id,
+        answer: encodeAnswer(currentItem, value),
+        timeSpentSec: Math.min(86_400, Math.max(0,
+          Math.floor((Date.now() - questionOpenedAtRef.current) / 1000))),
+      })
+      locallyQueuedRef.current.add(currentItem.question_id)
+      setQueuedQuestionIds(prev => new Set([...prev, currentItem.question_id]))
+      setSavedQuestionIds(prev => {
+        const next = new Set(prev)
+        next.delete(currentItem.question_id)
+        return next
+      })
+      if (autosaveTimerRef.current) clearTimeout(autosaveTimerRef.current)
+      autosaveTimerRef.current = setTimeout(() => { void syncMockAnswers() }, 300)
+    } catch (error) {
+      setMessage(`Javobni qurilmada saqlab bo‘lmadi: ${errorMessage(error)}`)
+    }
   }
 
   const moveToNextUnsaved = (questionId: string) => {
@@ -497,12 +524,14 @@ export default function ExamRunner({
 
   const renderQuestion = (item: ExamItem) => {
     const value = drafts[item.question_id]
-    const disabled =
-      savedQuestionIds.has(item.question_id) ||
-      queuedQuestionIds.has(item.question_id) ||
-      Boolean(session && gateway.getPendingAnswer?.(session.exam_id, item.question_id)) ||
-      submittingId === item.question_id ||
-      phase !== 'active'
+    const disabled = phase !== 'active' || (
+      session?.kind !== 'mock' && (
+        savedQuestionIds.has(item.question_id) ||
+        queuedQuestionIds.has(item.question_id) ||
+        Boolean(session && gateway.getPendingAnswer?.(session.exam_id, item.question_id)) ||
+        submittingId === item.question_id
+      )
+    )
 
     if (item.format === 'Y1') {
       return (
@@ -1064,7 +1093,8 @@ export default function ExamRunner({
   // ─── Active exam screen ──────────────────────────────────
   if (!session || !currentItem) return null
 
-  const currentSaved = savedQuestionIds.has(currentItem.question_id)
+  const currentSaved = savedQuestionIds.has(currentItem.question_id) && !queuedQuestionIds.has(currentItem.question_id)
+  const currentQueued = queuedQuestionIds.has(currentItem.question_id)
   const currentFlagged = flaggedQuestionIds.has(currentItem.question_id)
   const flaggedCount = flaggedQuestionIds.size
   const currentComplete = isAnswerComplete(
@@ -1416,30 +1446,47 @@ export default function ExamRunner({
                 {currentIndex + 1} / {total}-savol
               </span>
 
-              <button
-                type="button"
-                disabled={
-                  !currentComplete ||
-                  currentSaved ||
-                  submittingId === currentItem.question_id ||
-                  interactionBusy
-                }
-                onClick={() => void submitCurrentAnswer()}
-                className="exam-nav-btn-save justify-center"
-              >
-                {submittingId === currentItem.question_id ? (
-                  <LoaderCircle size={17} className="animate-spin" aria-hidden="true" />
-                ) : currentSaved ? (
-                  <Check size={17} aria-hidden="true" />
-                ) : (
-                  <ShieldCheck size={17} aria-hidden="true" />
-                )}
-                {submittingId === currentItem.question_id
-                  ? 'Saqlanmoqda…'
-                  : currentSaved
-                    ? 'Saqlangan'
-                    : 'Javobni saqlash'}
-              </button>
+              {session.kind === 'mock' ? (
+                <span className="exam-nav-btn-save justify-center" role="status" aria-live="polite">
+                  {currentQueued ? (
+                    <LoaderCircle size={17} className="animate-spin" aria-hidden="true" />
+                  ) : currentSaved ? (
+                    <Check size={17} aria-hidden="true" />
+                  ) : (
+                    <ShieldCheck size={17} aria-hidden="true" />
+                  )}
+                  {currentQueued
+                    ? (navigator.onLine ? 'Saqlanmoqda…' : 'Qurilmada saqlandi')
+                    : currentSaved
+                      ? 'Saqlandi ✓'
+                      : currentComplete ? 'Avtomatik saqlanadi' : 'Javobni belgilang'}
+                </span>
+              ) : (
+                <button
+                  type="button"
+                  disabled={
+                    !currentComplete ||
+                    currentSaved ||
+                    submittingId === currentItem.question_id ||
+                    interactionBusy
+                  }
+                  onClick={() => void submitCurrentAnswer()}
+                  className="exam-nav-btn-save justify-center"
+                >
+                  {submittingId === currentItem.question_id ? (
+                    <LoaderCircle size={17} className="animate-spin" aria-hidden="true" />
+                  ) : currentSaved ? (
+                    <Check size={17} aria-hidden="true" />
+                  ) : (
+                    <ShieldCheck size={17} aria-hidden="true" />
+                  )}
+                  {submittingId === currentItem.question_id
+                    ? 'Saqlanmoqda…'
+                    : currentSaved
+                      ? 'Saqlangan'
+                      : 'Javobni saqlash'}
+                </button>
+              )}
 
               <button
                 type="button"
