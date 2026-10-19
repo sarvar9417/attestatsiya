@@ -37,4 +37,21 @@ describe('pedagogy source-based Bloom explanation', () => {
     expect(theory).toContain('Perseptiv')
     expect(theory).not.toContain('Persiptiv')
   })
+
+  it('distinguishes pedagogy research object and subject using the new source', () => {
+    const first = getPedagogyStudyNotes('M15.01').map(block => block.content).join('\n')
+    expect(first).toContain('yaxlit pedagogik jarayon')
+    expect(first).toContain('ta’lim-tarbiyaning mazmuni')
+    expect(first).toContain('Pedagogik tadqiqot usullari')
+    expect(first).toContain('Mirzayeva')
+  })
+
+  it('contrasts observation, interview, questionnaire and experiment', () => {
+    const first = getPedagogyStudyNotes('M15.01').map(block => block.content).join('\n')
+    expect(first).toContain('kuzatish')
+    expect(first).toContain('suhbat')
+    expect(first).toContain('anketa')
+    expect(first).toContain('eksperiment')
+    expect(first).toContain('aniq fizik betlari hali tekshirilmagan')
+  })
 })
