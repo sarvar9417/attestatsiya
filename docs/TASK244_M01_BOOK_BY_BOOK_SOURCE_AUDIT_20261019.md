@@ -1,7 +1,7 @@
 # TASK-244 — M01 nazariyasi: darsliklarni bittalab, sahifa asosida tekshirish
 
 **Boshlangan sana:** 2026-10-19  
-**Status:** IN_PROGRESS — kitob 1–7/13 (ICT5, ICT6, ICT7, ICT8, ICT9, ICT10, ICT11) bo‘yicha M01ga daxldor sahifalar o‘qildi va nazariya to‘ldirildi. Barcha M01 mavzulari va barcha darsliklar **hali to‘liq tasdiqlanmagan**.  
+**Status:** 13/13 original darslikdagi M01ga tegishli bo‘limlar sahifalar bilan qiyoslandi; barcha 12 ta M01 mavzusining generated bazasi saqlanib, 59 ta manbali qo‘shimcha ulandi. Kontent inventari yakunlangan, **CI va haqiqiy o‘quvchi UI/visual tekshiruvi hamda attestatsiya spetsifikatsiyasi bilan yakuniy moslik tekshiruvi tugamaguncha FULLY COMPLETE emas**.  
 **Ish branchi:** `task/TASK-244-m01-book-by-book-source-audit`.  
 **Release qoidasi:** `main`ga merge qilinmaydi, production deploy, DB write yoki test publish amalga oshirilmaydi.
 
@@ -75,6 +75,6 @@
 
 **Oraliq release-gates:** har kitobdagi barcha M01ga daxldor sahifalar, jadvallar/rasmlarni solishtirish; har bir addendum uchun hujjatlashtirilgan page trace; yakuniy CI typecheck/test/build; real mobil/desktop reader va autentifikatsiyalangan nazariya-test E2E; insonning alohida release roziligi.
 
-**Hozirgi umumiy holat:** Barcha **13/13 original darslikning M01ga aloqador bo‘limlari sahifaga tayangan holda qiyoslandi**. ICT5–11 (32 ta) + Cambridge+5 (4) + 6 (4) + 7 (3) + 8 (3) + 9 (6) + 10–11 (7) = jami **59 ta PDF sahifali original nazariya paketi**. Har kitob uchun alohida manba va M01 joylashtirish reyestri bor. Bu barcha PDF sahifalarining barcha rasm/dizayni 100% vizual auditdan o‘tganini anglatmaydi. **Yakuniy CI, o‘quvchi rejimidagi mobil/desktop vizual QA va attestatsiya spetsifikatsiyasi bilan savol–mavzu tekshiruvi hali release-gate.** Merge/deploy/production DB o‘zgarishi yo‘q. M01 to‘liq release-ready deb belgilanishi uchun ushbu bosqichlar tugashi shart.
+**Hozirgi umumiy holat:** **13/13 darslik bo‘yicha M01ga daxldor bo‘limlar** (7 ta ICT 5–11, 6 ta Cambridge+ 5,6,7,8,9,10–11) asl sahifalar bilan qiyoslandi. `src/data/topics/m01TextbookAudit.ts` ichida **59 ta manbali nazariya qo‘shimchasi** jamlangan: ICT5–11 = 32, Cambridge+5 = 4, Cambridge+6 = 4, Cambridge+7 = 3, Cambridge+8 = 3, Cambridge+9 = 6, Cambridge+10–11 = 7. **Statik tekshiruv:** barcha 59 paketning `topicId`, mavjud M01 sarlavhasi va `source` bloki mos, 12 ta original M01 mavzusi topildi. Avtomatlashtirilgan CI, attestatsiya spetsifikatsiyasi coverage va haqiqiy autentifikatsiyali mobile/desktop reader ko‘rigi hali mustaqil tasdiqlanishi kerak. **Merge/deploy/production DB yozuvi qilingan emas.**
 
 **Oldingi M02/M03 nazariyalari hali ushbu yangi sahifama-sahifa usulda qayta tekshirilmagan.**
