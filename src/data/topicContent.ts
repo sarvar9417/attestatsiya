@@ -4,6 +4,9 @@ import { M05_THEORY } from './topics/m05'
 import { buildCanonicalM02Topic } from './topics/m02Canonical'
 import { M13_DIGITAL_TEXTBOOK_ADDITIONS } from './topics/m13DigitalTextbookAdditions'
 import { M10_GRAPHICS_TEXTBOOK_ADDITIONS } from './topics/m10GraphicsTextbookAdditions'
+import { M10_01_CANONICAL_BOOK } from './topics/m10GraphicsFundamentalsCanonicalBook'
+import { M10_02_CANONICAL_BOOK } from './topics/m10PaintPhotoshopCanonicalBook'
+import { M10_03_CANONICAL_BOOK } from './topics/m10SelectionsLayersCanonicalBook'
 import { M12_NETWORK_TEXTBOOK_ADDITIONS } from './topics/m12NetworkTextbookAdditions'
 import { M11_WEB_TEXTBOOK_ADDITIONS } from './topics/m11WebTextbookAdditions'
 import { M09_DATABASE_TEXTBOOK_ADDITIONS } from './topics/m09DatabaseTextbookAdditions'
@@ -878,13 +881,13 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
 
   'M10.02': t('M10.02', 'Paint va Photoshop interfeysi', [
     { type: 'definition', content: 'MS Paint — oddiy rastrli grafik muharrir, Windows tarkibiga kiradi. Adobe Photoshop — professional rastrli grafik muharrir, keng imkoniyatlarga ega.' },
-    { type: 'table', content: '| Xususiyat | MS Paint | Adobe Photoshop |\n|-----------|----------|----------------|\n| Qatlamlar | Yo\'q | Bor |\n| Filtrlar | Minimal | Ko\'p (100+) |\n| Rang tuzatish | Cheklangan | Keng |\n| Formatlar | BMP, PNG, JPEG | PSD, TIFF, barchasi |\n| Narx | Bepul | Pullik (abonement) |' },
+    { type: 'table', content: '| Xususiyat | MS Paint | Adobe Photoshop |\n|-----------|----------|----------------|\n| Qatlamlar | Windows 11 yangilangan Paintda mavjud | Bor, keng sozlanadi |\n| Filtrlar | Minimal | Ko\'p (100+) |\n| Rang tuzatish | Cheklangan | Keng |\n| Formatlar | BMP, PNG, JPEG | PSD, TIFF, barchasi |\n| Narx | Bepul | Pullik (abonement) |' },
     { type: 'text', content: 'Photoshop interfeysi: asboblar paneli (chapda), menyu (yuqorida), qatlamlar paneli (o\'ngda), rang palitrasi, ish maydoni. Paint interfeysi soddaroq: asboblar paneli, lenta, ranglar palitrasi.' },
     { type: 'note', content: '🖌 Paint — oddiy chizish va tahrirlash uchun. Photoshop — professional foto va grafika tahrirlash uchun.' },
   ], [
-    { id: 'M10.02-q1', text: 'Adobe Photoshop dagi asosiy farq MS Paint dan?', options: ['Tezroq', 'Qatlamlar bilan ishlash', 'Faqat rasm ochadi', 'Bepul'], correctIndex: 1, explanation: 'Photoshop qatlamlar (layers) bilan ishlash imkoniyatiga ega', type: 'Y1' },
+    { id: 'M10.02-q1', text: 'Zamonaviy Paint ham qatlamlarni qo‘llashi mumkin. Photoshopning professional farqi qaysi?', options: ['Faqat fayl ochishi', 'Layer Mask, Smart Object va Adjustment Layer bilan chuqur tahrir', 'Qatlamlar faqat Photoshopda mavjudligi', 'Hech qanday tahrir qilmasligi'], correctIndex: 1, explanation: 'Windows 11 yangilangan Paintda ham qatlamlar bor; Photoshopda maska, Smart Object va adjustment qatlamlari kabi professional vositalar mavjud.', type: 'Y1' },
     { id: 'M10.02-q2', text: 'MS Paint qanday turdagi grafik muharrir?', options: ['Vektorli', 'Rastrli', '3D', 'Hibrid'], correctIndex: 1, explanation: 'MS Paint — oddiy rastrli grafik muharrir', type: 'Y1' },
-    { id: 'M10.02-q3', text: 'Photoshop da qatlamlar paneli qayerda joylashgan?', options: ['Chapda', 'Yuqorida', 'O\'ngda', 'Pastda'], correctIndex: 2, explanation: 'Photoshop da qatlamlar paneli odatda o\'ng tomonda joylashgan', type: 'Y2' },
+    { id: 'M10.02-q3', text: 'Photoshopning odatiy boshlang‘ich ish maydonida Layers paneli qayerda joylashadi?', options: ['Chapda', 'Yuqorida', 'O\'ngda', 'Pastda'], correctIndex: 2, explanation: 'Photoshop da qatlamlar paneli odatda o\'ng tomonda joylashgan', type: 'Y2' },
   ]),
 
   'M10.03': t('M10.03', 'Belgilash, kesish, rang va qatlamlar', [
@@ -1691,6 +1694,22 @@ for (const [id, book, source] of [
   const previous = TOPIC_CONTENT[id]
   if (!previous) continue
   TOPIC_CONTENT[id] = { ...previous, kind: 'chapter', source, theory: book }
+}
+
+// TASK-297: Source-guided, continuous graphics books precede reviewed
+// Cambridge graphics appendices in the one BookReader. The superseded brief
+// seed is intentionally not duplicated as a second hidden mini-lesson.
+// Quiz IDs, answer indexes and publication rules stay intact (M10.02-q1 wording
+// corrects an obsolete claim that modern Paint cannot use layers).
+for (const [id, book, source] of [
+  ['M10.01', M10_01_CANONICAL_BOOK, 'Cambridge+ ICT 8 and 10–11 — raster, vector and image formats'],
+  ['M10.02', M10_02_CANONICAL_BOOK, 'Cambridge+ + Microsoft Paint + Adobe — editor interfaces and layers'],
+  ['M10.03', M10_03_CANONICAL_BOOK, 'Cambridge+ + Adobe — selection, masks and non-destructive editing'],
+] as const) {
+  const previous = TOPIC_CONTENT[id]
+  if (!previous) continue
+  const appendix = M10_GRAPHICS_TEXTBOOK_ADDITIONS[id] ?? []
+  TOPIC_CONTENT[id] = { ...previous, kind: 'chapter', source, theory: [...book, ...appendix] }
 }
 
 // M02 canonical chapters combine multiple lengthy source lessons. Rebuilding
