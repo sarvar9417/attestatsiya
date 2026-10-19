@@ -11,6 +11,7 @@
  */
 import type { TopicContent, TheoryBlock } from '../topicContent'
 import { M02_SOURCE_THEORY } from './m02SourceTheory'
+import { ICT5_M02_BOOK_ADDENDA } from './m02TextbookAuditICT5'
 
 export interface CanonicalM02Group {
   id: string
@@ -70,6 +71,7 @@ export function buildCanonicalM02Topic(
     }
   }
   theory.push(...(M02_SOURCE_THEORY[id] ?? []))
+  theory.push(...(ICT5_M02_BOOK_ADDENDA[id] ?? []))
   theory.push({ type: 'source', content: group.sourceHint })
   return {
     subtopicId: id,
