@@ -9,6 +9,7 @@ import { M11_WEB_TEXTBOOK_ADDITIONS } from './topics/m11WebTextbookAdditions'
 import { M09_DATABASE_TEXTBOOK_ADDITIONS } from './topics/m09DatabaseTextbookAdditions'
 import { M03_OFFICE_TEXTBOOK_ADDITIONS } from './topics/m03OfficeTextbookAdditions'
 import { M03_05_CANONICAL_BOOK } from './topics/m03ExcelCanonicalBook'
+import { M15_01_CANONICAL_BOOK } from './topics/m15PedagogyCanonicalBook'
 import { M08_TEXTBOOK_STUDY_ADDITIONS } from './topics/m08TextbookStudyAdditions'
 import { M14_NORMATIVE_SOURCE_ADDITIONS } from './topics/m14NormativeSourceAdditions'
 import { M16_SOURCE_THEORY_ADDITIONS } from './topics/m16SourceTheoryAdditions'
@@ -1510,6 +1511,23 @@ for (const [subtopicId, additions] of Object.entries(M14_NORMATIVE_SOURCE_ADDITI
 for (const [subtopicId, additions] of Object.entries(M16_SOURCE_THEORY_ADDITIONS)) {
   const local = TOPIC_CONTENT[subtopicId]
   if (local) TOPIC_CONTENT[subtopicId] = { ...local, theory: [...local.theory, ...additions] }
+}
+
+// TASK-284: source-backed pedagogy is no longer a short summary followed by
+// a collapsed note card. The new book is read first and earlier reviewed
+// material is preserved; withPedagogyStudyNotes adds the previous source notes.
+const pedagogyBase = TOPIC_CONTENT['M15.01']
+if (pedagogyBase) {
+  TOPIC_CONTENT['M15.01'] = {
+    ...pedagogyBase,
+    source: 'Mirzayeva, Pedagogika nazariyasi, 2-mavzu',
+    kind: 'chapter',
+    theory: [
+      ...M15_01_CANONICAL_BOOK,
+      { type: 'heading', content: 'Qo‘shimcha takrorlash: mavjud qisqa pedagogika nazariyasi' },
+      ...pedagogyBase.theory,
+    ],
+  }
 }
 
 // M02 canonical chapters combine multiple lengthy source lessons. Rebuilding
