@@ -297,7 +297,7 @@ export const M15_08_CANONICAL_BOOK: TheoryBlock[] = [
   },
   {
     "type": "definition",
-    "content": "==Inklyuziv ta’lim== turli individual ehtiyojli o‘quvchilarga umumiy ta’lim muhitida teng imkoniyat va mazmunli ishtirok yaratadi. Bu barcha o‘quvchiga aynan bir xil topshiriq va bir xil yordamni majburlash emas."
+    "content": "==Inklyuziv ta’lim== turli individual ehtiyojli o‘quvchilarga umumiy ta’lim muhitida teng imkoniyat va mazmunli ishtirok yaratadi. Inklyuziv ta’lim hamma o‘quvchiga aynan bir xil topshiriq berish emas; u turli individual ehtiyojlar uchun moslashtirilgan yordam va teng ishtirokni ko‘zlaydi."
   },
   {
     "type": "table",
