@@ -121,7 +121,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { id: "M02.01-q1", text: "1946-yilda ommaga tanishtirilgan ilk umumiy maqsadli elektron raqamli kompyuterlardan biri qaysi?", options: ["IBM PC", "ENIAC", "Apple II", "Mark I"], correctIndex: 1, explanation: "ENIAC (1946) — ilk umumiy maqsadli elektron raqamli kompyuterlardan biri", type: "Y1" },
     { id: "M02.01-q2", text: "I avlod kompyuterlarining asosiy elementi nima?", options: ["Tranzistor", "Elektron lampa", "Mikroprotsessor", "Integral sxema"], correctIndex: 1, explanation: "I avlod (1940-1950) elektron lampalar asosida ishlagan", type: "Y1" },
     { id: "M02.01-q3", text: "Mikroprotsessor kashf etilishi qaysi avlodga to'g'ri keladi?", options: ["II", "III", "IV", "V"], correctIndex: 2, explanation: "Mikroprotsessorlar IV avlod (1970-2000) bilan bog'liq", type: "Y1" },
-    { id: "M02.01-q4", text: "\"Algoritm\" so'zi qaysi olim nomi bilan bog'liq?", options: ["Arastu", "Pifagor", "Al-Xorazmiy", "Nyuton"], correctIndex: 2, explanation: "Al-Xorazmiy — algoritm tushunchasi asoschisi", type: "Y2" },
+    { id: "M02.01-q4", text: "\"Algoritm\" so'zi qaysi olim nomi bilan bog'liq?", options: ["Arastu", "Pifagor", "Al-Xorazmiy", "Nyuton"], correctIndex: 2, explanation: "Al-Xorazmiy — algoritm tushunchasi asoschisi", type: "Y1" },
   ]),
 
   "M02.02": t("M02.02", "Kompyuter tuzilishi va ichki qurilmalar", [
@@ -132,7 +132,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   ], [
     { id: "M02.02-q1", text: "Fon-Neyman arxitekturasi bo'yicha kompyuter nechta asosiy blokdan iborat?", options: ["3", "4", "5", "6"], correctIndex: 2, explanation: "5 ta: ALU, boshqaruv qurilmasi, xotira, kiritish, chiqarish", type: "Y1" },
     { id: "M02.02-q2", text: "Protsessordagi ALU ning vazifasi nima?", options: ["Ma'lumotlarni saqlash", "Arifmetik va mantiqiy amallar bajarish", "Buyruqlarni dekodlash", "Natijalarni chiqarish"], correctIndex: 1, explanation: "ALU (Arithmetic Logic Unit) arifmetik va mantiqiy amallarni bajaradi", type: "Y1" },
-    { id: "M02.02-q3", text: "\"Fon-Neyman tor bo‘g‘ini\" nima bilan bog'liq?", options: ["Protsessor va xotira tezligi farqi", "Operatsion tizim cheklovi", "Tarmoq kechikishi", "Elektr energiyasi sarfi"], correctIndex: 0, explanation: "Protsessor xotiraga nisbatan ancha tez, shuning uchun ma'lumot kutishga majbur", type: "Y2" },
+    { id: "M02.02-q3", text: "\"Fon-Neyman tor bo‘g‘ini\" nima bilan bog'liq?", options: ["Protsessor va xotira tezligi farqi", "Operatsion tizim cheklovi", "Tarmoq kechikishi", "Elektr energiyasi sarfi"], correctIndex: 0, explanation: "Protsessor xotiraga nisbatan ancha tez, shuning uchun ma'lumot kutishga majbur", type: "Y1" },
     { id: "M02.02-q4", text: "Boshqaruv qurilmasi (CU) qanday vazifani bajaradi?", options: ["Arifmetik amallar", "Buyruqlarni dekodlash va bajarishni boshqarish", "Ma'lumotlarni saqlash", "Ma'lumotlarni kiritish"], correctIndex: 1, explanation: "CU buyruqlarni dekodlaydi va bajarilishini muvofiqlashtiradi", type: "Y1" },
   ]),
 
@@ -145,7 +145,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   ], [
     { id: "M02.03-q1", text: "Skaner qanday turdagi qurilma?", options: ["Chiqarish", "Saqlash", "Kiritish", "Aloqa"], correctIndex: 2, explanation: "Skaner — kiritish qurilmasi, matn/rasmni raqamli ko'rinishga o'tkazadi", type: "Y1" },
     { id: "M02.03-q2", text: "USB interfeysi nima uchun xizmat qiladi?", options: ["Monitor ulash", "Turli qurilmalarni ulash", "Internetga ulash", "Ovoz chiqarish"], correctIndex: 1, explanation: "USB (Universal Serial Bus) — turli qurilmalarni kompyuterga ulash uchun universal interfeys", type: "Y1" },
-    { id: "M02.03-q3", text: "Lazerli printer qanday turdagi printer?", options: ["Matritsali", "Inkjet", "Lazerli", "Termal"], correctIndex: 2, explanation: "Lazerli printer — yuqori tezlik va sifatli bosma chiqaradigan printer turi", type: "Y1" },
+    { id: "M02.03-q3", text: "Toner kukunini issiqlik bilan qog‘ozga mahkamlaydigan printer turi qaysi?", options: ["Matritsali", "Inkjet", "Lazerli", "Termal"], correctIndex: 2, explanation: "Lazerli printer toner kukunini lazer va termik mahkamlash jarayoni orqali qog‘ozga tushiradi", type: "Y1" },
   ]),
 
   "M02.04": t("M02.04", "Xotira va saqlash qurilmalari", [
@@ -157,7 +157,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   ], [
     { id: "M02.04-q1", text: "Qaysi xotira turi kompyuter o'chirilganda ma'lumotlarni yo'qotadi?", options: ["ROM", "RAM", "HDD", "SSD"], correctIndex: 1, explanation: "RAM (tezkor xotira) — o'chuvchan xotira, kompyuter o'chirilganda ma'lumotlar o'chadi", type: "Y1" },
     { id: "M02.04-q2", text: "Qaysi xotira qurilmasi eng tez ishlaydi?", options: ["HDD", "SSD", "RAM", "Fleshka"], correctIndex: 2, explanation: "Sanab o‘tilgan RAM/HDD/SSD/fleshka ichida RAM eng tezkor; protsessor registri va kesh undan ham tez.", type: "Y1" },
-    { id: "M02.04-q3", text: "SSD ning HDD dan afzalligi?", options: ["Arzonroq", "Tezroq, jim, kam energiya", "Katta hajm", "Uzoq muddat saqlash"], correctIndex: 1, explanation: "SSD — tezroq, jimroq va kam energiya sarflaydi, lekin HDD dan qimmatroq", type: "Y2" },
+    { id: "M02.04-q3", text: "SSD ning HDD dan afzalligi?", options: ["Arzonroq", "Tezroq, jim, kam energiya", "Katta hajm", "Uzoq muddat saqlash"], correctIndex: 1, explanation: "SSD — tezroq, jimroq va kam energiya sarflaydi, lekin HDD dan qimmatroq", type: "Y1" },
     { id: "M02.04-q4", text: "BIOS qaysi xotira turida saqlanadi?", options: ["RAM", "ROM", "HDD", "Fleshka"], correctIndex: 1, explanation: "Maktab modelida BIOS ROMga bog‘lanadi; hozir BIOS/UEFI mikrodasturi odatda qayta yoziladigan flashda saqlanadi.", type: "Y1" },
   ]),
 
@@ -169,7 +169,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: "example", content: "Mobil qurilma imkoniyatlari:\n• GPS navigatsiya\n• Yuqori sifatli kamera (100+ MP)\n• Sensorlar: akselerometr, giroskop, barometr\n• Biometrik autentifikatsiya (barmoq izi, Face ID)\n• NFC (temassiz to'lov)\n• Bulutli xizmatlar bilan sinxronlash" },
   ], [
     { id: "M02.05-q1", text: "Eng keng tarqalgan mobil operatsion tizim qaysi?", options: ["iOS", "Android", "Windows Phone", "Symbian"], correctIndex: 1, explanation: "Android ko‘plab mobil qurilmalarda ishlatiladi; ulush hudud va vaqtga bog‘liq.", type: "Y1" },
-    { id: "M02.05-q2", text: "Qaysi qurilma E-ink texnologiyasidan foydalanadi?", options: ["Smartfon", "Planshet", "E-reader", "Noutbuk"], correctIndex: 2, explanation: "E-reader (elektron kitob) E-ink texnologiyasidan foydalanadi, ko'zga kam zarba beradi", type: "Y1" },
+    { id: "M02.05-q2", text: "Qaysi qurilma E-ink texnologiyasidan foydalanadi?", options: ["Smartfon", "Planshet", "E-reader", "Noutbuk"], correctIndex: 2, explanation: "E-reader qurilmalari elektron siyoh (E-ink) displeyidan foydalanishi mumkin; barcha modellar bir xil emas", type: "Y1" },
     { id: "M02.05-q3", text: "Sensor ekran qanday qurilmalarga xos?", options: ["Faqat noutbuk", "Faqat smartfon", "Smartfon va planshet", "Faqat monitor"], correctIndex: 2, explanation: "Sensor ekran asosan smartfon va planshetlarda ishlatiladi", type: "Y1" },
   ]),
 
@@ -183,7 +183,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { id: "M02.06-q1", text: "Operatsion tizim dasturiy ta'minotning qaysi turiga kiradi?", options: ["Amaliy", "Tizimli", "Dasturlash", "O'yin"], correctIndex: 1, explanation: "OT — tizimli dasturiy ta'minot, kompyuterni boshqaradi", type: "Y1" },
     { id: "M02.06-q2", text: "MS Word dasturiy ta'minotning qaysi turiga kiradi?", options: ["Tizimli", "Amaliy", "Dasturlash", "Tarmoq"], correctIndex: 1, explanation: "MS Word — amaliy dasturiy ta'minot (matn muharriri)", type: "Y1" },
     { id: "M02.06-q3", text: "Ochiq kodli dasturiy ta'minotga misol?", options: ["Photoshop", "Windows", "Linux", "MS Office"], correctIndex: 2, explanation: "Linux — ochiq kodli operatsion tizim", type: "Y1" },
-    { id: "M02.06-q4", text: "Drayver qanday vazifani bajaradi?", options: ["Matn tahrirlaydi", "Qurilmalarni boshqaradi", "Internetga ulaydi", "O'yin ishga tushiradi"], correctIndex: 1, explanation: "Drayver — qurilmalarni OT bilan bog'lovchi dastur", type: "Y2" },
+    { id: "M02.06-q4", text: "Drayver qanday vazifani bajaradi?", options: ["Matn tahrirlaydi", "Qurilmalarni boshqaradi", "Internetga ulaydi", "O'yin ishga tushiradi"], correctIndex: 1, explanation: "Drayver — qurilmalarni OT bilan bog'lovchi dastur", type: "Y1" },
   ]),
 
   "M02.07": t("M02.07", "Operatsion tizimlar", [
@@ -192,10 +192,10 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: "table", content: "| OT | Ishlab chiqaruvchi | Xususiyati |\n|----|-----------------|----------|\n| Windows | Microsoft | Ommabop, GUI, ko'p dasturiy ta'minot |\n| macOS | Apple | Dizayn, barqaror, yopiq ekosistema |\n| Linux | Ochiq kodli hamjamiyat | Server, ish stansiyasi va qurilmalarda ishlatiladi |\n| Android | Google / AOSP | Mobil OT oilasi |\n| iOS | Apple | Mobil, xavfsiz, yopiq |" },
     { type: "note", content: "Windows so'zi inglizchada \"oynalar\" ma'nosini anglatadi. Windows 1.0 (1985) dan Windows 11 (2021) gacha 30+ yil ichida 20 dan ortiq versiya chiqarilgan." },
   ], [
-    { id: "M02.07-q1", text: "Quyidagilardan qaysi biri operatsion tizim?", options: ["MS Word", "Windows 11", "Python", "Google Chrome"], correctIndex: 1, explanation: "Windows 11 — operatsion tizim. Qolganlari amaliy dasturlar", type: "Y1" },
+    { id: "M02.07-q1", text: "Quyidagilardan qaysi biri operatsion tizim?", options: ["MS Word", "Windows 11", "Python", "Google Chrome"], correctIndex: 1, explanation: "Windows 11 — operatsion tizim; Word va Chrome amaliy dasturlar, Python esa dasturlash tilidir", type: "Y1" },
     { id: "M02.07-q2", text: "OT ning vazifasi emas?", options: ["Jarayonlarni boshqarish", "Xotirani boshqarish", "Matn tahrirlash", "Fayl tizimini boshqarish"], correctIndex: 2, explanation: "Matn tahrirlash — amaliy dasturning vazifasi (masalan, MS Word)", type: "Y1" },
     { id: "M02.07-q3", text: "Windows OT ning birinchi versiyasi qachon chiqarilgan?", options: ["1975", "1985", "1995", "2000"], correctIndex: 1, explanation: "Windows 1.0 1985-yilda chiqarilgan", type: "Y1" },
-    { id: "M02.07-q4", text: "Qaysi OT asosan serverlarda ishlatiladi?", options: ["Windows 11", "macOS", "Linux", "Android"], correctIndex: 2, explanation: "Linux yuqori barqarorlik va xavfsizlik tufayli serverlarda keng qo'llaniladi", type: "Y2" },
+    { id: "M02.07-q4", text: "Qaysi OT asosan serverlarda ishlatiladi?", options: ["Windows 11", "macOS", "Linux", "Android"], correctIndex: 2, explanation: "Linux yuqori barqarorlik va xavfsizlik tufayli serverlarda keng qo'llaniladi", type: "Y1" },
   ]),
 
   "M02.08": t("M02.08", "Xizmat ko'rsatuvchi dasturlar", [
@@ -207,7 +207,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   ], [
     { id: "M02.08-q1", text: "Antivirus dasturi qanday vazifani bajaradi?", options: ["Internet tezligini oshiradi", "Zararli dasturlarni aniqlaydi", "Fayllarni siqadi", "Disklarni formatlaydi"], correctIndex: 1, explanation: "Antivirus — zararli dasturlarni (virus) aniqlash va yo'q qilish", type: "Y1" },
     { id: "M02.08-q2", text: "Fayllarni siqish uchun qanday dastur ishlatiladi?", options: ["Antivirus", "Arxivator", "Brauzer", "Matn muharriri"], correctIndex: 1, explanation: "Arxivator (WinRAR, 7-Zip) fayllarni ZIP/RAR formatida siqadi", type: "Y1" },
-    { id: "M02.08-q3", text: "Defragmentatsiya qaysi turdagi disk uchun kerak?", options: ["SSD", "HDD", "Fleshka", "RAM"], correctIndex: 1, explanation: "Klassik defragmentatsiya HDDga xos; SSDda odatda TRIM va OTning SSDga mos optimallashtirish mexanizmlari ishlatiladi.", type: "Y2" },
+    { id: "M02.08-q3", text: "Defragmentatsiya qaysi turdagi disk uchun kerak?", options: ["SSD", "HDD", "Fleshka", "RAM"], correctIndex: 1, explanation: "Klassik defragmentatsiya HDDga xos; SSDda odatda TRIM va OTning SSDga mos optimallashtirish mexanizmlari ishlatiladi.", type: "Y1" },
     { id: "M02.08-q4", text: "Quyidagilardan qaysi biri xizmat ko'rsatuvchi dastur emas?", options: ["Kaspersky", "WinRAR", "MS Word", "CCleaner"], correctIndex: 2, explanation: "MS Word — amaliy dastur, xizmat ko'rsatuvchi emas", type: "Y1" },
   ]),
 
@@ -218,10 +218,10 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: "note", content: "Fayl yo'li (path): C:\\Users\\User\\Documents\\hisobot.docx. C: — disk nomi, Users — asosiy papka, User — foydalanuvchi papkasi, Documents — ostki papka, hisobot.docx — fayl." },
     { type: "example", content: "Fayl va papka bilan ishlash:\n• Fayl yaratish: Fayl → Saqlash → nom berish\n• Nusxalash: Ctrl+C, Ctrl+V\n• Ko'chirish: Ctrl+X, Ctrl+V\n• O'chirish: Delete tugmasi (savatchaga)\n• Qayta tiklash: Savatchadan qaytarish" },
   ], [
-    { id: "M02.09-q1", text: "Fayl nomi necha qismdan iborat?", options: ["1", "2", "3", "4"], correctIndex: 1, explanation: "Ko‘pincha fayl nomi asosiy nom va kengaytma bilan yoziladi; kengaytmasiz fayllar ham bor", type: "Y1" },
+    { id: "M02.09-q1", text: "Kengaytmali fayl nomi odatda nechta mantiqiy qismga ajratiladi?", options: ["1", "2", "3", "4"], correctIndex: 1, explanation: "Ko‘pincha fayl nomi asosiy nom va kengaytma bilan yoziladi; kengaytmasiz fayllar ham bor", type: "Y1" },
     { id: "M02.09-q2", text: "Quyidagilardan qaysi biri fayl kengaytmasi?", options: [".docx", "Windows", "Papka", "C:\\"], correctIndex: 0, explanation: ".docx — MS Word fayl kengaytmasi", type: "Y1" },
     { id: "M02.09-q3", text: "Fayl nomida qaysi belgi ishlatilishi mumkin?", options: ["/", "\\", "_", "\""], correctIndex: 2, explanation: "Tag chiziq (_) fayl nomida ishlatilishi mumkin. / \\ : * ? \" < > | taqiqlangan", type: "Y1" },
-    { id: "M02.09-q4", text: "Papkalar va ichki papkalar iyerarxiyasi qanday ataladi?", options: ["Fayl tizimi", "Kataloglar daraxti", "Baza", "Jadval"], correctIndex: 1, explanation: "Papkalar iyerarxiyasi kataloglar daraxti deyiladi; katalog esa papka bilan maʼnodosh", type: "Y2" },
+    { id: "M02.09-q4", text: "Papkalar va ichki papkalar iyerarxiyasi qanday ataladi?", options: ["Fayl tizimi", "Kataloglar daraxti", "Baza", "Jadval"], correctIndex: 1, explanation: "Papkalar iyerarxiyasi kataloglar daraxti deyiladi; katalog esa papka bilan maʼnodosh", type: "Y1" },
   ]),
 
   // ========= M03: MICROSOFT OFFICE =========
