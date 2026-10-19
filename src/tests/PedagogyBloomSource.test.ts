@@ -168,4 +168,28 @@ describe('pedagogy source-based Bloom explanation', () => {
     expect(s).toContain('shaxsiy ma’lumoti')
     expect(s).toContain('maxfiylikni')
   })
+
+  it('distinguishes upbringing direction, method and organizational format in M15.03', () => {
+    const text = getPedagogyStudyNotes('M15.03').map(block => block.content).join('\n')
+    expect(text).toContain('Tarbiya yo‘nalishi')
+    expect(text).toContain('Tarbiya metodi')
+    expect(text).toContain('Tarbiya shakli')
+    expect(text).toContain('Kasb-standarti.pdf')
+  })
+
+  it('protects parent participation and individual learner confidentiality in M15.05', () => {
+    const text = getPedagogyStudyNotes('M15.05').map(block => block.content).join('\n')
+    expect(text).toContain('Individual ta’lim trayektoriyasi')
+    expect(text).toContain('maxfiylikni saqlagan')
+    expect(text).toContain('fan o‘qituvchisi ham')
+  })
+
+  it('distinguishes pedagogical tact, speech culture, technique and reflection in M15.06', () => {
+    const text = getPedagogyStudyNotes('M15.06').map(block => block.content).join('\n')
+    for (const keyword of ['Pedagogik takt', 'Pedagogik texnika', 'Nutq madaniyati', 'Refleksiya', 'Pedagogik kreativlik']) {
+      expect(text).toContain(keyword)
+    }
+    expect(text).toContain('N. Mahmudov')
+    expect(text).toContain('N. Muslimov')
+  })
 })
