@@ -174,7 +174,7 @@ export default function TopicView({
     : loadedContent
   /** Kontent qo'llanmadan generatsiya qilinganmi (M01) — bo'limli o'qish rejimi. */
   const isBook = Boolean(content?.source)
-  const theoryPages = useMemo(() => paginateTheoryBlocks(content?.theory ?? []), [content])
+  const theoryPages = useMemo(() => paginateTheoryBlocks(content?.theory ?? [], 2, moduleId === 'M02'), [content, moduleId])
   const activeTheoryPage = Math.min(theoryPage, Math.max(0, theoryPages.length - 1))
   const isLastTheoryPage = activeTheoryPage === theoryPages.length - 1
   const isSemanticProfessional = !isPedagogyTopic && /^M1[46]$/.test(moduleId) && Boolean(loadedContent)
