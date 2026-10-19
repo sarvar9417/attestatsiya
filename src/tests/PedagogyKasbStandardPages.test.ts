@@ -16,7 +16,7 @@ describe('M14 physically inspected teacher-standard PDF pages', () => {
     const lesson = getTopicContent(id)
     expect(lesson?.questions).toEqual([])
     const source = lesson?.theory.find(b => b.type === 'source' && b.content.includes('Kasb-standarti.pdf'))
-    expect(source?.content).toContain(`fizik ${pages}-sahifalari`)
+    expect(source?.content).toContain(`fizik betlari (${pages})`)
     expect(source?.content).toContain('amaldagi normativ-yuridik maqomi alohida tekshiriladi')
     expect(source?.content).toContain('1HdlFFazzvvO-FMItZKOIna0jRS6p-Lpq')
   })
