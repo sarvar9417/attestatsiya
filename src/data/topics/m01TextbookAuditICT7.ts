@@ -115,7 +115,7 @@ export const ICT7_M01_PAGE_ADDENDA: readonly VerifiedTextbookInsertion[] = [
     beforeHeading: 'Video va multimedia: kadr, FPS, bitrate va hajm',
     blocks: [
       { type: 'subheading', content: '7-sinf: animatsiya turi, usuli va harakat illyuziyasi' },
-      { type: 'table', content: '| Animatsiya usuli | Kadr qanday hosil qilinadi? | Qachon mos? |\\n|---|---|---|\\n| Kadrma-kadr | Ketma-ket tasvirlar alohida tayyorlanadi | Chizilgan tasvirli harakat |\\n| Hisoblangan (tweening) | Dastur oraliq holatlarni hisoblaydi | Obyektning joyi, rangi yoki shakli o‘zgarishi |',
+      { type: 'table', content: '| Animatsiya usuli | Kadr qanday hosil qilinadi? | Qachon mos? |\n|---|---|---|\n| Kadrma-kadr | Ketma-ket tasvirlar alohida tayyorlanadi | Chizilgan tasvirli harakat |\n| Hisoblangan (tweening) | Dastur oraliq holatlarni hisoblaydi | Obyektning joyi, rangi yoki shakli o‘zgarishi |',
         headers: ['Animatsiya usuli', 'Kadr qanday hosil qilinadi?', 'Qachon mos?'],
         rows: [
           ['Kadrma-kadr', 'Ketma-ket tasvirlar alohida tayyorlanadi', 'Chizilgan tasvirli harakat'],
