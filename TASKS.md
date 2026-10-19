@@ -1,3 +1,9 @@
+## TASK-247 — M01 400 savol source/numeric QA
+
+| ID | Status | Scope | Open gate |
+| --- | --- | --- | --- |
+| TASK-247 | IN_PROGRESS | M01.02 va M01.03 uchun 120 individual PDF sahifa reyestri; 81 oldingi + 84 yangi = 165 hisobli savol mustaqil formula bilan nazorat qilinadi | 81 topic-supported / 34 partial / 5 source-gap; 280 boshqa savol source-trace va barcha 400 itemning ekspert tekshiruvi; ishlab chiqarish muhitiga o‘zgartirish yo‘q |
+
 ## TASK-244 — Y2 matching UX va javob kontrakti
 
 | ID | Status | Dependency | Deliverable |
