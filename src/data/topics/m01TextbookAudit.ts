@@ -13,6 +13,7 @@ import { ICT8_M01_PAGE_ADDENDA } from './m01TextbookAuditICT8'
 import { ICT9_M01_PAGE_ADDENDA } from './m01TextbookAuditICT9'
 import { ICT10_M01_PAGE_ADDENDA } from './m01TextbookAuditICT10'
 import { ICT11_M01_PAGE_ADDENDA } from './m01TextbookAuditICT11'
+import { CAMBRIDGE5_M01_PAGE_ADDENDA } from './m01TextbookAuditCambridge5'
 
 export interface VerifiedTextbookInsertion {
   /** Canonical learner topic (not the source file or an arbitrary keyword hit). */
@@ -122,6 +123,7 @@ export const ALL_M01_PAGE_ADDENDA: readonly VerifiedTextbookInsertion[] = [
   ...ICT9_M01_PAGE_ADDENDA,
   ...ICT10_M01_PAGE_ADDENDA,
   ...ICT11_M01_PAGE_ADDENDA,
+  ...CAMBRIDGE5_M01_PAGE_ADDENDA,
 ]
 
 export function withVerifiedM01Additions(
