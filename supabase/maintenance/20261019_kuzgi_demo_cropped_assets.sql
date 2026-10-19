@@ -5,7 +5,7 @@
 -- A–D variantlar matnlari q04 grafikdagi nomlariga bog'langan;
 -- variantlar serverda aralashtirilsa ham mazmuni to'g'ri qoladi.
 --
--- Live database: 2026-10-19 kuni tegishli 11 qator yangilangan.
+-- Live database: 2026-10-19 kuni tegishli 12 qator yangilangan.
 -- Ushbu skript takroran ishlatishga mos.
 
 WITH graphic(source_ref,images) AS (VALUES
@@ -18,6 +18,7 @@ WITH graphic(source_ref,images) AS (VALUES
  ('drive:13VVttASqpDVP4R1fsVtt3YARHs4uHnB8:q19', '[{"kind":"image","diagram_id":"demo_q19_wordtable","src":"/kuzgi-demo/demo_q19_wordtable.svg","alt":"Word jadvalining oldingi va keyingi holati"}]'::jsonb),
  ('drive:13VVttASqpDVP4R1fsVtt3YARHs4uHnB8:q21', '[{"kind":"image","diagram_id":"demo_q21_css","src":"/kuzgi-demo/demo_q21_css.svg","alt":"CSS natijasidagi veb sahifa namunasi"}]'::jsonb),
  ('drive:13VVttASqpDVP4R1fsVtt3YARHs4uHnB8:q27', '[{"kind":"image","diagram_id":"demo_q27_html","src":"/kuzgi-demo/demo_q27_html.svg","alt":"HTML jadval kodi asl rasmdan"}]'::jsonb),
+ ('drive:13VVttASqpDVP4R1fsVtt3YARHs4uHnB8:q30', '[{"kind":"image","diagram_id":"demo_q30_logic","src":"/kuzgi-demo/demo_q30_logic.svg","alt":"A, B va C kirishli AND/OR mantiqiy sxemasi"}]'::jsonb),
  ('drive:13VVttASqpDVP4R1fsVtt3YARHs4uHnB8:q34', '[{"kind":"image","diagram_id":"demo_q34_logo","src":"/kuzgi-demo/demo_q34_logo.svg","alt":"LOGO chizgan shakl"}]'::jsonb),
  ('drive:13VVttASqpDVP4R1fsVtt3YARHs4uHnB8:q39', '[{"kind":"image","diagram_id":"demo_q39_word","src":"/kuzgi-demo/demo_q39_word.svg","alt":"Matn orqasidagi tasvir namunasi"}]'::jsonb)
 )
