@@ -27,7 +27,7 @@ BEGIN
   WITH normalized_options AS (
     SELECT o.question_id,
            count(*) AS total_n,
-           count(DISTINCT lower(regexp_replace(btrim(o.content_md), '\\s+', ' ', 'g'))) AS distinct_n
+           count(DISTINCT lower(regexp_replace(btrim(o.content_md), '[[:space:]]+', ' ', 'g'))) AS distinct_n
     FROM public.question_options o
     JOIN public.questions q ON q.id=o.question_id
     WHERE q.status='published' AND q.format='Y1'
