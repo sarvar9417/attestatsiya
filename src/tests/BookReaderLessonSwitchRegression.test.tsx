@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { MemoryRouter } from 'react-router-dom'
@@ -34,8 +34,8 @@ describe('book reader: switching lessons after reading a long chapter', () => {
   it('starts the next, shorter lesson on its first section without an out-of-range crash', async () => {
     const user = userEvent.setup()
     const { rerender } = render(lesson('M15.08', 7))
-    const oldNavigation = await screen.findByRole('navigation', { name: 'Bo‘limlar orasida harakat' })
-    const oldTabs = within(oldNavigation).getAllByRole('tab')
+    await screen.findByRole('navigation', { name: 'Bo‘limlar orasida harakat' })
+    const oldTabs = screen.getAllByRole('tab')
     expect(oldTabs.length).toBeGreaterThan(3)
 
     // Reproduce the stale high index left by an extensively paginated lesson.
@@ -45,13 +45,13 @@ describe('book reader: switching lessons after reading a long chapter', () => {
     // A parent route can reuse TopicView for another subtopic of the same module.
     // BookReader must not first render an obsolete, out-of-bounds section index.
     rerender(lesson('M15.03', 2))
-    const newNavigation = await screen.findByRole('navigation', { name: 'Bo‘limlar orasida harakat' })
-    const newTabs = within(newNavigation).getAllByRole('tab')
+    await screen.findByRole('navigation', { name: 'Bo‘limlar orasida harakat' })
+    const newTabs = screen.getAllByRole('tab')
     expect(newTabs.length).toBeLessThan(oldTabs.length)
     expect(newTabs[0]).toHaveAttribute('aria-selected', 'true')
     for (const tab of newTabs.slice(1)) {
       expect(tab).toHaveAttribute('aria-selected', 'false')
     }
-    expect(within(newNavigation).getByText(`1/${newTabs.length} bo‘lim`)).toBeInTheDocument()
+    expect(screen.getByText(`1/${newTabs.length} bo‘lim`)).toBeInTheDocument()
   })
 })
