@@ -1,6 +1,6 @@
 # TASK-268 — Drive source reconciliation and editorial queue (2026-10-19)
 
-**Status:** second source-import batch and automated preflight complete; editorial approval and official publication **NOT COMPLETE**.
+**Status:** source-import batches and structural editorial queue ready; publishing was performed **by a separate concurrent process** without recorded independent human sign-off. Assessment completion **NOT CONFIRMED**.
 
 ## User goal and immutable safeguards
 
@@ -14,11 +14,11 @@ This contains 275 candidate UUIDs across 24 lessons with format, difficulty, tru
 
 1. **Earlier TASK-267 first batch:** 9 questions (M03 Excel 5, M08 JavaScript 1, M11 HTML 3), from Drive `Test.pdf` (2019, PDF pp.49–50, 68) and `20000 LIK informatika.pdf` (illustrated PDF pp.7, 10). Source calculations/HTML syntax reviewed independently; 9 option references and 9 private keys valid; zero editorial checks.
 2. **New TASK-268 second batch:** **7 further HTML** Y1 items from `Test.pdf` (2019), PDF p.70 Q91 (preformatted text), PDF p.71 Q112 (six headings), PDF p.74 Q149 (head), Q151 (superscript), PDF p.73 Q134 (form action), Q136 (textarea), Q139 (input value). Four map to `S5.WEB.04`, three to `S5.WEB.05`; all seven records inserted idempotently in Supabase `review` only with original PDF page, four distinct options, correct option pointer and independent explanation. Dry-run transaction was rolled back successfully before committing.
-3. **Total new source-backed candidate records from these two batches: 16**, all still `review`. **Zero signed expert checks**; zero publication by TASK-267 or TASK-268. Do not equate raw candidate count with completed published slots.
+3. **Total new source-backed records from these two batches: 16.** Each was inserted into `review` first and verified to have options and a private key. A **later live read detected all 16 in `published`**, with **zero `question_editorial_checks`** records. The status transitions were made by a **separate concurrent process**; neither TASK-267 nor TASK-268 inserted directly as published. **IMPORTANT P0:** publication does not establish independent source/answer reviewer sign-off.
 
 ## Concurrent live database movement (avoid false attribution)
 
-Initial baseline in this work stream: **25 unfinished assessed lessons / 339 missing published slots**. While the audit/queue was being compiled, concurrent work changed the shared database to **24 lessons / 275 missing published slots**. **64 published-slot gaps were closed by concurrent changes, not by these 16 review imports.** The exact current counts are snapshot-specific and should be recomputed using `scripts/sql/TASK268_TOPIC_REVIEW_READONLY.sql` immediately before any release decision.
+Initial baseline in this work stream: **25 unfinished assessed lessons / 339 missing published slots**. While the audit/queue was being compiled, concurrent work changed the shared database to **24 lessons / 275 missing published slots**. **64 published-slot gaps were closed by concurrent state changes, possibly including promotions of the 16 imported questions; this task's SQL initially wrote them as `review`. Do not assign the 64-slot improvement to this audit.** The exact current counts are snapshot-specific and should be recomputed using `scripts/sql/TASK268_TOPIC_REVIEW_READONLY.sql` immediately before any release decision.
 
 Snapshot on 2026-10-19 after the concurrent updates:
 
@@ -55,5 +55,14 @@ Completion gate, by exact question revision:
 6. Re-run strict lesson preview for each of the originally 25 topics, require exactly 20 available and 20 shown, test 15/50 blueprints, authenticated learner/editor session, local smoke and CI.
 7. Reconcile concurrent PRs and fresh DB state before any import/merge. No Vercel production release.
 
-**Done in TASK-268:** 7 new source-backed private-keyed review questions inserted, 275-record private Drive review tracker created and moved into Attestatsiya folder, code-output case-sensitivity corrected in audit methodology, read-only repeated SQL and source-level audit.  
-**Not done:** independent human approval of the 275 rows, their production publication, 20/20 test completion for all lessons, or complete review of every scanned/graphic Drive file. No production deployment requested or performed.
+**Done in TASK-268:** 7 new private-keyed questions **initially** inserted into `review`; 275-record private Drive review tracker created and moved into Attestatsiya folder; programming output case-sensitivity accounted for; read-only repeatable SQL, source-level audit and a follow-up detection of unsigned publication for all 16 imports.  
+**Not done:** independent human approval of the 275 queued rows; a source/key editorial sign-off for the 16 already published by a separate process; completing all topic tests at 20/20; exhaustive scanned/graphic corpus QA. No Vercel production deployment requested or performed.
+
+
+## Post-import live publication alert — P0 quality discrepancy
+
+After this report's first draft, the shared Supabase project was queried again. All **16** imported Drive questions now show `status='published'` (M03 5, M08 1, M11 10), while **0/16** have a `question_editorial_checks` row. They were inserted by this task **only as review**; publication happened afterward in parallel. The timestamp/query findings are read-only and do not prove who changed the statuses.
+
+**Action required:** inspect exact source page, current keyed response, source licence, edition/version correctness, real editor identity, and published revision immutability; document the approval or revise/archive through a guarded, reviewable path. Also audit whether source-prefix-specific guards allow `Drive:...` question releases without universal independent sign-off; do not bypass or weaken current guards. Avoid undoing concurrent user-authorised releases blindly.
+
+An optional source-level report of all 16 item UUIDs must remain on a restricted editor-only surface, not in a public repository with answer keys.
