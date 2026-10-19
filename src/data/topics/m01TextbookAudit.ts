@@ -9,6 +9,7 @@
 import type { TheoryBlock, TopicContent } from '../topicContent'
 import { ICT6_M01_PAGE_ADDENDA } from './m01TextbookAuditICT6'
 import { ICT7_M01_PAGE_ADDENDA } from './m01TextbookAuditICT7'
+import { ICT8_M01_PAGE_ADDENDA } from './m01TextbookAuditICT8'
 
 export interface VerifiedTextbookInsertion {
   /** Canonical learner topic (not the source file or an arbitrary keyword hit). */
@@ -114,6 +115,7 @@ export const ALL_M01_PAGE_ADDENDA: readonly VerifiedTextbookInsertion[] = [
   ...ICT5_M01_PAGE_ADDENDA,
   ...ICT6_M01_PAGE_ADDENDA,
   ...ICT7_M01_PAGE_ADDENDA,
+  ...ICT8_M01_PAGE_ADDENDA,
 ]
 
 export function withVerifiedM01Additions(
