@@ -43,7 +43,7 @@ export function inspectOfflineTheory(): { benchmarkChars: number; rows: TheoryDe
     const sourceTraces = theory.filter(x => x.type === 'source').length
     const percentOfM0102 = Math.round(100 * length / benchmarkChars)
     // A high score only marks editorial PRIORITY, not 100% textbook fidelity.
-    const depthTriage = percentOfM0102 >= 75 && sections >= 6 && examplesAndSolutions >= 2
+    const depthTriage: TheoryDepthRow['depthTriage'] = percentOfM0102 >= 75 && sections >= 6 && examplesAndSolutions >= 2
       ? 'substantial_candidate'
       : percentOfM0102 >= 35 && sections >= 3
         ? 'partial'
@@ -58,7 +58,7 @@ export function inspectOfflineTheory(): { benchmarkChars: number; rows: TheoryDe
   return { benchmarkChars, rows }
 }
 
-const invoked = process.argv[1]?.replaceAll('\\', '/')?.endsWith('/audit-theory-depth.ts')
+const invoked = process.argv[1]?.endsWith('audit-theory-depth.ts')
 if (invoked) {
   const { benchmarkChars, rows } = inspectOfflineTheory()
   const counts = rows.reduce<Record<string, number>>((result, row) => {
