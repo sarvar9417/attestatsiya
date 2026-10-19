@@ -1,14 +1,13 @@
-## 2026-10-19 — TASK-244: M01 source audit metodologiyasi yangilandi (2/13 books)
+## 2026-10-19 — TASK-244 M01: 3/13 original textbooks, page-grounded review
 
-- User talabi: har bir original Drive ICT/Cambridge+ **kitobi bittalab** o‘qiladi, M01ga daxldor sahifalarda ta’rif/jadval/formula/rasm/misol platforma bilan solishtiriladi. Kalit so‘zli sampling "to‘liq tekshirildi" deyilmaydi.
-- **Branch:** `task/TASK-244-m01-book-by-book-source-audit`, avvalgi `TASK-243` branchining descendant; main/production untouched.
-- **ICT5 2020:** raw PDF 113 sahifa, SHA256 `c9ecf47a8a72159244964635aae635f846f516394dbe73aa9f0e9c678047aac9`; M01 sahifalari PDF 6–24 o‘qildi, sxema/jadvallar vizual tekshirildi; 6 source-backed addenda (M01.02–05).
-- **ICT6 2021:** raw PDF 160 sahifa, SHA256 `f0db8899cefcb88a10a91cc9aa46e8672644a789b2a8a2daece7058ea50c2c21`; M01 relevant PDF 76–127 har sahifa darajasida tekshirildi; 4 source-backed addenda (M01.04, M01.06), source/error distinctions.
-- **Architecture:** generated `m01.ts` untouched; `m01TextbookAudit.ts` (+ `m01TextbookAuditICT6.ts`) original handbook bo‘limiga source-evidence insertion qo‘shadi; missing heading = hard error, non-loss regression test.
-- **QA:** CI dastlab audit sarlavhasida Unicode apostrof nomuvofiqligi sabab FAIL chiqardi; anchorlar kanonik ASCII apostrofga to‘g‘rilandi. **Final commit CI pass tasdiqlanmaguncha** release blocked. Tests: `M01ICT5BookAudit.test.tsx`, `M01ICT6BookAudit.test.tsx`.
-- **Detailed page registry:** `docs/TASK244_M01_BOOK_BY_BOOK_SOURCE_AUDIT_20261019.md` va `docs/TASK244_ICT6_M01_PAGE_CONCORDANCE_20261019.md`.
-- **Next book:** ICT7 (2021), M01-relevant barcha PDF sahifalari; keyin ICT8–11, Cambridge+.
-- **Restrictions:** NO merge, NO manual production deploy, NO private DB writes; no question release.
+- **Branch:** `task/TASK-244-m01-book-by-book-source-audit`, main untouched; no production deploy or DB writes.
+- **Manbalar:** ICT5-2020 113 bet (M01 PDF 6–24), ICT6-2021 160 bet (M01 PDF 76–127), ICT7-2021 160 bet (M01 PDF 4–46; animatsiya 80–83). Source PDF raw downloaded from connected Google Drive and page text/selected diagrams directly inspected; not keyword-only sampling.
+- **ICT7 key erratum:** textbook PDF 36 mono PCM audio 16 bit × 48,000 Hz × 180 sec = 17,280,000 bytes ≈ 16.48 MiB; published textbook final «1,64 Mb» contradicts worked arithmetic. PDF 37 video = 13,381,632,000 bit = 1,672,704,000 B ≈ 1.56 GiB, without compression/audio. Glossary/source corrected as original page-cited lesson, **not** textbook copied verbatim.
+- **Code:** generated `m01.ts` remains pristine. `src/data/topics/m01TextbookAudit.ts` composes `ICT5_M01_PAGE_ADDENDA`(6), `ICT6_M01_PAGE_ADDENDA`(4), `ICT7_M01_PAGE_ADDENDA`(7); `src/data/topicContent.ts` inserts 17 traced blocks into canonical M01 without losing original blocks, positioning within section boundaries.
+- **Tests:** `src/tests/M01ICT5BookAudit.test.tsx`, `M01ICT6BookAudit.test.tsx`, `M01ICT7BookAudit.test.tsx`, and updated legacy `m01Content.test.ts` to assert preservation rather than old exact reference identity. Existing CI initially FAIL due to apostrophe anchor (fixed); next FAILURE old identity assertion (updated); final CI **not yet PASS confirmed**.
+- **Trace:** `docs/TASK244_M01_BOOK_BY_BOOK_SOURCE_AUDIT_20261019.md`, `docs/TASK244_ICT6_M01_PAGE_CONCORDANCE_20261019.md`, `docs/TASK244_ICT7_M01_PAGE_CONCORDANCE_20261019.md`.
+- **Next:** ICT 8-sinf (2020) book 4/13, then ICT9/10/11, Cambridge+5–9/10–11; real mobile/desktop + auth learner E2E, editorial approvals outstanding.
+- **Merge/deploy prohibition** remains.
 
 ## 2026-10-19 — TASK-243: M02 darslik, nazariya va dizayn
 
