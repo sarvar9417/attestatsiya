@@ -110,4 +110,20 @@ export const ICT7_M01_PAGE_ADDENDA: readonly VerifiedTextbookInsertion[] = [
       { type: 'source', content: 'ICT 7-sinf (2021), PDF 34–39 (bosma 34–39-betlar); audio 36-betdagi bosma xato va video 37-betdagi bit/bayt farqi qayta hisoblangan.' },
     ],
   },
+  {
+    topicId: 'M01.06',
+    beforeHeading: 'Video va multimedia: kadr, FPS, bitrate va hajm',
+    blocks: [
+      { type: 'subheading', content: '7-sinf: animatsiya turi, usuli va harakat illyuziyasi' },
+      { type: 'table', content: '| Animatsiya usuli | Kadr qanday hosil qilinadi? | Qachon mos? |\\n|---|---|---|\\n| Kadrma-kadr | Ketma-ket tasvirlar alohida tayyorlanadi | Chizilgan tasvirli harakat |\\n| Hisoblangan (tweening) | Dastur oraliq holatlarni hisoblaydi | Obyektning joyi, rangi yoki shakli o‘zgarishi |',
+        headers: ['Animatsiya usuli', 'Kadr qanday hosil qilinadi?', 'Qachon mos?'],
+        rows: [
+          ['Kadrma-kadr', 'Ketma-ket tasvirlar alohida tayyorlanadi', 'Chizilgan tasvirli harakat'],
+          ['Hisoblangan (tweening)', 'Dastur oraliq holatlarni hisoblaydi', 'Obyektning joyi, rangi yoki shakli o‘zgarishi'],
+        ],
+      },
+      { type: 'trap', content: 'Darslikdagi «12 kadr/s dan past bo‘lmasa» ko‘rsatmasi barcha video va animatsiyalar uchun qat’iy texnik minimum emas. Harakatning silliqligi kadr chastotasi, obyekt tezligi, ekranning yangilanishi va ko‘rish sharoitiga bog‘liq. Tarixiy Flash/GIF texnologiyalarini zamonaviy barcha brauzerlar uchun yagona majburiy format deb qabul qilmang.' },
+      { type: 'source', content: 'ICT 7-sinf (2021), PDF 80–83 (bosma 80–83-betlar); «Animatsiya tushunchasi va uning turlari», kadrma-kadr va hisoblangan animatsiya.' },
+    ],
+  },
 ]
