@@ -12,6 +12,7 @@ const OFFICE = new Set([
   'off_bar','off_line','off_pie','off_table','off_slides','off_timeline','off_wordtable',
 ])
 const KUZGI_DEMO = new Set([
+  'demo_q01_powerpoint','demo_q11_access','demo_q18_flowchart',
   'demo_q04_blocks','demo_q04_options','demo_q14_labyrinth',
   'demo_q17_photoshop','demo_q19_wordtable','demo_q21_css',
   'demo_q27_html','demo_q34_logo','demo_q39_word',
