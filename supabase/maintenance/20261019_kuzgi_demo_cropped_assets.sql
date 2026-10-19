@@ -5,10 +5,13 @@
 -- A–D variantlar matnlari q04 grafikdagi nomlariga bog'langan;
 -- variantlar serverda aralashtirilsa ham mazmuni to'g'ri qoladi.
 --
--- Live database: 2026-10-19 kuni tegishli 8 qator yangilangan.
+-- Live database: 2026-10-19 kuni tegishli 11 qator yangilangan.
 -- Ushbu skript takroran ishlatishga mos.
 
 WITH graphic(source_ref,images) AS (VALUES
+ ('drive:13VVttASqpDVP4R1fsVtt3YARHs4uHnB8:q01', '[{"kind":"image","diagram_id":"demo_q01_powerpoint","src":"/kuzgi-demo/demo_q01_powerpoint.svg","alt":"PowerPoint ekran yozuvi uchun asl A–D piktogrammalar"}]'::jsonb),
+ ('drive:13VVttASqpDVP4R1fsVtt3YARHs4uHnB8:q11', '[{"kind":"image","diagram_id":"demo_q11_access","src":"/kuzgi-demo/demo_q11_access.svg","alt":"MS Access Book jadvali va filtr shartlari"}]'::jsonb),
+ ('drive:13VVttASqpDVP4R1fsVtt3YARHs4uHnB8:q18', '[{"kind":"image","diagram_id":"demo_q18_flowchart","src":"/kuzgi-demo/demo_q18_flowchart.svg","alt":"A va B ayirmalari orqali EKUB topish blok-sxemasi"}]'::jsonb),
  ('drive:13VVttASqpDVP4R1fsVtt3YARHs4uHnB8:q04', '[{"kind":"image","diagram_id":"demo_q04_blocks","src":"/kuzgi-demo/demo_q04_blocks.svg","alt":"Scratch dasturining asl bloklari"},{"kind":"image","diagram_id":"demo_q04_options","src":"/kuzgi-demo/demo_q04_options.svg","alt":"Scratch savolining A–D shaklli javoblari"}]'::jsonb),
  ('drive:13VVttASqpDVP4R1fsVtt3YARHs4uHnB8:q14', '[{"kind":"image","diagram_id":"demo_q14_labyrinth","src":"/kuzgi-demo/demo_q14_labyrinth.svg","alt":"Robot harakatlanadigan asl labirint"}]'::jsonb),
  ('drive:13VVttASqpDVP4R1fsVtt3YARHs4uHnB8:q17', '[{"kind":"image","diagram_id":"demo_q17_photoshop","src":"/kuzgi-demo/demo_q17_photoshop.svg","alt":"Photoshopdagi dastlabki va yakuniy portretlar"}]'::jsonb),
