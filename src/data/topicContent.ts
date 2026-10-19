@@ -7,6 +7,7 @@ import { M14_NORMATIVE_SOURCE_ADDITIONS } from './topics/m14NormativeSourceAddit
 import { M08_TEXTBOOK_STUDY_ADDITIONS } from './topics/m08TextbookStudyAdditions'
 import { M03_OFFICE_TEXTBOOK_ADDITIONS } from './topics/m03OfficeTextbookAdditions'
 import { M09_DATABASE_TEXTBOOK_ADDITIONS } from './topics/m09DatabaseTextbookAdditions'
+import { M11_WEB_TEXTBOOK_ADDITIONS } from './topics/m11WebTextbookAdditions'
 // M14–M16 use server-scored exams exclusively. Legacy mini-quiz answer keys
 // have intentionally been stripped from the shipped JavaScript bundle.
 
@@ -1398,6 +1399,12 @@ for (const [id, theory] of Object.entries(M05_THEORY)) {
     source: 'src/content/sanoq/Sanoq_sistemalari_nazariya.tex',
     kind: 'chapter',
   }
+}
+
+// Cambridge+ sourced HTML/CSS lessons, retaining legacy content and tests.
+for (const [subtopicId, additions] of Object.entries(M11_WEB_TEXTBOOK_ADDITIONS)) {
+  const local = TOPIC_CONTENT[subtopicId]
+  if (local) TOPIC_CONTENT[subtopicId] = { ...local, theory: [...local.theory, ...additions] }
 }
 
 // Cambridge database/Access/SQL original study additions (7 topics).
