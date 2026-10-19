@@ -1,3 +1,7 @@
+## TASK-260 — M11.01 HTML source and draft-candidate pool remediation (2026-10-19)
+
+- **Status:** draft pool + source/key triage staged on branch task/TASK-260-m11-html-review-candidates; 7/20 production eligible, 8 construct-mapped review-only Y2/Y3 (0 expert signatures), 13 new source-page-cited draft Y1 candidate items WITHOUT keys. Editorial, duplicate/revision/construct verification and live authenticated QA still BLOCKED. No production DB mutation/deployment. See docs/TASK260_M11_HTML_SOURCE_AND_CANDIDATE_QA_20261019.md.
+
 ## TASK-250 — M02 local Y1 question source candidates and editorial risk (2026-10-19)
 
 - **Status:** REVIEW-ONLY / QA; new branch `task/TASK-250-m02-review-main-reconcile` reconciled from current main.
