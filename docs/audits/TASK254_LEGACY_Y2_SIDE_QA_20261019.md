@@ -1,36 +1,27 @@
-# TASK-254 — Legacy Y2 matching option-side integrity
+# TASK-254 — Immutable legacy Y2 payload compatibility and Y1 option QA
 
-Date: 2026-10-19. Production source: read-only Supabase aggregate checks in project `plyqezulrfowyblsfpzy`.
+Date: 2026-10-19. Evidence: SELECT-only production Supabase aggregates and existing GitHub migrations/tests.
 
-## Verified fault (not inferred from frontend)
+## Verified storage state versus learner behavior
 
-- **26 Y2 records** currently have eight stored options flagged entirely as `side='a'`: **22 published** across 13 quota groups and **4 review** (S3.ALGO 1, S4.CODE 1, S6.NET 2).
-- All **26** are `is_generated=false` with contiguous `order_idx=1..8`, and private `question_keys.payload.pairs` has exactly four one-to-one pairs.
-- Privacy-preserving validation confirms **4/4 key IDs reference the first four options** and **4/4 corresponding value IDs reference the last four options**. No keys, stems or answer IDs were copied to this public repository or output in the report.
-- This is inconsistent with the frontend/backend `Y2` option contract requiring **both** sides. Historical Y2 exams may be affected until a separately authorized production rollout.
+- **22 published** and **4 review** Y2 matching questions have eight stored options flagged entirely as `side='a'`. Their private protected `pairs` maps are four-to-four: all left IDs refer to order 1–4 and all right IDs to order 5–8.
+- This is **historical storage**, not proof that learners see eight left choices. The existing `supabase/migrations/20261018102000_repair_mock_y2_options_payload.sql` implements `exam_payload()` read-time recovery using confidential mappings without altering the published record. Its regression `supabase/tests/mock_y2_option_projection.test.sql` tests one representative question and key non-disclosure.
+- **Published revisions are immutable.** An early attempt to add an options-side UPDATE migration failed fresh CI with `PEDAGOGY_PUBLISHED_REVISION_IMMUTABLE`. This is an intentional, correct protection. The mutation migration was **removed from this PR before release**. Never disable this trigger, bypass editorial approval, or modify immutable published options.
+- An independent, wider test `supabase/tests/task254_y2_side_integrity.test.sql` now builds a transaction-local exam from **all** legacy published Y2 in the fresh seed. It verifies each resulting learner payload is 4-left/4-right, contains no exposed answer keys, and that original persisted data stays unchanged. It also blocks any accidentally published Y1 with duplicate alternatives.
+- The four historical `review` Y2 records remain staged; they require any further corrective **new review revision** in the existing editorial pipeline, not in-place published mutation.
 
-## Proposed repair — code staged, not deployed
+## Separate editorial blocker: review Y1 distractor collisions
 
-`supabase/migrations/20261019210000_task254_y2_option_side_repair.sql`:
+- 2,603 `review` questions: 1,973 Y1, 315 Y2, 315 Y3 at the observed snapshot; 19 `review` Y1 in group `S4.CODE` repeat at least one normalized answer option.
+- No `review` question had a `question_editorial_checks` record in the inspected snapshot.
+- The 19 require actual stem/answer/distractor and original source review, not an automatic de-duplication that could change the correct response. They remain unpublished.
+- All detected review Y1/Y2/Y3 had stored keys, nonempty stems and sources, active constructs, matching group and valid difficulty ranges in the checked sample-wide aggregate. These structural checks are **not** semantic correctness signoff.
 
-1. Select only `published/review` nonparametric Y2 with *exactly 8 options*, all `a`, and unique order indexes 1–8.
-2. Validate the existing protected key map proves each left member belongs to orders 1–4 and its right member to 5–8, bijectively. Fail and roll back on any ambiguity.
-3. Set **only** `question_options.side='b'` for orders 5–8. Leave option IDs, positions, texts, `question_keys`, question status, source references and user exam history unchanged.
-4. Assert four left and four right options post-update. Rerunning is a no-op.
+## Acceptance status and release controls
 
-Regression: `supabase/tests/task254_y2_side_integrity.test.sql`, wired into fresh-database GitHub CI. Tests require **zero** published/review Y2 with an absent left or right side and **zero** published Y1 with duplicate alternative text. This is structural quality evidence, *not* proof of semantic correctness or historical answer rescoring.
+1. Fresh CI: database, backend, quality/Playwright E2E smoke must pass on the final head. The additional test must cover the full seeded legacy published Y2 set, not just one item.
+2. Owner/editorial validation of Y2 behavior in a real authenticated learner test (start, 4+4 matching, submit, review, history, mobile) still required. Fresh CI E2E smoke is not that test.
+3. Source and distractor correction for 19 review Y1, separate authenticated approval and controlled review revision.
+4. **No production write, no migration, no publication, no deploy** from this PR. The relevant compatibility fix already exists in GitHub; production deployment parity must be assessed separately.
 
-## Separate editorial blocker — 19 review Y1 items
-
-Among **2,603 review** questions: 1,973 Y1, 315 Y2 and 315 Y3. All had a stored key, nonempty stem, source-reference, source-lesson link, active construct, consistent group and difficulty range 1–5. **19 Y1** questions in group **S4.CODE** have duplicate answer-option text under normalized whitespace/case. These remain `review`, are not automatically rewritten or published, and require human analysis of stem, answer and distractor semantics.
-
-No `review` question in the inspected production snapshot had a `question_editorial_checks` record. Do not fabricate reviewer attestations or bypass publication gates.
-
-## Release criteria (NOT MET)
-
-- Full GitHub CI (fresh schema, backend, frontend, Playwright smoke) green on the exact final head.
-- Independent source/answer inspection of all 26 repaired Y2, with user evidence of matching behavior in authenticated Y2 practice, mock and history views; mobile accessibility and session restoration.
-- SQL dry run against a production-like **isolated and permitted** database and preservation of existing user history.
-- Explicit separate approval before applying the migration to production. No Vercel deployment, no publication or user-exam mutation from this PR.
-
-Status: **DRAFT / NO PRODUCTION WRITE / NO DEPLOY**.
+Status: DRAFT / NON-MUTATING REGRESSION / EDITORIAL PENDING.
