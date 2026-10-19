@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { getTopicContent } from '../data/topicContent'
+import { getTopicContent, displayedCognitiveLevel } from '../data/topicContent'
 import { splitSections } from '../components/learning/theory/BookReader'
 import { M10_GRAPHICS_TEXTBOOK_ADDITIONS } from '../data/topics/m10GraphicsTextbookAdditions'
 import { M10_04_CANONICAL_BOOK } from '../data/topics/m10PhotoTextCanonicalBook'
@@ -40,7 +40,8 @@ describe('TASK-304: M10.04–07 source-first reader books and assessment parity'
       const q = getTopicContent(id)!.questions
       expect(q.map(x => x.id)).toEqual(keys.map((_, i) => `${id}-q${i + 1}`))
       expect(q.map(x => x.correctIndex)).toEqual(keys)
-      expect(q.map(x => x.type)).toEqual(types)
+      expect(q.map(x => displayedCognitiveLevel(x))).toEqual(types)
+      expect(q.every(x => x.type === 'Y1')).toBe(true)
     })
   }
 
