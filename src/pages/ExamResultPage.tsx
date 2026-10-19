@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import {
   AlertCircle,
@@ -49,8 +49,18 @@ export default function ExamResultPage() {
   const [review, setReview] = useState<ExamReviewItem[] | null>(null)
   const [reviewLoading, setReviewLoading] = useState(false)
   const [reviewError, setReviewError] = useState<string | null>(null)
+  // A route change, retry or unmount invalidates the previous response.
+  // This prevents results/reviews from a different attempt being shown.
+  const resultRequestId = useRef(0)
+  const reviewRequestId = useRef(0)
 
   const load = useCallback(async () => {
+    const requestId = ++resultRequestId.current
+    ++reviewRequestId.current
+    setResult(null)
+    setReview(null)
+    setReviewLoading(false)
+    setReviewError(null)
     if (!examId) {
       setError('Natija identifikatori topilmadi.')
       setLoading(false)
@@ -61,16 +71,25 @@ export default function ExamResultPage() {
     setError(null)
 
     try {
-      setResult(await backendGateway.getResult(examId))
+      const loaded = await backendGateway.getResult(examId)
+      if (requestId !== resultRequestId.current) return
+      if (loaded.exam_id !== examId) throw new Error('Wrong exam result')
+      setResult(loaded)
     } catch {
-      setError('Natijani yuklab bo‘lmadi. Qayta urinib ko‘ring.')
+      if (requestId === resultRequestId.current) {
+        setError('Natijani yuklab bo‘lmadi. Qayta urinib ko‘ring.')
+      }
     } finally {
-      setLoading(false)
+      if (requestId === resultRequestId.current) setLoading(false)
     }
   }, [examId])
 
   useEffect(() => {
     void load()
+    return () => {
+      resultRequestId.current += 1
+      reviewRequestId.current += 1
+    }
   }, [load])
 
   const percentage = useMemo(() => {
@@ -79,20 +98,25 @@ export default function ExamResultPage() {
   }, [result])
 
   const loadReview = async () => {
-    if (!examId || reviewLoading) return
+    if (!examId || reviewLoading || loading || result?.exam_id !== examId) return
+    const requestId = ++reviewRequestId.current
 
     setReviewLoading(true)
     setReviewError(null)
     try {
-      setReview(await backendGateway.getReview(examId))
+      const items = await backendGateway.getReview(examId)
+      if (requestId === reviewRequestId.current) setReview(items)
     } catch {
-      setReviewError('Savollar tahlilini yuklab bo‘lmadi.')
+      if (requestId === reviewRequestId.current) {
+        setReviewError('Savollar tahlilini yuklab bo‘lmadi.')
+      }
     } finally {
-      setReviewLoading(false)
+      if (requestId === reviewRequestId.current) setReviewLoading(false)
     }
   }
 
-  if (loading) {
+  // A new URL must never briefly paint the previous attempt while effects run.
+  if (loading || (result !== null && result.exam_id !== examId)) {
     return (
       <div className="mx-auto w-full max-w-5xl space-y-4 px-4 py-6 sm:px-6">
         <div className="h-24 animate-pulse rounded-2xl bg-white dark:bg-gray-900" />
