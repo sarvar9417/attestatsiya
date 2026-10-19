@@ -9,7 +9,7 @@
 import type { TheoryBlock, TopicContent } from '../../data/topicContent'
 import type { LessonSummary } from './contentApi'
 import { M16_SOURCE_THEORY_ADDITIONS } from '../../data/topics/m16SourceTheoryAdditions'
-import { M14_NORMATIVE_SOURCE_ADDITIONS } from '../../data/topics/m14NormativeSourceAdditions'
+import { M14_PROFESSIONAL_STANDARD_GUIDE } from '../../data/topics/m14ProfessionalStandardGuide'
 
 const rowCells = (line: string): string[] =>
   line.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map(cell => cell.trim())
@@ -134,6 +134,21 @@ export function overlayPublishedProfessionalLesson(
 ): TopicContent {
   if (lesson.status !== 'published' || !lesson.body_mdx?.trim()) return staticContent
 
+  // TASK-303 authoring candidate: keep the 13-page guide as one canonical,
+  // non-repetitive book in a DRAFT PR. This intentionally does not touch DB
+  // published revisions, answer keys or historic attempts. Promotion requires
+  // independent human editorial approval (ADR-009).
+  const reviewedM14Draft = M14_PROFESSIONAL_STANDARD_GUIDE[staticContent.subtopicId]
+  if (reviewedM14Draft) {
+    return {
+      ...staticContent,
+      title: lesson.title_uz || staticContent.title,
+      theory: reviewedM14Draft,
+      supplementalTheory: undefined,
+      questions: staticContent.questions,
+    }
+  }
+
   const sections = lesson.body_mdx.replace(/\r\n?/g, '\n').split('\n')
   const extraIndex = sections.findIndex(line => SUPPLEMENT_HEADING.test(line.trim()))
   const coreMarkdown = extraIndex < 0 ? lesson.body_mdx : sections.slice(0, extraIndex).join('\n')
@@ -141,7 +156,7 @@ export function overlayPublishedProfessionalLesson(
   const theory = markdownToTheoryBlocks(coreMarkdown)
   // Independently checked professional-standard/Cambridge explanations are
   // displayed after the canonical M16 published core. They do not modify the DB.
-  const sourceAdditions = M16_SOURCE_THEORY_ADDITIONS[staticContent.subtopicId] ?? M14_NORMATIVE_SOURCE_ADDITIONS[staticContent.subtopicId] ?? []
+  const sourceAdditions = M16_SOURCE_THEORY_ADDITIONS[staticContent.subtopicId] ?? []
   if (!theory.length) return staticContent
 
   // M14 used to repeat part of its reviewed professional-standard explanation
