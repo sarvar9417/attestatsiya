@@ -15,7 +15,7 @@ describe('pedagogika M14.03 and M15 source-and-safety reconciliation', () => {
     for (const term of ['Diagnostik', 'Formativ', 'Summativ', 'Normaga mo‘ljallangan', 'Mezonga mo‘ljallangan', 'Ipsativ']) {
       expect(text).toContain(term)
     }
-    expect(text).toContain('tahlil qilish mezonini farqlang')
+    expect(blocks.some(x => x.type === 'heading' && x.content.includes('tahlil qilish mezonini farqlang'))).toBe(true)
     expect(text).toContain('bir xil emas')
   })
 
@@ -27,7 +27,7 @@ describe('pedagogika M14.03 and M15 source-and-safety reconciliation', () => {
     expect(text).toContain('1-l4tFRqNEBuDEtvIavoh8yYB2pYp1JFN')
     expect(text).toContain('Kasb-standarti.pdf')
     expect(text).toContain('fizik sahifalar')
-    expect(text).not.toContain('O‘zbekistonda faqat 5 ballik tizim')
+    expect(text).toContain('«O‘zbekistonda faqat 5 ballik tizim» kabi umumiy normativ da’vo qilinmaydi')
   })
 
   it('restores core pedagogical categories rather than treating learning activity as a substitute', () => {
