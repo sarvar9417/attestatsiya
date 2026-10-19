@@ -32,7 +32,7 @@ export const ICT5_M01_PAGE_ADDENDA: readonly VerifiedTextbookInsertion[] = [
           ['Brainware', 'Insonning bilim va qarorlari', 'Foydalanuvchi, dasturchi, tizim boshqaruvchisi'],
         ],
       },
-      { type: 'note', content: 'Tarixiy iz: darslik O‘zbekistonda informatika va kibernetika rivojiga akademik Vosil Qobulov hissasini alohida qayd etadi. Bu tarixiy misol informatikaning faqat kompyuter qurilmalari emas, balki boshqaruv va axborot jarayonlari bilan ham bog‘liqligini ko‘rsatadi.' },
+      { type: 'note', content: 'Tarixiy iz: darslik O‘zbekistonda informatika va kibernetika rivojiga akademik Vosil Qobulov hissasini qayd etadi; Arastu va Forobiy mantiq haqidagi qarashlar, al-Xorazmiy ishlari esa algoritm va hisoblash tarixi bilan bog‘lab beriladi. «Algoritm» atamasining kelib chiqishi al-Xorazmiy nomiga borib taqaladi; shu bois tarixiy taʼsirni zamonaviy algoritmlarning yakka muallifligi sifatida talqin qilish to‘g‘ri emas.' },
       { type: 'source', content: 'ICT 5-sinf, 2020, PDF 10–13 (bosma 9–12-betlar); 2-dars «Informatika fani haqida». Tarixiy qayd darslik kontekstida berilgan.' },
     ],
   },
