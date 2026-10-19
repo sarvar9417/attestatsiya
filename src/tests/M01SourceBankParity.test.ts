@@ -56,7 +56,7 @@ describe('M01 existing 400-item public source-bank inventory and topic parity', 
       expect(start).toBeGreaterThanOrEqual(0)
       expect(end).toBeGreaterThan(start)
       const section = publishedStaticSource.slice(start, end)
-      const sectionIds = [...section.matchAll(/id: '(ARS-\\d{2}-\\d{3})'/g)].map((m) => m[1])
+      const sectionIds = [...section.matchAll(/id: '(ARS-\d{2}-\d{3})'/g)].map((m) => m[1])
       const expected = chapter.questions.map((q) => q.id)
       expect(chapter.number).toBe(index + 1)
       expect(chapter.questions).toHaveLength(chapterCounts[index])
