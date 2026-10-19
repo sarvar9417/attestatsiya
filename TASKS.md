@@ -1,3 +1,7 @@
+## TASK-304 — M14 kasbiy standart PDF va savollarini yakuniy manba nazorati (2026-10-19)
+
+| TASK-304 | REVIEW AUDIT DONE / HUMAN PUBLISH APPROVAL OPEN | TASK-303 QA, TASK-301 learner source-safety | 13-betli PDF SHA-256 mustaqil tekshirildi; 7 M14 uchun 7×12 sahifali annotated review-only blok; 140 published KS savolning stem va keyed variantlari, barcha 8 Y2 juftlik va 2 Y3 tartibi ko‘rildi; 1 Y2da 8×side=a topildi, staging-only draft script tayyor; 37/140 full editorial flags, 103 human sign-off debt. `docs/audits/TASK303_M14_FINAL_SOURCE_SEMANTIC_QA_20261019.md`; nashr qilingan DB/dars o‘zgarmaydi, deploy yo‘q. Final CI/merge rekvizitlarini PR orqali tekshirish kerak. |
+
 ## TASK-262 — Nazariya darslarining yagona kitob dizayni (2026-10-19)
 
 | TASK-262 | IN_PROGRESS — CODE IN FEATURE BRANCH / QA OPEN | T-M01-002, T-M01-003 DONE | M01 BookReader/BookBlock standartini barcha mavjud M02–M16 nazariy darslariga qo‘llash; Markdown jadval/ro‘yxat compatibility; regression test; docs/TASK262_UNIFIED_LESSON_BOOK_DESIGN_20261019.md. Final lint, typecheck, unit, mobil/auth UI QA va release approval ochiq. Merge/deploy YO‘Q. |
