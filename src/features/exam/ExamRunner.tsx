@@ -335,7 +335,6 @@ export default function ExamRunner({
   // Persist the latest completed mock choices without leaking answer keys.
   const syncMockAnswers = useCallback(async () => {
     if (!session || session.kind !== 'mock' || !gateway.flushQueuedAnswers) return
-    if (!session.items.some(item => gateway.getPendingAnswer?.(session.exam_id, item.question_id))) return
     try {
       const report = await gateway.flushQueuedAnswers(session.exam_id)
       const rejected = new Set(report.rejected ?? [])
