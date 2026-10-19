@@ -38,17 +38,18 @@ export default function Y2Match({
               key={leftOption.id}
               className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] sm:items-center p-3 rounded-xl border border-gray-200 dark:border-gray-700"
             >
-              <label
-                htmlFor={selectId}
-                className="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-pre-wrap"
+              <div
+                id={`${selectId}-label`}
+                className="min-w-0 text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-pre-wrap"
               >
                 {index + 1}. <ExamRichText text={leftOption.content_md} />
-              </label>
+              </div>
               <span className="hidden sm:inline text-gray-400" aria-hidden="true">
                 →
               </span>
               <select
                 id={selectId}
+                aria-labelledby={`${selectId}-label`}
                 value={value[leftOption.id] ?? ''}
                 disabled={disabled}
                 onChange={(event) =>
