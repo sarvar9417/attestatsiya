@@ -66,6 +66,23 @@ describe('TASK-252: all reused-choice definition/application pairs are explicitl
     }
     expect([...ids].sort()).toEqual([...repeatedApplicationIds].sort())
     expect(rows.filter(r => r[9] === 'HIGH')).toHaveLength(5)
-    expect(rows.filter(r => r[8] === 'OPEN')).toHaveLength(5)
+    expect(rows.filter(r => r[8] === 'OPEN')).toHaveLength(4)
+
+    // Page-level evidence narrows source uncertainty, never implies a question
+    // or its four-option answer was approved by an external expert.
+    const byApplicationId = new Map(rows.map(row => [row[1], row]))
+    expect(byApplicationId.get('ARS-01-049')?.slice(6, 10)).toEqual([
+      'ICT9', '20-22', 'TOPIC_OBSERVED', 'HIGH',
+    ])
+    expect(byApplicationId.get('ARS-01-043')?.slice(6, 10)).toEqual([
+      'ICT7', '4-8,29-33', 'TOPIC_OBSERVED', 'HIGH',
+    ])
+    expect(byApplicationId.get('ARS-03-047')?.slice(6, 10)).toEqual([
+      'ICT7', '4-8', 'TOPIC_OBSERVED', 'HIGH',
+    ])
+    for (const id of ['ARS-01-042', 'ARS-01-043', 'ARS-01-049', 'ARS-02-037', 'ARS-03-047']) {
+      expect(byApplicationId.get(id)?.[9]).toBe('HIGH')
+      expect(byApplicationId.get(id)?.[10]).not.toMatch(/expert.approved/i)
+    }
   })
 })
