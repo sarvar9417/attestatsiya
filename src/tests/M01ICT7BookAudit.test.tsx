@@ -7,7 +7,7 @@ import { ICT7_M01_PAGE_ADDENDA } from '../data/topics/m01TextbookAuditICT7'
 describe('TASK-244 — ICT 7-sinf 2021, PDF sahifali M01 manba tekshiruvi', () => {
   it('reconciles every ICT7 insert against a real M01 heading and a page trace', () => {
     expect(ICT7_M01_PAGE_ADDENDA).toHaveLength(7)
-    expect(ALL_M01_PAGE_ADDENDA).toHaveLength(21)
+    expect(ALL_M01_PAGE_ADDENDA).toHaveLength(24)
     expect(ICT7_M01_PAGE_ADDENDA.map(item => item.topicId))
       .toEqual(['M01.03', 'M01.05', 'M01.05', 'M01.06', 'M01.06', 'M01.06', 'M01.06'])
 
