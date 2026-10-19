@@ -219,3 +219,10 @@ Har task uchun kamida:
 | TASK-210 | IN_PROGRESS | T-013, T-014, T-015 (DONE) | RFC + backend/API + atomic DB generator, answer-leak guard, universal UI, history and SQL/backend/Playwright regressiyalar branchda ishlangan va CI yashil. Preset CRUD/RLS, microtopic filtr, analytics, resume, production verification OPEN. [RFC](docs/TASK210_UNIVERSAL_CUSTOM_TEST_BUILDER.md), [status](PROJECT_STATE.md), [PR #144](https://github.com/sarvar9417/attestatsiya/pull/144). |
 
 | TASK-212 | IN_PROGRESS | TASK-202/TASK-203 (audit only) | Pedagogika hub va 2026 spesifikatsiya 18-maqsad xaritasi; M15/M16 matn tuzatishlari, nullable verdict regressiyasi; 2026-10-18 production SELECT auditida 424 published, 26 KS review; M14ning 7/7 mavzusida published-keyed 20 pool deficit (3+3+2+6+4+4+4). Editorial expert approval, full preflight, mobil E2E va release hali OPEN. DRAFT PR #149; docs/TASK212_PEDAGOGY_UNIFIED_READINESS_AUDIT_20261018.md. |
+
+
+## TASK-247 — barnoyevak pedagogika ZIP intake va source-backed dastlabki QA (2026-10-19)
+
+| ID | Status | Dependency | Deliverable |
+|---|---|---|---|
+| TASK-247 | IN_PROGRESS / SOURCE_BLOCKED | Standalone local/static content QA; future full corpus audit depends on extracting ZIP | barnoyevak Drive'dagi 546831018 baytli `ChatExport_2026-10-19.zip` topildi, ammo Drive connector 256 MiB limiti sabab o‘qilmadi. M15.02 Bloom 1956/2001 manbaviy izohi, M15.07 imlo va Vitest regressiyasi source-caveat bilan **feature branch**da. Barcha 18 mavzu / test corpus auditi ochiq. No main merge, no production deploy, no DB write. [Report](docs/TASK247_PEDAGOGY_BARN_SOURCE_INTAKE_20261019.md). |
