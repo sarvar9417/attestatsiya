@@ -38,7 +38,14 @@ function session(): ExamSession {
 }
 
 function gateway(): ExamGateway {
+  let pendingAnswer: unknown
   return {
+    getPendingAnswer: () => pendingAnswer as { option_id: string } | undefined,
+    queueMockAnswer: vi.fn(input => { pendingAnswer = input.answer }),
+    flushQueuedAnswers: vi.fn(async () => {
+      pendingAnswer = undefined
+      return { remaining: 0 }
+    }),
     startMockExam: vi.fn().mockResolvedValue(session()),
     startModuleExam: vi.fn().mockResolvedValue(session()),
     startTopicExam: vi.fn().mockResolvedValue(session()),
