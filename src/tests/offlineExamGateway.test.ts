@@ -49,6 +49,17 @@ describe('offline exam persistence', () => {
     expect(listPendingAnswers()).toHaveLength(1)
   })
 
+  it('queues changed mock answers locally and flushes newest choice', async () => {
+    backendGateway.queueMockAnswer?.(answer)
+    backendGateway.queueMockAnswer?.({ ...answer, answer: { option_id: 'updated', _client_revision: 100 } })
+    const post = vi.spyOn(api, 'post').mockResolvedValue({ saved: true })
+    await backendGateway.flushQueuedAnswers?.(answer.examId)
+    expect(post).toHaveBeenCalledWith('/api/exam/submit', expect.objectContaining({
+      answer: { option_id: 'updated', _client_revision: 100 },
+    }))
+    expect(listPendingAnswers()).toHaveLength(0)
+  })
+
   it('does not let an unrelated exam’s stale queue block the current finish', async () => {
     enqueuePendingAnswer({ ...answer, examId: '30000000-0000-4000-8000-000000000002' })
     const post = vi.spyOn(api, 'post').mockResolvedValue(finish)
@@ -60,7 +71,7 @@ describe('offline exam persistence', () => {
   it('retries the first queued answer and removes it only after server acknowledgment', async () => {
     enqueuePendingAnswer(answer)
     const post = vi.spyOn(api, 'post').mockResolvedValue({ saved: true })
-    await backendGateway.submitAnswer({ ...answer, answer: { option_id: 'different-option' } })
+    await backendGateway.submitAnswer({ ...answer, examKind: 'bolim', answer: { option_id: 'different-option' } })
     expect(post).toHaveBeenCalledWith('/api/exam/submit', expect.objectContaining({ answer: answer.answer }))
     expect(listPendingAnswers()).toEqual([])
   })
