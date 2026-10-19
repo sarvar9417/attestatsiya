@@ -66,7 +66,7 @@
 | 5 | ICT 9-sinf (2020) | **114 sahifa boblari xaritalandi; PDF 5–27 o‘qildi, M01ga tegishli PDF 19–22 va 27 hisoblari tekshirildi; 3 ta original addendum.** M04ga tegishli darslik nomuvofiqliklari reyestrga yozildi. `docs/TASK244_ICT9_M01_PAGE_CONCORDANCE_20261019.md` |
 | 6 | ICT 10-sinf (2021) | **257 sahifa bo‘limlar bo‘yicha inventarlandi; PDF 28–34 va 204 relevant sahifalar o‘qildi, 3 ta source-backed insert.** `docs/TASK244_ICT10_M01_PAGE_CONCORDANCE_20261019.md` |
 | 7 | ICT 11-sinf (2021) | **340 PDF sahifa inventarlandi; PDF 11, 66–70, 296–305 bittalab qiyoslandi; 5 ta source-backed insert.** `docs/TASK244_ICT11_M01_PAGE_CONCORDANCE_20261019.md` |
-| 8 | Cambridge+ 5-sinf | NOT STARTED |
+| 8 | Cambridge+ 5-sinf | **M01 PDF 93–131 o‘qildi; 4 ta source insert.** `docs/TASK244_CAMBRIDGE5_M01_PAGE_CONCORDANCE_20261019.md` |
 | 9 | Cambridge+ 6-sinf | NOT STARTED |
 | 10 | Cambridge+ 7-sinf | NOT STARTED |
 | 11 | Cambridge+ 8-sinf | NOT STARTED |
