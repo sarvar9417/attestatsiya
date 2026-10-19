@@ -9,6 +9,8 @@ import { M11_WEB_TEXTBOOK_ADDITIONS } from './topics/m11WebTextbookAdditions'
 import { M09_DATABASE_TEXTBOOK_ADDITIONS } from './topics/m09DatabaseTextbookAdditions'
 import { M03_OFFICE_TEXTBOOK_ADDITIONS } from './topics/m03OfficeTextbookAdditions'
 import { M03_05_CANONICAL_BOOK } from './topics/m03ExcelCanonicalBook'
+import { M05_01_CANONICAL_BOOK } from './topics/m05NumberSystemsFoundationsBook'
+import { M05_02_CANONICAL_BOOK, M05_03_CANONICAL_BOOK } from './topics/m05ConversionArithmeticCanonicalBooks'
 import { M03_04_CANONICAL_BOOK } from './topics/m03ExcelFoundationsCanonicalBook'
 import { M03_06_CANONICAL_BOOK, M03_07_CANONICAL_BOOK } from './topics/m03ExcelAnalysisCanonicalBooks'
 import { M03_08_CANONICAL_BOOK } from './topics/m03PowerPointDesignCanonicalBook'
@@ -1687,6 +1689,20 @@ for (const [id, book, source] of [
 for (const [id, book, source] of [
   ['M15.07', M15_07_CANONICAL_BOOK, 'A. Xoliqov — pedagogik qobiliyatlar va refleksiya'],
   ['M15.08', M15_08_CANONICAL_BOOK, 'F.O. Mirzayeva + Qodirova/Pulatova — metod, texnologiya va inklyuziya'],
+] as const) {
+  const previous = TOPIC_CONTENT[id]
+  if (!previous) continue
+  TOPIC_CONTENT[id] = { ...previous, kind: 'chapter', source, theory: book }
+}
+
+// TASK-292: M05 number systems, conversions and arithmetic are taught as
+// self-contained source-guided books, not five-line summaries. Original
+// assessment questions/correct indices remain untouched; the compact
+// pre-existing definitions are covered explicitly by these canonical books.
+for (const [id, book, source] of [
+  ['M05.01', M05_01_CANONICAL_BOOK, 'Cambridge+ ICT 9 — binary, bit and positional bases'],
+  ['M05.02', M05_02_CANONICAL_BOOK, 'Cambridge+ ICT 9 — binary conversion and original examples'],
+  ['M05.03', M05_03_CANONICAL_BOOK, 'Cambridge+ ICT 9 — binary arithmetic and original examples'],
 ] as const) {
   const previous = TOPIC_CONTENT[id]
   if (!previous) continue
