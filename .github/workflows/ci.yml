@@ -9,7 +9,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  quality:
+  # Keep the Actions check-run name distinct from the legacy required
+  # commit-status context `quality`. When both have the same name GitHub
+  # may require both, and PR merge validation can remain 'expected'.
+  frontend-quality:
     permissions:
       contents: read
       statuses: write
