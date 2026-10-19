@@ -48,13 +48,17 @@ export function splitAdaptiveSections(theory: TheoryBlock[], pageSize = 3): Sect
   if (theory.length === 0) return splitSections(theory)
   const sections: Section[] = []
   for (const group of splitSections(theory)) {
-    for (let start = 0; start < group.blocks.length; start += pageSize) {
-      const part = group.blocks.slice(start, start + pageSize)
+    for (let start = 0; start < group.blocks.length;) {
+      let end = Math.min(start + pageSize, group.blocks.length)
+      // Kirishdan keyingi sarlavha sahifa oxirida yakka qolmasin.
+      if (end < group.blocks.length && group.blocks[end - 1].type === 'heading') end++
+      const part = group.blocks.slice(start, end)
       const number = sections.length + 1
       const title = group.title
         ? (start === 0 ? group.title : `${group.title} — davomi`)
         : `${number}-bo‘lim`
       sections.push({ title, blocks: part })
+      start = end
     }
   }
   return sections
