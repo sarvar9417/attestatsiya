@@ -172,7 +172,9 @@ describe('secure ExamRunner', () => {
     }))
     await user.click(screen.getByRole('button', { name: 'Keyingi' }))
     expect(await screen.findByText('Qadamlarni tartiblang')).toBeDefined()
-    await user.click(screen.getByRole('button', { name: /pastga/i, exact: false, }))
+    await user.click(screen.getAllByRole('button', { name: /— pastga/ }).find(
+      button => !(button as HTMLButtonElement).disabled
+    ) as HTMLButtonElement)
     expect(gateway.queueMockAnswer).toHaveBeenLastCalledWith(expect.objectContaining({
       questionId: ids.question3,
       answer: expect.objectContaining({ order: expect.arrayContaining([ids.order1, ids.order2, ids.order3]) }),
