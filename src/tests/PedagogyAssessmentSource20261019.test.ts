@@ -32,7 +32,7 @@ describe('pedagogika M14.03 and M15 source-and-safety reconciliation', () => {
 
   it('restores core pedagogical categories rather than treating learning activity as a substitute', () => {
     const blocks = theory('M15.01')
-    const table = blocks.find(x => x.type === 'table')?.content ?? ''
+    const table = blocks.find(x => x.type === 'table' && x.content.includes('| Shaxs |'))?.content ?? ''
     for (const row of ['| Shaxs |', '| Ta’lim |', '| Tarbiya |', '| Rivojlanish |', '| Bilim |', '| Ko‘nikma |', '| Malaka |', '| Kompetensiya |', '| Ma’lumot |']) {
       expect(table).toContain(row)
     }

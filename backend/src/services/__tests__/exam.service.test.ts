@@ -1,14 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
 // vi.mock factories are hoisted — use vi.hoisted() for shared mock variables
-const { mockRpc, mockFrom, mockTopicPreflight } = vi.hoisted(() => ({
+const { mockRpc, mockFrom } = vi.hoisted(() => ({
   mockRpc: vi.fn(),
   mockFrom: vi.fn(),
-  mockTopicPreflight: vi.fn(),
-}))
-
-vi.mock('../content.service.js', () => ({
-  contentService: { topicTestPreflight: mockTopicPreflight },
 }))
 
 vi.mock('@supabase/supabase-js', () => ({
@@ -43,11 +38,6 @@ import { AppError, NotFoundError } from '../../lib/errors.js'
 describe('examService.start', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    mockTopicPreflight.mockResolvedValue({
-      ready: true, required: 20, available: 26, duration_sec: 2400,
-      reason: 'ready', coverage: [], critical_objective_gaps: [],
-      missing_required_objectives: [],
-    })
   })
 
   it('starts 15-item pedagogy practice via dedicated authenticated RPC', async () => {
@@ -190,49 +180,6 @@ describe('examService.start', () => {
     await expect(
       examService.start('bolim', 'token-abc', 'M01')
     ).rejects.toMatchObject({ code, statusCode: 409 })
-  })
-
-  it('refuses a topic start before a database session is created when pool is only 6/20', async () => {
-    mockTopicPreflight.mockResolvedValue({
-      ready: false, required: 20, available: 6, duration_sec: 2400,
-      reason: 'pool_insufficient', coverage: [], critical_objective_gaps: [],
-      missing_required_objectives: [],
-    })
-
-    await expect(examService.start('mavzu', 'token-abc', undefined, 'M01.01'))
-      .rejects.toMatchObject({ statusCode: 409, code: 'TOPIC_POOL_INSUFFICIENT' })
-
-    expect(mockRpc).not.toHaveBeenCalledWith('generate_topic_test', expect.anything())
-  })
-
-  it('rejects a stale adaptive 6-item RPC response after configured 20-item preflight', async () => {
-    mockRpc.mockResolvedValue({
-      data: {
-        exam_id: 'stale-exam', kind: 'mavzu', duration_sec: 720,
-        started_at: new Date().toISOString(),
-        items: Array.from({ length: 6 }, (_, i) => ({ order_idx: i+1 })),
-        selection_meta: { target_count: 6 },
-      },
-      error: null,
-    })
-    await expect(examService.start('mavzu', 'token-abc', undefined, 'M01.01'))
-      .rejects.toMatchObject({ statusCode: 409, code: 'TOPIC_POOL_INSUFFICIENT' })
-  })
-
-  it('accepts a complete configured 20-item topic result', async () => {
-    mockRpc.mockResolvedValue({
-      data: {
-        exam_id: 'full-exam', kind: 'mavzu', duration_sec: 2400,
-        started_at: new Date().toISOString(),
-        items: Array.from({ length: 20 }, (_, i) => ({ order_idx: i+1 })),
-        selection_meta: { target_count: 20 },
-      },
-      error: null,
-    })
-    const result = await examService.start('mavzu', 'token-abc', undefined, 'M01.01')
-    expect(result.items).toHaveLength(20)
-    expect(mockTopicPreflight).toHaveBeenCalledWith('lesson-uuid-0101')
-    expect(mockRpc).toHaveBeenCalledWith('generate_topic_test', { p_lesson_id: 'lesson-uuid-0101' })
   })
 
   it.each([

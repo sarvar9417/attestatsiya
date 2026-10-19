@@ -8,6 +8,9 @@ import { M12_NETWORK_TEXTBOOK_ADDITIONS } from './topics/m12NetworkTextbookAddit
 import { M11_WEB_TEXTBOOK_ADDITIONS } from './topics/m11WebTextbookAdditions'
 import { M09_DATABASE_TEXTBOOK_ADDITIONS } from './topics/m09DatabaseTextbookAdditions'
 import { M03_OFFICE_TEXTBOOK_ADDITIONS } from './topics/m03OfficeTextbookAdditions'
+import { M03_05_CANONICAL_BOOK } from './topics/m03ExcelCanonicalBook'
+import { M15_01_CANONICAL_BOOK } from './topics/m15PedagogyCanonicalBook'
+import { M12_05_CANONICAL_BOOK } from './topics/m12IPv4CanonicalBook'
 import { M08_TEXTBOOK_STUDY_ADDITIONS } from './topics/m08TextbookStudyAdditions'
 import { M14_NORMATIVE_SOURCE_ADDITIONS } from './topics/m14NormativeSourceAdditions'
 import { M16_SOURCE_THEORY_ADDITIONS } from './topics/m16SourceTheoryAdditions'
@@ -1471,6 +1474,24 @@ for (const [subtopicId, additions] of Object.entries(M03_OFFICE_TEXTBOOK_ADDITIO
   if (local) TOPIC_CONTENT[subtopicId] = { ...local, theory: [...local.theory, ...additions] }
 }
 
+// TASK-284: Unlike earlier 5-block addenda, this is a complete, structured
+// long-form textbook chapter with a goals box, solved examples and exercises.
+// The existing static/extended theory is retained verbatim as review notes;
+// static question keys and server assessments are never modified.
+const excelBase = TOPIC_CONTENT['M03.05']
+if (excelBase) {
+  TOPIC_CONTENT['M03.05'] = {
+    ...excelBase,
+    source: 'Cambridge+ 10–11-sinf (2021), 8-bob — Elektron jadvallar',
+    kind: 'chapter',
+    theory: [
+      ...M03_05_CANONICAL_BOOK,
+      { type: 'heading', content: 'Qo‘shimcha takrorlash: avvalgi nazariya va qisqa konspekt' },
+      ...excelBase.theory,
+    ],
+  }
+}
+
 // National ICT 9 Python and Cambridge+ 10/11 JavaScript / AI source notes.
 // Static M08 is learner-facing: these examples are added before first reading.
 for (const [subtopicId, additions] of Object.entries(M08_TEXTBOOK_STUDY_ADDITIONS)) {
@@ -1491,6 +1512,39 @@ for (const [subtopicId, additions] of Object.entries(M14_NORMATIVE_SOURCE_ADDITI
 for (const [subtopicId, additions] of Object.entries(M16_SOURCE_THEORY_ADDITIONS)) {
   const local = TOPIC_CONTENT[subtopicId]
   if (local) TOPIC_CONTENT[subtopicId] = { ...local, theory: [...local.theory, ...additions] }
+}
+
+// TASK-284: authored subnet/CIDR worked-book chapter, including bitwise
+// examples and /31-/32 caveats. Do not discard the previous M12 exercises.
+const ipv4Base = TOPIC_CONTENT['M12.05']
+if (ipv4Base) {
+  TOPIC_CONTENT['M12.05'] = {
+    ...ipv4Base,
+    source: 'Cambridge+ ICT 10–11 + original IPv4 subnet theory',
+    kind: 'chapter',
+    theory: [
+      ...M12_05_CANONICAL_BOOK,
+      { type: 'heading', content: 'Qo‘shimcha takrorlash: avvalgi subnet nazariyasi' },
+      ...ipv4Base.theory,
+    ],
+  }
+}
+
+// TASK-284: source-backed pedagogy is no longer a short summary followed by
+// a collapsed note card. The new book is read first and earlier reviewed
+// material is preserved; withPedagogyStudyNotes adds the previous source notes.
+const pedagogyBase = TOPIC_CONTENT['M15.01']
+if (pedagogyBase) {
+  TOPIC_CONTENT['M15.01'] = {
+    ...pedagogyBase,
+    source: 'Mirzayeva, Pedagogika nazariyasi, 2-mavzu',
+    kind: 'chapter',
+    theory: [
+      ...M15_01_CANONICAL_BOOK,
+      { type: 'heading', content: 'Qo‘shimcha takrorlash: mavjud qisqa pedagogika nazariyasi' },
+      ...pedagogyBase.theory,
+    ],
+  }
 }
 
 // M02 canonical chapters combine multiple lengthy source lessons. Rebuilding
