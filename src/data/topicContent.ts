@@ -1350,7 +1350,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'text', content: "Texnologiya tanlashda ta’lim maqsadi, yosh, avvalgi bilim, resurs, xavfsizlik va natijani baholash mezoni birgalikda ko‘riladi. Inklyuzivlik hamma o‘quvchiga aynan bir xil topshiriq berish emas; zarur moslashtirish va qo‘llab-quvvatlashga tayangan ishtirokdir." },
     { type: 'example', content: "Bir o‘quvchi matnli ko‘rsatmani o‘qishga qiynalsa, informatika vazifasiga qisqa bosqichli qo‘llanma va tushunarli vizual ko‘rsatma berish mumkin. Bu mazmuniy maqsadni bekor qilish emas, unga erishish yo‘lini moslashtirishdir." },
     { type: 'note', content: "Loyihaga asoslangan yondashuvni shunchaki guruh bo‘lib suhbatlashish bilan, inklyuziv ta’limni esa barcha o‘quvchiga bir xil shart qo‘yish bilan tenglashtirmang." },
-    { type: 'source', content: "Manba: F.U. Qodirova, D.A. Pulatova, «Inklyuziv ta’lim: nazariya va metodika» (Chirchiq, 2022), «Kirish» va inklyuziv ta’lim ta’riflari; barnoyevak Google Drive/ChatExport_2026-10-19/files. Fizik PDF betlari alohida tekshiruvga muhtoj." },
+    { type: 'source', content: "Manba: F.U. Qodirova, D.A. Pulatova, «Inklyuziv ta’lim: nazariya va metodika» (Chirchiq, 2022), «Kirish» va inklyuziv ta’lim ta’riflari; barnoyevak Google Drive/ChatExport_2026-10-19/files. PDFning fizik 6–13-sahifalari, jumladan inklyuziya ta’rifi va tamoyillari 8–11-sahifalarda tasvir orqali tekshirildi; yuridik status alohida masala." },
   ], []),
 
   // ============================================================
