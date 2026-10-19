@@ -349,6 +349,7 @@ export default function ExamRunner({
       })
       setQueuedQuestionIds(remaining)
       if (rejected.size > 0) setMessage('Ayrim javoblar vaqt tugagani sababli serverda qabul qilinmadi.')
+      else if (report.remaining > 0) setMessage('Javob qurilmada saqlandi. Serverga yuborish amalga oshmadi; internetni tekshiring.')
     } catch (error) {
       // A failed network request does not clear the durable local answer.
       setMessage(errorMessage(error))
