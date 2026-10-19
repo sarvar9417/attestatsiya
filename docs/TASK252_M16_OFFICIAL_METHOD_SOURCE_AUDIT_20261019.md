@@ -1,6 +1,6 @@
 # TASK-252 — M16 informatika o‘qitish metodikasi: rasmiy maqsad / static theory farqi
 
-**Sana:** 2026-10-19. **Branch:** `task/TASK-252-pedagogy-m16-methodology-audit-20261019`. **Status:** PARTIAL / source-book missing.
+**Sana:** 2026-10-19. **Branch:** `task/TASK-252-pedagogy-m16-methodology-audit-20261019`. **Status:** PARTIAL / original 2023 textbook found and first selected physical pages verified, full 460-page audit pending.
 
 ## 1. Aynan nima manbadan tekshirildi?
 
@@ -13,7 +13,7 @@ Uning 2-jadvalida:
 - Informatikani o‘qitishga oid berilgan metodik qarorlarga baho berish.
 - Tavsiya etilgan darslik: **Mamarajabov M.E. va boshqalar, «Informatika o‘qitish metodikasi», Toshkent: Bookmany print, 2023, 460 bet**.
 
-**Source debt:** Ushbu tavsiya etilgan darslikning asl 460 sahifali nusxasi `barnoyevak/attestatsiya/pedagogika/files`dagi 59 PDF nomidan aniqlanmadi, Sarvar Drive qidiruvida ham topilmadi. Shuning uchun u bo‘yicha fizik sahifa yoki ekspert tasdig‘i mavjud deb da’vo qilinmaydi. 2026 rasmiy spetsifikatsiyasining maqsadlari bevosita tasdiqlandi; quyidagi informatika vaziyatlari mustaqil didaktik *illustration*, kitobdan ko‘chirma yoki rasmiy savol emas.
+**2026-10-19 yangilanishi — asosiy manba topildi:** Tavsiya etilgan 2023-yilgi **460 sahifali asl darslik** ochiq ravishda [universitet resursida PDF](https://turan-edu.uz/media/books/2024/05/22/1708324536.pdf) shaklida mavjud. Mualliflar M.E. Mamarajabov, D.E. Toshtemirov, O‘.A. Yuldashev, 2023; PDF titul sahifasi ko‘rildi. Shu muhim source gap endi **book located / partial physical-page verified**; 460 betning hammasi to‘liq o‘qildi yoki barcha nazariya tasdiqlandi degani emas. `barnoyevak` va `sarvar9417` Drivelaridagi original fayl hali topilmagani alohida masala, biroq internetdagi original PDF mavjud. Kitobdagi mazmun va misollar parafraz qilinadi, to‘liq PDF GitHubga ko‘chirilmaydi.
 
 ## 2. Muvofiqlashtirish
 
@@ -32,8 +32,23 @@ Uning 2-jadvalida:
 
 ## 3. Qolgan release va source-review shartlari
 
-1. Mamarajabov (2023) original 460 betli kitob mavjudligidan keyin har bir uchta mavzudagi tushuncha va misolni fizik bet bilan tekshirish (source locator).
+1. Mamarajabov (2023) topilgan original 460 betli PDFning **qolgan sahifalarini** har uch mavzu bilan davomli moslab, har bir termin va misolni fizik bet bilan tekshirish (source locator).
 2. 2026 spetsifikatsiyasi bo‘yicha 3 ta PM.MET savolni mustaqil ekspert kaliti, Y1/Y2/Y3, izoh, dublikat va ishonchlilik mezonlari bilan tekshirish.
 3. Backenddagi published matn bilan static fallback bir xil manba/statusga egami — read-only DB snapshot audit; hech qanday production update ekspert signoffsiz bo‘lmaydi.
 4. Exact SHA frontend quality/backend/database CI, preview mobil E2E va authenticated exam history.
 5. Foydalanuvchi faqat TASK-247 branchining mergeiga ruxsat berdi; TASK-252 **alohida branch** bo‘lib, kelgusi review/merge alohida baholanadi. Deploy qilinmadi.
+
+
+## 4. 2023-yilgi Mamarajabov darsligidan dastlabki real sahifa tekshiruvi
+
+Asl universitet PDF: https://turan-edu.uz/media/books/2024/05/22/1708324536.pdf . **Fizik PDF sahifa indeksi 0 dan boshlanadi**; jadvaldagi betlar foydalanuvchi ko‘radigan 1-asosli PDF sahifalar (indeks+1) sifatida berilgan.
+
+| Modullar | PDF 1-asosli sahifalar | Asl mazmunda topilgan dalil | Shart |
+|---|---|---|---|
+| M16.01 | 173–175, 180–181 | Informatika metodikasining maqsadi, fan mazmunini ajratish, informatika o‘quv predmetining «nimani va qanday o‘qitish» savoli | Yondashuv va shart operatori misoli — didaktik mualliflik misoli; kitobdan aynan ko‘chirilmagan |
+| M16.02 | 15–16, 46–47, 72–73 | Metodning o‘qituvchi-o‘quvchi hamkorlikdagi faoliyat ekanligi, metodlarni turlicha tasniflash, muammoli vaziyatga asoslangan o‘rganish | Fishbone/unplugged/Python misollari o‘rganishga mos illustratsiya, aynan kitob sahifasidan emas |
+| M16.03 | 90–92, 172–175 | Nazorat va baholash bilan teskari aloqa, informatika o‘qitish metodikasi kasbiy vazifalari | Qarorlar jadvalidagi Python/texnika yetishmasligi misollari mustaqil tahririy vaziyat |
+
+**Izoh:** `src/data/topicContent.ts`da manba izlaridagi «fizik PDF N–M» ifodasi 0-indeksli web PDF lokatoriga asoslangan. Yuqoridagi «PDF 1-asosli sahifa» esa PDF o‘quvchi interfeysidagi ko‘rinadigan 1-indeksli sanashdir; bir-biriga bog‘liq bo‘lib, tafovut +1. Yakuniy release oldidan hammasini 1-asosli sanashga yagona formatda o‘tkazish va sahifa rendersini takror tasdiqlash lozim.
+
+**Javob kaliti:** asli topilgan kitob testlarning avtomatik aniq to‘g‘ri variantini bermaydi. Har bir answer key expert ko‘rigi va 2026 spetsifikatsiyaga mos kelishi majburiy.
