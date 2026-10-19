@@ -134,7 +134,7 @@
       "stem": "HTML fayli bilan bir papkada `images` nomli kichik papka bor. Undagi `tabiat.png` rasmiga qaysi `src` qiymati nisbiy yo‘lni to‘g‘ri ko‘rsatadi?",
       "options": [
         "tabiat/images.png",
-        "images\\tabiat.png",
+        "img/tabiat.png",
         "images/tabiat.png",
         "/tabiat.png/images"
       ],
