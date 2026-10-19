@@ -3,7 +3,7 @@
  * optional SQL supplements have not yet been applied to a database.
  * Historical answer markers are NOT used as authoritative quiz keys.
  */
-import type { TheoryBlock } from './topicContent'
+import type { TheoryBlock, TopicContent } from './topicContent'
 
 const notes: Record<string, TheoryBlock[]> = {
   'M15.01': [
@@ -105,4 +105,19 @@ const notes: Record<string, TheoryBlock[]> = {
 
 export function getPedagogyStudyNotes(subtopicId: string): TheoryBlock[] {
   return notes[subtopicId] ?? []
+}
+
+/**
+ * The source-grounded M15 study notes used to sit in a collapsed disclosure
+ * AFTER BookReader. That made the main reader look like a four-block summary.
+ * Include the already authored notes in the primary reading sequence instead.
+ *
+ * This is a depth improvement, not a declaration of page-by-page textbook
+ * completeness. No unreviewed server/DB supplement is automatically promoted.
+ */
+export function withPedagogyStudyNotes(content: TopicContent): TopicContent {
+  if (!/^M15\\.0[1-8]$/.test(content.subtopicId)) return content
+  const extraBlocks = getPedagogyStudyNotes(content.subtopicId)
+  if (extraBlocks.length === 0) return content
+  return { ...content, theory: [...content.theory, ...extraBlocks] }
 }
