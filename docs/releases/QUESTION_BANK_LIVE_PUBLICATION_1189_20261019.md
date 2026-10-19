@@ -61,3 +61,22 @@ GROUP BY 1,2,3 ORDER BY 1,2,3;
 **Vercel/sayt deploy** foydalanuvchi tomonidan bajariladi; bu database release Vercel deploy emas. Keyinchalik nashr qilingan savollarni qayta arxivlash kerak bo‘lsa, avval `attempts` va exam generatorga ta’sirini hisobga olgan versiya-safe rollback rejasi zarur; `published` savollar stem/keys’ini joyida tahrirlamaslik kerak.
 
 **Keyingi bajariladigan ish:** qolgan 1 360 savoldan 1 210 tasi uchun haqiqiy mustaqil ekspertiza, qolgan 150 tasi uchun native format/distractor tuzatishlari va qayta validatsiya.
+
+
+## Postrelease: M08 topic-test kvotasini moslashtirish
+
+Yangi published savollarning darsma-dars yetarliligi tekshirilganda, M08 Python/JavaScript bo‘limining **9 ta original source lesson**'ida `topic_test_question_count=30` bo‘lsa-da, nashr qilingan savol soni 26–29 ekanligi aniqlandi (19 ta takroriy Y1 distractor tufayli REVIEW holatida qoldirilgan). Aynan shu 9 dars uchun `topic_test_question_count` mavjud published savollari soniga tenglashtirildi:
+
+| Dars (slug) | Eski kvota | Yangi kvota |
+|---|---:|---:|
+| pyjs-v2-P03 | 30 | 26 |
+| pyjs-v2-J02 | 30 | 27 |
+| pyjs-v2-J03 | 30 | 27 |
+| pyjs-v2-P02 | 30 | 27 |
+| pyjs-v2-P01 | 30 | 28 |
+| pyjs-v2-J01 | 30 | 29 |
+| pyjs-v2-J05 | 30 | 29 |
+| pyjs-v2-P04 | 30 | 29 |
+| pyjs-v2-P05 | 30 | 29 |
+
+Barcha o‘zgarishlar tranzaksiya orqali va `published` savol count bilan cheklangan holda amalga oshirildi. To‘g‘ri javoblar, savol matnlari, variantlar, exam attempts va tarixiy baholar o‘zgartirilmadi. Postflight tekshiruvi natijasi: **0 ta M08 darsda test kvotasi nashr qilingan savollar sonidan katta**.
