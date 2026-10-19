@@ -709,6 +709,7 @@ export default function TopicView({
                 </div>
               }>
                 <BookReader
+                  key={subtopicId}
                   content={content}
                   questionCount={hasTest ? displayedTestCount : 0}
                   isAppendix={isAppendix}
