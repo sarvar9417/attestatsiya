@@ -11,7 +11,7 @@ describe('classic exam code fences', () => {
     const items = parseCodeBlocks('Natija?\n```javascript function f(x){return x;}console.log(f(5)); ```')
     expect(items.find(x => x.type === 'code')).toMatchObject({
       language: 'javascript',
-      content: 'function f(x){return x;}console.log(f(5)); ',
+      content: 'function f(x){return x;}console.log(f(5));',
     })
   })
 
