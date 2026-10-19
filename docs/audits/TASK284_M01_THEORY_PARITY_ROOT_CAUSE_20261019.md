@@ -16,10 +16,11 @@ Most other modules initially shipped a `TOPIC_CONTENT` seed of **6–9 blocks** 
 
 - **M03.05 Excel formulalari va funksiyalari:** `src/data/topics/m03ExcelCanonicalBook.ts` contains **51 original, source-traced new blocks** and 9 natural chapter headings. It covers the model/data boundary, formula precedence, relative/absolute/mixed references, arithmetic/statistical/text functions, IF/nested IF, VLOOKUP and INDEX+MATCH, conditional counting/sum/average, data validation, test plan, worked cases and practice solutions. The 10–11-sinf Cambridge+ textbook, **8-bob, printed ~115–127**, was examined from the user's Drive. Legacy M03.05 theory and TASK-273 additions remain as secondary review and existing question bank does not change.
 - **M15.01 Pedagogika fan sifatida:** `src/data/topics/m15PedagogyCanonicalBook.ts` contains **42 original new blocks**, 8 natural chapter headings, method tables, teaching/learning/competence distinctions, pedagogy research methods, research cases and exercises. Based on the user's «Mirzayeva Pedagogika nazriyasi qollanma 2-mavzu.pdf». The earlier reviewed static text and separately-authored M15 notes remain in reading order; existing question bank unchanged.
-- Both explicitly use `content.source`, so BookReader follows original **heading-based M01 book chapters**, not artificial three-block pagination.
+- **M12.05 IP manzil, maska va tarmoq hisobi:** `src/data/topics/m12IPv4CanonicalBook.ts` contains **43 newly authored blocks**, 8 natural headings, source-context networking explanations, bitwise AND, CIDR, /24–/30 tabulation, /31 and /32 boundary cases, six solved subnet cases, tasks and explanations. The Cambridge 10–11 ICT networking material supplies context; the IP calculation examples are **original additions** and do not claim to be direct textbook transcription. Original M12 legacy notes preserved.
+- All three chapters explicitly use `content.source`, so BookReader follows original **heading-based M01 book chapters**, not artificial three-block pagination.
 - Tests check block retention, exercises, goal, source, natural section order, progression and the distinction between book styling and content quality.
 
-**Caution:** Neither exemplar reproduces the copyrighted full textbook or asserts independent page-by-page expert approval; the M01.02 reference is longer still. This is genuine added teaching material, but still not a global 100% completion claim.
+**Caution:** None of the three exemplar chapters reproduces the copyrighted full textbook or asserts independent page-by-page expert approval; the M01.02 reference is longer still. This is genuine added teaching material, but still not a global 100% completion claim.
 
 ## Full curriculum audit that was missing
 
