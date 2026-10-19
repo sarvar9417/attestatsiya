@@ -185,6 +185,44 @@ describe('secure ExamRunner', () => {
     expect(gateway.finishExam).toHaveBeenCalledWith(ids.exam)
   })
 
+  it('mock oldin serverga saqlangan javobni qayta tahrirlab, oxirgisini yuboradi', async () => {
+    const user = userEvent.setup()
+    const gateway = successfulGateway()
+    renderExam(gateway)
+    await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
+    await user.click(await screen.findByRole('button', { name: /Variant A/ }))
+    await waitFor(() => expect(gateway.submitAnswer).toHaveBeenCalledTimes(1))
+    expect(await screen.findByText('Saqlandi ✓')).toBeDefined()
+
+    const otherChoice = screen.getByRole('button', { name: /Variant B/ }) as HTMLButtonElement
+    expect(otherChoice.disabled).toBe(false)
+    await user.click(otherChoice)
+    await waitFor(() => expect(gateway.submitAnswer).toHaveBeenCalledTimes(2))
+    const calls = vi.mocked(gateway.submitAnswer).mock.calls
+    const first = calls[0][0].answer as { _client_revision: number }
+    const last = calls[1][0].answer as { option_id: string; _client_revision: number }
+    expect(last.option_id).toBe(ids.optionB)
+    expect(last._client_revision).toBeGreaterThan(first._client_revision)
+    expect(await screen.findByText('Saqlandi ✓')).toBeDefined()
+    expect(screen.queryByRole('button', { name: 'Javobni saqlash' })).toBeNull()
+  })
+
+  it('mock internet bo‘lmasa javobni navbatda qoldiradi va qayta ulanishda yuboradi', async () => {
+    const user = userEvent.setup()
+    const gateway = successfulGateway()
+    vi.mocked(gateway.flushQueuedAnswers!).mockResolvedValueOnce({
+      remaining: 1, stoppedByNetwork: true,
+    })
+    renderExam(gateway)
+    await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
+    await user.click(await screen.findByRole('button', { name: /Variant B/ }))
+    await waitFor(() => expect(gateway.flushQueuedAnswers).toHaveBeenCalledTimes(1))
+    expect(gateway.submitAnswer).not.toHaveBeenCalled()
+    await act(async () => { window.dispatchEvent(new Event('online')) })
+    await waitFor(() => expect(gateway.submitAnswer).toHaveBeenCalledTimes(1))
+    expect(await screen.findByText('Saqlandi ✓')).toBeDefined()
+  })
+
   it('tayyor bo‘lmagan pedagogika mavzu testini bosishni bloklaydi', async () => {
     const gateway = successfulGateway()
     vi.mocked(gateway.previewTopicTest!).mockResolvedValue({
