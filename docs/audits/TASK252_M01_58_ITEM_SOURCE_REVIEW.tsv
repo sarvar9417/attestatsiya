@@ -1,13 +1,13 @@
 definition_id	application_id	chapter	concept	definition_key	application_key	candidate_book	printed_pages	page_evidence_level	priority	review_note
 ARS-01-021	ARS-01-041	1	Informatika	Informatika	Informatika	CAMBRIDGE10_11	1:1-8	TOPIC_OBSERVED	NORMAL	Same four answer choices as definition question; check recall leakage and textbook specificity
-ARS-01-022	ARS-01-042	1	AKT	AKT	AKT	CAMBRIDGE10_11	1:1-8	TOPIC_OBSERVED	HIGH	AKT and digital technologies may overlap; verify unique best answer
-ARS-01-023	ARS-01-043	1	Raqamli texnologiya	Raqamli texnologiya	Raqamli texnologiya	CAMBRIDGE10_11	1:1-8	TOPIC_OBSERVED	HIGH	Scan and e-sign could also be described as ICT; check specificity
+ARS-01-022	ARS-01-042	1	AKT	AKT	AKT	CAMBRIDGE10_11	1:1-8	TOPIC_OBSERVED	HIGH	Cambridge 10-11 introduction mentions ICT, but no exact ICT-versus-digital-technology boundary was verified; rewrite distractor before expert review
+ARS-01-023	ARS-01-043	1	Raqamli texnologiya	Raqamli texnologiya	Raqamli texnologiya	ICT7	4-8,29-33	TOPIC_OBSERVED	HIGH	ICT7 printed p6 explains discrete digital devices and p29-33 raster/RGB; scan plus e-sign alone also fits ICT and needs a precise digital-code stem
 ARS-01-024	ARS-01-044	1	Ma’lumot	Ma’lumot	Ma’lumot	CAMBRIDGE10_11	1:1-8	TOPIC_OBSERVED	NORMAL	Same four answer choices as definition question; check recall leakage and textbook specificity
 ARS-01-025	ARS-01-045	1	Axborot	Axborot	Axborot	CAMBRIDGE10_11	1:1-8	TOPIC_OBSERVED	NORMAL	Same four answer choices as definition question; check recall leakage and textbook specificity
 ARS-01-026	ARS-01-046	1	Bilim	Bilim	Bilim	CAMBRIDGE10_11	1:1-8	TOPIC_OBSERVED	NORMAL	Same four answer choices as definition question; check recall leakage and textbook specificity
 ARS-01-027	ARS-01-047	1	Ma’lumot → axborot → bilim zanjiri	Ma’lumot → axborot → bilim zanjiri	Ma’lumot → axborot → bilim zanjiri	CAMBRIDGE10_11	1:1-8	TOPIC_OBSERVED	NORMAL	Same four answer choices as definition question; check recall leakage and textbook specificity
 ARS-01-028	ARS-01-048	1	Bilimlar bazasi	Bilimlar bazasi	Bilimlar bazasi	CAMBRIDGE10_11	1:1-8	TOPIC_OBSERVED	NORMAL	Same four answer choices as definition question; check recall leakage and textbook specificity
-ARS-01-029	ARS-01-049	1	Obyekt	Obyekt	Obyekt	NONE_VERIFIED	—	OPEN	HIGH	Object is implicit (library); rewrite stem to ask what entity is studied
+ARS-01-029	ARS-01-049	1	Obyekt	Obyekt	Obyekt	ICT9	20-22	TOPIC_OBSERVED	HIGH	ICT9 printed p20 directly defines studied things/processes as objects; library scenario needs to ask explicitly which entity is studied; 2026 spec coverage indirect
 ARS-01-030	ARS-01-050	1	Hodisa	Hodisa	Hodisa	NONE_VERIFIED	—	OPEN	NORMAL	Same four answer choices as definition question; check recall leakage and textbook specificity
 ARS-01-031	ARS-01-051	1	Xabar	Xabar	Xabar	ICT5	9-16	TOPIC_OBSERVED	NORMAL	Same four answer choices as definition question; check recall leakage and textbook specificity
 ARS-01-032	ARS-01-052	1	Signal	Signal	Signal	ICT7	4-8	TOPIC_OBSERVED	NORMAL	Same four answer choices as definition question; check recall leakage and textbook specificity
@@ -24,7 +24,7 @@ ARS-02-017	ARS-02-033	2	Sonli axborot	Sonli axborot	Sonli axborot	ICT5	13-16	TOP
 ARS-02-018	ARS-02-034	2	Grafik axborot	Grafik axborot	Grafik axborot	ICT7	26-38	TOPIC_OBSERVED	NORMAL	Same four answer choices as definition question; check recall leakage and textbook specificity
 ARS-02-019	ARS-02-035	2	Audioaxborot	Audioaxborot	Audioaxborot	ICT7	26-38	TOPIC_OBSERVED	NORMAL	Same four answer choices as definition question; check recall leakage and textbook specificity
 ARS-02-020	ARS-02-036	2	Videoaxborot	Videoaxborot	Videoaxborot	ICT7	26-38	TOPIC_OBSERVED	NORMAL	Same four answer choices as definition question; check recall leakage and textbook specificity
-ARS-02-021	ARS-02-037	2	Kombinatsiyalashgan axborot	Kombinatsiyalashgan axborot	Kombinatsiyalashgan axborot	ICT7	26-38	TOPIC_OBSERVED	HIGH	Static/dynamic vs combined format may need a clearer choice
+ARS-02-021	ARS-02-037	2	Kombinatsiyalashgan axborot	Kombinatsiyalashgan axborot	Kombinatsiyalashgan axborot	ICT7	26-38	TOPIC_OBSERVED	HIGH	ICT7 discusses constituent text image and audio forms; a precise textbook definition of combined information not verified; distinguish multimedia form from dynamic/updated content
 ARS-02-022	ARS-02-038	2	Statik axborot	Statik axborot	Statik axborot	CAMBRIDGE10_11	1:3-8	TOPIC_OBSERVED	NORMAL	Same four answer choices as definition question; check recall leakage and textbook specificity
 ARS-02-023	ARS-02-044	2	Dinamik axborot	Dinamik axborot	Dinamik axborot	CAMBRIDGE10_11	1:3-8	TOPIC_OBSERVED	NORMAL	Same four answer choices as definition question; check recall leakage and textbook specificity
 ARS-02-024	ARS-02-045	2	Uzluksiz axborot	Uzluksiz axborot	Uzluksiz axborot	ICT7	4-8	TOPIC_OBSERVED	NORMAL	Same four answer choices as definition question; check recall leakage and textbook specificity
@@ -34,7 +34,7 @@ ARS-02-027	ARS-02-048	2	Shaxsiy va maxfiy axborot	Shaxsiy va maxfiy axborot	Shax
 ARS-02-028	ARS-02-054	2	Birlamchi manba	Birlamchi manba	Birlamchi manba	CAMBRIDGE10_11	1:3-8	TOPIC_OBSERVED	NORMAL	Same four answer choices as definition question; check recall leakage and textbook specificity
 ARS-02-029	ARS-02-055	2	Ikkilamchi manba	Ikkilamchi manba	Ikkilamchi manba	CAMBRIDGE10_11	1:3-8	TOPIC_OBSERVED	NORMAL	Same four answer choices as definition question; check recall leakage and textbook specificity
 ARS-02-030	ARS-02-056	2	Bevosita va bilvosita manba	Bevosita va bilvosita manba	Bevosita va bilvosita manba	CAMBRIDGE10_11	1:3-8	TOPIC_OBSERVED	NORMAL	Same four answer choices as definition question; check recall leakage and textbook specificity
-ARS-03-024	ARS-03-047	3	Axborotni yaratish va yig‘ish	Axborotni yaratish va yig‘ish	Axborotni yaratish va yig‘ish	ICT7	4-8	RELATED_ONLY	HIGH	Creating and collecting occur together; verify targeted process
+ARS-03-024	ARS-03-047	3	Axborotni yaratish va yig‘ish	Axborotni yaratish va yig‘ish	Axborotni yaratish va yig‘ish	ICT7	4-8	TOPIC_OBSERVED	HIGH	ICT7 printed p4 explicitly enumerates creation collection and processing; this scenario combines stages so one-best-answer still requires rewrite
 ARS-03-025	ARS-03-048	3	Qabul qilish va kiritish	Qabul qilish va kiritish	Qabul qilish va kiritish	ICT7	4-8	RELATED_ONLY	NORMAL	Same four answer choices as definition question; check recall leakage and textbook specificity
 ARS-03-026	ARS-03-049	3	Saqlash va arxivlash	Saqlash va arxivlash	Saqlash va arxivlash	ICT7	4-8	RELATED_ONLY	NORMAL	Same four answer choices as definition question; check recall leakage and textbook specificity
 ARS-03-027	ARS-03-050	3	Qayta ishlash va tahlil	Qayta ishlash va tahlil	Qayta ishlash va tahlil	ICT7	4-8	RELATED_ONLY	NORMAL	Same four answer choices as definition question; check recall leakage and textbook specificity
