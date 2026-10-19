@@ -29,12 +29,12 @@ export const ICT6_M01_PAGE_ADDENDA: readonly VerifiedTextbookInsertion[] = [
     beforeHeading: 'Raqamli xavfsizlikning kundalik minimumi',
     blocks: [
       { type: 'subheading', content: '6-sinf darsligidagi Creative Commons huquqlarini tushunish' },
-      { type: 'table', content: '| Litsenziya | Qanday foydalanishga ruxsat bor? | Muhim shart |\n|---|---|---|\n| CC BY | Moslashtirish va ulashish, jumladan tijoratda | Muallif ko‘rsatiladi |\n| CC BY-SA | Moslashtirish va ulashish | Muallif, hosila asarda bir xil litsenziya |\n| CC BY-ND | O‘zgartirilmagan materialni tarqatish | Hosila asarni tarqatish ruxsatsiz emas |\n| CC BY-NC | Notijorat maqsadda moslashtirish | Muallif, notijorat |\n| CC BY-NC-SA | Notijorat moslashtirish | Muallif, notijorat, bir xil litsenziya |\n| CC BY-NC-ND | O‘zgartirilmagan nusxani notijorat tarqatish | Muallif, moslashtirish yo‘q |',
+      { type: 'table', content: '| Litsenziya | Qanday foydalanishga ruxsat bor? | Muhim shart |\n|---|---|---|\n| CC BY | Moslashtirish va ulashish, jumladan tijoratda | Muallif ko‘rsatiladi |\n| CC BY-SA | Moslashtirish va ulashish | Muallif, hosila asarda bir xil litsenziya |\n| CC BY-ND | O‘zgartirilmagan materialni tarqatish | Hosila asarni tarqatish mumkin emas |\n| CC BY-NC | Notijorat maqsadda moslashtirish | Muallif, notijorat |\n| CC BY-NC-SA | Notijorat moslashtirish | Muallif, notijorat, bir xil litsenziya |\n| CC BY-NC-ND | O‘zgartirilmagan nusxani notijorat tarqatish | Muallif, moslashtirish yo‘q |',
         headers: ['Litsenziya', 'Qanday foydalanishga ruxsat bor?', 'Muhim shart'],
         rows: [
           ['CC BY', 'Moslashtirish va ulashish, jumladan tijoratda', 'Muallif ko‘rsatiladi'],
           ['CC BY-SA', 'Moslashtirish va ulashish', 'Muallif, hosila asarda bir xil litsenziya'],
-          ['CC BY-ND', 'O‘zgartirilmagan materialni tarqatish', 'Hosila asarni tarqatish ruxsatsiz emas'],
+          ['CC BY-ND', 'O‘zgartirilmagan materialni tarqatish', 'Hosila asarni tarqatish mumkin emas'],
           ['CC BY-NC', 'Notijorat maqsadda moslashtirish', 'Muallif, notijorat'],
           ['CC BY-NC-SA', 'Notijorat moslashtirish', 'Muallif, notijorat, bir xil litsenziya'],
           ['CC BY-NC-ND', 'O‘zgartirilmagan nusxani notijorat tarqatish', 'Muallif, moslashtirish yo‘q'],
