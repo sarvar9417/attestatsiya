@@ -10,6 +10,8 @@ import { M09_DATABASE_TEXTBOOK_ADDITIONS } from './topics/m09DatabaseTextbookAdd
 import { M03_OFFICE_TEXTBOOK_ADDITIONS } from './topics/m03OfficeTextbookAdditions'
 import { M03_05_CANONICAL_BOOK } from './topics/m03ExcelCanonicalBook'
 import { M15_01_CANONICAL_BOOK } from './topics/m15PedagogyCanonicalBook'
+import { M03_01_CANONICAL_BOOK } from './topics/m03WordCanonicalBook'
+import { M15_02_CANONICAL_BOOK } from './topics/m15LearningPrinciplesCanonicalBook'
 import { M12_05_CANONICAL_BOOK } from './topics/m12IPv4CanonicalBook'
 import { M08_TEXTBOOK_STUDY_ADDITIONS } from './topics/m08TextbookStudyAdditions'
 import { M14_NORMATIVE_SOURCE_ADDITIONS } from './topics/m14NormativeSourceAdditions'
@@ -1543,6 +1545,38 @@ if (pedagogyBase) {
       ...M15_01_CANONICAL_BOOK,
       { type: 'heading', content: 'Qo‘shimcha takrorlash: mavjud qisqa pedagogika nazariyasi' },
       ...pedagogyBase.theory,
+    ],
+  }
+}
+
+// TASK-285: put the long source-grounded Word chapter first. Preserve the
+// original quiz and the previous office supplement (they remain readable).
+const wordIntroBase = TOPIC_CONTENT['M03.01']
+if (wordIntroBase) {
+  TOPIC_CONTENT['M03.01'] = {
+    ...wordIntroBase,
+    source: 'Cambridge+ ICT 5 + 10/11, original pedagogical Word chapter',
+    kind: 'chapter',
+    theory: [
+      ...M03_01_CANONICAL_BOOK,
+      { type: 'heading', content: 'Oldingi darsdagi qisqa Word nazariyasi va tekshiruv' },
+      ...wordIntroBase.theory,
+    ],
+  }
+}
+
+// TASK-285: complete M15.02 before the legacy summary and the additional
+// reviewed study notes attached in TopicView. Never change assessment keys.
+const didacticsBase = TOPIC_CONTENT['M15.02']
+if (didacticsBase) {
+  TOPIC_CONTENT['M15.02'] = {
+    ...didacticsBase,
+    source: 'F.O. Mirzayeva, Pedagogika nazariyasi va tarixi, didaktika ma’ruzalari',
+    kind: 'chapter',
+    theory: [
+      ...M15_02_CANONICAL_BOOK,
+      { type: 'heading', content: 'Oldingi qisqa ta’lim tamoyillari konspekti' },
+      ...didacticsBase.theory,
     ],
   }
 }
