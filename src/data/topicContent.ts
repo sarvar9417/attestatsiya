@@ -101,8 +101,29 @@ export interface TopicContent {
   kind?: 'chapter' | 'appendix'
 }
 
+/**
+ * Old static mini-quizzes used Y2/Y3 for cognitive difficulty even when their
+ * interaction was a four-option multiple choice. The learner UI uses Y2 for
+ * matching (pairs) and Y3 for ordering (items + correctOrder); misclassified
+ * legacy MCQs otherwise have no selectable answers and can never score.
+ * This conversion applies only to local fallback mini-quizzes assembled by t().
+ * It does not alter server-authored Y2/Y3 exams or any persisted answer keys.
+ */
+function normalizeLegacyPracticeFormat(question: TestQuestion): TestQuestion {
+  const missingMatching = question.type === 'Y2' && !question.pairs?.length
+  const missingOrdering = question.type === 'Y3' && (!question.items?.length || !question.correctOrder?.length)
+  const validChoice = question.options.length === 4
+    && question.options.every(option => option.trim().length > 0)
+    && Number.isInteger(question.correctIndex)
+    && question.correctIndex >= 0
+    && question.correctIndex < question.options.length
+  return (missingMatching || missingOrdering) && validChoice
+    ? { ...question, type: 'Y1' }
+    : question
+}
+
 function t(subtopicId: string, title: string, theory: TheoryBlock[], questions: TestQuestion[]): TopicContent {
-  return { subtopicId, title, theory, questions }
+  return { subtopicId, title, theory, questions: questions.map(normalizeLegacyPracticeFormat) }
 }
 
 export const TOPIC_CONTENT: Record<string, TopicContent> = {
