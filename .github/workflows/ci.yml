@@ -54,6 +54,9 @@ jobs:
       - name: Pedmahorat Guli offline curation safeguards
         run: node --test scripts/tests/curate-pedguli-export.test.mjs scripts/tests/curate-pedguli-html.test.mjs scripts/tests/import-pedguli-candidates.test.mjs scripts/tests/import-pedguli-stage4.test.mjs
 
+      - name: TASK-270 original candidate metadata safeguards
+        run: node --test scripts/tests/task270_candidate_metadata.test.mjs
+
       - name: Parametric generated pool invariants
         run: npm run content:generated:check
 
@@ -402,3 +405,28 @@ jobs:
             -f supabase/tests/canonical_lesson_drift_reconcile.test.sql \
             -f supabase/tests/spec_zero_construct_review_bank.test.sql \
             -f supabase/tests/anon_rpc_hardening.test.sql
+
+  # Required branch protection context. The legacy "quality" commit status
+  # written by frontend-quality can be insufficient if branch protection
+  # expects an Actions check-run named "quality" from the GitHub Actions app.
+  # Keep the actual check-run AND legacy commit status in sync; neither bypasses
+  # frontend tests, backend checks or the database gate.
+  quality:
+    name: quality
+    needs: [frontend-quality, backend, database]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Enforce all required CI jobs
+        env:
+          FRONTEND_RESULT: ${{ needs['frontend-quality'].result }}
+          BACKEND_RESULT: ${{ needs.backend.result }}
+          DATABASE_RESULT: ${{ needs.database.result }}
+        run: |
+          echo "frontend-quality: ${FRONTEND_RESULT}"
+          echo "backend: ${BACKEND_RESULT}"
+          echo "database: ${DATABASE_RESULT}"
+          test "${FRONTEND_RESULT}" = "success"
+          test "${BACKEND_RESULT}" = "success"
+          test "${DATABASE_RESULT}" = "success"

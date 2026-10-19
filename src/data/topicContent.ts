@@ -2,15 +2,15 @@ import { M01_CONTENT } from './topics/m01'
 import { withVerifiedM01Additions } from './topics/m01TextbookAudit'
 import { M05_THEORY } from './topics/m05'
 import { buildCanonicalM02Topic } from './topics/m02Canonical'
-import { M16_SOURCE_THEORY_ADDITIONS } from './topics/m16SourceTheoryAdditions'
-import { M14_NORMATIVE_SOURCE_ADDITIONS } from './topics/m14NormativeSourceAdditions'
-import { M08_TEXTBOOK_STUDY_ADDITIONS } from './topics/m08TextbookStudyAdditions'
-import { M03_OFFICE_TEXTBOOK_ADDITIONS } from './topics/m03OfficeTextbookAdditions'
-import { M09_DATABASE_TEXTBOOK_ADDITIONS } from './topics/m09DatabaseTextbookAdditions'
-import { M11_WEB_TEXTBOOK_ADDITIONS } from './topics/m11WebTextbookAdditions'
-import { M12_NETWORK_TEXTBOOK_ADDITIONS } from './topics/m12NetworkTextbookAdditions'
-import { M10_GRAPHICS_TEXTBOOK_ADDITIONS } from './topics/m10GraphicsTextbookAdditions'
 import { M13_DIGITAL_TEXTBOOK_ADDITIONS } from './topics/m13DigitalTextbookAdditions'
+import { M10_GRAPHICS_TEXTBOOK_ADDITIONS } from './topics/m10GraphicsTextbookAdditions'
+import { M12_NETWORK_TEXTBOOK_ADDITIONS } from './topics/m12NetworkTextbookAdditions'
+import { M11_WEB_TEXTBOOK_ADDITIONS } from './topics/m11WebTextbookAdditions'
+import { M09_DATABASE_TEXTBOOK_ADDITIONS } from './topics/m09DatabaseTextbookAdditions'
+import { M03_OFFICE_TEXTBOOK_ADDITIONS } from './topics/m03OfficeTextbookAdditions'
+import { M08_TEXTBOOK_STUDY_ADDITIONS } from './topics/m08TextbookStudyAdditions'
+import { M14_NORMATIVE_SOURCE_ADDITIONS } from './topics/m14NormativeSourceAdditions'
+import { M16_SOURCE_THEORY_ADDITIONS } from './topics/m16SourceTheoryAdditions'
 // M14–M16 use server-scored exams exclusively. Legacy mini-quiz answer keys
 // have intentionally been stripped from the shipped JavaScript bundle.
 
@@ -1259,6 +1259,12 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'example', content: "O‘quvchi Python siklida xatoga yo‘l qo‘ysa, uning sababini dars davomida topib ko‘rsatma berish — formativ qayta aloqa. Dastlabki tayyorgarlikni bilish — diagnostik, bo‘lim yakunini mezon asosida baholash — summativ." },
     { type: 'note', content: "Test, og‘zaki savol, jadval yoki kuzatishning qaysi baholash turiga kirishi vositaning nomiga emas, undan foydalanish maqsadiga bog‘liq. «O‘zbekistonda faqat 5 ballik tizim» kabi umumiy normativ da’vo qilinmaydi." },
     { type: 'source', content: "Asos: «Kasb-standarti.pdf» — «Umumiy o‘rta ta’lim maktabi o‘qituvchisining kasb standarti» matnli nusxasi, barnoyevak Drive/pedagogika/files (https://drive.google.com/file/d/1HdlFFazzvvO-FMItZKOIna0jRS6p-Lpq/view). Bu ko‘chirma sifatida tekshirilgan; normativ hujjatning kuchga kirishi va PDF fizik beti alohida verifikatsiyaga muhtoj." },
+    { type: 'heading', content: 'Baholash maqsadi bilan natijani talqin qilish mezonini farqlang' },
+    { type: 'definition', content: '**Domen** — baholanayotgan bilim, ko‘nikma va kompetensiyalar majmui; **konstrukt** — shu doirada o‘lchanishi kerak bo‘lgan muayyan xususiyat. **Validlik** testdan olingan natija asosida chiqariladigan xulosa va qarorning maqsadga qanchalik asosli ekanligi bilan bog‘liq; faqat chiroyli savol tuzish emas.' },
+    { type: 'table', content: '| Natijani talqin qilish turi | Natija nimaga nisbatan solishtiriladi? |\n|---|---|\n| Normaga mo‘ljallangan | Taqqoslanadigan o‘quvchilar guruhining natijalariga |\n| Mezonga mo‘ljallangan | Oldindan aniqlangan o‘quv maqsadi yoki mezonga |\n| Ipsativ | O‘sha o‘quvchining avvalgi natijasi va shaxsiy o‘sishiga |' },
+    { type: 'example', content: 'Informatikadan bir xil topshiriq uch xil maqsadda ishlatilishi mumkin: sinf o‘rtacha ko‘rsatkichiga solishtirish — normaga; «siklni to‘g‘ri tuzadi» mezonini tekshirish — mezonga; o‘quvchining o‘tgan haftadagi natijasi bilan taqqoslash — ipsativ talqin. **Testning o‘zi emas, natijadan chiqarilgan xulosa** bu farqni belgilaydi.' },
+    { type: 'trap', content: '**Aralashtirmang:** diagnostik, formativ va summativ — baholashning o‘quv jarayonidagi maqsadlari; normaga, mezonga va ipsativ — natijani taqqoslash asoslari. Komil Jalilov 1.2-bo‘limda shakllantiruvchi va xulosalovchi baholashni asosiy maqsad sifatida ajratadi, pedagogning kasb standarti 3-sohasi esa diagnostik baholashni ham alohida ko‘rsatadi. Manbalarning tasnif ko‘lami bir xil emas.' },
+    { type: 'source', content: 'Manbalar: Komil Jalilov, «Baholash nazariyasi asoslari» (Akademnashr, 2020), «1.1.», «1.2. Baholashning maqsadlari», test natijalarini tahlil qilish bo‘limi va «2.1. Validlik» — https://drive.google.com/file/d/1-l4tFRqNEBuDEtvIavoh8yYB2pYp1JFN/view ; «Kasb-standarti.pdf», 3-mehnat vazifasi — https://drive.google.com/file/d/1HdlFFazzvvO-FMItZKOIna0jRS6p-Lpq/view . PDF matni ko‘rib chiqildi, fizik sahifalar va huquqiy kuch alohida tekshiriladi.' },
   ], []),
 
   'M14.04': t('M14.04', "Tarbiyaviy faoliyat", [
@@ -1297,10 +1303,12 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   // M15 — Umumiy pedagogika
   // ============================================================
   'M15.01': t('M15.01', 'Pedagogika, didaktika va yosh psixologiyasi', [
-    { type: 'definition', content: 'Pedagogika — ta\'lim va tarbiya qonuniyatlarini o\'rganuvchi fan. Didaktika — pedagogikaning o\'qitish nazariyasi bo\'limi. Yosh psixologiyasi — inson psixikasining yoshga qarab rivojlanishini o\'rganadi.' },
-    { type: 'text', content: 'Pedagogikaning asosiy kategoriyalari: ta\'lim (bilim, ko\'nikma, malaka berish), tarbiya (shaxsni shakllantirish), rivojlanish (fiziologik va psixologik o\'zgarishlar), bilim olish (faoliyat natijasi).' },
-    { type: 'table', content: '| Kategoriya | Ta\'rif |\n|-----------|--------|\n| Ta\'lim | Bilim, ko\'nikma, malaka berish jarayoni |\n| Tarbiya | Shaxsni ma\'naviy-axloqiy shakllantirish |\n| Rivojlanish | Fiziologik va psixologik o\'zgarishlar |\n| Bilim olish | O\'quvchi faoliyati natijasi |' },
-    { type: 'note', content: '📚 Pedagogika bo\'limlari: umumiy pedagogika, didaktika, tarbiya nazariyasi, maktabshunoslik, maxsus pedagogika, yosh pedagogikasi.' },
+    { type: 'definition', content: '**Pedagogika** ta’lim va tarbiya jarayonini yaxlit holda, uning mazmuni va qonuniyatlarini o‘rganadi. **Didaktika** — ta’lim nazariyasi; **tarbiya nazariyasi** — tarbiyaviy jarayonning mazmuni, shakl, usul va vositalarini o‘rganadi. **Yosh psixologiyasi** esa yoshga qarab psixik rivojlanishni tadqiq qiladi.' },
+    { type: 'table', content: '| Asosiy tushuncha | Mazmuni |\n|---|---|\n| Shaxs | Jamiyatda ong, dunyoqarash va o‘ziga xos xulq-atvorga ega inson |\n| Ta’lim | Bilim, ko‘nikma, malaka va kompetensiyani rivojlantirishga yo‘naltirilgan jarayon |\n| Tarbiya | Qadriyat, munosabat va xulqni maqsadli shakllantirish jarayoni |\n| Rivojlanish | Shaxsning jismoniy, aqliy va ijtimoiy jihatidagi miqdoriy hamda sifat o‘zgarishlari |\n| Bilim | Borliq haqidagi tizimlashtirilgan tushuncha va ma’lumotlar |\n| Ko‘nikma | Muayyan faoliyatni ongli ravishda bajara olish |\n| Malaka | Mashq natijasida avtomatlashgan harakat yoki faoliyat usuli |\n| Kompetensiya | Bilim va ko‘nikmalarni real vaziyatda maqsadga muvofiq qo‘llash |\n| Ma’lumot | O‘zlashtirilgan bilim, ko‘nikma va shakllangan dunyoqarash majmui |' },
+    { type: 'text', content: 'Pedagogika fanining **obyekti** — yaxlit pedagogik jarayon; **predmeti** — ta’lim-tarbiyaning mazmuni, qonuniyatlari, tamoyillari, shakl, metod va vositalari. Ilmiy pedagogik kuzatish, suhbat, anketa va eksperimentni sinfda o‘qitish metodi bilan bir tushuncha deb qabul qilmang.' },
+    { type: 'example', content: 'O‘quvchi Python dasturidagi siklni tushuntirsa — bilimini namoyon qiladi; kodni yoza olsa — ko‘nikmasini ko‘rsatadi; uni mustaqil muammo yechishga moslashtirsa — kompetensiyasi namoyon bo‘ladi. Ushbu misol o‘quv maqsadini bosqichma-bosqich kuzatish uchun berilgan.' },
+    { type: 'trap', content: '«Bilim olish» o‘quvchining faoliyatini ifodalaydi; uni ushbu manbadagi «bilim», «ko‘nikma», «malaka», «kompetensiya» kategoriyalaridan birining o‘rniga qo‘ymang. Bilim, malaka va kompetensiya ham o‘zaro sinonim emas.' },
+    { type: 'source', content: 'Manba: «Mirzayeva Pedagogika nazriyasi qollanma 2-mavzu.pdf», «Pedagogika fan sifatida», «Pedagogika fanining asosiy kategoriyalari» va «Tadqiqot metodlari» bo‘limlari — https://drive.google.com/file/d/1woZMas8dNbzk6yephzNH_XdmT19ess-l/view . Ikkilamchi konspekt matni bilan solishtirilgan, fizik sahifalar tekshirilmagan.' },
   ], []),
 
   'M15.02': t('M15.02', 'Ta\'lim tamoyillari', [
@@ -1313,9 +1321,11 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
 
   'M15.03': t('M15.03', 'Tarbiya va uning turlari', [
     { type: 'definition', content: 'Tarbiya — shaxsning ma\'naviy, axloqiy, ijtimoiy va madaniy sifatlarini shakllantirishga qaratilgan pedagogik jarayon.' },
-    { type: 'table', content: '| Tarbiya turi | Mazmuni |\n|-------------|--------|\n| Aqliy | Fikrlash qobiliyatini rivojlantirish |\n| Axloqiy | Axloqiy me\'yor va qadriyatlarni shakllantirish |\n| Mehnat | Mehnatga munosabat va kasb tanlash |\n| Estetik | Go\'zallikni his qilish va yaratish |\n| Jismoniy | Sog\'lom turmush tarzi |\n| Huquqiy | Huquqiy ong va mas\'uliyat |\n| Ekologik | Atrof-muhitga ehtiyotkorona munosabat |\n| Iqtisodiy | Iqtisodiy bilim asoslari |' },
-    { type: 'text', content: 'Tarbiya usullari: ishontirish (suhbat, tushuntirish), mashq qildirish, rag\'batlantirish, majburlash, namuna ko\'rsatish.' },
+    { type: 'table', content: '| Tarbiya turi | Mazmuni |\n|-------------|--------|\n| Fuqarolik | Jamiyatdagi huquq va burchlarni mas’uliyat bilan anglash |\n| Aqliy | Fikrlash qobiliyatini rivojlantirish |\n| Axloqiy | Axloqiy me\'yor va qadriyatlarni shakllantirish |\n| Mehnat | Mehnatga munosabat va kasb tanlash |\n| Estetik | Go\'zallikni his qilish va yaratish |\n| Jismoniy | Sog\'lom turmush tarzi |\n| Huquqiy | Huquqiy ong va mas\'uliyat |\n| Ekologik | Atrof-muhitga ehtiyotkorona munosabat |\n| Iqtisodiy | Iqtisodiy bilim asoslari |' },
+    { type: 'text', content: 'Tarbiya metodlariga tushuntirish va ishontirish, ijobiy namuna, mashq qildirish, rag‘batlantirish, asosli talab qo‘yish hamda pedagogik nazorat kiradi. Metod vaziyat va tarbiyaviy maqsadga muvofiq, o‘quvchining qadr-qimmatini saqlagan holda tanlanadi.' },
     { type: 'example', content: 'Axloqiy tarbiya: yaxshi va yomon xulq haqida suhbat, axloqiy vaziyatlarni tahlil qilish, ijobiy namunalar ko\'rsatish.' },
+    { type: 'note', content: 'Tarbiya **yo‘nalishi** (masalan, ekologik), **metodi** (masalan, namuna) va **shakli** (masalan, loyiha) alohida mezonlardir. Ayrim tarixiy tasniflarda «majburlash» atamasi uchrashi mumkin; uni o‘quvchiga zo‘ravonlik yoki kamsitishni tavsiya qilish deb talqin qilmang.' },
+    { type: 'source', content: 'Manba: «Mirzayeva Pedagogika nazriyasi qollanma 2-mavzu.pdf», «Tarbiya nazariyasi» va «Ijtimoiy tarbiya» qismlari — https://drive.google.com/file/d/1woZMas8dNbzk6yephzNH_XdmT19ess-l/view . Tarbiya usullari haqidagi didaktik misollar muharrir izohi bo‘lib, konspektdan so‘zma-so‘z ko‘chirma emas.' },
   ], []),
 
   'M15.04': t('M15.04', 'Dars turlari, rejalashtirish va sinfni boshqarish', [
@@ -1330,8 +1340,9 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   'M15.05': t('M15.05', 'Sinf rahbari va ota-onalar bilan ish', [
     { type: 'definition', content: 'Sinf rahbari — sinfdagi o\'quv-tarbiyaviy ishlarni tashkil etuvchi o\'qituvchi. Ota-onalar bilan ish — ta\'lim jarayonining muhim qismi.' },
     { type: 'text', content: 'Sinf rahbarining vazifalari: o\'quvchilarni o\'rganish, sinf jamoasini shakllantirish, o\'quvchilar bilan individual ish, ota-onalar bilan hamkorlik, hujjatlar yuritish (sinf jurnali, shaxsiy ish).' },
-    { type: 'table', content: '| Hujjat | Vazifasi |\n|--------|---------|\n| Sinf jurnali | O\'zlashtirish va davomatni qayd etish |\n| O\'quvchi shaxsiy ishi | Shaxsiy ma\'lumotlar |\n| Ota-onalar bilan ish rejasi | Hamkorlik tadbirlari |\n| Sinf soati rejasi | Tarbiyaviy ish rejasi |\n| Kundalik | Uyga vazifa va baholar |' },
+    { type: 'table', content: '| Hujjat | Vazifasi |\n|--------|---------|\n| Sinf jurnali | O\'zlashtirish va davomatni qayd etish |\n| O\'quvchi shaxsiy ishi | Shaxsiy ma\'lumotlar |\n| Ota-onalar bilan ish rejasi | Hamkorlik tadbirlari |\n| Sinf soati rejasi | Tarbiyaviy ish rejasi |\n| Kundalik yoki elektron xizmat (mavjud bo‘lsa) | Vazifa va baholar bo‘yicha axborot almashish |' },
     { type: 'example', content: 'Sinf rahbari faoliyati:\n- Sinf soati va tarbiyaviy tadbirlarni rejalashtirish\n- Ota-onalar yig\'ilishi va individual suhbatni ehtiyojga ko\'ra tashkil etish\n- O\'quvchilar bilan individual suhbat\n- Davomatni kuzatish\n- Fan o\'qituvchilari bilan hamkorlik' },
+    { type: 'note', content: 'Jadval — sinf rahbari hamkorligini tushuntiruvchi **namunaviy** hujjatlar va vositalar ro‘yxati; hammasi bir vaqtda majburiy yuritiladi degan amaldagi huquqiy talab emas. O‘quvchining shaxsiy ma’lumotlari umumiy guruhlarga ruxsatsiz tarqatilmaydi; haqiqiy hujjat majburiyati alohida normativ bilan tekshiriladi.' },
   ], []),
 
   'M15.06': t('M15.06', 'Pedagogik etika, nutq va refleksiya', [
@@ -1339,13 +1350,19 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'text', content: 'Pedagogik etika qoidalari: o\'quvchilarga hurmat, adolatli munosabat, mehr-oqibat, talabchanlik, o\'ziga nisbatan talabchanlik, pedagogik takt (me\'yorni his qilish).' },
     { type: 'table', content: '| Tushuncha | Mazmuni |\n|-----------|--------|\n| Pedagogik etika | Kasbiy axloq me\'yorlari |\n| Pedagogik takt | O\'zini tuta bilish, me\'yorni his qilish |\n| Pedagogik nutq | Aniq, ifodali, tushunarli nutq |\n| Refleksiya | O\'z faoliyatini tahlil qilish |\n| Pedagogik texnika | Nutq, mimika, jest, ovozni boshqarish |\n| Pedagogik ijodkorlik | Yangi g\'oya va yondashuvlar yaratish |' },
     { type: 'note', content: '🎯 O\'qituvchi nutqi o\'quvchilarga namuna bo\'ladi. Pedagogik takt — o\'qituvchining muhim sifati.' },
+    { type: 'heading', content: 'Nutq madaniyatining asosiy kommunikativ sifatlari' },
+    { type: 'table', content: '| Sifat | Informatika darsida tekshirish uchun belgi |\n|---|---|\n| To‘g‘rilik | Til me’yorlari va atamalarni xatosiz ishlatish |\n| Aniqlik | «O‘zgaruvchi» va «qiymat»ni chalkashtirmay bayon qilish |\n| Mantiqiylik | Fikrlarni sabab va natija izchilligida tushuntirish |\n| Soflik | Ma’noga xizmat qilmaydigan ortiqcha so‘zlarni kamaytirish |\n| Boylik | Ma’noni turli tushunarli ifodalar bilan yetkazish |\n| Jo‘yalilik | Nutqni sinf yoshiga va vaziyatiga mos tanlash |\n| Ifodalilik | Muhim fikrni ohang va urg‘u bilan ravshan ko‘rsatish |' },
+    { type: 'example', content: 'O‘qituvchi «algoritmni kompyuter ishlaydi» deb umumiy aytish o‘rniga, «algoritm — amallar ketma-ketligi, uni bajaruvchi inson yoki kompyuter bo‘lishi mumkin» deb aniqlashtiradi. Bu **aniqlik** va **mantiqiylik**ka xizmat qiladi. Ovozni balandlatishning o‘zi nutq sifatini kafolatlamaydi.' },
+    { type: 'source', content: 'Manba: Nizomiddin Mahmudov, «O‘qituvchi nutqi madaniyati» (Toshkent, 2007), darslikning kirish/bibliografik tavsifidagi yetti kommunikativ sifat — https://drive.google.com/file/d/1MUrT_uKKg-0jWwV16j97AzkcbU6LGpHL/view ; qo‘shimcha: Muslimov va boshqalar, «Pedagogik kompetentlik va kreativlik asoslari» (2015) — https://drive.google.com/file/d/1M0vGhTnSMehXfyEHo3dlHXUgeA_DTbfN/view . Mahmudov PDF matnida OCR buzilishlari bor; fizik sahifa lokatorlari tekshirilmagan, amaliy informatika misoli muharrirniki.' },
   ], []),
 
   'M15.07': t('M15.07', 'Pedagogik qobiliyatlar', [
     { type: 'definition', content: 'Pedagogik qobiliyat — o\'qituvchining ta\'lim-tarbiyaviy ishni samarali amalga oshirish imkonini beruvchi individual psixologik xususiyatlar majmui.' },
     { type: 'table', content: '| Qobiliyat turi | Mazmuni |\n|--------------|--------|\n| Didaktik | Materialni tushunarli bayon qilish |\n| Akademik | Fan bilimlari va tadqiqot qobiliyati |\n| Perseptiv | O\'quvchini tushunish, ichki dunyosini his qilish |\n| Nutq | Tushunarli, ifodali nutq |\n| Tashkilotchilik | O\'quvchilar va jarayonni tashkil etish |\n| Kommunikativ | Muloqot o\'rnatish qobiliyati |\n| Avtoritar | O\'quvchilarga ta\'sir o\'tkazish |\n| Pedagogik tasavvur | Natijalarni oldindan ko\'ra bilish |\n| Diqqatni taqsimlash | Bir vaqtda bir necha ishni boshqarish |' },
     { type: 'text', content: 'Pedagogik qobiliyatlarni o\'qish, amaliy tajriba va muntazam refleksiya orqali rivojlantirish mumkin. O\'qituvchi o\'zining kuchli tomonlarini rivojlantirishi va zaif tomonlarini mustahkamlashi kerak.' },
-    { type: 'note', content: '⭐ Didaktik qobiliyat — eng muhim pedagogik qobiliyatlardan biri: materialni sodda, tushunarli va qiziqarli bayon qilish.' },
+    { type: 'note', content: 'Didaktik qobiliyat murakkab materialni tushunarli yetkazishga xizmat qiladi. Biroq pedagogik qobiliyatlarning yagona «eng muhim» turi qat’iy belgilangan emas: vaziyat va manbadagi muallif tasnifi hisobga olinadi.' },
+    { type: 'trap', content: '«Avtoritar qobiliyat» atamasi ayrim tarixiy pedagogik tasniflarda shaxsiy obro‘ va ta’sir bilan bog‘liq. Bu bolaga qo‘pollik, zo‘ravonlik yoki bosim o‘tkazishni oqlamaydi. Test savolida keltirilgan muallif tasnifini aniqlang.' },
+    { type: 'source', content: 'Manba: «Xoliqov Pedagogik mahorat.pdf», pedagogik qobiliyatlar bo‘limi — https://drive.google.com/file/d/1urZe1IJjLVco-KysxtIvg46Ej89XreuK/view ; mualliflar tasnifi cheklovlari qo‘shimcha M15.07 source notesda yoritilgan.' },
   ], []),
 
   'M15.08': t('M15.08', 'Ta\'lim texnologiyalari', [
@@ -1365,6 +1382,10 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'table', content: '| Yondashuv | Mazmuni |\n|-----------|--------|\n| Tizimli | Fan mazmunini tizim sifatida o\'rganish |\n| Faoliyatli | O\'quvchini faoliyatga jalb qilish |\n| Kompetensiyaviy | Amaliy ko\'nikmalarni shakllantirish |\n| Shaxsga yo\'naltirilgan | O\'quvchining qobiliyati va ehtiyojiga moslashish |' },
     { type: 'text', content: 'Informatika mazmun sohalari: axborot va raqamli savodxonlik, kompyuter tizimlari va dasturiy muhit, mantiqiy fikrlash va algoritmlash, dasturlash va ma\'lumotlar bilan ishlash, grafika va veb-texnologiyalar, kompyuter tarmoqlari, axborot xavfsizligi.' },
     { type: 'note', content: '💻 Informatika o\'qitishda spiral yondashuv — mavzular har bir sinfda murakkablashib boradi.' },
+    { type: 'heading', content: "Attestatsiya kompetensiyasi: mazmunni o‘qitish yondashuvi" },
+    { type: 'example', content: "5-sinfda algoritmni kundalik amallar orqali tasvirlash, yuqori sinflarda esa uni kod bilan tekshirish — mazmunni o‘quvchi tayyorgarligiga mos bosqichlash misoli. Savolda faqat qaysi dastur ishlatilgani emas, tanlangan faoliyat o‘quv maqsadiga mosligi tekshiriladi." },
+    { type: 'trap', content: "2026-yilgi spetsifikatsiyada M16 uchun 3 ta imtihon savoli ajratilgan. Bu M16.01, M16.02 va M16.03 ning har biridan aynan bittadan savol tushishi kafolati emas. Spiral yondashuvga oid misol metodik tushuntirishdir, spetsifikatsiyadagi alohida rasmiy talab emas." },
+    { type: 'source', content: "Manba: «Informatika Testlar spesifikatsiyasi.pdf» (Toshkent, 2026), «2.2. Informatika o‘qitish metodikasi», 2-jadval, 3 ta topshiriq — https://drive.google.com/file/d/1jJstcqgFXwTJKuH9bkRIpvATEsjM2UnQ/view . Bu spetsifikatsiya kompetensiyalarni belgilaydi, lekin Mamarajabov va boshqalar (2023) «Informatika o‘qitish metodikasi» darsligining sahifama-sahifa tekshiruvi o‘rniga o‘tmaydi." },
   ], []),
 
   'M16.02': t('M16.02', 'O\'qitish usul va metodlari', [
@@ -1373,6 +1394,10 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'text', content: 'Informatika darslarida amaliy faoliyat muhim: kompyuterda ishlash vaqti darsning aniq maqsadi, yosh xususiyatlari, xavfsizlik talablari va mavjud sharoitga qarab rejalashtiriladi. Dasturlashni o\'rgatishda "Code.org", "Scratch", "Python" kabi vositalar qo\'llaniladi.' },
     { type: 'example', content: 'Muammoli ta\'lim: "Internetga ulanish yo\'q. Ma\'lumotlarni qanday almashish mumkin?" — o\'quvchilar muammoni mustaqil yechishadi.' },
     { type: 'note', content: '💡 Informatika fanida "Fishbone" (Ishikava, baliq skeleti) diagrammasi — muammo va sabablarni tahlil qilish uchun qo\'llaniladi.' },
+    { type: 'heading', content: "Metod nomini emas, vaziyatga mosligini baholang" },
+    { type: 'table', content: "| Maqsad | Mos mashg‘ulot namunasi | Nega? |\n|---|---|---|\n| Algoritm ketma-ketligini tushunish | Blok-sxemani tahlil qilish | Amallar tartibini ko‘rinarli qiladi |\n| Dasturdagi xatoni aniqlash | Kodni ishga tushirish va debugging | Kuzatiladigan natija bilan taxminni solishtiradi |\n| Raqamli xavfsizlik qarori | Dalilli vaziyat muhokamasi | Xavf va oqibatni taqqoslashga undaydi |" },
+    { type: 'trap', content: "«Interfaol metod doim eng yaxshi» yoki «slayd ko‘rsatishning o‘zi ko‘rgazmalilikni kafolatlaydi» degan umumiy xulosa noto‘g‘ri. Metod tanlovi maqsad, mavjud resurs, yosh va qayta aloqa imkoniga bog‘liq." },
+    { type: 'source', content: "Manba: «Informatika Testlar spesifikatsiyasi.pdf» (Toshkent, 2026), «2.2. Informatika o‘qitish metodikasi», 2-jadval, 3 ta topshiriq — https://drive.google.com/file/d/1jJstcqgFXwTJKuH9bkRIpvATEsjM2UnQ/view . Bu spetsifikatsiya kompetensiyalarni belgilaydi, lekin Mamarajabov va boshqalar (2023) «Informatika o‘qitish metodikasi» darsligining sahifama-sahifa tekshiruvi o‘rniga o‘tmaydi." },
   ], []),
 
   'M16.03': t('M16.03', 'Ta\'limiy vaziyatdagi qarorlarni baholash', [
@@ -1381,6 +1406,11 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'table', content: '| Vaziyat | Mumkin qaror | Baholash |\n|---------|-------------|---------|\n| O\'quvchi darsga qiziqmaydi | Interfaol metod qo\'llash | To\'g\'ri, faollikni oshiradi |\n| O\'quvchi kompyuterda o\'yin o\'ynayapti | Darsdan haydash | Noto\'g\'ri, sababini aniqlash kerak |\n| O\'quvchilar turli darajada | Differensial topshiriq berish | To\'g\'ri, har bir o\'quvchiga mos |\n| Ota-ona farzandining bahosidan norozi | Bahoni tushuntirish, mezonlarni ko\'rsatish | To\'g\'ri, ochiq muloqot |' },
     { type: 'example', content: 'Vaziyat: darsda ikkita o\'quvchi kompyuterda o\'zaro urishib qoladi.\nNoto\'g\'ri: ikkalasini ham darsdan haydash.\nTo\'g\'ri: vaziyatni tahlil qilish, sababini aniqlash, alohida suhbatlashish, kelishuvga erishish.' },
     { type: 'note', content: '🔍 Pedagogik qaror qabul qilishda o\'qituvchi: vaziyatni tahlil qiladi, variantlarni ko\'rib chiqadi, eng maqbulini tanlaydi va natijani baholaydi.' },
+    { type: 'heading', content: "Pedagogik qarorni asoslashning to‘rt bosqichi" },
+    { type: 'table', content: "| Bosqich | Tekshiriladigan savol |\n|---|---|\n| Vaziyat dalillari | Nima kuzatildi, nima hali taxmin? |\n| Maqsad va cheklovlar | O‘quv natijasi, xavfsizlik va teng imkoniyat saqlanyaptimi? |\n| Muqobil yechimlar | Qaysi usul eng kam zarar va eng ko‘p o‘rganish imkonini beradi? |\n| Natijani tekshirish | Qaror samarasini qanday dalil va qayta aloqa bilan baholaymiz? |" },
+    { type: 'example', content: "Kompyuterlar soni cheklangan darsda bir guruh dastur tuzadi, ikkinchisi kodni qog‘ozda tahlil qiladi, keyin almashadi. Bunday yechimni «to‘g‘ri» deyishdan oldin barcha o‘quvchi amaliy maqsadga erishgani va xavfsiz ishlashini tekshirish kerak." },
+    { type: 'trap', content: "Vaziyatli savollarda yagona «hamisha to‘g‘ri» metod yo‘q. O‘quvchini kamsitadigan jazo, shaxsiy ma’lumotni oshkor qilish yoki sababsiz chetlatish maqbul pedagogik qaror bo‘la olmaydi." },
+    { type: 'source', content: "Manba: «Informatika Testlar spesifikatsiyasi.pdf» (Toshkent, 2026), «2.2. Informatika o‘qitish metodikasi», 2-jadval, 3 ta topshiriq — https://drive.google.com/file/d/1jJstcqgFXwTJKuH9bkRIpvATEsjM2UnQ/view . Bu spetsifikatsiya kompetensiyalarni belgilaydi, lekin Mamarajabov va boshqalar (2023) «Informatika o‘qitish metodikasi» darsligining sahifama-sahifa tekshiruvi o‘rniga o‘tmaydi." },
   ], []),
 }
 
