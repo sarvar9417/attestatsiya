@@ -1,3 +1,9 @@
+## TASK-244 — Y2 matching UX va javob kontrakti
+
+| ID | Status | Dependency | Deliverable |
+|---|---|---|---|
+| TASK-244 | IN_PROGRESS | TASK-240 | Mavzu testlarida takror/o‘rinsiz/bo‘sh Y2 moslashtirishni bloklash, tanlovlar qayta renderda barqarorligi, klaviatura uchun label va testlar; source-validity expert approval alohida. Merge/deploy yo‘q. |
+
 ## TASK-243 — M02 nazariya va dizayn auditi (2026-10-19)
 
 | ID | Status | Scope | Natija / qolgan talab |
