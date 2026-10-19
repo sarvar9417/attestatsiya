@@ -31,6 +31,14 @@ describe('TASK-273: M15 source notes are part of the primary theory reader', () 
     })
   }
 
+  it('distinguishes interview from conversation and does not certify missing source method 9', () => {
+    const blocks = getPedagogyStudyNotes('M15.01')
+    const methods = blocks.find(block => block.type === 'table' && block.content.includes('| Suhbat |'))
+    expect(methods?.content).toContain('| Intervyu |')
+    expect(methods?.content).not.toContain('| Suhbat va intervyu |')
+    expect(blocks.some(block => block.type === 'note' && block.content.includes('«9»'))).toBe(true)
+  })
+
   it('does not append pedagogy notes to non-pedagogy modules', () => {
     const m16 = getTopicContent('M16.01')
     expect(m16).toBeDefined()
