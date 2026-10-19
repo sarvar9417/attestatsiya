@@ -1,6 +1,6 @@
 ## TASK-303 — M14 kasbiy standart PDF nazariya va 140 test QA (2026-10-19)
 
-| TASK-303 | IN_PROGRESS / SOURCE REVIEW STAGED; EDITORIAL RELEASE BLOCKED | T-M01-002, T-M01-003 DONE; TASK-301 canonical M14 constraints | 13 betlik qo‘llanmadan 7×12 sahifa-manzilli BookReader bloki; 140 ta KS item structure/source audit; 37/140 complete editorial flags (reviewer verification pending); xatoli KS.03/Y2 (8×side=a) uchun immutable draft replacement migration. UI/content kod faqat feature branchda; CI, reviewer approval, staging 20/20 preflight, final merge/deploy va production DB mutate YO‘Q. `docs/TASK303_M14_PROFESSIONAL_STANDARD_GUIDE_AND_QUESTION_QA.md`. |
+| TASK-303 | IN_PROGRESS / SOURCE REVIEW STAGED; EDITORIAL RELEASE BLOCKED | T-M01-002, T-M01-003 DONE; TASK-301 canonical M14 constraints | 13 betlik qo‘llanmadan 7×12 sahifa-manzilli, hali o‘quvchilarga ulanmagan kitob bloki; 140 ta KS item structure/source audit; 37/140 complete editorial flags (reviewer verification pending); xatoli KS.03/Y2 (8×side=a) uchun faqat stagingga mo‘ljallangan, avtomatik migratsiyaga kirmaydigan SQL. UI/content kod faqat feature branchda; CI, reviewer approval, staging 20/20 preflight, final merge/deploy va production DB mutate YO‘Q. `docs/TASK303_M14_PROFESSIONAL_STANDARD_GUIDE_AND_QUESTION_QA.md`. |
 
 ## TASK-262 — Nazariya darslarining yagona kitob dizayni (2026-10-19)
 
