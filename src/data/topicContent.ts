@@ -1259,10 +1259,12 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   // M15 — Umumiy pedagogika
   // ============================================================
   'M15.01': t('M15.01', 'Pedagogika, didaktika va yosh psixologiyasi', [
-    { type: 'definition', content: 'Pedagogika — ta\'lim va tarbiya qonuniyatlarini o\'rganuvchi fan. Didaktika — pedagogikaning o\'qitish nazariyasi bo\'limi. Yosh psixologiyasi — inson psixikasining yoshga qarab rivojlanishini o\'rganadi.' },
-    { type: 'text', content: 'Pedagogikaning asosiy kategoriyalari: ta\'lim (bilim, ko\'nikma, malaka berish), tarbiya (shaxsni shakllantirish), rivojlanish (fiziologik va psixologik o\'zgarishlar), bilim olish (faoliyat natijasi).' },
-    { type: 'table', content: '| Kategoriya | Ta\'rif |\n|-----------|--------|\n| Ta\'lim | Bilim, ko\'nikma, malaka berish jarayoni |\n| Tarbiya | Shaxsni ma\'naviy-axloqiy shakllantirish |\n| Rivojlanish | Fiziologik va psixologik o\'zgarishlar |\n| Bilim olish | O\'quvchi faoliyati natijasi |' },
-    { type: 'note', content: '📚 Pedagogika bo\'limlari: umumiy pedagogika, didaktika, tarbiya nazariyasi, maktabshunoslik, maxsus pedagogika, yosh pedagogikasi.' },
+    { type: 'definition', content: "Pedagogika — ta’lim va tarbiya jarayonining mohiyati va qonuniyatlarini o‘rganuvchi fan. Didaktika — ta’lim nazariyasi; yosh psixologiyasi esa psixik rivojlanishning yoshga oid xususiyatlarini o‘rganadi." },
+    { type: 'text', content: "Pedagogikaning asosiy kategoriyalari faqat to‘rtta tushuncha bilan cheklanmaydi. Mirzayeva qo‘llanmasida shaxs, tarbiya, ta’lim, bilim, ko‘nikma, malaka, kompetensiya, ma’lumot, shakllantirish va rivojlanish alohida ko‘rsatilgan. «Bilim olish»ni «bilim» kategoriyasi o‘rniga qo‘ymang." },
+    { type: 'table', content: "| Kategoriya | Mazmuni |\n|---|---|\n| Shaxs | Jamiyat a’zosi, o‘ziga xos xulq-atvor va dunyoqarash egasi |\n| Tarbiya | Qadriyat, munosabat va xulq-atvorni maqsadli shakllantirish jarayoni |\n| Ta’lim | Bilim, ko‘nikma, malaka va kompetensiyalarni egallashga yo‘naltirilgan jarayon |\n| Bilim | Borliq haqidagi tushuncha va tizimlashtirilgan ma’lumotlar |\n| Ko‘nikma | Muayyan faoliyatni bajara olish layoqati |\n| Malaka | Mashq natijasida avtomatlashgan harakat yoki faoliyat |\n| Kompetensiya | Egallangan bilim va ko‘nikmalarni amaliy vaziyatda qo‘llash qobiliyati |\n| Ma’lumot | Ta’lim-tarbiya natijasida hosil bo‘lgan tizimli bilim va dunyoqarash |\n| Shakllantirish | Belgilangan maqsadga ko‘ra barqaror sifatlarni tarkib toptirish |\n| Rivojlanish | Shaxsdagi miqdor va sifat o‘zgarishlari |" },
+    { type: 'example', content: "Informatikada algoritmning ishlash prinsipini izohlash — bilim; kichik dastur yozib ko‘rish — ko‘nikma; mashqlar natijasida odatiy amallarni ravon bajarish — malaka; yangi muammoga mos algoritmni tanlab, uni asosli qo‘llash — kompetensiyaga misol. Bu tushunchalar bir-biriga yaqin, ammo aynan bir xil emas." },
+    { type: 'note', content: "Pedagogikaning tadqiqot metodlari (kuzatish, suhbat, anketa, eksperiment) bilan darsni o‘qitish metodlarini farqlang. Asosiy tushunchalarni bir-birining sinonimi deb qabul qilmang." },
+    { type: 'source', content: "Manba: «Mirzayeva Pedagogika nazriyasi qollanma 2-mavzu.pdf», «Pedagogika fanining asosiy kategoriyalari» hamda «Pedagogik tadqiqot metodlari» bo‘limlari, barnoyevak Drive (https://drive.google.com/file/d/1woZMas8dNbzk6yephzNH_XdmT19ess-l/view). Ushbu ikkilamchi qo‘llanmaning aniq fizik beti va mustaqil ekspert tasdig‘i hali tekshirilmagan." },
   ], []),
 
   'M15.02': t('M15.02', 'Ta\'lim tamoyillari', [
@@ -1274,10 +1276,11 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   ], []),
 
   'M15.03': t('M15.03', 'Tarbiya va uning turlari', [
-    { type: 'definition', content: 'Tarbiya — shaxsning ma\'naviy, axloqiy, ijtimoiy va madaniy sifatlarini shakllantirishga qaratilgan pedagogik jarayon.' },
-    { type: 'table', content: '| Tarbiya turi | Mazmuni |\n|-------------|--------|\n| Aqliy | Fikrlash qobiliyatini rivojlantirish |\n| Axloqiy | Axloqiy me\'yor va qadriyatlarni shakllantirish |\n| Mehnat | Mehnatga munosabat va kasb tanlash |\n| Estetik | Go\'zallikni his qilish va yaratish |\n| Jismoniy | Sog\'lom turmush tarzi |\n| Huquqiy | Huquqiy ong va mas\'uliyat |\n| Ekologik | Atrof-muhitga ehtiyotkorona munosabat |\n| Iqtisodiy | Iqtisodiy bilim asoslari |' },
-    { type: 'text', content: 'Tarbiya usullari: ishontirish (suhbat, tushuntirish), mashq qildirish, rag\'batlantirish, majburlash, namuna ko\'rsatish.' },
-    { type: 'example', content: 'Axloqiy tarbiya: yaxshi va yomon xulq haqida suhbat, axloqiy vaziyatlarni tahlil qilish, ijobiy namunalar ko\'rsatish.' },
+    { type: 'definition', content: "Tarbiya — shaxsning qadriyatlari, munosabati, xulq-atvori va ijtimoiy sifatlarini maqsadli rivojlantirishga qaratilgan pedagogik jarayon." },
+    { type: 'table', content: "| Tarbiya yo‘nalishi | Yetakchi maqsad |\n|---|---|\n| Fuqarolik | Jamiyat hayotida mas’uliyatli ishtirok va fuqarolik pozitsiyasi |\n| Aqliy | Fikrlash va bilish faoliyatini rivojlantirish |\n| Axloqiy | Axloqiy me’yor va qadriyatlarni shakllantirish |\n| Mehnat | Mehnatga mas’uliyatli munosabatni rivojlantirish |\n| Estetik | Go‘zallikni anglash va estetik did |\n| Jismoniy | Sog‘lom turmush va jismoniy rivojlanish |\n| Huquqiy | Huquqiy ong va mas’uliyat |\n| Ekologik | Tabiatga ehtiyotkorona munosabat |\n| Iqtisodiy | Iqtisodiy mas’uliyat va bilim |" },
+    { type: 'text', content: "Tarbiya yo‘nalishi uning maqsadini bildiradi; metod esa shu maqsadga erishish yo‘lidir. Tushuntirish va ishontirish, ijobiy namuna, mashq hamda rag‘batlantirish — pedagogik ta’sir metodlariga misollar. Metod tanlashda o‘quvchining qadr-qimmati va xavfsizligi hisobga olinadi." },
+    { type: 'example', content: "O‘quvchilar onlayn mualliflik huquqini hurmat qilishni muhokama qilsa, yetakchi yo‘nalish — huquqiy tarbiya; sinfdagi suhbat — metod. Jamoa manfaatiga xizmat qiluvchi mas’uliyatli loyiha esa fuqarolik tarbiyasiga misol bo‘lishi mumkin." },
+    { type: 'source', content: "Manba: «Mirzayeva Pedagogika nazriyasi qollanma 2-mavzu.pdf» — «Tarbiya nazariyasi» va ijtimoiy tarbiya yo‘nalishlari; barnoyevak Drive (https://drive.google.com/file/d/1woZMas8dNbzk6yephzNH_XdmT19ess-l/view). Nomlar ikkilamchi qo‘llanmadan olingan; fizik PDF beti hali tasdiqlanmagan." },
   ], []),
 
   'M15.04': t('M15.04', 'Dars turlari, rejalashtirish va sinfni boshqarish', [
