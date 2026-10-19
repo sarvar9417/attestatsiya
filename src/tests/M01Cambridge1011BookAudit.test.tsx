@@ -5,8 +5,8 @@ import { CAMBRIDGE1011_M01_PAGE_ADDENDA } from '../data/topics/m01TextbookAuditC
 import { ALL_M01_PAGE_ADDENDA } from '../data/topics/m01TextbookAudit'
 
 describe('TASK-244 Cambridge+ 10–11 original source concordance', () => {
-  it('has four M01 additions with exact source pages and valid chapter anchors', () => {
-    expect(CAMBRIDGE1011_M01_PAGE_ADDENDA).toHaveLength(4)
+  it('has seven M01 additions with exact source pages and valid chapter anchors', () => {
+    expect(CAMBRIDGE1011_M01_PAGE_ADDENDA).toHaveLength(7)
     for (const add of CAMBRIDGE1011_M01_PAGE_ADDENDA) {
       expect(M01_CONTENT[add.topicId].theory.some(block =>
         block.type === 'heading' && block.content === add.beforeHeading,
@@ -18,6 +18,16 @@ describe('TASK-244 Cambridge+ 10–11 original source concordance', () => {
     expect(ALL_M01_PAGE_ADDENDA.some(add =>
       add.blocks.some(b => b.content.includes('Raqamli tengsizlik'))
     )).toBe(true)
+  })
+
+  it('includes original RLE and independent input-verification checks', () => {
+    expect(ALL_M01_PAGE_ADDENDA).toHaveLength(59)
+    const rle = CAMBRIDGE1011_M01_PAGE_ADDENDA.find(a => a.topicId === 'M01.05')!
+    expect(rle.blocks.some(b => b.content.includes('RLE'))).toBe(true)
+    const check = CAMBRIDGE1011_M01_PAGE_ADDENDA.find(a =>
+      a.beforeHeading === 'Xatolarni aniqlashning chuqurlashtirilgan usullari',
+    )!
+    expect(check.blocks.find(b => b.type === 'table')?.rows).toHaveLength(5)
   })
 
   it('preserves all 12 generated M01 topics and all old lesson blocks in order', () => {
