@@ -44,7 +44,7 @@ describe('book reader: switching lessons after reading a long chapter', () => {
 
     // A parent route can reuse TopicView for another subtopic of the same module.
     // BookReader must not first render an obsolete, out-of-bounds section index.
-    rerender(lesson('M15.05', 4))
+    rerender(lesson('M15.07', 6))
     await screen.findByRole('navigation', { name: 'Bo‘limlar orasida harakat' })
     const newTabs = screen.getAllByRole('tab')
     expect(newTabs.length).toBeLessThan(oldTabs.length)
