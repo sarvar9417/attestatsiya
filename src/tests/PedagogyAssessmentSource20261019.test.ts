@@ -44,7 +44,7 @@ describe('pedagogika M14.03 and M15 source-and-safety reconciliation', () => {
 
   it('does not present coercion as an unqualified recommendation for upbringing', () => {
     const blocks = theory('M15.03')
-    const methods = blocks.find(x => x.type === 'text')?.content ?? ''
+    const methods = blocks.find(x => x.type === 'text' && x.content.includes('Tarbiya metodlariga'))?.content ?? ''
     expect(methods).toContain('namuna')
     expect(methods).toContain('rag‘batlantirish')
     expect(methods).toContain('qadr-qimmatini')
