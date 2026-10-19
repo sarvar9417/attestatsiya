@@ -15,7 +15,7 @@ Foydalanuvchi yuborgan `Pedagogning kasbiy standarti - qollanma.pdf`:
 
 ## 2. Nazariya: har bir sohaga bitta yaxlit bo‘lim
 
-Yangi `src/data/topics/m14ProfessionalStandardGuide.ts` 7/7 darsga 12 tadan tiplangan `TheoryBlock` tayyorlaydi:
+Review-only yangi `src/data/topics/m14ProfessionalStandardGuide.ts` 7/7 darsga 12 tadan tiplangan `TheoryBlock` tayyorlaydi:
 1. maqsad/kirish;
 2. «Mehnat vazifalari» — PDFdagi yo‘nalishning amaliy harakatlari qayta bayon etiladi;
 3. «Zarur ko‘nikmalar» — haqiqiy ko‘nikmalar vazifalardan alohida ajratiladi;
@@ -24,7 +24,7 @@ Yangi `src/data/topics/m14ProfessionalStandardGuide.ts` 7/7 darsga 12 tadan tipl
 6. attestatsiyadagi sohalar/atamalar farqi;
 7. tegishli PDF sahifasi va asl fayl SHA-256.
 
-Oldingi ko‘rinishda DB `body_mdx`dagi qisqa nazariya + «to‘liq nazariya xaritasi» + frontendda eski M14 statik izohlar + `m14NormativeSourceAdditions` ketma-ket qo‘shilib, o‘xshash fikrlar ko‘p marta paydo bo‘lardi. Review-branchdagi `overlayPublishedProfessionalLesson` M14 uchun **bir xil, yagona o‘quv kitobi**ni tayyorlaydi; eski DB nusxalari **o‘chirilmaydi va tahrirlanmaydi**, sahifalash `BookReader`da ishlaydi. Mazkur o‘quv matnini learner uchun faol qilish **inson ekspertning alohida kontent tasdig‘idan keyin** mumkin (ADR-006, ADR-009, ADR-022 hamda AGENTS.md).
+Oldingi ko‘rinishda DB `body_mdx`dagi qisqa nazariya + «to‘liq nazariya xaritasi» + frontenddagi M14 statik izohlar + `m14NormativeSourceAdditions` ketma-ket qo‘shilib takrorlangan. **Yangi tahrir alohida ko‘rib chiqish fayliga tayyorlandi, lekin learner'ning amaldagi `topicContent.ts` va `professionalLessonTheory.ts` yo‘llari o‘zgartirilmadi.** Bu eski published kanonik ta’lim oqimini, regressiya va ekspert ruxsati talabini himoya qiladi. Kelajakda tasdiqdan keyin UI integratsiyasi alohida PR bilan amalga oshiriladi. Mazkur o‘quv matnini learner uchun faol qilish **inson ekspertning alohida kontent tasdig‘idan keyin** mumkin (ADR-006, ADR-009, ADR-022 hamda AGENTS.md).
 
 Tayyorlangan 7 konstrukt:
 | Konstrukt | Soha | PDF sahifalari |
@@ -62,14 +62,14 @@ Savol `fb83453d-1e42-4ac5-9ce2-864b24ceb022`, KS.03, `Y2`:
 - **8 ta variantning hammasi `side='a'`**, `side='b'` = 0;
 - kalitdagi 4 ta juftlik strukturaviy mavjud, lekin javob taraflari noto‘g‘ri;
 - yana bir KS.03/Y2 savol bilan **bir xil sarlavha**, ammo juftlanayotgan atamalar **boshqa**, shuning uchun ikkalasini bir xil savol deya o‘chirish xato;
-- yangi immutable **`draft` reviziya** uchun `supabase/migrations/20261019200000_task303_m14_y2_draft_revision.sql` tayyorlandi: to‘g‘ri 4+4 taraf, aniqroq matn, yangi UUIDlar, yangi `question_keys` va `pedagogy_revision_queue` orqali review. Eski published savolga tegilmaydi;
-- berilgan `draft` migratsiya **qo‘llanmagan**. Test preflight 20 savoldan 19 taga tushib ketmasligi uchun ishlab turgan savolni tekshirilgan replacement nashrisiz arxivlash **taqiqlanadi**.
+- yangi immutable **`draft` reviziya** uchun `docs/audits/TASK303_KS03_Y2_DRAFT_REVISION_STAGING_ONLY.sql` tayyorlandi: to‘g‘ri 4+4 taraf, aniqroq matn, yangi UUIDlar, yangi `question_keys` va `pedagogy_revision_queue` orqali review. Eski published savolga tegilmaydi;
+- berilgan SQL **migratsiyalar avtomatik zanjiridan chiqarilgan va hech qayerga qo‘llanmagan**. Test preflight 20 savoldan 19 taga tushib ketmasligi uchun ishlab turgan savolni tekshirilgan replacement nashrisiz arxivlash **taqiqlanadi**.
 
 Boshqa flag: `80a1409c-4f09-4b77-9148-c35f47d0e612` — «Monitoring nimani anglatadi?» savoli strukturaviy to‘g‘ri, lekin kontekst/ajratish kuchi alohida editorial review uchun belgilandi. To‘g‘ridan-to‘g‘ri archivlanmadi.
 
 ## 4. QA / tekshiruvlar
 
-- `src/tests/M14ProfessionalStandardGuide.test.ts`: 7/7 PDF sahifasi, SHA, mehnat vazifalari → ko‘nikmalar → bilimlar tartibi, 3-soha baholash turlari, 5-soha arbitraj/muzokara/mediatsiya, yangi yagona kitob, published-status gate.
+- `src/tests/M14ProfessionalStandardGuide.test.ts`: 7/7 PDF sahifasi, SHA, mehnat vazifalari → ko‘nikmalar → bilimlar tartibi, 3-soha baholash turlari, 5-soha arbitraj/muzokara/mediatsiya, draft qo‘llanma izolyatsiyasi, published content unchanged gate.
 - `docs/audits/TASK303_M14_KS_140_QUESTION_AUDIT.sql`: productionda **faqat SELECT**, konstrukt/format, variant taraflari, duplikat matn, tahririy flag va manba metadata auditi.
 - DBga yuborilgan read-only tekshiruvda Y2ni qayta tuzish formulasi: 8 ta noyob UUID, 4 left + 4 right, 4/4 kalitga mos; yangi draft UUID hali mavjud emas.
 - So‘nggi GitHub CI va real mobil/desktop learner auth smoke **bu hisobot paytida tasdiqlanmagan**. README quality gate bo‘yicha tekshirilmaguncha DONE va release deb belgilamaslik kerak.
