@@ -11,15 +11,16 @@ describe('static theory pages', () => {
     }
   })
 
-  it('M11.02 four blocks occupy two navigable pages without losing code or note', () => {
+  it('M11.02 keeps the four original blocks before its new sourced HTML chapters', () => {
     const topic = getTopicContent('M11.02')
     expect(topic).toBeDefined()
     const pages = paginateTheoryBlocks(topic!.theory)
-    expect(pages).toHaveLength(2)
-    expect(pages.map(page => page.map(block => block.type))).toEqual([
+    expect(pages).toHaveLength(Math.ceil(topic!.theory.length / 2))
+    expect(pages.slice(0, 2).map(page => page.map(block => block.type))).toEqual([
       ['definition', 'code'], ['code', 'note'],
     ])
     expect(pages.flat().map(block => block.content)).toEqual(topic!.theory.map(block => block.content))
+    expect(topic!.theory.at(-1)?.type).toBe('source')
   })
 
   it('empty content has no blank pages; invalid page sizes are rejected', () => {
