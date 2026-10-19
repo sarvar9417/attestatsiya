@@ -1,5 +1,6 @@
+import { useId } from 'react'
 import type { ExamOption } from '../contracts'
-import InlineText from '../../../components/learning/theory/InlineText'
+import ExamRichText from './ExamRichText'
 
 interface Y1ChoiceProps {
   prompt: string
@@ -16,11 +17,13 @@ export default function Y1Choice({
   disabled = false,
   onChange,
 }: Y1ChoiceProps) {
+  const promptId = useId()
   return (
-    <fieldset disabled={disabled}>
-      <legend className="text-base font-medium text-gray-900 dark:text-white mb-4 whitespace-pre-wrap">
-        <InlineText text={prompt} />
-      </legend>
+    <fieldset disabled={disabled} aria-labelledby={promptId} className="min-w-0">
+      <legend className="sr-only">Test savoli</legend>
+      <div id={promptId} className="mb-4 min-w-0 text-base font-medium text-gray-900 dark:text-white">
+        <ExamRichText text={prompt} />
+      </div>
       <div className="space-y-2">
         {options.map((option, index) => {
           const selected = value === option.id
@@ -47,8 +50,8 @@ export default function Y1Choice({
               >
                 {String.fromCharCode(65 + index)}
               </span>
-              <span className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
-                <InlineText text={option.content_md} />
+              <span className="min-w-0 flex-1 text-gray-700 dark:text-gray-300">
+                <ExamRichText text={option.content_md} />
               </span>
             </button>
           )
