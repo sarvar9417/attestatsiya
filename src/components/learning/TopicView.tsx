@@ -5,10 +5,9 @@ import { checkQuestionAnswer } from '../../features/content/lessonContentGateway
 import { paginateTheoryBlocks } from '../../features/content/theoryPagination'
 import { getTopicTestPreflight, type TopicTestPreflight } from '../../features/content/contentApi'
 import { getLessonDetail } from '../../features/content/contentApi'
-import { markdownToTheoryBlocks, overlayPublishedProfessionalLesson, resolveLearnerTheoryContent, verifiedM02Supplement } from '../../features/content/professionalLessonTheory'
+import { markdownToTheoryBlocks, overlayPublishedProfessionalLesson, resolveLearnerTheoryContent } from '../../features/content/professionalLessonTheory'
 import PedagogyTheoryBlock from './PedagogyTheoryBlock'
 import { withPedagogyStudyNotes } from '../../data/pedagogyStudyNotes'
-import { M14_NORMATIVE_SOURCE_ADDITIONS } from '../../data/topics/m14NormativeSourceAdditions'
 import type { TopicContent } from '../../data/topicContent'
 import { 
   CheckCircle2, XCircle, Lightbulb, BookOpen, ArrowRight, ArrowLeft, 
@@ -146,8 +145,6 @@ export default function TopicView({
 
   const [publishedTheory, setPublishedTheory] = useState<{ subtopicId: string; content: TopicContent } | null>(null)
   const [theoryResolved, setTheoryResolved] = useState<string | null>(null)
-  const [supplementRequest, setSupplementRequest] = useState<{ id: string; attempt: number } | null>(null)
-  const [supplementStatus, setSupplementStatus] = useState<{ id: string; state: 'loading' | 'ready' | 'error' } | null>(null)
   const [topicReadiness, setTopicReadiness] = useState<{ subtopicId: string; data: TopicTestPreflight } | null>(null)
   const [readinessRetry, setReadinessRetry] = useState(0)
   const [readinessErrorTopic, setReadinessErrorTopic] = useState<string | null>(null)
@@ -159,7 +156,7 @@ export default function TopicView({
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
   const isAxrM13 = moduleId === 'M13' &&
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
-  const isCanonicalPublishedTheory = /^(?:M04|M14|M16)\.\d{2}$/.test(subtopicId) ||
+  const isCanonicalPublishedTheory = /^(?:M02|M04|M14|M15|M16)\.\d{2}$/.test(subtopicId) ||
     isAlgoritmlashV2 || isAxrM13 || isPublishedScratchLogoLesson
   // Keep the same canonical core object during unrelated progress/test updates.
   const isPedagogyTopic = moduleId === 'M15' && /^M15\.\d{2}$/.test(subtopicId)
@@ -170,9 +167,8 @@ export default function TopicView({
   const loadedContent = publishedTheory?.subtopicId === subtopicId
     ? publishedTheory.content
     : null
-  // M15 always keeps the original curated, colorful theory as primary content.
-  // Canonical source lessons are optional reading and NEVER replace the screen
-  // when the asynchronous request finishes.
+  // M02/M15 preserve the complete local book. Published, explicitly marked
+  // source sections are assembled BEFORE first render, never in a second drawer.
   const content = staticContent
     ? resolveLearnerTheoryContent(subtopicId, staticContent, loadedContent)
     : loadedContent
@@ -183,20 +179,6 @@ export default function TopicView({
   const activeTheoryPage = Math.min(theoryPage, Math.max(0, theoryPages.length - 1))
   const isLastTheoryPage = activeTheoryPage === theoryPages.length - 1
   const isSemanticProfessional = !isPedagogyTopic && /^M1[46]$/.test(moduleId) && Boolean(loadedContent)
-  const professionalStandardSourceSummary =
-    moduleId === 'M14' && /^M14\.0[1-7]$/.test(subtopicId) && loadedContent && staticContent
-      ? staticContent.theory.filter(block => ['table', 'example', 'note', 'source'].includes(block.type) && !(M14_NORMATIVE_SOURCE_ADDITIONS[subtopicId] ?? []).includes(block))
-      : []
-
-  const isOptionalSupplement = /^M02\.\d{2}$/.test(subtopicId) || isPedagogyTopic
-  const isSupplementLoading = supplementStatus?.id === subtopicId && supplementStatus.state === 'loading'
-  const supplementError = supplementStatus?.id === subtopicId && supplementStatus.state === 'error'
-  const supplementalTheory = isPedagogyTopic
-    ? (loadedContent?.supplementalTheory ?? [])
-    : /^M02\.\d{2}$/.test(subtopicId)
-      ? verifiedM02Supplement(loadedContent)
-      : []
-
   // mavzu almashganda o'qish holatini tozalaymiz
   useEffect(() => {
     setPhase('theory')
@@ -209,39 +191,14 @@ export default function TopicView({
     setLiveQuestions(null)
     setChecking({})
     setCheckErrors({})
-    setSupplementRequest(null)
-    setSupplementStatus(null)
   }, [subtopicId])
-
-  // Opening an optional supplement is an explicit student action. Never fetch
-  // it in the background and append content while the main theory is being read.
-  useEffect(() => {
-    if (!supplementRequest || supplementRequest.id !== subtopicId || !isOptionalSupplement) return
-    let cancelled = false
-    const fallback = getTopicContent(subtopicId)
-    if (!fallback) return
-    setSupplementStatus({ id: subtopicId, state: 'loading' })
-    getLessonDetail(subtopicId)
-      .then(lesson => {
-        if (cancelled) return
-        setPublishedTheory({
-          subtopicId,
-          content: overlayPublishedProfessionalLesson(fallback, lesson),
-        })
-        setSupplementStatus({ id: subtopicId, state: 'ready' })
-      })
-      .catch(() => {
-        if (!cancelled) setSupplementStatus({ id: subtopicId, state: 'error' })
-      })
-    return () => { cancelled = true }
-  }, [supplementRequest, subtopicId, isOptionalSupplement])
 
   // Resolve published core BEFORE first render, rather than replacing an already
   // visible theory when its asynchronous request finally completes.
   useEffect(() => {
-    if (!/^(?:M04|M14|M16)\.\d{2}$/.test(subtopicId)) return
+    if (!/^(?:M02|M04|M14|M15|M16)\.\d{2}$/.test(subtopicId)) return
     let cancelled = false
-    const fallback = getTopicContent(subtopicId)
+    const fallback = staticContent
     // Remote-only M04/M14/M16 lessons must be fetched even when the static
     // catalog has no copy. Otherwise the loading screen never completes.
     getLessonDetail(subtopicId)
@@ -265,7 +222,7 @@ export default function TopicView({
         if (!cancelled) setTheoryResolved(subtopicId)
       })
     return () => { cancelled = true }
-  }, [subtopicId])
+  }, [subtopicId, staticContent])
 
   // M06 V2 and M13 AXR learner theory come strictly from published DB records.
   // Catalog links edition UUIDs only when all relevant chapters are published.
@@ -746,52 +703,6 @@ export default function TopicView({
                 </div>
               ))}
             </div>
-          )}
-
-          {/* The server-published M14 lesson remains canonical. The verified
-              static source summary is optional and never replaces it. */}
-          {professionalStandardSourceSummary.length > 0 && (
-            <details className="group mb-7 rounded-2xl border border-indigo-200 bg-indigo-50/60 p-4 shadow-sm open:bg-white dark:border-indigo-900 dark:bg-indigo-950/30 dark:open:bg-gray-900 sm:p-5">
-              <summary className="flex cursor-pointer items-center justify-between gap-4 rounded-xl p-2 text-sm font-bold text-indigo-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:text-indigo-200">
-                <span className="flex items-center gap-2"><BookText size={19} aria-hidden="true" /> Kasb standarti — manbaviy jadval va misollar</span>
-                <ChevronDown size={19} aria-hidden="true" className="shrink-0 transition group-open:rotate-180" />
-              </summary>
-              <p className="px-2 pb-3 pt-1 text-xs leading-6 text-gray-600 dark:text-gray-400">
-                Asosiy e’lon qilingan darsni o‘zgartirmasdan, kasb standarti matnli nusxasidan
-                tayyorlangan qo‘shimcha taqqoslash va vaziyatlarni o‘qing.
-              </p>
-              <div className="space-y-3">
-                {professionalStandardSourceSummary.map((block, i) => <PedagogyTheoryBlock key={i} block={block} />)}
-              </div>
-            </details>
-          )}
-
-          {isOptionalSupplement && (
-            <details
-              key={subtopicId}
-              onToggle={event => {
-                if (!event.currentTarget.open) return
-                if (supplementStatus?.id === subtopicId && supplementStatus.state === 'ready') return
-                if (supplementStatus?.id === subtopicId && supplementStatus.state === 'loading') return
-                setSupplementRequest(previous => ({ id: subtopicId, attempt: (previous?.attempt ?? 0) + 1 }))
-              }}
-              className="group mb-8 rounded-2xl border border-teal-200 bg-white p-4 shadow-sm dark:border-teal-900 dark:bg-gray-900 sm:p-5"
-            >
-              <summary className="flex cursor-pointer items-center justify-between gap-3 rounded-xl p-2 text-sm font-bold text-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:text-teal-200">
-                <span className="flex items-center gap-2"><BookText size={19} aria-hidden="true" /> Tekshirilgan qo‘shimcha material (ixtiyoriy)</span>
-                <ChevronDown size={19} aria-hidden="true" className="shrink-0 transition group-open:rotate-180" />
-              </summary>
-              <p className="px-2 pb-3 text-xs leading-6 text-gray-600 dark:text-gray-400">
-                Asosiy nazariya o‘zgarmaydi. Qo‘shimcha material faqat bu bo‘lim ochilganda yuklanadi.
-              </p>
-              {isSupplementLoading && <p role="status" className="p-3 text-sm">Qo‘shimcha material yuklanmoqda…</p>}
-              {supplementError && <p role="alert" className="p-3 text-sm text-amber-700 dark:text-amber-300">Materialni olib bo‘lmadi. Qayta urinish uchun bo‘limni yopib oching.</p>}
-              {!isSupplementLoading && !supplementError && supplementStatus?.id === subtopicId && supplementStatus.state === 'ready' && (
-                supplementalTheory.length > 0
-                  ? <div className="space-y-3">{supplementalTheory.map((block, i) => <PedagogyTheoryBlock key={i} block={block} />)}</div>
-                  : <p className="p-3 text-sm text-gray-500">Bu darsga alohida tekshirilgan qo‘shimcha kiritilmagan.</p>
-              )}
-            </details>
           )}
 
           {/* Page and topic navigation are separate: no duplicate completion CTAs. */}

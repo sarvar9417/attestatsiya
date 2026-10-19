@@ -108,7 +108,7 @@ describe('professional source-backed lesson to learner UI', () => {
     expect(after.questions).toBe(fallback.questions)
   })
 
-  it('M02 preserves one canonical core and keeps DB addendum opt-in', () => {
+  it('M02 keeps its full canonical book and joins only source-marked published addendum', () => {
     const m02: TopicContent = {
       ...fallback,
       subtopicId: 'M02.01',
@@ -134,15 +134,47 @@ describe('professional source-backed lesson to learner UI', () => {
     }
     const remote = overlayPublishedProfessionalLesson(m02, dbLesson)
     const visible = resolveLearnerTheoryContent('M02.01', m02, remote)
-    expect(visible.theory[0]).toEqual(m02.theory[0])
-    expect(visible.theory[1]).toEqual(m02.theory[1])
-    expect(visible.theory).toEqual(m02.theory)
+    expect(visible.theory.slice(0, m02.theory.length)).toEqual(m02.theory)
+    expect(visible.theory.length).toBeGreaterThan(m02.theory.length)
+    expect(visible.theory.some(block => block.content.includes('OMR oldindan'))).toBe(true)
     expect(visible.theory.some(block => block.content.includes('Bu qisqa server konspekti'))).toBe(false)
     const extra = verifiedM02Supplement(remote)
     expect(extra.some(block => block.content.includes('OMR oldindan'))).toBe(true)
     expect(extra.some(block => block.content.includes('Bu qisqa server konspekti'))).toBe(false)
     expect(visible.questions).toBe(m02.questions)
     expect(resolveLearnerTheoryContent('M02.01', m02, null)).toBe(m02)
+  })
+
+  it('M15 adds only published deep-source sections after local theory, not the short server summary', () => {
+    const deepSource = { ...lesson, body_mdx: [
+      '## Juda qisqa konspekt',
+      'Qisqa server summary should NOT replace canonical theory.',
+      '## Chuqurlashtirilgan nazariya — manba korpusi (2026-10-18)',
+      '## Interfaol metodlar',
+      'Ekspert guruhi, juftlik va kuzatish',
+      '**Manba:** metodika qo‘llanmasi',
+    ].join('\n') }
+    const published = overlayPublishedProfessionalLesson(fallback, deepSource)
+    const visible = resolveLearnerTheoryContent('M15.08', fallback, published)
+    expect(visible.theory[0]).toEqual(fallback.theory[0])
+    expect(visible.theory.some(block => block.content.includes('Ekspert guruhi'))).toBe(true)
+    expect(visible.theory.some(block => block.content.includes('Qisqa server summary'))).toBe(false)
+    expect(visible.questions).toBe(fallback.questions)
+    expect(resolveLearnerTheoryContent('M15.08', fallback, overlayPublishedProfessionalLesson(fallback, { ...deepSource, status: 'draft' }))).toBe(fallback)
+    expect(resolveLearnerTheoryContent('M15.08', fallback, null)).toBe(fallback)
+  })
+
+  it('deduplicates source sections and never introduces duplicate canonical blocks', () => {
+    const shared = { ...fallback, theory: [
+      { type: 'heading' as const, content: 'Tekshirilgan qo‘shimcha: bir xil mavzu' },
+      { type: 'text' as const, content: 'Mavjud fakt' },
+    ] }
+    const published = overlayPublishedProfessionalLesson(shared, {
+      ...lesson, body_mdx: '## Maqsad\nQisqa server matni\n\n## Tekshirilgan qo‘shimcha: bir xil mavzu\n\nMavjud fakt\n\nMavjud fakt\n\nYangi dalil',
+    })
+    const actual = resolveLearnerTheoryContent('M02.01', { ...shared, subtopicId: 'M02.01' }, published)
+    expect(actual.theory.filter(block => block.content === 'Mavjud fakt')).toHaveLength(1)
+    expect(actual.theory.some(block => block.content === 'Yangi dalil')).toBe(true)
   })
 
   it('M02 never displays unmarked or unpublished DB summary instead of official theory', () => {
