@@ -1,4 +1,6 @@
 import { CheckCircle2, XCircle } from 'lucide-react'
+import { stableShuffle } from '../../../features/exam/contracts'
+import { isRightChoiceUsedByAnotherPair } from '../../../lib/exam/matching'
 
 interface Pair {
   leftId: string
@@ -18,7 +20,8 @@ interface Props {
 
 export default function Y2Question({ prompt, pairs, selected = {}, correct, showResult, onChange, disabled }: Props) {
   const options = pairs.map(p => p.rightContent)
-  const shuffledOptions = [...options].sort(() => Math.random() - 0.5)
+  // Stable for the same question and pair IDs: a rerender cannot reorder answers.
+  const shuffledOptions = stableShuffle(options, `Y2:${prompt}:${pairs.map(p => p.leftId).join('|')}`)
 
   return (
     <div>
@@ -35,13 +38,19 @@ export default function Y2Question({ prompt, pairs, selected = {}, correct, show
               <span className="text-gray-400">→</span>
               <select
                 value={selectedRight || ''}
-                onChange={(e) => onChange({ ...selected, [pair.leftId]: e.target.value })}
+                onChange={(e) => {
+                  const next = { ...selected }
+                  if (e.target.value) next[pair.leftId] = e.target.value
+                  else delete next[pair.leftId]
+                  onChange(next)
+                }}
                 disabled={disabled || showResult}
-                className="input flex-1 text-sm disabled:opacity-70"
+                aria-label={`Mos javob: ${pair.leftContent}`}
+                className="input min-w-0 flex-1 text-sm disabled:opacity-70"
               >
                 <option value="">Tanlang...</option>
                 {shuffledOptions.map((opt) => (
-                  <option key={opt} value={opt}>{opt}</option>
+                  <option key={opt} value={opt} disabled={isRightChoiceUsedByAnotherPair(selected, pair.leftId, opt)}>{opt}</option>
                 ))}
               </select>
               {showResult && isCorrect && <CheckCircle2 size={18} className="text-green-600 shrink-0" />}
