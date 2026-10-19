@@ -628,7 +628,7 @@ export default function TopicView({
               )}
               {isBook ? (
                 <span className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-2.5 py-1 rounded-lg">
-                  <BookText size={12} /> {sectionCount} ta bo'lim
+                  <BookText size={12} /> {content.source ? `${sectionCount} ta bo'lim` : 'Kitob rejimi'}
                 </span>
               ) : (
                 <span className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-2.5 py-1 rounded-lg">
