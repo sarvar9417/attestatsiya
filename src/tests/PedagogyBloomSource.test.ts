@@ -105,4 +105,67 @@ describe('pedagogy source-based Bloom explanation', () => {
     expect(text).toContain('«Avtoritar qobiliyat»')
     expect(text).toContain('qo‘pol munosabat')
   })
+
+  it('reconciles all seven professional-standard fallback topics with a traceable source', () => {
+    const standardTopics = Array.from({ length: 7 }, (_, i) => 'M14.' + String(i + 1).padStart(2, '0'))
+    for (const id of standardTopics) {
+      const topic = getTopicContent(id)
+      expect(topic?.questions, id).toEqual([])
+      expect(topic?.theory.some(block => block.type === 'source' && block.content.includes('Kasb-standarti.pdf')), id).toBe(true)
+      expect(topic?.theory.some(block => block.type === 'example'), id).toBe(true)
+      expect(topic?.theory.some(block => block.type === 'table'), id).toBe(true)
+    }
+  })
+
+  it('requires measurable lesson outcomes rather than an equipment-only M14.01 plan', () => {
+    const s = getTopicContent('M14.01')?.theory.map(x => x.content).join('\n') ?? ''
+    expect(s).toContain('o‘lchanadigan')
+    expect(s).toContain('baholash dalillariga')
+    expect(s).toContain('jihoz')
+  })
+
+  it('keeps metacognitive planning separate from raw ICT use in M14.02', () => {
+    const s = getTopicContent('M14.02')?.theory.map(x => x.content).join('\n') ?? ''
+    expect(s).toContain('Metakognitsiya')
+    expect(s).toContain('o‘zini baholash')
+    expect(s).toContain('o‘z-o‘zidan samaradorlikning isboti emas')
+  })
+
+  it('does not assert an official 5-point assessment-only rule in M14.03', () => {
+    const s = getTopicContent('M14.03')?.theory.map(x => x.content).join('\n') ?? ''
+    expect(s).toContain('Diagnostik')
+    expect(s).toContain('Formativ')
+    expect(s).toContain('Summativ')
+    expect(s).not.toContain('5 ballik tizim (O‘zbekiston)')
+    expect(s).not.toContain('Balans')
+  })
+
+  it('recognizes upbringing during regular lessons in M14.04', () => {
+    const s = getTopicContent('M14.04')?.theory.map(x => x.content).join('\n') ?? ''
+    expect(s).toContain('darsning o‘zida')
+    expect(s).toContain('Darsdagi tarbiya')
+    expect(s).not.toContain('faqat sinf rahbari tomonidan')
+  })
+
+  it('includes equal participation, safety and media literacy in M14.05', () => {
+    const s = getTopicContent('M14.05')?.theory.map(x => x.content).join('\n') ?? ''
+    expect(s).toContain('Media va raqamli xavfsizlik')
+    expect(s).toContain('Teng imkoniyat')
+    expect(s).toContain('moslashtirish')
+  })
+
+  it('does not invent a universal teacher training interval in M14.06', () => {
+    const s = getTopicContent('M14.06')?.theory.map(x => x.content).join('\n') ?? ''
+    expect(s).toContain('Muntazam ravishda')
+    expect(s).toContain('3–5 yilda bir marta')
+    expect(s).toContain('universal interval berilmagan')
+    expect(s).not.toContain('3-5 yilda bir marta, institutda')
+  })
+
+  it('prioritizes parent participation and confidentiality over messaging tools in M14.07', () => {
+    const s = getTopicContent('M14.07')?.theory.map(x => x.content).join('\n') ?? ''
+    expect(s).toContain('qarorlarda ishtirok')
+    expect(s).toContain('shaxsiy ma’lumoti')
+    expect(s).toContain('maxfiylikni')
+  })
 })
