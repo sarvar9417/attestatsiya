@@ -1,3 +1,9 @@
+## TASK-248 — M01.04 savollarini darslik sahifalari bilan tekshirish
+
+| ID | Status | Qamrov | Qolgan talab |
+| --- | --- | --- | --- |
+| TASK-248 | IN_PROGRESS | `ARS-03` dagi 70 item: 42 topic-supported, 25 partial, 3 source-gap, `M0104ItemSourceTrace.test.ts` | Barcha variant/explanationlar ekspert ko‘rigidan o‘tishi; M01.05 100 va M01.06 110 source-review; production publish/deploy yo‘q |
+
 ## TASK-247 — M01 400 savol source/numeric QA
 
 | ID | Status | Scope | Open gate |
