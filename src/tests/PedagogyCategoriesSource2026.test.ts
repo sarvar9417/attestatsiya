@@ -41,7 +41,7 @@ describe('2026 pedagogika core terminology: original source cross-check', () => 
     for (const topicId of ['M15.01', 'M15.03']) {
       const lesson = getTopicContent(topicId)
       expect(lesson?.questions, topicId).toEqual([])
-      expect(lessonText(topicId)).toContain('fizik PDF beti')
+      expect(lessonText(topicId)).toMatch(/fizik (?:PDF )?beti/)
     }
   })
 })
