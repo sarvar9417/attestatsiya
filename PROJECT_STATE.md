@@ -1,3 +1,11 @@
+## TASK-247 — M01 source locators and numeric QA (2026-10-19)
+
+- **Status:** IN_PROGRESS; branch `task/TASK-247-m01-numeric-and-source-verification`.
+- **Textbook review:** 120 individual M01 questions have book/page trace rows in `docs/audits/TASK247_M01_02_60_ITEM_SOURCE_TRACE.tsv` and `docs/audits/TASK247_M01_03_60_ITEM_SOURCE_TRACE.tsv`.
+- **Evidence status:** 81 topic-supported, 34 partial, 5 source-gap; all 120 await item/distractor expert review.
+- **Independent numeric gate:** the original 81 numeric checks are extended with 84 additional independently recomputed items in `src/tests/M01AdditionalNumericQA.test.ts`. Total intended numeric coverage: 165 of 400. CI for final head to be checked.
+- **Follow-up:** remaining 280 ARS questions need individual page trace; unverified answers must not be published; no production changes or deploy.
+
 ## TASK-244 — Y2 moslashtirish testlarining to‘liqligi va tanlov sifati (2026-10-19)
 
 - **Status:** IN_PROGRESS.
