@@ -12,6 +12,12 @@ const notes: Record<string, TheoryBlock[]> = {
     { type: 'example', content: 'O‘qituvchi mavzuni biladi, lekin o‘quvchilar tushunmayotganini sezgach, boshqa misol va ko‘rgazmali vositani tanlaydi. U faqat bilimni emas, o‘quvchini tushunish va o‘qitish usulini ham qo‘lladi.' },
     { type: 'trap', content: '**Pedagogika** — ta’lim-tarbiya haqidagi keng fan. **Didaktika** — ta’lim nazariyasi. **Predmet metodikasi** — muayyan fanni o‘qitish usullari. Savolda uchalasining vazifasini farqlang.' },
     { type: 'source', content: 'Manba: Xoliqov, Pedagogik mahorat, 1–2-betlar.' },
+    { type: 'heading', content: 'Pedagogikaning obyekti, predmeti va tadqiqot metodlari' },
+    { type: 'definition', content: '**Obyekt** — yaxlit pedagogik jarayon; **predmet** — ta’lim-tarbiyaning mazmuni, qonuniyatlari, tamoyillari, shakl, metod va vositalari. Pedagogik tadqiqot usullari darsda o‘qitish metodlaridan farq qiladi.' },
+    { type: 'table', content: '| Pedagogika vazifasi | Nima qiladi? |\n|---|---|\n| Analitik | Jarayon va sabab–oqibat aloqalarini tahlil qiladi |\n| Prognostik | Ta’lim rivoji uchun ilmiy asoslangan yo‘nalishlarni bashorat qiladi |\n| Tashkiliy | Tadqiqot natijalari va yangi yondashuvlarni amaliyotga tatbiq qiladi |\n| Metodologik | Pedagogik fanlarning umumiy nazariy asoslarini aniqlashtiradi |' },
+    { type: 'example', content: 'O‘qituvchi sinfda o‘zlashtirish pasayishini o‘rgansa, **kuzatish** bilan real faoliyatni qayd etadi, **suhbat** orqali sabablarni ochadi, **anketa** bilan yozma javob yig‘adi, **pedagogik eksperiment** bilan tanlangan yondashuv samaradorligini sinaydi. Har metod boshqa turdagi dalil beradi.' },
+    { type: 'trap', content: '**Anketa** — ko‘pincha tizimli yozma savollar; **suhbat/intervyu** — savol-javob asosidagi muloqot; **kuzatish** — faoliyatni maqsadli qayd etish; **eksperiment** — belgilangan sharoitda ta’sirni sinash. Bittasining natijasini boshqasining avtomatik isboti sifatida ko‘rsatmang.' },
+    { type: 'source', content: 'Qo‘shimcha manba: «Mirzayeva Pedagogika nazriyasi qollanma 2-mavzu.pdf», «Pedagogika fan sifatida. Ilmiy-pedagogik tadqiqotlar metodologiyasi va metodlari» bo‘limi; barnoyevak Drive — https://drive.google.com/file/d/1woZMas8dNbzk6yephzNH_XdmT19ess-l/view . PDFning aniq fizik betlari hali tekshirilmagan, material ikkilamchi o‘quv qo‘llanma sifatida ishlatildi.' },
   ],
   'M15.02': [
     { type: 'heading', content: 'Tamoyil, metod va vositani adashtirmang' },
