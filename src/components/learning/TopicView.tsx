@@ -1358,7 +1358,7 @@ function QuestionCard({ question: q, index, total, selected, isSubmitted, onSele
   selected?: unknown; isSubmitted: boolean
   onSelect: (val: unknown) => void; onSubmit: () => void
 }) {
-  const tb = TYPE_BADGE[q.type] || TYPE_BADGE.Y1
+  const tb = TYPE_BADGE[q.cognitiveLevel ?? q.type] || TYPE_BADGE.Y1
   const Icon = tb.icon
   const isCorrect = isSubmitted && isQuestionCorrect(q, selected)
   const isWrong = isSubmitted && !isQuestionCorrect(q, selected)
