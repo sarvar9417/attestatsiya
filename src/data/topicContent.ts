@@ -559,7 +559,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'definition', content: 'Shartli bloklar — muayyan shartga qarab turli amallarni bajarish imkonini beradi. Sikllar — bir qism amallarni bir necha marta takrorlaydi. Ikkalasi "Control" bo\'limida joylashgan.' },
     { type: 'table', content: '| Blok | Vazifasi |\n|------|---------|\n| if...then | Shart bajarilsa, ichidagi amallarni bajarish |\n| if...then...else | Ikki tarmoqli shart |\n| wait until | Shart bajarilguncha kutish |\n| repeat [N] | N marta takrorlash |\n| forever | Cheksiz takrorlash |\n| repeat until | Shart bajarilguncha takrorlash |' },
     { type: 'text', content: 'Tarmoqlanuvchi konstruksiyalar: if..then (to\'liqsiz shart) va if..then..else (to\'liq shart). Takrorlanuvchi konstruksiyalar: repeat (ma\'lum martali), forever (cheksiz), repeat until (shartli).' },
-    { type: 'example', content: 'Shartli: if (A > B) then say "A katta" else say "B katta"\nSiklli: repeat 10 (move 10 steps, wait 1 sec)\nMantiqiy: (15 * 2 = 36) → yolg\'on, (16 + 3 < 25) → rost' },
+    { type: 'example', content: 'Shartli: if (A > B) then say "A katta" else if (A < B) then say "B katta" else say "A va B teng"\nSiklli: repeat 10 (move 10 steps, wait 1 sec)\nMantiqiy: (15 * 2 = 36) → yolg\'on, (16 + 3 < 25) → rost' },
     { type: 'note', content: '🔄 "wait until" bloki dasturni shart bajarilguncha to\'xtatib turadi. "forever" bloki to\'xtovsiz takrorlaydi, odatda o\'yinlarda ishlatiladi.' },
   ], [
     { id: 'M07.04-q1', text: 'Scratchda "repeat 10" bloki necha marta takrorlanadi?', options: ['9', '10', '11', 'Cheksiz'], correctIndex: 1, explanation: '"repeat 10" — 10 marta takrorlash', type: 'Y1' },
