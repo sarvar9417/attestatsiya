@@ -79,6 +79,8 @@ export interface TestQuestion {
   correctIndex: number
   explanation: string
   type: 'Y1' | 'Y2' | 'Y3'
+  /** Original cognitive tag retained while using the four-choice Y1 interaction. */
+  cognitiveLevel?: 'Y1' | 'Y2' | 'Y3'
   pairs?: PairItem[]
   items?: OrderedItem[]
   correctOrder?: string[]
@@ -101,8 +103,21 @@ export interface TopicContent {
   kind?: 'chapter' | 'appendix'
 }
 
+function normalizeLegacyPracticeFormat(question: TestQuestion): TestQuestion {
+  const missingMatching = question.type === 'Y2' && !question.pairs?.length
+  const missingOrdering = question.type === 'Y3' && (!question.items?.length || !question.correctOrder?.length)
+  const validChoice = question.options.length === 4
+    && question.options.every(option => option.trim().length > 0)
+    && Number.isInteger(question.correctIndex)
+    && question.correctIndex >= 0
+    && question.correctIndex < question.options.length
+  return (missingMatching || missingOrdering) && validChoice
+    ? { ...question, type: 'Y1', cognitiveLevel: question.type }
+    : question
+}
+
 function t(subtopicId: string, title: string, theory: TheoryBlock[], questions: TestQuestion[]): TopicContent {
-  return { subtopicId, title, theory, questions }
+  return { subtopicId, title, theory, questions: questions.map(normalizeLegacyPracticeFormat) }
 }
 
 export const TOPIC_CONTENT: Record<string, TopicContent> = {
@@ -559,7 +574,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'definition', content: 'Shartli bloklar — muayyan shartga qarab turli amallarni bajarish imkonini beradi. Sikllar — bir qism amallarni bir necha marta takrorlaydi. Ikkalasi "Control" bo\'limida joylashgan.' },
     { type: 'table', content: '| Blok | Vazifasi |\n|------|---------|\n| if...then | Shart bajarilsa, ichidagi amallarni bajarish |\n| if...then...else | Ikki tarmoqli shart |\n| wait until | Shart bajarilguncha kutish |\n| repeat [N] | N marta takrorlash |\n| forever | Cheksiz takrorlash |\n| repeat until | Shart bajarilguncha takrorlash |' },
     { type: 'text', content: 'Tarmoqlanuvchi konstruksiyalar: if..then (to\'liqsiz shart) va if..then..else (to\'liq shart). Takrorlanuvchi konstruksiyalar: repeat (ma\'lum martali), forever (cheksiz), repeat until (shartli).' },
-    { type: 'example', content: 'Shartli: if (A > B) then say "A katta" else say "B katta"\nSiklli: repeat 10 (move 10 steps, wait 1 sec)\nMantiqiy: (15 * 2 = 36) → yolg\'on, (16 + 3 < 25) → rost' },
+    { type: 'example', content: 'Shartli: if (A > B) then say "A katta" else if (A < B) then say "B katta" else say "A va B teng"\nSiklli: repeat 10 (move 10 steps, wait 1 sec)\nMantiqiy: (15 * 2 = 36) → yolg\'on, (16 + 3 < 25) → rost' },
     { type: 'note', content: '🔄 "wait until" bloki dasturni shart bajarilguncha to\'xtatib turadi. "forever" bloki to\'xtovsiz takrorlaydi, odatda o\'yinlarda ishlatiladi.' },
   ], [
     { id: 'M07.04-q1', text: 'Scratchda "repeat 10" bloki necha marta takrorlanadi?', options: ['9', '10', '11', 'Cheksiz'], correctIndex: 1, explanation: '"repeat 10" — 10 marta takrorlash', type: 'Y1' },
@@ -761,26 +776,28 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { id: 'M09.03-q3', text: 'Ikki jadval o\'rtasida M:M munosabat qanday amalga oshiriladi?', options: ['To\'g\'ridan-to\'g\'ri FK bilan', 'Oraliq jadval orqali', 'Birlamchi kalit orqali', 'Unikal kalit orqali'], correctIndex: 1, explanation: 'Ko\'pga-ko\'p munosabatda oraliq jadval yaratiladi', type: 'Y2' },
   ]),
 
-  'M09.04': t('M09.04', 'MS Access forma, so\'rov va hisobotlari', [
-    { type: 'definition', content: 'MS Access — Microsoft Office tarkibidagi relyatsion MBBT. Asosiy obyektlari: jadval, forma, so\'rov, hisobot, makros va modul.' },
-    { type: 'table', content: '| Obyekt | Vazifasi |\n|--------|---------|\n| Jadval | Ma\'lumotlarni saqlash |\n| Forma | Ma\'lumot kiritish va ko\'rish interfeysi |\n| So\'rov (Query) | Ma\'lumotlarni qidirish, saralash, filtrlash |\n| Hisobot (Report) | Ma\'lumotlarni chop etish va ko\'rinishi |' },
-    { type: 'text', content: 'Forma — foydalanuvchilarga qulay ma\'lumot kiritish imkonini beradi. So\'rov — SQL yoki grafik interfeys orqali ma\'lumotlarni tanlash, yangilash, qo\'shish, o\'chirish. Hisobot — ma\'lumotlarni tartibli chop etish uchun mo\'ljallangan.' },
-    { type: 'note', content: '📋 MS Access da so\'rovlar QBE (Query by Example) yoki SQL ko\'rinishida yaratilishi mumkin.' },
+  'M09.04': t('M09.04', 'Accessda oddiy so‘rovlar va tanlash shartlari', [
+    { type: 'definition', content: 'So‘rov (Query) — bazadagi bir yoki bir nechta jadvaldan berilgan talabga mos yozuv va maydonlarni ko‘rsatish vositasi. Oddiy so‘rov bir jadval ma’lumotlaridan foydalanishi mumkin.' },
+    { type: 'text', content: 'Accessda Query Design (Конструктор запросов) orqali jadval tanlanadi, kerakli maydonlar so‘rov panjarasiga qo‘shiladi va mezon (Criteria / Условия отбора) ko‘rsatiladi. So‘rov natijasi jadvalning barcha satrlarini avtomatik ko‘rsatishi shart emas: tanlash mezoni ishlatilsa, faqat unga mos yozuvlar olinadi.' },
+    { type: 'table', content: '| Amal | Vazifasi |\n|---|---|\n| Jadvalni qo‘shish | So‘rov ma’lumot manbasini tanlash |\n| Maydonni tanlash | Natijada ko‘rinadigan ustunlarni belgilash |\n| Criteria | Yozuvlarni shart bo‘yicha tanlash |\n| Run/Execute | So‘rov natijasini hisoblash va ko‘rsatish |' },
+    { type: 'example', content: '“Kitoblar” jadvalidan “Muallif” va “Kitob nomi” maydonlari tanlandi. Muallif mezoniga muayyan yozuvchi nomi berilsa, natijada o‘sha yozuvchiga mos kitoblar chiqadi. Mezon qo‘yilmagan maydon natijani ko‘rsatishda ishlatilishi mumkin.' },
+    { type: 'source', content: 'Manba: Informatika va axborot texnologiyalari, 11-sinf (2021), 7-dars, bosma 44–50-betlar — Access oddiy/ko‘p jadvalli so‘rovlarni loyihalash va ishlatish.' },
   ], [
-    { id: 'M09.04-q1', text: 'MS Access da ma\'lumot kiritish uchun qaysi obyekt ishlatiladi?', options: ['Jadval', 'Forma', 'So\'rov', 'Hisobot'], correctIndex: 1, explanation: 'Forma — ma\'lumot kiritish va ko\'rish uchun qulay interfeys', type: 'Y1' },
-    { id: 'M09.04-q2', text: 'MS Access da ma\'lumotlarni chop etish uchun qaysi obyekt mo\'ljallangan?', options: ['Jadval', 'Forma', 'So\'rov', 'Hisobot'], correctIndex: 3, explanation: 'Hisobot (Report) — ma\'lumotlarni chop etish uchun', type: 'Y1' },
-    { id: 'M09.04-q3', text: 'QBE nima?', options: ['Dasturlash tili', 'So\'rov yaratish usuli', 'Ma\'lumot turi', 'Hisobot turi'], correctIndex: 1, explanation: 'QBE (Query by Example) — grafik interfeys orqali so\'rov yaratish usuli', type: 'Y2' },
+    { id: 'M09.04-2021-query-q1', text: 'Accessda so‘rov loyihasiga jadval va kerakli maydonlarni qo‘shish uchun qaysi vosita mos?', options: ['Report Wizard', 'Query Design', 'Form View', 'Slide Master'], correctIndex: 1, explanation: 'Query Design so‘rov uchun jadval, maydon va mezonlarni belgilash imkonini beradi.', type: 'Y1' },
+    { id: 'M09.04-2021-query-q2', text: 'Access so‘rovining Criteria (Условия отбора) qatori nimaga xizmat qiladi?', options: ['Jadvalni butunlay o‘chirishga', 'Yangi hisobot sahifasini bezashga', 'Dastur interfeysini tarjima qilishga', 'Natijaga tushadigan yozuvlarni shart bilan tanlashga'], correctIndex: 3, explanation: 'Criteria — so‘rov natijasidagi yozuvlarni filtrlaydigan tanlash mezoni.', type: 'Y1' },
+    { id: 'M09.04-2021-query-q3', text: 'So‘rovdagi maydonni tanlash va unga mezon yozish o‘rtasidagi farq qaysi?', options: ['Maydon natijadagi ustunni, mezon esa mos yozuvlarni belgilaydi', 'Ikkalasi faqat satrni o‘chiradi', 'Maydon faqat rangni o‘zgartiradi', 'Mezon har doim barcha yozuvni qaytaradi'], correctIndex: 0, explanation: 'Maydon tanlash qaysi ustun ishlatilishini, mezon esa qaysi satrlar mos kelishini aniqlaydi.', type: 'Y1' },
   ]),
 
-  'M09.05': t('M09.05', 'Import va eksport', [
-    { type: 'definition', content: 'Import — tashqi manbadan ma\'lumotlarni MB ga yuklash. Eksport — MB ma\'lumotlarini tashqi formatga chiqarish.' },
-    { type: 'text', content: 'MS Access turli formatlarni qo\'llab-quvvatlaydi: Excel (.xlsx), CSV (.csv), XML, PDF, SharePoint, ODBC manbalari. Importda ma\'lumot turlari mosligi tekshiriladi.' },
-    { type: 'table', content: '| Format | Import | Eksport | Izoh |\n|--------|--------|--------|------|\n| Excel | ✓ | ✓ | Jadval ko\'rinishi saqlanadi |\n| CSV | ✓ | ✓ | Ajratuvchi belgili matn |\n| XML | ✓ | ✓ | Strukturalangan ma\'lumot |\n| PDF | ✗ | ✓ | Faqat hisobot ko\'rinishida |\n| ODBC | ✓ | ✓ | Boshqa MBBT bilan bog\'lash |' },
-    { type: 'note', content: '💡 Import qilishda ma\'lumotlar turlari mos kelmasa, xatolik yuz beradi. Eksport qilishda formatni to\'g\'ri tanlash muhim.' },
+  'M09.05': t('M09.05', 'Murakkab so‘rovlar va tanlash mezonlari', [
+    { type: 'definition', content: 'So‘rov — jadvaldagi yozuvlarni shart bo‘yicha tanlash va tahlil qilish vositasi. MS Access so‘rovlarida bir yoki bir nechta jadvalning maydonlaridan foydalanish mumkin.' },
+    { type: 'text', content: 'Access konstruktoridagi mezon (Criteria / Условия отбора) yozuvlarni filtrlash uchun ishlatiladi. Like matn namunasiga mosligini, Not Like esa namuna mos kelmasligini tekshiradi. Accessning darslikdagi odatiy namuna sintaksisida * istalgan belgilar ketma-ketligini bildiradi; bu SQLdagi % belgisi bilan adashtirilmasin.' },
+    { type: 'table', content: '| Access mezoni | Natija |\n|---|---|\n| Like "Gul*" | Gul bilan boshlanadigan matn |\n| Like "*a" | a bilan tugaydigan matn |\n| Like "*gul*" | Ichida gul ketma-ketligi bor matn |\n| Not Like "*gul*" | Ichida gul ketma-ketligi bo‘lmagan matn |\n| Between 5 And 11 | 5 va 11 ni ham o‘z ichiga oluvchi sonli oraliq |' },
+    { type: 'example', content: 'Kutubxona jadvalidagi Ism maydonida Like "Gul*" mezoni Gulnora, Gulsara va Gulhayo kabi yozuvlarni tanlaydi. Bu misol Access Query Design mezoniga tegishli; boshqa SQL muhitlaridagi LIKE belgilarini avtomatik aynan shunday deb qabul qilmang.' },
+    { type: 'source', content: 'Manba: Informatika va axborot texnologiyalari, 11-sinf (2021), 7-dars, bosma 44–52-betlar: Access so‘rovlari, tanlash shartlari, Like / Not Like / Between.' },
   ], [
-    { id: 'M09.05-q1', text: 'MS Access ga Excel faylidan ma\'lumot yuklash qanday nomlanadi?', options: ['Eksport', 'Import', 'Bog\'lash', 'Konvertatsiya'], correctIndex: 1, explanation: 'Import — tashqi manbadan ma\'lumotlarni yuklash', type: 'Y1' },
-    { id: 'M09.05-q2', text: 'MS Access da qaysi formatga eksport qilish mumkin emas?', options: ['Excel', 'CSV', 'PDF', 'MP3'], correctIndex: 3, explanation: 'MP3 — audio format, MB ma\'lumotlarini eksport qilish uchun mos emas', type: 'Y1' },
-    { id: 'M09.05-q3', text: 'ODBC nima uchun ishlatiladi?', options: ['Rasm saqlash', 'Boshqa MBBT bilan bog\'lash', 'Matn tahrirlash', 'Hisobot yaratish'], correctIndex: 1, explanation: 'ODBC — turli MBBT larini bog\'lash uchun standart interfeys', type: 'Y2' },
+    { id: 'M09.05-2021-query-q1', text: 'MS Access so‘rovida Ism maydoni "Gul" bilan boshlanishi uchun qaysi mezon mos?', options: ['Like "Gul*"', 'Like "*Gul"', 'Like "*Gul*"', 'Not Like "Gul*"'], correctIndex: 0, explanation: 'Darslikda Like "Gul*" Gul bilan boshlanuvchi yozuvlarni tanlash uchun ishlatiladi.', type: 'Y1' },
+    { id: 'M09.05-2021-query-q2', text: 'ID maydonidagi Between 5 And 11 mezoni qaysi yozuvlarni tanlaydi?', options: ['Faqat 5 va 11 ni', 'Faqat 6 dan 10 gacha', '5 dan 11 gacha, chegaralar bilan birga', '11 dan katta qiymatlarni'], correctIndex: 2, explanation: 'Between ... And ... ikki chegara qiymatini ham qamrab oladigan oraliq mezonidir.', type: 'Y1' },
+    { id: 'M09.05-2021-query-q3', text: 'Ism maydonida Not Like "*gul*" mezonining vazifasi nima?', options: ['Faqat gul bilan boshlanadiganlarni olish', 'gul ketma-ketligini o‘z ichiga olmagan matnlarni olish', 'Faqat gul bilan tugaydiganlarni olish', 'Barcha yozuvlarni olish'], correctIndex: 1, explanation: 'Not Like "*gul*" ushbu harflar ketma-ketligiga mos kelmaydigan matnlarni tanlaydi.', type: 'Y1' },
   ]),
 
   'M09.06': t('M09.06', 'SQL SELECT, INSERT, UPDATE, DELETE', [
