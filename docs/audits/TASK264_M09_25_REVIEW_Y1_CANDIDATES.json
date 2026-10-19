@@ -20,10 +20,10 @@
       ],
       "stem": "Kutubxona katalogidagi ma’lumotlar to‘plami bilan uni boshqaradigan dastur o‘rtasidagi to‘g‘ri farq qaysi?",
       "options": [
-        "Ma’lumotlar bazasi ma’lumotlarni saqlaydi, MBBT ularni boshqaradi",
-        "MBBT faqat qurilma nomi, baza faqat dastur nomi",
-        "Ikkalasi faqat matn muharriri turidir",
-        "Ma’lumotlar bazasi faqat parollarni saqlaydi"
+        "Ma’lumotlar bazasi tartibli yozuvlarni saqlaydi, MBBT ular ustidagi amallarni boshqaradi",
+        "Ma’lumotlar bazasi faqat SQL buyruqlarini, MBBT esa faqat jadval sarlavhasini saqlaydi",
+        "Ma’lumotlar bazasi va MBBT ikkalasi faqat ma’lumot turi nomidir",
+        "MBBT bitta jadvalning yozuvi, baza esa uning maydoni hisoblanadi"
       ],
       "status": "draft_candidate",
       "human_answer_verification": "required",
@@ -45,10 +45,10 @@
       ],
       "stem": "Maktabdagi kitoblar haqidagi ma’lumotlarni tartibli saqlash va qidirish uchun qaysi vosita eng mos?",
       "options": [
-        "Slayd o‘tish effektlari",
-        "Ma’lumotlar bazasi",
-        "Rasm piksel o‘lchami",
-        "Audio kodek"
+        "Faqat matnli hujjatga ketma-ket yozuv kiritish",
+        "Bog‘langan jadvallar va so‘rovlarni qo‘llovchi ma’lumotlar bazasi",
+        "Bitta elektron jadval katagiga barcha yozuvni joylashtirish",
+        "Faqat o‘quvchilar ismlarining alifbo ro‘yxatini tuzish"
       ],
       "status": "draft_candidate",
       "human_answer_verification": "required",
@@ -70,10 +70,10 @@
       ],
       "stem": "Qaysi amal ma’lumotlar bazasini boshqarish tizimining vazifasiga to‘g‘ri keladi?",
       "options": [
-        "Kompyuter ekranini jismonan tozalash",
-        "Faqat monitor yorqinligini sozlash",
-        "Yozuvlarni jadvalga qo‘shish va so‘rov bilan olish",
-        "Printer siyohini almashtirish"
+        "Maydonlar nomini ko‘rsatib, hech bir yozuv bilan ishlamaslik",
+        "Jadval satrlarini faqat qo‘lda bir xil rangga bo‘yash",
+        "Yozuvlarni jadvalga qo‘shish, tahrirlash va shart bilan qidirish",
+        "Ma’lumotni jadval tuzilmasisiz bitta sarlavhaga jamlash"
       ],
       "status": "draft_candidate",
       "human_answer_verification": "required",
@@ -95,10 +95,10 @@
       ],
       "stem": "Jadvallar va ular orasidagi munosabatlarga tayanuvchi ma’lumotlar bazasi modeli qaysi?",
       "options": [
-        "Grafik animatsiya modeli",
+        "Iyerarxik model",
         "Relyatsion model",
-        "Rastrli rasm modeli",
-        "Chiziqli video modeli"
+        "Tarmoqli model",
+        "Hujjatli model"
       ],
       "status": "draft_candidate",
       "human_answer_verification": "required",
@@ -120,10 +120,10 @@
       ],
       "stem": "Bir maktab kutubxonasida kitoblar, a’zolar va berilgan kitoblar haqidagi ma’lumotlarni tartibli yuritish uchun qaysi tuzilma mantiqan qulay?",
       "options": [
-        "Har bir yozuv uchun alohida tasodifiy fayl",
-        "Barcha matnni bitta rasmga aylantirish",
-        "Alohida jadvallar va ular orasidagi bog‘lanishlar",
-        "Faqat sana kataklarini ranglash"
+        "A’zo haqidagi barcha ma’lumotni har bir kitob satrida takrorlash",
+        "Har bir jadvalni aloqasiz mustaqil ro‘yxat deb qabul qilish",
+        "Alohida jadvallarni mos kalit maydonlar orqali bog‘lash",
+        "Ma’lumotlarni faqat bitta izoh maydoniga jamlash"
       ],
       "status": "draft_candidate",
       "human_answer_verification": "required",
@@ -147,8 +147,8 @@
       "options": [
         "Maydon va yozuv",
         "Yozuv va maydon",
-        "Hisobot va forma",
-        "So‘rov va modul"
+        "Jadval va ma’lumot turi",
+        "Birlamchi va tashqi kalit"
       ],
       "status": "draft_candidate",
       "human_answer_verification": "required",
@@ -170,10 +170,10 @@
       ],
       "stem": "O‘quvchining tug‘ilgan kunini Access jadvalida maxsus sana amallari bilan saqlash uchun qaysi maydon turi mos?",
       "options": [
-        "Valyuta",
-        "Uzun matn",
+        "Qisqa matn",
+        "Raqam",
         "Sana va vaqt",
-        "Giperhavola"
+        "Valyuta"
       ],
       "status": "draft_candidate",
       "human_answer_verification": "required",
@@ -195,10 +195,10 @@
       ],
       "stem": "Faqat «ha» yoki «yo‘q» qiymatiga ega «A’zo faolmi?» maydoni uchun qaysi tur maqsadga muvofiq?",
       "options": [
-        "Mantiqiy",
-        "Audio oqim",
-        "Rasm formati",
-        "So‘rov mezoni"
+        "Mantiqiy (Ha/Yo‘q)",
+        "Qisqa matn",
+        "Sana va vaqt",
+        "Valyuta"
       ],
       "status": "draft_candidate",
       "human_answer_verification": "required",
@@ -220,10 +220,10 @@
       ],
       "stem": "Telefon raqamidagi bosh nollarni va chiziqchalarni saqlashda oddiy son turidan ko‘ra qaysi tur xavfsizroq?",
       "options": [
-        "Sana",
-        "Matn",
-        "Mantiqiy",
-        "Hisobot"
+        "Sana va vaqt",
+        "Qisqa matn",
+        "Hisoblagich (AutoNumber)",
+        "Valyuta"
       ],
       "status": "draft_candidate",
       "human_answer_verification": "required",
@@ -245,10 +245,10 @@
       ],
       "stem": "«9-a» va «9-a sinf» bir sinfni bildirsa ham, turli ko‘rinishda saqlansa qanday muammo paydo bo‘lishi mumkin?",
       "options": [
-        "Har doim faylni avtomatik o‘chiradi",
-        "Barcha sonlar musbat bo‘ladi",
-        "Saralash va filtrlashda bir xil qiymatlar ajralib ketishi mumkin",
-        "Hujjatdagi font majburiy o‘zgaradi"
+        "Turli yozilishi har doim bir xil filtr natijasini beradi",
+        "Bir xil sinf kodi yozilishi o‘zgarsa, jadval avtomatik tiklanadi",
+        "Mazmunan bir xil sinf kodlari turli qiymat sifatida qabul qilinishi mumkin",
+        "Turlicha ko‘rinish faqat ustun kengligini o‘zgartiradi"
       ],
       "status": "draft_candidate",
       "human_answer_verification": "required",
@@ -270,10 +270,10 @@
       ],
       "stem": "Talabalar jadvalida har bir yozuvni takrorlanmas tarzda aniqlash uchun qaysi element tanlanadi?",
       "options": [
-        "Ustun rangi",
+        "Tashqi kalit",
         "Birlamchi kalit",
-        "Hisobot sarlavhasi",
-        "Tasodifiy sahifa raqami"
+        "Oddiy tartiblash maydoni",
+        "Hisobot sarlavhasi"
       ],
       "status": "draft_candidate",
       "human_answer_verification": "required",
@@ -296,9 +296,9 @@
       "stem": "«Baholar» jadvalidagi «O‘quvchiID» boshqa jadvaldagi o‘quvchiga murojaat qilsa, bu maydonning roli nima?",
       "options": [
         "Tashqi kalit",
-        "Rasm manzili",
-        "Tartiblash belgisi",
-        "Forma sarlavhasi"
+        "Birlamchi kalit",
+        "Tanlash mezoni",
+        "Indeks tartibi"
       ],
       "status": "draft_candidate",
       "human_answer_verification": "required",
@@ -320,10 +320,10 @@
       ],
       "stem": "Kitoblar va ularni olgan a’zolar haqidagi ma’lumotlar alohida jadvallarda bo‘lsa, ularning yozuvlarini ishonchli bog‘lash uchun nima kerak?",
       "options": [
-        "Har ikki jadvaldagi satrlarni tasodifan joylashtirish",
-        "Jadvallarning barcha ustunini o‘chirish",
-        "Mos kalit maydonlar orqali bog‘lanish",
-        "Faqat hujjat dizaynini o‘zgartirish"
+        "Jadvallardagi satrlarni faqat joylashuv tartibi bo‘yicha moslashtirish",
+        "Barcha jadvallarni alohida saqlab, hech qanday havola qo‘ymaslik",
+        "Bir jadvaldagi tashqi kalitni boshqa jadvaldagi mos kalitga bog‘lash",
+        "Har bir jadval uchun bir xil tasodifiy nom qo‘yish"
       ],
       "status": "draft_candidate",
       "human_answer_verification": "required",
@@ -345,10 +345,10 @@
       ],
       "stem": "Ikki jadvaldagi «Ali» ismi bir necha kishiga tegishli bo‘lishi mumkin. Bog‘lanish uchun nima sababdan noyob identifikator afzal?",
       "options": [
-        "Ism har doim noyob bo‘ladi",
-        "Noyob identifikator bir xil ismli turli yozuvlarni farqlaydi",
-        "ID belgisi so‘rovni hech qachon o‘zgartirmaydi",
-        "Noyob identifikator rasm o‘lchami hisoblanadi"
+        "Ism har bir yozuvda albatta takrorlanmaydi",
+        "Noyob ID bir xil ismli turli yozuvlarni aniq ajratadi",
+        "Noyob ID faqat satrlarni rangli ko‘rsatadi",
+        "Noyob ID matn maydonlarini avtomatik birlashtiradi"
       ],
       "status": "draft_candidate",
       "human_answer_verification": "required",
@@ -370,10 +370,10 @@
       ],
       "stem": "Jadvallararo bog‘lanishda tashqi kalitning asosiy maqsadi nimadan iborat?",
       "options": [
-        "Ma’lumotning rangini tanlash",
-        "Yozuvlarni faqat alifbo bo‘yicha tartiblash",
+        "Jadval maydonlarini faqat alifbo bo‘yicha saralash",
+        "Faqat matn qiymatlarini katta harfga o‘tkazish",
         "Bitta jadvaldagi yozuvni boshqa jadvaldagi mos yozuvga bog‘lash",
-        "Kompyuterga operatsion tizim o‘rnatish"
+        "Bir jadvalga boshqa jadvalning nomini qo‘shish"
       ],
       "status": "draft_candidate",
       "human_answer_verification": "required",
@@ -395,10 +395,10 @@
       ],
       "stem": "Kutubxona jadvalidan ayrim ustunlar va mos satrlarni olib chiqadigan so‘rovni vizual yaratishda qaysi Access vositasi ishlatiladi?",
       "options": [
-        "Animation Painter",
+        "Table Design",
         "Query Design (so‘rov konstruktori)",
-        "Slide Master",
-        "Audio Mixer"
+        "Form Design",
+        "Report Design"
       ],
       "status": "draft_candidate",
       "human_answer_verification": "required",
@@ -420,10 +420,10 @@
       ],
       "stem": "Access so‘rov konstruktori orqali «Kitoblar» jadvalidagi mualliflarni olish uchun birinchi navbatda nima tanlanadi?",
       "options": [
-        "Ma’lumot manbai bo‘lgan jadval",
-        "Printer kartriji",
-        "Rasmning fon rangi",
-        "Kompyuterning vaqt mintaqasi"
+        "So‘rov ma’lumot manbai bo‘ladigan jadvalni qo‘shish",
+        "Natijani filtrlash uchun shart yozish",
+        "Natija ustunlarini tartiblashni belgilash",
+        "Tayyor so‘rov natijasini chop etish"
       ],
       "status": "draft_candidate",
       "human_answer_verification": "required",
@@ -445,10 +445,10 @@
       ],
       "stem": "Faqat «Muallif» va «Kitob nomi» ustunlari kerak bo‘lsa, so‘rov loyihasida qaysi amal to‘g‘ri?",
       "options": [
-        "Barcha jadvallarni o‘chirish",
-        "Faqat rasm qo‘shish",
-        "Kerakli maydonlarni so‘rov panjarasiga kiritish",
-        "Forma oynasini yopish bilan cheklanish"
+        "So‘rov mezonini butunlay o‘chirish",
+        "Faqat yozuvlarni identifikator bo‘yicha saralash",
+        "Kerakli maydonlarni so‘rov loyihasi panjarasiga qo‘shish",
+        "Faqat natija oynasini qayta nomlash"
       ],
       "status": "draft_candidate",
       "human_answer_verification": "required",
@@ -470,10 +470,10 @@
       ],
       "stem": "Access so‘rovidagi «Criteria / Условия отбора» qatorining vazifasi nima?",
       "options": [
-        "Natijadagi satrlarni talab bo‘yicha filtrlash",
-        "Ekran yorqinligini o‘zgartirish",
-        "Rasm hajmini kichraytirish",
-        "Sahifaga audio yozish"
+        "Mos yozuvlarni tanlash shartini belgilash",
+        "Maydon nomini ko‘rsatish yoki yashirish",
+        "Natijadagi yozuvlarni tartiblash",
+        "Maydon ma’lumot turini tahrirlash"
       ],
       "status": "draft_candidate",
       "human_answer_verification": "required",
@@ -495,10 +495,10 @@
       ],
       "stem": "So‘rov natijasida «Muallif = X» sharti berilsa, qanday yozuvlar ko‘rsatiladi?",
       "options": [
-        "Faqat barcha yozuvlar, shartdan qat’i nazar",
-        "Muallif maydoni X ga teng yozuvlar",
-        "Faqat birinchi va oxirgi satr",
-        "Har doim bo‘sh natija"
+        "Muallif maydonidan qat’i nazar barcha yozuvlar",
+        "Muallif maydoni X qiymatiga mos keladigan yozuvlar",
+        "X dan boshqa mualliflarga tegishli yozuvlar",
+        "Faqat muallif maydoni bo‘sh yozuvlar"
       ],
       "status": "draft_candidate",
       "human_answer_verification": "required",
