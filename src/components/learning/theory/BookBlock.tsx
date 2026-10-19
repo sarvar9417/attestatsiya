@@ -53,7 +53,7 @@ function Box({ block, kind }: { block: TheoryBlock; kind: string }) {
     <section className={`book-box ${meta.cls}`}>
       <header className="book-box-head">
         <span className="book-box-icon"><Icon size={14} /></span>
-        <span className="book-box-label">{block.label || meta.label}</span>
+        <span className="book-box-label"><InlineText text={block.label || meta.label} /></span>
       </header>
       <BoxBody block={block} />
     </section>
