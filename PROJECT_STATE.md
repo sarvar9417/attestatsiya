@@ -1,3 +1,12 @@
+## TASK-249 — M01.05/M01.06 remaining 210 source-page traces (2026-10-19)
+
+- **Status:** IN_PROGRESS; `task/TASK-249-m01-encoding-media-source-trace`.
+- **Scope:** `ARS-04-001..100` va `ARS-05-001..110` uchun 210 item source-status line; `docs/audits/TASK249_M01_05_06_210_ITEM_SOURCE_TRACE.tsv`.
+- **M01 completed inventory:** oldingi TASK-247/248 bilan **400 / 400** itemga manba yoki ochiq source debt qaydi bor: 239 topic-supported, 149 partial, 12 source-gap. *Zero item has expert sign-off*; `needs_item_editorial_review` hammasida qoladi.
+- **Numeric gate:** 81 + 84 = 165 formula-driven review checks TASK-247 orqali main'da mavjud. `ARS-04-071` rounding policy review-only.
+- **Regression:** `src/tests/M01All400SourceTrace.test.ts` barcha bank ID, manba holati va 12 source-gap uchun invariantlar.
+- **Release safety:** savollarning answer keylari/revisionlari va live DB o‘zgartirilmagan; production migration yoki deploy yo‘q. Barcha distractor/izoh source-by-source expert review hali bajarilmagan.
+
 ## TASK-248 — M01.04 source item trace (2026-10-19)
 
 - **Status:** IN_PROGRESS; branch `task/TASK-248-m01-info-process-source-trace`.
