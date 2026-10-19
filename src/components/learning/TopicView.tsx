@@ -179,6 +179,11 @@ export default function TopicView({
   const isLastTheoryPage = activeTheoryPage === theoryPages.length - 1
   const isSemanticProfessional = !isPedagogyTopic && /^M1[46]$/.test(moduleId) && Boolean(loadedContent)
   const pedagogyStudyNotes = isPedagogyTopic ? getPedagogyStudyNotes(subtopicId) : []
+  const professionalStandardSourceSummary =
+    moduleId === 'M14' && /^M14\.0[1-7]$/.test(subtopicId) && loadedContent && staticContent
+      ? staticContent.theory.filter(block => ['table', 'example', 'note', 'source'].includes(block.type))
+      : []
+
   const isOptionalSupplement = /^M02\.\d{2}$/.test(subtopicId) || isPedagogyTopic
   const isSupplementLoading = supplementStatus?.id === subtopicId && supplementStatus.state === 'loading'
   const supplementError = supplementStatus?.id === subtopicId && supplementStatus.state === 'error'
@@ -745,6 +750,24 @@ export default function TopicView({
                 </div>
               ))}
             </div>
+          )}
+
+          {/* The server-published M14 lesson remains canonical. The verified
+              static source summary is optional and never replaces it. */}
+          {professionalStandardSourceSummary.length > 0 && (
+            <details className="group mb-7 rounded-2xl border border-indigo-200 bg-indigo-50/60 p-4 shadow-sm open:bg-white dark:border-indigo-900 dark:bg-indigo-950/30 dark:open:bg-gray-900 sm:p-5">
+              <summary className="flex cursor-pointer items-center justify-between gap-4 rounded-xl p-2 text-sm font-bold text-indigo-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:text-indigo-200">
+                <span className="flex items-center gap-2"><BookText size={19} aria-hidden="true" /> Kasb standarti — manbaviy jadval va misollar</span>
+                <ChevronDown size={19} aria-hidden="true" className="shrink-0 transition group-open:rotate-180" />
+              </summary>
+              <p className="px-2 pb-3 pt-1 text-xs leading-6 text-gray-600 dark:text-gray-400">
+                Asosiy e’lon qilingan darsni o‘zgartirmasdan, kasb standarti matnli nusxasidan
+                tayyorlangan qo‘shimcha taqqoslash va vaziyatlarni o‘qing.
+              </p>
+              <div className="space-y-3">
+                {professionalStandardSourceSummary.map((block, i) => <PedagogyTheoryBlock key={i} block={block} />)}
+              </div>
+            </details>
           )}
 
           {isPedagogyTopic && pedagogyStudyNotes.length > 0 && (
