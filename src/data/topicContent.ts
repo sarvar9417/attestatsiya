@@ -8,6 +8,7 @@ import { M12_NETWORK_TEXTBOOK_ADDITIONS } from './topics/m12NetworkTextbookAddit
 import { M11_WEB_TEXTBOOK_ADDITIONS } from './topics/m11WebTextbookAdditions'
 import { M09_DATABASE_TEXTBOOK_ADDITIONS } from './topics/m09DatabaseTextbookAdditions'
 import { M03_OFFICE_TEXTBOOK_ADDITIONS } from './topics/m03OfficeTextbookAdditions'
+import { M03_05_CANONICAL_BOOK } from './topics/m03ExcelCanonicalBook'
 import { M08_TEXTBOOK_STUDY_ADDITIONS } from './topics/m08TextbookStudyAdditions'
 import { M14_NORMATIVE_SOURCE_ADDITIONS } from './topics/m14NormativeSourceAdditions'
 import { M16_SOURCE_THEORY_ADDITIONS } from './topics/m16SourceTheoryAdditions'
@@ -1469,6 +1470,24 @@ for (const [subtopicId, additions] of Object.entries(M09_DATABASE_TEXTBOOK_ADDIT
 for (const [subtopicId, additions] of Object.entries(M03_OFFICE_TEXTBOOK_ADDITIONS)) {
   const local = TOPIC_CONTENT[subtopicId]
   if (local) TOPIC_CONTENT[subtopicId] = { ...local, theory: [...local.theory, ...additions] }
+}
+
+// TASK-284: Unlike earlier 5-block addenda, this is a complete, structured
+// long-form textbook chapter with a goals box, solved examples and exercises.
+// The existing static/extended theory is retained verbatim as review notes;
+// static question keys and server assessments are never modified.
+const excelBase = TOPIC_CONTENT['M03.05']
+if (excelBase) {
+  TOPIC_CONTENT['M03.05'] = {
+    ...excelBase,
+    source: 'Cambridge+ 10–11-sinf (2021), 8-bob — Elektron jadvallar',
+    kind: 'chapter',
+    theory: [
+      ...M03_05_CANONICAL_BOOK,
+      { type: 'heading', content: 'Qo‘shimcha takrorlash: avvalgi nazariya va qisqa konspekt' },
+      ...excelBase.theory,
+    ],
+  }
 }
 
 // National ICT 9 Python and Cambridge+ 10/11 JavaScript / AI source notes.
