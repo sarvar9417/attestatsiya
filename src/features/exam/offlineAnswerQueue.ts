@@ -14,6 +14,7 @@ export interface FlushPendingAnswersResult {
   flushed: number
   remaining: number
   stoppedByNetwork: boolean
+  rejected?: string[]
 }
 
 type AnswerSender = (input: SubmitAnswerInput) => Promise<SubmitAnswerResponse>
@@ -140,6 +141,7 @@ export async function flushPendingAnswers(
   const forExam = (item: PendingAnswer) => !examId || item.examId === examId
   let flushed = 0
   let stoppedByNetwork = false
+  const rejected: string[] = []
 
   // A mock choice can be edited while a prior revision is in flight.
   // Re-read the queue to send the last edit without discarding it.
@@ -153,8 +155,10 @@ export async function flushPendingAnswers(
     try {
       const response = await sender(pending)
       if ('saved' in response || 'error' in response) {
-        if (acknowledgePendingAnswer(pending, ownerId)) flushed += 1
-        else revisedDuringSend = true
+        if (acknowledgePendingAnswer(pending, ownerId)) {
+          flushed += 1
+          if ('error' in response) rejected.push(pending.questionId)
+        } else revisedDuringSend = true
       }
     } catch (error) {
       if (isNetworkError(error)) {
@@ -168,6 +172,7 @@ export async function flushPendingAnswers(
         flushed,
         remaining: readQueue(ownerId).filter(forExam).length,
         stoppedByNetwork,
+        ...(rejected.length ? { rejected } : {}),
       }
     }
     }
@@ -178,6 +183,7 @@ export async function flushPendingAnswers(
     flushed,
     remaining: readQueue(ownerId).filter(forExam).length,
     stoppedByNetwork,
+    ...(rejected.length ? { rejected } : {}),
   }
 }
 
