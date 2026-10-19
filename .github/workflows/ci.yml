@@ -270,6 +270,7 @@ jobs:
             -f supabase/tests/source_backed_lesson_coverage.test.sql \
             -f supabase/tests/task063_format_bank_reconcile.test.sql \
             -f supabase/tests/spec_zero_construct_review_bank.test.sql \
+            -f supabase/tests/task258_four_priority_topics.test.sql \
             -f supabase/tests/anon_rpc_hardening.test.sql \
             -f supabase/tests/m01_exact_source_lesson_reconcile.test.sql \
             -f supabase/tests/canonical_lesson_drift_reconcile.test.sql \
