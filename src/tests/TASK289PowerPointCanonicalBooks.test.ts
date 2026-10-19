@@ -44,7 +44,7 @@ describe('TASK-289: PowerPoint chapters follow the complete M01-style reader', (
 
   it('does not change canonical Excel or other pedagogy lessons', () => {
     expect(getTopicContent('M03.07')?.source).toContain('Cambridge+')
-    expect(getTopicContent('M15.07')?.source).toBeUndefined()
+    expect(getTopicContent('M15.07')?.source).toContain('Xoliqov')
     expect(getTopicContent('M03.08')?.questions[1].correctIndex).toBe(1)
     expect(getTopicContent('M03.10')?.questions[1].correctIndex).toBe(2)
   })
