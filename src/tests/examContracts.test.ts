@@ -76,6 +76,39 @@ describe('exam RPC contracts', () => {
     expect(encodeAnswer(item, value)).toEqual({ pairs: value })
   })
 
+  it('Y2 qo‘shimcha yoki eski chap ID bilan save qilishni bloklaydi', () => {
+    const item = y2Item()
+    const valid = { [leftId]: rightId }
+    expect(isAnswerComplete(item, valid)).toBe(true)
+    expect(isAnswerComplete(item, { ...valid, 'stale-left-id': rightId })).toBe(false)
+    expect(isAnswerComplete(item, { [leftId]: '' })).toBe(false)
+    expect(isAnswerComplete(item, { [leftId]: 'unknown-right-id' })).toBe(false)
+    expect(isAnswerComplete(item, {})).toBe(false)
+    expect(isAnswerComplete(item, ['unexpected-array'])).toBe(false)
+
+    const duplicatedLeft: ExamItem = {
+      ...item,
+      options: [...item.options, { ...item.options[0] }],
+    }
+    expect(isAnswerComplete(duplicatedLeft, valid)).toBe(false)
+  })
+
+  it('Y2 ko‘p elementli testda o‘ng javoblar takrorlanishini rad etadi', () => {
+    const secondLeft = '00000000-0000-4000-8000-000000000006'
+    const secondRight = '00000000-0000-4000-8000-000000000007'
+    const item: ExamItem = {
+      ...y2Item(),
+      options: [
+        ...y2Item().options,
+        { id: secondLeft, side: 'a', content_md: 'Chap 2' },
+        { id: secondRight, side: 'b', content_md: 'O‘ng 2' },
+      ],
+    }
+    expect(isAnswerComplete(item, { [leftId]: rightId, [secondLeft]: secondRight })).toBe(true)
+    expect(isAnswerComplete(item, { [leftId]: rightId, [secondLeft]: rightId })).toBe(false)
+    expect(isAnswerComplete(item, { [leftId]: rightId })).toBe(false)
+  })
+
   it('deterministik shuffle bir xil sessiyada barqaror', () => {
     const values = ['a', 'b', 'c', 'd', 'e']
     const first = stableShuffle(values, `${examId}:${questionId}`)

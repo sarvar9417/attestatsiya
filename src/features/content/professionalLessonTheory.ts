@@ -59,6 +59,21 @@ export function markdownToTheoryBlocks(markdown: string): TheoryBlock[] {
       continue
     }
 
+    // Preserve fenced examples as one formatted block, not raw backticks
+    // and separately rendered lines/Markdown headings.
+    const fence = /^(`{3,}|~{3,})([^\s`~]*)\s*$/.exec(line)
+    if (fence) {
+      flush()
+      const marker = fence[1]
+      const code: string[] = []
+      while (i + 1 < lines.length && !lines[i + 1].trim().startsWith(marker)) {
+        code.push(lines[++i])
+      }
+      if (i + 1 < lines.length) i++
+      result.push({ type: 'code', content: code.join('\n'), language: fence[2] || undefined })
+      continue
+    }
+
     if (line.startsWith('|') && i + 1 < lines.length && isTableDivider(lines[i + 1])) {
       flush()
       const headers = rowCells(line)
@@ -144,22 +159,18 @@ export function resolveLearnerTheoryContent(
   staticContent: TopicContent,
   publishedContent?: TopicContent | null,
 ): TopicContent {
-  // M02 keeps its full, hand-curated 9-part static theory as the canonical core.
-  // Only the explicitly identified source-checked DB addendum may be appended.
-  // This prevents a short DB summary from replacing the learner's theory,
-  // while allowing approved additions edited in the database to reach the UI.
-  if (subtopicId.startsWith('M02.')) {
-    if (!publishedContent || publishedContent === staticContent) return staticContent
-    const newSection = publishedContent.theory.findIndex(
-      block => block.type === 'heading'
-        && block.content.startsWith('Tekshirilgan qo‘shimcha:'),
-    )
-    if (newSection < 0) return staticContent
-    return {
-      ...staticContent,
-      theory: [...staticContent.theory, ...publishedContent.theory.slice(newSection)],
-    }
-  }
-  if (subtopicId.startsWith('M15.')) return staticContent
+  // M02 and M15 keep their curated core. DB supplements are opt-in, never
+  // appended during reading or allowed to replace the current lesson.
+  if (subtopicId.startsWith('M02.') || subtopicId.startsWith('M15.')) return staticContent
   return publishedContent ?? staticContent
+}
+
+
+/** A source-checked M02 addendum is optional, never part of the main lesson. */
+export function verifiedM02Supplement(publishedContent: TopicContent | null): TheoryBlock[] {
+  if (!publishedContent) return []
+  const index = publishedContent.theory.findIndex(
+    block => block.type === 'heading' && /^Tekshirilgan qo‘shimcha:/i.test(block.content),
+  )
+  return index < 0 ? [] : publishedContent.theory.slice(index)
 }

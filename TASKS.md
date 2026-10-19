@@ -1,3 +1,32 @@
+## TASK-244 — Y2 matching UX va javob kontrakti
+
+| ID | Status | Dependency | Deliverable |
+|---|---|---|---|
+| TASK-244 | IN_PROGRESS | TASK-240 | Mavzu testlarida takror/o‘rinsiz/bo‘sh Y2 moslashtirishni bloklash, tanlovlar qayta renderda barqarorligi, klaviatura uchun label va testlar; source-validity expert approval alohida. Merge/deploy yo‘q. |
+
+## TASK-243 — M02 nazariya va dizayn auditi (2026-10-19)
+
+| ID | Status | Scope | Natija / qolgan talab |
+| --- | --- | --- | --- |
+| TASK-243 | IN_PROGRESS (release BLOCKED) | M02.01–04, 2026 spetsifikatsiyasi, 9 legacy bo‘lim va 13 ICT/Cambridge+ manbadan M02 qamrovi | 36 ta tarixiy/statik matn va kalitga oid aniqlashtirish; 7 noto‘g‘ri `Y2`→`Y1` static savol; 2 source jadvalning to‘liq ko‘rinishi; sarlavha sahifa oxirida qolmasligi; regressiya testlari va `docs/TASK243_M02_SOURCE_AND_DESIGN_AUDIT_20261019.md`. To‘liq source-concordance, auth E2E, real mobil/desktop UI va yakuniy CI hali release shartlari. Merge/deploy/DB write yo‘q. |
+
+## TASK-242 — M01 nazariya manba va dizayn auditi (2026-10-19)
+
+| ID | Status | Scope | Natija / qolgan shart |
+| --- | --- | --- | --- |
+| TASK-242 | IN_PROGRESS (review gate) | M01.01–M01.12, 2026 spetsifikatsiyasi, ICT/Cambridge+ 5–11, LaTeX konverter, kitob UI | 10 ta misol sarlavhasi + `\\difficulty` noto‘g‘ri renderi tuzatildi; 12 mavzu, 10 diagramma va dastlabki manba qamrovi regressiya bilan himoyalandi. To‘liq sahifama-sahifa ekspert tekshiruvi, mobil/desktop real UI va authenticated learner E2E hali ochiq. `docs/TASK242_M01_SOURCE_AND_DESIGN_AUDIT_20261019.md`. Merge/deploy/production migration yo‘q. |
+
+## TASK-240 — Informatika savollar banki chuqur sifat nazorati
+
+| ID | Status | Dependency | Natija yoki qolgan shart |
+|---|---|---|---|
+| TASK-240 | DONE | TASK-060, TASK-063 | 5 966 aktiv savol bo‘yicha avtomatik chuqur QA va source-corpus solishtiruvi bajarildi. Ekspert dalilisiz xato published qilingan 380 ta S5.WEB/GV2 savol productionda immutable archive + yangi review revision orqali karantinga olindi; publication/fingerprint/immutability guard, regression, audit SQL va `docs/TASK240_INFORMATIKA_QUESTION_BANK_DEEP_QA.md` qo‘shildi. Ochiq ekspert release shartlari hisobotda qayd etilgan. |
+
+## TASK-239 — Office V2 grafik savollarini yakunlash
+| ID | Status | Dependency | Natija / release sharti |
+|---|---|---|---|
+| TASK-239 | IN_PROGRESS (release BLOCKED) | M03 9 review dars / 270 review/draft savollar | PR #178: 7 SVG, frontend allowlist, 7 draft→review migratsiya va testlar; qolgan: CI, Vercel deploy limiti, tasdiqlangan ekspert QA, production smoke. **Kontentni avtomatik publish qilish mumkin emas.** |
+
 ## TASK-230–238 — Shaxsiy test konstruktori: kod, QA va release
 
 | ID | Status | Dependency | Natija yoki qolgan shart |

@@ -1,3 +1,55 @@
+## TASK-244 — Y2 moslashtirish testlarining to‘liqligi va tanlov sifati (2026-10-19)
+
+- **Status:** IN_PROGRESS.
+- **Owner:** ChatGPT; foydalanuvchi 2026-10-19 sanasida testlar sifati uchun ruxsat berdi.
+- **Branch:** `task/TASK-244-y2-matching-quality`.
+- **Dependency:** TASK-240 DONE; published kontent va production DB joyida o‘zgarmaydi.
+- **Scope:** Y2 matchingning bir-biriga mos (one-to-one) tanlovi, bo‘sh/duplicate javoblarni rad etish va variantlarning qayta renderda o‘zgarmasligi; regressiya testlari.
+- **Source boundary:** Drive darsliklari va attestatsiya spetsifikatsiyasi semantik review uchun; xususiy savol matni/answer key public Gitga kiritilmaydi.
+- **Release:** mustaqil ekspert approval bo‘lmasa savollar published qilinmaydi; foydalanuvchi alohida aytmaguncha merge, deploy va production migration yo‘q.
+
+## 2026-10-19 — TASK-243: M02 darslik, nazariya va dizayn
+
+- **Status:** IN_PROGRESS / release BLOCKED. 2026 rasmiy specs: 2 ta M02 savol, 4 kanonik konstrukt, 9 legacy mavzu turli bo‘limlarga birlashtirilgan.
+- **Branch:** `task/TASK-243-m02-source-and-theory-audit` (`TASK-242` branchdan). `main`ga tegilmagan.
+- **Darsliklar:** Drive’dagi ICT5/10, Cambridge+9/10–11 darsliklari matni va 2026 specs o‘qildi; oldingi M02 13-book sampled index foydali, ammo to‘liq page-by-page audit emas.
+- **Fix:** SSD/NAND nomlanishi, RAM/cache, ROM/flash BIOS, virtual memory, fayl/papka/katalog, kengaytma, Windows filename, litsenziya vs narx, Android bozori va tarixiy ENIAC wording. Statik 34 savol ichida 7 tasi `Y2` (pairs yo‘q), endi `Y1` ID/correctIndex saqlangan; metadata/quiz productionga yozilmadi. Source jadval `rows` original to‘liq bayonga mos.
+- **UX:** 4 M02 topicda heading orphan qilmaydigan paginatsiya; boshqa modullarning standart pagination o‘zgarmagan.
+- **QA:** `src/tests/M02SourceFidelity.test.tsx` canonical/group/question/source/pagination regressiyalari; GitHub Actions terminal CI natijasi va authenticated learner E2E tekshirilishi kerak.
+- **Evidence & gates:** `docs/TASK243_M02_SOURCE_AND_DESIGN_AUDIT_20261019.md`.
+- **No production release:** merge, deploy, migrations, published question status o‘zgartirilmadi.
+
+## 2026-10-19 — TASK-242: M01 nazariya manba va dizayn auditi
+
+- **Status:** IN_PROGRESS / EDITORIAL REVIEW PENDING; owner request: M01 birinchi, so‘ng M02–M16 ketma-ket; merge va deploy uchun alohida ruxsat kerak.
+- **Branch:** `task/TASK-242-m01-source-fidelity-and-design`, `task/TASK-241-theory-source-ui-audit`dan davom etadi, `main`dan alohida.
+- **Scope:** M01.01–M01.12, asl LaTeX qo‘llanma, 2026 attestatsiya spetsifikatsiyasi, Drive’dagi ICT/Cambridge+ 5–11 darsliklari; learner theory UI.
+- **Fix:** 10 ta sarlavhali `examplebox` avval `{1-misol... @@Oddiy@@}` deb noto‘g‘ri chizilgan. Konverterda label ajratish, `\\difficulty` formatini source markeridan farqlash, `m01.ts` generated parity va `BookBlock` label rich rendering yangilandi.
+- **Tests:** `src/tests/M01SourceFidelity.test.tsx`: 12 canonical topic, barcha section bloklarini saqlash, 10 diagramma, 10 to‘g‘ri sarlavhali misol, markerlar. GitHub Actions CI yakuniy commitga tekshirilishi kerak; test mavjudligi PASSni anglatmaydi.
+- **Source integrity:** spesifikatsiyaning M01 7 konstrukt yo‘nalishi dastlabki nazariya xaritasida bor; 13 manbaning matnlari qidirildi, to‘liq sahifa-by-sahifa ekspert tasdig‘i va auth E2E tugamagan.
+- **Handoff / blockers:** `docs/TASK242_M01_SOURCE_AND_DESIGN_AUDIT_20261019.md`; 12 dars visual mobile/desktop; manba page trace; real authenticated learner QA; inson editorial gate.
+- **Production:** mutlaqo o‘zgarmagan. No merge/deploy/DB mutation.
+
+## TASK-240 — Informatika savollar banki chuqur sifat nazorati (2026-10-18)
+
+- **Status:** DONE (kritik exposure tuzatildi; qolgan ekspert release shartlari hisobotda).
+- **Owner:** Codex; foydalanuvchi 2026-10-18 20:53 Asia/Samarkandda tasdiqlagan.
+- **Branch:** `task/TASK-240-question-bank-deep-qa`.
+- **Scope:** productiondagi barcha informatika savollari (`published`, `review`, `draft`; archived tarixiy kontekst sifatida), rasmiy spetsifikatsiya, 5–11 ICT/Cambridge+ darsliklari, Drive source fayllari, real va demo testlar bilan strukturaviy, format, mapping, provenance va semantik audit.
+- **Mutation boundary:** production published revision joyida o‘zgarmaydi; tasdiqlangan tuzatish faqat yangi revision/archive-replacement migration va test bilan. Human ekspert tasdig‘i bo‘lmagan AI kontent auto-publish qilinmaydi.
+- **Deliverables:** to‘liq audit SQL/skriptlari, tasdiqlangan tuzatish migrations/testlari, `docs/TASK240_INFORMATIKA_QUESTION_BANK_DEEP_QA.md` va Git handoff.
+- **Production natija:** 380 ta review-only S5.WEB/GV2 xato published nusxa immutable `archived`; 380 ta UUID-rekeyed `review` revision; 0 ta GV2 learner-published; 53 ta avvalgi S5.WEB published savol saqlandi; aktiv S5 blueprint 22/27/4 zaxira bilan feasible.
+- **QA:** frontend 65/480 va backend 22/225 test PASS; lint/typecheck/build/generated-content check PASS; production SQL regression PASS.
+
+## 2026-10-18 — TASK-239 Office 2.0 release gate
+- Owner: Office V2 integration task. Branch: `task/TASK-239-office-v2-visual-assets`; PR #178.
+- DB read-only audit (active project `plyqezulrfowyblsfpzy`): M03 office-v2 9 review lessons, 270 questions (162 Y1, 54 Y2, 54 Y3), 263 review + 7 draft visual questions. Other 4 published Office lessons remain untouched.
+- Seven audited SVG diagram reproductions and a strict allowlist are staged on branch; additive migration upgrades only seven original visual `draft` items to `review`, no `published` status or attempt mutation.
+- Vercel commit deployment failed due build rate limit (retry 24h). GitHub CI must complete before merge; production migration not yet applied.
+- HUMAN APPROVAL GATE: independent content/expert validation is required for all 9 lessons, all 270 question keys and graphics before separate publication. Do not claim full completion without it.
+- Tests: branch includes `src/tests/officeV2VisualAssets.test.tsx`; CI pending at time of update.
+- Next: CI green; merge authorized technical PR; apply reviewed migration in controlled release; Vercel deploy/smoke; expert approvals; independent published revision.
+
 ## TASK-230–238 — Shaxsiy test konstruktori: main merge, staging pending (2026-10-18)
 
 - **GitHub merged:** PR #168 (TASK-230–235) SHA 75a0797442119715caff548015aa77399ab96850; PR #172 (TASK-236 QA) SHA 792dd6a2aee01cad38f9f916a7da3f60ce7d9a51.
