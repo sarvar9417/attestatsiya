@@ -3,7 +3,7 @@
  * optional SQL supplements have not yet been applied to a database.
  * Historical answer markers are NOT used as authoritative quiz keys.
  */
-import type { TheoryBlock } from './topicContent'
+import type { TheoryBlock, TopicContent } from './topicContent'
 
 const notes: Record<string, TheoryBlock[]> = {
   'M15.01': [
@@ -111,4 +111,16 @@ const notes: Record<string, TheoryBlock[]> = {
 
 export function getPedagogyStudyNotes(subtopicId: string): TheoryBlock[] {
   return notes[subtopicId] ?? []
+}
+
+/**
+ * The same previously published-on-screen M15 study notes belong in the main
+ * paginated book, not a separate collapsed drawer after the reading CTA.
+ * This does NOT approve their source pages or change answers/server lessons.
+ */
+export function withExistingPedagogyNotes(content: TopicContent): TopicContent {
+  if (!/^M15\.0[1-8]$/.test(content.subtopicId)) return content
+  const extra = getPedagogyStudyNotes(content.subtopicId)
+  if (extra.length === 0) return content
+  return { ...content, theory: [...content.theory, ...extra] }
 }
