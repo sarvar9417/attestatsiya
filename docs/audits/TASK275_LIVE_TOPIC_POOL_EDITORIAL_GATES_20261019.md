@@ -17,7 +17,7 @@
 | M12 | 3 | 50 |
 | **Jami** | **25** | **339** |
 
-**To‘rtta 0/20 P0 mavzu:** M06 «Masalaning algoritmini tuzish»; M08 «JavaScript sintaksisi asoslari»; M12 «Internetdan xavfsiz va maqsadli foydalanish»; M12 «Tarmoq arxitekturasi va topologiyalari».
+**Qayta ishga tushirilgan SQL verifikatsiyasi:** TASK-251 va TASK-275 query’lari productionda bir xil **25/339** natijani berdi. Joriy keyed review-mapped **dars–savol occurrences jami 1713**, dastlabki TASK-251 snapshotidagi 1709 dan 4 ta ko‘p; bu to‘rtta yangi tasdiqlangan savol degani emas. Vaqt oralig‘i va source/version kesimida alohida reconciliatsiya talab etiladi. Ikkala query ham answer key payloadini o‘qimaydi. TASK-275 query’sidagi barcha darslar bo‘yicha **fully checked review = 0**.\n\n**To‘rtta 0/20 P0 mavzu:** M06 «Masalaning algoritmini tuzish»; M08 «JavaScript sintaksisi asoslari»; M12 «Internetdan xavfsiz va maqsadli foydalanish»; M12 «Tarmoq arxitekturasi va topologiyalari».
 
 Productionning eski preview kodi `reason=null` qaytarsa ham, bu 20/20 qat’iy tayyorlikni bildirmaydi. GitHubdagi qattiq 20 savolli preflightni productionga migratsiya qilish ushbu auditda bajarilmagan.
 
