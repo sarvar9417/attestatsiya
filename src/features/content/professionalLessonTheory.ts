@@ -8,6 +8,7 @@
 import type { TheoryBlock, TopicContent } from '../../data/topicContent'
 import type { LessonSummary } from './contentApi'
 import { M16_SOURCE_THEORY_ADDITIONS } from '../../data/topics/m16SourceTheoryAdditions'
+import { M14_NORMATIVE_SOURCE_ADDITIONS } from '../../data/topics/m14NormativeSourceAdditions'
 
 const rowCells = (line: string): string[] =>
   line.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map(cell => cell.trim())
@@ -139,7 +140,7 @@ export function overlayPublishedProfessionalLesson(
   const theory = markdownToTheoryBlocks(coreMarkdown)
   // Independently checked professional-standard/Cambridge explanations are
   // displayed after the canonical M16 published core. They do not modify the DB.
-  const sourceAdditions = M16_SOURCE_THEORY_ADDITIONS[staticContent.subtopicId] ?? []
+  const sourceAdditions = M16_SOURCE_THEORY_ADDITIONS[staticContent.subtopicId] ?? M14_NORMATIVE_SOURCE_ADDITIONS[staticContent.subtopicId] ?? []
   if (!theory.length) return staticContent
 
   return {
