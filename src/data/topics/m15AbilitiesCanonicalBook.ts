@@ -7,7 +7,7 @@ export const M15_07_CANONICAL_BOOK: TheoryBlock[] = [
   },
   {
     "type": "intro",
-    "content": "Qobiliyatlar bitta ro‘yxatdagi quruq nom emas: o‘qituvchi faoliyatida bir nechta qobiliyat bir vaqtda namoyon bo‘ladi. Vaziyatli tahlilda harakatning aniq belgisini topish va mualliflar tasnifini aralashtirmaslik muhim."
+    "content": "Qobiliyatlar bitta ro‘yxatdagi quruq nom emas: o‘qituvchi faoliyatida bir nechta qobiliyat bir vaqtda namoyon bo‘ladi. Vaziyatli tahlilda harakatning aniq belgisini topish va mualliflar tasnifini aralashtirmaslik muhim. Pedagogik qobiliyatlar o‘qish, amaliy tajriba va refleksiya orqali takomillashishi mumkin, individual moyilliklar esa farq qiladi."
   },
   {
     "type": "table",
@@ -199,7 +199,7 @@ export const M15_07_CANONICAL_BOOK: TheoryBlock[] = [
   },
   {
     "type": "definition",
-    "content": "Ba’zi eski pedagogik tasniflarda «avtoritar qobiliyat» o‘qituvchi obro‘si, qat’iyat va sinfni ergashtirish ma’nosida tilga olinadi. Zamonaviy pedagogik amaliyotda ta’sir hurmat, adolat, izchillik va xavfsiz muloqot orqali qurilishi kerak."
+    "content": "Ba’zi eski pedagogik tasniflarda «Avtoritar qobiliyat» o‘qituvchi obro‘si, qat’iyat va sinfni ergashtirish ma’nosida tilga olinadi. Zamonaviy pedagogik amaliyotda ta’sir hurmat, adolat, izchillik va xavfsiz muloqot orqali qurilishi kerak."
   },
   {
     "type": "case",
