@@ -172,8 +172,9 @@ export default function TopicView({
   const content = staticContent
     ? resolveLearnerTheoryContent(subtopicId, staticContent, loadedContent)
     : loadedContent
-  /** Kontent qo'llanmadan generatsiya qilinganmi (M01) — bo'limli o'qish rejimi. */
-  const isBook = Boolean(content?.source)
+  /** Barcha darslar M01 namunasi kabi yagona kitob o‘qish rejimidan foydalanadi.
+   *  Manbasi bor darslar o‘z bo‘limlarini saqlaydi, eski darslar adaptiv bo‘linadi. */
+  const isBook = Boolean(content?.theory.length)
   const theoryPages = useMemo(() => paginateTheoryBlocks(content?.theory ?? [], 2, moduleId === 'M02'), [content, moduleId])
   const activeTheoryPage = Math.min(theoryPage, Math.max(0, theoryPages.length - 1))
   const isLastTheoryPage = activeTheoryPage === theoryPages.length - 1
