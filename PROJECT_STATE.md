@@ -1,3 +1,10 @@
+## TASK-250 — M02 local Y1 question source candidates and editorial risk (2026-10-19)
+
+- **Status:** REVIEW-ONLY / QA; new branch `task/TASK-250-m02-review-main-reconcile` reconciled from current main.
+- **Scope:** 34 legacy Y1 fallback questions, 4 canonical M02 topics, and source-book/page candidates. Six items flagged for ambiguous historical/time-sensitive wording.
+- **Artifacts:** `docs/audits/TASK250_M02_34_STATIC_QUESTION_SOURCE_REVIEW.tsv`; `src/tests/M02StaticQuizSourceTrace.test.ts`.
+- **Boundary:** candidate locators are not evidence of correct answer or expert approval; unrelated production/private KTD bank unchanged; no deploy or production DB modification.
+
 ## 2026-10-19 — TASK-244: M01 13/13 original ICT/Cambridge+ textbooks, page-by-page source review
 
 - **Status:** 13/13 **M01-relevant** textbook sections compared with original Google Drive PDFs; 59 **page-cited** original learner-theory insertions; generated `m01.ts` unchanged. **NOT yet final release-ready:** final GitHub CI, real mobile/desktop authenticated lesson display and editorial/spec question coverage review are outstanding.
