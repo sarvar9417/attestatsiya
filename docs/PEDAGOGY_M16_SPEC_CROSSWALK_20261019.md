@@ -22,3 +22,17 @@
 - `src/tests/PedagogyM16MethodologySource.test.ts` da manba izi, mavzu tarkibi, vaziyat tahlili va answer-key izolatsiyasi sinovlari.
 - Mustaqil tekshirilmagan: fizik sahifa tasvirlari, tavsiya qilingan 2023 Cambridge darsligi bilan har-bir tushunchaning solishtirilishi, live M16 test banki ID/kalit/sifat auditi, test generatorining E2E holati va barcha UX breakpointlari.
 - Audit yakunlanmaguncha **yangi savollarni publishedga chiqarish yoki production DB yozuvi bajarilmaydi**.
+
+## 2026 spetsifikatsiyasida tavsiya etilgan 2023-yilgi asosiy metodika darsligi bilan bevosita qiyoslash (2026-10-19)
+
+Rasmiy spetsifikatsiyaning **fizik 9-sahifasida** M.E. Mamarajabov va boshqalarning *Informatika o‘qitish metodikasi* (2023, 460 bet) darsligi tavsiya qilingan. Mustaqil nashrning [onlayn to‘liq elektron nusxasi](https://pedmasterycenter.uz/uploads/files/0896d872-7672-4387-8ca0-b671b0f98b5d.pdf) topilib, muqova/bibliografiyasi taqqoslandi: **M.E. Mamarajabov, D.E. Toshtemirov, O‘.A. Yuldashev; Bookmany print, Toshkent, 2023; 460 bet.** Ushbu ma’lumotlar elektron PDF matni va rasmiy spetsifikatsiya ro‘yxatiga mos. Elektron nusxaning barcha 460 sahifasi betma-bet ekspertizadan o‘tkazilgani haqida da’vo qilinmaydi.
+
+| Kanonik mavzu | Elektron PDF fizik sahifalari (birinchi betdan sanaladi) | Elektron matnda aniqlangan yadro konseptlar |
+|---|---|---|
+| M16.01 | 173–175; 180–182 | Informatika metodikasining predmeti, maqsadi, mazmuni; nima uchun / nimani / qanday o‘rgatamiz? |
+| M16.02 | 45–46; 342–344 | Ta’lim metodining o‘qituvchi-o‘quvchi hamkorligi; mashq, topshiriq murakkabligi, differensial yordam |
+| M16.03 | 94–95; 167 | Bilimni baholash va o‘qitish usulini moslashtirish, dars tahlili mezonlari |
+
+**Metodologiya:** manbaning sahifa raqamlari elektron PDF matn indeksidagi ko‘rsatkichlardan olingan; PDF sahifalarining rasmlari tashqi server tomonidan qaytarilmagani sababli bu qism *matn-based verification*, **vizual sahifa tasdig‘i emas**. Oldingi 2020-yilgi 5-sinf Scratch misollari aynan kitobdan ko‘chirilmagan, pedagogik vaziyatlar mualliflik misoli sifatida qoladi.
+
+**Keyingi xavfsizlik bosqichi:** manbada M16 haqidagi tushunchalar mavjudligi published 3 metodika savolining javob kaliti to‘g‘ri degani emas; savol ID, distractor, explanation, konstrukt va bibliografik bet bo‘yicha alohida ekspert tekshiruvi zarur.
