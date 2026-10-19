@@ -26,7 +26,7 @@ describe('M16 methodology from 2026 specification', () => {
     for (const term of ['Kompetensiyaviy', 'Faoliyatli', 'Tizimli', 'Spiral', 'Shaxsga yo‘naltirilgan']) {
       expect(t).toContain(term)
     }
-    expect(t).toContain('o‘quv natijasiga')
+    expect(t).toContain('O‘quv natijasi')
     expect(t).toContain('2020')
     expect(t).toContain('Cambridge 2023')
   })
