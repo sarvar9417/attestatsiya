@@ -1,13 +1,13 @@
 # TASK-247 — M14 kasb standarti: 7/7 mavzu bo‘yicha manba-matn reconciliatsiyasi
-**Sana:** 2026-10-19. **Branch:** `task/TASK-247-pedagogy-source-intake-20261019`.
-**Release:** no main merge, no prod DB writes, no deployment. **Expert review:** ochiq.
+**Sana:** 2026-10-19. **Kelib chiqish branchi:** `task/TASK-247-pedagogy-source-intake-20261019`.
+**Integratsiya:** TASK-247 [PR #204](https://github.com/sarvar9417/attestatsiya/pull/204) orqali `main`ga merge qilindi. Yangi asl PDF tekshiruvi TASK-252 draft branchida; qo‘lda deploy/prod DB yozuvi yo‘q. **Expert review:** ochiq.
 
 ## Ishlatilgan asosiy materiallar
 
 1. [`Kasb-standarti.pdf`](https://drive.google.com/file/d/1HdlFFazzvvO-FMItZKOIna0jRS6p-Lpq/view) — 20 908 belgi sifatida matn fetch qilindi; «Umumiy o‘rta ta’lim maktabi o‘qituvchisining kasb standarti», yettita aniq mehnat vazifasi sarlavhalari/harakatlari. Bu o‘quv platformasiga **matnli nusxa** sifatida ishlatildi. Undagi hujjatning huquqiy kuchga kirishi hamda fizik PDF sahifa lokatorlari alohida tekshiriladi.
 2. [`Pedagogning kasbiy standarti - qollanma.pdf`](https://drive.google.com/file/d/1BSndV9rDBv40mBcbTcZU3DxxZJJU5uH3/view) — 20 837 belgilik ikkilamchi metodik qo‘llanma; boshlang‘ich ro‘yxatda 5/6 soha tartibi asosiy bob sarlavhalaridan farq qiladi. Platformadagi kanonik M14.05 xavfsiz muhit / M14.06 kasbiy o‘sish **asosiy boblariga va alohida `Kasb-standarti.pdf` mehnat vazifalariga mos**.
 3. `Kasb standarti 1-soha ...pdf`, `Kasb standarti 2-soha.pdf` va `Kasb standarti 3-soha.pdf` matnlari ochilib, birinchi 3 sohadagi mehnat harakatlari taqqoslandi.
-4. `Maktab pedagoglari - Kasb standarti (Oʻzbek tili).pdf` oddiy text extractda bo‘sh qaytdi; **ushbu fayl tekshirildi deb ko‘rsatilmaydi**. Yuqoridagi PDFlar bilan aynan bir rasmiy nashr deb hisoblashdan avval fizik sahifalar tekshirilsin.
+4. [**`Maktab pedagoglari - Kasb standarti (Oʻzbek tili).pdf`**](https://drive.google.com/file/d/1IwpcwvNG4deDFtxwEw1tIU2G121RrVYB/view) — oddiy matn olinmagan bo‘lsa-da, **17 sahifalik asl skanerlangan PDF raw/visual tarzda ochildi**. PDF **2-sahifasida** M14.01–07 bilan aynan mos A/01.6–A/05.6 va B/01.6–B/02.6 kodlari, har biri 6-malaka darajasi mavjudligi ko‘rildi. Asl nusxaning P.003 belgisi 1-sahifada; tekshirilgan tanlangan sahifalar 1, 2, 6, 12, 17. Bu dastlabki manba sahifalari, barcha 17 betning to‘liq bandma-band ekspertizasi yoki normativ bugungi huquqiy kuchining tasdig‘i emas.
 
 ## Reconciliatsiya
 
@@ -46,3 +46,18 @@
 ## Rasmiy 2026 spetsifikatsiyasiga so‘nggi moslashtirish
 
 Sarvar Drive hisobidagi Informatika Testlar spesifikatsiyasi.pdf (2026) bevosita o‘qildi. 2-jadvalda KS=5, PM.GEN=7, PM.MET=3, jami 15 test belgilangan. 7+8+3 platforma mavzulari esa savol kvotasi emas. Rasmiy spetsifikatsiyaning M15.07 ro‘yxatida «persiptiv-pedagogik qobiliyat», qo‘llanmada «Perseptiv qobiliyat» shakli bor. Har ikkala imlo tahrir qilinmasdan manbalar farqi sifatida izohlangan. Spetsifikatsiyada testlar tavsiya qilingan kitoblardan to‘g‘ridan to‘g‘ri ko‘chirib olinmasligi eslatilgan.
+
+
+## Asl imzolangan kasb standarti — 2-sahifadan kodlar (TASK-252)
+
+| Kanonik topic | Asl A/B kod | Mehnat vazifasi |
+|---|---|---|
+| M14.01 | A/01.6 | O‘quv jarayonini rejalashtirish |
+| M14.02 | A/02.6 | Ta’lim samaradorligini ta’minlash |
+| M14.03 | A/03.6 | O‘zlashtirishni baholash va qayta aloqa |
+| M14.04 | A/04.6 | Tarbiyaviy faoliyatni tashkil etish |
+| M14.05 | A/05.6 | Xavfsiz rivojlantiruvchi ta’lim muhiti |
+| M14.06 | B/01.6 | O‘z-o‘zini rivojlantirish va kasbiy o‘sish |
+| M14.07 | B/02.6 | Hamkasblar va ota-onalar bilan hamkorlik |
+
+`src/data/topicContent.ts`dagi yettita statik kasb standarti nazariya bo‘limining `source` izlari endi **asl skan PDF 2-sahifasiga hamda har bir vazifa kodiga** ishora qiladi. Qo‘shimcha tafsilot: [TASK252_FOUR_SCANNED_PDFS_VISUAL_SOURCE_REVIEW_20261019.md](TASK252_FOUR_SCANNED_PDFS_VISUAL_SOURCE_REVIEW_20261019.md). Normativning hozirgi qonuniy kuchi va ekspert yakuniy source signoff mustaqil tekshiriladi.

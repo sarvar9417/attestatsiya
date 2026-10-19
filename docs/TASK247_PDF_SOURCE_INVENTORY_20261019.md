@@ -1,6 +1,6 @@
 # TASK-247 — pedagogika papkasi: 59 PDF va 5 DOCX dastlabki o‘qish reyestri
 
-**Sana:** 2026-10-19. **Papka:** [pedagogika](https://drive.google.com/drive/folders/1XryoV_toq5QDVfLBxhKnsa-jwbcmk-KS) / [files](https://drive.google.com/drive/folders/1ERclL2nngkrPpSAtuHBBwemdw9zhFgw6). Ishchi branch, **main merge va deploy YO‘Q**.
+**Sana:** 2026-10-19. **Oxirgi izoh:** GitHub TASK-247 PR #204 `main`ga merge qilingan. Ushbu hujjat tarixiy 55/59 matnli fetch snapshotini saqlaydi; TASK-252 raw fayl ko‘rigi bilan 4/4 textless PDF ham vizual tekshirilgan, jami 59/59 PDF first-pass bajarilgan. Betma-bet/to‘liq key expert review hali tugamagan. **Papka:** [pedagogika](https://drive.google.com/drive/folders/1XryoV_toq5QDVfLBxhKnsa-jwbcmk-KS) / [files](https://drive.google.com/drive/folders/1ERclL2nngkrPpSAtuHBBwemdw9zhFgw6). Ishchi branch, **main merge va deploy YO‘Q**.
 
 ## Joriy yuklash inventari
 - `files` papkasi: **104 ta obyekt**, **59 ta PDF**, **5 ta DOCX**; qolganlari multimedia/thumbnail.
@@ -27,7 +27,7 @@
 | 10 | 8_Н_Махмудов,_Ўқитувчи_нутқ_маданияти_дарслик.pdf | Kitob yoki katta uslubiy qo‘llanma | Matnni ochish tekshirildi | Mapping ochiq |
 | 11 | 9_Ф_О_Мирзаева_Педагогика_назарияси_ва_тарихи_дарслик.pdf | Kitob yoki katta uslubiy qo‘llanma | Matnni ochish tekshirildi | Mapping ochiq |
 | 12 | Attestatsiya to'plam ped mahorat @PedMahoratGuli.pdf | Tarixiy test/mashq | Matnni ochish tekshirildi | Mapping ochiq |
-| 13 | Attestatsiya-2026. Robiya Xatamova 1.pdf | Tarixiy test/mashq | Matn olinmadi | Mapping ochiq |
+| 13 | Attestatsiya-2026. Robiya Xatamova 1.pdf | Tarixiy test/mashq | Oddiy matn yo‘q; raw PDF tanlangan sahifalari ko‘rildi | Mapping ochiq |
 | 14 | dars tahlili turlari.pdf | Mavzuli qo‘llanma | Matnni ochish tekshirildi | M15.04 |
 | 15 | Dars turlari.pdf | Mavzuli qo‘llanma | Matnni ochish tekshirildi | M15.04 |
 | 16 | diagnostika.pdf | Mavzu yoki toifasi qayta ko‘riladi | Matnni ochish tekshirildi | Mapping ochiq |
@@ -37,11 +37,11 @@
 | 20 | Kasb standarti 3-soha.pdf | Mavzuli qo‘llanma | Matnni ochish tekshirildi | Mapping ochiq |
 | 21 | Kasb-standarti.pdf | Kitob yoki katta uslubiy qo‘llanma | Matnni ochish tekshirildi | M14.01–07 |
 | 22 | Kasbiy demo test.pdf | Mavzuli qo‘llanma | Matnni ochish tekshirildi | Mapping ochiq |
-| 23 | Maktab pedagoglari - Kasb standarti (Oʻzbek tili).pdf | Mavzuli qo‘llanma | Matn olinmadi | Mapping ochiq |
+| 23 | Maktab pedagoglari - Kasb standarti (Oʻzbek tili).pdf | Mavzuli qo‘llanma | Oddiy matn yo‘q; raw PDF tanlangan sahifalari ko‘rildi | Mapping ochiq |
 | 24 | Methodological_manual_on_implemenation_of_teacher_standards_ўзб.pdf | Kitob yoki katta uslubiy qo‘llanma | Matnni ochish tekshirildi | M14.01–07 |
 | 25 | Mirayeva test 1.pdf | Tarixiy test/mashq | Matnni ochish tekshirildi | Mapping ochiq |
 | 26 | Mirzayeva Pedagogika nazriyasi qollanma 2-mavzu.pdf | Mavzuli qo‘llanma | Matnni ochish tekshirildi | M15.01–03 |
-| 27 | O._Tolipova_Pedagogik_texnologiyalar_va_pedagogik_mahorat.pdf | Mavzu yoki toifasi qayta ko‘riladi | Matn olinmadi | Mapping ochiq |
+| 27 | O._Tolipova_Pedagogik_texnologiyalar_va_pedagogik_mahorat.pdf | Mavzu yoki toifasi qayta ko‘riladi | Oddiy matn yo‘q; raw PDF tanlangan sahifalari ko‘rildi | Mapping ochiq |
 | 28 | pdf_69b393b18c2a9_2026-03-13_04-33-53.pdf | Shaxsiy reyting/ball | SHAXSIY NATIJA — IMPORT YO‘Q | Mapping ochiq |
 | 29 | pdf_6aa7467ea6c64_2026-09-14_00-57-34.pdf | Shaxsiy reyting/ball | SHAXSIY NATIJA — IMPORT YO‘Q | Mapping ochiq |
 | 30 | Ped mahorat kasb standarti test 6.pdf | Mavzuli qo‘llanma | Matnni ochish tekshirildi | Mapping ochiq |
@@ -73,7 +73,7 @@
 | 56 | Xoliqov Pedagogik mahorat.pdf | Kitob yoki katta uslubiy qo‘llanma | Matnni ochish tekshirildi | M15.01, .06–07 |
 | 57 | xrpt_lirt9ie9nr6t8akemjblcs2z5vu2yvha5zt48z2lfv6dxghapjlt3chxz3.pdf | Kitob yoki katta uslubiy qo‘llanma (Madatov, Inklyuziv ta’lim (2024)) | Matnni ochish tekshirildi | Mapping ochiq |
 | 58 | xrpt_uz6b84v91iitco6thk37r6vh4uya9xfskauh4fgtnocp69adi402yv9rfv.pdf | Kitob yoki katta uslubiy qo‘llanma (Jalilov, Baholash nazariyasi (qisqartirilgan nusxa)) | Matnni ochish tekshirildi | Mapping ochiq |
-| 59 | ВМ_322_24_06_2026_Олий_тоифалилар_магистратурага_қабули.pdf | Mavzu yoki toifasi qayta ko‘riladi | Matn olinmadi | Mapping ochiq |
+| 59 | ВМ_322_24_06_2026_Олий_тоифалилар_магистратурага_қабули.pdf | Mavzu yoki toifasi qayta ko‘riladi | Oddiy matn yo‘q; raw PDF tanlangan sahifalari ko‘rildi | Mapping ochiq |
 
 ## 5 ta DOCX
 
@@ -96,9 +96,11 @@
 ## Hali bajarilmagan
 
 1. 59 PDFning har birini **fizik bet/fakt/sahifa lokatori** bo‘yicha mazmuniy audit qilish.
-2. 4 ta oddiy matn fetch ishlamagan PDFni raw/PDF ko‘rinishida alohida o‘qish.
+2. **Bajarildi (dastlabki raw/visual ko‘rik):** avval oddiy matn olinmagan 4 PDF asl fayl sifatida ko‘rildi; normativ va testlar bo‘yicha har bir fizik sahifaning chuqur ekspertizasi ochiq. [Qo‘shimcha reyestr](TASK252_FOUR_SCANNED_PDFS_VISUAL_SOURCE_REVIEW_20261019.md).
 3. 2025/2026 tarixiy testlarga dublikat va yagona correct key ekspertizasi, format Y1/Y2/Y3, origin/reference, 18 kanonik mavzu mapping.
 4. 18/18 mavzuga har bir materialni solishtirib, 2026 rasmiy spetsifikatsiya va production DB lesson bilan tafovutlarini yopish.
 5. Full CI, mobile E2E, owner signoff; hech qanday savol `published`ga avtomatik o‘tmaydi.
+
+**Raw ko‘rik tafsilotlari:** `Maktab pedagoglari - Kasb standarti (Oʻzbek tili).pdf` 17 sahifa (asl A/01.6…B/02.6 kodi 2-sahifada), `Attestatsiya-2026. Robiya Xatamova 1.pdf` 24 sahifa (Q36–Q50 pedagogika, lekin Q1–Q35 boshqa mutaxassislik), `O._Tolipova_...pdf` 13 sahifalik skan parcha, `ВМ_322_...pdf` 9 sahifalik 322-sonli magistratura qabul qilish qarori. Bularning har biri avval faqat `Matn olinmadi` ko‘ringan; status endi `raw visual` sifatida aniqlashtirildi. Aniqlangan materialdan savollar avtomatik nashr qilinmadi.
 
 **Muhim provenance qoidasi:** matn mavjudligi ≠ manba sifatida tekshirilganlik; tarixiy PDF javobi ≠ rasmiy test kaliti; 2025 spetsifikatsiyasi ≠ 2026 spetsifikatsiyasi. Shaxsiy ma’lumotni import qilmaslik majburiy.
