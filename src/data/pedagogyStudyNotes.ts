@@ -19,6 +19,12 @@ const notes: Record<string, TheoryBlock[]> = {
     { type: 'example', content: 'Masalan, **ko‘rgazmalilik** — tamoyil; **namoyish qilish** — metod; **model yoki slayd** — vosita. Bir vaziyatda uchalasi qatnashishi mumkin, ammo test nimani so‘raganini aniqlash kerak.' },
     { type: 'trap', content: '**Induksiya** — alohida misollardan umumiy xulosaga, **deduksiya** — umumiy qoidadan xususiy holatga, **analogiya** — o‘xshashlikdan taxminiy xulosaga borish. Analogiya qat’iy isbot bilan teng emas.' },
     { type: 'source', content: 'Manba: 2025 kuzgi pedagogik mahorat testlari, 2-bet (tarixiy savoldagi terminlar); M15 didaktika darsi. Tarixiy javob kaliti alohida tekshiruvni talab qiladi.' },
+    { type: 'heading', content: 'Bloom taksonomiyasi: 1956 va 2001 talqinlarini farqlang' },
+    { type: 'definition', content: '**Bloom taksonomiyasi** o‘quv maqsadlarini o‘quvchidan kutiladigan bilish faoliyati bo‘yicha tasniflashga yordam beradi. Dastlabki va qayta ko‘rib chiqilgan talqinda so‘nggi ikki bosqichning mazmuni va o‘rni farq qiladi.' },
+    { type: 'table', content: '| Bosqich | 1956-yilgi tasnif | 2001-yilgi qayta ko‘rilgan tasnif |\n|---|---|---|\n| 1 | Bilish | Eslash |\n| 2 | Tushunish | Tushunish |\n| 3 | Qo‘llash | Qo‘llash |\n| 4 | Tahlil | Tahlil |\n| 5 | Sintez | Baholash |\n| 6 | Baholash | Yaratish |' },
+    { type: 'example', content: '**Informatikada:** algoritm turlarini sanash — eslash; tayyor koddagi xato sababini aniqlash — tahlil; ikki yechimni aniq mezonlar bilan solishtirib qaror chiqarish — baholash; muammo uchun yangi algoritm tuzish — yaratish.' },
+    { type: 'trap', content: '**Adashmang:** 1956-yilgi «sintez → baholash» tartibini 2001-yilgi «baholash → yaratish» bilan almashtirmang. Attestatsiya spetsifikatsiyasidagi «bilish / qo‘llash / mulohaza qilish» taqsimoti Bloomning oltita kategoriyasiga avtomatik 1:1 mos kelmaydi. Faqat topshiriqdagi fe’lga emas, bajarilishi kerak bo‘lgan fikrlash amaliga qarang.' },
+    { type: 'source', content: 'Manbalar: «Blum taskanomiyasi (2).pdf» (Sarvar Drive, ikkilamchi o‘quv materiali; bet lokatori tekshirilmagan); Cornell Center for Teaching Innovation — https://teaching.cornell.edu/resource/blooms-taxonomy; University of Waterloo Centre for Teaching Excellence — https://uwaterloo.ca/centre-for-teaching-excellence/catalogs/tip-sheets/blooms-taxonomy. Bu qo‘shimcha barnoyevak ZIP arxividagi manbalar tekshirilganini bildirmaydi.' },
   ],
   'M15.03': [
     { type: 'heading', content: 'Tarbiya turini maqsadidan tanlang' },
