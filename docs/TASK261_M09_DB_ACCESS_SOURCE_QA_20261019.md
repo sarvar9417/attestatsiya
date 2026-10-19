@@ -20,7 +20,7 @@ Five currently published canonical M09 lessons were compared with `topic_test_pr
 | M09.03 PK/FK and links | 6/20 | 14 | 48 | 28 / 10 / 10 | 0 | 0 |
 | M09.04 Queries and criteria | 7/20 | 13 | 48 | 28 / 10 / 10 | 0 | 0 |
 | M09.05 Complex queries | 4/20 | 16 | 48 | 28 / 10 / 10 | 0 | 0 |
-| **Total occurrences** | **25/100** | **75** | **309** | **189 / 70 / 70** | **0** | **21** |
+| **Total occurrences** | **25/100** | **75** | **309** | **189 / 60 / 60** | **0** | **21** |
 
 The totals do **not** imply 309 distinct questions. The direct `source_lesson_id` mismatch indicates the other 288 **lesson–question occurrences** need individual source provenance/mapping checks. `same_source_lesson_id=21` is not a verification pass, and mismatched source lessons are not necessarily invalid if the construct mapping is legitimately shared.
 
