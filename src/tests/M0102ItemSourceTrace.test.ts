@@ -12,7 +12,7 @@ const rows = readFileSync(resolve('docs/audits/TASK247_M01_02_60_ITEM_SOURCE_TRA
   .map(line => line.split('\t'))
 const columns = rows.shift() ?? []
 const records = rows.map(values => Object.fromEntries(columns.map((key, index) => [key, values[index] ?? ''])))
-const eligibleBooks = new Set(['ICT5-2020', 'ICT7-2021', 'CAMBRIDGE9-2021',
+const eligibleBooks = new Set(['ICT5-2020', 'ICT7-2021', 'ICT9-2020', 'CAMBRIDGE9-2021',
   'CAMBRIDGE10-11-2021', 'ICT11-2021'])
 const validStatuses = new Set(['topic_supported', 'partial', 'source_gap'])
 
@@ -34,9 +34,9 @@ describe('TASK-247 M01.02 source-trace register safety contract', () => {
   })
 
   it('tracks source debt instead of fabricating a page or claiming approval', () => {
-    expect(records.filter(row => row.source_status === 'topic_supported')).toHaveLength(39)
+    expect(records.filter(row => row.source_status === 'topic_supported')).toHaveLength(42)
     expect(records.filter(row => row.source_status === 'partial')).toHaveLength(15)
-    expect(records.filter(row => row.source_status === 'source_gap')).toHaveLength(6)
+    expect(records.filter(row => row.source_status === 'source_gap')).toHaveLength(3)
     for (const row of records) {
       expect(validStatuses.has(row.source_status), row.question_id).toBe(true)
       expect(row.evidence_note.length, row.question_id).toBeGreaterThan(12)
@@ -66,7 +66,7 @@ describe('TASK-247 M01.02 source-trace register safety contract', () => {
     }
     const missing = records.filter(row => row.source_status === 'source_gap')
     expect(missing.map(row => row.concept)).toEqual([
-      'Obyekt', 'Hodisa', 'Obyekt', 'Hodisa', 'Obyekt', 'Hodisa',
+      'Hodisa', 'Hodisa', 'Hodisa',
     ])
   })
 })
