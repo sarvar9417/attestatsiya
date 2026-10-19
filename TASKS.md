@@ -1,3 +1,9 @@
+## TASK-242 — M01 nazariya manba va dizayn auditi (2026-10-19)
+
+| ID | Status | Scope | Natija / qolgan shart |
+| --- | --- | --- | --- |
+| TASK-242 | IN_PROGRESS (review gate) | M01.01–M01.12, 2026 spetsifikatsiyasi, ICT/Cambridge+ 5–11, LaTeX konverter, kitob UI | 10 ta misol sarlavhasi + `\\difficulty` noto‘g‘ri renderi tuzatildi; 12 mavzu, 10 diagramma va dastlabki manba qamrovi regressiya bilan himoyalandi. To‘liq sahifama-sahifa ekspert tekshiruvi, mobil/desktop real UI va authenticated learner E2E hali ochiq. `docs/TASK242_M01_SOURCE_AND_DESIGN_AUDIT_20261019.md`. Merge/deploy/production migration yo‘q. |
+
 ## TASK-240 — Informatika savollar banki chuqur sifat nazorati
 
 | ID | Status | Dependency | Natija yoki qolgan shart |
