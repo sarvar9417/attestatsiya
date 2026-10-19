@@ -16,7 +16,7 @@ Google Drive'dagi «Informatika Testlar spesifikatsiyasi.pdf» (2026): «Kompyut
 | Fayl/papka/manzil, kengaytma, nusxalash/ko‘chirish | M02.03 | M02.09 | ICT 5 PDF 43–47; ICT 10 PDF 24–28; Cambridge+ 9 fayllar boshqaruvi |
 | Tizimli/amaliy/utilita, drayver, tarjimon, litsenziya | M02.04 | M02.06, M02.08 | ICT 5 PDF 39–42; ICT 10 PDF 28–31; Cambridge+ 9 PDF 9–13; Cambridge+ 10–11 PDF 43–61 |
 
-**Manba ko‘lami:** eski `docs/M02_13_BOOK_COVERAGE_AND_QA_STATUS_20261018.md` 13 ta kitobni **tanlanma** sahifalarda ko‘rib chiqqan, sahifama-sahifa to‘liq audit emas. Bu bosqichda Drive orqali ICT 5, ICT 10, Cambridge+ 9, Cambridge+ 10–11 original matnlarining konkret parchalari qayta ko‘rildi va 2026 spetsifikatsiyasi o‘qildi. Barcha 13 darslikni to‘liq ekspert tekshirdik deb da’vo qilinmaydi. PDF sahifa raqamlari chop sahifalaridan farq qilishi mumkin.
+**Manba ko‘lami:** eski `docs/M02_13_BOOK_COVERAGE_AND_QA_STATUS_20261018.md` 13 ta kitobni **tanlanma** sahifalarda ko‘rib chiqqan, sahifama-sahifa to‘liq audit emas. Bu bosqichda Drive orqali **13 ta** ICT/Cambridge+ darslikning qidiriladigan matnlari M02 kalit konstruktlari bo‘yicha qo‘shimcha indekslandi. ICT 5, ICT 10, Cambridge+ 9 va Cambridge+ 10–11 original matnlarining konkret bob/parchalari chuqurroq o‘qildi; qolgan 9 ta kitobda mos atamalar va mavzu kontekstlari qidirildi. Qidiruvdagi kalit so‘z sanog‘i manbaning o‘qitish sifatini yoki savolga mosligini tasdiqlamaydi. 2026 spetsifikatsiyasi alohida o‘qildi. Barcha 13 darslikni to‘liq ekspert tekshirdik deb da’vo qilinmaydi. PDF sahifa raqamlari chop sahifalaridan farq qilishi mumkin.
 
 ## Kiritilgan aniq tuzatishlar
 
