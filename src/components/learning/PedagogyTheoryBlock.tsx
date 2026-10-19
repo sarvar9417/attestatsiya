@@ -38,9 +38,9 @@ export default function PedagogyTheoryBlock({ block }: { block: TheoryBlockData 
 
   if (block.type === 'source') {
     return (
-      <aside className="flex gap-2 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-xs leading-6 text-gray-600 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400" aria-label="Foydalanilgan manba">
+      <aside className="flex min-w-0 gap-2 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-xs leading-6 text-gray-600 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400" aria-label="Foydalanilgan manba">
         <FileText className="mt-1 shrink-0" size={15} aria-hidden="true" />
-        <span><PedagogyInline text={block.content.replace(/^\*\*Manba(?: izi|lar)?\s*:\*\*/i, 'Manba:')} /></span>
+        <span className="min-w-0 break-words [overflow-wrap:anywhere]"><PedagogyInline text={block.content.replace(/^\*\*Manba(?: izi|lar)?\s*:\*\*/i, 'Manba:')} /></span>
       </aside>
     )
   }
