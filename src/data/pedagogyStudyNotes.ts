@@ -91,6 +91,8 @@ const notes: Record<string, TheoryBlock[]> = {
     { type: 'example', content: 'Darsda o‘quvchi jim qolganini sezish — **perseptiv**; uning xavotirini tushunib qo‘llab-quvvatlash — **empatik**; tushunarli savol berib ochiq suhbat boshlash — **kommunikativ** qobiliyat ko‘rinishi.' },
     { type: 'trap', content: 'Manbada bir nechta muallifning turli tasniflari yonma-yon berilgan. «Avtoritar qobiliyat» atamasi ayrim tarixiy tasnifda shaxsiy obro‘ va ta’sir bilan bog‘langan; bu bolaga qo‘pol munosabat yoki majburlashni oqlamaydi.' },
     { type: 'source', content: 'Manba: «Pedagogik qobilyatlar umumiy.pdf», «Perseptiv qobiliyat», «Empatik qobiliyat» va boshqa pedagogik qobiliyatlar tavsifi; barnoyevak Google Drive/ChatExport_2026-10-19/files. Hali fizik sahifalar bo‘yicha locator ekspertizasi o‘tkazilmagan.' },
+    { type: 'trap', content: '**Manbalar imlosi farqi:** 2026-yilgi informatika attestatsiyasi spetsifikatsiyasining 2-jadvalida «persiptiv-pedagogik qobiliyat» shakli yozilgan; «Pedagogik qobilyatlar umumiy.pdf» konspektida esa «Perseptiv qobiliyat» ishlatilgan. O‘quv mazmunida o‘quvchining holatini sezish va idrok qilish tushunchasini farqlang; rasmiy hujjatdagi imloni tahrir qilingan deb ko‘rsatmang.' },
+    { type: 'source', content: 'Qo‘shimcha manba: «Informatika Testlar spesifikatsiyasi.pdf», Toshkent, 2026, 2-jadval («Umumiy pedagogika» kompetensiyalar ro‘yxati). Rasmiy spetsifikatsiya o‘z matnidagi «persiptiv-pedagogik» atamasini ishlatadi.' },
   ],
   'M15.08': [
     { type: 'heading', content: 'Ta’lim texnologiyalarini tanlash' },
