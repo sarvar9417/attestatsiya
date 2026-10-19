@@ -21,3 +21,11 @@ Fayziyeva va boshqalar, *Informatika va axborot texnologiyalari*, 6-sinf (2021),
 2. Grafik Scratch skriptlarini asl sahifalar bilan vizual tekshirish.
 3. Darslik 9–15-betlari bo‘yicha tarmoqlanuvchi bloklar va amaliy misollarni navbatma-navbat audit qilish.
 4. Topilgan semantik kamchilikni alohida test bilan ko‘rsatib, so‘ng qattiq CI green bo‘lganda qo‘shish. Testlar yoki live DB uchun publish/merge/deployga bu qaydning o‘zi ruxsat bermaydi.
+
+## Tekshiruv natijasi — statik katalog, 2026-10-19
+
+`src/data/topicContent.ts` dagi `M07.03` **allaqachon** `For all sprites` va `For this sprite only` farqini, `set/change` bloklari, kvadrat yuzi misoli va 3 ta statik nazorat savolini qamrab oladi. Demak, bu terminlarni yo‘q deb dublikat qo‘shish **xato**; statik yo‘lda mazmuniy bo‘shliq aniqlanmadi. Savol banki uchun statik testlar published DBdagi manba tasdig‘i o‘rnini bosa olmaydi.
+
+`src/features/content/catalog.ts` esa M07 uchun 12 ta published Scratch/LOGO darsini afzal ko‘radi. Shu sababli qolgan aniq xavf: **statik mavzu bilan live published darslarning bir-biridan farqlanishi**. Runtime learner lesson ID va sahifadagi mazmunni ko‘rmaguncha M07.03 butunlay yakunlandi deyilmaydi.
+
+**Mavjud kodga oʻzgartirish kiritilmadi**, chunki hozir aniqlangan ta’riflar takroran yozilmasligi kerak. Keyingi ish — `catalog.ts` va published darslar orasidagi mappingni test orqali tekshirish.
