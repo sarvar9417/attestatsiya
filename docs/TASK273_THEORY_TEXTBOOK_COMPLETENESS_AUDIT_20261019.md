@@ -52,29 +52,38 @@ Original Drive faylidan matn qayta olindi. «PEDAGOGIK TADQIQOT METODLARI» ro�
 
 Barnoyevak Drive’dagi `1lPKtFtuZOhS_3zpQvVFPHMAWX5gLtzUj` faylining 1-bob matni qayta olindi. Pedagogik mahorat tizimining 4 asosiy komponenti alohida yozilgan: **pedagogik insonparvarlik**, **kasbga oid fanlararo bilim**, **pedagogik qobiliyat**, **pedagogik texnika**. M15.01 konspektidagi to‘rtta tayanch shu asl bobning matniga mazmunan mos. Mustaqil PDF sahifa-tasvirni tekshirish va butun M15 korpusining darslik qamrovi hali ochiq, bu tekshiruv faqat aniq 4 komponent manbasiga taalluqli.
 
-## 2026-10-19 — manbali nazariya kengaytirishining 2-bosqichi
+## 2026-10-19 — yangi nazariya bloklarining joriy qamrovi
 
-**Tahririyat holati: tayyor kod, lekin 1:1 textbook verified EMAS.** Ushbu feature branchda qayta yozilmagan eski darslar saqlanib, quyidagi **207 ta yangi original nazariya bloklari** qo‘shildi:
+**Holat:** Kod va source izlari tayyor, final verified emas. Har bir bayon mualliflik izohi; litsenziyali darslikning to‘liq matni ko‘chirilmadi.
 
-| Bo‘lim | Mavzular | Yangi blok | Manba yo‘nalishi |
+| Modul | Yangilangan mavzular | Yangi nazariya bloklari | Ishchi manbalar |
 |---|---:|---:|---|
-| M03 Word/Excel/PowerPoint | 10 | 50 | Cambridge+ 9 va 10–11, 2021 |
-| M08 Python/JavaScript/SI | 12 | 70 | ICT 9 (Fayziyeva va b., 2020), Cambridge+ 10–11 |
-| M14 Kasb standarti | 7 | 35 | «Kasb-standarti.pdf», 7 mehnat vazifasi |
-| M15 dastlabki bo‘limlarni chuqurlashtirish | 3 | 26 | Mirzayeva 2-mavzu; «Dars turlari.pdf»; Qodirova/Pulatova 2022 |
-| M16 Informatika metodikasi | 3 | 26 | Kasb standarti + Cambridge+ 5-sinf didaktik tajriba |
-| **Jami** | **35 ta mavzuga yangi blok** | **207** | **Barcha PDF sahifalari hali tasdiqlanmagan** |
+| M03 — Word, Excel, PowerPoint | 10 | 50 | Cambridge+ 9, 10–11 |
+| M08 — Python va JavaScript | 12 | 70 | Milliy ICT9 (2020), Cambridge+ 10–11 |
+| M09 — Access, SQL, SI | 7 | 36 | Cambridge+ 9, 10–11 |
+| M10 — Grafika va multimedia | 7 | 36 | Cambridge+ 9, 10–11 |
+| M11 — HTML va CSS | 7 | 35 | Cambridge+ 9, 10–11 |
+| M12 — Tarmoqlar va IoT | 9 | 46 | Cambridge+ 9, 10–11 |
+| M13 — Xavfsizlik va raqamli madaniyat | 11 | 55 | Milliy ICT8 (2020), Cambridge+ |
+| M14 — Kasb standarti | 7 | 35 | Kasb-standarti.pdf |
+| M15 — Pedagogika | 3 ta yangi matn, 8 ta yangi reader holati | 26 | Mirzayeva, Dars turlari, Qodirova/Pulatova |
+| M16 — Informatika metodikasi | 3 | 26 | Kasb standarti, Cambridge+ 5 |
+| **Jami** | **76 ta mavzuga yangi blok; 81 ta turli mavzuga reader/kontent o‘zgarishi** | **415** | **Sahifama-sahifa ekspert tasdiqlash ochiq** |
 
-Bundan tashqari, M15.01–M15.08 ning **8/8 mavzusi** uchun avval mavjud bo‘lgan konspekt materiallari yopiq accordion’dan asosiy `BookReader`ga chiqarildi. Uning bloklari yuqoridagi **207** yangi yozilgan bloklar sanog‘iga qayta qo‘shilmadi. Jami **40 ta turli mavzuga** yangilanish ta’sir qiladi (M03 10, M08 12, M14 7, M15 8, M16 3).
+M15ning 8/8 mavzularida avvaldan yozilgan source-notelar endi kitobning asosiy navbatida ko‘rsatiladi. Ular 415 ta **yangi** blok sanog‘iga kiritilmagan. M03/M08/M09/M10/M11/M12/M13/M14/M16 hamda M15 uchun qo‘shimcha regressiyalar mavjud.
 
-**Texnik qatlamlar:**
-- `src/data/topics/m03OfficeTextbookAdditions.ts`, `m08TextbookStudyAdditions.ts`, `m14NormativeSourceAdditions.ts`, `m16SourceTheoryAdditions.ts`: manba bayoni asosida yangi jadvallar, kod misollar, xato farqlari, mashqlar, source izlari.
-- `src/data/topicContent.ts`: mavjud statik bloklarni **o‘chirmasdan** keyin qo‘shadi; statik savol-javob tuzilmasi o‘zgartirilmagan.
-- `src/features/content/professionalLessonTheory.ts`: M14/M16ning real published core nazariyasi birinchi qolib, tekshirilgan kasb standarti va informatika metodika izohlari keyin ko‘rsatiladi. Backend `body_mdx` bazada yangilanmaydi.
-- `src/components/learning/TopicView.tsx`: M15 manbali izohlari asosiy o‘qishda; M14 eski izoh kartasida takroriy manba bloklari ko‘rsatilmaydi.
-- `src/tests/M03OfficeTextbookDepth.test.ts`, `M08TextbookDepth.test.ts`, `M14NormativeSourceDepth.test.ts`, `M16SourceDepth.test.ts`, `PedagogyFullTheoryReader.test.tsx`: regressiya.
+### Ishlayotgan bazaning read-only inventari
 
-**Real production bazaning read-only audit:** `docs/audits/TASK273_PUBLISHED_98_LESSON_SOURCE_TRIAGE_20261019.md` — 98 published row, 12 bo‘sh `M01` DB body (alohida static M01 kitobi mavjud), 35 ta 2000 belgidan qisqa published body, 8 ta M15 alohida chuqurlashtirilgan bo‘lim. Bular faqat triage bayroqlari, sahifa-qamrov hukmi emas. `docs/audits/TASK273_52_CHAPTER_THEORY_COVERAGE_QUEUE.md` 52-bobli ishchi rejani audit navbatiga qo‘yadi.
+`docs/audits/TASK273_PUBLISHED_98_LESSON_SOURCE_TRIAGE_20261019.md`:
+- 98 ta published dars yozuvi, 12 ta bo‘sh M01 body_mdx (alohida statik M01 nazariyasi mavjud).
+- 35 ta 2 000 belgidan qisqa published `body_mdx`; ba’zilari static boshqa kitob bilan qoplanadi. Qisqa matn tekshiruv ustuvorligi, xatolikning o‘zi emas.
+- M15 8 ta published darsda nazariya / optional supplement chegarasi mavjud.
+- Production bazaga faqat SELECT bajarildi; hech bir lesson, savol yoki schema o‘zgartirilmagan.
 
-**Alohida yakuniy gate:** M01/M02 va boshqa M04–M13 mavzularining original 5–11-sinf manba bo‘limlari; M03/M08 dagi har bir sahifaning 1:1 qamrovi; M14 normativning amaldagi rasmiy statusi; M15/M16 mustaqil metodika manbasi; authentic desktop/mobile qabul; katta savollar banki. 207 ta blok qo‘shilishi ushbu barcha talablar bajarildi degani EMAS.
+### Ochiq release/editorial shartlari
 
+**Bu hali butun platforma uchun «darsliklardagidek 100% to‘liq» holat emas.** M01, M02, M04–M07 mavzularida alohida kitob/published manba qatlamlari bor, lekin 5–11-sinflarning barcha bosma/PDF sahifalari bilan global 1:1 konkordans tasdiqlanmagan. M03/M08–M16 yangi izohlarining ham sahifa lokatorlari va har bir rasm, formula, jadval va misoli mustaqil tekshiruvdan o‘tishi lozim.
+
+Qabul uchun har bir mavzuda `construct_id`, kitob nashri/yili, bosma bet, fizik PDF bet, bayon qilingan teorema/formula/rasm, web lesson blok identifikatori, `verified/partial/gap` qarori va mas’ul tasdiq kerak. Barcha modullar uchun real brauzer/mobil va Y1/Y2/Y3 test savollaridagi o‘quv konstruktlari bilan to‘liq moslik alohida tekshiriladi.
+
+Test kalitlari, imtihon banki, published DB revision, prod deploy va migration fayllari o‘zgartirilmadi. PR DRAFT, editorial qabul va final CI natijasidan oldin merge/deploy qilinmaydi.
