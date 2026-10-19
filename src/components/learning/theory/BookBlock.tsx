@@ -83,9 +83,29 @@ function AnswersBox({ block }: { block: TheoryBlock }) {
   )
 }
 
+/** Eski darslarda jadval faqat Markdown matni sifatida saqlangan bo‘lishi mumkin. */
+function tableCells(line: string): string[] {
+  return line.replace(/^\\|/, '').replace(/\\|$/, '').split('|').map(cell => cell.trim())
+}
+
+function tableData(block: TheoryBlock): { headers: string[]; rows: string[][] } {
+  if (block.rows?.length) return { headers: block.headers ?? [], rows: block.rows }
+  const lines = block.content.split(/\\r?\\n/).map(line => line.trim()).filter(Boolean)
+  if (lines.length < 2 || !lines[0].includes('|')) return { headers: block.headers ?? [], rows: [] }
+  const first = tableCells(lines[0])
+  const separator = tableCells(lines[1])
+  const isMarkdown = separator.length === first.length
+    && separator.every(cell => /^:?-{3,}:?$/.test(cell))
+  if (!isMarkdown) return { headers: block.headers ?? [], rows: [] }
+  return {
+    headers: block.headers?.length ? block.headers : first,
+    rows: lines.slice(2).filter(line => line.includes('|')).map(tableCells),
+  }
+}
+
 function DataTable({ block }: { block: TheoryBlock }) {
-  const headers = block.headers ?? []
-  const rows = block.rows ?? []
+  const { headers, rows } = tableData(block)
+  if (rows.length === 0) return null
   const isGlossary = headers[0]?.toLowerCase() === 'atama' && rows.length >= 30
   const [search, setSearch] = useState('')
   const query = search.trim().toLocaleLowerCase('uz')
@@ -146,7 +166,7 @@ function DataTable({ block }: { block: TheoryBlock }) {
 }
 
 function BookList({ block }: { block: TheoryBlock }) {
-  const items = block.items ?? []
+  const items = block.items?.length ? block.items : block.content.split('\\n').map(item => item.trim()).filter(Boolean)
   if (block.ordered) {
     return (
       <ol className="book-list book-list-ordered">
@@ -276,7 +296,7 @@ export default function BookBlock({ block, index, nested }: Props) {
       return <Box block={block} kind={block.type} />
 
     case 'table':
-      return block.rows?.length ? <DataTable block={block} /> : null
+      return <DataTable block={block} />
 
     case 'list':
       return <BookList block={block} />
