@@ -31,3 +31,7 @@ Owner-supplied `ICT 7_sinf-2021(1).pdf` physical PDF pp. 119–126 was checked d
 4. Run real 20/20 preflight, mock 15/50 and UI E2E. No production DB changes, deploy or fake signoff in this PR.
 
 **Status:** 13 assistant-pre-reviewed, 0 independently signed off, 0 staged into production from this work.
+
+## M11H-006 semantic distractor regression (2026-10-19)
+
+Independent executable WHATWG `URL` parsing exposed **two equivalent candidate answers** for the newly authored relative-image path question: `images\\tabiat.png` and `images/tabiat.png` both resolve to the same path under an HTTPS page in a conforming URL parser. The former was not a reliably false distractor. It has been replaced with `img/tabiat.png`, which points to a different folder than the stem's stated `images`. The Vitest check compares **all four option URL targets**, not merely raw option strings. This is a mechanical ambiguity correction, **not** human answer-key approval, source-page certification, nor authorization to publish.

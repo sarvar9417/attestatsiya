@@ -79,4 +79,14 @@ describe('TASK-260: source-grounded M11 HTML draft candidates', () => {
       expect(q.source_pdf_pages.every(p => Number.isInteger(p) && p >= 119 && p <= 126)).toBe(true)
     }
   })
+  it('keeps M11H-006 relative URL distractors distinct after WHATWG URL normalization', () => {
+    const candidate = candidates.find(q => q.id === 'M11H-006')
+    expect(candidate).toBeDefined()
+    if (!candidate) return
+    // In http(s) URLs the WHATWG parser normalizes a backslash to a path
+    // separator; options differing only by / vs backslash are ambiguous.
+    const targets = candidate.options.map(option => new URL(option, 'https://example.test/dars/index.html').href)
+    expect(new Set(targets).size).toBe(candidate.options.length)
+  })
+
 })
