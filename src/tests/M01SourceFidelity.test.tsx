@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { M01_CONTENT } from '../data/topics/m01'
 import { MODULES } from '../data/contentTree'
 import { BOOK_DIAGRAMS } from '../components/learning/theory/BookDiagrams'
@@ -69,6 +69,19 @@ describe('M01 source and learner layout regression', () => {
     expect(screen.getByText('Birlashtirilgan fayllar')).toBeInTheDocument()
     expect(screen.getByText(/Axborotlar_3_0/)).toBeInTheDocument()
     expect(screen.getByRole('list')).toBeInTheDocument()
+  })
+
+  it('lets learners search the long 125-entry M01 glossary on narrow screens', () => {
+    const glossary = M01_CONTENT['M01.11'].theory.find(block => block.type === 'table')
+    expect(glossary?.rows?.length).toBeGreaterThan(100)
+    render(<BookBlock block={glossary!} index={1} />)
+    const input = screen.getByRole('searchbox', { name: 'Lug‘atdan atama qidirish' })
+    expect(screen.getByText('ADC')).toBeInTheDocument()
+    fireEvent.change(input, { target: { value: 'asimmetrik' } })
+    expect(screen.getByText('Asimmetrik shifrlash')).toBeInTheDocument()
+    expect(screen.queryByText('ADC')).toBeNull()
+    fireEvent.change(input, { target: { value: 'topilmaydigan-atama-12345' } })
+    expect(screen.getByRole('status')).toHaveTextContent('Bu so‘rov bo‘yicha atama topilmadi.')
   })
 
   it('keeps source locators distinct from difficulty and preserves inline math', () => {
