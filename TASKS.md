@@ -1,8 +1,8 @@
 ## TASK-244 — M01 darsliklarni bittalab, sahifama-sahifa qayta audit qilish (2026-10-19)
 
-| ID | Status | Manbalar/navbat | Natija / release talablar |
+| ID | Status | Manbalar/navbat | Natija / release shartlar |
 | --- | --- | --- | --- |
-| TASK-244 | IN_PROGRESS (3/13 darslik, release BLOCKED) | ICT 5 (PDF 6–24), ICT 6 (PDF 76–127), ICT 7 (PDF 4–46 va 80–83) M01-relevant material o‘qildi; keyingi ICT 8, 9, 10, 11; so‘ng Cambridge+ 5–9 va 10–11 | Original manbadan sahifa izlanuvchi 6+4+7 = **17 ta** original nazariya qo‘shimchasi; M01 7-sinf audio kitobidagi **PDF 36 xato yakuniy javob** alohida hisoblandi. Kod: `src/data/topics/m01TextbookAudit*.ts`; page-evidence: `docs/TASK244_M01_BOOK_BY_BOOK_SOURCE_AUDIT_20261019.md`, `docs/TASK244_ICT6_M01_PAGE_CONCORDANCE_20261019.md`, `docs/TASK244_ICT7_M01_PAGE_CONCORDANCE_20261019.md`. Yakuniy CI va qolgan 10 darslik/real learner UI QA tugamaguncha FULLY COMPLETE emas. NO merge/deploy/DB update. |
+| TASK-244 | IN_PROGRESS (4/13 darslik, release BLOCKED) | ICT5: PDF 6–24; ICT6: PDF 76–127; ICT7: PDF 4–46/80–83; ICT8: PDF 5–36, 94–104 va CMS/LMS/MOOC 37–93 bo‘yicha relevant qiyos. Keyingisi ICT9, ICT10, ICT11 va 6 Cambridge+ kitobi | **6+4+7+4=21 ta** sahifali original nazariya paketi, generatsiyalangan M01 matni saqlangan; ICT7 PDF 36 audio bosma javob xatosi tuzatilgan; source-to-topic reyestrlari: `docs/TASK244_M01_BOOK_BY_BOOK_SOURCE_AUDIT_20261019.md` va `docs/TASK244_ICT{6,7,8}_M01_PAGE_CONCORDANCE_20261019.md`. CI yakuniy commit, 9 darslik va authenticated visual learner audit tugamaguncha FULLY COMPLETE emas. Merge/deploy/production DB changes yo‘q. |
 
 ## TASK-243 — M02 nazariya va dizayn auditi (2026-10-19)
 
