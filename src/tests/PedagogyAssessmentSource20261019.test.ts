@@ -15,7 +15,7 @@ describe('pedagogika M14.03 and M15 source-and-safety reconciliation', () => {
     for (const term of ['Diagnostik', 'Formativ', 'Summativ', 'Normaga mo‘ljallangan', 'Mezonga mo‘ljallangan', 'Ipsativ']) {
       expect(text).toContain(term)
     }
-    expect(blocks.some(x => x.type === 'heading' && x.content.includes('tahlil qilish mezonini farqlang'))).toBe(true)
+    expect(blocks.some(x => x.type === 'heading' && x.content.includes('natijani talqin qilish mezonini farqlang'))).toBe(true)
     expect(text).toContain('bir xil emas')
   })
 
