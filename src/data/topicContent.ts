@@ -79,6 +79,8 @@ export interface TestQuestion {
   correctIndex: number
   explanation: string
   type: 'Y1' | 'Y2' | 'Y3'
+  /** Cognitive level retained when a legacy four-choice item is normalized to Y1 interaction. */
+  cognitiveLevel?: 'Y1' | 'Y2' | 'Y3'
   pairs?: PairItem[]
   items?: OrderedItem[]
   correctOrder?: string[]
@@ -118,7 +120,7 @@ function normalizeLegacyPracticeFormat(question: TestQuestion): TestQuestion {
     && question.correctIndex >= 0
     && question.correctIndex < question.options.length
   return (missingMatching || missingOrdering) && validChoice
-    ? { ...question, type: 'Y1' }
+    ? { ...question, type: 'Y1', cognitiveLevel: question.type }
     : question
 }
 
