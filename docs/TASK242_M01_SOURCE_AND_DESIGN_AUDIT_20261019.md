@@ -40,6 +40,10 @@ Tuzatish:
 4. `BookBlock` sarlavhalarida xavfsiz `InlineText` renderer ishlatildi; `==Oddiy==` ko‘rinishida xom belgi chiqmaydi.
 5. `src/tests/M01SourceFidelity.test.tsx`da 12 mavzu, barcha sahifa bo‘linmalarining blok saqlanishi, 10 diagramma, 10 sarlavhali misol, bibliografik/daraja formatlarini ajratish va oddiy vizual render regressiyalari qo‘shildi.
 
+### Qo‘shimcha topilgan kontent yo‘qolishi: M01.12
+
+`M01.12`ning «Birlashtirilgan fayllar» `source` bloki bo‘sh `content` va ichki `children: [list]` bilan generatsiya qilingan. Avval `BookBlock.tsx`ning `source` rendereri faqat `block.content`ni chizgan, shuning uchun asl fayl va manba reyestridagi ro‘yxat o‘quvchiga **ko‘rinmagan**. Endi mavjud maxsus `source` dizayni ichida `block.label`, `block.content` va `block.children` semantik tarzda ko‘rsatiladi. Regressiya testida M01.12dagi **TEX 1** havola nomi va ro‘yxatning mavjudligi tekshiriladi. Bu o‘chib ketgan manba ma’lumotini tiklaydi, ma’lumot mazmunini o‘zboshimchalik bilan o‘zgartirmaydi.
+
 ## Qolgan release bloklovchi tekshiruvlar
 
 1. ICT va Cambridge+ darsliklarida spetsifikatsiyaga bevosita tegishli **har bir** materialni haqiqiy sahifa dalili bilan bog‘lash; har bir M01 ta’rif/formula va misol uchun manba-reyestrni yakunlash.
@@ -48,4 +52,4 @@ Tuzatish:
 4. Desktop va mobil ekranlarda barcha 12 mavzuning katta jadvallari, sxemalari, formulalari, sarlavhalari va mundarijasini vizual tekshirish.
 5. CI lint, typecheck, unit, build va E2E yakuniy commit uchun `PASS`; yangi insoniy editorial/release roziligi.
 
-**Hulosa:** M01 spetsifikatsiyadagi yetti mahorat sohasini strukturaviy qamraydi va 10 ta haqiqiy render xatosi tuzatildi. To‘liq manba-sahifa auditi va foydalanuvchi ko‘ruvi kutilgani uchun **«Fully Completed» deb belgilanmaydi**.
+**Hulosa:** M01 spetsifikatsiyadagi yetti mahorat sohasini strukturaviy qamraydi va 10 ta misol sarlavhasi va bitta yashirin manba-reyestr ko‘rsatish xatosi tuzatildi. To‘liq manba-sahifa auditi va foydalanuvchi ko‘ruvi kutilgani uchun **«Fully Completed» deb belgilanmaydi**.
