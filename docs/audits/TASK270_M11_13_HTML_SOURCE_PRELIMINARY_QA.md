@@ -31,3 +31,7 @@ Owner-supplied `ICT 7_sinf-2021(1).pdf` physical PDF pp. 119–126 was checked d
 4. Run real 20/20 preflight, mock 15/50 and UI E2E. No production DB changes, deploy or fake signoff in this PR.
 
 **Status:** 13 assistant-pre-reviewed, 0 independently signed off, 0 staged into production from this work.
+
+## 2026-10-19 — M11H-006 nisbiy URL variantini aniqlashtirish
+
+WHATWG URL qoidalariga ko‘ra, HTTPS URL ichidagi teskari slesh / kabi talqin qilinishi mumkin edi. Draft savol M11H-006 dagi chalkash nisbiy URL variant `img/tabiat.png` ga o‘zgartirildi va Vitest bilan tekshirildi. Bu tasdiqlangan answer key yoki production nashri emas; inson ekspertizasi ochiq.

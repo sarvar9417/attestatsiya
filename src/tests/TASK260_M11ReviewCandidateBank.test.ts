@@ -79,4 +79,12 @@ describe('TASK-260: source-grounded M11 HTML draft candidates', () => {
       expect(q.source_pdf_pages.every(p => Number.isInteger(p) && p >= 119 && p <= 126)).toBe(true)
     }
   })
+
+  it('keeps M11H-006 image paths distinct under WHATWG URL normalization', () => {
+    const candidate = candidates.find(q => q.id === 'M11H-006')
+    expect(candidate).toBeDefined()
+    if (!candidate) return
+    const targets = candidate.options.map(option => new URL(option, 'https://example.test/dars/index.html').href)
+    expect(new Set(targets).size).toBe(candidate.options.length)
+  })
 })
