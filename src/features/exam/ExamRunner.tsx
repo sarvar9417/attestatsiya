@@ -1470,7 +1470,7 @@ export default function ExamRunner({
                     ? (navigator.onLine ? 'Saqlanmoqda…' : 'Qurilmada saqlandi')
                     : currentSaved
                       ? 'Saqlandi ✓'
-                      : currentComplete ? 'Avtomatik saqlanadi' : 'Javobni belgilang'}
+                      : currentItem.format === 'Y3' ? 'Tartibni o‘zgartiring' : currentComplete ? 'Avtomatik saqlanadi' : 'Javobni belgilang'}
                 </span>
               ) : (
                 <button
