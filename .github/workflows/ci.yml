@@ -54,6 +54,9 @@ jobs:
       - name: Pedmahorat Guli offline curation safeguards
         run: node --test scripts/tests/curate-pedguli-export.test.mjs scripts/tests/curate-pedguli-html.test.mjs scripts/tests/import-pedguli-candidates.test.mjs scripts/tests/import-pedguli-stage4.test.mjs
 
+      - name: TASK-270 original candidate metadata safeguards
+        run: node --test scripts/tests/task270_candidate_metadata.test.mjs
+
       - name: Parametric generated pool invariants
         run: npm run content:generated:check
 
