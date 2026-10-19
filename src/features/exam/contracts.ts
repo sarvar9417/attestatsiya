@@ -271,10 +271,17 @@ export function isAnswerComplete(
         .filter((option) => option.side === 'b')
         .map((option) => option.id)
     )
+    const submittedLeftIds = Object.keys(value)
     const selected = leftIds.map((leftId) => value[leftId])
 
     return (
-      selected.every((rightId) => rightIds.has(rightId)) &&
+      // The submitted mapping must contain exactly the question's left IDs.
+      // Extra/stale IDs can otherwise pass the UI check but fail server validation.
+      leftIds.length > 0 &&
+      new Set(leftIds).size === leftIds.length &&
+      submittedLeftIds.length === leftIds.length &&
+      submittedLeftIds.every((id) => leftIds.includes(id)) &&
+      selected.every((rightId) => typeof rightId === 'string' && rightIds.has(rightId)) &&
       new Set(selected).size === selected.length
     )
   }
