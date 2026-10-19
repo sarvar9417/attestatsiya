@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { getTopicContent } from '../data/topicContent'
+import { getTopicContent, displayedCognitiveLevel } from '../data/topicContent'
 import { M11_WEB_TEXTBOOK_ADDITIONS } from '../data/topics/m11WebTextbookAdditions'
 import { M11_04_CANONICAL_BOOK } from '../data/topics/m11HtmlLinksMediaCanonicalBook'
 import { M11_05_CANONICAL_BOOK } from '../data/topics/m11CssColorsCanonicalBook'
@@ -41,7 +41,8 @@ describe('TASK-306 — final four M11 continuous source-guided books', () => {
       const questions = getTopicContent(id)!.questions
       expect(questions.map(x => x.id)).toEqual(keys.map((_, i) => `${id}-q${i+1}`))
       expect(questions.map(x => x.correctIndex)).toEqual(keys)
-      expect(questions.map(x => x.type)).toEqual(types)
+      expect(questions.map(x => displayedCognitiveLevel(x))).toEqual(types)
+      expect(questions.every(x => x.type === 'Y1')).toBe(true)
     })
   }
 
