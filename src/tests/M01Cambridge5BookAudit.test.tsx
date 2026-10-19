@@ -7,7 +7,7 @@ import { CAMBRIDGE5_M01_PAGE_ADDENDA } from '../data/topics/m01TextbookAuditCamb
 describe('TASK-244 Cambridge+ 5-sinf source fidelity', () => {
   it('reconciles all four inserts with canonical section boundaries and PDF pages', () => {
     expect(CAMBRIDGE5_M01_PAGE_ADDENDA).toHaveLength(4)
-    expect(ALL_M01_PAGE_ADDENDA).toHaveLength(36)
+    expect(ALL_M01_PAGE_ADDENDA).toHaveLength(40)
     for (const item of CAMBRIDGE5_M01_PAGE_ADDENDA) {
       expect(item.topicId).toBe('M01.04')
       expect(M01_CONTENT['M01.04'].theory.some(block =>
