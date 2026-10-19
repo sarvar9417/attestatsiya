@@ -8,7 +8,7 @@ import type { VerifiedTextbookInsertion } from './m01TextbookAudit'
 export const ICT7_M01_PAGE_ADDENDA: readonly VerifiedTextbookInsertion[] = [
   {
     topicId: 'M01.03',
-    beforeHeading: 'Axborot turlari, shakllari va sifat xossalari',
+    beforeHeading: 'Chuqurlashtirilgan tasnif, sifat va taqdim etish',
     blocks: [
       { type: 'subheading', content: '7-sinf: signal, axborot jarayoni va ifodalash modeli' },
       { type: 'table', content: '| Bosqich | Axborotli jarayon | Misol |\n|---|---|---|\n| Qabul qilish | Datchik yoki kiritish qurilmasi signalni oladi | Mikrofon tovushni qabul qiladi |\n| Saqlash | Signal kodlangan maʼlumot sifatida yoziladi | Audiofayl xotiraga yoziladi |\n| Qayta ishlash | Algoritm maʼlumotni o‘zgartiradi | Shovqin filtri qo‘llanadi |\n| Uzatish/chiqarish | Qabul qiluvchi uchun tasvir yoki tovush hosil bo‘ladi | Karnay ovoz chiqaradi |',
@@ -26,7 +26,7 @@ export const ICT7_M01_PAGE_ADDENDA: readonly VerifiedTextbookInsertion[] = [
   },
   {
     topicId: 'M01.05',
-    beforeHeading: 'Belgi, alifbo, kod va kodlash',
+    beforeHeading: 'Bit, bayt, birliklar va Xartli formulasi',
     blocks: [
       { type: 'subheading', content: '7-sinf: ikkilik guruhlar va sanoq tizimi asosini farqlash' },
       { type: 'table', content: '| Ikkilik guruh | O‘tkazish yo‘li | Amaliy misol |\n|---|---|---|\n| Diada (2 bit) | Ikkilik ↔ to‘rtlik | 11₂ = 3₄ |\n| Triada (3 bit) | Ikkilik ↔ sakkizlik | 111 101 010₂ = 752₈ |\n| Tetrada (4 bit) | Ikkilik ↔ o‘n oltilik | 1011₂ = B₁₆ |',
@@ -43,7 +43,7 @@ export const ICT7_M01_PAGE_ADDENDA: readonly VerifiedTextbookInsertion[] = [
   },
   {
     topicId: 'M01.05',
-    beforeHeading: 'Bit, bayt, birliklar va Xartli formulasi',
+    beforeHeading: 'Axborot hajmi, uzatish tezligi va vaqt',
     blocks: [
       { type: 'subheading', content: '7-sinf: 30 signal uchun minimal ikkilik uzunlik' },
       { type: 'solved', label: 'Yorug‘lik taxtasi — 30 xil signal', content: '',
@@ -59,7 +59,7 @@ export const ICT7_M01_PAGE_ADDENDA: readonly VerifiedTextbookInsertion[] = [
   },
   {
     topicId: 'M01.06',
-    beforeHeading: 'Matnli axborot: ASCII, Unicode va UTF',
+    beforeHeading: 'Grafik axborot: rastr, vektor, rang va hajm',
     blocks: [
       { type: 'subheading', content: '7-sinf: alifbo kodiga qarab matn fayli hajmini hisoblash' },
       { type: 'solved', label: '678 sahifali matn — maxsus bir baytli belgi sharti', content: '',
@@ -74,7 +74,7 @@ export const ICT7_M01_PAGE_ADDENDA: readonly VerifiedTextbookInsertion[] = [
   },
   {
     topicId: 'M01.06',
-    beforeHeading: 'Grafik axborot: rastr, vektor, rang va hajm',
+    beforeHeading: 'Audioaxborot: namunalash, bit chuqurligi va hajm',
     blocks: [
       { type: 'subheading', content: '7-sinf: bir bitli rastr, rang chuqurligi va o‘lcham' },
       { type: 'case', content: '8×8 katakli ikki rangli siqilmagan rasmda har piksel uchun 1 bit ishlatilsa, 64 piksel × 1 bit = **64 bit = 8 bayt**. 1280×720 rasm 16 777 216 xil rangni kodlasa, kerakli rang chuqurligi 24 bit, xom piksel maʼlumoti esa 1280×720×24/8 = **2 764 800 bayt**. Bu fayl sarlavhasi, alfa kanali va siqishsiz nazariy hajm.' },
@@ -94,7 +94,7 @@ export const ICT7_M01_PAGE_ADDENDA: readonly VerifiedTextbookInsertion[] = [
   },
   {
     topicId: 'M01.06',
-    beforeHeading: 'Audioaxborot: namunalash, bit chuqurligi va hajm',
+    beforeHeading: 'Video va multimedia: kadr, FPS, bitrate va hajm',
     blocks: [
       { type: 'subheading', content: '7-sinf kitobida hisob natijasidagi bosma xatoni aniqlash' },
       { type: 'solved', label: '16 bit × 48 kHz × 3 minut — nazoratli yechim', content: '',
@@ -112,7 +112,7 @@ export const ICT7_M01_PAGE_ADDENDA: readonly VerifiedTextbookInsertion[] = [
   },
   {
     topicId: 'M01.06',
-    beforeHeading: 'Video va multimedia: kadr, FPS, bitrate va hajm',
+    beforeHeading: 'Format va kengaytma',
     blocks: [
       { type: 'subheading', content: '7-sinf: animatsiya turi, usuli va harakat illyuziyasi' },
       { type: 'table', content: '| Animatsiya usuli | Kadr qanday hosil qilinadi? | Qachon mos? |\n|---|---|---|\n| Kadrma-kadr | Ketma-ket tasvirlar alohida tayyorlanadi | Chizilgan tasvirli harakat |\n| Hisoblangan (tweening) | Dastur oraliq holatlarni hisoblaydi | Obyektning joyi, rangi yoki shakli o‘zgarishi |',
