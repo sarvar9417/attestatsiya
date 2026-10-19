@@ -11,7 +11,7 @@ const lesson = (n: number): LessonSummary => ({
 
 describe('M07 exact twelve-chapter publication gate', () => {
   it('accepts exactly twelve unique published chapters', () => {
-    expect(publishedScratchLogoSubtopics(Array.from({ length: 12 }, (_, i) => lesson(i + 1))))?.toHaveLength(12)
+    expect(publishedScratchLogoSubtopics(Array.from({ length: 12 }, (_, i) => lesson(i + 1)))) .toHaveLength(12)
   })
   it('rejects thirteen published chapters rather than leaking an unreviewed edition', () => {
     expect(publishedScratchLogoSubtopics(Array.from({ length: 13 }, (_, i) => lesson(i + 1)))).toBeNull()
