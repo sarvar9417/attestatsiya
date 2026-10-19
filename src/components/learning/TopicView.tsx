@@ -18,6 +18,7 @@ import {
   Fingerprint, Minus
 } from 'lucide-react'
 import { syncTopicProgress } from '../../lib/progressSync'
+import { isCompleteOneToOneMatching, isRightChoiceUsedByAnotherPair } from '../../lib/exam/matching'
 
 // Kitob ko'rinishi KaTeX va sxemalarni olib keladi — faqat shu mavzular
 // ochilganda yuklanadi.
@@ -45,9 +46,8 @@ type Phase = 'theory' | 'test' | 'result'
 function isQuestionCorrect(q: TestQuestion, answer: unknown): boolean {
   if (q.type === 'Y1') return answer === q.correctIndex
   if (q.type === 'Y2' && q.pairs) {
-    const ans = answer as Record<string, string> | undefined
-    if (!ans) return false
-    return q.pairs.every(p => ans[p.leftId] === p.rightContent)
+    if (!isCompleteOneToOneMatching(q.pairs, answer)) return false
+    return q.pairs.every(p => answer[p.leftId] === p.rightContent)
   }
   if (q.type === 'Y3' && q.items && q.correctOrder) {
     const ans = answer as string[] | undefined
@@ -1399,11 +1399,16 @@ function QuestionCard({ question: q, index, total, selected, isSubmitted, onSele
                     c[pair.leftId] = e.target.value; 
                     onSelect(c) 
                   }} 
-                  disabled={isSubmitted} 
-                  className="input flex-1 text-xs py-2 disabled:opacity-70"
+                  disabled={isSubmitted}
+                  aria-label={`Mos javob: ${pair.leftContent}`}
+                  className="input flex-1 min-w-0 text-xs py-2 disabled:opacity-70"
                 >
                   <option value="">Tanlang...</option>
-                  {options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                  {options.map(opt => (
+                    <option key={opt} value={opt} disabled={isRightChoiceUsedByAnotherPair(ans, pair.leftId, opt)}>
+                      {opt}
+                    </option>
+                  ))}
                 </select>
                 {isPairCorrect && <CheckCircle2 size={16} className="text-emerald-500 shrink-0" />}
                 {isPairWrong && <XCircle size={16} className="text-red-500 shrink-0" />}
@@ -1472,7 +1477,7 @@ function QuestionCard({ question: q, index, total, selected, isSubmitted, onSele
         {!isSubmitted ? (
           <button 
             onClick={onSubmit} 
-            disabled={selected === undefined || (q.type === 'Y2' && q.pairs && Object.keys(selected as Record<string, string>).length < q.pairs.length) || (q.type === 'Y3' && q.items && (selected as string[] | undefined)?.length !== q.items.length)} 
+            disabled={selected === undefined || (q.type === 'Y2' && q.pairs && !isCompleteOneToOneMatching(q.pairs, selected)) || (q.type === 'Y3' && q.items && (selected as string[] | undefined)?.length !== q.items.length)} 
             className="px-5 py-2.5 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-xl text-xs font-semibold hover:from-primary-700 hover:to-primary-600 transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2"
           >
             {q.type === 'Y1' && <CheckCircle2 size={14} />}
