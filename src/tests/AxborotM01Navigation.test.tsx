@@ -3,20 +3,29 @@ import { describe, expect, it, vi } from 'vitest'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import ModulePage from '../pages/ModulePage'
 
+const catalogMock = vi.hoisted(() => ({
+  loading: false,
+  modules: [{
+    id: 'M01',
+    code: 'M01',
+    title: 'Axborot va raqamli savodxonlik',
+    description: 'M01 mavzulari',
+    examQuestionCount: 3,
+    subtopics: [{ id: 'M01.01', title: 'Axborot asoslari' }],
+  }] as Array<{
+    id: string; code: string; title: string; description: string;
+    examQuestionCount: number; subtopics: { id: string; title: string }[]
+  }>,
+}))
+
 vi.mock('../hooks/useCatalog', () => ({
   useCatalog: () => ({
-    loading: false,
+    ...catalogMock,
     online: true,
-    modules: [{
-      id: 'M01',
-      code: 'M01',
-      title: 'Axborot va raqamli savodxonlik',
-      description: 'M01 mavzulari',
-      examQuestionCount: 3,
-      subtopics: [{ id: 'M01.01', title: 'Axborot asoslari' }],
-    }],
   }),
 }))
+
+/* old-mock-replaced */
 
 vi.mock('../store/progressStore', () => ({
   useProgressStore: () => ({
@@ -48,6 +57,24 @@ function renderM01(url = '/learn/M01') {
 }
 
 describe('M01 / Axborot chapter navigation consolidation', () => {
+  it('shows a loading status, not a false 404, for a module missing during async hydration', () => {
+    catalogMock.loading = true
+    catalogMock.modules = []
+    try {
+      renderM01('/learn/M01')
+      expect(screen.getByRole('status').textContent).toMatch(/yuklanmoqda/)
+      expect(screen.queryByText('Bo‘lim topilmadi')).toBeNull()
+    } finally {
+      catalogMock.loading = false
+      catalogMock.modules = [{
+        id: 'M01', code: 'M01', title: 'Axborot va raqamli savodxonlik',
+        description: 'M01 mavzulari', examQuestionCount: 3,
+        subtopics: [{ id: 'M01.01', title: 'Axborot asoslari' }],
+      }]
+    }
+  })
+
+
   it('keeps the 19-chapter bank hidden until the learner opens extra practice', () => {
     renderM01()
     const opener = screen.getByRole('button', { name: /19 boblik mashqlarni ochish/ })
