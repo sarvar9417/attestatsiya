@@ -3,7 +3,8 @@
  *
  * The generated M01 handbook (m01.ts) is immutable. Add verified, original
  * explanations here so regeneration never silently discards book corrections.
- * PDF page numbers refer to the complete 113-page 2020 ICT grade-5 scan.
+ * PDF page ranges in each source block refer to that specific original textbook;
+ * per-book PDF/printed-page offsets and edition differences are in docs/TASK244_*.
  * This module does not copy textbook pages or reuse copyrighted diagrams.
  */
 import type { TheoryBlock, TopicContent } from '../topicContent'
