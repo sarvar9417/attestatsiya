@@ -42,6 +42,8 @@
 
 **Modullar kesimi:** M03 52, M06 38, M08 55, M09 75, M10 26, M11 43, M12 50 = **339 ta per-lesson slot**.
 
+**Qo‘shimcha 2026-10-19 editorial SELECT:** productiondagi jami **2 603 ta `review` savol orasida `question_editorial_checks` yozuvi mavjud savollar 0 ta**, to‘rtta verification flag va reviewer notes to‘liq bo‘lganlari ham 0 ta. Bu nafaqat 25 dars, balki butun review inventari uchun nashrdan oldin haqiqiy ekspert tekshiruvini talab qiladi. Metadata va mavjud `question_keys` nashr uchun yetarli dalil emas.
+
 ## Ish tartibi va nazorat darvozalari
 
 1. **P0 (nol savolli 4 dars):** M06 `masala-algoritmini-tuzish`, M08 `javascript-sintaksis-asoslari`, M12 `arxitektura-va-topologiyalar` va `internetdan-xavfsiz-va-maqsadli-foydalanish`. 20 savolli topic testni foydalanuvchiga yolg‘ondan ko‘rsatmaslik; source/construct va native format bilan 20 ta haqiqiy savolni tekshirish.
