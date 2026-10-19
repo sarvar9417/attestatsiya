@@ -1,9 +1,16 @@
 -- TASK-045 official mock regression.
 begin;
 
-do $$
+do $mock_fixture_v3$
 declare
   v_subject uuid;
+  v_qid uuid;
+  v_construct uuid;
+  v_format public.question_format;
+  v_group text;
+  v_cognitive public.cognitive_level;
+  v_key jsonb;
+  v_idx int;
 begin
   select id into strict v_subject
   from public.subjects
@@ -105,8 +112,62 @@ begin
     and not exists (
       select 1 from public.question_keys qk where qk.question_id = q.id
     );
+
+  -- Add real structurally valid Y2/Y3 questions to verify the v3 selector
+  -- sees both formats and spreads picks across topic constructs.
+  for v_format, v_group, v_cognitive in
+    select 'Y2'::public.question_format, 'S5.WEB'::text, 'qollash'::public.cognitive_level
+    union all
+    select 'Y3'::public.question_format, 'S1.INFO'::text, 'bilish'::public.cognitive_level
+  loop
+    for v_idx in 1..9 loop
+      select c.id into strict v_construct
+      from public.constructs c
+      where c.group_code = v_group and c.is_active
+      order by c.code, c.id
+      offset (case when v_group = 'S5.WEB' then (v_idx - 1) % 3 else 0 end)
+      limit 1;
+
+      insert into public.questions (
+        subject_id, construct_id, group_code, format, cognitive, difficulty,
+        stem_md, status, source_reference
+      ) values (
+        v_subject, v_construct, v_group, v_format, v_cognitive, 3,
+        'T045-V3 ' || v_group || ' ' || v_format::text || ' ' || v_idx,
+        'published'::public.content_status,
+        'T045:V3:' || v_group || ':' || v_format::text || ':' || v_idx
+      ) returning id into v_qid;
+
+      if v_format = 'Y2'::public.question_format then
+        insert into public.question_options(question_id, side, order_idx, content_md)
+        select v_qid, case when x <= 4 then 'a' else 'b' end,
+               case when x <= 4 then x else x - 4 end,
+               'T045 matched ' || x
+        from generate_series(1,8) x;
+        select jsonb_build_object('pairs',jsonb_object_agg(a.id::text,b.id::text))
+        into v_key
+        from (
+          select id,row_number() over(order by order_idx,id) rn
+          from public.question_options
+          where question_id=v_qid and side='a'
+        ) a join (
+          select id,row_number() over(order by order_idx,id) rn
+          from public.question_options
+          where question_id=v_qid and side='b'
+        ) b on a.rn=b.rn;
+      else
+        insert into public.question_options(question_id, side, order_idx, content_md)
+        select v_qid,'a',x,'T045 step ' || x from generate_series(1,4) x;
+        select jsonb_build_object('order',jsonb_agg(o.id order by o.order_idx))
+        into v_key from public.question_options o where o.question_id=v_qid;
+      end if;
+
+      insert into public.question_keys(question_id,payload,explanation_md)
+      values(v_qid,v_key,'T045 regression key');
+    end loop;
+  end loop;
 end
-$$;
+$mock_fixture_v3$;
 
 select set_config(
   'request.jwt.claim.sub',
@@ -132,6 +193,10 @@ declare
   v_qollash int;
   v_mulohaza int;
   v_quota record;
+  v_match_pool int;
+  v_exam_constructs int;
+  v_same_stem_excess int;
+  v_counts jsonb;
 begin
   select id, duration_min * 60
     into strict v_bp, v_duration
@@ -160,12 +225,14 @@ begin
     select selection_meta into strict v_meta
     from public.exams where id = v_exam;
 
-    if (v_meta->>'selector_version') <> 'official-mock-v2'
+    if (v_meta->>'selector_version') <> 'official-mock-v3'
        or (v_meta->>'target_count')::int <> 50
        or (v_meta->>'selected_count')::int <> 50
        or (v_meta->>'duration_sec')::int <> 7200
-       or v_meta->>'selection_strategy' <> 'least_exposure_then_random'
-       or not (v_meta->'rules' ? 'randomized_within_exposure_tier') then
+       or v_meta->>'selection_strategy' <> 'least_exposure_diverse_random'
+       or not (v_meta->'rules' ? 'soft_y2_y3_diversity')
+       or not (v_meta->'rules' ? 'soft_distinct_stem_and_construct')
+       or not (v_meta->'rules' ? 'selectable_nonzero_cognitive_cells_only') then
       raise exception 'selection metadata invalid: %', v_meta;
     end if;
 
@@ -183,6 +250,53 @@ begin
 
     if v_count <> 50 then
       raise exception 'assembly % contains duplicate questions', i;
+    end if;
+
+    -- Pool metadata excludes published items in cells allocated ZERO questions.
+    select count(*) into v_match_pool
+    from public.questions q
+    join public.constructs c on c.id=q.construct_id
+    join public.blueprint_quotas bq on bq.blueprint_id=v_bp and bq.group_code=q.group_code
+    where q.status='published'::public.content_status
+      and c.is_active and c.group_code=q.group_code
+      and exists(select 1 from public.question_keys k where k.question_id=q.id)
+      and (
+        (q.cognitive='bilish'::public.cognitive_level and bq.n_bilish>0)
+        or (q.cognitive='qollash'::public.cognitive_level and bq.n_qollash>0)
+        or (q.cognitive='mulohaza'::public.cognitive_level and bq.n_mulohaza>0)
+      );
+    if (v_meta->>'eligible_pool_count')::int <> v_match_pool then
+      raise exception 'v3 eligible pool not actionable: metadata %, actual %',
+        v_meta->>'eligible_pool_count', v_match_pool;
+    end if;
+
+    select jsonb_build_object(
+      'Y1', count(*) filter(where q.format='Y1'::public.question_format),
+      'Y2', count(*) filter(where q.format='Y2'::public.question_format),
+      'Y3', count(*) filter(where q.format='Y3'::public.question_format)
+    ), count(distinct q.construct_id),
+    count(*) - count(distinct lower(regexp_replace(btrim(q.stem_md),'[[:space:]]+',' ','g')))
+    into v_counts, v_exam_constructs, v_same_stem_excess
+    from public.exam_items ei join public.questions q on q.id=ei.question_id
+    where ei.exam_id=v_exam;
+
+    if v_counts <> v_meta->'format_counts'
+       or v_exam_constructs <> (v_meta->>'distinct_construct_count')::int
+       or v_same_stem_excess <> (v_meta->>'same_stem_excess_count')::int then
+      raise exception 'v3 selection format/construct/stem audit metadata incorrect';
+    end if;
+
+    -- Fixtures provide 9 Y2 and 9 Y3 candidates with different IDs/stems.
+    -- These are a product diversity preference, NOT an invented official share.
+    if (v_counts->>'Y2')::int < 1 or (v_counts->>'Y3')::int < 1 then
+      raise exception 'v3 ignored Y2/Y3 diversity on assembly %: %', i, v_counts;
+    end if;
+
+    select count(distinct q.construct_id) into v_exam_constructs
+    from public.exam_items ei join public.questions q on q.id=ei.question_id
+    where ei.exam_id=v_exam and q.group_code='S5.WEB';
+    if v_exam_constructs < 2 then
+      raise exception 'v3 failed to diversify S5.WEB constructs: %', v_exam_constructs;
     end if;
 
     -- This cell has at least 3x its quota in the fixture. Even though
@@ -297,7 +411,7 @@ begin
   into v_ddl;
   if position('random(),' in v_ddl) = 0
      or position('official_mock_blueprint_invalid: 2026_subject_group_quotas' in v_ddl) = 0
-     or position('official-mock-v2' in v_ddl) = 0 then
+     or position('official-mock-v3' in v_ddl) = 0 then
     raise exception '2026 selector randomization / quota guard missing';
   end if;
 end
