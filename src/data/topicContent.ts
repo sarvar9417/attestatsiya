@@ -12,6 +12,8 @@ import { M03_05_CANONICAL_BOOK } from './topics/m03ExcelCanonicalBook'
 import { M03_04_CANONICAL_BOOK } from './topics/m03ExcelFoundationsCanonicalBook'
 import { M03_06_CANONICAL_BOOK, M03_07_CANONICAL_BOOK } from './topics/m03ExcelAnalysisCanonicalBooks'
 import { M15_05_CANONICAL_BOOK, M15_06_CANONICAL_BOOK } from './topics/m15ProfessionalPracticeCanonicalBooks'
+import { M15_07_CANONICAL_BOOK } from './topics/m15AbilitiesCanonicalBook'
+import { M15_08_CANONICAL_BOOK } from './topics/m15TeachingTechnologiesCanonicalBook'
 import { M15_04_CANONICAL_BOOK } from './topics/m15LessonPlanningCanonicalBook'
 import { M15_01_CANONICAL_BOOK } from './topics/m15PedagogyCanonicalBook'
 import { M03_01_CANONICAL_BOOK } from './topics/m03WordCanonicalBook'
@@ -1656,6 +1658,18 @@ for (const [id, book, source] of [
     source,
     theory: [...book, ...tracedOffice],
   }
+}
+
+// TASK-290: Reader-first theory for the last two short pedagogy topics.
+// Original server-side questions and the established pedagogyStudyNotes pipeline
+// are preserved; avoid duplicating the old few-block static summaries.
+for (const [id, book, source] of [
+  ['M15.07', M15_07_CANONICAL_BOOK, 'A. Xoliqov — pedagogik qobiliyatlar va refleksiya'],
+  ['M15.08', M15_08_CANONICAL_BOOK, 'F.O. Mirzayeva + Qodirova/Pulatova — metod, texnologiya va inklyuziya'],
+] as const) {
+  const previous = TOPIC_CONTENT[id]
+  if (!previous) continue
+  TOPIC_CONTENT[id] = { ...previous, kind: 'chapter', source, theory: book }
 }
 
 // M02 canonical chapters combine multiple lengthy source lessons. Rebuilding
