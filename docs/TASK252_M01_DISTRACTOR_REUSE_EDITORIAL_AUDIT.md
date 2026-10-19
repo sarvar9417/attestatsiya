@@ -43,3 +43,17 @@ To‘rtta variant normalizatsiya qilindi, tartibi saralandi va savollar orasida 
 ### Source caveat
 
 5–11 sinf ICT/Cambridge+ darsliklarining mavzu-bet xaritalari `docs/TASK244_GRADE*_AUDIT.md` va M01 teoriya materialida mavjud. Mazkur audit **item-level human approval** deb qabul qilinmaydi.
+
+
+## 58 item-level review register
+
+`docs/audits/TASK252_M01_58_ITEM_SOURCE_REVIEW.tsv` lists **all 58** definition/application pairs by both IDs, exact target concept, unchanged keyed labels, candidate book, printed-page window, evidence strength and editorial note. Candidate book distribution: ICT5 **8**, ICT6 **8**, ICT7 **21**, Cambridge+9 **3**, Cambridge+10–11 **13**, **five** with no precise page verified.
+
+- **TOPIC_OBSERVED**: the textbook topic was observed; the *individual answer* has **not** been expert-approved.
+- **RELATED_ONLY**: thematic connection, not an exact proof for this answer.
+- **OPEN**: no exact textbook page verified, do not cite it as evidence.
+- **HIGH**: five stems (`ARS-01-042`, `ARS-01-043`, `ARS-01-049`, `ARS-02-037`, `ARS-03-047`) need special disambiguation before any new published revision.
+
+`src/tests/M01ItemSourceReviewRegistry.test.ts` validates the register against the authoring bank, including source page candidates and review flags. `src/tests/M01DistractorReuseEditorialGate.test.ts` now sets **upper limits** rather than demanding exactly 69/58 reused distractors: a future approved editorial correction that *reduces* repetition must not fail the regression gate. The register itself must be updated whenever a new approved revision changes a pair.
+
+**Gating:** none of the 58 entries has `expert_approved` status. No change to the original question bank, private KTD, learner API, published keys, or production database.
