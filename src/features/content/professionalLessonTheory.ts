@@ -176,7 +176,7 @@ export function overlayPublishedProfessionalLesson(
 export function appendDistinctTheory(existing: TheoryBlock[], extras: TheoryBlock[]): TheoryBlock[] {
   if (extras.length === 0) return existing
   const fingerprint = (block: TheoryBlock) =>
-    `${block.type}: ${block.content.replace(/\\s+/g, ' ').trim()}`
+    `${block.type}: ${block.content.replace(/\s+/g, ' ').trim()}`
   const seen = new Set(existing.map(fingerprint))
   const unique = extras.filter(block => {
     const key = fingerprint(block)
@@ -198,7 +198,7 @@ export function resolveLearnerTheoryContent(
   staticContent: TopicContent,
   publishedContent?: TopicContent | null,
 ): TopicContent {
-  if (!/^M(?:02|15)\\./.test(subtopicId)) return publishedContent ?? staticContent
+  if (!/^M(?:02|15)\./.test(subtopicId)) return publishedContent ?? staticContent
   if (!publishedContent || publishedContent === staticContent) return staticContent
   const isM02 = subtopicId.startsWith('M02.')
   const extras = isM02 ? verifiedM02Supplement(publishedContent) : (publishedContent.supplementalTheory ?? [])
@@ -216,7 +216,7 @@ export function resolveLearnerTheoryContent(
 }
 
 
-/** A source-checked M02 addendum is optional, never part of the main lesson. */
+/** A source-checked M02 addendum is never used to replace its full canonical book. */
 export function verifiedM02Supplement(publishedContent: TopicContent | null): TheoryBlock[] {
   if (!publishedContent) return []
   const index = publishedContent.theory.findIndex(
