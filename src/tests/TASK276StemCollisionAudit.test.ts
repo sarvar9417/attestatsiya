@@ -10,7 +10,7 @@ const sql = readFileSync(
 describe('TASK-276: exact-stem collision triage is privacy-safe', () => {
   it('is SELECT-only, with no answer key or learner record access', () => {
     const code = sql.replace(/--[^\n]*|\/\*[\s\S]*?\*\//g, '')
-    expect(code.trimStart()).toMatch(/^WITH\s+scoped\s+AS\s*\(/)
+    expect(code.trimStart()).toMatch(/^WITH\s+option_signatures\s+AS\s*\(/)
     expect(code).not.toMatch(/\b(INSERT|UPDATE|DELETE|TRUNCATE|ALTER|CREATE|DROP|GRANT|REVOKE|COPY)\b/i)
     for (const secret of ['question_keys', 'correct_option_id', 'answer_index', 'user_id', 'email']) {
       expect(code).not.toContain(secret)
