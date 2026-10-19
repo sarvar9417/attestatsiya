@@ -1,0 +1,634 @@
+{
+  "task": "TASK-264",
+  "created_on": "2026-10-19",
+  "source": "ICT 11-sinf 2021, Sarvar Google Drive id 1CFmUVZnq7S7YmZxHGaI1q58ogdD-2fEi",
+  "purpose": "25 original source-page-linked M09 draft questions for independent editorial review only; NOT current published test sufficiency",
+  "published_or_approved": false,
+  "items": [
+    {
+      "id": "M09C-001",
+      "lesson_id": "90000000-0000-4000-8000-000000000001",
+      "lesson_code": "M09.01",
+      "construct_family": "S4.DB",
+      "question_type": "Y1",
+      "difficulty": 2,
+      "objective": "db_vs_dbms",
+      "source_pdf": "ICT 11_sinf-2021_compressed.pdf",
+      "source_print_pages": [
+        4,
+        5
+      ],
+      "stem": "Kutubxona katalogidagi ma’lumotlar to‘plami bilan uni boshqaradigan dastur o‘rtasidagi to‘g‘ri farq qaysi?",
+      "options": [
+        "Ma’lumotlar bazasi tartibli yozuvlarni saqlaydi, MBBT ular ustidagi amallarni boshqaradi",
+        "Ma’lumotlar bazasi faqat SQL buyruqlarini, MBBT esa faqat jadval sarlavhasini saqlaydi",
+        "Ma’lumotlar bazasi va MBBT ikkalasi faqat ma’lumot turi nomidir",
+        "MBBT bitta jadvalning yozuvi, baza esa uning maydoni hisoblanadi"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required",
+      "human_duplicate_check": "required"
+    },
+    {
+      "id": "M09C-002",
+      "lesson_id": "90000000-0000-4000-8000-000000000001",
+      "lesson_code": "M09.01",
+      "construct_family": "S4.DB",
+      "question_type": "Y1",
+      "difficulty": 2,
+      "objective": "database_purpose",
+      "source_pdf": "ICT 11_sinf-2021_compressed.pdf",
+      "source_print_pages": [
+        4,
+        5
+      ],
+      "stem": "Maktabdagi kitoblar haqidagi ma’lumotlarni tartibli saqlash va qidirish uchun qaysi vosita eng mos?",
+      "options": [
+        "Faqat matnli hujjatga ketma-ket yozuv kiritish",
+        "Bog‘langan jadvallar va so‘rovlarni qo‘llovchi ma’lumotlar bazasi",
+        "Bitta elektron jadval katagiga barcha yozuvni joylashtirish",
+        "Faqat o‘quvchilar ismlarining alifbo ro‘yxatini tuzish"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required",
+      "human_duplicate_check": "required"
+    },
+    {
+      "id": "M09C-003",
+      "lesson_id": "90000000-0000-4000-8000-000000000001",
+      "lesson_code": "M09.01",
+      "construct_family": "S4.DB",
+      "question_type": "Y1",
+      "difficulty": 2,
+      "objective": "dbms_functions",
+      "source_pdf": "ICT 11_sinf-2021_compressed.pdf",
+      "source_print_pages": [
+        4,
+        6
+      ],
+      "stem": "Qaysi amal ma’lumotlar bazasini boshqarish tizimining vazifasiga to‘g‘ri keladi?",
+      "options": [
+        "Maydonlar nomini ko‘rsatib, hech bir yozuv bilan ishlamaslik",
+        "Jadval satrlarini faqat qo‘lda bir xil rangga bo‘yash",
+        "Yozuvlarni jadvalga qo‘shish, tahrirlash va shart bilan qidirish",
+        "Ma’lumotni jadval tuzilmasisiz bitta sarlavhaga jamlash"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required",
+      "human_duplicate_check": "required"
+    },
+    {
+      "id": "M09C-004",
+      "lesson_id": "90000000-0000-4000-8000-000000000001",
+      "lesson_code": "M09.01",
+      "construct_family": "S4.DB",
+      "question_type": "Y1",
+      "difficulty": 2,
+      "objective": "db_models",
+      "source_pdf": "ICT 11_sinf-2021_compressed.pdf",
+      "source_print_pages": [
+        7,
+        10
+      ],
+      "stem": "Jadvallar va ular orasidagi munosabatlarga tayanuvchi ma’lumotlar bazasi modeli qaysi?",
+      "options": [
+        "Iyerarxik model",
+        "Relyatsion model",
+        "Tarmoqli model",
+        "Hujjatli model"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required",
+      "human_duplicate_check": "required"
+    },
+    {
+      "id": "M09C-005",
+      "lesson_id": "90000000-0000-4000-8000-000000000001",
+      "lesson_code": "M09.01",
+      "construct_family": "S4.DB",
+      "question_type": "Y1",
+      "difficulty": 3,
+      "objective": "database_structure",
+      "source_pdf": "ICT 11_sinf-2021_compressed.pdf",
+      "source_print_pages": [
+        7,
+        10
+      ],
+      "stem": "Bir maktab kutubxonasida kitoblar, a’zolar va berilgan kitoblar haqidagi ma’lumotlarni tartibli yuritish uchun qaysi tuzilma mantiqan qulay?",
+      "options": [
+        "A’zo haqidagi barcha ma’lumotni har bir kitob satrida takrorlash",
+        "Har bir jadvalni aloqasiz mustaqil ro‘yxat deb qabul qilish",
+        "Alohida jadvallarni mos kalit maydonlar orqali bog‘lash",
+        "Ma’lumotlarni faqat bitta izoh maydoniga jamlash"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required",
+      "human_duplicate_check": "required"
+    },
+    {
+      "id": "M09C-006",
+      "lesson_id": "90000000-0000-4000-8000-000000000002",
+      "lesson_code": "M09.02",
+      "construct_family": "S4.DB",
+      "question_type": "Y1",
+      "difficulty": 2,
+      "objective": "field_vs_record",
+      "source_pdf": "ICT 11_sinf-2021_compressed.pdf",
+      "source_print_pages": [
+        15,
+        16
+      ],
+      "stem": "Jadvalda «Ism» ustuni va «Zulfiya Nabiyeva»ga tegishli butun qator mos ravishda nima deyiladi?",
+      "options": [
+        "Maydon va yozuv",
+        "Yozuv va maydon",
+        "Jadval va ma’lumot turi",
+        "Birlamchi va tashqi kalit"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required",
+      "human_duplicate_check": "required"
+    },
+    {
+      "id": "M09C-007",
+      "lesson_id": "90000000-0000-4000-8000-000000000002",
+      "lesson_code": "M09.02",
+      "construct_family": "S4.DB",
+      "question_type": "Y1",
+      "difficulty": 2,
+      "objective": "date_type",
+      "source_pdf": "ICT 11_sinf-2021_compressed.pdf",
+      "source_print_pages": [
+        15,
+        17
+      ],
+      "stem": "O‘quvchining tug‘ilgan kunini Access jadvalida maxsus sana amallari bilan saqlash uchun qaysi maydon turi mos?",
+      "options": [
+        "Qisqa matn",
+        "Raqam",
+        "Sana va vaqt",
+        "Valyuta"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required",
+      "human_duplicate_check": "required"
+    },
+    {
+      "id": "M09C-008",
+      "lesson_id": "90000000-0000-4000-8000-000000000002",
+      "lesson_code": "M09.02",
+      "construct_family": "S4.DB",
+      "question_type": "Y1",
+      "difficulty": 2,
+      "objective": "boolean_type",
+      "source_pdf": "ICT 11_sinf-2021_compressed.pdf",
+      "source_print_pages": [
+        16,
+        18
+      ],
+      "stem": "Faqat «ha» yoki «yo‘q» qiymatiga ega «A’zo faolmi?» maydoni uchun qaysi tur maqsadga muvofiq?",
+      "options": [
+        "Mantiqiy (Ha/Yo‘q)",
+        "Qisqa matn",
+        "Sana va vaqt",
+        "Valyuta"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required",
+      "human_duplicate_check": "required"
+    },
+    {
+      "id": "M09C-009",
+      "lesson_id": "90000000-0000-4000-8000-000000000002",
+      "lesson_code": "M09.02",
+      "construct_family": "S4.DB",
+      "question_type": "Y1",
+      "difficulty": 3,
+      "objective": "short_text_type",
+      "source_pdf": "ICT 11_sinf-2021_compressed.pdf",
+      "source_print_pages": [
+        16,
+        18
+      ],
+      "stem": "Telefon raqamidagi bosh nollarni va chiziqchalarni saqlashda oddiy son turidan ko‘ra qaysi tur xavfsizroq?",
+      "options": [
+        "Sana va vaqt",
+        "Qisqa matn",
+        "Hisoblagich (AutoNumber)",
+        "Valyuta"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required",
+      "human_duplicate_check": "required"
+    },
+    {
+      "id": "M09C-010",
+      "lesson_id": "90000000-0000-4000-8000-000000000002",
+      "lesson_code": "M09.02",
+      "construct_family": "S4.DB",
+      "question_type": "Y1",
+      "difficulty": 3,
+      "objective": "consistent_entries",
+      "source_pdf": "ICT 11_sinf-2021_compressed.pdf",
+      "source_print_pages": [
+        23,
+        29
+      ],
+      "stem": "«9-a» va «9-a sinf» bir sinfni bildirsa ham, turli ko‘rinishda saqlansa qanday muammo paydo bo‘lishi mumkin?",
+      "options": [
+        "Turli yozilishi har doim bir xil filtr natijasini beradi",
+        "Bir xil sinf kodi yozilishi o‘zgarsa, jadval avtomatik tiklanadi",
+        "Mazmunan bir xil sinf kodlari turli qiymat sifatida qabul qilinishi mumkin",
+        "Turlicha ko‘rinish faqat ustun kengligini o‘zgartiradi"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required",
+      "human_duplicate_check": "required"
+    },
+    {
+      "id": "M09C-011",
+      "lesson_id": "90000000-0000-4000-8000-000000000003",
+      "lesson_code": "M09.03",
+      "construct_family": "S4.DB",
+      "question_type": "Y1",
+      "difficulty": 2,
+      "objective": "primary_key_unique",
+      "source_pdf": "ICT 11_sinf-2021_compressed.pdf",
+      "source_print_pages": [
+        15,
+        16
+      ],
+      "stem": "Talabalar jadvalida har bir yozuvni takrorlanmas tarzda aniqlash uchun qaysi element tanlanadi?",
+      "options": [
+        "Tashqi kalit",
+        "Birlamchi kalit",
+        "Oddiy tartiblash maydoni",
+        "Hisobot sarlavhasi"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required",
+      "human_duplicate_check": "required"
+    },
+    {
+      "id": "M09C-012",
+      "lesson_id": "90000000-0000-4000-8000-000000000003",
+      "lesson_code": "M09.03",
+      "construct_family": "S4.DB",
+      "question_type": "Y1",
+      "difficulty": 2,
+      "objective": "foreign_key_link",
+      "source_pdf": "ICT 11_sinf-2021_compressed.pdf",
+      "source_print_pages": [
+        15,
+        16
+      ],
+      "stem": "«Baholar» jadvalidagi «O‘quvchiID» boshqa jadvaldagi o‘quvchiga murojaat qilsa, bu maydonning roli nima?",
+      "options": [
+        "Tashqi kalit",
+        "Birlamchi kalit",
+        "Tanlash mezoni",
+        "Indeks tartibi"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required",
+      "human_duplicate_check": "required"
+    },
+    {
+      "id": "M09C-013",
+      "lesson_id": "90000000-0000-4000-8000-000000000003",
+      "lesson_code": "M09.03",
+      "construct_family": "S4.DB",
+      "question_type": "Y1",
+      "difficulty": 3,
+      "objective": "link_tables",
+      "source_pdf": "ICT 11_sinf-2021_compressed.pdf",
+      "source_print_pages": [
+        30,
+        35
+      ],
+      "stem": "Kitoblar va ularni olgan a’zolar haqidagi ma’lumotlar alohida jadvallarda bo‘lsa, ularning yozuvlarini ishonchli bog‘lash uchun nima kerak?",
+      "options": [
+        "Jadvallardagi satrlarni faqat joylashuv tartibi bo‘yicha moslashtirish",
+        "Barcha jadvallarni alohida saqlab, hech qanday havola qo‘ymaslik",
+        "Bir jadvaldagi tashqi kalitni boshqa jadvaldagi mos kalitga bog‘lash",
+        "Har bir jadval uchun bir xil tasodifiy nom qo‘yish"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required",
+      "human_duplicate_check": "required"
+    },
+    {
+      "id": "M09C-014",
+      "lesson_id": "90000000-0000-4000-8000-000000000003",
+      "lesson_code": "M09.03",
+      "construct_family": "S4.DB",
+      "question_type": "Y1",
+      "difficulty": 3,
+      "objective": "referential_identity",
+      "source_pdf": "ICT 11_sinf-2021_compressed.pdf",
+      "source_print_pages": [
+        30,
+        35
+      ],
+      "stem": "Ikki jadvaldagi «Ali» ismi bir necha kishiga tegishli bo‘lishi mumkin. Bog‘lanish uchun nima sababdan noyob identifikator afzal?",
+      "options": [
+        "Ism har bir yozuvda albatta takrorlanmaydi",
+        "Noyob ID bir xil ismli turli yozuvlarni aniq ajratadi",
+        "Noyob ID faqat satrlarni rangli ko‘rsatadi",
+        "Noyob ID matn maydonlarini avtomatik birlashtiradi"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required",
+      "human_duplicate_check": "required"
+    },
+    {
+      "id": "M09C-015",
+      "lesson_id": "90000000-0000-4000-8000-000000000003",
+      "lesson_code": "M09.03",
+      "construct_family": "S4.DB",
+      "question_type": "Y1",
+      "difficulty": 2,
+      "objective": "foreign_key_purpose",
+      "source_pdf": "ICT 11_sinf-2021_compressed.pdf",
+      "source_print_pages": [
+        30,
+        35
+      ],
+      "stem": "Jadvallararo bog‘lanishda tashqi kalitning asosiy maqsadi nimadan iborat?",
+      "options": [
+        "Jadval maydonlarini faqat alifbo bo‘yicha saralash",
+        "Faqat matn qiymatlarini katta harfga o‘tkazish",
+        "Bitta jadvaldagi yozuvni boshqa jadvaldagi mos yozuvga bog‘lash",
+        "Bir jadvalga boshqa jadvalning nomini qo‘shish"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required",
+      "human_duplicate_check": "required"
+    },
+    {
+      "id": "M09C-016",
+      "lesson_id": "90000000-0000-4000-8000-000000000004",
+      "lesson_code": "M09.04",
+      "construct_family": "S4.DB",
+      "question_type": "Y1",
+      "difficulty": 2,
+      "objective": "query_design",
+      "source_pdf": "ICT 11_sinf-2021_compressed.pdf",
+      "source_print_pages": [
+        44,
+        46
+      ],
+      "stem": "Kutubxona jadvalidan ayrim ustunlar va mos satrlarni olib chiqadigan so‘rovni vizual yaratishda qaysi Access vositasi ishlatiladi?",
+      "options": [
+        "Table Design",
+        "Query Design (so‘rov konstruktori)",
+        "Form Design",
+        "Report Design"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required",
+      "human_duplicate_check": "required"
+    },
+    {
+      "id": "M09C-017",
+      "lesson_id": "90000000-0000-4000-8000-000000000004",
+      "lesson_code": "M09.04",
+      "construct_family": "S4.DB",
+      "question_type": "Y1",
+      "difficulty": 2,
+      "objective": "query_table_source",
+      "source_pdf": "ICT 11_sinf-2021_compressed.pdf",
+      "source_print_pages": [
+        44,
+        48
+      ],
+      "stem": "Access so‘rov konstruktori orqali «Kitoblar» jadvalidagi mualliflarni olish uchun birinchi navbatda nima tanlanadi?",
+      "options": [
+        "So‘rov ma’lumot manbai bo‘ladigan jadvalni qo‘shish",
+        "Natijani filtrlash uchun shart yozish",
+        "Natija ustunlarini tartiblashni belgilash",
+        "Tayyor so‘rov natijasini chop etish"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required",
+      "human_duplicate_check": "required"
+    },
+    {
+      "id": "M09C-018",
+      "lesson_id": "90000000-0000-4000-8000-000000000004",
+      "lesson_code": "M09.04",
+      "construct_family": "S4.DB",
+      "question_type": "Y1",
+      "difficulty": 2,
+      "objective": "query_fields",
+      "source_pdf": "ICT 11_sinf-2021_compressed.pdf",
+      "source_print_pages": [
+        44,
+        50
+      ],
+      "stem": "Faqat «Muallif» va «Kitob nomi» ustunlari kerak bo‘lsa, so‘rov loyihasida qaysi amal to‘g‘ri?",
+      "options": [
+        "So‘rov mezonini butunlay o‘chirish",
+        "Faqat yozuvlarni identifikator bo‘yicha saralash",
+        "Kerakli maydonlarni so‘rov loyihasi panjarasiga qo‘shish",
+        "Faqat natija oynasini qayta nomlash"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required",
+      "human_duplicate_check": "required"
+    },
+    {
+      "id": "M09C-019",
+      "lesson_id": "90000000-0000-4000-8000-000000000004",
+      "lesson_code": "M09.04",
+      "construct_family": "S4.DB",
+      "question_type": "Y1",
+      "difficulty": 3,
+      "objective": "criteria_role",
+      "source_pdf": "ICT 11_sinf-2021_compressed.pdf",
+      "source_print_pages": [
+        44,
+        50
+      ],
+      "stem": "Access so‘rovidagi «Criteria / Условия отбора» qatorining vazifasi nima?",
+      "options": [
+        "Mos yozuvlarni tanlash shartini belgilash",
+        "Maydon nomini ko‘rsatish yoki yashirish",
+        "Natijadagi yozuvlarni tartiblash",
+        "Maydon ma’lumot turini tahrirlash"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required",
+      "human_duplicate_check": "required"
+    },
+    {
+      "id": "M09C-020",
+      "lesson_id": "90000000-0000-4000-8000-000000000004",
+      "lesson_code": "M09.04",
+      "construct_family": "S4.DB",
+      "question_type": "Y1",
+      "difficulty": 3,
+      "objective": "query_vs_sort",
+      "source_pdf": "ICT 11_sinf-2021_compressed.pdf",
+      "source_print_pages": [
+        44,
+        50
+      ],
+      "stem": "So‘rov natijasida «Muallif = X» sharti berilsa, qanday yozuvlar ko‘rsatiladi?",
+      "options": [
+        "Muallif maydonidan qat’i nazar barcha yozuvlar",
+        "Muallif maydoni X qiymatiga mos keladigan yozuvlar",
+        "X dan boshqa mualliflarga tegishli yozuvlar",
+        "Faqat muallif maydoni bo‘sh yozuvlar"
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required",
+      "human_duplicate_check": "required"
+    },
+    {
+      "id": "M09C-021",
+      "lesson_id": "90000000-0000-4000-8000-000000000005",
+      "lesson_code": "M09.05",
+      "construct_family": "S4.DB",
+      "question_type": "Y1",
+      "difficulty": 2,
+      "objective": "like_prefix",
+      "source_pdf": "ICT 11_sinf-2021_compressed.pdf",
+      "source_print_pages": [
+        51,
+        52
+      ],
+      "stem": "Access darslik sintaksisida ismi «Gul» bilan boshlanuvchi o‘quvchilarni qaysi shart tanlaydi?",
+      "options": [
+        "Like \"Gul*\"",
+        "Like \"*Gul\"",
+        "Not Like \"Gul*\"",
+        "Between \"Gul\" And \"*\""
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required",
+      "human_duplicate_check": "required"
+    },
+    {
+      "id": "M09C-022",
+      "lesson_id": "90000000-0000-4000-8000-000000000005",
+      "lesson_code": "M09.05",
+      "construct_family": "S4.DB",
+      "question_type": "Y1",
+      "difficulty": 3,
+      "objective": "like_suffix",
+      "source_pdf": "ICT 11_sinf-2021_compressed.pdf",
+      "source_print_pages": [
+        51,
+        52
+      ],
+      "stem": "Access mezoni sifatida ismi «a» bilan tugaydiganlarni tanlash uchun qaysi namuna mos?",
+      "options": [
+        "Like \"a*\"",
+        "Not Like \"*a\"",
+        "Like \"*a\"",
+        "Like \"a\""
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required",
+      "human_duplicate_check": "required"
+    },
+    {
+      "id": "M09C-023",
+      "lesson_id": "90000000-0000-4000-8000-000000000005",
+      "lesson_code": "M09.05",
+      "construct_family": "S4.DB",
+      "question_type": "Y1",
+      "difficulty": 3,
+      "objective": "like_contains",
+      "source_pdf": "ICT 11_sinf-2021_compressed.pdf",
+      "source_print_pages": [
+        51,
+        52
+      ],
+      "stem": "«Kitob nomi» matnida «tarix» harflar ketma-ketligi qatnashgan yozuvlarni ajratish uchun qaysi Access sharti mos?",
+      "options": [
+        "Like \"tarix*\"",
+        "Like \"*tarix*\"",
+        "Not Like \"*tarix*\"",
+        "Between \"tarix\" And \"kitob\""
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required",
+      "human_duplicate_check": "required"
+    },
+    {
+      "id": "M09C-024",
+      "lesson_id": "90000000-0000-4000-8000-000000000005",
+      "lesson_code": "M09.05",
+      "construct_family": "S4.DB",
+      "question_type": "Y1",
+      "difficulty": 3,
+      "objective": "not_like_contains",
+      "source_pdf": "ICT 11_sinf-2021_compressed.pdf",
+      "source_print_pages": [
+        51,
+        52
+      ],
+      "stem": "Ismida «gul» ketma-ketligi qatnashmagan yozuvlarni Access darslik sintaksisida qaysi shart ajratadi?",
+      "options": [
+        "Like \"*gul*\"",
+        "Like \"gul*\"",
+        "Not Like \"*gul*\"",
+        "Between \"gul\" And \"*\""
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required",
+      "human_duplicate_check": "required"
+    },
+    {
+      "id": "M09C-025",
+      "lesson_id": "90000000-0000-4000-8000-000000000005",
+      "lesson_code": "M09.05",
+      "construct_family": "S4.DB",
+      "question_type": "Y1",
+      "difficulty": 3,
+      "objective": "between_inclusive",
+      "source_pdf": "ICT 11_sinf-2021_compressed.pdf",
+      "source_print_pages": [
+        51,
+        52
+      ],
+      "stem": "ID raqami 5 dan 11 gacha, ikkala chegara ham hisobga olinadigan tanlov uchun qaysi Access mezoni to‘g‘ri?",
+      "options": [
+        "ID > 5 And ID < 11",
+        "Between 5 And 11",
+        "Like \"5*11\"",
+        "Not Like \"5*11\""
+      ],
+      "status": "draft_candidate",
+      "human_answer_verification": "required",
+      "human_source_verification": "required",
+      "human_duplicate_check": "required"
+    }
+  ]
+}
