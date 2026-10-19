@@ -1,3 +1,9 @@
+## TASK-250 — M02 34 Y1 savol source-review
+
+| ID | Status | Natija | Ekspert/shart |
+|---|---|---|---|
+| TASK-250 | IN_PROGRESS / REVIEW-ONLY | 34 Y1 fallback IDs → 4 kanonik mavzu; 6 ehtiyotkor tarixiy/vaqtga bog‘liq tahririy risk; CI gate | Variant va izohlarning darslik sahifasi bilan ekspert tekshiruvi; reviewdan publishedga avtomatik o‘tish yo‘q |
+
 ## TASK-244 — M01: 13 ta darslikni bittalab, asl sahifasi bo‘yicha nazariya tekshiruvi (2026-10-19)
 
 | ID | Status | Scope | Natija va qolgan release sharti |

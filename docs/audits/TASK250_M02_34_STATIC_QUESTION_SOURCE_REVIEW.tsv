@@ -1,0 +1,35 @@
+legacy_question_id	canonical_topic	source_book	page_candidate	source_url	question_type	source_state	editorial_status	risk_code	review_note
+M02.01-q1	M02.01	ICT10-2021	4-8	https://drive.google.com/file/d/1KNBa9-8wlk-CV8cZPUzEqYgMsvBdZb_3/view	Y1	topic_candidate	needs_item_editorial_review	historical_precision	Computing generations; check ENIAC qualifiers
+M02.01-q2	M02.01	ICT10-2021	4-8	https://drive.google.com/file/d/1KNBa9-8wlk-CV8cZPUzEqYgMsvBdZb_3/view	Y1	topic_candidate	needs_item_editorial_review	none	Computing generations; check ENIAC qualifiers
+M02.01-q3	M02.01	ICT10-2021	4-8	https://drive.google.com/file/d/1KNBa9-8wlk-CV8cZPUzEqYgMsvBdZb_3/view	Y1	topic_candidate	needs_item_editorial_review	none	Computing generations; check ENIAC qualifiers
+M02.01-q4	M02.01	ICT10-2021	4-8	https://drive.google.com/file/d/1KNBa9-8wlk-CV8cZPUzEqYgMsvBdZb_3/view	Y1	topic_candidate	needs_item_editorial_review	none	Computing generations; check ENIAC qualifiers
+M02.02-q1	M02.01	ICT10-2021	6-12	https://drive.google.com/file/d/1KNBa9-8wlk-CV8cZPUzEqYgMsvBdZb_3/view	Y1	topic_candidate	needs_item_editorial_review	none	Von Neumann architecture and data flow
+M02.02-q2	M02.01	ICT10-2021	6-12	https://drive.google.com/file/d/1KNBa9-8wlk-CV8cZPUzEqYgMsvBdZb_3/view	Y1	topic_candidate	needs_item_editorial_review	none	Von Neumann architecture and data flow
+M02.02-q3	M02.01	ICT10-2021	6-12	https://drive.google.com/file/d/1KNBa9-8wlk-CV8cZPUzEqYgMsvBdZb_3/view	Y1	topic_candidate	needs_item_editorial_review	none	Von Neumann architecture and data flow
+M02.02-q4	M02.01	ICT10-2021	6-12	https://drive.google.com/file/d/1KNBa9-8wlk-CV8cZPUzEqYgMsvBdZb_3/view	Y1	topic_candidate	needs_item_editorial_review	none	Von Neumann architecture and data flow
+M02.03-q1	M02.01	ICT5-2020	25-32	https://drive.google.com/file/d/1h4S97euXmiRCi-s-4PtVM0sIRYuY17p9/view	Y1	topic_candidate	needs_item_editorial_review	none	Peripheral devices and input-output
+M02.03-q2	M02.01	ICT5-2020	25-32	https://drive.google.com/file/d/1h4S97euXmiRCi-s-4PtVM0sIRYuY17p9/view	Y1	topic_candidate	needs_item_editorial_review	none	Peripheral devices and input-output
+M02.03-q3	M02.01	ICT5-2020	25-32	https://drive.google.com/file/d/1h4S97euXmiRCi-s-4PtVM0sIRYuY17p9/view	Y1	topic_candidate	needs_item_editorial_review	none	Peripheral devices and input-output
+M02.04-q1	M02.01	CAMBRIDGE9-2021	33-40	https://drive.google.com/file/d/10MX-nD_cW89Kz4aBgEabddM0aS2YgtYm/view	Y1	topic_candidate	needs_item_editorial_review	none	Volatile memory and storage
+M02.04-q2	M02.01	CAMBRIDGE9-2021	33-40	https://drive.google.com/file/d/10MX-nD_cW89Kz4aBgEabddM0aS2YgtYm/view	Y1	topic_candidate	needs_item_editorial_review	none	Volatile memory and storage
+M02.04-q3	M02.01	CAMBRIDGE9-2021	33-40	https://drive.google.com/file/d/10MX-nD_cW89Kz4aBgEabddM0aS2YgtYm/view	Y1	topic_candidate	needs_item_editorial_review	none	Volatile memory and storage
+M02.04-q4	M02.01	CAMBRIDGE9-2021	33-40	https://drive.google.com/file/d/10MX-nD_cW89Kz4aBgEabddM0aS2YgtYm/view	Y1	topic_candidate	needs_item_editorial_review	firmware_storage_scope	Volatile memory and storage
+M02.05-q1	M02.01	ICT10-2021	20-24	https://drive.google.com/file/d/1KNBa9-8wlk-CV8cZPUzEqYgMsvBdZb_3/view	Y1	topic_candidate	needs_item_editorial_review	time_sensitive_market_share	Mobile devices and market scope
+M02.05-q2	M02.01	ICT10-2021	20-24	https://drive.google.com/file/d/1KNBa9-8wlk-CV8cZPUzEqYgMsvBdZb_3/view	Y1	topic_candidate	needs_item_editorial_review	none	Mobile devices and market scope
+M02.05-q3	M02.01	ICT10-2021	20-24	https://drive.google.com/file/d/1KNBa9-8wlk-CV8cZPUzEqYgMsvBdZb_3/view	Y1	topic_candidate	needs_item_editorial_review	none	Mobile devices and market scope
+M02.06-q1	M02.04	ICT5-2020	39-42	https://drive.google.com/file/d/1h4S97euXmiRCi-s-4PtVM0sIRYuY17p9/view	Y1	topic_candidate	needs_item_editorial_review	none	System, application, driver and licensing
+M02.06-q2	M02.04	ICT5-2020	39-42	https://drive.google.com/file/d/1h4S97euXmiRCi-s-4PtVM0sIRYuY17p9/view	Y1	topic_candidate	needs_item_editorial_review	none	System, application, driver and licensing
+M02.06-q3	M02.04	ICT5-2020	39-42	https://drive.google.com/file/d/1h4S97euXmiRCi-s-4PtVM0sIRYuY17p9/view	Y1	topic_candidate	needs_item_editorial_review	none	System, application, driver and licensing
+M02.06-q4	M02.04	ICT5-2020	39-42	https://drive.google.com/file/d/1h4S97euXmiRCi-s-4PtVM0sIRYuY17p9/view	Y1	topic_candidate	needs_item_editorial_review	none	System, application, driver and licensing
+M02.07-q1	M02.02	CAMBRIDGE9-2021	9-13	https://drive.google.com/file/d/10MX-nD_cW89Kz4aBgEabddM0aS2YgtYm/view	Y1	topic_candidate	needs_item_editorial_review	none	Operating system types and GUI CLI
+M02.07-q2	M02.02	CAMBRIDGE9-2021	9-13	https://drive.google.com/file/d/10MX-nD_cW89Kz4aBgEabddM0aS2YgtYm/view	Y1	topic_candidate	needs_item_editorial_review	none	Operating system types and GUI CLI
+M02.07-q3	M02.02	CAMBRIDGE9-2021	9-13	https://drive.google.com/file/d/10MX-nD_cW89Kz4aBgEabddM0aS2YgtYm/view	Y1	topic_candidate	needs_item_editorial_review	none	Operating system types and GUI CLI
+M02.07-q4	M02.02	CAMBRIDGE9-2021	9-13	https://drive.google.com/file/d/10MX-nD_cW89Kz4aBgEabddM0aS2YgtYm/view	Y1	topic_candidate	needs_item_editorial_review	platform_generalization	Operating system types and GUI CLI
+M02.08-q1	M02.04	ICT10-2021	28-31	https://drive.google.com/file/d/1KNBa9-8wlk-CV8cZPUzEqYgMsvBdZb_3/view	Y1	topic_candidate	needs_item_editorial_review	none	Utility applications
+M02.08-q2	M02.04	ICT10-2021	28-31	https://drive.google.com/file/d/1KNBa9-8wlk-CV8cZPUzEqYgMsvBdZb_3/view	Y1	topic_candidate	needs_item_editorial_review	none	Utility applications
+M02.08-q3	M02.04	ICT10-2021	28-31	https://drive.google.com/file/d/1KNBa9-8wlk-CV8cZPUzEqYgMsvBdZb_3/view	Y1	topic_candidate	needs_item_editorial_review	device_specific_maintenance	Utility applications
+M02.08-q4	M02.04	ICT10-2021	28-31	https://drive.google.com/file/d/1KNBa9-8wlk-CV8cZPUzEqYgMsvBdZb_3/view	Y1	topic_candidate	needs_item_editorial_review	none	Utility applications
+M02.09-q1	M02.03	ICT5-2020	43-47	https://drive.google.com/file/d/1h4S97euXmiRCi-s-4PtVM0sIRYuY17p9/view	Y1	topic_candidate	needs_item_editorial_review	none	Files, folders, extensions and OS conventions
+M02.09-q2	M02.03	ICT5-2020	43-47	https://drive.google.com/file/d/1h4S97euXmiRCi-s-4PtVM0sIRYuY17p9/view	Y1	topic_candidate	needs_item_editorial_review	none	Files, folders, extensions and OS conventions
+M02.09-q3	M02.03	ICT5-2020	43-47	https://drive.google.com/file/d/1h4S97euXmiRCi-s-4PtVM0sIRYuY17p9/view	Y1	topic_candidate	needs_item_editorial_review	os_specific_filename	Files, folders, extensions and OS conventions
+M02.09-q4	M02.03	ICT5-2020	43-47	https://drive.google.com/file/d/1h4S97euXmiRCi-s-4PtVM0sIRYuY17p9/view	Y1	topic_candidate	needs_item_editorial_review	none	Files, folders, extensions and OS conventions
