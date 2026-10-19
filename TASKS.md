@@ -1,3 +1,9 @@
+## TASK-249 — M01.05/M01.06 darslik manbalari
+
+| ID | Status | Natija | Ochiq ish |
+| --- | --- | --- | --- |
+| TASK-249 | IN_PROGRESS | M01.05 100 + M01.06 110 item source trace; avvalgi boblar bilan jami 400/400 provenance holati; 239 topic-supported, 149 partial, 12 source-gap; 400-ID regression gate | Har bir savolning to‘g‘ri kaliti, distractor va izohi ekspert tasdig‘idan o‘tishi; topilmagan 12 page debt; productionga import/publish qilinmagan |
+
 ## TASK-248 — M01.04 savollarini darslik sahifalari bilan tekshirish
 
 | ID | Status | Qamrov | Qolgan talab |
