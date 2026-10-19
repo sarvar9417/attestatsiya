@@ -233,16 +233,24 @@ export default function TopicView({
     if (!/^(?:M04|M14|M16)\.\d{2}$/.test(subtopicId)) return
     let cancelled = false
     const fallback = getTopicContent(subtopicId)
-    if (!fallback) return
+    // Remote-only M04/M14/M16 lessons must be fetched even when the static
+    // catalog has no copy. Otherwise the loading screen never completes.
     getLessonDetail(subtopicId)
       .then(lesson => {
-        if (!cancelled) {
-          setPublishedTheory({
-            subtopicId,
-            content: overlayPublishedProfessionalLesson(fallback, lesson),
-          })
-          setTheoryResolved(subtopicId)
+        if (cancelled) return
+        const base: TopicContent = fallback ?? {
+          subtopicId,
+          title: lesson.title_uz,
+          theory: [],
+          questions: [],
         }
+        const published = overlayPublishedProfessionalLesson(base, lesson)
+        // Fail closed: a draft or empty server lesson must not turn the
+        // temporary placeholder into visible learning content.
+        if (fallback || published.theory.length > 0) {
+          setPublishedTheory({ subtopicId, content: published })
+        }
+        setTheoryResolved(subtopicId)
       })
       .catch(() => {
         if (!cancelled) setTheoryResolved(subtopicId)

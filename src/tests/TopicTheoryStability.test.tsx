@@ -105,6 +105,38 @@ describe('stable theory in learner module', () => {
     expect(screen.queryByText('vaqtinchalik')).toBeNull()
   })
 
+  it('M14 server-only published theory loads even without local content', async () => {
+    mocks.getTopicContent.mockReturnValue(undefined)
+    const request = deferred<LessonSummary>()
+    mocks.getLessonDetail.mockReturnValue(request.promise)
+
+    mount('M14', 'M14.06')
+    expect(screen.getByRole('status').textContent).toContain('Asosiy nazariya tayyorlanmoqda')
+    request.resolve(server('## Kasb standarti\n\nServerdagi tasdiqlangan nazariya'))
+    expect(await screen.findByText('Serverdagi tasdiqlangan nazariya')).toBeDefined()
+    expect(screen.queryByText('Bu mavzu uchun kontent tayyor emas')).toBeNull()
+  })
+
+  it('an unpublished remote-only M04 lesson does not appear as an empty theory', async () => {
+    mocks.getTopicContent.mockReturnValue(undefined)
+    mocks.getLessonDetail.mockResolvedValue({ ...server('## Yashirin dars'), status: 'draft' })
+
+    mount('M04', 'M04.09')
+    expect(await screen.findByText('Bu mavzu uchun kontent tayyor emas')).toBeDefined()
+    expect(screen.queryByText('Yashirin dars')).toBeNull()
+    expect(screen.getByRole('button', { name: /Orqaga qaytish/ })).toBeDefined()
+  })
+
+  it('a rejected request without local M16 theory ends loading and offers back', async () => {
+    mocks.getTopicContent.mockReturnValue(undefined)
+    mocks.getLessonDetail.mockRejectedValue(new Error('Network unavailable'))
+
+    mount('M16', 'M16.03')
+    expect(await screen.findByText('Bu mavzu uchun kontent tayyor emas')).toBeDefined()
+    expect(screen.queryByRole('status')).toBeNull()
+    expect(screen.getByRole('button', { name: /Orqaga qaytish/ })).toBeDefined()
+  })
+
   it('M02 does not call the API or append a second lesson until student opens optional source', async () => {
     mocks.getLessonDetail.mockResolvedValue(server([
       '## Qisqa server darsi',
