@@ -14,6 +14,7 @@ TASK-262 faqat `BookReader` orqali yagona ko‘rinish berdi. Nazariya matnlarini
 - Mavjud didaktik misollar, taqqoslash jadvallari, manba izlari endi boshqa yopiq bo‘limga o‘tishni talab qilmay, `BookReader` mundarijasi va progressiga kiradi.
 - Pedagogika konspekti bo‘yicha ikki karra render oldi olindi (pastdagi eski accordion olib tashlandi).
 - 8/8 mavzuning bloklari birorta ham tushib qolmasligi uchun regression test qo‘shildi.
+- M15.01 chuqurroq bo‘lishi uchun Mirzayeva 2-mavzu matnidan pedagogika fanlari tizimi, sakkiz guruh ilmiy-tadqiqot metodlari, jadval, metodika/didaktika chegarasi, tadqiqot vaziyati va manba izi bo‘yicha **8 ta yangi original nazariya bloki** yozildi. Endi M15.01 avvalgi 4 yadro + mavjud 11 note + yangi 8 blokni (jami 23 blok) qamrab oladi.
 - **Bu baribir kitoblardagi barcha bob va sahifalar to‘liq kiritildi degani emas.**
 
 ## Manba yo‘li / aniqlangan holat
