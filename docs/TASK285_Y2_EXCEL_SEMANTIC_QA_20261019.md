@@ -16,10 +16,10 @@ Reviewed published S2.OFFICE application questions, S3.ALGO examples, and S4.COD
 
 | Original question | Group/cognitive | Defect | Historic exam items at audit |
 |---|---|---|---:|
-| `12eb6f56-f305-b7c7-e2ec-b0d68c0ac2e9` | S4.CODE / mulohaza | Two different Python expressions both evaluate to 4, with right-side labels `4` and `4 (butun bo‘lish va qo‘shish)`. Matching depends on hint in the answer label, not unique computed values | 0 |
-| `b4dcdda7-1c0b-a57b-ce0f-f296fbd17a99` | S4.CODE / mulohaza | Three different expressions return numeric value 2, differentiated only by explanatory text appended to answer options | 0 |
+| `12eb6f56-f305-b7c7-e2ec-b0d68c0ac2e9` | S4.CODE / mulohaza | Two different Python expressions yield the same numerical result, with a parenthetical hint added to one right-side label. Matching depends on the hint rather than a uniquely computed result | 0 |
+| `b4dcdda7-1c0b-a57b-ce0f-f296fbd17a99` | S4.CODE / mulohaza | Three expressions yield the same numerical result, differentiated only by editorial parenthetical hints | 0 |
 
-A separate published Excel question `9fedf9a4-6ac2-44c7-b318-6fb2f8af6a57` (S2.OFFICE / qollash, historic exam items **0**) stated that employee salaries occupy B3:B6 **and** that a formula including B3 was entered **in B3**, a direct circular reference. Its keyed tax formula `=B3*$B$1` is conceptually right when **entered in C3**, but the original problem statement describes an invalid workflow. The source is a Drive-imported test. Preserve the original record for provenance.
+A separate published Excel question `9fedf9a4-6ac2-44c7-b318-6fb2f8af6a57` (S2.OFFICE / qollash, historic exam items **0**) stated that employee salaries occupy B3:B6 **and** that a formula including B3 was entered **in B3**, a direct circular reference. Its keyed tax formula is conceptually right when **entered in the result column C3**, but the original problem statement describes an invalid workflow. The source is a Drive-imported test. Preserve the original record for provenance.
 
 ### Correction strategy: no silent answer-key changes
 
@@ -28,8 +28,8 @@ Three **new**, source-referenced, lesson-linked `review` candidates were created
 `expert-audit:20261019:precision-review:<original-question-UUID>|<official-reference-URL>`
 
 1. Excel: formula is explicitly placed in **C3**, copied down to C6, with employee salaries in B3:B6 and tax rate in B1. Absolute/relative cell references have one correct option.
-2. Python Y2 arithmetic: distinct computed results **13, 27, 4, 5**. Recomputed in Python runtime; all different.
-3. Python Y2 nested-list indexing: distinct computed results **50, 20, 3, 4**. Recomputed in Python runtime; all different.
+2. Python Y2 arithmetic: four pairwise-distinct independently calculated results. Recomputed in Python runtime; all different.
+3. Python Y2 nested-list indexing: four pairwise-distinct independently calculated results. Recomputed in Python runtime; all different.
 
 Production read-back: **3/3 review**, 1 Y1 with 4 unique options and a keyed answer, 2 Y2 with 4 unique left labels and 4 unique right labels with four UUID-anchored keyed pairs. **3/3 valid lesson/construct mappings.**
 
@@ -48,3 +48,5 @@ Previously staged expert revisions: 21; total new expert review candidates: **24
 - S4.CODE Y2 questions with abstract term→definition matching inside `mulohaza` require construct/cognitive depth review; don't blanket-retag by keyword.
 - Other formula wordings may contain references to the cell holding the formula; find those before users encounter them.
 - Continue pedagogika and methodology semantic validation independently against professional standards and source textbooks.
+
+**Key confidentiality:** Full items, correct-option IDs and precise replacement answer pairs are kept in restricted Supabase tables only, NOT in this GitHub record.
