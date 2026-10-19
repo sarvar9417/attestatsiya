@@ -1887,7 +1887,7 @@ Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user co
 ## TASK-247 — barnoyevak ZIP source intake (2026-10-19)
 
 - **Owner:** ChatGPT assistenti (foydalanuvchining 2026-10-19 tasdig‘i), **branch:** `task/TASK-247-pedagogy-source-intake-20261019`.
-- **Source:** barnoyevak Drive `attestatsiya/ChatExport_2026-10-19.zip` = 546831018 bytes. Connector raw fetch **413**, limit 268435456 bytes; arxiv **ochilmadi**. Ichki tarkib va barcha pedagogika manbalari tekshirilgani haqida da'vo YO‘Q.
-- **Partial:** M15.02 Bloom 1956/2001 nazariy taqqoslash (Sarvar Drive'dagi alohida ikkilamchi PDF + Cornell/Waterloo), M15.07 «Perseptiv» imlo tuzatish, manba-chegara regressiya testi; docs/TASK247_PEDAGOGY_BARN_SOURCE_INTAKE_20261019.md.
-- **Dependency:** arxiv manbalarini papkaga alohida fayllar yoki 250 MBdan kichik mustaqil ZIPlar sifatida chiqarish; shundan so‘ng 18/18 source mapping va savollar semantik tekshiruvi. Full lint/typecheck/Vitest/E2E hali ishlamadi.
+- **Source:** barnoyevak Drive `attestatsiya/ChatExport_2026-10-19.zip` = 546831018 bayt; ZIPning o‘zi 413/268435456-byte limitga tushdi. Ammo extracted `ChatExport_2026-10-19/files` katalogida hozircha **104 fayl (59 PDF, 5 DOCX, 37 JPG, 1 PNG, 1 OGG, 1 MP3)** ko‘rinadi. Xoliqov, kasb standarti, Mirzayeva va Qodirova/Pulatova PDFlari matni ochildi; yuklash davom etmoqda, 18/18 betma-bet audit hali tugamagan.
+- **Partial:** M15.01 obyekt/predmet/tadqiqot metodlari (barnoyevak/Mirzayeva), M15.02 Bloom 1956/2001 nazariy taqqoslash (Sarvar Drive'dagi alohida ikkilamchi PDF), M15.07 «Perseptiv» imlo tuzatish va 7 ta Vitest; docs/TASK247_PEDAGOGY_BARN_SOURCE_INTAKE_20261019.md.
+- **Dependency:** davom etayotgan fayl yuklash tugagach inventarni yangilash, 18/18 source mapping va savollar semantik tekshiruvi. Full lint/typecheck/Vitest/E2E hali tasdiqlanmagan.
 - **Release:** feature branch only; main/production DB/Vercel o‘zgarmadi; userning yangi merge/deploy ruxsatisiz release YO‘Q.
