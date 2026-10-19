@@ -1,7 +1,7 @@
 -- TASK-045 official mock regression.
 begin;
 
-do $$
+do $mock_fixture_v3$
 declare
   v_subject uuid;
   v_qid uuid;
@@ -167,7 +167,7 @@ begin
     end loop;
   end loop;
 end
-$;
+$mock_fixture_v3$;
 
 select set_config(
   'request.jwt.claim.sub',
