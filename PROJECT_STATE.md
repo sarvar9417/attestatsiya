@@ -1952,3 +1952,13 @@ Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user co
 - **Implemented on branch:** `TopicView` umumiy book mode, `BookReader` sarlavhali hamda legacy adaptive sahifalash, `BookBlock` Markdown jadval va fallback ro‘yxat, regressiya testlari.
 - **Status:** IN_PROGRESS / REVIEW ONLY. Local npm suite va real desktop/mobile authenticated acceptance hali verifikatsiya qilinishi shart; release-frozen pedagogika PRiga o‘zboshimchalik bilan qo‘shilmaydi.
 - **Release:** main merge, production migratsiya va production deploy YO‘Q. See `docs/TASK262_UNIFIED_LESSON_BOOK_DESIGN_20261019.md`.
+
+## TASK-301 — Mavjud dars kontentini yagona kitobda to‘liq ko‘rsatish
+
+- Owner: Codex; started: 2026-10-19T08:05:00Z. Status: IN_REVIEW / MERGE_AUTHORIZED.
+- Branch: `task/TASK-301-restore-complete-lesson-reader`; rebased onto current `main`.
+- Scope: shared reader content preservation, M15 existing notes and marked source supplements, renderer/navigation regressions, explicit source-load retry. Recent merged source-ordering work is preserved.
+- User authorization: push and merge after green CI. Deployment and database writes remain prohibited.
+- TASK-301 validation after final rebase: 141 files / 905 tests passed with 4 workers and 30s timeout; affected 3 files / 58 tests passed. Lint/typecheck/build/bundle scan PASS.
+- Local Chromium absent; browser download returned a corrupt archive, so desktop/mobile E2E scenarios are delegated to GitHub CI. No production write. Handoff: `docs/TASK301_COMPLETE_LESSON_READER.md`.
+- TASK-301 user authorization, 2026-10-19: push and merge requested explicitly; do not deploy. `vercel.json` has `git.deploymentEnabled: false`; no deploy workflow found. Awaiting exact-head CI before merge.

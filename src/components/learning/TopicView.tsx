@@ -5,9 +5,9 @@ import { checkQuestionAnswer } from '../../features/content/lessonContentGateway
 import { paginateTheoryBlocks } from '../../features/content/theoryPagination'
 import { getTopicTestPreflight, type TopicTestPreflight } from '../../features/content/contentApi'
 import { getLessonDetail } from '../../features/content/contentApi'
-import { markdownToTheoryBlocks, overlayPublishedProfessionalLesson, resolveLearnerTheoryContent } from '../../features/content/professionalLessonTheory'
+import { markdownToTheoryBlocks, overlayPublishedProfessionalLesson } from '../../features/content/professionalLessonTheory'
 import PedagogyTheoryBlock from './PedagogyTheoryBlock'
-import { withPedagogyStudyNotes } from '../../data/pedagogyStudyNotes'
+import { completeLessonReader } from '../../features/content/completeLessonReader'
 import type { TopicContent } from '../../data/topicContent'
 import { 
   CheckCircle2, XCircle, Lightbulb, BookOpen, ArrowRight, ArrowLeft, 
@@ -145,6 +145,8 @@ export default function TopicView({
 
   const [publishedTheory, setPublishedTheory] = useState<{ subtopicId: string; content: TopicContent } | null>(null)
   const [theoryResolved, setTheoryResolved] = useState<string | null>(null)
+  const [theoryError, setTheoryError] = useState<string | null>(null)
+  const [theoryRetry, setTheoryRetry] = useState(0)
   const [topicReadiness, setTopicReadiness] = useState<{ subtopicId: string; data: TopicTestPreflight } | null>(null)
   const [readinessRetry, setReadinessRetry] = useState(0)
   const [readinessErrorTopic, setReadinessErrorTopic] = useState<string | null>(null)
@@ -160,18 +162,14 @@ export default function TopicView({
     isAlgoritmlashV2 || isAxrM13 || isPublishedScratchLogoLesson
   // Keep the same canonical core object during unrelated progress/test updates.
   const isPedagogyTopic = moduleId === 'M15' && /^M15\.\d{2}$/.test(subtopicId)
-  const staticContent = useMemo(() => {
-    const offline = getTopicContent(subtopicId)
-    return offline && isPedagogyTopic ? withPedagogyStudyNotes(offline) : offline
-  }, [subtopicId, isPedagogyTopic])
+  const staticContent = useMemo(() => getTopicContent(subtopicId), [subtopicId])
   const loadedContent = publishedTheory?.subtopicId === subtopicId
     ? publishedTheory.content
     : null
-  // M02/M15 preserve the complete local book. Published, explicitly marked
-  // source sections are assembled BEFORE first render, never in a second drawer.
-  const content = staticContent
-    ? resolveLearnerTheoryContent(subtopicId, staticContent, loadedContent)
-    : loadedContent
+  const content = useMemo(
+    () => completeLessonReader(staticContent, loadedContent),
+    [staticContent, loadedContent],
+  )
   /** Barcha darslar M01 namunasi kabi yagona kitob o‘qish rejimidan foydalanadi.
    *  Manbasi bor darslar o‘z bo‘limlarini saqlaydi, eski darslar adaptiv bo‘linadi. */
   const isBook = Boolean(content?.theory.length)
@@ -191,12 +189,16 @@ export default function TopicView({
     setLiveQuestions(null)
     setChecking({})
     setCheckErrors({})
+    setTheoryError(null)
   }, [subtopicId])
 
   // Resolve published core BEFORE first render, rather than replacing an already
   // visible theory when its asynchronous request finally completes.
   useEffect(() => {
     if (!/^(?:M02|M04|M14|M15|M16)\.\d{2}$/.test(subtopicId)) return
+    setTheoryResolved(null)
+    setTheoryError(null)
+    setPublishedTheory(null)
     let cancelled = false
     const fallback = staticContent
     // Remote-only M04/M14/M16 lessons must be fetched even when the static
@@ -213,16 +215,21 @@ export default function TopicView({
         const published = overlayPublishedProfessionalLesson(base, lesson)
         // Fail closed: a draft or empty server lesson must not turn the
         // temporary placeholder into visible learning content.
-        if (fallback || published.theory.length > 0) {
+        if (lesson.status === 'published' && lesson.body_mdx?.trim() && published !== base) {
           setPublishedTheory({ subtopicId, content: published })
+        } else {
+          setTheoryError(subtopicId)
         }
         setTheoryResolved(subtopicId)
       })
       .catch(() => {
-        if (!cancelled) setTheoryResolved(subtopicId)
+        if (!cancelled) {
+          setTheoryError(subtopicId)
+          setTheoryResolved(subtopicId)
+        }
       })
     return () => { cancelled = true }
-  }, [subtopicId, staticContent])
+  }, [subtopicId, staticContent, theoryRetry])
 
   // M06 V2 and M13 AXR learner theory come strictly from published DB records.
   // Catalog links edition UUIDs only when all relevant chapters are published.
@@ -653,6 +660,15 @@ export default function TopicView({
                 onClick={() => setReadinessRetry(n => n + 1)}
                 className="min-h-10 shrink-0 rounded-lg border border-amber-400 px-3 font-semibold hover:bg-amber-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-600 dark:border-amber-700 dark:hover:bg-amber-900/30">
                 Holatni qayta tekshirish
+              </button>
+            </div>
+          )}
+
+          {theoryError === subtopicId && (
+            <div role="status" className="mb-5 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-100">
+              <p>Manbali darsni yuklab bo‘lmadi. Hozir mavjud mahalliy nazariya ko‘rsatilmoqda; qo‘shimcha matnlar yetishmasligi mumkin.</p>
+              <button type="button" className="mt-2 min-h-10 font-semibold underline" onClick={() => setTheoryRetry(n => n + 1)}>
+                To‘liq nazariyani qayta yuklash
               </button>
             </div>
           )}
