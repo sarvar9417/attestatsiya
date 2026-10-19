@@ -115,11 +115,11 @@ export const M15_05_CANONICAL_BOOK: TheoryBlock[] = [
   },
   {
     "type": "table",
-    "content": "| Aloqa kanali | Mos kontent | Nomaqbul kontent |\n|---|---|---|\n| Umumiy sinf chati | Tadbir va umumiy jadval | Shaxsiy baholar ro‘yxati |\n| Individual xavfsiz kanal | Kelishilgan shaxsiy yordam | Keraksiz ortiqcha tafsilot |\n| Maktab tizimi | Vakolat asosida dalil | Boshqalarga login berish |\n| Ommaviy internet | Anonim tadbir natijasi | O‘quvchini kamsituvchi post |"
+    "content": "| Aloqa kanali | Mos kontent | Nomaqbul kontent |\n|---|---|---|\n| Umumiy sinf chati | Tadbir va umumiy jadval | Shaxsiy baholar ro‘yxati |\n| Individual xavfsiz kanal | Kelishilgan shaxsiy yordam | Keraksiz ortiqcha tafsilot |\n| Kundalik yoki elektron xizmat (mavjud bo‘lsa) | Vakolat asosida jurnal va bahoga oid dalil | Boshqalarga login berish |\n| Ommaviy internet | Anonim tadbir natijasi | O‘quvchini kamsituvchi post |"
   },
   {
     "type": "trap",
-    "content": "«Ota-onalar guruhida hamma bir-birini taniydi» — shaxsiy ma’lumotni ochiq ulashishga avtomatik ruxsat emas. Muloqotga rozilik, minimal hajm va mos kirish nazorati zarur."
+    "content": "«Ota-onalar guruhida hamma bir-birini taniydi» — shaxsiy ma’lumotni ochiq ulashishga avtomatik ruxsat emas. Muloqotga rozilik, minimal hajm va mos kirish nazorati zarur; ehtiyojga muvofiq aloqa kanali tanlanadi."
   },
   {
     "type": "heading",
@@ -143,7 +143,7 @@ export const M15_05_CANONICAL_BOOK: TheoryBlock[] = [
   },
   {
     "type": "note",
-    "content": "Jurnal, shaxsiy ish, sinf soati rejasi kabi hujjatlar **namunaviy tushuntirish** sifatida keltirildi. Amaldagi majburiy ro‘yxatni bu matndan chiqarib bo‘lmaydi; u tegishli rasmiy me’yor bilan tekshiriladi."
+    "content": "Jurnal, shaxsiy ish, sinf soati rejasi kabi hujjatlar **namunaviy tushuntirish** sifatida keltirildi. Amaldagi majburiy ro‘yxatni bu matndan chiqarib bo‘lmaydi; u alohida normativ hujjat bilan tekshiriladi."
   },
   {
     "type": "heading",
@@ -313,7 +313,7 @@ export const M15_06_CANONICAL_BOOK: TheoryBlock[] = [
   },
   {
     "type": "table",
-    "content": "| Sifat | Pedagogik ma’no | Noto‘g‘ri yondashuv |\n|---|---|---|\n| Soflik | Ortiqcha, ma’noga xizmat qilmaydigan qo‘shimchalarni kamaytirish | «Haligi, anaqa» bilan to‘ldirish |\n| Boylik | Mazmunni turli mos ibora va misollarda berish | Har savolga bir xil ta’rif |\n| Jo‘yalilik | Yosh va vaziyatga mos nutq | Boshlovchiga og‘ir jargon |\n| Ifodalilik | Urg‘u va ohang bilan muhim joyni ko‘rsatish | Doim qichqirish yoki monotonlik |"
+    "content": "| Sifat | Pedagogik ma’no | Noto‘g‘ri yondashuv |\n|---|---|---|\n| To‘g‘rilik | Grammatik va terminologik me’yorlarga rioya qilish |\n| Aniqlik | Ikki ma’noli iboradan qochish |\n| Mantiqiylik | Sabab va natijani izchil bayon qilish |\n| Soflik | Ortiqcha, ma’noga xizmat qilmaydigan qo‘shimchalarni kamaytirish | «Haligi, anaqa» bilan to‘ldirish |\n| Boylik | Mazmunni turli mos ibora va misollarda berish | Har savolga bir xil ta’rif |\n| Jo‘yalilik | Yosh va vaziyatga mos nutq | Boshlovchiga og‘ir jargon |\n| Ifodalilik | Urg‘u va ohang bilan muhim joyni ko‘rsatish | Doim qichqirish yoki monotonlik |"
   },
   {
     "type": "example",
@@ -429,10 +429,10 @@ export const M15_06_CANONICAL_BOOK: TheoryBlock[] = [
   },
   {
     "type": "summary",
-    "content": "Etika va takt o‘quvchiga hurmatni saqlaydi; yetti kommunikativ nutq sifati tushunishni kuchaytiradi; texnika uni ijroga aylantiradi; refleksiya esa o‘qituvchining keyingi ishini o‘zgartiradi. Terminlarning testdagi tasnifini vaziyatning yetakchi belgisi bilan ajrating."
+    "content": "Etika va takt o‘quvchiga hurmatni saqlaydi; yetti kommunikativ nutq sifati tushunishni kuchaytiradi; texnika uni ijroga aylantiradi; refleksiya esa o‘qituvchining keyingi ishini o‘zgartiradi. Ovozni balandlatishning o‘zi nutqning to‘g‘riligi yoki pedagogik taktni isbotlamaydi. Terminlarning testdagi tasnifini vaziyatning yetakchi belgisi bilan ajrating."
   },
   {
     "type": "source",
-    "content": "**Manba izi:** Nizomiddin Mahmudov, «O‘qituvchi nutqi madaniyati» (2007), nutqning to‘g‘rilik, aniqlik, mantiqiylik, soflik, boylik, jo‘yalilik, ifodalilik sifatlari — https://drive.google.com/file/d/1MUrT_uKKg-0jWwV16j97AzkcbU6LGpHL/view ; N. Muslimov va boshqalar «Pedagogik kompetentlik va kreativlik asoslari» (2015), pedagogik kompetensiya va refleksiya — https://drive.google.com/file/d/1M0vGhTnSMehXfyEHo3dlHXUgeA_DTbfN/view . PDF fizik sahifalarini to‘liq ekspert tekshirishi bajarilmagan; vaziyat va topshiriqlar original qayta bayon."
+    "content": "**Manba izi:** Nizomiddin Mahmudov, «O‘qituvchi nutqi madaniyati» (2007), nutqning to‘g‘rilik, aniqlik, mantiqiylik, soflik, boylik, jo‘yalilik, ifodalilik sifatlari — https://drive.google.com/file/d/1MUrT_uKKg-0jWwV16j97AzkcbU6LGpHL/view ; N. Muslimov va boshqalar «Pedagogik kompetentlik va kreativlik asoslari» (2015), pedagogik kompetensiya va refleksiya — https://drive.google.com/file/d/1M0vGhTnSMehXfyEHo3dlHXUgeA_DTbfN/view . Mahmudov PDF matnidagi OCR buzilishlari va fizik sahifa lokatorlari to‘liq ekspert tekshirishni talab qiladi; vaziyat va topshiriqlar original qayta bayon."
   }
 ]
