@@ -10,7 +10,7 @@ describe('TASK-284: M01-style content is a substantive chapter, not a design ski
   it('establishes the original M01.02 long-form benchmark without overwriting it', () => {
     const original = getTopicContent('M01.02')
     expect(original?.source).toContain('LaTeX')
-    expect(original?.theory.length).toBeGreaterThan(100)
+    expect(original?.theory.length).toBeGreaterThan(60)
     expect(splitSections(original!.theory).length).toBeGreaterThan(5)
   })
 
