@@ -8,6 +8,7 @@ import { getLessonDetail } from '../../features/content/contentApi'
 import { markdownToTheoryBlocks, overlayPublishedProfessionalLesson, resolveLearnerTheoryContent, verifiedM02Supplement } from '../../features/content/professionalLessonTheory'
 import PedagogyTheoryBlock from './PedagogyTheoryBlock'
 import { withPedagogyStudyNotes } from '../../data/pedagogyStudyNotes'
+import { M14_NORMATIVE_SOURCE_ADDITIONS } from '../../data/topics/m14NormativeSourceAdditions'
 import type { TopicContent } from '../../data/topicContent'
 import { 
   CheckCircle2, XCircle, Lightbulb, BookOpen, ArrowRight, ArrowLeft, 
@@ -184,7 +185,7 @@ export default function TopicView({
   const isSemanticProfessional = !isPedagogyTopic && /^M1[46]$/.test(moduleId) && Boolean(loadedContent)
   const professionalStandardSourceSummary =
     moduleId === 'M14' && /^M14\.0[1-7]$/.test(subtopicId) && loadedContent && staticContent
-      ? staticContent.theory.filter(block => ['table', 'example', 'note', 'source'].includes(block.type))
+      ? staticContent.theory.filter(block => ['table', 'example', 'note', 'source'].includes(block.type) && !(M14_NORMATIVE_SOURCE_ADDITIONS[subtopicId] ?? []).includes(block))
       : []
 
   const isOptionalSupplement = /^M02\.\d{2}$/.test(subtopicId) || isPedagogyTopic
