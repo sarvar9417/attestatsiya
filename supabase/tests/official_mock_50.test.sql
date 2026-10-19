@@ -289,7 +289,7 @@ $$;
 
 -- Selector audit: randomized candidate ordering must be present in
 -- the actual function (option shuffling by itself is not sufficient).
-do $
+do $$
 declare
   v_ddl text;
 begin
@@ -301,6 +301,6 @@ begin
     raise exception '2026 selector randomization / quota guard missing';
   end if;
 end
-$;
+$$;
 
 rollback;
