@@ -29,6 +29,9 @@ describe('published M16 canonical lesson and source-checked optional notes', () 
     expect(initial).toBeDefined()
     expect(resolveLearnerTheoryContent('M16.01', initial!, null)).toBe(initial)
     expect(verifiedM16MethodologySummary('M16.01', initial, null)).toEqual([])
+    // The API adapter may return the exact static object for draft/empty lessons.
+    expect(verifiedM16MethodologySummary('M16.01', initial, initial!)).toEqual([])
+    expect(verifiedM16MethodologySummary('M16.01', initial, { ...initial!, theory: initial!.theory })).toEqual([])
   })
 
   it('rejects loading-state identity mismatches and avoids leaking another lesson', () => {
