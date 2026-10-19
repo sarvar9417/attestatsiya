@@ -44,6 +44,10 @@ Tuzatish:
 
 `M01.12`ning «Birlashtirilgan fayllar» `source` bloki bo‘sh `content` va ichki `children: [list]` bilan generatsiya qilingan. Avval `BookBlock.tsx`ning `source` rendereri faqat `block.content`ni chizgan, shuning uchun asl fayl va manba reyestridagi ro‘yxat o‘quvchiga **ko‘rinmagan**. Endi mavjud maxsus `source` dizayni ichida `block.label`, `block.content` va `block.children` semantik tarzda ko‘rsatiladi. Regressiya testida M01.12dagi **TEX 1** havola nomi va ro‘yxatning mavjudligi tekshiriladi. Bu o‘chib ketgan manba ma’lumotini tiklaydi, ma’lumot mazmunini o‘zboshimchalik bilan o‘zgartirmaydi.
 
+### M01.11 — atamalar lug‘ati qidiruvi
+
+M01.11dagi 100 dan ortiq yozuvli jadval kichik ekranda navigatsiya uchun og‘ir. `BookBlock.DataTable` endi faqat `Atama` sarlavhali va kamida 30 qatordan iborat lug‘at jadvalida matnli qidiruv beradi; atama yoki ta’rif bo‘yicha jadval qatorlari filtrlab ko‘rsatiladi. Qatorlar soni va topilmagan so‘rov xabari ko‘rsatiladi. Qidiruv bo‘sh bo‘lsa **barcha asl qatorlar saqlanadi**, boshqa nazariya jadvallari ta’sirlanmaydi. `M01SourceFidelity.test.tsx` filtr va bo‘sh natijani tekshiradi.
+
 ## Qolgan release bloklovchi tekshiruvlar
 
 1. ICT va Cambridge+ darsliklarida spetsifikatsiyaga bevosita tegishli **har bir** materialni haqiqiy sahifa dalili bilan bog‘lash; har bir M01 ta’rif/formula va misol uchun manba-reyestrni yakunlash.
