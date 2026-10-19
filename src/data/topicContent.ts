@@ -9,6 +9,7 @@ import { M03_OFFICE_TEXTBOOK_ADDITIONS } from './topics/m03OfficeTextbookAdditio
 import { M09_DATABASE_TEXTBOOK_ADDITIONS } from './topics/m09DatabaseTextbookAdditions'
 import { M11_WEB_TEXTBOOK_ADDITIONS } from './topics/m11WebTextbookAdditions'
 import { M12_NETWORK_TEXTBOOK_ADDITIONS } from './topics/m12NetworkTextbookAdditions'
+import { M10_GRAPHICS_TEXTBOOK_ADDITIONS } from './topics/m10GraphicsTextbookAdditions'
 // M14–M16 use server-scored exams exclusively. Legacy mini-quiz answer keys
 // have intentionally been stripped from the shipped JavaScript bundle.
 
@@ -1400,6 +1401,12 @@ for (const [id, theory] of Object.entries(M05_THEORY)) {
     source: 'src/content/sanoq/Sanoq_sistemalari_nazariya.tex',
     kind: 'chapter',
   }
+}
+
+// Graphics, 3D, animation and media original explanatory blocks (7 topics).
+for (const [subtopicId, additions] of Object.entries(M10_GRAPHICS_TEXTBOOK_ADDITIONS)) {
+  const local = TOPIC_CONTENT[subtopicId]
+  if (local) TOPIC_CONTENT[subtopicId] = { ...local, theory: [...local.theory, ...additions] }
 }
 
 // Source-grounded networking / Internet / cloud / IoT study blocks (9 topics).
