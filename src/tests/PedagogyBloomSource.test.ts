@@ -192,4 +192,12 @@ describe('pedagogy source-based Bloom explanation', () => {
     expect(text).toContain('N. Mahmudov')
     expect(text).toContain('N. Muslimov')
   })
+
+  it('preserves the original specification spelling of perseptiv without silently rewriting the source', () => {
+    const text = getPedagogyStudyNotes('M15.07').map(block => block.content).join('\n')
+    expect(text).toContain('«persiptiv-pedagogik qobiliyat»')
+    expect(text).toContain('«Perseptiv qobiliyat»')
+    expect(text).toContain('2026-yilgi informatika attestatsiyasi spetsifikatsiyasining 2-jadvalida')
+    expect(text).toContain('rasmiy hujjatdagi imloni')
+  })
 })
