@@ -1,3 +1,11 @@
+## TASK-252 — pedagogika original PDF intake and M16 source review (2026-10-19)
+
+- **Integration confirmed:** TASK-247 PR #204 merged to protected `main`, commit `f50a5dc6aa249b410e6fd81a4bf28cd9509e88f0`; main CI for that merge successful. User 2026-10-19 explicitly authorized merge. No manual deploy or production DB update performed. Git-triggered hosting deployment status requires separate verification.
+- **Follow-on branch / PR:** `task/TASK-252-pedagogy-m16-methodology-audit-20261019`, draft PR #207, **not merged**; reviewer/owner final release gate open.
+- **Full upload initial intake:** `barnoyevak/attestatsiya/pedagogika/files` = 59 PDF + 5 DOCX. 55 PDF returned text, the 4 previously textless PDF originals fetched as bytes and visually read at selected pages. The 17-page original KS professional standard's 7 codes mapped to M14.01–07 and relevant physical pages; 24-page diagnostic assessment Q36–Q50 mapped to educational modules, Q44 has a potentially incomplete option combination and remains review-only. 13-page Tolipov/Ro‘ziyeva scan and 9-page 2026 VM322 master's-admission decree classified, neither blindly imported.
+- **M16:** Original Mamarajabov/Toshtemirov/Yuldashev (2023, 460-page) methodology textbook discovered in public university PDF. Original PDF chapter pages for three methodologies verified on selected ranges, teaching examples original paraphrases, not copied full book. `src/data/topicContent.ts` M16.01–03 and 7 tests; original M14 codes 4 tests; mobile source-card wrapping and 1 test. Static questions remain keyless; production test DB unchanged.
+- **References:** `docs/TASK252_FOUR_SCANNED_PDFS_VISUAL_SOURCE_REVIEW_20261019.md`, `docs/TASK252_M16_OFFICIAL_METHOD_SOURCE_AUDIT_20261019.md`, `docs/TASK252_PEDAGOGY_HISTORICAL_PDF_CANDIDATE_TRIAGE.md`, `docs/TASK247_PDF_SOURCE_INVENTORY_20261019.md`.
+- **Open:** whole 59-PDF page-by-page source claim check, human-reviewed question stem, 4 options and single-answer/distractor verification, real DB published review snapshot, 15/50 quotas, Y1/Y2/Y3 semantic/UI, CI exact latest commit, mobile authenticated E2E, 2026 legal status. Draft PR #207 and no production merge/deploy until approved.
 ## TASK-244 — Y2 moslashtirish testlarining to‘liqligi va tanlov sifati (2026-10-19)
 
 - **Status:** IN_PROGRESS.
