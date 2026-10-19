@@ -1,13 +1,15 @@
-## 2026-10-19 — TASK-244 M01: 3/13 original textbooks, page-grounded review
+## 2026-10-19 — TASK-244: M01 book-by-book textbook review (4 of 13)
 
-- **Branch:** `task/TASK-244-m01-book-by-book-source-audit`, main untouched; no production deploy or DB writes.
-- **Manbalar:** ICT5-2020 113 bet (M01 PDF 6–24), ICT6-2021 160 bet (M01 PDF 76–127), ICT7-2021 160 bet (M01 PDF 4–46; animatsiya 80–83). Source PDF raw downloaded from connected Google Drive and page text/selected diagrams directly inspected; not keyword-only sampling.
-- **ICT7 key erratum:** textbook PDF 36 mono PCM audio 16 bit × 48,000 Hz × 180 sec = 17,280,000 bytes ≈ 16.48 MiB; published textbook final «1,64 Mb» contradicts worked arithmetic. PDF 37 video = 13,381,632,000 bit = 1,672,704,000 B ≈ 1.56 GiB, without compression/audio. Glossary/source corrected as original page-cited lesson, **not** textbook copied verbatim.
-- **Code:** generated `m01.ts` remains pristine. `src/data/topics/m01TextbookAudit.ts` composes `ICT5_M01_PAGE_ADDENDA`(6), `ICT6_M01_PAGE_ADDENDA`(4), `ICT7_M01_PAGE_ADDENDA`(7); `src/data/topicContent.ts` inserts 17 traced blocks into canonical M01 without losing original blocks, positioning within section boundaries.
-- **Tests:** `src/tests/M01ICT5BookAudit.test.tsx`, `M01ICT6BookAudit.test.tsx`, `M01ICT7BookAudit.test.tsx`, and updated legacy `m01Content.test.ts` to assert preservation rather than old exact reference identity. Existing CI initially FAIL due to apostrophe anchor (fixed); next FAILURE old identity assertion (updated); final CI **not yet PASS confirmed**.
-- **Trace:** `docs/TASK244_M01_BOOK_BY_BOOK_SOURCE_AUDIT_20261019.md`, `docs/TASK244_ICT6_M01_PAGE_CONCORDANCE_20261019.md`, `docs/TASK244_ICT7_M01_PAGE_CONCORDANCE_20261019.md`.
-- **Next:** ICT 8-sinf (2020) book 4/13, then ICT9/10/11, Cambridge+5–9/10–11; real mobile/desktop + auth learner E2E, editorial approvals outstanding.
-- **Merge/deploy prohibition** remains.
+- User directive: read each connected Drive textbook one at a time; every M01-relevant passage, formula, table and visual against existing learner theory, correct verified defects and track exact PDF pages.
+- Work branch `task/TASK-244-m01-book-by-book-source-audit` continues prior fixes and does NOT merge, manually deploy or write to production DB.
+- Book 1: ICT 5-sinf 2020, 113-page PDF, relevant p6–24, 6 page-cited learner additions, concordance in master.
+- Book 2: ICT 6-sinf 2021, 160-page PDF, relevant p76–127, 4 page-cited learner additions, 52-row page registry.
+- Book 3: ICT 7-sinf 2021, 160-page PDF, relevant p4–46/p80–83, 7 page-cited additions, 47-row page registry. Corrected original textbook p36 mono audio exercise = 17,280,000 B ≈ 16.48 MiB, not printed 1,64 Mb.
+- Book 4: ICT 8-sinf 2020, 113-page PDF, SHA256 `096c7386574f01655a3ba3bb3773785bcf68dd0e8ec15bcd4d2ede9e55db5e64`, relevant SMM p5–36, digital collaboration p94–104, supporting CMS/LMS/MOOC p37–93; 4 page-cited, originally written M01.04 inserts; platform-specific tutorials assigned to other modules.
+- Architecture: `src/data/topics/m01TextbookAudit.ts` aggregates 21 patches from ICT5/6/7/8, keeps generated `m01.ts` unchanged and anchors each addition in existing topic. Regression: `src/tests/M01ICT{5,6,7,8}BookAudit.test.tsx`, updated `src/tests/m01Content.test.ts` preservation semantics.
+- Source records: `docs/TASK244_M01_BOOK_BY_BOOK_SOURCE_AUDIT_20261019.md`, `docs/TASK244_ICT6_M01_PAGE_CONCORDANCE_20261019.md`, `docs/TASK244_ICT7_M01_PAGE_CONCORDANCE_20261019.md`, `docs/TASK244_ICT8_M01_PAGE_CONCORDANCE_20261019.md`.
+- Remaining M01 textbooks: ICT9/10/11 and Cambridge+5/6/7/8/9/10–11 = 9. Final CI, real reader mobile+desktop, authenticated E2E and human release approval outstanding.
+- No release approval. No merge, no production deploy or production database modification.
 
 ## 2026-10-19 — TASK-243: M02 darslik, nazariya va dizayn
 
