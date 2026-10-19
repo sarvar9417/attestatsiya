@@ -26,7 +26,7 @@ describe('M01 reused distractor sets — editorial review gate', () => {
     expect(pairs.length).toBeLessThanOrEqual(69)
     expect(pairs.filter(([a, b]) => a.type === 'farqlash' && b.type === 'vaziyat').length).toBeLessThanOrEqual(58)
     const answerDiffers = pairs.filter(([a, b]) => a.options[a.answer_index] !== b.options[b.answer_index])
-    expect(answerDiffers.map(([a, b]) => [a.id, b.id]).filter(([a, b]) => ['ARS-04-032', 'ARS-05-096'].includes(a))).toEqual([
+    expect(answerDiffers.map(([a, b]) => [a.id, b.id]).filter(([a]) => ['ARS-04-032', 'ARS-05-096'].includes(a))).toEqual([
       ['ARS-04-032', 'ARS-04-033'],
       ['ARS-05-096', 'ARS-05-098'],
     ])
