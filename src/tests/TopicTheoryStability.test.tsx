@@ -151,10 +151,10 @@ describe('stable theory in learner module', () => {
     expect(mocks.getLessonDetail).toHaveBeenCalledTimes(1)
     expect(screen.queryByText('Tekshirilgan qo‘shimcha material (ixtiyoriy)')).toBeNull()
     expect(screen.queryByText('Asosiy darsning o‘rnini egallamasligi kerak')).toBeNull()
-    // The section is navigable through the same BookReader, not a second
-    // disclosure panel below the main chapter.
-    expect(screen.getAllByRole('tab').length).toBeGreaterThan(1)
-    expect(screen.getByRole('tab', { name: /Tekshirilgan qo‘shimcha/i })).toBeDefined()
+    // This tiny synthetic lesson may fit on one book page, so no tabs are
+    // needed. The published addition must still be visible in the main reader.
+    expect(screen.getByText('OMR belgilangan maydonlarni skanerlaydi.')).toBeDefined()
+    expect(screen.queryByRole('button', { name: /Tekshirilgan qo‘shimcha material/ })).toBeNull()
   })
 
   it('M15 integrates published deep source before rendering, but ignores unpublished text', async () => {
