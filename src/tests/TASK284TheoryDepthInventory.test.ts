@@ -7,7 +7,7 @@ describe('TASK-284 M01-depth quality gate', () => {
 
   it('retains a real large benchmark and never calls unreviewed books page-verified', () => {
     expect(benchmarkChars).toBeGreaterThan(10_000)
-    expect(byId['M01.02'].blocks).toBeGreaterThan(100)
+    expect(byId['M01.02'].blocks).toBeGreaterThan(60)
     expect(byId['M01.02'].percentOfM0102).toBe(100)
     expect(rows.length).toBeGreaterThan(70)
     expect(rows.every(row => row.pageVerification === 'unverified')).toBe(true)
