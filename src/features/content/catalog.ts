@@ -107,6 +107,9 @@ export function publishedScratchLogoSubtopics(lessons: LessonSummary[]): Catalog
       && /^(?:scratch|logo)/i.test(lesson.slug))
     .sort((a, b) => a.order_idx - b.order_idx)
   const required = Array.from({ length: 12 }, (_, index) => index + 1)
+  // An extra published entry would otherwise silently turn the 12-lesson
+  // approved edition into an unreviewed 13+-lesson learner catalog.
+  if (published.length !== required.length) return null
   if (!required.every(order => published.some(lesson => lesson.order_idx === order))) return null
   if (new Set(published.map(lesson => lesson.order_idx)).size !== published.length) return null
   return published.map(lesson => ({
