@@ -167,7 +167,7 @@ export const M15_08_CANONICAL_BOOK: TheoryBlock[] = [
   },
   {
     "type": "trap",
-    "content": "«Inklyuziv» deb hammani bir xil ko‘rsatma va vaqt bilan cheklash individual to‘siqlarni bartaraf etmaydi."
+    "content": "Inklyuziv ta’lim — hamma o‘quvchiga aynan bir xil topshiriq berish emas; mazmunli ishtirok uchun zarur yordam va muqobillar beriladi. «Inklyuziv» deb hammani bir xil ko‘rsatma va vaqt bilan cheklash individual to‘siqlarni bartaraf etmaydi."
   },
   {
     "type": "task",
