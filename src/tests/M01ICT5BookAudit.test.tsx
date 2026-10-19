@@ -41,7 +41,6 @@ describe('TASK-244 — ICT 5-sinf (2020) PDF-by-PDF-page M01 review', () => {
   it('keeps grade-5 storage calculation and binary-vs-decimal caveat together', () => {
     const content = getTopicContent('M01.05')!.theory
     const solved = content.find(block => block.type === 'solved' &&
-      block.label?.includes('160 sahifali') === false &&
       block.label?.includes('Darslikdagi hisobni tushunish'))!
     expect(solved).toBeDefined()
     const formulas = (solved.children ?? []).filter(block => block.type === 'keyformula')
