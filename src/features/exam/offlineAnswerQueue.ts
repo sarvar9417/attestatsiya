@@ -90,6 +90,11 @@ export function listPendingAnswers(): PendingAnswer[] {
   return readQueue()
 }
 
+/** Only this attempt's unsent answers should block finalization. */
+export function hasPendingAnswersForExam(examId: string): boolean {
+  return readQueue().some(item => item.examId === examId)
+}
+
 export function clearPendingAnswers(): void {
   writeQueue([])
 }

@@ -4,6 +4,7 @@ import {
   clearPendingAnswers,
   enqueuePendingAnswer,
   flushPendingAnswers,
+  hasPendingAnswersForExam,
   listPendingAnswers,
 } from '../features/exam/offlineAnswerQueue'
 import type { SubmitAnswerInput } from '../features/exam/examGateway'
@@ -33,6 +34,19 @@ describe('offline answer queue', () => {
     expect(queue).toHaveLength(1)
     expect(queue[0].answer).toEqual(firstAnswer.answer)
     expect(queue[0].timeSpentSec).toBe(12)
+  })
+
+  it('finalization guard is scoped to the current exam and clears after sync', async () => {
+    enqueuePendingAnswer(firstAnswer)
+    enqueuePendingAnswer({
+      ...firstAnswer,
+      examId: '30000000-0000-4000-8000-000000000099',
+      questionId: '30000000-0000-4000-8000-000000000022',
+    })
+    expect(hasPendingAnswersForExam(firstAnswer.examId)).toBe(true)
+    expect(hasPendingAnswersForExam('30000000-0000-4000-8000-000000000098')).toBe(false)
+    await flushPendingAnswers(async () => ({ saved: true }))
+    expect(hasPendingAnswersForExam(firstAnswer.examId)).toBe(false)
   })
 
   it('muvaffaqiyatli reconnect flush navbatni tozalaydi', async () => {

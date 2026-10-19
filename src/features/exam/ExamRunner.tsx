@@ -40,7 +40,8 @@ import {
   type ExamGateway,
   type TopicTestPreview,
 } from './examGateway'
-import { backendGateway } from './backendGateway'
+import { backendGateway, flushOfflineAnswers } from './backendGateway'
+import { hasPendingAnswersForExam } from './offlineAnswerQueue'
 import ExamResultActions from './ExamResultActions'
 import InlineText from '../../components/learning/theory/InlineText'
 import Y1Choice from './questions/Y1Choice'
@@ -316,6 +317,17 @@ export default function ExamRunner({
     setMessage(null)
 
     try {
+      if (hasPendingAnswersForExam(session.exam_id)) {
+        // A pending offline first attempt must reach the server before scoring.
+        // Do not count local queue entries as answered or silently discard them.
+        await flushOfflineAnswers()
+        if (hasPendingAnswersForExam(session.exam_id)) {
+          setMessage('Ayrim javoblar hali serverga yuborilmadi. Internetni tekshiring va yakunlashni qayta bosing.')
+          setPhase('active')
+          finishInFlightRef.current = false
+          return
+        }
+      }
       const nextResult = await gateway.finishExam(session.exam_id)
       setResult(nextResult)
       setPhase('result')
