@@ -16,8 +16,8 @@ vi.mock('../lib/progressSync', () => ({
   syncTopicProgress: vi.fn(async () => undefined),
 }))
 
-describe('M11 legacy theory navigation regression', () => {
-  it('offers 1/2 → 2/2 pages and a next TOPIC even when test readiness API fails', async () => {
+describe('M11 unified book theory navigation regression', () => {
+  it('uses M01-style sections and a next TOPIC even when test readiness API fails', async () => {
     const user = userEvent.setup()
     const onOpenTopic = vi.fn()
     const onComplete = vi.fn()
@@ -38,20 +38,20 @@ describe('M11 legacy theory navigation regression', () => {
       </MemoryRouter>,
     )
 
-    const navigation = screen.getByRole('navigation', { name: 'Nazariya sahifalari' })
-    expect(within(navigation).getByText('1/2 sahifa')).toBeInTheDocument()
-    expect(within(navigation).getByRole('button', { name: /Oldingi sahifa/ })).toBeDisabled()
+    const navigation = await screen.findByRole('navigation', { name: 'Bo‘limlar orasida harakat' })
+    expect(screen.getAllByRole('tab')).toHaveLength(2)
+    expect(screen.getByText('/2 bo‘lim')).toBeInTheDocument()
+    expect(screen.getByText('HTML da matn elementlari: paragraf, sarlavha, formatlash teglari (qalin, kursiv, tagiga chizish). Fon — sahifa yoki element orqa foni.')).toBeInTheDocument()
 
     await waitFor(() =>
       expect(screen.getByText(/Test serveriga ulanib bo‘lmadi/)).toBeInTheDocument()
     )
-    expect(screen.queryByText('Bu mavzu uchun test hali qo‘shilmagan')).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Mavzuni yakunlash' })).not.toBeInTheDocument()
 
-    await user.click(screen.getByRole('button', { name: /Keyingi sahifa \(2\/2\)/ }))
-    expect(within(navigation).getByText('2/2 sahifa')).toBeInTheDocument()
-    expect(within(navigation).getByRole('button', { name: /Keyingi sahifa/ })).toBeDisabled()
-    expect(screen.getByText(/Nazariyaning barcha 2 sahifasi ko‘rsatildi/)).toBeInTheDocument()
+    await user.click(within(navigation).getByRole('button', { name: /Keyingi/i }))
+    expect(screen.getByText(/o‘qib bo‘lindi/)).toBeInTheDocument()
+    expect(screen.getByText(/tartibsiz ro.yxat/)).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /test tayyorligi kutilmoqda/i })).toBeDisabled()
 
     await user.click(screen.getByRole('button', { name: /Oldingi mavzu/ }))
     expect(onOpenTopic).toHaveBeenCalledWith('M11.01')
