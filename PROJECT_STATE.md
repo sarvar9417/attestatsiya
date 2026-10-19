@@ -1,3 +1,7 @@
+## TASK-262 — M08 Python/JavaScript review provenance (2026-10-19)
+
+- **Status:** READ-ONLY INVENTORY DONE / item editorial BLOCKED. JS syntax canonical test remains 0/20. Across 5 lessons 55 missing slots, 426 mapped keyed review occurrences, 0 full editorial checks; 6 same source_lesson matches. ICT 9-sinf PDF52–108 for Python vs Cambridge+10–11 PDF316–329 for JavaScript; no conflated sources. Branch task/TASK-262-m08-python-js-source-review-audit, doc docs/TASK262_M08_PYTHON_JS_SOURCE_QA_20261019.md. No production DB write, deploy or content publication.
+
 ## TASK-261 — M09 Access/SQL source/provenance triage (2026-10-19)
 
 - **Status:** 5/5 canonical lesson metadata audit DONE; 75 missing exact-20 slots, 309 mapped keyed review occurrences (not unique approved), 0 full editorial approvals and 21 matching canonical source_lesson occurrences. ICT11 PDF 4–52 candidate topic-page crosswalk; production SELECT-only. Human key/source review, unique question reconciliation, authenticated acceptance, production release OPEN/BLOCKED. Task branch task/TASK-261-m09-db-access-review-audit. See docs/TASK261_M09_DB_ACCESS_SOURCE_QA_20261019.md.
