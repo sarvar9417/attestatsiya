@@ -9,6 +9,8 @@ import { M11_WEB_TEXTBOOK_ADDITIONS } from './topics/m11WebTextbookAdditions'
 import { M09_DATABASE_TEXTBOOK_ADDITIONS } from './topics/m09DatabaseTextbookAdditions'
 import { M03_OFFICE_TEXTBOOK_ADDITIONS } from './topics/m03OfficeTextbookAdditions'
 import { M03_05_CANONICAL_BOOK } from './topics/m03ExcelCanonicalBook'
+import { M03_04_CANONICAL_BOOK } from './topics/m03ExcelFoundationsCanonicalBook'
+import { M15_04_CANONICAL_BOOK } from './topics/m15LessonPlanningCanonicalBook'
 import { M15_01_CANONICAL_BOOK } from './topics/m15PedagogyCanonicalBook'
 import { M03_01_CANONICAL_BOOK } from './topics/m03WordCanonicalBook'
 import { M15_02_CANONICAL_BOOK } from './topics/m15LearningPrinciplesCanonicalBook'
@@ -1602,6 +1604,34 @@ for (const [subtopicId, book, source] of [
       { type: 'heading', content: 'Oldingi qisqa konspekt va manbaviy izohlar' },
       ...previous.theory,
     ],
+  }
+}
+
+// TASK-287: Promote the two remaining five/six-block introductory lessons into
+// source-guided, linear BookReader chapters. Their short definitions and tables
+// are fully explained in the new books and are not repeated as a second lesson.
+// Keep the reviewed office source appendix, prior test keys and notes pipeline.
+const excelIntroBase = TOPIC_CONTENT['M03.04']
+if (excelIntroBase) {
+  const reviewedOfficeNotes = M03_OFFICE_TEXTBOOK_ADDITIONS['M03.04'] ?? []
+  TOPIC_CONTENT['M03.04'] = {
+    ...excelIntroBase,
+    source: 'Cambridge+ 10–11-sinf, 8-bob — Elektron jadvallar, 103-betdan',
+    kind: 'chapter',
+    theory: [
+      ...M03_04_CANONICAL_BOOK,
+      ...reviewedOfficeNotes,
+    ],
+  }
+}
+
+const planningBase = TOPIC_CONTENT['M15.04']
+if (planningBase) {
+  TOPIC_CONTENT['M15.04'] = {
+    ...planningBase,
+    source: 'F. O. Mirzayeva, Pedagogika nazariyasi va tarixi, 6-mavzu',
+    kind: 'chapter',
+    theory: M15_04_CANONICAL_BOOK,
   }
 }
 
