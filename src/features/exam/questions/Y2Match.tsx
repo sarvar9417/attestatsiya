@@ -1,4 +1,6 @@
+import { useId } from 'react'
 import type { ExamOption } from '../contracts'
+import ExamRichText from './ExamRichText'
 
 interface Y2MatchProps {
   prompt: string
@@ -17,13 +19,13 @@ export default function Y2Match({
   disabled = false,
   onChange,
 }: Y2MatchProps) {
+  const promptId = useId()
   const usedRightIds = new Set(Object.values(value))
 
   return (
-    <fieldset disabled={disabled}>
-      <legend className="text-base font-medium text-gray-900 dark:text-white mb-2 whitespace-pre-wrap">
-        {prompt}
-      </legend>
+    <fieldset disabled={disabled} aria-labelledby={promptId} className="min-w-0">
+      <legend className="sr-only">Moslashtirish savoli</legend>
+      <div id={promptId} className="mb-2 text-base font-medium text-gray-900 dark:text-white"><ExamRichText text={prompt} /></div>
       <p className="text-xs text-gray-500 mb-4">
         Har bir chap element uchun bitta mos variantni tanlang.
       </p>
@@ -40,7 +42,7 @@ export default function Y2Match({
                 htmlFor={selectId}
                 className="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-pre-wrap"
               >
-                {index + 1}. {leftOption.content_md}
+                {index + 1}. <ExamRichText text={leftOption.content_md} />
               </label>
               <span className="hidden sm:inline text-gray-400" aria-hidden="true">
                 →
