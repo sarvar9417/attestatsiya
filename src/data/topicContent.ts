@@ -1198,59 +1198,61 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   // ============================================================
   // M14 — Kasb standarti
   // ============================================================
-  'M14.01': t('M14.01', 'O\'quv jarayonini rejalashtirish', [
-    { type: 'definition', content: 'O\'quv jarayonini rejalashtirish — ta\'lim maqsadlariga erishish uchun dars, mavzu va o\'quv materiallarini oldindan belgilash va tashkil etish jarayoni.' },
-    { type: 'text', content: 'Rejalashtirish turlari: yillik (kalendar-mavzu reja), choraklik, dars ishlanmasi (konspekt). O\'qituvchi Davlat ta\'lim standarti (DTS) va o\'quv dasturiga asoslanadi.' },
-    { type: 'table', content: '| Hujjat | Mazmuni |\n|--------|--------|\n| DTS | Fan bo\'yicha minimal talablar |\n| O\'quv dasturi | Mavzular, soatlar, maqsadlar |\n| Kalendar reja | Mavzularni chorak bo\'yicha taqsimlash |\n| Dars ishlanmasi | Bitta darsning batafsil rejasi |' },
-    { type: 'example', content: 'Dars ishlanmasi tuzilishi:\n1) Mavzu va maqsadlar\n2) Kerakli jihozlar\n3) Dars borishi (tashkiliy qism, o\'tilgan mavzuni so\'rash, yangi mavzu, mustahkamlash, baholash, uyga vazifa)\n4) Foydalanilgan metodlar' },
-    { type: 'note', content: '📋 Darsni rejalashtirishda o\'quvchilarning yosh xususiyatlari, bilim darajasi va qiziqishlari hisobga olinadi.' },
+  'M14.01': t('M14.01', "O‘quv jarayonini rejalashtirish", [
+    { type: 'definition', content: "O‘quv jarayonini rejalashtirish — DTS va o‘quv dasturi maqsadlarini o‘quvchining ehtiyojiga mos, aniq va o‘lchanadigan natijalar, o‘qitish usullari hamda baholash dalillariga aylantirishdir." },
+    { type: 'table', content: "| Rejalash elementi | Manbadagi vazifa |\n|---|---|\n| DTS va o‘quv dasturi | Maqsadlarni o‘quv faoliyatiga moslashtirish |\n| O‘quvchi ehtiyoji | Qiziqish, yosh, individual farq va oldingi baholashni inobatga olish |\n| Natija va mezon | Darsda nimaga erishilishini tekshirish mumkin bo‘lgan shaklda belgilash |\n| Metod va resurs | Namoyish, tarqatma, AKT va vaqtni maqsadga muvofiq tanlash |\n| Fanlararo aloqa | Korrelyatsiya va integratsiyani mazmun bilan bog‘lash |" },
+    { type: 'example', content: "Informatika darsida «algoritm turlari»ni shunchaki «o‘rganish» emas, «berilgan uchta vaziyat uchun mos algoritm tuzilmasini tanlab, sababini izohlash» maqsadi bilan rejalang; yakundagi misol topshiriq aynan shu natijani tekshiradi." },
+    { type: 'note', content: "Rejada jihoz va slaydlar sanab o‘tilgani o‘quvchi erishishi kutilgan natija aniq belgilanganini anglatmaydi." },
+    { type: 'source', content: "Asos: «Kasb-standarti.pdf» — «Umumiy o‘rta ta’lim maktabi o‘qituvchisining kasb standarti» matnli nusxasi, barnoyevak Drive/pedagogika/files (https://drive.google.com/file/d/1HdlFFazzvvO-FMItZKOIna0jRS6p-Lpq/view). Bu ko‘chirma sifatida tekshirilgan; normativ hujjatning kuchga kirishi va PDF fizik beti alohida verifikatsiyaga muhtoj." },
   ], []),
 
-  'M14.02': t('M14.02', 'Ta\'lim samaradorligini ta\'minlash', [
-    { type: 'definition', content: 'Ta\'lim samaradorligi — o\'quv maqsadlariga erishish darajasi. Samaradorlik o\'quvchilarning bilim, ko\'nikma va kompetensiyalarini rivojlantirish bilan o\'lchanadi.' },
-    { type: 'text', content: 'Samaradorlikni ta\'minlash omillari: to\'g\'ri metod tanlash, motivatsiya, differensial yondashuv, AKT dan foydalanish, o\'quv materialining sifati, o\'qituvchi kompetensiyasi.' },
-    { type: 'table', content: '| Omil | Ta\'siri |\n|------|--------|\n| Motivatsiya | O\'quvchining qiziqishi va faolligi |\n| Metod xilma-xilligi | Turli o\'quvchilarga moslashish |\n| AKT qo\'llash | Ko\'rgazmalilik, interaktivlik |\n| Differensial yondashuv | Har bir o\'quvchining imkoniyatiga mos |\n| Qayta aloqa | Xatolarni o\'z vaqtida tuzatish |' },
-    { type: 'example', content: 'Samaradorlikni oshirish usullari:\n- Interfaol metodlar qo\'llash\n- O\'quvchilarni mustaqil izlanishga yo\'naltirish\n- Amaliy mashg\'ulotlar ulushini oshirish\n- Baholash tizimini takomillashtirish' },
-    { type: 'note', content: '📈 Ta\'lim samaradorligini baholash: bilim nazorati, test natijalari, o\'quvchilar faolligi, fan olimpiadalari natijalari.' },
+  'M14.02': t('M14.02', "Ta’lim samaradorligini ta’minlash", [
+    { type: 'definition', content: "Ta’lim samaradorligini ta’minlash — o‘quvchilarga maqsadga mos faol o‘rganish, individual yordam, hayotiy kontekst va natijalarga qarab moslashtiriladigan o‘qitishni tashkil etishdir." },
+    { type: 'table', content: "| Amaliy mezon | O‘qituvchining harakati |\n|---|---|\n| Faol metodlar | Muhokama, tajriba, amaliy va jamoaviy ishni tashkil qilish |\n| Differensial yordam | O‘quvchining ehtiyojiga mos yordamni o‘z vaqtida berish |\n| Metakognitsiya | O‘quvchiga rejalash, o‘z ishini nazorat qilish va o‘zini baholashni o‘rgatish |\n| Baholash dalili | Kuzatish va natijaga qarab metod yoki darsni moslashtirish |\n| Maqsadga mos AKT | Texnologiyani o‘rganishga xizmat qiladigan joyda ishlatish |" },
+    { type: 'example', content: "Scratch loyihasida xatolar ko‘p bo‘lsa, faqat natija uchun ball qo‘ymang: o‘quvchidan sinagan yechimini tushuntirishni so‘rang, ehtiyojiga qarab ko‘rsatma bering va keyingi kichik vazifani moslang." },
+    { type: 'note', content: "Metakognitiv strategiya — o‘quvchining «qanday o‘rganaman, qayerda qiynaldim va keyin nimani o‘zgartiraman?» degan savollar ustida ishlashidir. AKTdan foydalanish o‘z-o‘zidan samaradorlikning isboti emas." },
+    { type: 'source', content: "Asos: «Kasb-standarti.pdf» — «Umumiy o‘rta ta’lim maktabi o‘qituvchisining kasb standarti» matnli nusxasi, barnoyevak Drive/pedagogika/files (https://drive.google.com/file/d/1HdlFFazzvvO-FMItZKOIna0jRS6p-Lpq/view). Bu ko‘chirma sifatida tekshirilgan; normativ hujjatning kuchga kirishi va PDF fizik beti alohida verifikatsiyaga muhtoj." },
   ], []),
 
-  'M14.03': t('M14.03', 'Baholash va qayta aloqa', [
-    { type: 'definition', content: 'Baholash — o\'quvchilarning bilim, ko\'nikma va kompetensiyalarini o\'lchash va baholash jarayoni. Qayta aloqa — o\'quvchiga uning natijalari haqida ma\'lumot berish.' },
-    { type: 'table', content: '| Baholash turi | Vaqti | Maqsadi |\n|--------------|-------|--------|\n| Kirish (diagnostik) | Mavzu boshida | Bilim darajasini aniqlash |\n| Joriy (formativ) | Dars davomida | O\'zlashtirishni kuzatish |\n| Oraliq (summativ) | Chorak/yarim yil | Oraliq natijalarni baholash |\n| Yakuniy | Yil oxirida | Yillik natijalarni baholash |' },
-    { type: 'text', content: 'Baholash mezonlari: 5 ballik tizim (O\'zbekiston), 100 ballik, kredit-modul tizimi. Baholashda haqqoniylik, ochiqlik, tizimlilik talab etiladi.' },
-    { type: 'example', content: 'Formativ baholash usullari:\n- Og\'zaki so\'rov\n- Test\n- Krossvord\n- Venn diagrammasi\n- Klaster\n- "Balans" akti' },
-    { type: 'note', content: '🔑 Qayta aloqa samarali bo\'lishi uchun: aniq, konstruktiv, o\'z vaqtida, rivojlantiruvchi bo\'lishi kerak.' },
+  'M14.03': t('M14.03', "Baholash va qayta aloqa", [
+    { type: 'definition', content: "Baholash — maqsadga mos dalillarni yig‘ish va ulardan o‘quvchining o‘zlashtirishi haqida xulosa qilish; qayta aloqa esa natijaga tayanib o‘quvchiga keyingi rivojlanish yo‘lini ko‘rsatishdir." },
+    { type: 'table', content: "| Pedagogik baholash | Qachon va nima uchun? |\n|---|---|\n| Diagnostik | Boshlang‘ich bilim yoki qiyinchilikni aniqlash |\n| Formativ | O‘rganish davomida xatoni ko‘rib, yordam va o‘qitishni moslashtirish |\n| Summativ | Belgilangan bosqich yakunida erishilgan natijani umumlashtirish |" },
+    { type: 'text', content: "Kasb standarti diagnostika va baholash usullaridan foydalanish, natijani tizimli tahlil qilish, qo‘yilgan bahoni asoslash hamda zarur paytda hamkasb va mutaxassis bilan maslahatlashishni nazarda tutadi. «Diagnostik / formativ / summativ» bu yerda pedagogik maqsadni farqlash uchun ishlatilgan; muayyan baho shkalasini o‘z-o‘zidan belgilamaydi." },
+    { type: 'example', content: "O‘quvchi Python siklida xatoga yo‘l qo‘ysa, uning sababini dars davomida topib ko‘rsatma berish — formativ qayta aloqa. Dastlabki tayyorgarlikni bilish — diagnostik, bo‘lim yakunini mezon asosida baholash — summativ." },
+    { type: 'note', content: "Test, og‘zaki savol, jadval yoki kuzatishning qaysi baholash turiga kirishi vositaning nomiga emas, undan foydalanish maqsadiga bog‘liq. «O‘zbekistonda faqat 5 ballik tizim» kabi umumiy normativ da’vo qilinmaydi." },
+    { type: 'source', content: "Asos: «Kasb-standarti.pdf» — «Umumiy o‘rta ta’lim maktabi o‘qituvchisining kasb standarti» matnli nusxasi, barnoyevak Drive/pedagogika/files (https://drive.google.com/file/d/1HdlFFazzvvO-FMItZKOIna0jRS6p-Lpq/view). Bu ko‘chirma sifatida tekshirilgan; normativ hujjatning kuchga kirishi va PDF fizik beti alohida verifikatsiyaga muhtoj." },
   ], []),
 
-  'M14.04': t('M14.04', 'Tarbiyaviy faoliyat', [
-    { type: 'definition', content: 'Tarbiyaviy faoliyat — o\'quvchilarning ma\'naviy-axloqiy, estetik, jismoniy va mehnat tarbiyasiga qaratilgan pedagogik jarayon.' },
-    { type: 'text', content: 'Tarbiyaviy ish yo\'nalishlari: ma\'naviy-axloqiy tarbiya, vatanparvarlik, huquqiy tarbiya, ekologik tarbiya, estetik tarbiya, jismoniy tarbiya, mehnat tarbiyasi.' },
-    { type: 'table', content: '| Tarbiya turi | Maqsadi |\n|-------------|--------|\n| Ma\'naviy-axloqiy | Axloqiy sifatlarni shakllantirish |\n| Vatanparvarlik | Vatanga muhabbat uyg\'otish |\n| Huquqiy | Huquqiy ongni rivojlantirish |\n| Ekologik | Tabiatga ehtiyotkorona munosabat |\n| Estetik | Go\'zallikni his qilish va tushunish |\n| Jismoniy | Sog\'lom turmush tarzi |\n| Mehnat | Mehnatga hurmat va kasb tanlash |' },
-    { type: 'example', content: 'Tarbiyaviy ish shakllari:\n- Sinf soatlari\n- Davra suhbati\n- Ekskursiyalar\n- Tanlov va musobaqalar\n- Ko\'ngilli tadbirlar' },
-    { type: 'note', content: '🎯 Tarbiyaviy faoliyat darsdan tashqari vaqtda, sinf rahbari tomonidan tashkil etiladi va o\'quv jarayoni bilan uyg\'un holda olib boriladi.' },
+  'M14.04': t('M14.04', "Tarbiyaviy faoliyat", [
+    { type: 'definition', content: "Tarbiyaviy faoliyat — o‘quvchining qadr-qimmati, qadriyatlari, ijtimoiy munosabati, tashabbuskorligi va mas’uliyatini qo‘llab-quvvatlovchi maqsadli pedagogik ishdir." },
+    { type: 'table', content: "| Asosiy yo‘nalish | Amaliy ko‘rinish |\n|---|---|\n| Darsdagi tarbiya | Hurmat, tenglik va hamkorlikda o‘quv faoliyatini tashkil etish |\n| Sinfdan tashqari faoliyat | Mahalliy imkoniyat va yosh xususiyatiga mos tadbirlar |\n| O‘quvchi tashabbusi | O‘zini o‘zi boshqarish, mustaqil fikr va ijodiy faoliyat |\n| Ziddiyatni hal qilish | Tinglash, muloqot va tomonlarning manfaatini hurmat qilish |" },
+    { type: 'example', content: "Informatika loyihasida o‘quvchilar mas’uliyatni teng taqsimlab, boshqa fikrga hurmat bilan yondashishni o‘rgansa, tarbiyaviy faoliyat **darsning o‘zida** ham sodir bo‘lgan bo‘ladi." },
+    { type: 'note', content: "Tarbiyaviy ishni faqat sinf rahbari yoki faqat sinfdan tashqari mashg‘ulot zimmasiga yuklash xato: manba o‘qituvchining darsdagi va darsdan tashqaridagi tarbiyaviy vazifalarini qayd qiladi." },
+    { type: 'source', content: "Asos: «Kasb-standarti.pdf» — «Umumiy o‘rta ta’lim maktabi o‘qituvchisining kasb standarti» matnli nusxasi, barnoyevak Drive/pedagogika/files (https://drive.google.com/file/d/1HdlFFazzvvO-FMItZKOIna0jRS6p-Lpq/view). Bu ko‘chirma sifatida tekshirilgan; normativ hujjatning kuchga kirishi va PDF fizik beti alohida verifikatsiyaga muhtoj." },
   ], []),
 
-  'M14.05': t('M14.05', 'Xavfsiz rivojlantiruvchi muhit', [
-    { type: 'definition', content: 'Xavfsiz rivojlantiruvchi ta\'lim muhiti — o\'quvchilarning jismoniy, psixologik va ijtimoiy xavfsizligi ta\'minlangan, rivojlanish uchun qulay sharoitga ega muhit.' },
-    { type: 'text', content: 'Muhit komponentlari: jismoniy xavfsizlik (binolar, jihozlar, sanitariya), psixologik xavfsizlik (zo\'ravonliksiz muhit, o\'zaro hurmat), inklyuzivlik (barcha o\'quvchilar uchun teng imkoniyatlar), rag\'batlantiruvchi muhit (qiziqarli, interfaol).' },
-    { type: 'table', content: '| Komponent | Ta\'minlash choralari |\n|-----------|-------------------|\n| Jismoniy xavfsizlik | Xavfsizlik qoidalari, tibbiy ko\'rik, sanitariya |\n| Psixologik xavfsizlik | Bullyingga qarshi kurash, psixolog xizmati |\n| Inklyuzivlik | Maxsus ehtiyojli o\'quvchilar uchun sharoit |\n| Rivojlantiruvchi | Zamonaviy jihozlar, interfaol metodlar |' },
-    { type: 'note', content: '🛡️ O\'qituvchi har bir o\'quvchining o\'zini xavfsiz va qadrli his qilishiga erishishi kerak.' },
+  'M14.05': t('M14.05', "Xavfsiz rivojlantiruvchi muhit", [
+    { type: 'definition', content: "Xavfsiz rivojlantiruvchi ta’lim muhiti — bolalarning teng ishtiroki, qadr-qimmati, jismoniy va ruhiy xavfsizligi hamda o‘rganishga qo‘llab-quvvatlovchi sharoitidir." },
+    { type: 'table', content: "| Standartdagi vazifa | Amaliy chora |\n|---|---|\n| Kamsitishsiz teng imkoniyat | Shaxsiy va ijtimoiy farqlardan qat’i nazar ishtirokni ta’minlash |\n| Individual ehtiyoj | Vazifa, ko‘rsatma yoki yordamni o‘quvchiga moslashtirish |\n| Xavfsizlik | Favqulodda holat va sinf qoidalarini tushuntirish |\n| Media va raqamli xavfsizlik | Axborot va onlayn muhitdagi tahdidlarni anglatish |\n| Nizolar | Hurmat va samarali muloqot bilan hal etish |" },
+    { type: 'example', content: "Amaliy kompyuter darsida o‘quvchiga uzoq matnni o‘qish qiyin bo‘lsa, aniq bosqichli ko‘rsatma yoki mos ko‘rgazma bering; boshqa o‘quvchilar bilan bir xil o‘quv maqsadiga mazmunli qatnashishini saqlang." },
+    { type: 'note', content: "«Teng imkoniyat» barcha o‘quvchidan aynan bir xil tezlikda va bir xil ko‘rinishda ishlashni talab qilmaydi. Xavfsizlikka media va kommunikatsiya madaniyati ham kiradi." },
+    { type: 'source', content: "Asos: «Kasb-standarti.pdf» — «Umumiy o‘rta ta’lim maktabi o‘qituvchisining kasb standarti» matnli nusxasi, barnoyevak Drive/pedagogika/files (https://drive.google.com/file/d/1HdlFFazzvvO-FMItZKOIna0jRS6p-Lpq/view). Bu ko‘chirma sifatida tekshirilgan; normativ hujjatning kuchga kirishi va PDF fizik beti alohida verifikatsiyaga muhtoj." },
   ], []),
 
-  'M14.06': t('M14.06', 'Kasbiy o\'sish', [
-    { type: 'definition', content: 'Kasbiy o\'sish — o\'qituvchining pedagogik mahorati, bilimi va kompetensiyalarini uzluksiz rivojlantirish jarayoni. Uzluksiz ta\'lim — hayot davomida o\'qish.' },
-    { type: 'text', content: 'Kasbiy o\'sish shakllari: malaka oshirish kurslari, seminarlar, treninglar, konferensiyalar, ochiq darslar, pedagogik kengashlar, o\'z-o\'zini rivojlantirish (adabiyot, onlayn kurslar), ilmiy faoliyat.' },
-    { type: 'table', content: '| Shakl | Xususiyati |\n|-------|-----------|\n| Malaka oshirish | 3-5 yilda bir marta, institutda |\n| Seminar/Trening | Qisqa muddatli, amaliy |\n| Konferensiya | Tajriba almashish, ma\'ruza |\n| Ochiq dars | Tajriba namoyishi va muhokama |\n| Onlayn kurs | Masofaviy, mustaqil |\n| Ilmiy faoliyat | Maqola, dissertatsiya |' },
-    { type: 'example', content: 'Kasbiy o\'sish rejasi:\n1) O\'z kuchli va zaif tomonlarini aniqlash\n2) Maqsad qo\'yish (qaysi sohada rivojlanish)\n3) Resurslarni aniqlash (kurs, kitob, mentor)\n4) Reja bo\'yicha harakat\n5) Natijalarni baholash' },
-    { type: 'note', content: '📈 O\'qituvchi kasbiy standarti o\'qituvchini muntazam kasbiy rivojlanishga majbur qiladi.' },
+  'M14.06': t('M14.06', "Kasbiy o‘sish", [
+    { type: 'definition', content: "Kasbiy rivojlanish — o‘qituvchining faoliyatini tahlil qilish, ehtiyojini aniqlash, bilim va usullarini yangilash hamda amaliy natijaga qarab ishini takomillashtirish jarayonidir." },
+    { type: 'table', content: "| Kasbiy o‘sish faoliyati | Standartdagi mazmun |\n|---|---|\n| Malaka oshirish | Muntazam ravishda bilim va ko‘nikmalarni yangilash |\n| Metodik hamkorlik | Uslubiy kengash, seminar va treningda tajriba almashish |\n| Dars kuzatuvi | Hamkasb darsini tahlil qilib, amaliyotga mos xulosa olish |\n| Refleksiya | Kuchli va takomillashtiriladigan jihatlarni aniqlash |\n| Amaliy yangilash | Yangi ilmiy-metodik bilimni keyingi darsga tatbiq etish |" },
+    { type: 'example', content: "O‘qituvchi o‘quvchilarning o‘zlashtirish xatosini qayd etib, hamkasb darsini kuzatadi; keyin dars rejasi va qayta aloqa usulini o‘zgartirib natijani taqqoslaydi. Bu kasbiy rivojlanishning amaliy dalilidir." },
+    { type: 'note', content: "Manbada muntazam malaka oshirish qayd etilgan, biroq aynan «3–5 yilda bir marta» degan universal interval berilmagan. Kurs sertifikati yoki ish staji refleksiya va real metodik o‘sishning o‘rnini bosa olmaydi." },
+    { type: 'source', content: "Asos: «Kasb-standarti.pdf» — «Umumiy o‘rta ta’lim maktabi o‘qituvchisining kasb standarti» matnli nusxasi, barnoyevak Drive/pedagogika/files (https://drive.google.com/file/d/1HdlFFazzvvO-FMItZKOIna0jRS6p-Lpq/view). Bu ko‘chirma sifatida tekshirilgan; normativ hujjatning kuchga kirishi va PDF fizik beti alohida verifikatsiyaga muhtoj." },
   ], []),
 
-  'M14.07': t('M14.07', 'Hamkasb va ota-onalar bilan hamkorlik', [
-    { type: 'definition', content: 'Hamkorlik — o\'qituvchining hamkasblar, ota-onalar va jamoatchilik bilan birgalikdagi faoliyati. Samarali hamkorlik ta\'lim sifatini oshiradi.' },
-    { type: 'text', content: 'Hamkasblar bilan hamkorlik: pedagogik kengash, metodik birlashma, tajriba almashish, hamkorlikdagi loyihalar. Ota-onalar bilan hamkorlik: ota-onalar yig\'ilishi, individual suhbat, ochiq eshiklar kuni, telegram guruhlar.' },
-    { type: 'table', content: '| Hamkorlik shakli | Tavsifi |\n|-----------------|--------|\n| Ota-onalar yig\'ilishi | Sinf bilan bog\'liq umumiy masalalar |\n| Individual suhbat | Alohida o\'quvchi muammolari |\n| Ochiq eshiklar kuni | Ota-onalar darsda qatnashadi |\n| Telegram/WhatsApp guruh | Tezkor xabar almashish |\n| Metodik birlashma | Fan o\'qituvchilari uchrashuvi |\n| Pedagogik kengash | Maktab miqyosidagi yig\'ilish |' },
-    { type: 'example', content: 'Ota-onalar bilan ishlash tamoyillari:\n- Hurmat va hamkorlik\n- Ochiq va halol muloqot\n- Ota-onalarning fikrini tinglash\n- Oilaviy sharoitni hisobga olish\n- Maxfiylikni saqlash' },
-    { type: 'note', content: '👨‍👩‍👧‍👦 Ota-onalar bilan hamkorlik — ta\'lim jarayonining muhim qismi. Ota-onalar farzandining muvaffaqiyatiga qiziqishi kerak.' },
+  'M14.07': t('M14.07', "Hamkasb va ota-onalar bilan hamkorlik", [
+    { type: 'definition', content: "Kasbiy hamkorlik — o‘qituvchilar, mutaxassislar, ota-onalar yoki ularning o‘rnini bosuvchi shaxslar bilan bolaning ta’lim olishi va farovonligi uchun birgalikda qaror qabul qilishdir." },
+    { type: 'table', content: "| Hamkorlik ishtirokchisi | Mazmunli vazifa |\n|---|---|\n| Ota-ona yoki qonuniy vakil | Bolaning o‘qishi, sinf hayoti va rivojlanishiga oid qarorlarda ishtirok etish |\n| Hamkasb o‘qituvchi | O‘quv natijalari, qiyinchiliklar va individual yondashuvni birgalikda tahlil qilish |\n| Mutaxassis | Zarur bo‘lsa o‘quvchining individual trayektoriyasini qo‘llab-quvvatlash |\n| Hamjamiyat | O‘quvchi manfaatiga xizmat qiladigan resurs va faoliyatni muvofiqlashtirish |" },
+    { type: 'example', content: "O‘quvchi darsda qiynalsa, o‘qituvchi ota-onasiga tayyor qarorni faqat e’lon qilmaydi: faktlarni tushuntirib, fikrini tinglaydi va zarur hamkasb/mutaxassis bilan mos yordam rejasini belgilaydi." },
+    { type: 'note', content: "Hamkorlik vositasi (masalan, xabar almashish guruhi) samarali qaror hamda maxfiylikni ta’minlashning o‘rnini bosa olmaydi. O‘quvchining shaxsiy ma’lumoti umumiy guruhda oshkor etilmaydi." },
+    { type: 'source', content: "Asos: «Kasb-standarti.pdf» — «Umumiy o‘rta ta’lim maktabi o‘qituvchisining kasb standarti» matnli nusxasi, barnoyevak Drive/pedagogika/files (https://drive.google.com/file/d/1HdlFFazzvvO-FMItZKOIna0jRS6p-Lpq/view). Bu ko‘chirma sifatida tekshirilgan; normativ hujjatning kuchga kirishi va PDF fizik beti alohida verifikatsiyaga muhtoj." },
   ], []),
 
   // ============================================================
@@ -1279,10 +1281,12 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   ], []),
 
   'M15.04': t('M15.04', 'Dars turlari, rejalashtirish va sinfni boshqarish', [
-    { type: 'definition', content: 'Dars — o\'qitish jarayonining asosiy shakli. Dars turlari maqsad va mazmunga qarab farqlanadi. Sinf boshqaruvi — o\'quvchilar faoliyatini tashkil etish va nazorat qilish.' },
-    { type: 'table', content: '| Dars turi | Maqsadi |\n|----------|--------|\n| Yangi bilim berish | Yangi mavzuni o\'rganish |\n| Mustahkamlash | O\'tilgan mavzuni takrorlash |\n| Nazorat | Bilimlarni tekshirish |\n| Aralash | Bir nechta vazifa (so\'rov + yangi + mustahkamlash) |\n| Amaliy | Ko\'nikma va malaka hosil qilish |\n| Laboratoriya | Tajriba o\'tkazish |\n| Ekskursiya | Tabiat yoki ishlab chiqarish bilan tanishish |' },
-    { type: 'text', content: 'Sinfni boshqarish: intizomni ta\'minlash, vaqtni samarali boshqarish, o\'quvchilarning diqqatini jalb qilish, guruh bilan ishlash, individual yondashish.' },
-    { type: 'note', content: '📖 Eng keng tarqalgan dars turi — aralash dars. Unda o\'tilgan mavzuni so\'rash, yangi mavzu, mustahkamlash bir darsda amalga oshiriladi.' },
+    { type: 'definition', content: "Dars — o‘qitish jarayonining asosiy shakli. Didaktik maqsadga ko‘ra dars turi, o‘tkazilish usuli yoki tashkiliy shakldan farqlanadi. Sinfni boshqarish — o‘quvchilar faoliyati va xavfsiz hamkorlikni tashkil etish." },
+    { type: 'table', content: "| Yetakchi didaktik maqsadga ko‘ra dars turi | Asosiy vazifasi |\n|---|---|\n| Aralash (kombinatsiyalashgan) | Oldingi ishni tekshirish, yangi mavzu, mashq va baholashni uyg‘unlashtirish |\n| Yangi bilimni o‘rganish | Yangi tushuncha va bog‘lanishlarni o‘zlashtirish |\n| Mustahkamlash va takrorlash | Oldin o‘rganilgan bilimni mashqlar bilan mustahkamlash |\n| Umumlashtirish va tizimlashtirish | O‘zlashtirilgan tushunchalarni bog‘lab, tizimga solish |\n| Ko‘nikma va malaka hosil qilish | Nazariy bilimni amaliy vazifada qo‘llash |\n| Bilimlarni tekshirish (nazorat) | O‘zlashtirish darajasi va keyingi ehtiyojni aniqlash |" },
+    { type: 'text', content: "Sinfni boshqarish: vaqtni rejalash, o‘quvchilarning faolligini ta’minlash, xavfsiz muhit, guruhli va individual faoliyatni boshqarish. Laboratoriya va ekskursiya — o‘qitishning amaliy/tashkiliy shakllari bo‘lib, bu jadvaldagi didaktik maqsad tasnifi bilan aynan bir o‘q emas." },
+    { type: 'example', content: "Informatikada algoritm turlarini yangi tushuntirish — yangi bilimni o‘rganish; avvalgi algoritmlarni jadvalda solishtirib tasniflash — umumlashtirish; dastur yozib ishlatish — ko‘nikma hosil qilish; nazorat topshirig‘i bilan natijani baholash — tekshirish darsi." },
+    { type: 'note', content: "Bir darsda bir nechta faoliyat bo‘lishi mumkin. Nomlashda o‘qitishning yetakchi maqsadini aniqlang; alohida laboratoriya usuli yoki ekskursiya shaklini avtomatik alohida didaktik maqsad deb qabul qilmang." },
+    { type: 'source', content: "Manba: «Dars turlari.pdf», 1–6-raqamlangan didaktik turlar; «dars tahlili turlari.pdf», 1–5-raqamlangan tahlil turlari, barnoyevak Google Drive/ChatExport_2026-10-19/files. Mazkur materiallar ikkilamchi konspekt bo‘lib, PDFning fizik sahifa lokatorlari va normativ kuchi alohida tekshiriladi." },
   ], []),
 
   'M15.05': t('M15.05', 'Sinf rahbari va ota-onalar bilan ish', [
@@ -1301,16 +1305,18 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
 
   'M15.07': t('M15.07', 'Pedagogik qobiliyatlar', [
     { type: 'definition', content: 'Pedagogik qobiliyat — o\'qituvchining ta\'lim-tarbiyaviy ishni samarali amalga oshirish imkonini beruvchi individual psixologik xususiyatlar majmui.' },
-    { type: 'table', content: '| Qobiliyat turi | Mazmuni |\n|--------------|--------|\n| Didaktik | Materialni tushunarli bayon qilish |\n| Akademik | Fan bilimlari va tadqiqot qobiliyati |\n| Persiptiv | O\'quvchini tushunish, ichki dunyosini his qilish |\n| Nutq | Tushunarli, ifodali nutq |\n| Tashkilotchilik | O\'quvchilar va jarayonni tashkil etish |\n| Kommunikativ | Muloqot o\'rnatish qobiliyati |\n| Avtoritar | O\'quvchilarga ta\'sir o\'tkazish |\n| Pedagogik tasavvur | Natijalarni oldindan ko\'ra bilish |\n| Diqqatni taqsimlash | Bir vaqtda bir necha ishni boshqarish |' },
+    { type: 'table', content: '| Qobiliyat turi | Mazmuni |\n|--------------|--------|\n| Didaktik | Materialni tushunarli bayon qilish |\n| Akademik | Fan bilimlari va tadqiqot qobiliyati |\n| Perseptiv | O\'quvchini tushunish, ichki dunyosini his qilish |\n| Nutq | Tushunarli, ifodali nutq |\n| Tashkilotchilik | O\'quvchilar va jarayonni tashkil etish |\n| Kommunikativ | Muloqot o\'rnatish qobiliyati |\n| Avtoritar | O\'quvchilarga ta\'sir o\'tkazish |\n| Pedagogik tasavvur | Natijalarni oldindan ko\'ra bilish |\n| Diqqatni taqsimlash | Bir vaqtda bir necha ishni boshqarish |' },
     { type: 'text', content: 'Pedagogik qobiliyatlarni o\'qish, amaliy tajriba va muntazam refleksiya orqali rivojlantirish mumkin. O\'qituvchi o\'zining kuchli tomonlarini rivojlantirishi va zaif tomonlarini mustahkamlashi kerak.' },
     { type: 'note', content: '⭐ Didaktik qobiliyat — eng muhim pedagogik qobiliyatlardan biri: materialni sodda, tushunarli va qiziqarli bayon qilish.' },
   ], []),
 
   'M15.08': t('M15.08', 'Ta\'lim texnologiyalari', [
-    { type: 'definition', content: 'Ta\'lim texnologiyasi — ta\'lim maqsadlariga erishish uchun metodlar, vositalar va usullar tizimi. Zamonaviy ta\'lim texnologiyalari o\'quvchilar faolligini oshiradi.' },
-    { type: 'table', content: '| Texnologiya | Mazmuni |\n|------------|--------|\n| Loyihaga asoslangan ta\'lim | O\'quvchilar loyiha bajaradi |\n| Muammoli ta\'lim | Muammo orqali o\'rganish |\n| Hamkorlikdagi ta\'lim | Guruhlarda birgalikda o\'qish |\n| Evristik ta\'lim | Mustaqil izlanish va kashfiyot |\n| Shaxsga yo\'naltirilgan | O\'quvchi shaxsiga moslashish |\n| Interfaol ta\'lim | O\'zaro faol muloqot |\n| Differensial ta\'lim | Darajaga qarab o\'qitish |\n| Integral ta\'lim | Fanlararo bog\'lanish |\n| O\'yinli ta\'lim | O\'yin orqali o\'rganish |\n| Inklyuziv ta\'lim | Barcha o\'quvchilar uchun |' },
-    { type: 'text', content: 'Ta\'lim texnologiyasini tanlash: o\'quvchilarning yoshi, fan xususiyati, maqsad va vazifalar, moddiy-texnik baza hisobga olinadi.' },
-    { type: 'note', content: '📚 Interfaol ta\'lim — o\'quvchilar o\'qituvchi va bir-biri bilan faol muloqot qiladi. Muammoli ta\'lim — o\'quvchini fikrlashga undaydi.' },
+    { type: 'definition', content: "Ta’lim texnologiyasi — o‘quv maqsadiga erishishni rejalashtiradigan metod, vosita, faoliyat va baholash tizimi. Yondashuv tanlashda o‘quvchilarning ehtiyoji va ishtirok imkoniyati hisobga olinadi." },
+    { type: 'table', content: "| Yondashuv | Asosiy maqsadi |\n|---|---|\n| Loyihaga asoslangan ta’lim | Muammoni o‘rganib, yakuniy mahsulot yoki yechim tayyorlash |\n| Muammoli ta’lim | Muammo sababini tahlil qilish va asosli yechim izlash |\n| Hamkorlikdagi ta’lim | Birgalikda ishlash va individual hissa uchun mas’uliyat |\n| Evristik ta’lim | Izlanish orqali xulosa va g‘oyani kashf etish |\n| Shaxsga yo‘naltirilgan | O‘quvchi ehtiyojiga mos maqsad va faoliyat |\n| Interfaol ta’lim | Faol fikr almashish va munozara |\n| Differensial ta’lim | Tayyorlik hamda o‘rganish ehtiyojiga mos turlicha yordam |\n| Integrativ ta’lim | Fanlararo mazmuniy aloqalarni bog‘lash |\n| O‘yinli ta’lim | O‘yin elementlari orqali mashq va qayta aloqa |\n| Inklyuziv ta’lim | Turli ehtiyojlarni hisobga olib teng imkoniyat va mazmunli ishtirok yaratish |" },
+    { type: 'text', content: "Texnologiya tanlashda ta’lim maqsadi, yosh, avvalgi bilim, resurs, xavfsizlik va natijani baholash mezoni birgalikda ko‘riladi. Inklyuzivlik hamma o‘quvchiga aynan bir xil topshiriq berish emas; zarur moslashtirish va qo‘llab-quvvatlashga tayangan ishtirokdir." },
+    { type: 'example', content: "Bir o‘quvchi matnli ko‘rsatmani o‘qishga qiynalsa, informatika vazifasiga qisqa bosqichli qo‘llanma va tushunarli vizual ko‘rsatma berish mumkin. Bu mazmuniy maqsadni bekor qilish emas, unga erishish yo‘lini moslashtirishdir." },
+    { type: 'note', content: "Loyihaga asoslangan yondashuvni shunchaki guruh bo‘lib suhbatlashish bilan, inklyuziv ta’limni esa barcha o‘quvchiga bir xil shart qo‘yish bilan tenglashtirmang." },
+    { type: 'source', content: "Manba: F.U. Qodirova, D.A. Pulatova, «Inklyuziv ta’lim: nazariya va metodika» (Chirchiq, 2022), «Kirish» va inklyuziv ta’lim ta’riflari; barnoyevak Google Drive/ChatExport_2026-10-19/files. Fizik PDF betlari alohida tekshiruvga muhtoj." },
   ], []),
 
   // ============================================================
