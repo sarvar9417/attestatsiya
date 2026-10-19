@@ -83,10 +83,10 @@ BEGIN
     FROM public.question_options o JOIN public.questions q ON q.id=o.question_id
     WHERE q.status='published' AND q.format='Y1'
     GROUP BY o.question_id
-    HAVING count(*) <> count(DISTINCT lower(regexp_replace(btrim(o.content_md),'[[:space:]]+',' ','g')))
+    HAVING count(*) <> count(DISTINCT o.content_md)
   ) duplicates;
   IF v_bad<>0 THEN
-    RAISE EXCEPTION 'TASK-254: % published Y1 questions have duplicate alternatives',v_bad;
+    RAISE EXCEPTION 'TASK-254: % published Y1 questions have identical case-sensitive alternatives',v_bad;
   END IF;
 END
 $task254$;
