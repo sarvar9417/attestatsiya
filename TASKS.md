@@ -1,3 +1,9 @@
+## TASK-240 — Informatika savollar banki chuqur sifat nazorati
+
+| ID | Status | Dependency | Natija yoki qolgan shart |
+|---|---|---|---|
+| TASK-240 | DONE | TASK-060, TASK-063 | 5 966 aktiv savol bo‘yicha avtomatik chuqur QA va source-corpus solishtiruvi bajarildi. Ekspert dalilisiz xato published qilingan 380 ta S5.WEB/GV2 savol productionda immutable archive + yangi review revision orqali karantinga olindi; publication/fingerprint/immutability guard, regression, audit SQL va `docs/TASK240_INFORMATIKA_QUESTION_BANK_DEEP_QA.md` qo‘shildi. Ochiq ekspert release shartlari hisobotda qayd etilgan. |
+
 ## TASK-239 — Office V2 grafik savollarini yakunlash
 | ID | Status | Dependency | Natija / release sharti |
 |---|---|---|---|
