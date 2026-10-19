@@ -47,7 +47,7 @@ To‘rtta variant normalizatsiya qilindi, tartibi saralandi va savollar orasida 
 
 ## 58 item-level review register
 
-`docs/audits/TASK252_M01_58_ITEM_SOURCE_REVIEW.tsv` lists **all 58** definition/application pairs by both IDs, exact target concept, unchanged keyed labels, candidate book, printed-page window, evidence strength and editorial note. Candidate book distribution: ICT5 **8**, ICT6 **8**, ICT7 **21**, Cambridge+9 **3**, Cambridge+10–11 **13**, **five** with no precise page verified.
+`docs/audits/TASK252_M01_58_ITEM_SOURCE_REVIEW.tsv` lists **all 58** definition/application pairs by both IDs, exact target concept, unchanged keyed labels, candidate book, printed-page window, evidence strength and editorial note. Candidate book distribution after original-PDF spot verification: ICT5 **8**, ICT6 **8**, ICT7 **22**, ICT9 **1**, Cambridge+9 **3**, Cambridge+10–11 **12**, **four** with no precise page verified. At most **54/58** have a candidate topic/page; this is not item-level answer verification.
 
 - **TOPIC_OBSERVED**: the textbook topic was observed; the *individual answer* has **not** been expert-approved.
 - **RELATED_ONLY**: thematic connection, not an exact proof for this answer.
@@ -57,3 +57,16 @@ To‘rtta variant normalizatsiya qilindi, tartibi saralandi va savollar orasida 
 `src/tests/M01ItemSourceReviewRegistry.test.ts` validates the register against the authoring bank, including source page candidates and review flags. `src/tests/M01DistractorReuseEditorialGate.test.ts` now sets **upper limits** rather than demanding exactly 69/58 reused distractors: a future approved editorial correction that *reduces* repetition must not fail the regression gate. The register itself must be updated whenever a new approved revision changes a pair.
 
 **Gating:** none of the 58 entries has `expert_approved` status. No change to the original question bank, private KTD, learner API, published keys, or production database.
+
+
+## 2026-10-19 — original darslikning HIGH item evidence refinement
+
+- `ARS-01-049`: **ICT9, bosma 20–22-bet**. Original 9-sinf darsligi, “Model va uning turlari” (20-bet) obyektni o‘rganilayotgan narsa yoki jarayon sifatida **bevosita ta’riflaydi**. Oldingi `NONE_VERIFIED / OPEN` yozuvi `ICT9 / TOPIC_OBSERVED`ga o‘zgartirildi. Bu “maktab kutubxonasi” jumlasida yagona to‘g‘ri javob mavjudligini isbotlamaydi; savolni qayta yozish hanuz HIGH. Spetsifikatsiyaning S1 axborot tushunchalari ro‘yxatida “obyekt” alohida ko‘rsatilmagan; S1 mosligi **bilvosita**, prioritetni ekspert belgilaydi.
+- `ARS-01-043`: **ICT7, bosma 4–8 va 29–33-bet**. 6-betda diskret/raqamli axborot va qurilmalar, 29–33-betlarda rastr/RGB tushunchalari mavjud; elektron imzo bilan skanerlash AKTga ham taalluqli, shuning uchun hozirgi distractor bilan one-best-answer tasdiqlanmagan.
+- `ARS-03-047`: **ICT7, bosma 4-bet** axborotni yaratish, yig‘ish va qayta ishlashni alohida jarayonlar sifatida sanaydi; `RELATED_ONLY` → `TOPIC_OBSERVED` manba darajasi yangilandi. Hisobot yozish amalda qayta ishlash ham bo‘lishi mumkin, savol kalitini human expert tasdiqlashi shart.
+- `ARS-01-042`: Cambridge+10–11 kirishida AKTga oid ko‘nikmalar aytiladi, lekin AKTni raqamli texnologiyadan **bittagina to‘g‘ri javob bilan farqlatadigan aynan ta’rif** aniqlanmadi.
+- `ARS-02-037`: ICT7 26–38-betlarda media shakllari ko‘rsatiladi, lekin “kombinatsiyalashgan axborot”ning aynan o‘sha nomli ta’rifi topilmadi. Cambridge+10–11 dagi “statik/dinamik ma’lumot” esa ko‘proq sahifa mazmunining manba o‘zgarishiga qarab yangilanishini ifodalaydi; “ovoz dinamik” bilan bir ma’noda ishlatib bo‘lmaydi. **Termin dalili / distractor ambiguity OPEN**.
+
+**Asl PDF manbalari:** [ICT7](https://drive.google.com/file/d/1QMT7y-6nJLQ-f1-4SySBV8y8JrRpp4q-/view), [ICT9](https://drive.google.com/file/d/1scsbz-Lgfy6_xAUrO_YVCfNE5KmV1qMe/view), [Cambridge+10–11](https://drive.google.com/file/d/1hEDk0WefYtkU2pGSUQSEN2pWIzGagUMQ/view), [2026 specs](https://drive.google.com/file/d/1jJstcqgFXwTJKuH9bkRIpvATEsjM2UnQ/view).
+
+`TOPIC_OBSERVED` only attests the discussed **concept** exists in a source page; the wording, keyed answer, official blueprint fit and four distractors remain under human editorial review. No production DB, published question or learner-visible content changed.
