@@ -14,7 +14,7 @@ Date: 2026-10-19. Evidence: SELECT-only production Supabase aggregates and exist
 
 - 2,603 `review` questions: 1,973 Y1, 315 Y2, 315 Y3 at the observed snapshot; 19 `review` Y1 in group `S4.CODE` repeat at least one normalized answer option.
 - No `review` question had a `question_editorial_checks` record in the inspected snapshot.
-- The 19 require actual stem/answer/distractor and original source review, not an automatic de-duplication that could change the correct response. They remain unpublished.
+- **Escalated high-priority correctness issue:** all 19 duplicate-choice Y1 records include their currently keyed correct option among the duplicate-text alternatives; students could see two indistinguishable answers. That is 23 redundant option slots across nine PYJS V2 lessons (J01/J02/J03/J05, P01–P05). A human source-verified editor must fix the answer ambiguity in new review revisions before any publication; automatic deduplication or guessed keys is unacceptable. They remain unpublished.
 - All detected review Y1/Y2/Y3 had stored keys, nonempty stems and sources, active constructs, matching group and valid difficulty ranges in the checked sample-wide aggregate. These structural checks are **not** semantic correctness signoff.
 
 ## All-question private-key reference integrity — full read-only scan
