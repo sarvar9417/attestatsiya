@@ -885,9 +885,9 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'text', content: 'Photoshop interfeysi: asboblar paneli (chapda), menyu (yuqorida), qatlamlar paneli (o\'ngda), rang palitrasi, ish maydoni. Paint interfeysi soddaroq: asboblar paneli, lenta, ranglar palitrasi.' },
     { type: 'note', content: '🖌 Paint — oddiy chizish va tahrirlash uchun. Photoshop — professional foto va grafika tahrirlash uchun.' },
   ], [
-    { id: 'M10.02-q1', text: 'Zamonaviy Paint ham qatlamlarni qo‘llashi mumkin. Photoshopning professional farqi qaysi?', options: ['Faqat fayl ochishi', 'Layer Mask, Smart Object va Adjustment Layer bilan chuqur tahrir', 'Qatlamlar faqat Photoshopda mavjudligi', 'Hech qanday tahrir qilmasligi'], correctIndex: 1, explanation: 'Windows 11 yangilangan Paintda ham qatlamlar bor; Photoshopda maska, Smart Object va adjustment qatlamlari kabi professional vositalar mavjud.', type: 'Y2' },
+    { id: 'M10.02-q1', text: 'Zamonaviy Paint ham qatlamlarni qo‘llashi mumkin. Photoshopning professional farqi qaysi?', options: ['Faqat fayl ochishi', 'Layer Mask, Smart Object va Adjustment Layer bilan chuqur tahrir', 'Qatlamlar faqat Photoshopda mavjudligi', 'Hech qanday tahrir qilmasligi'], correctIndex: 1, explanation: 'Windows 11 yangilangan Paintda ham qatlamlar bor; Photoshopda maska, Smart Object va adjustment qatlamlari kabi professional vositalar mavjud.', type: 'Y1' },
     { id: 'M10.02-q2', text: 'MS Paint qanday turdagi grafik muharrir?', options: ['Vektorli', 'Rastrli', '3D', 'Hibrid'], correctIndex: 1, explanation: 'MS Paint — oddiy rastrli grafik muharrir', type: 'Y1' },
-    { id: 'M10.02-q3', text: 'Photoshop da qatlamlar paneli qayerda joylashgan?', options: ['Chapda', 'Yuqorida', 'O\'ngda', 'Pastda'], correctIndex: 2, explanation: 'Photoshop da qatlamlar paneli odatda o\'ng tomonda joylashgan', type: 'Y2' },
+    { id: 'M10.02-q3', text: 'Photoshopning odatiy boshlang‘ich ish maydonida Layers paneli qayerda joylashadi?', options: ['Chapda', 'Yuqorida', 'O\'ngda', 'Pastda'], correctIndex: 2, explanation: 'Photoshop da qatlamlar paneli odatda o\'ng tomonda joylashgan', type: 'Y2' },
   ]),
 
   'M10.03': t('M10.03', 'Belgilash, kesish, rang va qatlamlar', [
