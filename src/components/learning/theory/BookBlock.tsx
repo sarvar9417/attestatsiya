@@ -85,12 +85,12 @@ function AnswersBox({ block }: { block: TheoryBlock }) {
 
 /** Eski darslarda jadval faqat Markdown matni sifatida saqlangan bo‘lishi mumkin. */
 function tableCells(line: string): string[] {
-  return line.replace(/^\\|/, '').replace(/\\|$/, '').split('|').map(cell => cell.trim())
+  return line.replace(/^\|/, '').replace(/\|$/, '').split('|').map(cell => cell.trim())
 }
 
 function tableData(block: TheoryBlock): { headers: string[]; rows: string[][] } {
   if (block.rows?.length) return { headers: block.headers ?? [], rows: block.rows }
-  const lines = block.content.split(/\\r?\\n/).map(line => line.trim()).filter(Boolean)
+  const lines = block.content.split(/\r?\n/).map(line => line.trim()).filter(Boolean)
   if (lines.length < 2 || !lines[0].includes('|')) return { headers: block.headers ?? [], rows: [] }
   const first = tableCells(lines[0])
   const separator = tableCells(lines[1])
@@ -105,9 +105,9 @@ function tableData(block: TheoryBlock): { headers: string[]; rows: string[][] } 
 
 function DataTable({ block }: { block: TheoryBlock }) {
   const { headers, rows } = tableData(block)
-  if (rows.length === 0) return null
   const isGlossary = headers[0]?.toLowerCase() === 'atama' && rows.length >= 30
   const [search, setSearch] = useState('')
+  if (rows.length === 0) return null
   const query = search.trim().toLocaleLowerCase('uz')
   const visibleRows = isGlossary && query
     ? rows.filter(row => row.some(cell => plainText(cell).toLocaleLowerCase('uz').includes(query)))
@@ -166,7 +166,7 @@ function DataTable({ block }: { block: TheoryBlock }) {
 }
 
 function BookList({ block }: { block: TheoryBlock }) {
-  const items = block.items?.length ? block.items : block.content.split('\\n').map(item => item.trim()).filter(Boolean)
+  const items = block.items?.length ? block.items : block.content.split('\n').map(item => item.trim()).filter(Boolean)
   if (block.ordered) {
     return (
       <ol className="book-list book-list-ordered">
