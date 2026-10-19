@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { cleanup, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import TopicView from '../components/learning/TopicView'
 import type { TopicContent } from '../data/topicContent'
@@ -137,7 +137,7 @@ describe('stable theory in learner module', () => {
     expect(screen.getByRole('button', { name: /Orqaga qaytish/ })).toBeDefined()
   })
 
-  it('M02 does not call the API or append a second lesson until student opens optional source', async () => {
+  it('M02 loads the source-marked published section before the first book render', async () => {
     mocks.getLessonDetail.mockResolvedValue(server([
       '## Qisqa server darsi',
       'Asosiy darsning o‘rnini egallamasligi kerak',
@@ -146,14 +146,31 @@ describe('stable theory in learner module', () => {
     ].join('\n')))
 
     mount('M02', 'M02.01')
-    expect(screen.getByText('Birlamchi nazariya matni')).toBeDefined()
-    expect(mocks.getLessonDetail).not.toHaveBeenCalled()
-    expect(screen.queryByText('OMR belgilangan maydonlarni skanerlaydi.')).toBeNull()
-
-    fireEvent.click(screen.getByText('Tekshirilgan qo‘shimcha material (ixtiyoriy)'))
-    await waitFor(() => expect(mocks.getLessonDetail).toHaveBeenCalledTimes(1))
-    expect(await screen.findByText('OMR belgilangan maydonlarni skanerlaydi.')).toBeDefined()
-    expect(screen.getByText('Birlamchi nazariya matni')).toBeDefined()
+    expect(screen.getByRole('status').textContent).toContain('Asosiy nazariya tayyorlanmoqda')
+    expect(await screen.findByText('Birlamchi nazariya matni')).toBeDefined()
+    expect(mocks.getLessonDetail).toHaveBeenCalledTimes(1)
+    expect(screen.queryByText('Tekshirilgan qo‘shimcha material (ixtiyoriy)')).toBeNull()
     expect(screen.queryByText('Asosiy darsning o‘rnini egallamasligi kerak')).toBeNull()
+    // The section is navigable through the same BookReader, not a second
+    // disclosure panel below the main chapter.
+    expect(screen.getAllByRole('tab').length).toBeGreaterThan(1)
+    expect(screen.getByRole('tab', { name: /Tekshirilgan qo‘shimcha/i })).toBeDefined()
+  })
+
+  it('M15 integrates published deep source before rendering, but ignores unpublished text', async () => {
+    mocks.getLessonDetail.mockResolvedValue(server([
+      '## Qisqa eski konspekt',
+      'Bu server xulosasi asosiy dars o‘rniga o‘tmasligi kerak.',
+      '## Chuqurlashtirilgan nazariya — manba korpusi (2026-10-18)',
+      '## Ilmiy-metodik qo‘shimcha',
+      'O‘quvchining mustaqil o‘qishi davom ettiriladi.',
+    ].join('\n')))
+    mount('M15', 'M15.02')
+    expect(screen.getByRole('status').textContent).toContain('Asosiy nazariya tayyorlanmoqda')
+    expect(await screen.findByText('Birlamchi nazariya matni')).toBeDefined()
+    expect(mocks.getLessonDetail).toHaveBeenCalledTimes(1)
+    expect(screen.queryByText('Tekshirilgan qo‘shimcha material (ixtiyoriy)')).toBeNull()
+    expect(screen.queryByText('Bu server xulosasi asosiy dars o‘rniga o‘tmasligi kerak.')).toBeNull()
+    expect(screen.getByRole('tab', { name: /Ilmiy-metodik qo‘shimcha/ })).toBeDefined()
   })
 })
