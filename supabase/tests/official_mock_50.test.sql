@@ -411,7 +411,7 @@ begin
   into v_ddl;
   if position('random(),' in v_ddl) = 0
      or position('official_mock_blueprint_invalid: 2026_subject_group_quotas' in v_ddl) = 0
-     or position('official-mock-v2' in v_ddl) = 0 then
+     or position('official-mock-v3' in v_ddl) = 0 then
     raise exception '2026 selector randomization / quota guard missing';
   end if;
 end
