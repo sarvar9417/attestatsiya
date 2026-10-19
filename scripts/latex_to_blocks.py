@@ -82,7 +82,7 @@ BOX_ENVS = {
 }
 # Sarlavhasi majburiy argumentda beriladigan qutilar
 LABELLED_BOXES = {'definitionbox', 'simplebox', 'attestbox', 'formulabox',
-                  'differencebox', 'casebox'}
+                  'differencebox', 'casebox', 'examplebox'}
 
 DROP_COMMANDS = {
     'clearpage', 'newpage', 'pagebreak', 'vfill', 'noindent', 'smallskip',
@@ -242,7 +242,7 @@ def inline(s: str) -> str:
     s = s.replace('~', ' ')
 
     s = replace_command(s, 'src', 2, lambda a: '@@%s, PDF %s@@' % (a[0].strip(), a[1].strip()))
-    s = replace_command(s, 'difficulty', 1, lambda a: '@@%s@@' % inline_arg(a[0]))
+    s = replace_command(s, 'difficulty', 1, lambda a: '==%s==' % inline_arg(a[0]))
     s = replace_command(s, 'keyterm', 1, lambda a: '==%s==' % inline_arg(a[0]))
     s = replace_command(s, 'term', 1, lambda a: '==%s==' % inline_arg(a[0]))
     s = replace_command(s, 'eng', 1, lambda a: '~~%s~~' % inline_arg(a[0]))

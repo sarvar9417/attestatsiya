@@ -53,7 +53,7 @@ function Box({ block, kind }: { block: TheoryBlock; kind: string }) {
     <section className={`book-box ${meta.cls}`}>
       <header className="book-box-head">
         <span className="book-box-icon"><Icon size={14} /></span>
-        <span className="book-box-label">{block.label || meta.label}</span>
+        <span className="book-box-label"><InlineText text={block.label || meta.label} /></span>
       </header>
       <BoxBody block={block} />
     </section>
@@ -86,14 +86,32 @@ function AnswersBox({ block }: { block: TheoryBlock }) {
 function DataTable({ block }: { block: TheoryBlock }) {
   const headers = block.headers ?? []
   const rows = block.rows ?? []
+  const isGlossary = headers[0]?.toLowerCase() === 'atama' && rows.length >= 30
+  const [search, setSearch] = useState('')
+  const query = search.trim().toLocaleLowerCase('uz')
+  const visibleRows = isGlossary && query
+    ? rows.filter(row => row.some(cell => plainText(cell).toLocaleLowerCase('uz').includes(query)))
+    : rows
   return (
     <figure className="book-table-wrap">
       <div className="book-table-head">
         <Table2 size={13} className="shrink-0" />
         <span>Jadval</span>
         <span className="book-table-hint">↔ surib ko‘ring</span>
-        <span className="book-table-count">{rows.length} qator</span>
+        <span className="book-table-count">{isGlossary && query ? visibleRows.length + ' / ' + rows.length + ' qator' : rows.length + ' qator'}</span>
       </div>
+      {isGlossary && (
+        <div className="border-b border-gray-200 p-3 dark:border-gray-700">
+          <input
+            type="search"
+            aria-label="Lug‘atdan atama qidirish"
+            placeholder="Atama yoki ta’rifni qidiring..."
+            value={search}
+            onChange={event => setSearch(event.target.value)}
+            className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
+          />
+        </div>
+      )}
       <div className="book-table-scroll">
         <table className="book-table">
           {headers.some(h => h) && (
@@ -106,7 +124,7 @@ function DataTable({ block }: { block: TheoryBlock }) {
             </thead>
           )}
           <tbody>
-            {rows.map((row, ri) => (
+            {visibleRows.map((row, ri) => (
               <tr key={ri}>
                 {row.map((cell, ci) => (
                   <td key={ci} className={ci === 0 ? 'book-table-first' : undefined}>
@@ -118,6 +136,11 @@ function DataTable({ block }: { block: TheoryBlock }) {
           </tbody>
         </table>
       </div>
+      {isGlossary && query && visibleRows.length === 0 && (
+        <p className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400" role="status">
+          Bu so‘rov bo‘yicha atama topilmadi.
+        </p>
+      )}
     </figure>
   )
 }
@@ -220,9 +243,17 @@ export default function BookBlock({ block, index, nested }: Props) {
 
     case 'source':
       return (
-        <section className="book-source">
-          <Library size={13} className="shrink-0 mt-0.5" />
-          <p><InlineText text={block.content} /></p>
+        <section className="book-source" aria-label={block.label || 'Manba izi'}>
+          <Library size={13} className="shrink-0 mt-0.5" aria-hidden="true" />
+          <div className="min-w-0 flex-1">
+            {block.label && block.label !== 'Manba izi' && (
+              <p className="mb-2 font-semibold"><InlineText text={block.label} /></p>
+            )}
+            {block.content && <p><InlineText text={block.content} /></p>}
+            {block.children?.map((child, i) => (
+              <BookBlock key={i} block={child} index={i} nested />
+            ))}
+          </div>
         </section>
       )
 
