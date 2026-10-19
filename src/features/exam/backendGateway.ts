@@ -133,7 +133,7 @@ export const backendGateway: ExamGateway = {
   },
   async flushQueuedAnswers(examId) {
     const state = await flushOfflineAnswers(examId)
-    return { remaining: state.remaining }
+    return { remaining: state.remaining, rejected: state.rejected }
   },
   async startCustomExam(config: CustomExamConfig): Promise<ExamSession> {
     const data = await api.post<unknown>('/api/custom-tests/start', config)
