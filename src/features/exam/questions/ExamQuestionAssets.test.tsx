@@ -25,3 +25,28 @@ describe('Algoritmlash V2 SVG question assets', () => {
     expect(container.firstChild).toBeNull()
   })
 })
+
+describe('Kuzgi demo original cropped pictures', () => {
+  it('renders the trusted Scratch code and graphical options in source order', () => {
+    render(<ExamQuestionAssets assets={[
+      { kind: 'image', diagram_id: 'demo_q04_blocks', alt: 'Scratch kodi', src: '/kuzgi-demo/demo_q04_blocks.svg' },
+      { kind: 'image', diagram_id: 'demo_q04_options', alt: 'A–D grafik javoblar', src: '/kuzgi-demo/demo_q04_options.svg' },
+    ]} />)
+    expect(screen.getByRole('img', { name: 'Scratch kodi' }).getAttribute('src'))
+      .toBe('/kuzgi-demo/demo_q04_blocks.svg')
+    expect(screen.getByRole('img', { name: 'A–D grafik javoblar' })).toBeTruthy()
+    const zoom = screen.getByRole('link', { name: /A–D grafik javoblar.*to‘liq hajmda/ })
+    expect(zoom.getAttribute('href')).toBe('/kuzgi-demo/demo_q04_options.svg')
+    expect(zoom.getAttribute('rel')).toContain('noopener')
+  })
+
+  it('does not accept a remote URL or arbitrary filename even if it looks like a demo crop', () => {
+    const { container } = render(<ExamQuestionAssets assets={[
+      { kind: 'image', diagram_id: 'demo_q04_options', src: 'https://drive.google.com/unknown.png', alt: 'remote' },
+      { kind: 'image', diagram_id: 'demo_q14_labyrinth', src: '/kuzgi-demo/../../secrets.svg', alt: 'path traversal' },
+      { kind: 'image', diagram_id: 'demo_q30_logic', src: '/kuzgi-demo/demo_q30_logic.svg', alt: 'not audited' },
+      { kind: 'source_screenshot', drive_file_id: 'some-drive-id', image_ordinals: ['q04'] },
+    ]} />)
+    expect(container.querySelectorAll('img')).toHaveLength(0)
+  })
+})
