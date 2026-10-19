@@ -2,6 +2,15 @@ import { M01_CONTENT } from './topics/m01'
 import { withVerifiedM01Additions } from './topics/m01TextbookAudit'
 import { M05_THEORY } from './topics/m05'
 import { buildCanonicalM02Topic } from './topics/m02Canonical'
+import { M13_DIGITAL_TEXTBOOK_ADDITIONS } from './topics/m13DigitalTextbookAdditions'
+import { M10_GRAPHICS_TEXTBOOK_ADDITIONS } from './topics/m10GraphicsTextbookAdditions'
+import { M12_NETWORK_TEXTBOOK_ADDITIONS } from './topics/m12NetworkTextbookAdditions'
+import { M11_WEB_TEXTBOOK_ADDITIONS } from './topics/m11WebTextbookAdditions'
+import { M09_DATABASE_TEXTBOOK_ADDITIONS } from './topics/m09DatabaseTextbookAdditions'
+import { M03_OFFICE_TEXTBOOK_ADDITIONS } from './topics/m03OfficeTextbookAdditions'
+import { M08_TEXTBOOK_STUDY_ADDITIONS } from './topics/m08TextbookStudyAdditions'
+import { M14_NORMATIVE_SOURCE_ADDITIONS } from './topics/m14NormativeSourceAdditions'
+import { M16_SOURCE_THEORY_ADDITIONS } from './topics/m16SourceTheoryAdditions'
 // M14–M16 use server-scored exams exclusively. Legacy mini-quiz answer keys
 // have intentionally been stripped from the shipped JavaScript bundle.
 
@@ -1423,6 +1432,65 @@ for (const [id, theory] of Object.entries(M05_THEORY)) {
     source: 'src/content/sanoq/Sanoq_sistemalari_nazariya.tex',
     kind: 'chapter',
   }
+}
+
+// ICT8 / Cambridge cybersecurity and digital culture content (11 topics).
+for (const [subtopicId, additions] of Object.entries(M13_DIGITAL_TEXTBOOK_ADDITIONS)) {
+  const local = TOPIC_CONTENT[subtopicId]
+  if (local) TOPIC_CONTENT[subtopicId] = { ...local, theory: [...local.theory, ...additions] }
+}
+
+// Graphics, 3D, animation and media original explanatory blocks (7 topics).
+for (const [subtopicId, additions] of Object.entries(M10_GRAPHICS_TEXTBOOK_ADDITIONS)) {
+  const local = TOPIC_CONTENT[subtopicId]
+  if (local) TOPIC_CONTENT[subtopicId] = { ...local, theory: [...local.theory, ...additions] }
+}
+
+// Source-grounded networking / Internet / cloud / IoT study blocks (9 topics).
+for (const [subtopicId, additions] of Object.entries(M12_NETWORK_TEXTBOOK_ADDITIONS)) {
+  const local = TOPIC_CONTENT[subtopicId]
+  if (local) TOPIC_CONTENT[subtopicId] = { ...local, theory: [...local.theory, ...additions] }
+}
+
+// Cambridge+ sourced HTML/CSS lessons, retaining legacy content and tests.
+for (const [subtopicId, additions] of Object.entries(M11_WEB_TEXTBOOK_ADDITIONS)) {
+  const local = TOPIC_CONTENT[subtopicId]
+  if (local) TOPIC_CONTENT[subtopicId] = { ...local, theory: [...local.theory, ...additions] }
+}
+
+// Cambridge database/Access/SQL original study additions (7 topics).
+for (const [subtopicId, additions] of Object.entries(M09_DATABASE_TEXTBOOK_ADDITIONS)) {
+  const local = TOPIC_CONTENT[subtopicId]
+  if (local) TOPIC_CONTENT[subtopicId] = { ...local, theory: [...local.theory, ...additions] }
+}
+
+// Cambridge+ Word, Excel and PowerPoint thematic study examples (10 topics).
+// Keep the previous theory blocks and question keys exactly as authored.
+for (const [subtopicId, additions] of Object.entries(M03_OFFICE_TEXTBOOK_ADDITIONS)) {
+  const local = TOPIC_CONTENT[subtopicId]
+  if (local) TOPIC_CONTENT[subtopicId] = { ...local, theory: [...local.theory, ...additions] }
+}
+
+// National ICT 9 Python and Cambridge+ 10/11 JavaScript / AI source notes.
+// Static M08 is learner-facing: these examples are added before first reading.
+for (const [subtopicId, additions] of Object.entries(M08_TEXTBOOK_STUDY_ADDITIONS)) {
+  const local = TOPIC_CONTENT[subtopicId]
+  if (local) TOPIC_CONTENT[subtopicId] = { ...local, theory: [...local.theory, ...additions] }
+}
+
+// TASK-273: retain every original M16 block and append separately traced
+// methodology explanations to the offline canonical fallback. Server-backed
+// M16 lessons attach the same blocks in overlayPublishedProfessionalLesson.
+// Original labor-task explanations for M14 are kept after the legacy offline
+// theory as supplementary study blocks, without changing answer keys.
+for (const [subtopicId, additions] of Object.entries(M14_NORMATIVE_SOURCE_ADDITIONS)) {
+  const local = TOPIC_CONTENT[subtopicId]
+  if (local) TOPIC_CONTENT[subtopicId] = { ...local, theory: [...local.theory, ...additions] }
+}
+
+for (const [subtopicId, additions] of Object.entries(M16_SOURCE_THEORY_ADDITIONS)) {
+  const local = TOPIC_CONTENT[subtopicId]
+  if (local) TOPIC_CONTENT[subtopicId] = { ...local, theory: [...local.theory, ...additions] }
 }
 
 // M02 canonical chapters combine multiple lengthy source lessons. Rebuilding

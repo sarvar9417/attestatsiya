@@ -3,7 +3,7 @@
  * optional SQL supplements have not yet been applied to a database.
  * Historical answer markers are NOT used as authoritative quiz keys.
  */
-import type { TheoryBlock } from './topicContent'
+import type { TheoryBlock, TopicContent } from './topicContent'
 
 const notes: Record<string, TheoryBlock[]> = {
   'M15.01': [
@@ -18,6 +18,15 @@ const notes: Record<string, TheoryBlock[]> = {
     { type: 'example', content: 'O‘qituvchi sinfda o‘zlashtirish pasayishini o‘rgansa, **kuzatish** bilan real faoliyatni qayd etadi, **suhbat** orqali sabablarni ochadi, **anketa** bilan yozma javob yig‘adi, **pedagogik eksperiment** bilan tanlangan yondashuv samaradorligini sinaydi. Har metod boshqa turdagi dalil beradi.' },
     { type: 'trap', content: '**Anketa** — ko‘pincha tizimli yozma savollar; **suhbat/intervyu** — savol-javob asosidagi muloqot; **kuzatish** — faoliyatni maqsadli qayd etish; **eksperiment** — belgilangan sharoitda ta’sirni sinash. Bittasining natijasini boshqasining avtomatik isboti sifatida ko‘rsatmang.' },
     { type: 'source', content: 'Qo‘shimcha manba: «Mirzayeva Pedagogika nazriyasi qollanma 2-mavzu.pdf», «Pedagogika fan sifatida. Ilmiy-pedagogik tadqiqotlar metodologiyasi va metodlari» bo‘limi; barnoyevak Drive — https://drive.google.com/file/d/1woZMas8dNbzk6yephzNH_XdmT19ess-l/view . PDFning aniq fizik betlari hali tekshirilmagan, material ikkilamchi o‘quv qo‘llanma sifatida ishlatildi.' },
+    { type: 'heading', content: 'Pedagogika fanlari tizimi: asosiy yo‘nalishlar' },
+    { type: 'table', content: '| Yo‘nalish | Tadqiqot markazi |\n|---|---|\n| Umumiy pedagogika | Ta’lim-tarbiya jarayonining umumiy qonuniyatlari |\n| Pedagogika nazariyasi | Nazariy tushunchalar, tamoyillar va tasniflar |\n| Pedagogika tarixi | Ta’lim va pedagogik fikrning tarixiy rivojlanishi |\n| Maktabgacha pedagogika | Maktabgacha yoshdagi bolalar tarbiyasi va ta’limi |\n| Boshlang‘ich ta’lim pedagogikasi | Boshlang‘ich bosqich o‘quvchisining o‘qish va rivojlanishi |\n| Maxsus (korreksion) pedagogika | Alohida ta’lim ehtiyojlari va tegishli yordam shakllari |\n| Xususiy fan metodikasi | Muayyan fanni o‘qitish mazmuni, usullari va sharoitlari |\n| Ta’lim menejmenti | Ta’lim muassasasini tashkil etish va boshqarish |' },
+    { type: 'note', content: '**Chegarani anglang:** metodika va didaktika bir narsa emas. Didaktika umumiy o‘qitish nazariyasini o‘rganadi; informatika metodikasi esa shu fandagi algoritm, dasturlash va raqamli ko‘nikmalarni qanday o‘qitishni aniqlashtiradi. “Pedagogik mahorat” o‘qituvchining kasbiy faoliyatni samarali bajarish qobiliyatlarini o‘rganadi.' },
+    { type: 'heading', content: 'Ilmiy-pedagogik tadqiqotning asosiy metodlari' },
+    { type: 'table', content: '| Metod | Nima o‘rganiladi? | Dalil ko‘rinishi |\n|---|---|---|\n| Kuzatish | Sinfdagi real xulq va faoliyat | Kuzatuv protokoli |\n| Suhbat | Ishtirokchilar bilan yakka, guruh yoki ommaviy muhokama | Suhbat qaydlari |\n| Intervyu | Belgilangan savollar orqali respondentning hodisaga munosabatini aniqlash | Intervyu javoblari va qaydlar |\n| Anketa | Bir xil savollarga ko‘pchilik javobi | Yozma javoblar to‘plami |\n| Hujjatlarni tahlil qilish | Reja, jurnal, ish natijalari va mavjud yozuvlar | Hujjatdan olingan dalil |\n| Pedagogik test | Bilim va ko‘nikma darajasi | Ball va javoblar |\n| Nazariy-pedagogik tahlil | Muammoning adabiyotlarda yoritilishi va yondashuvlar | Ilmiy tahlil |\n| O‘quvchi ijodiy ishlarini o‘rganish | Yozma, loyiha va ijodiy mahsulotdagi rivojlanish | Ish namunalari |\n| Pedagogik eksperiment | Muayyan yondashuv kutilgan natijaga ta’sir etadimi? | Taqqoslangan natijalar |' },
+    { type: 'note', content: '**Manba raqamlari:** Mirzayeva qo‘llanmasining mavjud matn nusxasida kuzatish, suhbat, anketa, intervyu, hujjat tahlili, test, pedagogik tahlil, bolalar ijodi va eksperiment alohida nomlangan; eksperiment «10» bilan raqamlangan, ammo «9» raqamli band matni ko‘rinmaydi. Shu sababli bu jadvalni manbadagi «10 ta metodning to‘liq ro‘yxati» deb ko‘rsatmaymiz; yetishmayotgan band grafik PDF sahifasida alohida tasdiqlanadi.' },
+    { type: 'example', content: '**Tadqiqot vaziyati:** ikki sinfda algoritmlashni o‘rganish natijasi farq qilsa, birgina yakuniy test sababni isbotlamaydi. O‘qituvchi oldingi tayyorgarlikni va dars sharoitini qayd etadi, tizimli kuzatadi, o‘quvchi ishlari va testlarni solishtiradi. Yangi metod samaradorligini tekshirayotganda guruhlarning dastlabki farqini ham hisobga oladi.' },
+    { type: 'trap', content: '**Pedagogik tadqiqot metodi** va **darsni o‘qitish metodi**ni adashtirmang: anketa orqali tadqiqotchi ma’lumot yig‘adi; tushuntirish yoki namoyish orqali o‘qituvchi ta’lim faoliyatini tashkil etadi. Test natijasi, suhbat fikri va kuzatuv qaydi bir-birini to‘ldiradi, lekin birontasi alohida to‘liq sababiy isbot emas.' },
+    { type: 'source', content: 'Manba: «Mirzayeva Pedagogika nazriyasi qollanma 2-mavzu.pdf», “Pedagogika fanlari tizimi” va “Pedagogik tadqiqot metodlari” qismlari (barnoyevak Drive: https://drive.google.com/file/d/1woZMas8dNbzk6yephzNH_XdmT19ess-l/view). Fizik PDF sahifa lokatorlari va jadval tasvirlari ekspert tomonidan hali tasdiqlanmagan. Matn manba asosida qayta bayon qilindi.' },
   ],
   'M15.02': [
     { type: 'heading', content: 'Tamoyil, metod va vositani adashtirmang' },
@@ -55,6 +64,14 @@ const notes: Record<string, TheoryBlock[]> = {
     { type: 'example', content: 'Informatika darsida mavzu murakkabligi bosqichma-bosqich tushuntirilgani **didaktik**; vizual namoyish usuli to‘g‘ri tanlangani **uslubiy**; o‘quvchilarning xavotiri va diqqati kuzatilgani **psixologik** tahlil dalili bo‘ladi.' },
     { type: 'trap', content: '**Dars turi** (masalan, nazorat darsi) va **dars tahlili turi** (masalan, psixologik tahlil) boshqa mezonlar bo‘yicha ajratiladi. «Metodologik»ni «uslubiy» bilan bir ma’noda ishlatmang.' },
     { type: 'source', content: 'Manba: «dars tahlili turlari.pdf» — beshta nomlangan tahlil turi; barnoyevak Google Drive/ChatExport_2026-10-19/files. Soddalashtirilgan ikkilamchi konspekt; sahifa koordinatasi va mustaqil rasmiy status aniqlanmagan.' },
+    { type: "heading", content: "Darsning oltita turi — yetakchi didaktik maqsad" },
+    { type: "table", content: "| Dars turi | Yetakchi maqsad | Informatikadan namuna |\n|---|---|---|\n| Aralash (kombinatsiyalashgan) | Bir nechta didaktik vazifani uyg‘unlashtirish | Uy ishi, yangi fayl amali va mustahkamlash |\n| Yangi bilimni o‘rganish | Tushunchani birinchi marta o‘zlashtirish | Algoritm va uning xossalarini ochib berish |\n| Mustahkamlash va takrorlash | O‘rganilgan bilimni takror qo‘llash | Fayl kengaytmalarini mashqlarda farqlash |\n| Umumlashtirish va tizimlashtirish | Mavzular orasidagi bog‘lanishni tartiblash | Ma’lumot turlarini umumiy sxemaga solish |\n| Ko‘nikma va malaka shakllantirish | Nazariy bilimni mustaqil amalda bajarish | Jadval formulalarini mustaqil tuzish |\n| Tekshirish (nazorat) | Egallangan bilim va ko‘nikmani aniqlash | Algoritmni tahlil qilish sinovi |" },
+    { type: "definition", content: "**Aralash dars** turli vazifalarning oddiy qo‘shindisi emas: avvalgi bilimni faollashtirish, yangi mazmunni o‘rganish, uni qo‘llash va natijani tekshirish o‘zaro bog‘langan bo‘lishi kerak. **Umumlashtirish** esa bir xil mashqni ko‘p takrorlashdan farq qiladi: tushunchalar orasidagi tizim hosil qilinadi." },
+    { type: "heading", content: "Rejalashtirishning dalilga asoslangan ketma-ketligi" },
+    { type: "list", content: "1. Kutiladigan o‘quv natijasini kuzatish mumkin bo‘lgan fe’l bilan ifodalash.\n2. O‘quvchilarning avvalgi bilimi va qiyinchiliklarini diagnostika qilish.\n3. Dars turini yetakchi maqsadga qarab aniqlash.\n4. Darsning mazmuni, ko‘rgazmali vosita va amaliy faoliyatini tanlash.\n5. O‘quvchilar faoliyati va vaqt taqsimotini rejalash.\n6. Qanday dalil natijaga erishilganini ko‘rsatishini belgilash.\n7. Natijaga qarab keyingi darsni moslashtirish." },
+    { type: "example", content: "**Mavzu: takrorlash operatori.** Maqsad «for va while operatorlarini ajratib, berilgan vaziyatda mosini tanlay oladi». Avval kichik kod parchasini tahlil qildiring; keyin ikkita yechimning sharti va natijasini solishtiring. Yakuniy 2 ta yangi vazifa natijani tekshiradi. Bu topshiriqni faqat «operatorlarni biladi» deb qayd qilish baholash mezonini noaniq qoldiradi." },
+    { type: "trap", content: "Manbadagi oltita tur mutlaq, har doim bitta qat’iy bo‘linadigan ro‘yxat emas; ayrim metodika kitoblari boshqa nom/tasnif ishlatishi mumkin. Attestatsiya savolida **yetakchi didaktik maqsad** va berilgan tasnifga e’tibor bering." },
+    { type: "source", content: "Manbalar: «Dars turlari.pdf», 6 nomlangan tur va xarakterli faoliyatlar (barnoyevak Drive: https://drive.google.com/file/d/1L4PXxcviDgk5_iaOW5zLCG7536I6z0Ya/view); «Kasb-standarti.pdf», «O‘quv jarayonini rejalashtirish» mehnat vazifasining o‘lchanadigan natijalar, yosh xususiyatlari va baholash bo‘limi (https://drive.google.com/file/d/1HdlFFazzvvO-FMItZKOIna0jRS6p-Lpq/view). Vaziyatlar manbadan ko‘chirma emas, informatika uchun original misollar; sahifa raqamlari fizik ko‘rik bilan hali tasdiqlanmagan." },
   ],
   'M15.05': [
     { type: 'heading', content: 'Hamkorlik nima uchun kerak?' },
@@ -106,9 +123,34 @@ const notes: Record<string, TheoryBlock[]> = {
     { type: 'example', content: 'Informatika darsida barcha o‘quvchi algoritm ketma-ketligini tushuntirishi kerak. O‘qituvchi ayrim o‘quvchiga ekran o‘qigichga mos matn, boshqasiga bosqichlarga ajratilgan yo‘riqnoma beradi. **O‘quv maqsadi saqlanadi**, unga erishish yo‘li ehtiyojga ko‘ra moslashtiriladi.' },
     { type: 'trap', content: '**Atamalarni ajrating:** surdopedagogika — eshitish, tiflopedagogika — ko‘rish, logopediya — nutq bilan bog‘liq maxsus pedagogik yordam. Bular inklyuziv ta’limning o‘zi bilan sinonim emas. O‘qituvchi faqat sinfdagi kuzatuvga qarab tibbiy tashxis qo‘ymaydi; zarur yordamni tegishli mutaxassis va oila bilan kelishadi.' },
     { type: 'source', content: 'Manbalar: F.U. Qodirova, D.A. Pulatova, «Inklyuziv ta’lim: nazariya va metodika» (Chirchiq, 2022), «Kirish» va «Inklyuziv ta’lim» bo‘limlari — https://drive.google.com/file/d/1J67WL90Qh6uULzmI7yYIR0OJ6diTg3cX/view ; «Inklyuziv_talim_va_korreksion_pedagogika_qollanma.docx», «Inklyuziv ta’lim», «Korreksion pedagogika» va «O‘qituvchining vazifalari» bo‘limlari — https://docs.google.com/document/d/1-mz2ykvhEuG4dudIDq-k0zYofeLvbz2g/edit . DOCX ikkilamchi konspekt; sahifa raqamlari va amaldagi huquqiy talablar alohida tekshiriladi.' },
+    { type: "heading", content: "Inklyuziv ta’lim: bir xil topshiriq emas, teng ishtirok" },
+    { type: "definition", content: "**Inklyuziv yondashuv** har bir o‘quvchi o‘quv jarayonida mazmunli ishtirok eta olishi uchun o‘qitish usuli, muhit, material va yordamni moslashtirishni anglatadi. Maqsad bilim talabini asossiz pasaytirish emas, mazmunni o‘zlashtirish yo‘lidagi to‘siqlarni kamaytirishdir." },
+    { type: "table", content: "| Ehtiyoj yoki to‘siq | Moslashtirishga misol | Kuzatiladigan natija |\n|---|---|---|\n| Matnni o‘qish qiyin | Raqamli matnni kattalashtirish, aniq sarlavha | Vazifani tushunib bajara olish |\n| Og‘zaki ko‘rsatma yodda qolmaydi | Yozma, raqamlangan ko‘rsatma va namuna | Bosqichlarni mustaqil kuzatish |\n| Ko‘rish orqali grafikka tayanish qiyin | Tasvirning matnli tavsifi va muqobil izoh | Tushunchani boshqa kanal orqali bilish |\n| Vazifani bajarish tezligi farq qiladi | Vaqtni, mashq bosqichini va yordamni moslashtirish | Dars maqsadiga yeta olish |\n| Guruh muhokamasida ishtirok cheklangan | Rollarni aniq taqsimlash va alternativ fikr bildirish yo‘li | Faol, tengqur bilan hamkorlik |" },
+    { type: "heading", content: "Informatika darsida moslashtirishni rejalash" },
+    { type: "list", content: "1. Vazifa talab qilayotgan **asosiy bilim yoki ko‘nikma**ni ajrating.\n2. O‘quvchiga to‘sqinlik qilayotgan usul yoki muhit omilini aniqlang, shaxsiga yorliq qo‘ymang.\n3. Bir nechta foydalanish yo‘lini bering: yozma ko‘rsatma, ko‘rgazma, ovozli izoh yoki mos texnik vosita.\n4. Baholashda aynan mo‘ljallangan bilimni tekshiring, kerakmas to‘siqni emas.\n5. Natijani kuzatib, yordamni ortiqcha yoki yetarli bo‘lmagan joyida tuzating." },
+    { type: "example", content: "**Elektron jadvalda formulalar:** bir o‘quvchiga katak manzillarini rang bilan, boshqasiga klaviatura orqali kiritish ketma-ketligi va ovozli yo‘riqnoma bilan tushuntirish mumkin. Har ikkala holatda ham maqsad — formula bog‘lanishini tushunish va to‘g‘ri qo‘llash. Moslashtirish maqsadni almashtirmaydi." },
+    { type: "trap", content: "**Inklyuziya**ni barcha o‘quvchilarga bir xil topshiriq va bir xil yordam berish deb tushunmang. Alohida yordam va o‘quvchining umumiy darsdagi real ishtiroki bir-biriga zid emas. Tibbiy tashxisni pedagogning taxmini asosida qo‘ymang." },
+    { type: "heading", content: "Pedagogik texnologiyani tanlashda diagnostik savol" },
+    { type: "table", content: "| O‘qitish vaziyati | Tanlov | Asos |\n|---|---|---|\n| O‘quvchi tayyor yechimni yodlayapti, sababni tushunmaydi | Muammoli savol va dalil izlash | Izohlash hamda tahlilni kuchaytiradi |\n| Jamoa uchun mahsulot ishlab chiqiladi | Loyihaga asoslangan ta’lim | Vaqt bo‘yicha bosqichli izlanish va natija bor |\n| Tushunchani turli nuqtayi nazardan tahlil qilish zarur | Hamkorlikdagi muhokama | Fikr almashish va asoslash talab qilinadi |\n| Avvalgi bilimlar turlicha | Differensial topshiriq va yo‘l-yo‘riq | Bir xil maqsadga turli yordam bilan erishiladi |" },
+    { type: "source", content: "Manbalar: F.U. Qodirova, D.A. Pulatova, «Inklyuziv ta’lim: nazariya va metodika», Chirchiq, 2022, kirish va ta’lim muhitini moslashtirish bo‘limlari (https://drive.google.com/file/d/1J67WL90Qh6uULzmI7yYIR0OJ6diTg3cX/view); «Kasb-standarti.pdf», «Xavfsiz rivojlantiruvchi ta’lim muhitini yaratish va ta’minlash» mehnat vazifasi. Metodik misollar original qayta bayon; kitobning barcha boblari va sahifalari alohida ekspertizadan o‘tmagan." },
   ],
 }
 
 export function getPedagogyStudyNotes(subtopicId: string): TheoryBlock[] {
   return notes[subtopicId] ?? []
+}
+
+/**
+ * The source-grounded M15 study notes used to sit in a collapsed disclosure
+ * AFTER BookReader. That made the main reader look like a four-block summary.
+ * Include the already authored notes in the primary reading sequence instead.
+ *
+ * This is a depth improvement, not a declaration of page-by-page textbook
+ * completeness. No unreviewed server/DB supplement is automatically promoted.
+ */
+export function withPedagogyStudyNotes(content: TopicContent): TopicContent {
+  if (!/^M15\.0[1-8]$/.test(content.subtopicId)) return content
+  const extraBlocks = getPedagogyStudyNotes(content.subtopicId)
+  if (extraBlocks.length === 0) return content
+  return { ...content, theory: [...content.theory, ...extraBlocks] }
 }

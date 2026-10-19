@@ -39,8 +39,10 @@ describe('M11 unified book theory navigation regression', () => {
     )
 
     const navigation = await screen.findByRole('navigation', { name: 'Bo‘limlar orasida harakat' })
-    expect(screen.getAllByRole('tab')).toHaveLength(2)
-    expect(screen.getByText('/2 bo‘lim')).toBeInTheDocument()
+    // The sourced M11 chapter now has more sections than its old four-block summary.
+    const sectionCount = screen.getAllByRole('tab').length
+    expect(sectionCount).toBeGreaterThan(2)
+    expect(screen.getByText(`/${sectionCount} bo‘lim`)).toBeInTheDocument()
     expect(screen.getByText('HTML da matn elementlari: paragraf, sarlavha, formatlash teglari (qalin, kursiv, tagiga chizish). Fon — sahifa yoki element orqa foni.')).toBeInTheDocument()
 
     await waitFor(() =>
@@ -48,9 +50,11 @@ describe('M11 unified book theory navigation regression', () => {
     )
     expect(screen.queryByRole('button', { name: 'Mavzuni yakunlash' })).not.toBeInTheDocument()
 
-    await user.click(within(navigation).getByRole('button', { name: /Keyingi/i }))
+    for (let index = 1; index < sectionCount; index++) {
+      await user.click(within(navigation).getByRole('button', { name: /Keyingi/i }))
+    }
     expect(screen.getByText(/o‘qib bo‘lindi/)).toBeInTheDocument()
-    expect(screen.getByText(/tartibsiz ro.yxat/)).toBeInTheDocument()
+    expect(screen.getByText(/Cambridge\+ 9-sinf/)).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /test tayyorligi kutilmoqda/i })).toBeDisabled()
 
     await user.click(screen.getByRole('button', { name: /Oldingi mavzu/ }))
