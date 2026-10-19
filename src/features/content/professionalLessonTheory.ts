@@ -9,6 +9,7 @@ import type { TheoryBlock, TopicContent } from '../../data/topicContent'
 import type { LessonSummary } from './contentApi'
 import { M16_SOURCE_THEORY_ADDITIONS } from '../../data/topics/m16SourceTheoryAdditions'
 import { M14_NORMATIVE_SOURCE_ADDITIONS } from '../../data/topics/m14NormativeSourceAdditions'
+import { M04_DEEP_CHAPTERS } from '../../data/topics/m04DeepChapters'
 
 const rowCells = (line: string): string[] =>
   line.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map(cell => cell.trim())
@@ -143,10 +144,26 @@ export function overlayPublishedProfessionalLesson(
   const sourceAdditions = M16_SOURCE_THEORY_ADDITIONS[staticContent.subtopicId] ?? M14_NORMATIVE_SOURCE_ADDITIONS[staticContent.subtopicId] ?? []
   if (!theory.length) return staticContent
 
+  // M04 is backend-first for actual published lessons, but that concise MDX
+  // previously replaced every expanded offline explanation. Use the authored
+  // source-anchored book as the first reading chapters, and retain the full
+  // published lesson afterward. Other M04 objects (including legacy tests and
+  // remote-only lessons) keep the unchanged canonical resolution policy.
+  const deepLogic = staticContent.source?.startsWith('TASK-285')
+    ? (M04_DEEP_CHAPTERS[staticContent.subtopicId] ?? [])
+    : []
+  const visibleTheory: TheoryBlock[] = deepLogic.length
+    ? [
+        ...deepLogic,
+        { type: 'heading', content: 'E’lon qilingan asosiy dars: takrorlash va qo‘shimcha izohlar' },
+        ...theory,
+      ]
+    : sourceAdditions.length > 0 ? [...theory, ...sourceAdditions] : theory
+
   return {
     ...staticContent,
     title: lesson.title_uz || staticContent.title,
-    theory: sourceAdditions.length > 0 ? [...theory, ...sourceAdditions] : theory,
+    theory: visibleTheory,
     supplementalTheory: extraMarkdown.trim() ? markdownToTheoryBlocks(extraMarkdown) : undefined,
     // Keep the existing offline static quiz as fallback. Live scoring remains on the backend.
     questions: staticContent.questions,

@@ -50,7 +50,7 @@ describe('TASK-284: M01-style content is a substantive chapter, not a design ski
   })
 
   it('does not label unrelated short chapters as source-complete books', () => {
-    const old = getTopicContent('M03.01')
+    const old = getTopicContent('M03.02')
     expect(old).toBeDefined()
     expect(old?.source).toBeUndefined()
     expect(M03_05_CANONICAL_BOOK.at(-1)?.content).toContain('PDF')

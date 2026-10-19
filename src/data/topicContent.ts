@@ -14,6 +14,11 @@ import { M12_05_CANONICAL_BOOK } from './topics/m12IPv4CanonicalBook'
 import { M08_TEXTBOOK_STUDY_ADDITIONS } from './topics/m08TextbookStudyAdditions'
 import { M14_NORMATIVE_SOURCE_ADDITIONS } from './topics/m14NormativeSourceAdditions'
 import { M16_SOURCE_THEORY_ADDITIONS } from './topics/m16SourceTheoryAdditions'
+import { M04_DEEP_CHAPTERS } from './topics/m04DeepChapters'
+import { M08_DEEP_CHAPTERS } from './topics/m08DeepChapters'
+import { M11_DEEP_CHAPTERS } from './topics/m11DeepChapters'
+import { M15_DEEP_CHAPTERS } from './topics/m15DeepChapters'
+import { OFFICE_SQL_DEEP_CHAPTERS } from './topics/officeSqlDeepChapters'
 // M14–M16 use server-scored exams exclusively. Legacy mini-quiz answer keys
 // have intentionally been stripped from the shipped JavaScript bundle.
 
@@ -1543,6 +1548,33 @@ if (pedagogyBase) {
       ...M15_01_CANONICAL_BOOK,
       { type: 'heading', content: 'Qo‘shimcha takrorlash: mavjud qisqa pedagogika nazariyasi' },
       ...pedagogyBase.theory,
+    ],
+  }
+}
+
+// TASK-285: unlike a handful of extra summary paragraphs, these are complete
+// source-anchored, consecutively readable chapters with worked exercises and
+// diagnostic error cases. Previously published static theory is retained in
+// the same BookReader after the new chapter for non-destructive continuity.
+// Live UUID/server-published lessons are a separate review path and are not
+// falsely marked complete by these offline books.
+for (const [id, book] of Object.entries({
+  ...M04_DEEP_CHAPTERS,
+  ...M08_DEEP_CHAPTERS,
+  ...M11_DEEP_CHAPTERS,
+  ...M15_DEEP_CHAPTERS,
+  ...OFFICE_SQL_DEEP_CHAPTERS,
+})) {
+  const previous = TOPIC_CONTENT[id]
+  if (!previous) continue
+  TOPIC_CONTENT[id] = {
+    ...previous,
+    source: 'TASK-285 manbaga tayanib qayta yozilgan nazariya',
+    kind: 'chapter',
+    theory: [
+      ...book,
+      { type: 'heading', content: 'Takrorlash: avvalgi asosiy ta’riflar va konspekt' },
+      ...previous.theory,
     ],
   }
 }

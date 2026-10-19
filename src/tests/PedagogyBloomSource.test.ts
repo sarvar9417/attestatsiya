@@ -57,7 +57,7 @@ describe('pedagogy source-based Bloom explanation', () => {
 
   it('uses all six didactic lesson types listed in the extracted source, not lesson formats', () => {
     const blocks = getTopicContent('M15.04')?.theory ?? []
-    const table = blocks.find(block => block.type === 'table')?.content ?? ''
+    const table = blocks.find(block => block.type === 'table' && block.content.includes('Aralash (kombinatsiyalashgan)'))?.content ?? ''
     expect(table).toContain('Aralash (kombinatsiyalashgan)')
     expect(table).toContain('Yangi bilimni o‘rganish')
     expect(table).toContain('Mustahkamlash va takrorlash')
