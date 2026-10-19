@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useMemo, lazy, Suspense } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getTopicContent, type TestQuestion, type TheoryBlock } from '../../data/topicContent'
+import { getTopicContent, displayedCognitiveLevel, type TestQuestion, type TheoryBlock } from '../../data/topicContent'
 import { checkQuestionAnswer } from '../../features/content/lessonContentGateway'
 import { paginateTheoryBlocks } from '../../features/content/theoryPagination'
 import { getTopicTestPreflight, type TopicTestPreflight } from '../../features/content/contentApi'
@@ -1359,7 +1359,7 @@ function QuestionCard({ question: q, index, total, selected, isSubmitted, onSele
   selected?: unknown; isSubmitted: boolean
   onSelect: (val: unknown) => void; onSubmit: () => void
 }) {
-  const tb = TYPE_BADGE[q.type] || TYPE_BADGE.Y1
+  const tb = TYPE_BADGE[displayedCognitiveLevel(q)] || TYPE_BADGE.Y1
   const Icon = tb.icon
   const isCorrect = isSubmitted && isQuestionCorrect(q, selected)
   const isWrong = isSubmitted && !isQuestionCorrect(q, selected)
