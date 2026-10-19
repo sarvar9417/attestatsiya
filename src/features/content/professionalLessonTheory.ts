@@ -7,6 +7,7 @@
  */
 import type { TheoryBlock, TopicContent } from '../../data/topicContent'
 import type { LessonSummary } from './contentApi'
+import { M16_SOURCE_THEORY_ADDITIONS } from '../../data/topics/m16SourceTheoryAdditions'
 
 const rowCells = (line: string): string[] =>
   line.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map(cell => cell.trim())
@@ -136,12 +137,15 @@ export function overlayPublishedProfessionalLesson(
   const coreMarkdown = extraIndex < 0 ? lesson.body_mdx : sections.slice(0, extraIndex).join('\n')
   const extraMarkdown = extraIndex < 0 ? '' : sections.slice(extraIndex + 1).join('\n')
   const theory = markdownToTheoryBlocks(coreMarkdown)
+  // Independently checked professional-standard/Cambridge explanations are
+  // displayed after the canonical M16 published core. They do not modify the DB.
+  const sourceAdditions = M16_SOURCE_THEORY_ADDITIONS[staticContent.subtopicId] ?? []
   if (!theory.length) return staticContent
 
   return {
     ...staticContent,
     title: lesson.title_uz || staticContent.title,
-    theory,
+    theory: sourceAdditions.length > 0 ? [...theory, ...sourceAdditions] : theory,
     supplementalTheory: extraMarkdown.trim() ? markdownToTheoryBlocks(extraMarkdown) : undefined,
     // Keep the existing offline static quiz as fallback. Live scoring remains on the backend.
     questions: staticContent.questions,
