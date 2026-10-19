@@ -103,4 +103,53 @@ describe('apiClient session expiry', () => {
     window.removeEventListener(SESSION_EXPIRED_EVENT, expiredHandler)
     vi.unstubAllGlobals()
   })
+  it.each([429, 500, 503])('preserves the session when refresh returns HTTP %s', async status => {
+    const session = makeSession()
+    sessionStore.set(session)
+    vi.stubGlobal('fetch', vi.fn()
+      .mockResolvedValueOnce(errorResponse('Expired', 'INVALID_TOKEN'))
+      .mockResolvedValueOnce(new Response('{}', { status })))
+    await expect(api.get('/api/progress/mastery')).rejects.toMatchObject({ code: 'NETWORK_ERROR' })
+    expect(sessionStore.get()).toEqual(session)
+    vi.unstubAllGlobals()
+  })
+
+  it.each(['logout', 'another-user'])('does not restore or retry an old session after %s during refresh', async change => {
+    sessionStore.set(makeSession())
+    let resolveRefresh!: (response: Response) => void
+    const fetchMock = vi.fn()
+      .mockResolvedValueOnce(errorResponse('Expired', 'INVALID_TOKEN'))
+      .mockImplementationOnce(() => new Promise<Response>(resolve => { resolveRefresh = resolve }))
+    vi.stubGlobal('fetch', fetchMock)
+    const request = api.post('/api/exam/submit', { answer: 'old-user-answer' })
+    const rejected = expect(request).rejects.toMatchObject({ code: 'SESSION_CHANGED' })
+    await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(2))
+    const replacement = change === 'logout' ? null : {
+      ...makeSession(), access_token: 'other-access', refresh_token: 'other-refresh',
+      user: { ...makeSession().user, id: 'other-user' },
+    }
+    sessionStore.set(replacement)
+    resolveRefresh(new Response(JSON.stringify({ ...makeSession(), access_token: 'late-token' })))
+    await rejected
+    expect(sessionStore.get()).toEqual(replacement)
+    expect(fetchMock).toHaveBeenCalledTimes(2)
+    vi.unstubAllGlobals()
+  })
+
+  it('does not clear a newly signed-in account when the old refresh is rejected', async () => {
+    sessionStore.set(makeSession())
+    let resolveRefresh!: (response: Response) => void
+    const fetchMock = vi.fn().mockResolvedValueOnce(errorResponse('Expired', 'INVALID_TOKEN'))
+      .mockImplementationOnce(() => new Promise<Response>(resolve => { resolveRefresh = resolve }))
+    vi.stubGlobal('fetch', fetchMock)
+    const rejected = expect(api.get('/api/progress/mastery')).rejects.toMatchObject({ code: 'SESSION_CHANGED' })
+    await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(2))
+    const replacement = { ...makeSession(), refresh_token: 'replacement-refresh' }
+    sessionStore.set(replacement)
+    resolveRefresh(errorResponse('Invalid refresh', 'INVALID_TOKEN'))
+    await rejected
+    expect(sessionStore.get()).toEqual(replacement)
+    vi.unstubAllGlobals()
+  })
+
 })

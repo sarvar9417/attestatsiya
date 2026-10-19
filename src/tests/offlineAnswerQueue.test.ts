@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { sessionStore } from '../features/auth/sessionStore'
 import { ApiError } from '../lib/apiClient'
 import {
   clearPendingAnswers,
@@ -17,6 +18,8 @@ const firstAnswer: SubmitAnswerInput = {
 }
 
 beforeEach(() => {
+  sessionStore.set({ access_token: 'test-access', refresh_token: 'test-refresh', expires_at: Date.now() + 3600000,
+    user: { id: 'queue-user', email: 'queue@example.invalid', display_name: null, role: 'user' } })
   clearPendingAnswers()
 })
 
