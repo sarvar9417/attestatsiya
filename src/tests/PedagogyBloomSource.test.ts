@@ -85,4 +85,24 @@ describe('pedagogy source-based Bloom explanation', () => {
     expect(text).toContain('Qodirova')
     expect(text).toContain('2022')
   })
+
+  it('teaches all five lesson-analysis lenses without mixing them with lesson types', () => {
+    const notes = getPedagogyStudyNotes('M15.04')
+    const text = notes.map(block => block.content).join('\n')
+    for (const concept of ['Didaktik', 'Uslubiy', 'Metodologik', 'Psixologik', 'Pedagogik']) {
+      expect(text).toContain(concept)
+    }
+    expect(text).toContain('Dars turi')
+    expect(text).toContain('dars tahlili turi')
+  })
+
+  it('distinguishes perception, empathy and communication in teacher capabilities', () => {
+    const notes = getPedagogyStudyNotes('M15.07')
+    const text = notes.map(block => block.content).join('\n')
+    expect(text).toContain('| Perseptiv |')
+    expect(text).toContain('| Empatik |')
+    expect(text).toContain('| Kommunikativ |')
+    expect(text).toContain('«Avtoritar qobiliyat»')
+    expect(text).toContain('qo‘pol munosabat')
+  })
 })
