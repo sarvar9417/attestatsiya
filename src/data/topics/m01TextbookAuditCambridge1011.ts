@@ -53,4 +53,43 @@ export const CAMBRIDGE1011_M01_PAGE_ADDENDA: readonly VerifiedTextbookInsertion[
       { type: 'source', content: 'Cambridge+ 10–11-sinf (2021), PDF 193–205 (bosma 184–196-betlar), 10-bob «Tovush va videoni tahrirlash».' },
     ],
   },
+  {
+    topicId: 'M01.05',
+    beforeHeading: 'Siqish, siqish koeffitsiyenti va sifat',
+    blocks: [
+      { type: 'subheading', content: 'Cambridge+ 10–11: RLE usuli — bir xil qiymatlar ketma-ketligini qisqartirish' },
+      { type: 'solved', label: 'Takroriy belgilar asosida RLE kodi', content: '', children: [
+        { type: 'text', content: 'Run-Length Encoding (RLE) ketma-ket bir xil belgilarni ularning **soni va qiymati** bilan almashtiradi. Original misol: **AAAABBBCC → 4A3B2C**. Bu yozuvda belgilar soni 9 tadan 6 taga tushadi; haqiqiy bayt hajmi kodlash qoidasi va formatga bog‘liq.' },
+        { type: 'trap', content: '**ABCDEF → 1A1B1C1D1E1F** kabi kodlash yozuvni ko‘paytirishi mumkin. RLE takrorlar ko‘p bo‘lganda maʼqul, qoidaga mos dekod qilinsa yo‘qotishsiz siqishdir; JPEG kabi yo‘qotishli kodlashdan farq qiladi.' },
+      ] },
+      { type: 'source', content: 'Cambridge+ 10–11-sinf (2021), PDF 19–22 (bosma 10–13-betlar), 1-bob: binary tasvir, run-length encoding, siqish. Harflar misoli mustaqil tuzildi.' },
+    ],
+  },
+  {
+    topicId: 'M01.04',
+    beforeHeading: 'Xatolarni aniqlashning chuqurlashtirilgan usullari',
+    blocks: [
+      { type: 'subheading', content: 'Cambridge+ 10–11: validation — qoida, verification — asl manba' },
+      { type: 'table', content: '', headers: ['Usul','Tekshiruv savoli','Chegarasi'], rows: [
+        ['Presence check','Maydon bo‘sh emasmi?','Qiymat to‘g‘riligini isbotlamaydi'],
+        ['Type check','Tip mosmi?','Boshqa son ham tipdan o‘tadi'],
+        ['Range check','Chegaradami?','Diapazondagi xato qiymatni o‘tkazadi'],
+        ['Format check','Yozuv qolipga mosmi?','Haqiqiy sana yoki fakt bo‘lmasligi mumkin'],
+        ['Verification','Asl hujjatdagi qiymat bilan mosmi?','Asl hujjat ham xato bo‘lishi mumkin'],
+      ] },
+      { type: 'case', content: 'Darslikdagi baho misolida asl qiymat **A** bo‘lsa, **C** bahoni kiritish ruxsat etilgan baholar ro‘yxatiga mos bo‘lishi mumkin. Demak, validationdan o‘tadi; **asl manba bilan qiyoslash** esa xatoni aniqlaydi. Ikki marta kiritish xatoni kamaytirishi mumkin, biroq bir xil xato ikki marta takrorlansa uni topmaydi.' },
+      { type: 'source', content: 'Cambridge+ 10–11-sinf (2021), PDF 25–30 (bosma 16–21-betlar), 1-bob: presence/type/range/format/consistency hamda verification, double entry, proof-reading.' },
+    ],
+  },
+  {
+    topicId: 'M01.04',
+    beforeHeading: "Bob bo'yicha mustahkamlash savollari",
+    blocks: [
+      { type: 'subheading', content: 'Cambridge+ 10–11: ijtimoiy profil, phishing va xavfsiz ish joyi' },
+      { type: 'case', content: 'Ishonchli ko‘ringan akkaunt havola yubordi va maxfiy parolni so‘radi. Yuboruvchini mustaqil kanal orqali tekshirmasdan kirish maʼlumotini yubormang. Zararli dastur, shaxsni taqlid qilish va tovlamachi dasturga qarshi **yangilanish, noyob parol, MFA, alohida zaxira va ehtiyotkor foydalanish** bir-birini to‘ldiradi. Monitor balandligi, bilak/bo‘yin ergonomikasi va tanaffus ham raqamli xavfsiz mehnatning qismi.' },
+      { type: 'trap', content: 'Darslikda ijtimoiy tarmoqqa joylangan har qanday maʼlumot doimiy saqlanishi yoki servis har bir tasvirga egalik qilishi kabi umumiy gaplar uchraydi. Haqiqiy **saqlash muddati, nusxalar va mualliflik huquqi** servis hamda shartlarga bog‘liq. Har bir servis uchun mutlaq hukm chiqarilmaydi.' },
+      { type: 'source', content: 'Cambridge+ 10–11-sinf (2021), PDF 70–79 (bosma 61–70-betlar), 4-bob: e-safety, phishing, ransomware, shaxsiy axborot, ergonomika va elektr xavfsizligi.' },
+    ],
+  },
+
 ]
