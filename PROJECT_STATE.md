@@ -1,7 +1,7 @@
 ## 2026-10-19 — TASK-244: M01 13/13 original ICT/Cambridge+ textbooks, page-by-page source review
 
 - **Status:** 13/13 **M01-relevant** textbook sections compared with original Google Drive PDFs; 59 **page-cited** original learner-theory insertions; generated `m01.ts` unchanged. **NOT yet final release-ready:** final GitHub CI, real mobile/desktop authenticated lesson display and editorial/spec question coverage review are outstanding.
-- **Branch:** `task/TASK-244-m01-book-by-book-source-audit`, created from TASK-243; no merge, no manual production deploy, no production DB writes.
+- **Branch:** `task/TASK-244-m01-book-by-book-source-audit`, created from TASK-243; merge authorized (2026-10-19), no manual production deploy, no production DB writes.
 - **ICT books:** 5-sinf (6 inserts), 6-sinf (4), 7-sinf (7), 8-sinf (4), 9-sinf (3), 10-sinf (3), 11-sinf (5); sum **32**.
 - **Cambridge+ books:** 5-sinf (4), 6-sinf (4), 7-sinf (3), 8-sinf (3), 9-sinf (6), 10–11-sinf (7); sum **27**. Total **59**.
 - **Code:** `src/data/topics/m01TextbookAudit*.ts`, `src/data/topicContent.ts`. Inserts use exact pre-existing canonical topic/heading, preserve every source block, source provenance and question object unchanged.
@@ -9,6 +9,42 @@
 - **Source page evidence:** `docs/TASK244_M01_BOOK_BY_BOOK_SOURCE_AUDIT_20261019.md`; each subsequent book has `docs/TASK244_ICT{6,7,8,9,10,11}_M01_PAGE_CONCORDANCE_20261019.md` and `docs/TASK244_CAMBRIDGE{5,6,7,8,9,1011}_M01_PAGE_CONCORDANCE_20261019.md`.
 - **Important factual defects distinguished:** ICT7 2021 audio 48 kHz×16 bit×3min = 17,280,000 B ≈ 16.48 MiB, not printed “1,64 Mb”; ICT9 46×40×67 one-byte text ≈0.118 MiB; four-colour raw 2048×1366 =683 KiB; Cambridge9 and 10–11 data validation≠verification, archival codecs and privacy; dynamic/primary/secondary source meanings.
 - **Limit:** PDFs were inventoried in full by accessible text/chapters and M01-relevant sections individually read; **not all pages/pictures of every volume have independent visual QA**. Cross-check of every textbook exercise/test vs official attestatsiya specs and final in-browser authenticated mobile/desktop QA **not complete**. Never label FULLY COMPLETE until these release gates pass.
+
+## TASK-249 — M01.05/M01.06 remaining 210 source-page traces (2026-10-19)
+
+- **Status:** IN_PROGRESS; `task/TASK-249-m01-encoding-media-source-trace`.
+- **Scope:** `ARS-04-001..100` va `ARS-05-001..110` uchun 210 item source-status line; `docs/audits/TASK249_M01_05_06_210_ITEM_SOURCE_TRACE.tsv`.
+- **M01 completed inventory:** oldingi TASK-247/248 bilan **400 / 400** itemga manba yoki ochiq source debt qaydi bor: 239 topic-supported, 149 partial, 12 source-gap. *Zero item has expert sign-off*; `needs_item_editorial_review` hammasida qoladi.
+- **Numeric gate:** 81 + 84 = 165 formula-driven review checks TASK-247 orqali main'da mavjud. `ARS-04-071` rounding policy review-only.
+- **Regression:** `src/tests/M01All400SourceTrace.test.ts` barcha bank ID, manba holati va 12 source-gap uchun invariantlar.
+- **Release safety:** savollarning answer keylari/revisionlari va live DB o‘zgartirilmagan; production migration yoki deploy yo‘q. Barcha distractor/izoh source-by-source expert review hali bajarilmagan.
+
+## TASK-248 — M01.04 source item trace (2026-10-19)
+
+- **Status:** IN_PROGRESS; branch `task/TASK-248-m01-info-process-source-trace`.
+- **Scope:** `ARS-03-001..070` barcha 70 axborot jarayoni va qidiruv savoli uchun alohida `docs/audits/TASK248_M01_04_70_ITEM_SOURCE_TRACE.tsv` yaratilgan.
+- **Provenance states:** 42 topic-supported, 25 partial, 3 source-gap. Uchta source-gap `Yo‘q qilish` tushunchasining savol ko‘rinishlari, materialning to‘liq expert approvali emas.
+- **Regression:** `src/tests/M0104ItemSourceTrace.test.ts` barcha ID, concept, form va sahifa holatini nazorat qiladi.
+- **Inherited:** TASK-247 orqali M01.02/M01.03 120 qatorli reyestr `main`ga kiritilgan; M01 bo‘yicha jami 190 question-level provenance status, hali 210 item ochiq.
+- **Safety:** review-only; production DB, published answer revision va Vercel deployment o‘zgarmaydi.
+
+## TASK-247 — M01 source locators and numeric QA (2026-10-19)
+
+- **Status:** IN_PROGRESS; branch `task/TASK-247-m01-numeric-and-source-verification`.
+- **Textbook review:** 120 individual M01 questions have book/page trace rows in `docs/audits/TASK247_M01_02_60_ITEM_SOURCE_TRACE.tsv` and `docs/audits/TASK247_M01_03_60_ITEM_SOURCE_TRACE.tsv`.
+- **Evidence status:** 81 topic-supported, 34 partial, 5 source-gap; all 120 await item/distractor expert review.
+- **Independent numeric gate:** the original 81 numeric checks are extended with 84 additional independently recomputed items in `src/tests/M01AdditionalNumericQA.test.ts`. Total intended numeric coverage: 165 of 400. CI for final head to be checked.
+- **Follow-up:** remaining 280 ARS questions need individual page trace; unverified answers must not be published; no production changes or deploy.
+
+## TASK-244 — Y2 moslashtirish testlarining to‘liqligi va tanlov sifati (2026-10-19)
+
+- **Status:** IN_PROGRESS.
+- **Owner:** ChatGPT; foydalanuvchi 2026-10-19 sanasida testlar sifati uchun ruxsat berdi.
+- **Branch:** `task/TASK-244-y2-matching-quality`.
+- **Dependency:** TASK-240 DONE; published kontent va production DB joyida o‘zgarmaydi.
+- **Scope:** Y2 matchingning bir-biriga mos (one-to-one) tanlovi, bo‘sh/duplicate javoblarni rad etish va variantlarning qayta renderda o‘zgarmasligi; regressiya testlari.
+- **Source boundary:** Drive darsliklari va attestatsiya spetsifikatsiyasi semantik review uchun; xususiy savol matni/answer key public Gitga kiritilmaydi.
+- **Release:** mustaqil ekspert approval bo‘lmasa savollar published qilinmaydi; foydalanuvchi alohida aytmaguncha merge, deploy va production migration yo‘q.
 
 ## 2026-10-19 — TASK-243: M02 darslik, nazariya va dizayn
 
