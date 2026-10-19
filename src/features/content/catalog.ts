@@ -107,6 +107,9 @@ export function publishedScratchLogoSubtopics(lessons: LessonSummary[]): Catalog
       && /^(?:scratch|logo)/i.test(lesson.slug))
     .sort((a, b) => a.order_idx - b.order_idx)
   const required = Array.from({ length: 12 }, (_, index) => index + 1)
+  // An extra published Scratch/LOGO lesson is not the verified 12-lesson edition.
+  // Fall back rather than silently replacing canonical learner topic navigation.
+  if (published.length !== required.length) return null
   if (!required.every(order => published.some(lesson => lesson.order_idx === order))) return null
   if (new Set(published.map(lesson => lesson.order_idx)).size !== published.length) return null
   return published.map(lesson => ({
