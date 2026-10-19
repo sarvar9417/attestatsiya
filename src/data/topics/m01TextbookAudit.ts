@@ -17,6 +17,7 @@ import { CAMBRIDGE5_M01_PAGE_ADDENDA } from './m01TextbookAuditCambridge5'
 import { CAMBRIDGE6_M01_PAGE_ADDENDA } from './m01TextbookAuditCambridge6'
 import { CAMBRIDGE7_M01_PAGE_ADDENDA } from './m01TextbookAuditCambridge7'
 import { CAMBRIDGE8_M01_PAGE_ADDENDA } from './m01TextbookAuditCambridge8'
+import { CAMBRIDGE1011_M01_PAGE_ADDENDA } from './m01TextbookAuditCambridge1011'
 import { CAMBRIDGE9_M01_PAGE_ADDENDA } from './m01TextbookAuditCambridge9'
 
 export interface VerifiedTextbookInsertion {
