@@ -27,7 +27,7 @@ describe('TASK-292: fully explained number-system theory without exposed or alte
       expect(topic.questions.map(q => q.id)).toEqual([1, 2, 3].map(n => `${id}-q${n}`))
       expect(topic.questions.map(q => q.correctIndex)).toEqual(keys)
       expect(book.at(-1)?.content).toContain('drive.google.com')
-      expect(book.at(-1)?.content).toContain('Sahifama-sahifa')
+      expect(book.at(-1)?.content).toMatch(/sahifama-sahifa/i)
     })
   }
 
