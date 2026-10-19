@@ -27,7 +27,7 @@ export const M15_04_CANONICAL_BOOK: TheoryBlock[] = [
   },
   {
     "type": "trap",
-    "content": "«Laboratoriya mashg‘uloti», «guruhda ishlash» yoki «ekskursiya» degan yozuv darsning yetakchi didaktik maqsadini avtomatik belgilamaydi. Metod, shakl va maqsad — boshqa mezonlar."
+    "content": "«Laboratoriya mashg‘uloti», «guruhda ishlash» yoki «ekskursiya» degan yozuv alohida didaktik maqsad emas va darsning yetakchi didaktik maqsadini avtomatik belgilamaydi. Metod, shakl va maqsad — boshqa mezonlar."
   },
   {
     "type": "heading",
@@ -35,7 +35,7 @@ export const M15_04_CANONICAL_BOOK: TheoryBlock[] = [
   },
   {
     "type": "table",
-    "content": "| Dars turi | Maqsad | O‘quvchi faoliyati |\n|---|---|---|\n| Yangi bilimni o‘rganish | Yangi tushuncha va munosabat | Qoidani o‘z so‘zi bilan izohlash |\n| Mustahkamlash, takrorlash | Eski bilimni qayta qo‘llash | Bir nechta o‘xshash vazifani bajarish |\n| Umumlashtirish, tizimlashtirish | Bilimlar orasidagi bog‘lanish | Bir nechta usulni taqqoslash |\n| Ko‘nikma-malaka shakllantirish | Amalni mustaqil bajarish | Model, kod yoki jadval yaratish |\n| Bilimlarni nazorat qilish | Erishilgan natijani aniqlash | Ishni mezon asosida topshirish |\n| Aralash (kombinatsiyalashgan) | Bir nechta maqsadni uyg‘unlashtirish | Faollashtirish, yangilik, mashq, teskari aloqa |"
+    "content": "| Dars turi | Maqsad | O‘quvchi faoliyati |\n|---|---|---|\n| Yangi bilimni o‘rganish | Yangi tushuncha va munosabat | Qoidani o‘z so‘zi bilan izohlash |\n| Mustahkamlash va takrorlash | Eski bilimni qayta qo‘llash | Bir nechta o‘xshash vazifani bajarish |\n| Umumlashtirish va tizimlashtirish | Bilimlar orasidagi bog‘lanish | Bir nechta usulni taqqoslash |\n| Ko‘nikma va malaka hosil qilish | Amalni mustaqil bajarish | Model, kod yoki jadval yaratish |\n| Bilimlarni tekshirish (nazorat) | Erishilgan natijani aniqlash | Ishni mezon asosida topshirish |\n| Aralash (kombinatsiyalashgan) | Bir nechta maqsadni uyg‘unlashtirish | Faollashtirish, yangilik, mashq, teskari aloqa |"
   },
   {
     "type": "text",
@@ -207,7 +207,7 @@ export const M15_04_CANONICAL_BOOK: TheoryBlock[] = [
   },
   {
     "type": "text",
-    "content": "Ikkilamchi «dars tahlili turlari» materialida ayrim atamalar alohida beriladi. Bu atamalarning nomini normativ maqomli yagona rasmiy tasnif sifatida taqdim etish to‘g‘ri emas; o‘quv topshirig‘ida aynan nima baholanayotganini aniqlang."
+    "content": "«dars tahlili turlari.pdf» — ikkilamchi konspekt bo‘lib, undagi besh yo‘nalish darsning didaktik maqsad tasnifi bilan bir xil emas. Bu atamalarning nomini normativ maqomli yagona rasmiy tasnif sifatida taqdim etish to‘g‘ri emas; o‘quv topshirig‘ida aynan nima baholanayotganini aniqlang."
   },
   {
     "type": "heading",
