@@ -68,13 +68,13 @@
 | 7 | ICT 11-sinf (2021) | **340 PDF sahifa inventarlandi; PDF 11, 66–70, 296–305 bittalab qiyoslandi; 5 ta source-backed insert.** `docs/TASK244_ICT11_M01_PAGE_CONCORDANCE_20261019.md` |
 | 8 | Cambridge+ 5-sinf | **M01 PDF 93–131 o‘qildi; 4 ta source insert.** `docs/TASK244_CAMBRIDGE5_M01_PAGE_CONCORDANCE_20261019.md` |
 | 9 | Cambridge+ 6-sinf | **M01 PDF 162–205 o‘qildi; 4 sahifali source insert.** `docs/TASK244_CAMBRIDGE6_M01_PAGE_CONCORDANCE_20261019.md` |
-| 10 | Cambridge+ 7-sinf | NOT STARTED |
-| 11 | Cambridge+ 8-sinf | NOT STARTED |
-| 12 | Cambridge+ 9-sinf | NOT STARTED |
-| 13 | Cambridge+ 10–11-sinf | NOT STARTED |
+| 10 | Cambridge+ 7-sinf | **M01 PDF 9–10, 36–41, 61–64, 117–118 qiyoslandi; 3 ta insert.** `docs/TASK244_CAMBRIDGE7_M01_PAGE_CONCORDANCE_20261019.md` |
+| 11 | Cambridge+ 8-sinf | **M01 PDF 91–113 va 114–142 ichidagi media tushunchalari qiyoslandi; 3 ta insert.** `docs/TASK244_CAMBRIDGE8_M01_PAGE_CONCORDANCE_20261019.md` |
+| 12 | Cambridge+ 9-sinf | **IGCSE kitobdagi M01ga tegishli bo‘limlar qiyoslandi; 6 ta insert.** `docs/TASK244_CAMBRIDGE9_M01_PAGE_CONCORDANCE_20261019.md` |
+| 13 | Cambridge+ 10–11-sinf | **360 sahifalik PDF bo‘limlari inventarlandi; M01ga daxldor 1-, 4-, 5- va 10-boblar tekshirildi; 7 ta insert.** `docs/TASK244_CAMBRIDGE1011_M01_PAGE_CONCORDANCE_20261019.md` |
 
 **Oraliq release-gates:** har kitobdagi barcha M01ga daxldor sahifalar, jadvallar/rasmlarni solishtirish; har bir addendum uchun hujjatlashtirilgan page trace; yakuniy CI typecheck/test/build; real mobil/desktop reader va autentifikatsiyalangan nazariya-test E2E; insonning alohida release roziligi.
 
-**Hozirgi umumiy holat:** **9/13 darslik** (ICT5–11, Cambridge+5 va Cambridge+6) o‘qilgan relevant sahifalari nazariyaga qiyoslandi; **4/13** Cambridge+7/8/9/10–11 navbatda. `m01TextbookAudit.ts` jami **40 ta manbasi ko‘rsatilgan paket** (32 + 4 + 4) saqlaydi. Cambridge+6 PDF 162–205 reyestri: `docs/TASK244_CAMBRIDGE6_M01_PAGE_CONCORDANCE_20261019.md`. Barcha 40 ta joylashuv nuqtasi mavjudligi koddan tekshirildi. Final CI va real learner visual/E2E QA yakuniy release-gates. Keyingi **Cambridge+ 7-sinf**.
+**Hozirgi umumiy holat:** Barcha **13/13 original darslikning M01ga aloqador bo‘limlari sahifaga tayangan holda qiyoslandi**. ICT5–11 (32 ta) + Cambridge+5 (4) + 6 (4) + 7 (3) + 8 (3) + 9 (6) + 10–11 (7) = jami **59 ta PDF sahifali original nazariya paketi**. Har kitob uchun alohida manba va M01 joylashtirish reyestri bor. Bu barcha PDF sahifalarining barcha rasm/dizayni 100% vizual auditdan o‘tganini anglatmaydi. **Yakuniy CI, o‘quvchi rejimidagi mobil/desktop vizual QA va attestatsiya spetsifikatsiyasi bilan savol–mavzu tekshiruvi hali release-gate.** Merge/deploy/production DB o‘zgarishi yo‘q. M01 to‘liq release-ready deb belgilanishi uchun ushbu bosqichlar tugashi shart.
 
 **Oldingi M02/M03 nazariyalari hali ushbu yangi sahifama-sahifa usulda qayta tekshirilmagan.**
