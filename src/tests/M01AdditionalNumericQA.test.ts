@@ -27,6 +27,7 @@ const auditTypes = new Set([
 ])
 const quantitiesInBytes: Record<string, number> = {
   B: 1,
+  bit: 1 / 8,
   kB: 1e3,
   KiB: 1024,
   MB: 1e6,
@@ -38,7 +39,7 @@ const quantitiesInBytes: Record<string, number> = {
   Gbit: 1e9 / 8,
 }
 const number = (value: string) => Number(value.replace(/\s/g, '').replace(',', '.'))
-const unitPattern = /^(.*?)\s*(MiB\/s|Mbit\/s|Gbit\/s|kbit\/s|marta oshadi|o‘zgarmaydi|MiB|KiB|GB|MB|kB|B|kadr|belgi|marta|s|%)$/i
+const unitPattern = /^(.*?)\s*(MiB\/s|Mbit\/s|Gbit\/s|kbit\/s|bit|marta oshadi|o‘zgarmaydi|MiB|KiB|GB|MB|kB|B|kadr|belgi|marta|s|%)$/i
 
 function audit(item: Item): { expected: number; actual: number; decimals: number } {
   const stem = item.stem
