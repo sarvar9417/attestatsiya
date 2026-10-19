@@ -1349,6 +1349,10 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'table', content: '| Yondashuv | Mazmuni |\n|-----------|--------|\n| Tizimli | Fan mazmunini tizim sifatida o\'rganish |\n| Faoliyatli | O\'quvchini faoliyatga jalb qilish |\n| Kompetensiyaviy | Amaliy ko\'nikmalarni shakllantirish |\n| Shaxsga yo\'naltirilgan | O\'quvchining qobiliyati va ehtiyojiga moslashish |' },
     { type: 'text', content: 'Informatika mazmun sohalari: axborot va raqamli savodxonlik, kompyuter tizimlari va dasturiy muhit, mantiqiy fikrlash va algoritmlash, dasturlash va ma\'lumotlar bilan ishlash, grafika va veb-texnologiyalar, kompyuter tarmoqlari, axborot xavfsizligi.' },
     { type: 'note', content: '💻 Informatika o\'qitishda spiral yondashuv — mavzular har bir sinfda murakkablashib boradi.' },
+    { type: 'heading', content: "Attestatsiya kompetensiyasi: mazmunni o‘qitish yondashuvi" },
+    { type: 'example', content: "5-sinfda algoritmni kundalik amallar orqali tasvirlash, yuqori sinflarda esa uni kod bilan tekshirish — mazmunni o‘quvchi tayyorgarligiga mos bosqichlash misoli. Savolda faqat qaysi dastur ishlatilgani emas, tanlangan faoliyat o‘quv maqsadiga mosligi tekshiriladi." },
+    { type: 'trap', content: "2026-yilgi spetsifikatsiyada M16 uchun 3 ta imtihon savoli ajratilgan. Bu M16.01, M16.02 va M16.03 ning har biridan aynan bittadan savol tushishi kafolati emas. Spiral yondashuvga oid misol metodik tushuntirishdir, spetsifikatsiyadagi alohida rasmiy talab emas." },
+    { type: 'source', content: "Manba: «Informatika Testlar spesifikatsiyasi.pdf» (Toshkent, 2026), «2.2. Informatika o‘qitish metodikasi», 2-jadval, 3 ta topshiriq — https://drive.google.com/file/d/1jJstcqgFXwTJKuH9bkRIpvATEsjM2UnQ/view . Bu spetsifikatsiya kompetensiyalarni belgilaydi, lekin Mamarajabov va boshqalar (2023) «Informatika o‘qitish metodikasi» darsligining sahifama-sahifa tekshiruvi o‘rniga o‘tmaydi." },
   ], []),
 
   'M16.02': t('M16.02', 'O\'qitish usul va metodlari', [
@@ -1357,6 +1361,10 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'text', content: 'Informatika darslarida amaliy faoliyat muhim: kompyuterda ishlash vaqti darsning aniq maqsadi, yosh xususiyatlari, xavfsizlik talablari va mavjud sharoitga qarab rejalashtiriladi. Dasturlashni o\'rgatishda "Code.org", "Scratch", "Python" kabi vositalar qo\'llaniladi.' },
     { type: 'example', content: 'Muammoli ta\'lim: "Internetga ulanish yo\'q. Ma\'lumotlarni qanday almashish mumkin?" — o\'quvchilar muammoni mustaqil yechishadi.' },
     { type: 'note', content: '💡 Informatika fanida "Fishbone" (Ishikava, baliq skeleti) diagrammasi — muammo va sabablarni tahlil qilish uchun qo\'llaniladi.' },
+    { type: 'heading', content: "Metod nomini emas, vaziyatga mosligini baholang" },
+    { type: 'table', content: "| Maqsad | Mos mashg‘ulot namunasi | Nega? |\\n|---|---|---|\\n| Algoritm ketma-ketligini tushunish | Blok-sxemani tahlil qilish | Amallar tartibini ko‘rinarli qiladi |\\n| Dasturdagi xatoni aniqlash | Kodni ishga tushirish va debugging | Kuzatiladigan natija bilan taxminni solishtiradi |\\n| Raqamli xavfsizlik qarori | Dalilli vaziyat muhokamasi | Xavf va oqibatni taqqoslashga undaydi |" },
+    { type: 'trap', content: "«Interfaol metod doim eng yaxshi» yoki «slayd ko‘rsatishning o‘zi ko‘rgazmalilikni kafolatlaydi» degan umumiy xulosa noto‘g‘ri. Metod tanlovi maqsad, mavjud resurs, yosh va qayta aloqa imkoniga bog‘liq." },
+    { type: 'source', content: "Manba: «Informatika Testlar spesifikatsiyasi.pdf» (Toshkent, 2026), «2.2. Informatika o‘qitish metodikasi», 2-jadval, 3 ta topshiriq — https://drive.google.com/file/d/1jJstcqgFXwTJKuH9bkRIpvATEsjM2UnQ/view . Bu spetsifikatsiya kompetensiyalarni belgilaydi, lekin Mamarajabov va boshqalar (2023) «Informatika o‘qitish metodikasi» darsligining sahifama-sahifa tekshiruvi o‘rniga o‘tmaydi." },
   ], []),
 
   'M16.03': t('M16.03', 'Ta\'limiy vaziyatdagi qarorlarni baholash', [
@@ -1365,6 +1373,11 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'table', content: '| Vaziyat | Mumkin qaror | Baholash |\n|---------|-------------|---------|\n| O\'quvchi darsga qiziqmaydi | Interfaol metod qo\'llash | To\'g\'ri, faollikni oshiradi |\n| O\'quvchi kompyuterda o\'yin o\'ynayapti | Darsdan haydash | Noto\'g\'ri, sababini aniqlash kerak |\n| O\'quvchilar turli darajada | Differensial topshiriq berish | To\'g\'ri, har bir o\'quvchiga mos |\n| Ota-ona farzandining bahosidan norozi | Bahoni tushuntirish, mezonlarni ko\'rsatish | To\'g\'ri, ochiq muloqot |' },
     { type: 'example', content: 'Vaziyat: darsda ikkita o\'quvchi kompyuterda o\'zaro urishib qoladi.\nNoto\'g\'ri: ikkalasini ham darsdan haydash.\nTo\'g\'ri: vaziyatni tahlil qilish, sababini aniqlash, alohida suhbatlashish, kelishuvga erishish.' },
     { type: 'note', content: '🔍 Pedagogik qaror qabul qilishda o\'qituvchi: vaziyatni tahlil qiladi, variantlarni ko\'rib chiqadi, eng maqbulini tanlaydi va natijani baholaydi.' },
+    { type: 'heading', content: "Pedagogik qarorni asoslashning to‘rt bosqichi" },
+    { type: 'table', content: "| Bosqich | Tekshiriladigan savol |\\n|---|---|\\n| Vaziyat dalillari | Nima kuzatildi, nima hali taxmin? |\\n| Maqsad va cheklovlar | O‘quv natijasi, xavfsizlik va teng imkoniyat saqlanyaptimi? |\\n| Muqobil yechimlar | Qaysi usul eng kam zarar va eng ko‘p o‘rganish imkonini beradi? |\\n| Natijani tekshirish | Qaror samarasini qanday dalil va qayta aloqa bilan baholaymiz? |" },
+    { type: 'example', content: "Kompyuterlar soni cheklangan darsda bir guruh dastur tuzadi, ikkinchisi kodni qog‘ozda tahlil qiladi, keyin almashadi. Bunday yechimni «to‘g‘ri» deyishdan oldin barcha o‘quvchi amaliy maqsadga erishgani va xavfsiz ishlashini tekshirish kerak." },
+    { type: 'trap', content: "Vaziyatli savollarda yagona «hamisha to‘g‘ri» metod yo‘q. O‘quvchini kamsitadigan jazo, shaxsiy ma’lumotni oshkor qilish yoki sababsiz chetlatish maqbul pedagogik qaror bo‘la olmaydi." },
+    { type: 'source', content: "Manba: «Informatika Testlar spesifikatsiyasi.pdf» (Toshkent, 2026), «2.2. Informatika o‘qitish metodikasi», 2-jadval, 3 ta topshiriq — https://drive.google.com/file/d/1jJstcqgFXwTJKuH9bkRIpvATEsjM2UnQ/view . Bu spetsifikatsiya kompetensiyalarni belgilaydi, lekin Mamarajabov va boshqalar (2023) «Informatika o‘qitish metodikasi» darsligining sahifama-sahifa tekshiruvi o‘rniga o‘tmaydi." },
   ], []),
 }
 
