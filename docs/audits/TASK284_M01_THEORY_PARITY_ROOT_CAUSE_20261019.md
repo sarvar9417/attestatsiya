@@ -4,7 +4,7 @@
 
 ## Verified cause
 
-The user's reference is **Axborot va raqamli savodxonlik → Informatika, ma'lumot, axborot va bilim** (`M01.02`). Its generated `src/data/topics/m01.ts` contains **112 authored theory blocks in a 45,468-character source-code slice**, with an ordered long-form LaTeX source and defined sections. It comes from `Axborot_va_axborot_jarayonlari_LaTeX/I_qism_Axborot_va_raqamli_savodxonlik_yagona.tex`.
+The user's reference is **Axborot va raqamli savodxonlik → Informatika, ma'lumot, axborot va bilim** (`M01.02`). Its generated `src/data/topics/m01.ts` contains **69 top-level theory blocks (112 nested `type:` occurrences in a 45,468-character source-code slice)**, with an ordered long-form LaTeX source and defined sections. It comes from `Axborot_va_axborot_jarayonlari_LaTeX/I_qism_Axborot_va_raqamli_savodxonlik_yagona.tex`.
 
 Most other modules initially shipped a `TOPIC_CONTENT` seed of **6–9 blocks** and **roughly 1,500–3,000 source-code characters per chapter**; TASK-273 appended only a handful of tables/examples and sources per topic. This did **not** reconstruct a 30–100-block subject textbook chapter.
 
