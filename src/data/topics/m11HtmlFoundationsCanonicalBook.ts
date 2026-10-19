@@ -79,7 +79,7 @@ export const M11_01_CANONICAL_BOOK: TheoryBlock[] = [
   },
   {
     "type": "code",
-    "content": "<!DOCTYPE html>\\n<html lang=\"uz\">\\n<head><meta charset=\"utf-8\"><title>Dars</title></head>\\n<body><h1>Dars</h1></body>\\n</html>"
+    "content": "<!DOCTYPE html>\n<html lang=\"uz\">\n<head><meta charset=\"utf-8\"><title>Dars</title></head>\n<body><h1>Dars</h1></body>\n</html>"
   },
   {
     "type": "heading",
