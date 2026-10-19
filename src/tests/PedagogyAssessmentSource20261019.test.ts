@@ -44,12 +44,12 @@ describe('pedagogika M14.03 and M15 source-and-safety reconciliation', () => {
 
   it('does not present coercion as an unqualified recommendation for upbringing', () => {
     const blocks = theory('M15.03')
-    const methods = blocks.find(x => x.type === 'text')?.content ?? ''
+    const methods = blocks.find(x => x.type === 'text' && x.content.includes('Tarbiya metodlariga'))?.content ?? ''
     expect(methods).toContain('namuna')
     expect(methods).toContain('rag‘batlantirish')
     expect(methods).toContain('qadr-qimmatini')
     expect(methods).not.toContain('majburlash')
-    const note = blocks.find(x => x.type === 'note')?.content ?? ''
+    const note = blocks.find(x => x.type === 'note' && x.content.includes('«majburlash»'))?.content ?? ''
     expect(note).toContain('«majburlash»')
     expect(note).toContain('zo‘ravonlik yoki kamsitishni')
   })
@@ -86,7 +86,7 @@ describe('pedagogika M14.03 and M15 source-and-safety reconciliation', () => {
   })
 
   it('preserves civic upbringing as a separate direction in the extracted source', () => {
-    const table = theory('M15.03').find(x => x.type === 'table')?.content ?? ''
+    const table = theory('M15.03').find(x => x.type === 'table' && x.content.includes('| Fuqarolik |'))?.content ?? ''
     expect(table).toContain('| Fuqarolik |')
     expect(table).toContain('| Huquqiy |')
     expect(table).toContain('| Ekologik |')

@@ -49,10 +49,13 @@ describe('TASK-284: M01-style content is a substantive chapter, not a design ski
     expect(enriched.questions).toBe(staticTopic?.questions)
   })
 
-  it('does not label unrelated short chapters as source-complete books', () => {
-    const old = getTopicContent('M03.01')
-    expect(old).toBeDefined()
-    expect(old?.source).toBeUndefined()
+  it('still keeps short unreviewed neighboring chapters distinct from the sourced Word book', () => {
+    const expanded = getTopicContent('M03.01')
+    const unchanged = getTopicContent('M15.04')
+    expect(expanded?.source).toContain('Cambridge')
+    expect(expanded?.theory.length).toBeGreaterThan(60)
+    expect(unchanged).toBeDefined()
+    expect(unchanged?.source).toBeUndefined()
     expect(M03_05_CANONICAL_BOOK.at(-1)?.content).toContain('PDF')
     expect(M15_01_CANONICAL_BOOK.at(-1)?.content).toContain('Mirzayeva')
   })

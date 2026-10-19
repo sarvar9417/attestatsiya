@@ -4,7 +4,7 @@ import { getTopicContent } from '../data/topicContent'
 describe('TASK-268: original-textbook Office fallback accuracy', () => {
   it('distinguishes Word Design page borders from Layout margins', () => {
     const content = getTopicContent('M03.01')
-    const table = content?.theory.find(block => block.type === 'table')?.content ?? ''
+    const table = content?.theory.find(block => block.type === 'table' && block.content.includes('Design | Mavzular, ranglar'))?.content ?? ''
     expect(table).toContain('Design | Mavzular, ranglar va sahifa chegaralari (Page Borders)')
     expect(table).toContain('Layout | Maydonlar,')
     expect(table).not.toContain('Design | Sahifa chetlari,')
