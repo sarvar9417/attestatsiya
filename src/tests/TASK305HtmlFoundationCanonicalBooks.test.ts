@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { getTopicContent } from '../data/topicContent'
+import { getTopicContent, displayedCognitiveLevel } from '../data/topicContent'
 import { splitSections } from '../components/learning/theory/BookReader'
 import { M11_WEB_TEXTBOOK_ADDITIONS } from '../data/topics/m11WebTextbookAdditions'
 import { M11_01_CANONICAL_BOOK } from '../data/topics/m11HtmlFoundationsCanonicalBook'
@@ -39,7 +39,8 @@ describe('TASK-305: source-guided M11.01–03 HTML reader parity', () => {
       const questions = getTopicContent(id)!.questions
       expect(questions.map(q => q.id)).toEqual(keys.map((_, i) => `${id}-q${i + 1}`))
       expect(questions.map(q => q.correctIndex)).toEqual(keys)
-      expect(questions.map(q => q.type)).toEqual(types)
+      expect(questions.map(q => displayedCognitiveLevel(q))).toEqual(types)
+      expect(questions.every(q => q.type === 'Y1')).toBe(true)
     })
   }
 
