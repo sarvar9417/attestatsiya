@@ -1,17 +1,17 @@
 # TASK-247 — 18 kanonik pedagogika mavzusi bo‘yicha source-readiness matritsasi
-**Sana:** 2026-10-19. **Holat:** feature branch audit; yuklash davom etmoqda, final emas.
+**Sana:** 2026-10-19. **Holat:** TASK-247 `main`ga PR #204 orqali merge; TASK-252 draft branchida asl skan manbalar va darslik bilan qo‘shimcha audit, final emas. 59 PDF raw/visual first-pass tugagan.
 
 Quyidagi **manba mavjudligi** «fizik PDF sahifasi + ekspert tasdig‘i» degani emas. 2026-yilgi rasmiy kvota 5 KS + 7 umumiy pedagogika + 3 informatika metodikasi; 7+8+3 esa platformaning o‘quv mavzulari soni. Manba turi va expert gate bir-biridan ajratiladi.
 
 | Kod | O‘quv mavzusi | Extract qilingan yoki ilgari tanilgan material | Joriy tekshiruv holati / xavf |
 |---|---|---|---|
-| M14.01 | Rejalashtirish | Pedagogning kasbiy standarti; kasb standarti 1-soha | Ikkilamchi soha ochildi; original normativ bilan solishtirish ochiq |
-| M14.02 | Samaradorlik | Pedagogning kasbiy standarti; Kasb standarti 2-soha | Ikkilamchi soha ochildi; metod va standart mezonlari ochiq |
-| M14.03 | Baholash va qayta aloqa | Pedagogning kasbiy standarti; Kasb standarti 3-soha | Ikkilamchi soha ochildi; diagnostik/formativ/summativ kalit QA ochiq |
-| M14.04 | Tarbiyaviy faoliyat | Pedagogning kasbiy standarti; Xoliqov | Manbaviy sarlavha ochildi; normativ ish vazifalari bilan tekshirish ochiq |
-| M14.05 | Xavfsiz muhit | Pedagogning kasbiy standarti; Qodirova/Pulatova | Qo‘llanma 1-betda 5/6 sohani chalkashtirgan; asosiy bo‘limga solishtirilgan, original normativ ochiq |
-| M14.06 | Kasbiy o‘sish | Pedagogning kasbiy standarti; Muslimov | Qo‘llanma 1-betda 5/6 sohani chalkashtirgan; original normativ ochiq |
-| M14.07 | Hamkorlik | Pedagogning kasbiy standarti | Ikkilamchi soha ochildi; savol/kalit ekspertizasi ochiq |
+| M14.01 | Rejalashtirish | Asl kasb standarti (PDF 2-sahifa, A/01.6); oldingi ikkilamchi qo‘llanma | **Original 17-betli skan ochildi**, vazifa kodi ko‘rildi; barcha bandlar/current legal status va item-key ekspertizasi hali ochiq |
+| M14.02 | Samaradorlik | Asl kasb standarti (PDF 2-sahifa, A/02.6); oldingi ikkilamchi qo‘llanma | **Original 17-betli skan ochildi**, vazifa kodi ko‘rildi; barcha bandlar/current legal status va item-key ekspertizasi hali ochiq |
+| M14.03 | Baholash va qayta aloqa | Asl kasb standarti (PDF 2-sahifa, A/03.6); oldingi ikkilamchi qo‘llanma | **Original 17-betli skan ochildi**, vazifa kodi ko‘rildi; barcha bandlar/current legal status va item-key ekspertizasi hali ochiq |
+| M14.04 | Tarbiyaviy faoliyat | Asl kasb standarti (PDF 2-sahifa, A/04.6); oldingi ikkilamchi qo‘llanma | **Original 17-betli skan ochildi**, vazifa kodi ko‘rildi; barcha bandlar/current legal status va item-key ekspertizasi hali ochiq |
+| M14.05 | Xavfsiz muhit | Asl kasb standarti (PDF 2-sahifa, A/05.6); oldingi ikkilamchi qo‘llanma | **Original 17-betli skan ochildi**, vazifa kodi ko‘rildi; barcha bandlar/current legal status va item-key ekspertizasi hali ochiq |
+| M14.06 | Kasbiy o‘sish | Asl kasb standarti (PDF 2-sahifa, B/01.6); oldingi ikkilamchi qo‘llanma | **Original 17-betli skan ochildi**, vazifa kodi ko‘rildi; barcha bandlar/current legal status va item-key ekspertizasi hali ochiq |
+| M14.07 | Hamkorlik | Asl kasb standarti (PDF 2-sahifa, B/02.6); oldingi ikkilamchi qo‘llanma | **Original 17-betli skan ochildi**, vazifa kodi ko‘rildi; barcha bandlar/current legal status va item-key ekspertizasi hali ochiq |
 | M15.01 | Pedagogika, didaktika | Xoliqov; Mirzayeva 2-mavzu | Manba matni ochildi; obyekt/predmet va tadqiqot metodlari statik note boyitildi |
 | M15.02 | Ta’lim tamoyillari | Mirzayeva; pedagogika manbalari; Bloom (Sarvar Drive) | Bloom talqinlari qo‘shildi; 2026 kognitiv tasnifga 1:1 tenglashtirilmaydi |
 | M15.03 | Tarbiya | Mirzayeva 2-mavzu; Xoliqov | Fayl matnida tarbiya turlari bor; alohida sahifa va test QA ochiq |
@@ -36,7 +36,7 @@ Quyidagi **manba mavjudligi** «fizik PDF sahifasi + ekspert tasdig‘i» degani
 ## Ish tartibi
 
 1. M15.01, M15.02, M15.04, M15.07, M15.08 da aniqlangan manba-teoriya mosligini regressiya bilan himoyalash.
-2. M14.01–M14.07: kasb standarti asl normativ matni bilan taqqoslash va 5/6 xatoni manbaning o‘zida qayta tekshirish.
+2. M14.01–M14.07: asl 17-betlik standart skanining 2-sahifasida A/01.6–B/02.6 7 kod tekshirildi; qolgan 15 fizik sahifa, hujjatning bugungi normativ kuchi va 5/6 soha bo‘yicha ikkilamchi konspekt chalkashligi ekspert yakuniga tayyorlansin.
 3. M15.03, M15.05, M15.06: Mirzayeva/Xoliqov/Muslimov/Mahmudov asosida dars nazariyasi, terminlar va manba sahifalari.
 4. M16.01–M16.03: TASK-252’da topilgan Mamarajabov (2023) original PDF bilan barcha boblarni fizik sahifalarda taqqoslash, source-key ekspertizasini to‘liq yakunlash.
 5. 2025/2026 tarixiy test variantlarini fingerprint orqali ajratish; yetarli per-topic published pool va review gate.
