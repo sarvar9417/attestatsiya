@@ -1,3 +1,15 @@
+## 2026-10-19 — TASK-244: M01 source audit metodologiyasi yangilandi (2/13 books)
+
+- User talabi: har bir original Drive ICT/Cambridge+ **kitobi bittalab** o‘qiladi, M01ga daxldor sahifalarda ta’rif/jadval/formula/rasm/misol platforma bilan solishtiriladi. Kalit so‘zli sampling "to‘liq tekshirildi" deyilmaydi.
+- **Branch:** `task/TASK-244-m01-book-by-book-source-audit`, avvalgi `TASK-243` branchining descendant; main/production untouched.
+- **ICT5 2020:** raw PDF 113 sahifa, SHA256 `c9ecf47a8a72159244964635aae635f846f516394dbe73aa9f0e9c678047aac9`; M01 sahifalari PDF 6–24 o‘qildi, sxema/jadvallar vizual tekshirildi; 6 source-backed addenda (M01.02–05).
+- **ICT6 2021:** raw PDF 160 sahifa, SHA256 `f0db8899cefcb88a10a91cc9aa46e8672644a789b2a8a2daece7058ea50c2c21`; M01 relevant PDF 76–127 har sahifa darajasida tekshirildi; 4 source-backed addenda (M01.04, M01.06), source/error distinctions.
+- **Architecture:** generated `m01.ts` untouched; `m01TextbookAudit.ts` (+ `m01TextbookAuditICT6.ts`) original handbook bo‘limiga source-evidence insertion qo‘shadi; missing heading = hard error, non-loss regression test.
+- **QA:** CI dastlab audit sarlavhasida Unicode apostrof nomuvofiqligi sabab FAIL chiqardi; anchorlar kanonik ASCII apostrofga to‘g‘rilandi. **Final commit CI pass tasdiqlanmaguncha** release blocked. Tests: `M01ICT5BookAudit.test.tsx`, `M01ICT6BookAudit.test.tsx`.
+- **Detailed page registry:** `docs/TASK244_M01_BOOK_BY_BOOK_SOURCE_AUDIT_20261019.md` va `docs/TASK244_ICT6_M01_PAGE_CONCORDANCE_20261019.md`.
+- **Next book:** ICT7 (2021), M01-relevant barcha PDF sahifalari; keyin ICT8–11, Cambridge+.
+- **Restrictions:** NO merge, NO manual production deploy, NO private DB writes; no question release.
+
 ## 2026-10-19 — TASK-243: M02 darslik, nazariya va dizayn
 
 - **Status:** IN_PROGRESS / release BLOCKED. 2026 rasmiy specs: 2 ta M02 savol, 4 kanonik konstrukt, 9 legacy mavzu turli bo‘limlarga birlashtirilgan.
