@@ -52,7 +52,7 @@ describe('pedagogy source-based Bloom explanation', () => {
     expect(first).toContain('suhbat')
     expect(first).toContain('anketa')
     expect(first).toContain('eksperiment')
-    expect(first).toContain('aniq fizik betlari hali tekshirilmagan')
+    expect(first).toContain('fizik 1, 3–6-sahifalari tasvir orqali tekshirildi')
   })
 
   it('uses all six didactic lesson types listed in the extracted source, not lesson formats', () => {
@@ -200,4 +200,32 @@ describe('pedagogy source-based Bloom explanation', () => {
     expect(text).toContain('2026-yilgi informatika attestatsiyasi spetsifikatsiyasining 2-jadvalida')
     expect(text).toContain('rasmiy hujjatdagi imloni')
   })
+  it('uses both the textbook and the separately labelled supplementary M15.08 source', () => {
+    const blocks = getPedagogyStudyNotes('M15.08')
+    const text = blocks.map(block => block.content).join('\n')
+    expect(text).toContain('**Inklyuziv ta’lim**')
+    expect(text).toContain('**Korreksion pedagogika**')
+    expect(text).toContain('1J67WL90Qh6uULzmI7yYIR0OJ6diTg3cX')
+    expect(text).toContain('1-mz2ykvhEuG4dudIDq-k0zYofeLvbz2g')
+    expect(text).toContain('DOCX ikkilamchi konspekt')
+  })
+
+  it('includes an accessible, goal-preserving M15.08 teaching scenario and comparison table', () => {
+    const blocks = getPedagogyStudyNotes('M15.08')
+    const comparison = blocks.find(block => block.type === 'table' && block.content.includes('Eshitishdagi qiyinchilik'))
+    expect(comparison?.content).toContain('\n|---|---|')
+    expect(comparison?.content).toContain('Ko‘rishdagi qiyinchilik')
+    expect(comparison?.content).toContain('Nutqiy ifodalashdagi qiyinchilik')
+    expect(blocks.map(block => block.content).join('\n')).toContain('O‘quv maqsadi saqlanadi')
+  })
+
+  it('avoids equating specialized support to segregation or teacher medical diagnosis', () => {
+    const text = getPedagogyStudyNotes('M15.08').map(block => block.content).join('\n')
+    expect(text).toContain('sinfdagi ishtirokni almashtirmaydi')
+    expect(text).toContain('tibbiy tashxis qo‘ymaydi')
+    expect(text).toContain('surdopedagogika')
+    expect(text).toContain('tiflopedagogika')
+    expect(text).toContain('logopediya')
+  })
+
 })
