@@ -100,6 +100,17 @@ describe('published Scratch/LOGO M07 catalog', () => {
     expect(result?.[0].id).toBe(lessons[0].id)
   })
 
+  it('does not substitute an unverified 13th published Scratch lesson for the exact 12-lesson edition', () => {
+    const extra: LessonSummary = {
+      ...lessons[0],
+      id: '00000000-0000-4000-8000-000000000013',
+      order_idx: 13,
+      slug: 'scratch-lesson-13',
+      title_uz: 'Unverified extra lesson',
+    }
+    expect(publishedScratchLogoSubtopics([...lessons, extra])).toBeNull()
+  })
+
   it('fails closed for incomplete, unpublished or contentless chapters', () => {
     expect(publishedScratchLogoSubtopics(lessons.slice(0, 6))).toBeNull()
     expect(publishedScratchLogoSubtopics(lessons.map((l, i) => i === 6 ? { ...l, status: 'review' } : l))).toBeNull()
