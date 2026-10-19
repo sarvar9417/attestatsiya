@@ -153,16 +153,17 @@ export function overlayPublishedProfessionalLesson(
         ['heading', 'subheading', 'definition', 'text', 'table', 'example', 'case', 'note', 'source', 'trap'].includes(block.type))
     : []
   const publishedCore = appendDistinctTheory(theory, m14Legacy)
-  const withSources = appendDistinctTheory(publishedCore, sourceAdditions)
-  // The published M14/M16 deep source corpus is canonical reading too; for
-  // M02/M15 it is handled separately to retain their curated main chapters.
+  // The published M14/M16 deeper corpus belongs to this same reader, but the
+  // source-checked local additions must retain their established final order.
   const deeper = extraMarkdown.trim() ? markdownToTheoryBlocks(extraMarkdown) : []
   const isCanonicalProfessional = /^M1[46]\.\d{2}$/.test(staticContent.subtopicId)
+  const withDeeper = isCanonicalProfessional ? appendDistinctTheory(publishedCore, deeper) : publishedCore
+  const withSources = appendDistinctTheory(withDeeper, sourceAdditions)
 
   return {
     ...staticContent,
     title: lesson.title_uz || staticContent.title,
-    theory: isCanonicalProfessional ? appendDistinctTheory(withSources, deeper) : withSources,
+    theory: withSources,
     supplementalTheory: !isCanonicalProfessional && deeper.length > 0 ? deeper : undefined,
     // Keep the existing offline static quiz as fallback. Live scoring remains on the backend.
     questions: staticContent.questions,
