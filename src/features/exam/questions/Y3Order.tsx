@@ -1,4 +1,6 @@
+import { useId } from 'react'
 import { ChevronDown, ChevronUp } from 'lucide-react'
+import ExamRichText from './ExamRichText'
 import type { ExamOption } from '../contracts'
 
 interface Y3OrderProps {
@@ -16,6 +18,7 @@ export default function Y3Order({
   disabled = false,
   onChange,
 }: Y3OrderProps) {
+  const promptId = useId()
   const byId = new Map(items.map((item) => [item.id, item]))
   const orderedItems = value
     .map((id) => byId.get(id))
@@ -31,10 +34,9 @@ export default function Y3Order({
   }
 
   return (
-    <fieldset disabled={disabled}>
-      <legend className="text-base font-medium text-gray-900 dark:text-white mb-2 whitespace-pre-wrap">
-        {prompt}
-      </legend>
+    <fieldset disabled={disabled} aria-labelledby={promptId} className="min-w-0">
+      <legend className="sr-only">Tartiblash savoli</legend>
+      <div id={promptId} className="mb-2 text-base font-medium text-gray-900 dark:text-white"><ExamRichText text={prompt} /></div>
       <p className="text-xs text-gray-500 mb-4">
         Elementlarni yuqoriga va pastga tugmalari bilan tartiblang.
       </p>
@@ -47,9 +49,9 @@ export default function Y3Order({
             <span className="w-7 h-7 rounded bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-xs font-mono text-gray-500 shrink-0">
               {index + 1}
             </span>
-            <span className="text-sm text-gray-700 dark:text-gray-300 flex-1 whitespace-pre-wrap">
-              {item.content_md}
-            </span>
+            <div className="text-sm text-gray-700 dark:text-gray-300 min-w-0 flex-1">
+              <ExamRichText text={item.content_md} />
+            </div>
             <div className="flex flex-col gap-0.5">
               <button
                 type="button"
