@@ -6,7 +6,6 @@ import type {
   LessonResponse,
   ConstructResponse,
   LessonQuestion,
-  CheckAnswerResult,
 } from '../schemas/content.js'
 
 /**
@@ -156,22 +155,41 @@ async function withAdaptiveTopicCount(
   }
 }
 
+/** Service-role reads must enforce publication independently of UUID resolution. */
+async function publishedModule(id: string) {
+  const { data, error } = await supabase.from('modules').select('*')
+    .eq('id', id).eq('status', 'published').maybeSingle()
+  if (error) throw new AppError('Kontentni yuklab bo‘lmadi', 503, 'CONTENT_UNAVAILABLE')
+  if (!data) throw new NotFoundError('Modul topilmadi')
+  return data
+}
+
+async function publishedLesson(id: string) {
+  const { data, error } = await supabase.from('lessons').select('*')
+    .eq('id', id).eq('status', 'published').maybeSingle()
+  if (error) throw new AppError('Kontentni yuklab bo‘lmadi', 503, 'CONTENT_UNAVAILABLE')
+  if (!data) throw new NotFoundError('Dars topilmadi')
+  await publishedModule(data.module_id)
+  return data
+}
+
 export const contentService = {
   /**
    * List all published modules, optionally filtered by section.
    */
-  async listModules(section?: string, status = 'published'): Promise<ModuleResponse[]> {
+  async listModules(section?: string): Promise<ModuleResponse[]> {
     let query = supabase
       .from('modules')
       .select('id, code, title_uz, summary_uz, order_idx, exam_section, status, exam_question_count')
-      .eq('status', status)
+      .eq('status', 'published')
       .order('order_idx', { ascending: true })
 
     if (section) {
       query = query.eq('exam_section', section)
     }
 
-    const { data: modules } = await query
+    const { data: modules, error } = await query
+    if (error) throw new AppError('Kontentni yuklab bo‘lmadi', 503, 'CONTENT_UNAVAILABLE')
     if (!modules) return []
 
     // Get lesson counts
@@ -206,13 +224,7 @@ export const contentService = {
     const resolvedId = await resolveModuleUuid(id)
     if (!resolvedId) throw new NotFoundError('Modul topilmadi')
 
-    const { data: mod } = await supabase
-      .from('modules')
-      .select('*')
-      .eq('id', resolvedId)
-      .single()
-
-    if (!mod) throw new NotFoundError('Modul topilmadi')
+    const mod = await publishedModule(resolvedId)
 
     const { data: lessons } = await supabase
       .from('lessons')
@@ -283,13 +295,7 @@ export const contentService = {
     const resolvedId = await resolveLessonUuid(id)
     if (!resolvedId) throw new NotFoundError('Dars topilmadi')
 
-    const { data: lesson } = await supabase
-      .from('lessons')
-      .select('*')
-      .eq('id', resolvedId)
-      .single()
-
-    if (!lesson) throw new NotFoundError('Dars topilmadi')
+    const lesson = await publishedLesson(resolvedId)
 
     const { data: constructs } = await supabase
       .from('lesson_constructs')
@@ -332,6 +338,7 @@ export const contentService = {
   async listLessonQuestions(id: string): Promise<LessonQuestion[]> {
     const resolvedId = await resolveLessonUuid(id)
     if (!resolvedId) throw new NotFoundError('Dars topilmadi')
+    await publishedLesson(resolvedId)
 
     const { data: questions } = await supabase
       .from('questions')
@@ -384,6 +391,7 @@ export const contentService = {
   async topicTestPreflight(id: string) {
     const resolvedId = await resolveLessonUuid(id)
     if (!resolvedId) throw new NotFoundError('Mavzu topilmadi')
+    await publishedLesson(resolvedId)
 
     const { data, error } = await supabase.rpc('topic_test_preflight', {
       p_lesson_id: resolvedId,
@@ -422,48 +430,6 @@ export const contentService = {
       critical_objective_gaps: preflight.critical_objective_gaps as string[],
       missing_required_objectives: preflight.missing_required_objectives as string[],
     })
-  },
-
-  /**
-   * Savol javobini server tomonda tekshiradi (question_keys client'ga chiqmaydi).
-   */
-  async checkAnswer(questionId: string, optionId: string): Promise<CheckAnswerResult> {
-    const { data: question } = await supabase
-      .from('questions')
-      .select('id, group_code')
-      .eq('id', questionId)
-      .eq('status', 'published')
-      .maybeSingle()
-    if (!question || ['KS', 'PM.GEN', 'PM.MET'].includes(question.group_code)) {
-      // Deliberately indistinguishable from a nonexistent question to avoid
-      // using the correct_option_id endpoint as an exam-bank key oracle.
-      throw new NotFoundError('Savol topilmadi')
-    }
-
-    const { data: option } = await supabase
-      .from('question_options')
-      .select('id, question_id')
-      .eq('id', optionId)
-      .eq('question_id', questionId)
-      .maybeSingle()
-    if (!option) throw new AppError('Javob varianti savolga tegishli emas', 400, 'INVALID_OPTION')
-
-    const { data: key } = await supabase
-      .from('question_keys')
-      .select('payload, explanation_md')
-      .eq('question_id', questionId)
-      .maybeSingle()
-    if (!key) throw new AppError('Savol uchun kalit topilmadi', 500, 'KEY_MISSING')
-
-    const payload = key.payload as { correct_option_id?: string } | null
-    const correctOptionId = payload?.correct_option_id ?? ''
-    if (!correctOptionId) throw new AppError('Kalit noto‘g‘ri tuzilgan', 500, 'KEY_INVALID')
-
-    return {
-      correct: optionId === correctOptionId,
-      correct_option_id: correctOptionId,
-      explanation_md: key.explanation_md,
-    }
   },
 
   /**

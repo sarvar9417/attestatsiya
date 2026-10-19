@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { authClient } from '../features/auth/authClient'
-import { API_BASE_URL, ApiError, isNetworkError } from '../lib/apiClient'
+import { API_BASE_URL, ApiError } from '../lib/apiClient'
 import { sessionStore, isExpired, type AuthSession, type AuthUser } from '../features/auth/sessionStore'
 import { clearRecoveryParamsFromUrl, readRecoveryAccessToken } from '../features/auth/recoveryUrl'
 
@@ -55,7 +55,8 @@ export function useAuth(): AuthState & {
           const latest = sessionStore.get()
           if (
             mounted &&
-            !isNetworkError(error) &&
+            error instanceof ApiError &&
+            [400, 401, 403].includes(error.statusCode) &&
             latest?.refresh_token === current.refresh_token
           ) {
             sessionStore.clear()

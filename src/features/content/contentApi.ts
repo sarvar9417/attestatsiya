@@ -148,7 +148,7 @@ const lessonQuestionsResponseSchema = z.array(lessonQuestionSchema)
  */
 export async function listModules(
   section?: ModuleSection,
-  status: 'published' | 'draft' | 'archived' = 'published'
+  status: 'published' = 'published'
 ): Promise<ModuleSummary[]> {
   const params = new URLSearchParams()
   if (section) params.set('section', section)

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { AlertCircle, ArrowLeft, BookOpen, ChevronRight, RefreshCw } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { backendGateway } from '../features/exam/backendGateway'
@@ -10,21 +10,31 @@ export default function AxborotPracticePage({ embedded = false }: { embedded?: b
   const [chapters, setChapters] = useState<AXBChapter[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  // A retry can finish before the original request; only the latest response
+  // may update the chapter catalog. Invalidate in-flight work on unmount.
+  const requestId = useRef(0)
   const load = useCallback(async () => {
+    const currentRequest = ++requestId.current
     setLoading(true)
     setError(null)
     try {
       const rows = await backendGateway.getAxborotChapters?.()
+      if (currentRequest !== requestId.current) return
       if (!rows || rows.length !== 19) throw new Error('Boblar ro‘yxati to‘liq emas')
       setChapters(rows)
     } catch {
-      setError('Boblar ro‘yxatini yuklashda xatolik. Qayta urinib ko‘ring.')
+      if (currentRequest === requestId.current) {
+        setError('Boblar ro‘yxatini yuklashda xatolik. Qayta urinib ko‘ring.')
+      }
     } finally {
-      setLoading(false)
+      if (currentRequest === requestId.current) setLoading(false)
     }
   }, [])
 
-  useEffect(() => { void load() }, [load])
+  useEffect(() => {
+    void load()
+    return () => { requestId.current += 1 }
+  }, [load])
 
   const Wrapper = embedded ? 'section' : 'main'
   return <Wrapper className={embedded ? 'pt-4' : 'mx-auto max-w-6xl px-4 py-6 sm:px-6'}>

@@ -13,7 +13,8 @@
 
 import { z } from 'zod'
 import type { CustomExamConfig } from '../custom-test/customTestApi'
-import { api, isNetworkError } from '../../lib/apiClient'
+import { sessionStore } from '../auth/sessionStore'
+import { api, ApiError, isNetworkError } from '../../lib/apiClient'
 import {
   examSessionSchema,
   examReviewResponseSchema,
@@ -35,6 +36,8 @@ import type { AXBChapter } from '../axb/chapters'
 import { getTopicTestPreflight } from '../content/contentApi'
 import {
   enqueuePendingAnswer,
+  listPendingAnswers,
+  removePendingAnswer,
   flushPendingAnswers,
   type FlushPendingAnswersResult,
 } from './offlineAnswerQueue'
@@ -71,35 +74,56 @@ async function sendAnswerToServer(
   return parseResponse(submitAnswerResponseSchema, data, 'submit_answer')
 }
 
-let offlineFlushInFlight: Promise<FlushPendingAnswersResult> | null = null
+const offlineFlushes = new Map<string, Promise<FlushPendingAnswersResult>>()
 
-/**
- * Public helper for app bootstrap/tests. Parallel reconnect events bitta flush
- * promise'ga birlashtiriladi; shu sabab duplicate burst yuborilmaydi.
- */
-export function flushOfflineAnswers(): Promise<FlushPendingAnswersResult> {
-  if (!offlineFlushInFlight) {
-    offlineFlushInFlight = flushPendingAnswers(sendAnswerToServer).finally(() => {
-      offlineFlushInFlight = null
-    })
-  }
-  return offlineFlushInFlight
+/** Coalesce reconnects per account and exam; never finish another exam's queue. */
+export function flushOfflineAnswers(examId?: string): Promise<FlushPendingAnswersResult> {
+  const key = `${sessionStore.get()?.user.id ?? ''}:${examId ?? '*'}`
+  const existing = offlineFlushes.get(key)
+  if (existing) return existing
+  const promise = flushPendingAnswers(sendAnswerToServer, examId).finally(() => {
+    offlineFlushes.delete(key)
+  })
+  offlineFlushes.set(key, promise)
+  return promise
 }
 
 if (typeof window !== 'undefined') {
   window.addEventListener('online', () => {
-    void flushOfflineAnswers()
+    void flushOfflineAnswers().catch(() => { /* Preserve the queue if storage is unavailable. */ })
   })
 }
 
-const axbChaptersSchema = z.array(z.object({
+export const axbChaptersSchema = z.array(z.object({
   chapter_no: z.number().int().min(1).max(19),
-  total_pdf: z.number().int().positive(),
-  published_count: z.number().int().nonnegative(),
-  review_count: z.number().int().nonnegative(),
-}).strict()).length(19)
+  total_pdf: z.literal(30),
+  published_count: z.number().int().nonnegative().max(30),
+  review_count: z.number().int().nonnegative().max(30),
+}).strict().refine(row => row.published_count + row.review_count <= row.total_pdf, {
+  message: 'Bobdagi nashr/tekshiruv savollari umumiy sondan oshdi',
+})).length(19).superRefine((rows, ctx) => {
+  const found = new Set<number>()
+  for (const [index, row] of rows.entries()) {
+    if (found.has(row.chapter_no)) {
+      ctx.addIssue({
+        code: 'custom',
+        path: [index, 'chapter_no'],
+        message: 'Takrorlangan AXB bobi',
+      })
+    }
+    found.add(row.chapter_no)
+  }
+  for (let chapter = 1; chapter <= 19; chapter++) {
+    if (!found.has(chapter)) {
+      ctx.addIssue({ code: 'custom', message: `AXB ${chapter}-bob mavjud emas` })
+    }
+  }
+})
 
 export const backendGateway: ExamGateway = {
+  getPendingAnswer(examId, questionId) {
+    return listPendingAnswers().find(item => item.examId === examId && item.questionId === questionId)?.answer
+  },
   async startCustomExam(config: CustomExamConfig): Promise<ExamSession> {
     const data = await api.post<unknown>('/api/custom-tests/start', config)
     return parseResponse(examSessionSchema, data, 'start_custom')
@@ -167,19 +191,33 @@ export const backendGateway: ExamGateway = {
   },
 
   async submitAnswer(input: SubmitAnswerInput): Promise<SubmitAnswerResponse> {
+    const ownerId = sessionStore.get()?.user.id
+    const firstAttempt = listPendingAnswers().find(item =>
+      item.examId === input.examId && item.questionId === input.questionId) ?? input
     try {
-      return await sendAnswerToServer(input)
+      const response = await sendAnswerToServer(firstAttempt)
+      if (ownerId) removePendingAnswer(input.examId, input.questionId, ownerId)
+      return response
     } catch (error) {
-      if (isNetworkError(error)) {
+      if (isNetworkError(error) && ownerId) {
         // Auth token yoki answer key saqlanmaydi — faqat user answer payload.
         // Bir savol uchun birinchi offline urinish immutable saqlanadi.
-        enqueuePendingAnswer(input)
+        enqueuePendingAnswer(firstAttempt, ownerId)
+        throw new ApiError('Internet uzildi. Javob shu qurilmada saqlandi; ulanish tiklangach qayta yuboriladi.', 0, 'NETWORK_ERROR')
       }
       throw error
     }
   },
 
   async finishExam(examId: string): Promise<FinishExamResponse> {
+    const ownerId = sessionStore.get()?.user.id
+    const pending = await flushOfflineAnswers(examId)
+    if (sessionStore.get()?.user.id !== ownerId) {
+      throw new ApiError('Hisob o‘zgardi. Sahifani qayta oching.', 409, 'SESSION_CHANGED')
+    }
+    if (pending.remaining > 0) {
+      throw new ApiError('Javoblar hali serverga saqlanmadi. Internetga ulanib, yakunlashni qayta bosing.', 409, 'PENDING_ANSWERS')
+    }
     const data = await api.post<unknown>('/api/exam/finish', { exam_id: examId })
     return parseResponse(finishExamResponseSchema, data, 'finish_exam')
   },
