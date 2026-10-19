@@ -5,7 +5,7 @@ import { checkQuestionAnswer } from '../../features/content/lessonContentGateway
 import { paginateTheoryBlocks } from '../../features/content/theoryPagination'
 import { getTopicTestPreflight, type TopicTestPreflight } from '../../features/content/contentApi'
 import { getLessonDetail } from '../../features/content/contentApi'
-import { markdownToTheoryBlocks, overlayPublishedProfessionalLesson, resolveLearnerTheoryContent, verifiedM02Supplement } from '../../features/content/professionalLessonTheory'
+import { markdownToTheoryBlocks, overlayPublishedProfessionalLesson, resolveLearnerTheoryContent, verifiedM02Supplement, verifiedM16MethodologySummary } from '../../features/content/professionalLessonTheory'
 import PedagogyTheoryBlock from './PedagogyTheoryBlock'
 import { getPedagogyStudyNotes } from '../../data/pedagogyStudyNotes'
 import type { TopicContent } from '../../data/topicContent'
@@ -179,6 +179,7 @@ export default function TopicView({
   const isLastTheoryPage = activeTheoryPage === theoryPages.length - 1
   const isSemanticProfessional = !isPedagogyTopic && /^M1[46]$/.test(moduleId) && Boolean(loadedContent)
   const pedagogyStudyNotes = isPedagogyTopic ? getPedagogyStudyNotes(subtopicId) : []
+  const professionalMethodologySourceSummary = verifiedM16MethodologySummary(subtopicId, staticContent, loadedContent)
   const professionalStandardSourceSummary =
     moduleId === 'M14' && /^M14\.0[1-7]$/.test(subtopicId) && loadedContent && staticContent
       ? staticContent.theory.filter(block => ['table', 'example', 'note', 'source'].includes(block.type))
@@ -757,6 +758,26 @@ export default function TopicView({
               </p>
               <div className="space-y-3">
                 {professionalStandardSourceSummary.map((block, i) => <PedagogyTheoryBlock key={i} block={block} />)}
+              </div>
+            </details>
+          )}
+
+          {/* M16: keep the server-published canonical lesson intact. Display the
+              physically/textually traced method notes only on opt-in, and only
+              when a live lesson has replaced the static offline fallback. */}
+          {professionalMethodologySourceSummary.length > 0 && (
+            <details className="group mb-7 rounded-2xl border border-indigo-200 bg-indigo-50/60 p-4 shadow-sm open:bg-white dark:border-indigo-900 dark:bg-indigo-950/30 dark:open:bg-gray-900 sm:p-5">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-xl p-2 text-sm font-bold text-indigo-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:text-indigo-200">
+                <span className="flex items-center gap-2"><BookText size={19} aria-hidden="true" /> Informatika metodikasi — darslikdan jadvallar va misollar</span>
+                <ChevronDown size={19} aria-hidden="true" className="shrink-0 transition group-open:rotate-180" />
+              </summary>
+              <p className="px-2 pb-3 pt-1 text-xs leading-6 text-gray-600 dark:text-gray-400">
+                E’lon qilingan asosiy dars saqlanadi. 2026-yilgi attestatsiya spetsifikatsiyasi
+                va Mamarajabov (2023) metodika darsligi bilan solishtirilgan qo‘shimcha
+                yondashuvlar, taqqoslash jadvallari va amaliy informatika vaziyatlari.
+              </p>
+              <div className="space-y-3">
+                {professionalMethodologySourceSummary.map((block, i) => <PedagogyTheoryBlock key={i} block={block} />)}
               </div>
             </details>
           )}
