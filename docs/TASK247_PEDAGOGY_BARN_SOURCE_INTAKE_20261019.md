@@ -1,25 +1,29 @@
 # TASK-247 — barnoyevak pedagogika manbalari: ZIP intake va xavfsiz boshlang‘ich boyitish
 **Sana:** 2026-10-19
 **Branch:** `task/TASK-247-pedagogy-source-intake-20261019`
-**Holat:** PARTIAL / SOURCE BLOCKED; **main merge, production deploy va DB write YO‘Q**
+**Holat:** PARTIAL / SOURCE INVENTORY IN PROGRESS; **main merge, production deploy va DB write YO‘Q**
 
-## 1. Arxiv aniqlangan, ammo ochilmagan
+## 1. Arxiv va chiqarilgan manbalar: dastlabki inventar
 
-- Maqsad akkaunt: barnoyevak Google Drive.
-- Foydalanuvchi ko‘rsatgan papka: https://drive.google.com/drive/folders/1XovTGCr2ELkRJJm_o7DQPnQoJsroSOoD
-- Papkadagi fayl: `ChatExport_2026-10-19.zip`
-- Drive ID: `1RyrFy-I-G2dKlvvgKkmshIVvTZgM1E1w`
-- Hajmi: **546831018 bayt** (taxminan 546,8 MB).
-- Google Drive connector `fetch(download_raw_file=true,include_base64=false)` natijasi: `413 File too large ... exceeds the 268435456-byte limit`.
-- Matnli `fetch` ham ZIP arxiv tarkibini ochib bermadi.
-- **Dalil chegarasi:** arxiv ichidagi fayllarning nomi, soni, sahifalari, dublikati va pedagogikaga daxldorligi hali noma’lum. Arxiv chiqarildi yoki barcha kitoblar auditdan o‘tdi degan iddao qilish taqiqlanadi.
-- Hozircha na arxivga, na production bazaga o‘zgartirish kiritildi.
+- Maqsad akkaunt: **barnoyevak** Google Drive.
+- Asosiy papka: https://drive.google.com/drive/folders/1XovTGCr2ELkRJJm_o7DQPnQoJsroSOoD
+- Arxiv: `ChatExport_2026-10-19.zip` (Drive ID `1RyrFy-I-G2dKlvvgKkmshIVvTZgM1E1w`, **546831018 bayt**). Uni to‘g‘ridan-to‘g‘ri fetch qilish **413 / 268435456-byte limit** sababli imkonsiz edi.
+- **Muammo yechildi:** foydalanuvchi arxivdan chiqarilgan fayllarni papkaga yuklamoqda.
+- Extracted root: https://drive.google.com/drive/folders/1XryoV_toq5QDVfLBxhKnsa-jwbcmk-KS
+- Pedagogika materiallari joylashgan `files` pastki papka: https://drive.google.com/drive/folders/1ERclL2nngkrPpSAtuHBBwemdw9zhFgw6
+- **Hozirgi snapshot:** `files` ichida 104 ta obyekt: **59 PDF, 5 DOCX, 37 JPG, 1 PNG, 1 OGG, 1 MP3**. Yonidagi `photos`, `voice_messages` kataloglari va `result.json` chat eksportining alohida ma’lumotlari; ular foydalanuvchi ruxsatisiz pedagogika kontentiga ko‘chirilmaydi.
+- **To‘liqlik chegarasi:** foydalanuvchi yuklashni davom ettiryapti; 104 soni yakuniy emas, har bir PDFning betlari/kalitlari hali tekshirilmagan.
 
-### Blokerni yopish sharti
+### Dastlabki asosiy manbalar: fayl mavjudligi va matnli ochilishi tasdiqlangan
 
-Shu papkaga ZIP ichidan chiqarilgan manbalarni alohida fayl sifatida yoki mavzuga bo‘lingan **250 MB dan kichik mustaqil ZIP** to‘plamlari sifatida joylashtirish zarur. Bitta ZIPning baytlarini shunchaki bo‘laklash original arxiv ichidagi PDFlarni connector bilan ochish imkonini bermaydi.
+| Manba | Drive file ID | O‘rganish mavzusi | Joriy status |
+|---|---|---|---|
+| Xoliqov, «Pedagogik mahorat.pdf» | `1urZe1IJjLVco-KysxtIvg46Ej89XreuK` | M15.01, M15.06–07 | Matn ochildi; pedagogik mahoratning 4 komponenti aniqlandi; fizik sahifa auditi ochiq |
+| «Pedagogning kasbiy standarti - qollanma.pdf» | `1BSndV9rDBv40mBcbTcZU3DxxZJJU5uH3` | M14.01–07 | Matn ochildi; 7 kompetensiya va sohalar ko‘rindi; sarlavhalar farqi alohida auditda |
+| «Mirzayeva Pedagogika nazriyasi qollanma 2-mavzu.pdf» | `1woZMas8dNbzk6yephzNH_XdmT19ess-l` | M15.01 | Matn ochildi; obyekt/predmet, fan vazifalari va tadqiqot usullari tasdiqlandi; M15.01 izohlari boyitildi |
+| Qodirova, Pulatova, «4-Inklyuziv-talim-nazariya-va-metodika.pdf» | `1J67WL90Qh6uULzmI7yYIR0OJ6diTg3cX` | M14.05, M15.08 | 2022-yilgi  darslik matni ochildi; betma-bet mazmun auditi ochiq |
 
-Extractdan so‘ng fayllarni oldin **nomi + MIME + hajmi + manba toifasi** bo‘yicha ro‘yxatlash, pedagogikaga aloqasiz shaxsiy/chat ma’lumotlarini platformaga ko‘chirmaslik; keyin faqat mavzuga tegishli darslik, me’yoriy hujjat va testlarni o‘qish talab etiladi.
+**Himoya:** arxivdagi fotosurat, audio, `result.json` yoki shaxsiy chat mazmunini o‘quv platformasiga ko‘chirmaslik. History/test source PDFdagi «100% original tushgan» degan gap mustaqil rasmiy isbot emas. Faqat manbasi va javobi tekshirilgan savol editorial reviewga o‘tishi mumkin; publishedga avtomatik emas.
 
 ## 2. Pedagogika audit xaritasi
 
@@ -27,9 +31,9 @@ Platformadagi 18 kanonik mavzu foydalanuvchiga o‘quv yo‘li sifatida ko‘rsa
 
 | Modul | Mavzular | Kutilayotgan arxiv manbalari | Hozirgi dalil |
 |---|---:|---|---|
-| M14 | 7 | Pedagog kasb standarti, mehnat vazifalari va amaliy holatlar | ZIP tarkibi hali noma’lum; avvalgi KS qo‘llanmasi repo auditida mavjud |
-| M15 | 8 | Umumiy pedagogika, didaktika, tarbiya, etika, qobiliyatlar, inklyuziya, tarixiy testlar | ZIP noma’lum; mavjud statik nazariya va oldingi boshqa Drive manbalari bor |
-| M16 | 3 | Informatika o‘qitish metodikasi, yondashuvlar, dars loyihalari | ZIP noma’lum; avvalgi manbaviy nazariya bor |
+| M14 | 7 | Pedagog kasb standarti, mehnat vazifalari va amaliy holatlar | Kasb standarti qo‘llanmasi ochildi; 7 soha manba bilan betma-bet solishtirish ochiq |
+| M15 | 8 | Umumiy pedagogika, didaktika, tarbiya, etika, qobiliyatlar, inklyuziya, tarixiy testlar | Xoliqov, Mirzayeva, inklyuziv darsliklar ochildi; 8 mavzu manba-bet auditi ochiq |
+| M16 | 3 | Informatika o‘qitish metodikasi, yondashuvlar, dars loyihalari | Yuklash va metodikaga oid fayllar inventari davom etadi; 3 mavzu auditi ochiq |
 
 Har bir yangi manba uchun alohida `source_id`, fayl nomi, kitob muallifi/nashri, PDF fizik beti, mavzu kodi, mos ta’lim maqsadi, dalil turi, aniq tekshirilgan fakt, shubhali joy, ishlab chiqilgan savol va review holati yuritilishi kerak.
 
@@ -51,7 +55,7 @@ Tarixiy Telegram/test PDFdagi «to‘g‘ri javob» yorlig‘i mustaqil ekspert 
 
 ## 4. Keyingi majburiy qadamlar va release gate
 
-1. ZIP tarkibini alohida Drive fayllari yoki kichik mustaqil tematik arxivlarga ochish; to‘liq inventar va dublikat qidiruvi.
+1. Foydalanuvchi tugatgach `files` katalogini qayta to‘liq ro‘yxatlash; dublikat va rasmlarni ajratish, faqat o‘quv manbalarini tasniflash.
 2. Har bir PDFni betma-bet o‘rganish; spetsifikatsiya `M14.01–M16.03` ↔ learning objective ↔ manba sahifasi ↔ theory block ↔ test item izchilligini tekshirish.
 3. Qarama-qarshi izoh/test kalitlarini alohida redaktsion navbatda ko‘rish; PDF tarixiy da’vosi bilan mustaqil tekshiruvni aralashtirmaslik.
 4. 18/18 topic pool preflight, dedicated 15 va official 50, server key secrecy, 4 variant / Y1,Y2,Y3, mobile UI va oldingi attempt tarixini tekshirish.
@@ -59,8 +63,8 @@ Tarixiy Telegram/test PDFdagi «to‘g‘ri javob» yorlig‘i mustaqil ekspert 
 
 ## 5. Handoff
 
-- **Natija:** Drive arxiv topildi, ochib bo‘lmasligi baytlar va connector limiti bilan qayd etildi; M15 didaktik izohi bir manba bo‘yicha kuchaytirildi; bitta termin xatosi tuzatildi, regression testi qo‘shildi.
+- **Natija:** Arxiv va extracted `files` papkasi topildi; dastlabki 104 obyekt qayd etildi, 4 PDF matni o‘qildi. M15.01 obyekt/predmet/tadqiqot metodlari, M15.02 Bloom izohi boyitildi; M15.07 termin tuzatildi, 7 regression testi yozildi.
 - **Migrations:** yo‘q.
-- **Tests:** test yozildi; haqiqiy CI hali tasdiqlanmagan.
-- **Blocker:** asosiy 546,8 MB ZIP manbalarini joriy 256 MiB connector orqali o‘qish mumkin emas.
+- **Tests:** 7 ta Vitest testi yozildi; yakuniy exact SHA uchun CI va barcha regressiyalar hali tasdiqlanmagan.
+- **Blocker:** ZIPni o‘zi o‘qilmaydi, ammo foydalanuvchi extracted `files` papkasini yuklayotgani tufayli manbalarga kirish mumkin. Qolgan xavf: yuklash tugamagan, barcha fayllar betma-bet tekshirilmagan.
 - **Release:** HOLD; **merge/deploy yo‘q**.
