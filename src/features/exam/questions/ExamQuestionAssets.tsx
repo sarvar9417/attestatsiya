@@ -15,7 +15,7 @@ const KUZGI_DEMO = new Set([
   'demo_q01_powerpoint','demo_q11_access','demo_q18_flowchart',
   'demo_q04_blocks','demo_q04_options','demo_q14_labyrinth',
   'demo_q17_photoshop','demo_q19_wordtable','demo_q21_css',
-  'demo_q27_html','demo_q34_logo','demo_q39_word',
+  'demo_q27_html','demo_q30_logic','demo_q34_logo','demo_q39_word',
 ])
 
 type Asset = { kind: 'image'; diagram_id: string; alt: string; src: string }
