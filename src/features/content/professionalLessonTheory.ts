@@ -190,6 +190,9 @@ export function verifiedM16MethodologySummary(
 ): TheoryBlock[] {
   if (!/^M16\.0[1-3]$/.test(subtopicId) || !staticContent || !publishedContent) return []
   if (staticContent.subtopicId !== subtopicId || publishedContent.subtopicId !== subtopicId) return []
+  // The API adapter can return staticContent for an empty/draft lesson. Avoid
+  // duplicating the offline fallback and implying unapproved content was published.
+  if (publishedContent === staticContent || publishedContent.theory === staticContent.theory) return []
   const permitted: TheoryBlock['type'][] = ['heading', 'table', 'example', 'note', 'trap', 'source']
   return staticContent.theory.filter(block => permitted.includes(block.type))
 }
