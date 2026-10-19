@@ -47,8 +47,8 @@ Asl universitet PDF: https://turan-edu.uz/media/books/2024/05/22/1708324536.pdf 
 |---|---|---|---|
 | M16.01 | 173–175, 180–181 | Informatika metodikasining maqsadi, fan mazmunini ajratish, informatika o‘quv predmetining «nimani va qanday o‘qitish» savoli | Yondashuv va shart operatori misoli — didaktik mualliflik misoli; kitobdan aynan ko‘chirilmagan |
 | M16.02 | 15–16, 46–47, 72–73 | Metodning o‘qituvchi-o‘quvchi hamkorlikdagi faoliyat ekanligi, metodlarni turlicha tasniflash, muammoli vaziyatga asoslangan o‘rganish | Fishbone/unplugged/Python misollari o‘rganishga mos illustratsiya, aynan kitob sahifasidan emas |
-| M16.03 | 90–92, 172–175 | Nazorat va baholash bilan teskari aloqa, informatika o‘qitish metodikasi kasbiy vazifalari | Qarorlar jadvalidagi Python/texnika yetishmasligi misollari mustaqil tahririy vaziyat |
+| M16.03 | 90–91, 172–175 | Nazorat va baholash bilan teskari aloqa, informatika o‘qitish metodikasi kasbiy vazifalari | Qarorlar jadvalidagi Python/texnika yetishmasligi misollari mustaqil tahririy vaziyat |
 
-**Izoh:** `src/data/topicContent.ts`da manba izlaridagi «fizik PDF N–M» ifodasi 0-indeksli web PDF lokatoriga asoslangan. Yuqoridagi «PDF 1-asosli sahifa» esa PDF o‘quvchi interfeysidagi ko‘rinadigan 1-indeksli sanashdir; bir-biriga bog‘liq bo‘lib, tafovut +1. Yakuniy release oldidan hammasini 1-asosli sanashga yagona formatda o‘tkazish va sahifa rendersini takror tasdiqlash lozim.
+**Izoh:** `src/data/topicContent.ts`dagi barcha uch M16 manba izlari va ushbu jadval PDF ko‘ruvchining **1-asosli sahifalarini** bir xil ishlatadi (web indeksiga +1). Originalni ko‘rishda sarlavha sahifasi ham 1-bet sifatida sanaladi. Yakuniy ekspertizadan oldin jadval, rasm, kod namunalarini sahifa renderida takror tekshirish kerak.
 
 **Javob kaliti:** asli topilgan kitob testlarning avtomatik aniq to‘g‘ri variantini bermaydi. Har bir answer key expert ko‘rigi va 2026 spetsifikatsiyaga mos kelishi majburiy.
