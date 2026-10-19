@@ -772,15 +772,16 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { id: 'M09.04-q3', text: 'QBE nima?', options: ['Dasturlash tili', 'So\'rov yaratish usuli', 'Ma\'lumot turi', 'Hisobot turi'], correctIndex: 1, explanation: 'QBE (Query by Example) — grafik interfeys orqali so\'rov yaratish usuli', type: 'Y2' },
   ]),
 
-  'M09.05': t('M09.05', 'Import va eksport', [
-    { type: 'definition', content: 'Import — tashqi manbadan ma\'lumotlarni MB ga yuklash. Eksport — MB ma\'lumotlarini tashqi formatga chiqarish.' },
-    { type: 'text', content: 'MS Access turli formatlarni qo\'llab-quvvatlaydi: Excel (.xlsx), CSV (.csv), XML, PDF, SharePoint, ODBC manbalari. Importda ma\'lumot turlari mosligi tekshiriladi.' },
-    { type: 'table', content: '| Format | Import | Eksport | Izoh |\n|--------|--------|--------|------|\n| Excel | ✓ | ✓ | Jadval ko\'rinishi saqlanadi |\n| CSV | ✓ | ✓ | Ajratuvchi belgili matn |\n| XML | ✓ | ✓ | Strukturalangan ma\'lumot |\n| PDF | ✗ | ✓ | Faqat hisobot ko\'rinishida |\n| ODBC | ✓ | ✓ | Boshqa MBBT bilan bog\'lash |' },
-    { type: 'note', content: '💡 Import qilishda ma\'lumotlar turlari mos kelmasa, xatolik yuz beradi. Eksport qilishda formatni to\'g\'ri tanlash muhim.' },
+  'M09.05': t('M09.05', 'Murakkab so‘rovlar va tanlash mezonlari', [
+    { type: 'definition', content: 'So‘rov — jadvaldagi yozuvlarni shart bo‘yicha tanlash va tahlil qilish vositasi. MS Access so‘rovlarida bir yoki bir nechta jadvalning maydonlaridan foydalanish mumkin.' },
+    { type: 'text', content: 'Access konstruktoridagi mezon (Criteria / Условия отбора) yozuvlarni filtrlash uchun ishlatiladi. Like matn namunasiga mosligini, Not Like esa namuna mos kelmasligini tekshiradi. Accessning darslikdagi odatiy namuna sintaksisida * istalgan belgilar ketma-ketligini bildiradi; bu SQLdagi % belgisi bilan adashtirilmasin.' },
+    { type: 'table', content: '| Access mezoni | Natija |\\n|---|---|\\n| Like "Gul*" | Gul bilan boshlanadigan matn |\\n| Like "*a" | a bilan tugaydigan matn |\\n| Like "*gul*" | Ichida gul ketma-ketligi bor matn |\\n| Not Like "*gul*" | Ichida gul ketma-ketligi bo‘lmagan matn |\\n| Between 5 And 11 | 5 va 11 ni ham o‘z ichiga oluvchi sonli oraliq |' },
+    { type: 'example', content: 'Kutubxona jadvalidagi Ism maydonida Like "Gul*" mezoni Gulnora, Gulsara va Gulhayo kabi yozuvlarni tanlaydi. Bu misol Access Query Design mezoniga tegishli; boshqa SQL muhitlaridagi LIKE belgilarini avtomatik aynan shunday deb qabul qilmang.' },
+    { type: 'source', content: 'Manba: Informatika va axborot texnologiyalari, 11-sinf (2021), 7-dars, bosma 44–52-betlar: Access so‘rovlari, tanlash shartlari, Like / Not Like / Between.' },
   ], [
-    { id: 'M09.05-q1', text: 'MS Access ga Excel faylidan ma\'lumot yuklash qanday nomlanadi?', options: ['Eksport', 'Import', 'Bog\'lash', 'Konvertatsiya'], correctIndex: 1, explanation: 'Import — tashqi manbadan ma\'lumotlarni yuklash', type: 'Y1' },
-    { id: 'M09.05-q2', text: 'MS Access da qaysi formatga eksport qilish mumkin emas?', options: ['Excel', 'CSV', 'PDF', 'MP3'], correctIndex: 3, explanation: 'MP3 — audio format, MB ma\'lumotlarini eksport qilish uchun mos emas', type: 'Y1' },
-    { id: 'M09.05-q3', text: 'ODBC nima uchun ishlatiladi?', options: ['Rasm saqlash', 'Boshqa MBBT bilan bog\'lash', 'Matn tahrirlash', 'Hisobot yaratish'], correctIndex: 1, explanation: 'ODBC — turli MBBT larini bog\'lash uchun standart interfeys', type: 'Y2' },
+    { id: 'M09.05-q1', text: 'MS Access so‘rovida Ism maydoni "Gul" bilan boshlanishi uchun qaysi mezon mos?', options: ['Like "Gul*"', 'Like "*Gul"', 'Like "*Gul*"', 'Not Like "Gul*"'], correctIndex: 0, explanation: 'Darslikda Like "Gul*" Gul bilan boshlanuvchi yozuvlarni tanlash uchun ishlatiladi.', type: 'Y1' },
+    { id: 'M09.05-q2', text: 'ID maydonidagi Between 5 And 11 mezoni qaysi yozuvlarni tanlaydi?', options: ['Faqat 5 va 11 ni', 'Faqat 6 dan 10 gacha', '5 dan 11 gacha, chegaralar bilan birga', '11 dan katta qiymatlarni'], correctIndex: 2, explanation: 'Between ... And ... ikki chegara qiymatini ham qamrab oladigan oraliq mezonidir.', type: 'Y1' },
+    { id: 'M09.05-q3', text: 'Ism maydonida Not Like "*gul*" mezonining vazifasi nima?', options: ['Faqat gul bilan boshlanadiganlarni olish', 'gul ketma-ketligini o‘z ichiga olmagan matnlarni olish', 'Faqat gul bilan tugaydiganlarni olish', 'Barcha yozuvlarni olish'], correctIndex: 1, explanation: 'Not Like "*gul*" ushbu harflar ketma-ketligiga mos kelmaydigan matnlarni tanlaydi.', type: 'Y1' },
   ]),
 
   'M09.06': t('M09.06', 'SQL SELECT, INSERT, UPDATE, DELETE', [
