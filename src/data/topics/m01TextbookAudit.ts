@@ -67,7 +67,7 @@ export const ICT5_M01_PAGE_ADDENDA: readonly VerifiedTextbookInsertion[] = [
   },
   {
     topicId: 'M01.04',
-    beforeHeading: 'Bob bo‘yicha mustahkamlash savollari',
+    beforeHeading: "Bob bo'yicha mustahkamlash savollari",
     blocks: [
       { type: 'subheading', content: 'Darslikdagi kompyuter xonasi xavfsizligi: raqamli madaniyatning amaliy asosi' },
       { type: 'list', ordered: false, content: 'O‘qituvchi ruxsatisiz kompyuter va ulagichlarni sozlamang.\nSuyuqlikni elektr qurilmalaridan uzoq tuting.\nNosoz sim yoki favqulodda holatni darhol masʼul shaxsga bildiring.\nIsh joyini ergonomik tashkil eting va uzoq mashg‘ulotlarda tanaffus qiling.',
