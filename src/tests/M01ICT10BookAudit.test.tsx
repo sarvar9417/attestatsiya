@@ -7,7 +7,7 @@ import { ICT10_M01_PAGE_ADDENDA } from '../data/topics/m01TextbookAuditICT10'
 describe('TASK-244 — 10-sinf ICT 2021, 257-page textbook module-fidelity audit', () => {
   it('tracks three source-backed M01 addenda without republishing unrelated modules', () => {
     expect(ICT10_M01_PAGE_ADDENDA).toHaveLength(3)
-    expect(ALL_M01_PAGE_ADDENDA).toHaveLength(32)
+    expect(ALL_M01_PAGE_ADDENDA).toHaveLength(36)
     expect(ICT10_M01_PAGE_ADDENDA.map(x => x.topicId)).toEqual(['M01.06', 'M01.06', 'M01.04'])
     for (const x of ICT10_M01_PAGE_ADDENDA) {
       expect(M01_CONTENT[x.topicId].theory.some(block =>
