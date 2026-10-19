@@ -88,3 +88,23 @@ Faqat aynan bir xil bayt hajmiga ega bo‘lgan fayllar quyida ko‘rsatilgan. Bu
 ## Release gate
 
 Bu inventar bilan pedagogika to‘liq tayyor deb bo‘lmaydi. Testlar, barcha manba sahifalari, Y1/Y2/Y3 va production E2E auditlari tugamagan. Ish **feature branchda**, `main` merge, DB production write va Vercel deploy **taqiqlangan**.
+
+
+## Ikkinchi manba taqqoslash natijalari — 2026-10-19
+
+**Tarixiy savollar korpusi auditiga yangi dalil:**
+
+- `Pedagogik mahorat to'plam 2025 (5).pdf` va `(6).pdf`: Drive'da hajmi ham, connector chiqarib bergan **88 088 belgilik matni ham to‘liq teng**. Bu matni bo‘yicha aniq dublikat; ikkisini alohida savol to‘plami sifatida import qilish mumkin emas. Fayl baytlari SHA-256 bo‘yicha hali alohida tekshirilmagan.
+- `Pedagogik mahorat to'plam 2025.pdf`: 12 490 belgilik o‘qilgan matn; `(5)/(6)` bilan to‘liq teng emas, boshlanish mavzulari qisman o‘xshash. Savol fingerprinti bo‘yicha mazmuniy dublikatni tekshirish zarur.
+- `Pedmahorat to'plam 2025 kuzgi.pdf`: 15 244 belgilik matn; `(1).pdf`: 36 937 belgi. Boshlang‘ich 3 000 belgi aynan teng, lekin butun matn teng emas. Bu nusxalardan savollarni dublikat tekshiruvisiz qo‘shmaslik kerak.
+- Yuqoridagi beshta faylning matni avtomatik solishtirildi; **hech bir tarixiy answer key to‘g‘ri deb tasdiqlanmadi**, hech bir savol `published`ga o‘tkazilmadi.
+- `Pedagogik mahorat spetsifikatsiyasi-2025.pdf` alohida eski davr hujjati. Uni 2026 informatika spetsifikatsiyasi bo‘yicha 5/7/3 yoki 8/35/7 kvotalarni o‘zgartirishga asos qilish **mumkin emas**.
+
+**2026 normativ manba cheklovi:** `Maktab pedagoglari - Kasb standarti (Oʻzbek tili).pdf` va Tolipova PDF uchun oddiy text fetch bo‘sh qaytdi. Ularning ichki matni/betlari ko‘rilmasdan ularga tayangan qoidani «asl normativdan tekshirildi» deyish mumkin emas.
+
+**M15 source audit (yana ikkita mavzu):**
+- `Dars turlari.pdf`da didaktik maqsadga ko‘ra 6 tur, `dars tahlili turlari.pdf`da darsning 5 tahlil yo‘nalishi berilgan. Oldingi M15.04 statik jadvalida laboratoriya va ekskursiya didaktik maqsad bilan aralashgan, umumlashtirish/tizimlashtirish yo‘q edi; bu xato feature branchda tuzatildi. Statik nazariyada 6 turli jadval, qo‘shimcha izohda 5 tahlil yo‘nalishi, ularning farqi va informatika vaziyatlari yozildi.
+- `Pedagogik qobilyatlar umumiy.pdf`da perseptiv va empatik alohida tavsiflangan. M15.07 uchun pedagogik vaziyatda farqlovchi izoh va mualliflar tasnifini aralashtirmaslik eslatmasi qo‘shildi.
+- Qodirova/Pulatova, `Inklyuziv ta’lim: nazariya va metodika` (2022) «Kirish» va ta’rifida individual ehtiyoj, teng huquq va moslashuvchan o‘quv muhiti qayd etilgan. M15.08dagi yuzaki «Barcha o‘quvchilar uchun» tavsifi o‘rniga moslashtirish va mazmunli ishtirok izohi yozildi.
+
+**QA:** `src/tests/PedagogyBloomSource.test.ts` endi **12 ta** maxsus regressiya testiga ega. Oldingi git SHA CI PASS, lekin oxirgi commit uchun green CI alohida tasdiqlanmaguncha release gate ochilmaydi.
