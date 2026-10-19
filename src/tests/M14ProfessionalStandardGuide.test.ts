@@ -63,6 +63,17 @@ describe('TASK-303 — 13-betlik kasbiy standartga tayangan M14 kitobi', () => {
     expect(page5).toContain('mediatsiya')
   })
 
+  it('5/6 sohasi va mediatsiya manbaviy tafovutini yashirmaydi', () => {
+    expect(M14_PROFESSIONAL_STANDARD_GUIDE['M14.05'].at(-1)?.content).toContain('Xavfsiz')
+    expect(M14_PROFESSIONAL_STANDARD_GUIDE['M14.06'].at(-1)?.content).toContain('kasbiy o‘sish')
+    const mediation = M14_PROFESSIONAL_STANDARD_GUIDE['M14.05'].find(b => b.type === 'exam')?.content ?? ''
+    expect(mediation).toContain('11-betida')
+    expect(mediation).toContain('O‘RQ-482')
+    expect(mediation).toContain('taraflar')
+    expect(mediation).toContain('mediator')
+    expect(mediation).toContain('qonunning qo‘llanish')
+  })
+
   it('ekspert ruxsatisiz amaldagi nashr qilingan dars o‘zgarmaydi', () => {
     for (const id of Object.keys(expected)) {
       const live = getTopicContent(id)
