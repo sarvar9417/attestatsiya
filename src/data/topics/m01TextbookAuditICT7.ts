@@ -49,7 +49,7 @@ export const ICT7_M01_PAGE_ADDENDA: readonly VerifiedTextbookInsertion[] = [
       { type: 'solved', label: 'Yorug‘lik taxtasi — 30 xil signal', content: '',
         children: [
           { type: 'text', content: 'Har lampochka ikki holatdan birini oladi: o‘chiq yoki yoniq. n ta lampochka jami 2ⁿ mustaqil kombinatsiya beradi. Kamida 30 xil signal kerak.' },
-          { type: 'keyformula', content: '2^4 < 30 \\le 2^5' },
+          { type: 'keyformula', content: '2^4 < 30 < 2^5' },
           { type: 'text', content: '4 ta lampochka: 16 xil holat — yetmaydi. 5 ta lampochka: 32 holat — yetarli. Javob: **5 ta lampochka**. Umumiy qoida: N xil turli holat uchun minimal bitlar soni i = ⌈log₂ N⌉.' },
         ],
       },
