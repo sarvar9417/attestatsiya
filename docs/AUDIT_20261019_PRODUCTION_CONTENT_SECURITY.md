@@ -10,6 +10,7 @@
 - `construct_id`si mavjud bo‘lmagan savollar: **0**.
 - Published Y1 variant/kalit kontrakti buzilgan savollar: **0** (4 ta `side='a'`, to‘g‘ri variant ID kalitda mavjud).
 - Published manbasi bo‘sh savollar: **0**.
+- **Pedagogika kontenti yangi holat:** M14 ning yettita kanonik mavzusi **20/20 tadan published+keyed**; M15 sakkiz mavzusi 25–37 tadan, M16 uch mavzusi 25–27 tadan. Bu faqat sanog‘i va kaliti bo‘yicha qamrov; manba hamda bilim objective sifati tasdiqlanganini isbotlamaydi.
 - 19 bob AXB manbasi: **570 jami / 540 published / 30 review**. Bob 16: **3**, bob 19: **27**, qolgan 17 bob **30** tadan; `axb_chapter_catalog()` bu sonlarni to‘g‘ri qaytarmoqda. Anon RPC chaqirishi bekor qilingan; `generate_axb_chapter_practice()` server-scorer, first-answer lock va mashq paytidagi kalit maxfiyligi oldin rollback-only sinovda tekshirilgan.
 
 ## Savol matnlari o‘xshashligi: noto‘g‘ri pozitivlar
