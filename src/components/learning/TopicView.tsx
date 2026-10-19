@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useMemo, lazy, Suspense } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getTopicContent, type TestQuestion, type TheoryBlock } from '../../data/topicContent'
+import { getTopicContent, displayedCognitiveLevel, type TestQuestion, type TheoryBlock } from '../../data/topicContent'
 import { checkQuestionAnswer } from '../../features/content/lessonContentGateway'
 import { paginateTheoryBlocks } from '../../features/content/theoryPagination'
 import { getTopicTestPreflight, type TopicTestPreflight } from '../../features/content/contentApi'
@@ -172,8 +172,9 @@ export default function TopicView({
   const content = staticContent
     ? resolveLearnerTheoryContent(subtopicId, staticContent, loadedContent)
     : loadedContent
-  /** Kontent qo'llanmadan generatsiya qilinganmi (M01) — bo'limli o'qish rejimi. */
-  const isBook = Boolean(content?.source)
+  /** Barcha darslar M01 namunasi kabi yagona kitob o‘qish rejimidan foydalanadi.
+   *  Manbasi bor darslar o‘z bo‘limlarini saqlaydi, eski darslar adaptiv bo‘linadi. */
+  const isBook = Boolean(content?.theory.length)
   const theoryPages = useMemo(() => paginateTheoryBlocks(content?.theory ?? [], 2, moduleId === 'M02'), [content, moduleId])
   const activeTheoryPage = Math.min(theoryPage, Math.max(0, theoryPages.length - 1))
   const isLastTheoryPage = activeTheoryPage === theoryPages.length - 1
@@ -627,7 +628,7 @@ export default function TopicView({
               )}
               {isBook ? (
                 <span className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-2.5 py-1 rounded-lg">
-                  <BookText size={12} /> {sectionCount} ta bo'lim
+                  <BookText size={12} /> {content.source ? `${sectionCount} ta bo'lim` : 'Kitob rejimi'}
                 </span>
               ) : (
                 <span className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-2.5 py-1 rounded-lg">
@@ -1358,7 +1359,7 @@ function QuestionCard({ question: q, index, total, selected, isSubmitted, onSele
   selected?: unknown; isSubmitted: boolean
   onSelect: (val: unknown) => void; onSubmit: () => void
 }) {
-  const tb = TYPE_BADGE[q.type] || TYPE_BADGE.Y1
+  const tb = TYPE_BADGE[displayedCognitiveLevel(q)] || TYPE_BADGE.Y1
   const Icon = tb.icon
   const isCorrect = isSubmitted && isQuestionCorrect(q, selected)
   const isWrong = isSubmitted && !isQuestionCorrect(q, selected)

@@ -1944,3 +1944,11 @@ Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user co
 - **Partial:** Barnoyevak `pedagogika/files` ichidagi **59 PDF 59/59 matn fetch (55 success, 4 no-text), 5 DOCX 5/5 read**; 2 shaxsiy reyting PDF va bitta reklama materialini importga yaroqsiz deb belgilash. M14.01–07 uchun kasb standarti matni bilan yangi 7 statik nazariya va published M14da optional jadval/misol, M15.01–08 source-aligned quick notes, **24 Vitest**; 2025 nusxa-dublikatlar aniqlangan. Docs: `docs/TASK247_PDF_SOURCE_INVENTORY_20261019.md`, `docs/TASK247_M14_7_SOURCE_RECONCILIATION_20261019.md`, `docs/TASK247_PEDAGOGY_BARN_SOURCE_INTAKE_20261019.md`.
 - **Dependency:** 4 PDFni maxsus PDF/physical-page usulida ochish, 59 ta PDF va 5 DOCXning betma-bet manba/fakt/source-locator ekspertizasi, 18/18 source mapping va tarixiy savollar independent answer-key check. Early CI PASS SHA `913111b54d48b198193be51fb8c9bc094999d741`; latest branch SHA uchun CI va mobile/E2E alohida gate.
 - **Release:** feature branch only; main/production DB/Vercel o‘zgarmadi; userning yangi merge/deploy ruxsatisiz release YO‘Q.
+
+## TASK-262 — Yagona kitob nazariya ko‘rinishi (2026-10-19)
+
+- **Owner:** ChatGPT assistenti; **branch:** `task/TASK-262-unified-lesson-book-design-20261019`.
+- **Scope:** M01 namunasidagi `BookReader` / `BookBlock`ni barcha nazariy darslar uchun umumlashtirish, ayniqsa M14–M16. Oldingi published lesson / backend / DB / savol banki o‘zgarmaydi.
+- **Implemented on branch:** `TopicView` umumiy book mode, `BookReader` sarlavhali hamda legacy adaptive sahifalash, `BookBlock` Markdown jadval va fallback ro‘yxat, regressiya testlari.
+- **Status:** IN_PROGRESS / REVIEW ONLY. Local npm suite va real desktop/mobile authenticated acceptance hali verifikatsiya qilinishi shart; release-frozen pedagogika PRiga o‘zboshimchalik bilan qo‘shilmaydi.
+- **Release:** main merge, production migratsiya va production deploy YO‘Q. See `docs/TASK262_UNIFIED_LESSON_BOOK_DESIGN_20261019.md`.

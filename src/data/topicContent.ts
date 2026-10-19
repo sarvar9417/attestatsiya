@@ -90,6 +90,11 @@ export interface TestQuestion {
   source?: 'static' | 'backend'
 }
 
+/** Preserve the authored cognitive level in the learner badge, independent of UI answer interaction type. */
+export function displayedCognitiveLevel(question: Pick<TestQuestion, 'type' | 'cognitiveLevel'>): TestQuestion['type'] {
+  return question.cognitiveLevel ?? question.type
+}
+
 export interface TopicContent {
   subtopicId: string
   title: string
