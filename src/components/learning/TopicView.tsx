@@ -233,18 +233,29 @@ export default function TopicView({
     if (!/^(?:M04|M14|M16)\.\d{2}$/.test(subtopicId)) return
     let cancelled = false
     const fallback = getTopicContent(subtopicId)
-    if (!fallback) return
+    // Some published M04/M14/M16 lessons exist only in the server catalog.
+    // An absent offline copy must not prevent the request and leave a spinner
+    // forever. Create a transient fallback only for parsing a published lesson.
     getLessonDetail(subtopicId)
       .then(lesson => {
-        if (!cancelled) {
-          setPublishedTheory({
-            subtopicId,
-            content: overlayPublishedProfessionalLesson(fallback, lesson),
-          })
-          setTheoryResolved(subtopicId)
+        if (cancelled) return
+        const base: TopicContent = fallback ?? {
+          subtopicId,
+          title: lesson.title_uz,
+          theory: [],
+          questions: [],
         }
+        const published = overlayPublishedProfessionalLesson(base, lesson)
+        // An unpublished/empty remote lesson is never shown merely because a
+        // placeholder was constructed; normal offline lessons still work.
+        if (fallback || published.theory.length > 0) {
+          setPublishedTheory({ subtopicId, content: published })
+        }
+        setTheoryResolved(subtopicId)
       })
       .catch(() => {
+        // A missing remote-only lesson becomes the existing "content not ready"
+        // screen, with navigation back, instead of an infinite loading state.
         if (!cancelled) setTheoryResolved(subtopicId)
       })
     return () => { cancelled = true }
