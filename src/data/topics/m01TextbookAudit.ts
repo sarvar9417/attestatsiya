@@ -133,6 +133,7 @@ export const ALL_M01_PAGE_ADDENDA: readonly VerifiedTextbookInsertion[] = [
   ...CAMBRIDGE7_M01_PAGE_ADDENDA,
   ...CAMBRIDGE8_M01_PAGE_ADDENDA,
   ...CAMBRIDGE9_M01_PAGE_ADDENDA,
+  ...CAMBRIDGE1011_M01_PAGE_ADDENDA,
 ]
 
 export function withVerifiedM01Additions(
