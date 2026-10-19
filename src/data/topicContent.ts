@@ -11,6 +11,8 @@ import { M03_OFFICE_TEXTBOOK_ADDITIONS } from './topics/m03OfficeTextbookAdditio
 import { M03_05_CANONICAL_BOOK } from './topics/m03ExcelCanonicalBook'
 import { M03_04_CANONICAL_BOOK } from './topics/m03ExcelFoundationsCanonicalBook'
 import { M15_04_CANONICAL_BOOK } from './topics/m15LessonPlanningCanonicalBook'
+import { M03_08_CANONICAL_BOOK, M03_09_CANONICAL_BOOK, M03_10_CANONICAL_BOOK } from './topics/m03PowerPointCanonicalBooks'
+import { M15_07_CANONICAL_BOOK, M15_08_CANONICAL_BOOK } from './topics/m15AbilitiesTechnologyCanonicalBooks'
 import { M15_01_CANONICAL_BOOK } from './topics/m15PedagogyCanonicalBook'
 import { M03_01_CANONICAL_BOOK } from './topics/m03WordCanonicalBook'
 import { M15_02_CANONICAL_BOOK } from './topics/m15LearningPrinciplesCanonicalBook'
@@ -1632,6 +1634,29 @@ if (planningBase) {
     source: 'F. O. Mirzayeva, Pedagogika nazariyasi va tarixi, 6-mavzu',
     kind: 'chapter',
     theory: M15_04_CANONICAL_BOOK,
+  }
+}
+
+// TASK-289: complete all remaining M03 PowerPoint and M15 pedagogy offline
+// themes as structured source-guided chapters in the FIRST BookReader.
+// Preserve the original assessment keys, evidence notes and lesson metadata.
+// Short legacy 5-block summaries are already re-explained, so do not render
+// them again as an expandable second theory.
+for (const [id, book, source] of [
+  ['M03.08', M03_08_CANONICAL_BOOK, 'Cambridge+ ICT 9 — Uslublar va Taqdimot, 14- va 19-bob'],
+  ['M03.09', M03_09_CANONICAL_BOOK, 'Cambridge+ ICT 9 — Taqdimot multimedia, 19-bob'],
+  ['M03.10', M03_10_CANONICAL_BOOK, 'Cambridge+ ICT 9 — Taqdimot animatsiya, 19-bob'],
+  ['M15.07', M15_07_CANONICAL_BOOK, 'Xoliqov, Pedagogik mahorat — qobiliyatlar'],
+  ['M15.08', M15_08_CANONICAL_BOOK, 'Qodirova/Pulatova — Inklyuziv ta’lim va pedagogik texnologiyalar'],
+] as const) {
+  const original = TOPIC_CONTENT[id]
+  if (!original) continue
+  const sourceAppendix = id.startsWith('M03.') ? (M03_OFFICE_TEXTBOOK_ADDITIONS[id] ?? []) : []
+  TOPIC_CONTENT[id] = {
+    ...original,
+    kind: 'chapter',
+    source,
+    theory: [...book, ...sourceAppendix],
   }
 }
 
