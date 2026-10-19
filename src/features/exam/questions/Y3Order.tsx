@@ -49,9 +49,9 @@ export default function Y3Order({
             <span className="w-7 h-7 rounded bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-xs font-mono text-gray-500 shrink-0">
               {index + 1}
             </span>
-            <span className="text-sm text-gray-700 dark:text-gray-300 min-w-0 flex-1">
+            <div className="text-sm text-gray-700 dark:text-gray-300 min-w-0 flex-1">
               <ExamRichText text={item.content_md} />
-            </span>
+            </div>
             <div className="flex flex-col gap-0.5">
               <button
                 type="button"
