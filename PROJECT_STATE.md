@@ -1,3 +1,14 @@
+## 2026-10-19 — TASK-242: M01 nazariya manba va dizayn auditi
+
+- **Status:** IN_PROGRESS / EDITORIAL REVIEW PENDING; owner request: M01 birinchi, so‘ng M02–M16 ketma-ket; merge va deploy uchun alohida ruxsat kerak.
+- **Branch:** `task/TASK-242-m01-source-fidelity-and-design`, `task/TASK-241-theory-source-ui-audit`dan davom etadi, `main`dan alohida.
+- **Scope:** M01.01–M01.12, asl LaTeX qo‘llanma, 2026 attestatsiya spetsifikatsiyasi, Drive’dagi ICT/Cambridge+ 5–11 darsliklari; learner theory UI.
+- **Fix:** 10 ta sarlavhali `examplebox` avval `{1-misol... @@Oddiy@@}` deb noto‘g‘ri chizilgan. Konverterda label ajratish, `\\difficulty` formatini source markeridan farqlash, `m01.ts` generated parity va `BookBlock` label rich rendering yangilandi.
+- **Tests:** `src/tests/M01SourceFidelity.test.tsx`: 12 canonical topic, barcha section bloklarini saqlash, 10 diagramma, 10 to‘g‘ri sarlavhali misol, markerlar. GitHub Actions CI yakuniy commitga tekshirilishi kerak; test mavjudligi PASSni anglatmaydi.
+- **Source integrity:** spesifikatsiyaning M01 7 konstrukt yo‘nalishi dastlabki nazariya xaritasida bor; 13 manbaning matnlari qidirildi, to‘liq sahifa-by-sahifa ekspert tasdig‘i va auth E2E tugamagan.
+- **Handoff / blockers:** `docs/TASK242_M01_SOURCE_AND_DESIGN_AUDIT_20261019.md`; 12 dars visual mobile/desktop; manba page trace; real authenticated learner QA; inson editorial gate.
+- **Production:** mutlaqo o‘zgarmagan. No merge/deploy/DB mutation.
+
 ## TASK-240 — Informatika savollar banki chuqur sifat nazorati (2026-10-18)
 
 - **Status:** DONE (kritik exposure tuzatildi; qolgan ekspert release shartlari hisobotda).
