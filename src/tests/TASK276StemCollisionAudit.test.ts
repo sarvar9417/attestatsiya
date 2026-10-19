@@ -26,7 +26,10 @@ describe('TASK-276: exact-stem collision triage is privacy-safe', () => {
     expect(sql).toContain('item_ids-1 AS excess_same_stem_ids')
   })
   it('forbids unreviewed deduplication or publishing from an aggregate', () => {
-    expect(sql).toContain('REVIEW_EACH_REVISION_NO_AUTO_DELETE')
+    expect(sql).toContain('GENERIC_STEM_DISTINCT_OPTIONS_NO_AUTO_DELETE')
+    expect(sql).toContain('POTENTIAL_OPTIONS_COLLISION_EXPERT_REVIEW')
+    expect(sql).toContain('distinct_option_sets')
+    expect(sql).toContain('option_signatures')
     expect(sql).toContain('asset_backed_items')
     expect(sql).toContain('distinct_source_lessons')
     expect(sql).toContain('generated_items')
