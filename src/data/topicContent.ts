@@ -10,6 +10,7 @@ import { M09_DATABASE_TEXTBOOK_ADDITIONS } from './topics/m09DatabaseTextbookAdd
 import { M03_OFFICE_TEXTBOOK_ADDITIONS } from './topics/m03OfficeTextbookAdditions'
 import { M03_05_CANONICAL_BOOK } from './topics/m03ExcelCanonicalBook'
 import { M15_01_CANONICAL_BOOK } from './topics/m15PedagogyCanonicalBook'
+import { M12_05_CANONICAL_BOOK } from './topics/m12IPv4CanonicalBook'
 import { M08_TEXTBOOK_STUDY_ADDITIONS } from './topics/m08TextbookStudyAdditions'
 import { M14_NORMATIVE_SOURCE_ADDITIONS } from './topics/m14NormativeSourceAdditions'
 import { M16_SOURCE_THEORY_ADDITIONS } from './topics/m16SourceTheoryAdditions'
@@ -1511,6 +1512,22 @@ for (const [subtopicId, additions] of Object.entries(M14_NORMATIVE_SOURCE_ADDITI
 for (const [subtopicId, additions] of Object.entries(M16_SOURCE_THEORY_ADDITIONS)) {
   const local = TOPIC_CONTENT[subtopicId]
   if (local) TOPIC_CONTENT[subtopicId] = { ...local, theory: [...local.theory, ...additions] }
+}
+
+// TASK-284: authored subnet/CIDR worked-book chapter, including bitwise
+// examples and /31-/32 caveats. Do not discard the previous M12 exercises.
+const ipv4Base = TOPIC_CONTENT['M12.05']
+if (ipv4Base) {
+  TOPIC_CONTENT['M12.05'] = {
+    ...ipv4Base,
+    source: 'Cambridge+ ICT 10–11 + original IPv4 subnet theory',
+    kind: 'chapter',
+    theory: [
+      ...M12_05_CANONICAL_BOOK,
+      { type: 'heading', content: 'Qo‘shimcha takrorlash: avvalgi subnet nazariyasi' },
+      ...ipv4Base.theory,
+    ],
+  }
 }
 
 // TASK-284: source-backed pedagogy is no longer a short summary followed by
