@@ -1,3 +1,12 @@
+## TASK-248 — M01.04 source item trace (2026-10-19)
+
+- **Status:** IN_PROGRESS; branch `task/TASK-248-m01-info-process-source-trace`.
+- **Scope:** `ARS-03-001..070` barcha 70 axborot jarayoni va qidiruv savoli uchun alohida `docs/audits/TASK248_M01_04_70_ITEM_SOURCE_TRACE.tsv` yaratilgan.
+- **Provenance states:** 42 topic-supported, 25 partial, 3 source-gap. Uchta source-gap `Yo‘q qilish` tushunchasining savol ko‘rinishlari, materialning to‘liq expert approvali emas.
+- **Regression:** `src/tests/M0104ItemSourceTrace.test.ts` barcha ID, concept, form va sahifa holatini nazorat qiladi.
+- **Inherited:** TASK-247 orqali M01.02/M01.03 120 qatorli reyestr `main`ga kiritilgan; M01 bo‘yicha jami 190 question-level provenance status, hali 210 item ochiq.
+- **Safety:** review-only; production DB, published answer revision va Vercel deployment o‘zgarmaydi.
+
 ## TASK-247 — M01 source locators and numeric QA (2026-10-19)
 
 - **Status:** IN_PROGRESS; branch `task/TASK-247-m01-numeric-and-source-verification`.
