@@ -15,6 +15,7 @@ declare
   v_key     public.question_keys%rowtype;
   v_correct boolean;
   v_pts     int;
+  v_revision bigint;
 begin
   if v_user is null then
     raise exception 'auth_required';
@@ -84,6 +85,26 @@ begin
     return jsonb_build_object('error', 'vaqt_tugadi');
   end if;
 
+  -- Guard against stale in-flight/offline mock responses overwriting the latest edit.
+  -- Legacy clients without a revision continue to use server time.
+  if v_exam.kind = 'mock' then
+    if p_answer ? '_client_revision' then
+      if jsonb_typeof(p_answer -> '_client_revision') <> 'number' then
+        raise exception 'client_revision_invalid';
+      end if;
+      v_revision := (p_answer ->> '_client_revision')::bigint;
+      if v_revision < 0 or v_revision > (extract(epoch from now() + interval '5 minutes') * 1000)::bigint then
+        raise exception 'client_revision_invalid';
+      end if;
+    else
+      v_revision := (extract(epoch from clock_timestamp()) * 1000)::bigint;
+    end if;
+    if v_item.answered_at is not null and v_item.client_answered_at is not null
+       and v_revision <= (extract(epoch from v_item.client_answered_at) * 1000)::bigint then
+      return jsonb_build_object('saved', true, 'already_answered', true);
+    end if;
+  end if;
+
   select *
     into v_q
     from public.questions
@@ -110,7 +131,9 @@ begin
          is_correct = v_correct,
          score = v_pts,
          time_spent_sec = coalesce(p_time_spent, time_spent_sec),
-         client_answered_at = coalesce(client_answered_at, now()),
+         client_answered_at = case when v_exam.kind = 'mock'
+           then to_timestamp(v_revision / 1000.0)
+           else coalesce(client_answered_at, now()) end,
          answered_at = now()
    where id = v_item.id;
 
