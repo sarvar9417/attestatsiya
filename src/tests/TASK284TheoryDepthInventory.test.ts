@@ -21,8 +21,8 @@ describe('TASK-284 M01-depth quality gate', () => {
       expect(byId[id].sections, id).toBeGreaterThanOrEqual(12)
       expect(byId[id].pageVerification, id).toBe('unverified')
     }
-    expect(byId['M03.06'].characters).toBeLessThan(benchmarkChars)
-    expect(byId['M15.05'].characters).toBeLessThan(benchmarkChars)
+    expect(byId['M13.09'].characters).toBeLessThan(benchmarkChars)
+    expect(byId['M13.10'].characters).toBeLessThan(benchmarkChars)
   })
 
   it('new exemplary books have meaningful chapter structure and preserve legacy', () => {
