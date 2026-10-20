@@ -1,4 +1,5 @@
 -- TASK-063 regression: Y2/Y3 expansion + M02/M05 canonical lesson reconciliation.
+-- TASK-305 counts the corrected published version of T063-Y2-022 while preserving the archived original.
 
 do $$
 declare
@@ -6,7 +7,8 @@ declare
 begin
   select count(*) into v_count
   from public.questions
-  where source_reference like 'formatbank-2026:T063-Y2-%'
+  where (source_reference like 'formatbank-2026:T063-Y2-%'
+         or source_reference='m13-qa-fix:v2:T063-Y2-022')
     and format='Y2'::public.question_format
     and status='published'::public.content_status;
   if v_count <> 24 then
@@ -26,7 +28,8 @@ begin
     select 1
     from public.questions q
     join public.question_keys qk on qk.question_id=q.id
-    where q.source_reference like 'formatbank-2026:T063-Y2-%'
+    where (q.source_reference like 'formatbank-2026:T063-Y2-%'
+           or q.source_reference='m13-qa-fix:v2:T063-Y2-022')
       and (
         (select count(*) from public.question_options qo where qo.question_id=q.id) <> 8
         or (select count(*) from jsonb_each(qk.payload->'pairs')) <> 4

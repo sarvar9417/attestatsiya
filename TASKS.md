@@ -275,3 +275,6 @@ Har task uchun kamida:
 
 | TASK-301 | IN_REVIEW / MERGE_AUTHORIZED | TASK-UI-003 (DONE); existing reader on main | Preserve existing theory/notes/verified supplements in M01-style reading, retain rendering and navigation, test content-loss regressions; merge authorized after green CI, no deploy. |
 | TASK-277 | IN_PROGRESS / MERGE_AUTHORIZED | TASK-262/TASK-301 reader foundation | Global balanced BookReader pagination; current-main TASK-289 PowerPoint va TASK-290 M15.07–08 books preserved; depth triage now 93 brief / 7 partial / 21 substantial candidate. Remaining brief topics and authenticated production visual QA OPEN. User authorized merge; no deploy/DB write. |
+
+
+| TASK-305 | IN_PROGRESS / DRAFT PR | TASK-211/212/213 DONE; current main | M13 source benchmark (2026 demo and 13.04 claimed test), 414 published database QA; 49 Y1 easy-distractor + 24 key-length flags, 70 4×4 Y2 risk; one definite malformed published Y2 (`T063-Y2-022`) versioned migration/test awaiting CI and approval; 21 keyless review candidates (Y1/Y2 4×5/Y3), no production insert, public repo answer exposure P0 mitigation separate. PR #315, `docs/audits/TASK305_M13_ATTESTATSIYA_QUESTION_QUALITY_20261020.md`. |

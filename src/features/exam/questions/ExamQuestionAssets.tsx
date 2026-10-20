@@ -11,6 +11,7 @@ const ALGORITMLASH = new Set([
 const OFFICE = new Set([
   'off_bar','off_line','off_pie','off_table','off_slides','off_timeline','off_wordtable',
 ])
+const M07_SOURCE_BLOCKS = new Set(['m07_sl2_05_014','m07_sl2_05_018','m07_sl2_05_020','m07_sl2_05_023','m07_sl2_05_028','m07_sl2_06_015','m07_sl2_06_020','m07_sl2_06_022','m07_sl2_06_025','m07_sl2_06_026','m07_sl2_06_027'])
 const M07_AUDIT = new Set(['m07_logo_nested_squares_20261020'])
 const KUZGI_DEMO = new Set([
   'demo_q01_powerpoint','demo_q11_access','demo_q18_flowchart',
@@ -26,6 +27,7 @@ function approvedImagePath(id: string): string | null {
   if (OFFICE.has(id)) return `/office-v2/${id}.svg`
   if (KUZGI_DEMO.has(id)) return `/kuzgi-demo/${id}.svg`
   if (M07_AUDIT.has(id)) return `/m07-audit-2026/${id}.svg`
+  if (M07_SOURCE_BLOCKS.has(id)) return `/m07-source-blocks/${id}.svg`
   return null
 }
 
