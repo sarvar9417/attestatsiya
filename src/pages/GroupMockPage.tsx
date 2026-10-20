@@ -387,7 +387,16 @@ export default function GroupMockPage() {
                             <input type="checkbox" checked={manual.includes(item.id)} disabled={!manual.includes(item.id) && manual.length>=100}
                               onChange={() => setManual(old => old.includes(item.id)
                                 ? old.filter(id => id!==item.id) : [...old,item.id])} />
-                            <span className="min-w-0 break-words"><span className="font-semibold">{item.format} · {item.difficulty}-daraja</span> — {item.stem_md.slice(0,250)}</span>
+                            <span className="min-w-0 break-words">
+                              <span className="font-semibold">{item.format} · {item.difficulty}-daraja</span> — {item.stem_md.slice(0,250)}
+                              <span className="mt-2 block text-xs text-gray-500 dark:text-gray-400">
+                                {item.options.map((option,index)=>(
+                                  <span key={option.id} className="block">
+                                    {option.side.toUpperCase()}-{index+1}. {option.content_md.slice(0,160)}
+                                  </span>
+                                ))}
+                              </span>
+                            </span>
                           </label>
                         ))}
                         {bank.length===0 && <p className="text-sm text-gray-500">Nashr etilgan savollar topilmadi.</p>}
