@@ -17,9 +17,15 @@ describe('TASK-346 original Telegram pedagogy method photos', () => {
       bytes: 96247,
       sha256: 'ef131306d4b4ff3e65cf457c64fdcb5d205fd51127147437b87076724e790419',
     },
+    {
+      file: 'pedguli-4844-discussion.jpg',
+      telegramId: 4844,
+      bytes: 119454,
+      sha256: '633bcd3597bc06e00b8b3e99d4e373891080a93ffc988f81bdd62a9b14999bb9',
+    },
   ] as const
 
-  it('preserves both original images byte-for-byte, not fabricated placeholders', () => {
+  it('preserves all three original images byte-for-byte, not fabricated placeholders', () => {
     for (const entry of verified) {
       const data = readFileSync(join(process.cwd(), 'public', 'pedguli-source', entry.file))
       expect(data.byteLength, String(entry.telegramId)).toBe(entry.bytes)
