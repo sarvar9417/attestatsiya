@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {readFileSync} from 'node:fs'
-const sql=readFileSync('supabase/migrations/20261020093000_task330_m03_office_visual_draft_assets.sql','utf8')
+const sql=readFileSync('supabase/migrations/20261020093001_task330_m03_office_visual_draft_assets.sql','utf8')
 const ids=['OFF-E04-006','OFF-E04-012','OFF-E04-018','OFF-E04-024','OFF-P01-018','OFF-P02-018','OFF-W03-018']
 describe('TASK-330 Office visuals draft-only gate',()=>{
   it('defines exactly seven audited visual refs',()=>{
