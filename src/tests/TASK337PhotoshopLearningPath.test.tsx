@@ -72,6 +72,10 @@ describe('TASK-337: Adobe Photoshop darslik o‘quv yo‘li', () => {
       expect(lab.at(-1)?.content).toContain('ICT 7-sinf')
       expect(topic.theory.length).toBeGreaterThan(70)
     }
+    expect(M10_PHOTOSHOP_PRACTICAL_LABS['M10.02']?.some(b => b.content.includes('F7'))).toBe(true)
+    expect(M10_PHOTOSHOP_PRACTICAL_LABS['M10.03']?.some(b => b.content.includes('Magnetic Lasso'))).toBe(true)
+    expect(M10_PHOTOSHOP_PRACTICAL_LABS['M10.04']?.some(b => b.content.includes('FishEye'))).toBe(true)
+    expect(M10_PHOTOSHOP_PRACTICAL_LABS['M10.04']?.some(b => b.content.includes('HTML/CSS'))).toBe(true)
     expect(M10_PHOTOSHOP_PRACTICAL_LABS['M10.05']).toBeUndefined()
   })
 })
