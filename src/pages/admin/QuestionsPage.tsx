@@ -480,7 +480,8 @@ export default function QuestionsPage() {
 
                       {status === 'review' && (['KS', 'PM.GEN', 'PM.MET'].includes(question.group_code) ||
                         question.source_reference?.startsWith('authored:pedguli-') ||
-                        question.source_reference?.startsWith('authored:pedagogy-pdf-corpus:')) && (
+                        question.source_reference?.startsWith('authored:pedagogy-pdf-corpus:') ||
+                        question.source_reference?.startsWith('MSACCESS-DEMO-STYLE-2026/')) && (
                         <button
                           type="button"
                           onClick={() => setEditorialQuestion(question)}
