@@ -1457,6 +1457,31 @@ Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user co
   berdi; **deploy va production DB write taqiqlangan**. Batafsil:
   docs/audits/TASK277_UNIFIED_THEORY_BOOK_ROLLOUT_20261019.md.
 
+## TASK-344 — Darsliklarga tayangan yagona to‘liq nazariya korpusi (2026-10-20)
+
+- **Owner:** Codex; **branch:** `task/TASK-344-source-complete-theory-corpus`.
+- Foydalanuvchi barcha qisqa nazariyalarni biriktirilgan sinf darsliklari,
+  2026 spetsifikatsiya, demo va tarixiy testlar bilan mos, yagona kitob
+  shaklida to‘liq boyitishni so‘radi.
+- Yakuniy learner-visible audit: **115 topic = 110 chapter + 5 appendix**;
+  **110/110 chapter kitob kontraktidan o‘tdi, incomplete 0**. Eski 121-topic
+  audit M02 legacy dublikatlarini sanaydi va current learner catalog uchun
+  yakuniy haqiqat emas. Yangi `theory:learner:audit` faqat `contentTree`
+  ichidagi real learner mavzularini tekshiradi.
+- M04.01–06, M06.01–04 va M07.01–06 uchun yangi source-complete kitoblar;
+  M02, M08–09, M12.06–09, M13, M14 va M16 uchun source bloklarni saqlovchi
+  yagona self-study kitob skeleti; M05 uchun mavjud 9/14/21 sahifali kitobni
+  buzmasdan mashq, javob va manba izi qo‘shildi.
+- Katta darslik matni so‘zma-so‘z ko‘chirilmaydi: didaktik qayta bayon,
+  aniq PDF/printed-page locator, maqsad, kamida oltita bo‘lim, ishlangan
+  misol, mustaqil mashq, javob, xato va xulosa kontrakti qo‘llanadi.
+- Lokal darvozalar: lint PASS, typecheck PASS, 173 test fayli / 1113 test
+  PASS, build va client answer-key scan PASS. Handoff:
+  `docs/TASK344_SOURCE_COMPLETE_THEORY_CORPUS.md`.
+- **Status:** IMPLEMENTED / REVIEW READY. **Release:** feature branch only.
+  Merge, deploy va production DB write alohida foydalanuvchi ruxsatisiz
+  taqiqlangan.
+
 ## TASK-301 — Mavjud dars kontentini yagona kitobda to‘liq ko‘rsatish
 
 - Owner: Codex; started: 2026-10-19T08:05:00Z. Status: IN_REVIEW / MERGE_AUTHORIZED.

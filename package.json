@@ -45,6 +45,7 @@
     "corpus:audit": "tsx scripts/audit-topics.ts",
     "theory:depth:audit": "tsx scripts/audit-theory-depth.ts",
     "theory:backlog:audit": "tsx scripts/audit-theory-backlog.ts",
+    "theory:learner:audit": "node --import tsx scripts/audit-learner-theory-corpus.ts",
     "db:sync": "tsx scripts/sync_to_db.ts",
     "dev:backend": "npm --prefix backend run dev",
     "test:backend": "npm --prefix backend run test",

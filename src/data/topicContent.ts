@@ -46,6 +46,10 @@ import { M12_05_CANONICAL_BOOK } from './topics/m12IPv4CanonicalBook'
 import { M08_TEXTBOOK_STUDY_ADDITIONS } from './topics/m08TextbookStudyAdditions'
 import { M14_NORMATIVE_SOURCE_ADDITIONS } from './topics/m14NormativeSourceAdditions'
 import { M16_SOURCE_THEORY_ADDITIONS } from './topics/m16SourceTheoryAdditions'
+import { M04_LOGIC_CANONICAL_BOOKS } from './topics/m04LogicCanonicalBooks'
+import { M06_ALGORITHM_CANONICAL_BOOKS } from './topics/m06AlgorithmCanonicalBooks'
+import { M07_SCRATCH_LOGO_CANONICAL_BOOKS } from './topics/m07ScratchLogoCanonicalBooks'
+import { buildUnifiedTheoryBook } from './topics/unifiedTheoryBook'
 // M14–M16 use server-scored exams exclusively. Legacy mini-quiz answer keys
 // have intentionally been stripped from the shipped JavaScript bundle.
 
@@ -1789,6 +1793,92 @@ for (const [id, book, source] of [
   TOPIC_CONTENT[id] = { ...previous, source, kind: 'chapter', theory: [...book, ...appendix] }
 }
 
+// TASK-344: Promote the full logic/modelling and algorithms families to the
+// shared source-complete book contract. The books replace only the brief
+// theory seed: all existing quiz IDs, answer keys and cognitive metadata are
+// inherited from the original topic object unchanged.
+for (const [id, book, source] of [
+  ...Object.entries(M04_LOGIC_CANONICAL_BOOKS).map(([topicId, theory]) => [
+    topicId,
+    theory,
+    'ICT 9-sinf (2020), I–II boblar + Ma’ruza (Tayyor), 6-§',
+  ] as const),
+  ...Object.entries(M06_ALGORITHM_CANONICAL_BOOKS).map(([topicId, theory]) => [
+    topicId,
+    theory,
+    'ICT 9-sinf (2020), III bob + Ma’ruza (Tayyor), 8-§',
+  ] as const),
+  ...Object.entries(M07_SCRATCH_LOGO_CANONICAL_BOOKS).map(([topicId, theory]) => [
+    topicId,
+    theory,
+    'ICT 5–6-sinf Scratch boblari + Cambridge yo‘nalishi 9-sinf Toshbaqa grafika',
+  ] as const),
+]) {
+  const previous = TOPIC_CONTENT[id]
+  if (!previous) continue
+  TOPIC_CONTENT[id] = {
+    ...previous,
+    source,
+    kind: 'chapter',
+    theory: id.startsWith('M07.') ? [...book, ...previous.theory] : book,
+  }
+}
+
+// TASK-344: Earlier source audits left several families as uneven collections
+// of notes. Keep every reviewed block, then add the same learner path and
+// assessment-supported examples/exercises used by the full canonical books.
+// This is deliberately explicit so appendices and already complete books are
+// never rewritten by a broad character-count heuristic.
+const UNIFIED_LEGACY_CHAPTER_IDS = new Set([
+  'M08.01', 'M08.02', 'M08.03', 'M08.04', 'M08.05', 'M08.06',
+  'M08.07', 'M08.08', 'M08.09', 'M08.10', 'M08.11', 'M08.12',
+  'M09.01', 'M09.02', 'M09.03', 'M09.04', 'M09.05', 'M09.06',
+  'M12.06', 'M12.07', 'M12.08', 'M12.09',
+  'M13.01', 'M13.02', 'M13.03', 'M13.04', 'M13.05', 'M13.06',
+  'M13.07', 'M13.08', 'M13.09', 'M13.10', 'M13.11',
+  'M14.01', 'M14.02', 'M14.03', 'M14.04', 'M14.05', 'M14.06', 'M14.07',
+  'M16.01', 'M16.02', 'M16.03',
+])
+
+for (const id of UNIFIED_LEGACY_CHAPTER_IDS) {
+  const previous = TOPIC_CONTENT[id]
+  if (!previous) continue
+  TOPIC_CONTENT[id] = {
+    ...previous,
+    kind: 'chapter',
+    theory: buildUnifiedTheoryBook(previous),
+  }
+}
+
+// M05 already has a carefully paginated 9/14/21-section textbook. Complete
+// its self-study contract without inserting headings or disturbing those page
+// anchors: only an answer key and the verified source trace are appended.
+for (const id of ['M05.01', 'M05.02', 'M05.03']) {
+  const previous = TOPIC_CONTENT[id]
+  if (!previous) continue
+  TOPIC_CONTENT[id] = {
+    ...previous,
+    kind: 'chapter',
+    theory: [
+      ...previous.theory,
+      {
+        type: 'task',
+        content: 'Mustaqil mashq: bobdagi usullardan foydalanib yangi sanoq sistemasi misolini yeching; har bir oraliq qadamni yozing va natijani teskari amal yoki o‘nlik sanoq sistemasiga qaytarish bilan tekshiring.',
+      },
+      {
+        type: 'answers',
+        content: previous.questions.map((question, index) =>
+          `${index + 1}) **${question.options[question.correctIndex]}** — ${question.explanation}`,
+        ).join('\n\n'),
+      },
+      {
+        type: 'source',
+        content: 'Manba izi: “Ma’ruza (Tayyor)”, 5-§ “Sanoq sistemalari”, PDF 30–33; pozitsion yozuv, o‘tkazish va arifmetik amallar bo‘yicha mavjud nazariya shu manba bilan solishtirilgan.',
+      },
+    ],
+  }
+}
+
 // M02 canonical chapters combine multiple lengthy source lessons. Rebuilding
 // their arrays at every React render invalidates BookReader/observer state and
 // can visually reflow an already opened lesson.
@@ -1797,7 +1887,10 @@ const m02CachedContent = new Map<string, TopicContent | undefined>()
 export function getTopicContent(subtopicId: string): TopicContent | undefined {
   if (!subtopicId.startsWith('M02.')) return TOPIC_CONTENT[subtopicId]
   if (!m02CachedContent.has(subtopicId)) {
-    m02CachedContent.set(subtopicId, buildCanonicalM02Topic(subtopicId, TOPIC_CONTENT))
+    const canonical = buildCanonicalM02Topic(subtopicId, TOPIC_CONTENT)
+    m02CachedContent.set(subtopicId, canonical
+      ? { ...canonical, theory: buildUnifiedTheoryBook(canonical) }
+      : undefined)
   }
   return m02CachedContent.get(subtopicId) ?? TOPIC_CONTENT[subtopicId]
 }
