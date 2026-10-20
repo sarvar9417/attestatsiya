@@ -26,6 +26,26 @@ begin
  then raise exception 'group RPC access too broad'; end if;
 end $priv$;
 
+
+create temporary table task347_fixture(question_id uuid, lesson_id uuid, correct_option_id uuid, other_option_id uuid) on commit drop;
+insert into task347_fixture
+select q.id, q.source_lesson_id,
+       (k.payload->>'correct_option_id')::uuid,
+       (select o.id from public.question_options o
+        where o.question_id=q.id and o.side='a'
+          and o.id::text<>k.payload->>'correct_option_id'
+        order by o.id limit 1)
+from public.questions q
+join public.question_keys k on k.question_id=q.id
+where q.format='Y1'::public.question_format
+  and q.source_lesson_id is not null
+  and public.group_mock_eligible(q.id)
+order by q.id limit 1;
+do $check_fixture$
+begin
+ if not exists(select 1 from task347_fixture where other_option_id is not null)
+ then raise exception 'TASK347 fixture needs a published Y1 question with distractor'; end if;
+end $check_fixture$;
 set role authenticated;
 select set_config('request.jwt.claim.sub','93470000-0000-4000-8000-000000000001',false);
 
@@ -41,20 +61,10 @@ declare
  v_state jsonb;
  v_failed boolean;
 begin
- -- Use existing published Y1 source-backed question without mutating its key.
- select q.id,q.source_lesson_id
- into v_q,v_lesson
- from public.questions q
- where q.format='Y1'::public.question_format
-   and public.group_mock_eligible(q.id)
-   and q.source_lesson_id is not null
- order by q.id limit 1;
- if v_q is null then raise exception 'TASK347 fixture requires one source-backed published Y1'; end if;
- select (k.payload->>'correct_option_id')::uuid into v_correct_id
- from public.question_keys k where k.question_id=v_q;
- select o.id into v_other_id from public.question_options o
- where o.question_id=v_q and o.id<>v_correct_id and o.side='a' order by o.id limit 1;
- if v_other_id is null then raise exception 'TASK347 fixture requires a distractor'; end if;
+ -- Existing published source-backed Y1 fixture, collected as DB owner before
+ -- switching to authenticated to avoid direct access to question_keys.
+ select question_id, lesson_id, correct_option_id, other_option_id
+ into v_q,v_lesson,v_correct_id,v_other_id from task347_fixture;
 
  -- Validation and duplicate question failures cannot leave a room behind.
  v_failed:=false;
