@@ -1,15 +1,15 @@
--- TASK-291: the two legacy 8-left Y2 questions have native 4x4 review-only replacements.
--- Historical original questions and learner results must remain untouched until safe editorial cutover.
+-- TASK-291: safe native matching Y2 cutover — old UUIDs and attempts stay accessible archived;
+-- two new 4x4 revisions are published for future selection.
 DO $$
-DECLARE n integer;
+DECLARE n int;
 BEGIN
- SELECT count(*) INTO n FROM public.questions WHERE
- source_reference LIKE 'TASK291:Y2:NATIVE-REVISION-OF:%' AND status='review';
- IF n<>2 THEN RAISE EXCEPTION 'TASK291 expected 2 review versions of malformed live Y2 questions, got %',n; END IF;
+ SELECT count(*) INTO n FROM public.questions WHERE source_reference LIKE
+ 'TASK291:Y2:NATIVE-REVISION-OF:%' AND status='published';
+ IF n<>2 THEN RAISE EXCEPTION 'TASK291 expected two new native published Y2, got %',n; END IF;
  SELECT count(*) INTO n FROM public.questions WHERE source_reference IN
  ('formatbank-2026:T063-Y2-018','formatbank-2026:T063-Y2-019')
- AND status='published';
- IF n<>2 THEN RAISE EXCEPTION 'TASK291 legacy question history was modified'; END IF;
+ AND status='archived';
+ IF n<>2 THEN RAISE EXCEPTION 'TASK291 expected 2 immutable archived legacy source questions'; END IF;
 
  SELECT count(*) INTO n FROM public.questions q JOIN public.question_keys k ON k.question_id=q.id
  WHERE q.source_reference LIKE 'TASK291:Y2:NATIVE-REVISION-OF:%'
@@ -21,5 +21,10 @@ BEGIN
  AND (SELECT count(*) FROM jsonb_each_text(k.payload->'pairs') p
     JOIN public.question_options a ON a.question_id=q.id AND a.side='a' AND a.id::text=p.key
     JOIN public.question_options b ON b.question_id=q.id AND b.side='b' AND b.id::text=p.value)=4;
- IF n<>2 THEN RAISE EXCEPTION 'TASK291 native matching right/left/keys inconsistent, passing %',n; END IF;
+ IF n<>2 THEN RAISE EXCEPTION 'TASK291 native Y2 left/right/key invalid %',n; END IF;
+ SELECT count(*) INTO n FROM public.exam_items ei
+ JOIN public.questions q ON q.id=ei.question_id
+ WHERE q.source_reference IN
+ ('formatbank-2026:T063-Y2-018','formatbank-2026:T063-Y2-019');
+ IF n<2 THEN RAISE EXCEPTION 'TASK291 historical exam-item rows disappeared %',n; END IF;
 END $$;
