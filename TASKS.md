@@ -1,3 +1,9 @@
+## TASK-343 — Test javoblaridagi manba-only izohlarni o‘quv izohlariga almashtirish (2026-10-20)
+
+| Task | Status | Scope | Acceptance |
+|---|---|---|---|
+| TASK-343 | IN_PROGRESS — 140 ta nomzod sanaldi; QA gate CODE READY / rollback sinovi PASS; production release qilinmagan | Telegram ✅/✔ kalitga tayangan 84 published + 56 review Y1 pedagogika izohi; boshqa qisqa izohlarni alohida semantik audit | Educational-explanation publish guard, SQL regression va keyless audit; pedagogik takt uchun immutable revision operator script rollback testdan o‘tdi. 139 ta kontent izohini individual yozish, rasmsiz 2 itemni tekshirish va production publish huquqi ochiq. `docs/TASK343_ANSWER_EXPLANATION_EDITORIAL_20261020.md` |
+
 ## TASK-345 — O‘rganish sahifalarini mantiqiy birlashtirish (2026-10-20)
 
 | ID | Status | Scope | Acceptance |
