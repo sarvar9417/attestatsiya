@@ -170,6 +170,38 @@ begin
                       and v2.slug like 'tarmoq-v2-bob-%'
                       and v2.status='draft'::public.content_status
                  ))
+        -- TASK-230: new, separate 20-item exam-patterned M12 review edition.
+        -- Original/published questions remain constrained by TASK-064.
+        and not (lane.module_code = 'M12'
+                 and q.status = 'review'::public.content_status
+                 and coalesce(q.source_reference,'') like 'm12-examstyle-v4-20261020:TAR-EXAM26-%'
+                 and exists (
+                   select 1 from public.lessons chapter
+                   join public.modules cm on cm.id=chapter.module_id
+                   join public.lesson_constructs cl
+                     on cl.lesson_id=chapter.id and cl.construct_id=q.construct_id
+                   where chapter.id=q.source_lesson_id
+                     and cm.code='M12'
+                     and chapter.slug ~ '^tarmoq-v2-bob-(0[1-9]|10)
+    ) then
+      raise exception 'TASK-064 % question source lesson drift remains',lane.module_code;
+    end if;
+
+    if exists (
+      select 1
+      from public.lesson_constructs lc
+      join public.lessons l on l.id=lc.lesson_id
+      where l.module_id=v_module and l.status='archived'::public.content_status
+    ) then
+      raise exception 'TASK-064 % archived legacy construct mapping remains',lane.module_code;
+    end if;
+  end loop;
+end
+$$;
+
+                     and chapter.status in ('draft'::public.content_status,
+                                            'published'::public.content_status)
+                 ))
     ) then
       raise exception 'TASK-064 % question source lesson drift remains',lane.module_code;
     end if;
