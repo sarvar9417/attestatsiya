@@ -222,6 +222,8 @@ jobs:
             -f supabase/seed.sql \
             -f supabase/tests/security_hardening.test.sql \
             -f supabase/tests/custom_exam.test.sql \
+            -f supabase/tests/group_mock.test.sql \
+            -f supabase/tests/group_mock_modes.test.sql \
             -f supabase/tests/custom_exam_presets.test.sql \
             -f supabase/tests/rls_product_access.test.sql \
             -f supabase/tests/onboarding_profile.test.sql \
