@@ -278,3 +278,6 @@ Har task uchun kamida:
 
 
 | TASK-305 | IN_PROGRESS / DRAFT PR | TASK-211/212/213 DONE; current main | M13 source benchmark (2026 demo and 13.04 claimed test), 414 published database QA; 49 Y1 easy-distractor + 24 key-length flags, 70 4×4 Y2 risk; one definite malformed published Y2 (`T063-Y2-022`) versioned migration/test awaiting CI and approval; 21 keyless review candidates (Y1/Y2 4×5/Y3), no production insert, public repo answer exposure P0 mitigation separate. PR #315, `docs/audits/TASK305_M13_ATTESTATSIYA_QUESTION_QUALITY_20261020.md`. |
+
+
+| TASK-306 | IN_PROGRESS | TASK-305 (Y2 contract fixed) | M13 seven chapters: 7 pilot Y2 4×5 review revisions from published 4×4, database-private key remap (no keys in Git), preserving 70 published originals and history; 4×5 scorer unit and DB regression. Source QA docs/audits/TASK306_M13_MATCHING_4X5_PILOT.md; require CI, parity and future versioned publication. |
