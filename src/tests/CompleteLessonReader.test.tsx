@@ -91,7 +91,7 @@ describe('complete existing lesson material', () => {
     const { rerender } = render(<BookReader {...props} content={long} />)
     fireEvent.click(screen.getAllByRole('tab').at(-1)!)
     expect(screen.getByText('Long 11')).toBeInTheDocument()
-    expect(screen.getByText('Bobning oxirgi bo‘limi')).toBeInTheDocument()
+    expect(screen.getByText('Bob o‘qib bo‘lindi')).toBeInTheDocument()
     rerender(<BookReader {...props} content={topic('M16.01', [text('Short lesson')])} />)
     expect(screen.getByText('Short lesson')).toBeInTheDocument()
     expect(screen.queryByText('Long 11')).not.toBeInTheDocument()
