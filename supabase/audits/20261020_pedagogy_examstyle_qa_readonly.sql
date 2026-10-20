@@ -4,9 +4,9 @@ WITH y1 AS (
  SELECT q.id,q.group_code,length(q.stem_md) stem_chars,
  count(o.id) n_opts,count(DISTINCT lower(trim(o.content_md))) n_distinct,
  count(*) FILTER (WHERE o.id::text=(k.payload->>'correct_option_id')) valid_key_count,
- max(array_length(regexp_split_to_array(trim(o.content_md),'\\s+'),1))
+ max(array_length(regexp_split_to_array(trim(o.content_md),'[[:space:]]+'),1))
     FILTER (WHERE o.id::text=(k.payload->>'correct_option_id')) correct_words,
- max(array_length(regexp_split_to_array(trim(o.content_md),'\\s+'),1))
+ max(array_length(regexp_split_to_array(trim(o.content_md),'[[:space:]]+'),1))
     FILTER (WHERE o.id::text<>(k.payload->>'correct_option_id')) max_wrong_words
  FROM public.questions q JOIN public.question_keys k ON k.question_id=q.id
  JOIN public.question_options o ON o.question_id=q.id AND o.side='a'
