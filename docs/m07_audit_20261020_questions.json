@@ -1,0 +1,299 @@
+[
+  {
+    "id": "M07-A26-01",
+    "uuid": "e17513e7-3af0-5f25-8fc8-6a9e6dbc33c7",
+    "lesson": 1,
+    "format": "Y1",
+    "stem": "Scratch sprayti dastlab (−70; 40) nuqtada. Quyidagi bloklar bajarilgach, uning yakuniy koordinatasini aniqlang.\n\n```text\nrepeat (3)\n  change x by (25)\n  change y by (-15)\nend\n```",
+    "options": [
+      "(5; −5)",
+      "(−45; 25)",
+      "(5; 85)",
+      "(−145; −5)"
+    ],
+    "correct": 0,
+    "explanation": "Har takrorlashda x +25, y −15. 3 marta: x=−70+3×25=5, y=40−3×15=−5.",
+    "difficulty": 3,
+    "cognitive": "qollash",
+    "source": "ICT 5/6 (2020/2021) Scratch/LOGO mavzulari; 2026 spetsifikatsiya PDF 4",
+    "assets": [],
+    "status": "review"
+  },
+  {
+    "id": "M07-A26-02",
+    "uuid": "4874ad9f-8ed3-5190-9c7a-ba8a9d8d223b",
+    "lesson": 2,
+    "format": "Y1",
+    "stem": "Scratchdagi `s` o‘zgaruvchisi quyidagi skriptni bajargach qanday qiymatga ega bo‘ladi?\n\n```text\nset [s] to (2)\nrepeat (4)\n  change [s] by (3)\nend\nif <(s) > (10)> then\n  change [s] by (-5)\nend\n```",
+    "options": [
+      "14",
+      "9",
+      "7",
+      "5"
+    ],
+    "correct": 1,
+    "explanation": "Dastlab s=2. 4 ta qo‘shishdan keyin s=14. 14>10 rost, shuning uchun 14−5=9.",
+    "difficulty": 3,
+    "cognitive": "qollash",
+    "source": "ICT 5/6 (2020/2021) Scratch/LOGO mavzulari; 2026 spetsifikatsiya PDF 4",
+    "assets": [],
+    "status": "review"
+  },
+  {
+    "id": "M07-A26-03",
+    "uuid": "43ec751b-eff7-59d1-afdd-0320acb21746",
+    "lesson": 4,
+    "format": "Y1",
+    "stem": "Quyidagi ichma-ich sikl ishga tushsa, `x` ning yakuniy qiymati nechiga teng?\n\n```text\nset [x] to (1)\nrepeat (3)\n  repeat (4)\n    change [x] by (2)\n  end\nend\n```",
+    "options": [
+      "13",
+      "24",
+      "25",
+      "9"
+    ],
+    "correct": 2,
+    "explanation": "Ichki buyruq 3×4=12 marta bajariladi. x=1+12×2=25.",
+    "difficulty": 3,
+    "cognitive": "qollash",
+    "source": "ICT 5/6 (2020/2021) Scratch/LOGO mavzulari; 2026 spetsifikatsiya PDF 4",
+    "assets": [],
+    "status": "review"
+  },
+  {
+    "id": "M07-A26-04",
+    "uuid": "dc08d5d7-3c4f-544e-9f2c-1291db58ba50",
+    "lesson": 4,
+    "format": "Y1",
+    "stem": "Quyidagi Scratch dasturida `score` boshlang‘ichda 10 bo‘lsa, `repeat until` tanasi nechta marta bajariladi?\n\n```text\nset [score] to (10)\nrepeat until <(score) = (10)>\n  change [score] by (1)\nend\n```",
+    "options": [
+      "0",
+      "1",
+      "10",
+      "Cheksiz"
+    ],
+    "correct": 0,
+    "explanation": "repeat until sharti ishga kirishda rost. Shuning uchun tana bir marta ham bajarilmaydi.",
+    "difficulty": 2,
+    "cognitive": "qollash",
+    "source": "ICT 5/6 (2020/2021) Scratch/LOGO mavzulari; 2026 spetsifikatsiya PDF 4",
+    "assets": [],
+    "status": "review"
+  },
+  {
+    "id": "M07-A26-05",
+    "uuid": "cf44e182-2e9e-53d6-8fac-46cba1bf1bb6",
+    "lesson": 4,
+    "format": "Y1",
+    "stem": "Scratch hisoblagichi uchun ushbu bloklar bajarilganda `count` qancha bo‘ladi?\n\n```text\nset [count] to (0)\nrepeat (5)\n  change [count] by (2)\n  if <(count) > (6)> then\n    change [count] by (-1)\n  end\nend\n```",
+    "options": [
+      "8",
+      "9",
+      "10",
+      "7"
+    ],
+    "correct": 0,
+    "explanation": "Ketma-ket qiymatlar: 2, 4, 6, 7 (8−1), 8 (9−1). Yakuniy qiymat 8.",
+    "difficulty": 4,
+    "cognitive": "mulohaza",
+    "source": "ICT 5/6 (2020/2021) Scratch/LOGO mavzulari; 2026 spetsifikatsiya PDF 4",
+    "assets": [],
+    "status": "review"
+  },
+  {
+    "id": "M07-A26-06",
+    "uuid": "7e3b7c4b-7b4e-5c5f-b49c-8e62c680bbf8",
+    "lesson": 2,
+    "format": "Y1",
+    "stem": "Yashil bayroq bosilganda quyidagi kod bajariladi. `x` va `y` ning yakuniy qiymatlarini aniqlang.\n\n```text\nset [x] to (0)\nset [y] to (3)\nrepeat (4)\n  change [x] by (y)\n  change [y] by (1)\nend\n```",
+    "options": [
+      "x=12; y=7",
+      "x=18; y=7",
+      "x=22; y=6",
+      "x=18; y=6"
+    ],
+    "correct": 1,
+    "explanation": "x ga ketma-ket y=3,4,5,6 qiymatlari qo‘shiladi: x=18; y to‘rt marta ortib 7 bo‘ladi.",
+    "difficulty": 4,
+    "cognitive": "mulohaza",
+    "source": "ICT 5/6 (2020/2021) Scratch/LOGO mavzulari; 2026 spetsifikatsiya PDF 4",
+    "assets": [],
+    "status": "review"
+  },
+  {
+    "id": "M07-A26-07",
+    "uuid": "1815faa7-c75a-5cb9-b11f-9488d5b13a06",
+    "lesson": 5,
+    "format": "Y1",
+    "stem": "Scratch Pen ishga tushgan. `pen down` holatida dastlab (0;0) da turgan, o‘ngga qaragan sprayt quyidagi kodni bajaradi. Yakunda u qayerda va qaysi yo‘nalishda bo‘ladi?\n\n```text\nrepeat (4)\n  move (40) steps\n  turn clockwise (90) degrees\nend\n```",
+    "options": [
+      "(0;0), o‘ngga",
+      "(40;0), o‘ngga",
+      "(0;40), yuqoriga",
+      "(0;0), chapga"
+    ],
+    "correct": 0,
+    "explanation": "4×90°=360°. To‘rtta teng tomon kvadrat konturini yopib boshlang‘ich nuqta va yo‘nalishga qaytadi.",
+    "difficulty": 3,
+    "cognitive": "mulohaza",
+    "source": "ICT 5/6 (2020/2021) Scratch/LOGO mavzulari; 2026 spetsifikatsiya PDF 4",
+    "assets": [],
+    "status": "review"
+  },
+  {
+    "id": "M07-A26-08",
+    "uuid": "045760a7-e770-5487-b8e0-0c4ed088aa8d",
+    "lesson": 5,
+    "format": "Y1",
+    "stem": "Scratch Pen bilan `repeat (2) { repeat (3) { move 50; turn 120 } turn 60 }` bajarildi (pen down, to‘siqsiz sahna). Ichki sikllar jami nechta chiziq kesmasini chizadi?",
+    "options": [
+      "3 ta",
+      "5 ta",
+      "6 ta",
+      "12 ta"
+    ],
+    "correct": 2,
+    "explanation": "Har bir ichki repeat 3 ta segment chizadi. Tashqi repeat 2 marta: jami 2×3=6 segment. Burilishning o‘zi yangi chiziq chizmaydi.",
+    "difficulty": 3,
+    "cognitive": "qollash",
+    "source": "ICT 5/6 (2020/2021) Scratch/LOGO mavzulari; 2026 spetsifikatsiya PDF 4",
+    "assets": [],
+    "status": "review"
+  },
+  {
+    "id": "M07-A26-09",
+    "uuid": "3858402c-a8bf-5b53-8fcf-4ba4f2445428",
+    "lesson": 6,
+    "format": "Y1",
+    "stem": "Klassik LOGOda qalam boshlang‘ichda tushirilgan. Quyidagi buyruqlardan so‘ng nechta **chizilgan** kesma hosil bo‘ladi?\n\n```logo\nPU\nFD 30\nPD\nREPEAT 4 [FD 40 RT 90]\n```",
+    "options": [
+      "4",
+      "5",
+      "3",
+      "0"
+    ],
+    "correct": 0,
+    "explanation": "PU bilan 30 birlik yurishda iz yo‘q. PD dan keyingi 4 ta FD buyruq 4 ta kesma chizadi; burilish chiziq chizmaydi.",
+    "difficulty": 3,
+    "cognitive": "qollash",
+    "source": "ICT 5/6 (2020/2021) Scratch/LOGO mavzulari; 2026 spetsifikatsiya PDF 4",
+    "assets": [],
+    "status": "review"
+  },
+  {
+    "id": "M07-A26-10",
+    "uuid": "47a979a2-a892-5b81-bb74-e6a22ff64e5f",
+    "lesson": 6,
+    "format": "Y1",
+    "stem": "LOGOda `REPEAT 5 [FD 48 RT 72]` to‘liq bajarildi. Boshlang‘ich yo‘nalish va qalam holati odatiy bo‘lsa, qaysi muntazam ko‘pburchak chiziladi?",
+    "options": [
+      "Muntazam oltiburchak",
+      "Kvadrat",
+      "Muntazam beshburchak",
+      "Teng tomonli uchburchak"
+    ],
+    "correct": 2,
+    "explanation": "Har safar 72° tashqi burchak bilan buriladi. 360°/72°=5, demak 5 tomonga ega muntazam beshburchak.",
+    "difficulty": 3,
+    "cognitive": "qollash",
+    "source": "ICT 5/6 (2020/2021) Scratch/LOGO mavzulari; 2026 spetsifikatsiya PDF 4",
+    "assets": [],
+    "status": "review"
+  },
+  {
+    "id": "M07-A26-11",
+    "uuid": "8ed3eb09-b2db-506d-970b-a0ec87903777",
+    "lesson": 3,
+    "format": "Y1",
+    "stem": "Scratchda ikkita **turli** skript mavjud:\n\n```text\nwhen green flag clicked\nbroadcast [start] and wait\nsay [Tayyor!]\n\nwhen I receive [start]\nwait (2) seconds\nsay [Ishlayapman] for (1) seconds\n```\n\nXabar qabul qiluvchi skript odatdagidek tugasa, [Tayyor!] xabari qachon boshlanadi?",
+    "options": [
+      "Xabar yuborilishi bilan darhol",
+      "Qabul qiluvchi skript tugagandan so‘ng",
+      "Yashil bayroq bosilishidan oldin",
+      "Faqat [start] ikkinchi marta yuborilganda"
+    ],
+    "correct": 1,
+    "explanation": "broadcast ... and wait qabul qiluvchi skript(lar) yakunlanishini kutadi. Bu yerda 2 soniyalik kutish va 1 soniyalik say tugaydi, keyin Tayyor! boshlanadi.",
+    "difficulty": 4,
+    "cognitive": "mulohaza",
+    "source": "ICT 5/6 (2020/2021) Scratch/LOGO mavzulari; 2026 spetsifikatsiya PDF 4",
+    "assets": [],
+    "status": "review"
+  },
+  {
+    "id": "M07-A26-12",
+    "uuid": "a279bed1-465c-5652-ac9d-221e51081eb3",
+    "lesson": 6,
+    "format": "Y1",
+    "stem": "Toshbaqa boshlanishda yuqoriga qaragan, qalam tushirilgan. Quyidagi LOGO kodi bajarilganda A–D rasmlardan qaysi shakl chiziladi? **Har bir ichki REPEAT kvadrat chizib boshlang‘ich burchakka qaytadi.**\n\n```logo\nREPEAT 3 [REPEAT 4 [FD 30 RT 90] FD 30]\nRT 45\nREPEAT 3 [REPEAT 4 [FD 30 RT 90] FD 30]\n```",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correct": 1,
+    "explanation": "Ichki REPEAT 4 [FD 30 RT 90] kvadrat chizib yo‘nalishni tiklaydi; undan keyingi FD 30 navbatdagi kvadratni boshlab beradi. Dastlab 3 kvadrat yuqoriga, RT 45 dan keyin yana 3 kvadrat 45° o‘ngga og‘ib chiziladi; B mos keladi.",
+    "difficulty": 5,
+    "cognitive": "mulohaza",
+    "source": "2026-04-13 attestatsiyada tushgan LOGO masalasi, PDF 4 (FAKAT USLUB); kod va rasm — mustaqil mualliflik varianti",
+    "assets": [
+      {
+        "kind": "image",
+        "diagram_id": "m07_logo_nested_squares_20261020",
+        "alt": "A–D variantlarda ikki yo‘nalishda ketma-ket kvadratlar chizilgan LOGO natijalari",
+        "src": "/m07-audit-2026/m07_logo_nested_squares_20261020.svg"
+      }
+    ],
+    "status": "review"
+  },
+  {
+    "id": "M07-A26-13",
+    "uuid": "7c81d6b8-c98e-5a03-92e0-daed3133f897",
+    "lesson": 4,
+    "format": "Y2",
+    "stem": "Quyidagi Scratch kodlarining `s` o‘zgaruvchisi uchun yakuniy natijalarini moslang. Har bir kod **s=0** dan boshlanadi.",
+    "pairs": [
+      [
+        "repeat (3) { change [s] by (2) }",
+        "s = 6"
+      ],
+      [
+        "repeat (4) { change [s] by (3) }",
+        "s = 12"
+      ],
+      [
+        "repeat (5) { change [s] by (1) }",
+        "s = 5"
+      ],
+      [
+        "repeat (2) { change [s] by (4) }",
+        "s = 8"
+      ]
+    ],
+    "explanation": "Har bir takroriy buyruq uchun yakuniy s = takrorlanishlar soni × qo‘shish qiymati. Natijalar 6,12,5,8 bo‘lib o‘zaro takrorlanmaydi.",
+    "difficulty": 3,
+    "cognitive": "qollash",
+    "source": "ICT 6-sinf Scratch sikllari va 2026 spetsifikatsiya PDF 4; original mashq",
+    "assets": [],
+    "status": "review"
+  },
+  {
+    "id": "M07-A26-14",
+    "uuid": "8b74787a-ea14-5f35-85d2-df3aaeccc2af",
+    "lesson": 6,
+    "format": "Y3",
+    "stem": "LOGOda qalam izisiz oldinga 20 birlik o‘tib, so‘ng chapga yo‘nalib 40 birlik chiziq chizish uchun quyidagi to‘rtta buyruqni tartiblang. Qalam dastlab pastda (PD) deb oling.",
+    "order": [
+      "PU",
+      "FD 20",
+      "LT 90",
+      "PD\nFD 40"
+    ],
+    "explanation": "Birinchi qalam ko‘tariladi, FD 20 izsiz yuriladi, LT 90 yo‘nalishni o‘zgartiradi, PD dan keyingi FD 40 chiziq chizadi.",
+    "difficulty": 3,
+    "cognitive": "mulohaza",
+    "source": "2026-04-13 LOGO kodi va ICT 5 Pen mavzusi uslubida mustaqil mashq",
+    "assets": [],
+    "status": "review"
+  }
+]

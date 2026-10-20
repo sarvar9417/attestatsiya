@@ -11,6 +11,7 @@ const ALGORITMLASH = new Set([
 const OFFICE = new Set([
   'off_bar','off_line','off_pie','off_table','off_slides','off_timeline','off_wordtable',
 ])
+const M07_AUDIT = new Set(['m07_logo_nested_squares_20261020'])
 const KUZGI_DEMO = new Set([
   'demo_q01_powerpoint','demo_q11_access','demo_q18_flowchart',
   'demo_q04_blocks','demo_q04_options','demo_q14_labyrinth',
@@ -24,6 +25,7 @@ function approvedImagePath(id: string): string | null {
   if (ALGORITMLASH.has(id)) return `/algoritmlash-v2/${id}.svg`
   if (OFFICE.has(id)) return `/office-v2/${id}.svg`
   if (KUZGI_DEMO.has(id)) return `/kuzgi-demo/${id}.svg`
+  if (M07_AUDIT.has(id)) return `/m07-audit-2026/${id}.svg`
   return null
 }
 
