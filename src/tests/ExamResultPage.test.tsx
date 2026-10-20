@@ -86,6 +86,11 @@ describe('ExamResultPage', () => {
         order_idx: 1,
         stem_md: 'Axborot hajmi savoli',
         format: 'Y1',
+        options: [
+          { id: 'a', side: 'a', content_md: 'Variant A' },
+          { id: 'b', side: 'a', content_md: 'Variant B' },
+        ],
+        assets: [],
         construct: 'S1.INFO.01',
         user_answer: { option_id: 'a' },
         is_correct: false,
@@ -103,6 +108,8 @@ describe('ExamResultPage', () => {
 
     expect(await screen.findByText('S1.INFO.01')).toBeDefined()
     expect(screen.getByText('Xato')).toBeDefined()
+    expect(screen.getByText('Variant A').closest('[data-answer-state]')?.getAttribute('data-answer-state')).toBe('wrong')
+    expect(screen.getByText('Variant B').closest('[data-answer-state]')?.getAttribute('data-answer-state')).toBe('correct')
     expect(screen.getByText(/Bit va bayt nisbatini tekshiring/)).toBeDefined()
     expect(getReview).toHaveBeenCalledWith(examId)
   })

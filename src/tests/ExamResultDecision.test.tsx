@@ -165,6 +165,11 @@ describe('T-014 server-authoritative natija ekrani', () => {
         order_idx: 1,
         stem_md: 'Natija qarori testi',
         format: 'Y1',
+        options: [
+          { id: ids.optionA, side: 'a', content_md: 'Variant A' },
+          { id: ids.optionB, side: 'a', content_md: 'Variant B' },
+        ],
+        assets: [],
         construct: 'S1.INFO.01',
         user_answer: { option_id: ids.optionA },
         is_correct: false,
@@ -190,6 +195,8 @@ describe('T-014 server-authoritative natija ekrani', () => {
 
     expect(await screen.findByText('S1.INFO.01')).toBeDefined()
     expect(screen.getByText('Xato')).toBeDefined()
+    expect(screen.getByText('Variant A').closest('[data-answer-state]')?.getAttribute('data-answer-state')).toBe('wrong')
+    expect(screen.getByText('Variant B').closest('[data-answer-state]')?.getAttribute('data-answer-state')).toBe('correct')
     expect(
       screen.getByText(/Axborot hajmini bit va bayt nisbatida tekshiring/)
     ).toBeDefined()
