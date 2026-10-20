@@ -83,8 +83,21 @@ BEGIN
  'html-matn-rasm-royxat','html-jadval-va-forma','css-stillarini-qollash')
  AND l.status='published';
  IF n<>6 THEN RAISE EXCEPTION 'TASK-214 original 6 lessons changed: %',n; END IF;
- SELECT count(*) INTO n FROM public.questions q WHERE q.group_code='S5.WEB' AND q.status='published';
- -- Fresh-DB seed has 24 published S5.WEB questions, current production has 53;
- -- staged migration contains only INSERTs, so both fixtures must be accepted.
- IF n<24 THEN RAISE EXCEPTION 'TASK-214 published S5.WEB pool below clean-seed baseline: %',n; END IF;
+ SELECT count(*) INTO n FROM public.questions q
+ WHERE q.group_code='S5.WEB'
+   AND (
+     q.status='published'
+     OR (
+       q.status='review'
+       AND EXISTS (
+         SELECT 1 FROM public.question_bank_revisions r
+         WHERE r.revision_question_id=q.id
+           AND r.revision_kind='legacy_y2_native_sides'
+       )
+     )
+   );
+ -- TASK-306 replaces legacy published Y2 rows with immutable native review
+ -- revisions. Count those replacements with the still-published pool so this
+ -- preservation assertion remains valid without treating review as mock-ready.
+ IF n<24 THEN RAISE EXCEPTION 'TASK-214 preserved S5.WEB pool below clean-seed baseline: %',n; END IF;
 END $$;
