@@ -38,6 +38,16 @@ const stateSchema = roomRef.extend({
   explanation_md: z.string().nullable(),
 })
 export type GroupMockState = z.infer<typeof stateSchema>
+const myRoomSchema = roomRef.extend({
+  mode: z.enum(['spec', 'topics', 'manual']),
+  status: z.enum(['lobby', 'question', 'reveal', 'finished']),
+  is_host: z.boolean(),
+  total_count: z.number().int().min(1).max(100),
+  current_idx: z.number().int().min(1).max(100),
+  created_at: z.string().datetime({ offset: true }),
+  member_count: z.number().int().nonnegative(),
+})
+export type GroupMockRoomSummary = z.infer<typeof myRoomSchema>
 export type GroupMockQuestion = NonNullable<GroupMockState['question']>
 export type GroupMockMember = z.infer<typeof member>
 
@@ -76,6 +86,7 @@ const messages: Record<string, string> = {
   group_blueprint_unavailable: 'Faol rasmiy spetsifikatsiya topilmadi.',
   group_blueprint_invalid: 'Faol spetsifikatsiya kvotalari nomuvofiq.',
   group_lesson_unavailable: 'Tanlangan mavzu hozir mavjud emas.',
+  group_host_cannot_leave: 'Tashkilotchi xonadan chiqish o‘rniga uni bekor qilishi mumkin.',
 }
 
 type RpcResult = { data: unknown; error: { message: string } | null }
@@ -91,6 +102,15 @@ async function call(name: string, args: Record<string, unknown>): Promise<unknow
   return data
 }
 
+export async function listMyGroupMockRooms(): Promise<GroupMockRoomSummary[]> {
+  return z.array(myRoomSchema).parse(await call('group_mock_my_rooms', { p_limit: 20 }))
+}
+export async function cancelGroupMockLobby(roomId: string): Promise<void> {
+  await call('group_mock_cancel', { p_room: roomId })
+}
+export async function leaveGroupMockLobby(roomId: string): Promise<void> {
+  await call('group_mock_leave', { p_room: roomId })
+}
 export async function createGroupMock(mode: GroupMockMode, config: Record<string, unknown>) {
   return roomRef.parse(await call('group_mock_create', { p_mode: mode, p_config: config }))
 }
