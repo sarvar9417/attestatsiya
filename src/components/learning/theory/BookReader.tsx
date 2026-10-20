@@ -49,6 +49,7 @@ export function splitAdaptiveSections(theory: TheoryBlock[], pageSize = 3): Sect
   if (theory.length === 0) return splitSections(theory)
   const sections: Section[] = []
   for (const group of splitSections(theory)) {
+    const groupTitle = group.title || `${parts.length + 1}-bo‘lim`
     for (let start = 0; start < group.blocks.length;) {
       let end = Math.min(start + pageSize, group.blocks.length)
       // Kirishdan keyingi sarlavha sahifa oxirida yakka qolmasin.
@@ -112,10 +113,9 @@ export function splitBalancedSections(
         end++
       }
 
-      const title = group.title || `${parts.length + 1}-bo‘lim`
       const continued = start > 0
       parts.push({
-        title: continued ? `${title} — davomi` : title,
+        title: continued ? `${groupTitle} — davomi` : groupTitle,
         blocks: group.blocks.slice(start, end),
         continued,
       })
