@@ -51,9 +51,14 @@ begin
     select 1 from public.question_bank_revisions r
     join public.questions oldq on oldq.id=r.source_question_id
     where r.revision_kind='legacy_y2_native_sides'
+      -- A later append-only migration may archive a formerly published source
+      -- after releasing its own native successor (for example TASK-305).
       and (
         (r.evidence->>'source_status'='published'
-         and oldq.status<>'published'::public.content_status)
+         and oldq.status not in (
+           'published'::public.content_status,
+           'archived'::public.content_status
+         ))
         or (r.evidence->>'source_status'='review'
             and oldq.status<>'archived'::public.content_status)
       )
