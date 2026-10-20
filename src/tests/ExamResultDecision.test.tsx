@@ -38,7 +38,14 @@ function session(): ExamSession {
 }
 
 function gateway(): ExamGateway {
+  let pendingAnswer: unknown
   return {
+    getPendingAnswer: () => pendingAnswer as { option_id: string } | undefined,
+    queueMockAnswer: vi.fn(input => { pendingAnswer = input.answer }),
+    flushQueuedAnswers: vi.fn(async () => {
+      pendingAnswer = undefined
+      return { remaining: 0 }
+    }),
     startMockExam: vi.fn().mockResolvedValue(session()),
     startModuleExam: vi.fn().mockResolvedValue(session()),
     startTopicExam: vi.fn().mockResolvedValue(session()),
@@ -81,7 +88,6 @@ describe('T-014 server-authoritative natija ekrani', () => {
 
     await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
     await user.click(await screen.findByRole('button', { name: /Variant A/ }))
-    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
     await user.click(screen.getByRole('button', { name: 'Sinovni yakunlash' }))
 
     expect(
@@ -171,7 +177,6 @@ describe('T-014 server-authoritative natija ekrani', () => {
 
     await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
     await user.click(await screen.findByRole('button', { name: /Variant A/ }))
-    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
     await user.click(screen.getByRole('button', { name: 'Sinovni yakunlash' }))
 
     expect(
@@ -236,7 +241,6 @@ describe('T-014 server-authoritative natija ekrani', () => {
     renderMock(examGateway)
     await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
     await user.click(await screen.findByRole('button', { name: /Variant A/ }))
-    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
     await user.click(screen.getByRole('button', { name: 'Sinovni yakunlash' }))
 
     expect(await screen.findByText('Baholash qarori mavjud emas')).toBeDefined()

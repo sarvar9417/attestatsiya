@@ -14,6 +14,7 @@ export interface FlushPendingAnswersResult {
   flushed: number
   remaining: number
   stoppedByNetwork: boolean
+  rejected?: string[]
 }
 
 type AnswerSender = (input: SubmitAnswerInput) => Promise<SubmitAnswerResponse>
@@ -71,9 +72,8 @@ function queueIdentity(input: Pick<SubmitAnswerInput, 'examId' | 'questionId'>):
 }
 
 /**
- * Bir savolning birinchi offline urinishini saqlaydi.
- * Serverdagi first-submit immutable qoidasiga mos ravishda keyingi urinish
- * mavjud navbatdagi javobni almashtirmaydi.
+ * Mock: latest answer wins, including offline edits. Other exam kinds retain
+ * their immutable first-offline-submission policy.
  */
 export function enqueuePendingAnswer(
   input: SubmitAnswerInput, ownerId = sessionStore.get()?.user.id
@@ -81,7 +81,12 @@ export function enqueuePendingAnswer(
   const queue = readQueue(ownerId)
   const identity = queueIdentity(input)
   const existing = queue.find(item => queueIdentity(item) === identity)
-  if (existing) return existing
+  if (existing) {
+    if (input.examKind !== 'mock') return existing
+    const pending: PendingAnswer = { ...input, queuedAt: new Date().toISOString() }
+    writeQueue(queue.map(item => queueIdentity(item) === identity ? pending : item), ownerId)
+    return pending
+  }
 
   if (queue.length >= MAX_PENDING_ANSWERS) {
     throw new Error('Saqlanmagan javoblar navbati to‘ldi. Internetga ulanib qayta urining.')
@@ -96,6 +101,21 @@ export function enqueuePendingAnswer(
 
 export function listPendingAnswers(): PendingAnswer[] {
   return readQueue()
+}
+
+/** Only acknowledge the exact payload sent; edits during an in-flight
+ * request must never be deleted by the older response. */
+export function acknowledgePendingAnswer(
+  sent: PendingAnswer,
+  ownerId = sessionStore.get()?.user.id,
+): boolean {
+  const queue = readQueue(ownerId)
+  const current = queue.find(item => queueIdentity(item) === queueIdentity(sent))
+  if (!current) return true
+  if (current.queuedAt !== sent.queuedAt ||
+      JSON.stringify(current.answer) !== JSON.stringify(sent.answer)) return false
+  writeQueue(queue.filter(item => queueIdentity(item) !== queueIdentity(sent)), ownerId)
+  return true
 }
 
 export function clearPendingAnswers(): void {
@@ -119,17 +139,26 @@ export async function flushPendingAnswers(
 ): Promise<FlushPendingAnswersResult> {
   const ownerId = sessionStore.get()?.user.id
   const forExam = (item: PendingAnswer) => !examId || item.examId === examId
-  const snapshot = readQueue(ownerId).filter(forExam)
   let flushed = 0
   let stoppedByNetwork = false
+  const rejected: string[] = []
 
-  for (const pending of snapshot) {
+  // A mock choice can be edited while a prior revision is in flight.
+  // Re-read the queue to send the last edit without discarding it.
+  // Bound one call so continuously edited questions cannot block the UI.
+  for (let pass = 0; pass < 8; pass += 1) {
+    const snapshot = readQueue(ownerId).filter(forExam)
+    if (snapshot.length === 0) break
+    let revisedDuringSend = false
+    for (const pending of snapshot) {
     if (sessionStore.get()?.user.id !== ownerId) break
     try {
       const response = await sender(pending)
       if ('saved' in response || 'error' in response) {
-        removePendingAnswer(pending.examId, pending.questionId, ownerId)
-        flushed += 1
+        if (acknowledgePendingAnswer(pending, ownerId)) {
+          flushed += 1
+          if ('error' in response) rejected.push(pending.questionId)
+        } else revisedDuringSend = true
       }
     } catch (error) {
       if (isNetworkError(error)) {
@@ -139,14 +168,22 @@ export async function flushPendingAnswers(
 
       // Validation/auth/server xatosida avtomatik ravishda o'chirmaymiz:
       // foydalanuvchi javobini jim yo'qotishdan ko'ra navbatda qoldirish xavfsiz.
-      break
+      return {
+        flushed,
+        remaining: readQueue(ownerId).filter(forExam).length,
+        stoppedByNetwork,
+        ...(rejected.length ? { rejected } : {}),
+      }
     }
+    }
+    if (stoppedByNetwork || !revisedDuringSend) break
   }
 
   return {
     flushed,
     remaining: readQueue(ownerId).filter(forExam).length,
     stoppedByNetwork,
+    ...(rejected.length ? { rejected } : {}),
   }
 }
 

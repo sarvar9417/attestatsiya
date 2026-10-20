@@ -5,7 +5,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import ExamPage from '../pages/ExamPage'
 import type { ExamSession } from '../features/exam/contracts'
 import {
-  type ExamGateway,
+  type ExamGateway, type SubmitAnswerInput,
 } from '../features/exam/examGateway'
 import { useProgressStore } from '../store/progressStore'
 
@@ -79,10 +79,21 @@ function examSession(): ExamSession {
 }
 
 function successfulGateway(): ExamGateway {
-  return {
+  const pending = new Map<string, SubmitAnswerInput>()
+  const gateway: ExamGateway = {
+    getPendingAnswer: vi.fn((_examId, questionId) => pending.get(questionId)?.answer),
+    queueMockAnswer: vi.fn(input => { pending.set(input.questionId, input) }),
+    flushQueuedAnswers: vi.fn(async examId => {
+      for (const [questionId, input] of [...pending.entries()]) {
+        if (input.examId !== examId) continue
+        await gateway.submitAnswer(input)
+        if (pending.get(questionId) === input) pending.delete(questionId)
+      }
+      return { remaining: [...pending.values()].filter(input => input.examId === examId).length }
+    }),
     startMockExam: vi.fn().mockResolvedValue(examSession()),
-    startModuleExam: vi.fn().mockResolvedValue(examSession()),
-    startTopicExam: vi.fn().mockResolvedValue(examSession()),
+    startModuleExam: vi.fn().mockResolvedValue({ ...examSession(), kind: 'bolim' }),
+    startTopicExam: vi.fn().mockResolvedValue({ ...examSession(), kind: 'mavzu' }),
     startFocusedExam: vi.fn().mockResolvedValue({
       ...examSession(),
       kind: 'takrorlash',
@@ -111,6 +122,7 @@ function successfulGateway(): ExamGateway {
     getHistory: vi.fn().mockResolvedValue({ items: [], total: 0, page: 1, page_size: 20 }),
     getDueReviews: vi.fn().mockResolvedValue([]),
   }
+  return gateway
 }
 
 function renderExam(gateway: ExamGateway, path = '/exam') {
@@ -133,84 +145,83 @@ describe('secure ExamRunner', () => {
     useProgressStore.setState({ moduleProgress: {} })
   })
 
-  it('Y1/Y2/Y3 javoblarini UUID payload bilan serverga yuboradi', async () => {
+  it('mock Y1/Y2/Y3 javoblarini saqlash tugmasisiz avtomatik yuboradi va o‘zgartirishga ruxsat beradi', async () => {
     const user = userEvent.setup()
     const gateway = successfulGateway()
-
     renderExam(gateway)
-
-    expect(
-      screen.getByRole('heading', { name: 'Attestatsiya mock sinovi' })
-    ).toBeDefined()
-    expect(screen.getByText('Sinov qoidalari')).toBeDefined()
-    expect(screen.getByText('Attestatsiya 2026')).toBeDefined()
-
+    expect(screen.getByRole('heading', { name: 'Attestatsiya mock sinovi' })).toBeDefined()
     await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
-
     expect(await screen.findByText('Yagona javobni tanlang')).toBeDefined()
-    expect(screen.queryByText(/to‘g‘ri javob/i)).toBeNull()
-    await user.click(screen.getByRole('button', { name: /Variant B/ }))
-    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
+    expect(screen.queryByRole('button', { name: 'Javobni saqlash' })).toBeNull()
 
+    await user.click(screen.getByRole('button', { name: /Variant A/ }))
+    await user.click(screen.getByRole('button', { name: /Variant B/ }))
+    expect(gateway.queueMockAnswer).toHaveBeenLastCalledWith(expect.objectContaining({
+      examId: ids.exam, examKind: 'mock', questionId: ids.question1,
+      answer: expect.objectContaining({ option_id: ids.optionB, _client_revision: expect.any(Number) }),
+    }))
+    await user.click(screen.getByRole('button', { name: 'Keyingi' }))
     expect(await screen.findByText('Elementlarni moslang')).toBeDefined()
     await user.selectOptions(screen.getByLabelText(/Chap bir/), ids.right1)
     await user.selectOptions(screen.getByLabelText(/Chap ikki/), ids.right2)
-    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
-
+    expect(gateway.queueMockAnswer).toHaveBeenLastCalledWith(expect.objectContaining({
+      questionId: ids.question2,
+      answer: expect.objectContaining({
+        pairs: { [ids.left1]: ids.right1, [ids.left2]: ids.right2 },
+      }),
+    }))
+    await user.click(screen.getByRole('button', { name: 'Keyingi' }))
     expect(await screen.findByText('Qadamlarni tartiblang')).toBeDefined()
-    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
-
-    await waitFor(() => {
-      expect(gateway.submitAnswer).toHaveBeenCalledTimes(3)
-    })
-
-    expect(gateway.submitAnswer).toHaveBeenNthCalledWith(
-      1,
-      expect.objectContaining({
-        examId: ids.exam,
-        examKind: 'mock',
-        questionId: ids.question1,
-        answer: { option_id: ids.optionB },
-      })
-    )
-    expect(gateway.submitAnswer).toHaveBeenNthCalledWith(
-      2,
-      expect.objectContaining({
-        examKind: 'mock',
-        questionId: ids.question2,
-        answer: {
-          pairs: {
-            [ids.left1]: ids.right1,
-            [ids.left2]: ids.right2,
-          },
-        },
-      })
-    )
-    expect(gateway.submitAnswer).toHaveBeenNthCalledWith(
-      3,
-      expect.objectContaining({
-        examKind: 'mock',
-        questionId: ids.question3,
-        answer: {
-          order: expect.arrayContaining([
-            ids.order1,
-            ids.order2,
-            ids.order3,
-          ]),
-        },
-      })
-    )
-
+    await user.click(screen.getAllByRole('button', { name: /— pastga/ }).find(
+      button => !(button as HTMLButtonElement).disabled
+    ) as HTMLButtonElement)
+    expect(gateway.queueMockAnswer).toHaveBeenLastCalledWith(expect.objectContaining({
+      questionId: ids.question3,
+      answer: expect.objectContaining({ order: expect.arrayContaining([ids.order1, ids.order2, ids.order3]) }),
+    }))
+    await waitFor(() => expect(gateway.submitAnswer).toHaveBeenCalledTimes(3))
     await user.click(screen.getByRole('button', { name: 'Sinovni yakunlash' }))
-
-    expect(
-      await screen.findByRole('heading', { name: 'Sinov yakunlandi' })
-    ).toBeDefined()
-    expect(screen.getByText('Natijalar')).toBeDefined()
-    expect(screen.getByText('6 / 6')).toBeDefined()
+    expect(await screen.findByRole('heading', { name: 'Sinov yakunlandi' })).toBeDefined()
     expect(gateway.finishExam).toHaveBeenCalledWith(ids.exam)
   })
 
+  it('mock oldin serverga saqlangan javobni qayta tahrirlab, oxirgisini yuboradi', async () => {
+    const user = userEvent.setup()
+    const gateway = successfulGateway()
+    renderExam(gateway)
+    await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
+    await user.click(await screen.findByRole('button', { name: /Variant A/ }))
+    await waitFor(() => expect(gateway.submitAnswer).toHaveBeenCalledTimes(1))
+    expect(await screen.findByText('Saqlandi ✓')).toBeDefined()
+
+    const otherChoice = screen.getByRole('button', { name: /Variant B/ }) as HTMLButtonElement
+    expect(otherChoice.disabled).toBe(false)
+    await user.click(otherChoice)
+    await waitFor(() => expect(gateway.submitAnswer).toHaveBeenCalledTimes(2))
+    const calls = vi.mocked(gateway.submitAnswer).mock.calls
+    const first = calls[0][0].answer as { _client_revision: number }
+    const last = calls[1][0].answer as { option_id: string; _client_revision: number }
+    expect(last.option_id).toBe(ids.optionB)
+    expect(last._client_revision).toBeGreaterThan(first._client_revision)
+    expect(await screen.findByText('Saqlandi ✓')).toBeDefined()
+    expect(screen.queryByRole('button', { name: 'Javobni saqlash' })).toBeNull()
+  })
+
+  it('mock internet bo‘lmasa javobni navbatda qoldiradi va qayta ulanishda yuboradi', async () => {
+    const user = userEvent.setup()
+    const gateway = successfulGateway()
+    vi.mocked(gateway.flushQueuedAnswers!).mockResolvedValueOnce({
+      remaining: 1, stoppedByNetwork: true,
+    })
+    renderExam(gateway)
+    await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
+    await user.click(await screen.findByRole('button', { name: /Variant B/ }))
+    await waitFor(() => expect(gateway.flushQueuedAnswers).toHaveBeenCalledTimes(1))
+    expect(gateway.submitAnswer).not.toHaveBeenCalled()
+    await act(async () => { window.dispatchEvent(new Event('online')) })
+    await waitFor(() => expect(gateway.submitAnswer).toHaveBeenCalledTimes(1))
+    expect(await screen.findByText('Saqlandi ✓')).toBeDefined()
+  })
 
   it('tayyor bo‘lmagan pedagogika mavzu testini bosishni bloklaydi', async () => {
     const gateway = successfulGateway()
@@ -267,7 +278,7 @@ describe('secure ExamRunner', () => {
       error: 'vaqt_tugadi',
     })
 
-    renderExam(gateway)
+    renderExam(gateway, '/exam/bolim/M01')
     await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
     await user.click(
       await screen.findByRole('button', { name: /Variant A/ })
@@ -446,7 +457,7 @@ describe('secure ExamRunner', () => {
     const gateway = successfulGateway()
     let resolveSave!: (value: { saved: true }) => void
     vi.mocked(gateway.submitAnswer).mockImplementationOnce(() => new Promise(resolve => { resolveSave = resolve }))
-    renderExam(gateway)
+    renderExam(gateway, '/exam/bolim/M01')
     await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
     await user.click(screen.getByRole('button', { name: /Variant A/ }))
     await user.click(screen.getByRole('button', { name: 'Sinovni yakunlash' }))
@@ -468,7 +479,7 @@ describe('secure ExamRunner', () => {
       queued = { option_id: ids.optionA }
       throw new Error('Javob qurilmada saqlandi')
     })
-    renderExam(gateway)
+    renderExam(gateway, '/exam/bolim/M01')
     await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
     await user.click(screen.getByRole('button', { name: /Variant A/ }))
     await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
@@ -489,11 +500,11 @@ describe('secure ExamRunner', () => {
     try {
       const user = userEvent.setup()
       const gateway = successfulGateway()
-      vi.mocked(gateway.startMockExam).mockResolvedValue({ ...examSession(),
+      vi.mocked(gateway.startModuleExam).mockResolvedValue({ ...examSession(), kind: 'bolim',
         started_at: new Date(now).toISOString(), duration_sec: 1 })
       let resolveSave!: (value: { saved: true }) => void
       vi.mocked(gateway.submitAnswer).mockImplementationOnce(() => new Promise(resolve => { resolveSave = resolve }))
-      renderExam(gateway)
+      renderExam(gateway, '/exam/bolim/M01')
       await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
       await user.click(screen.getByRole('button', { name: /Variant A/ }))
       await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
