@@ -129,3 +129,51 @@ describe('TASK-346 historical result photo recovery', () => {
     expect(legacyPedguliDebateReviewId(stem, [{ side: 'b', content_md: 'Debat' }])).toBeUndefined()
   })
 })
+
+
+describe('TASK-346 complete visual asset audit, release 2', () => {
+  it('renders every originally authored V4 diagram used by six published algorithm items', () => {
+    const files = ['flow_product_3_9','flow_until_negative','dag_paths_a_j']
+    const { container } = render(<ExamQuestionAssets assets={files.map(diagram_id => ({
+      kind: 'image', diagram_id, alt: 'Algoritm diagrammasi',
+      src: '/algoritmlash-v4/' + diagram_id + '.svg',
+    }))} />)
+    expect([...container.querySelectorAll('img')].map(img => img.getAttribute('src')))
+      .toEqual(files.map(file => '/algoritmlash-v4/' + file + '.svg'))
+  })
+
+  it('renders all nine review graphics/web legacy images which have no diagram_id', () => {
+    const files = ['layer_stack','html_table','crop_grid','raster_grid',
+      'palette_grid','css_box','dom_tree','nested_list']
+    const { container } = render(<ExamQuestionAssets assets={files.map(file => ({
+      kind: 'image', src: '/graphics-web-v2/' + file + '.svg',
+      alt: 'Tekshirilgan chizma',
+    }))} />)
+    expect(container.querySelectorAll('img')).toHaveLength(files.length)
+  })
+
+  it('rejects forged, remote or malformed legacy graphics assets', () => {
+    const { container } = render(<ExamQuestionAssets assets={[
+      { kind: 'image', src: '/graphics-web-v2/evil.svg' },
+      { kind: 'image', src: '/graphics-web-v2/dom_tree.svg', diagram_id: 'css_box' },
+      { kind: 'image', src: 'https://evil.test/graphics-web-v2/dom_tree.svg' },
+      { kind: 'image', src: '/graphics-web-v2/../dom_tree.svg' },
+      { kind: 'image', src: '/graphics-web-v2/dom_tree.svg', diagram_id: null },
+      { kind: 'source_screenshot', drive_file_id: 'untrusted-source' },
+    ]} />)
+    expect(container.querySelectorAll('img')).toHaveLength(0)
+  })
+
+  it('recovers the separate 4842 source photo without confusing it with 4843', () => {
+    const gameId = '05d53eb9-56de-454c-9440-e207668dd2c4'
+    const { container } = render(<ExamQuestionAssets assets={[]} questionId={gameId} />)
+    expect(container.querySelector('img')?.getAttribute('src'))
+      .toBe('/pedguli-source/pedguli-4842-classroom-game.jpg')
+    expect(container.querySelectorAll('img')).toHaveLength(1)
+    expect(legacyPedguliDebateReviewId(
+      'Ushbu suratda qaysi metod tasvirlangan?',
+      ['Talimiy o’yinlar yoki raqobatchilik','Aqliy hujum','Diskussiya','Demonstratsiya']
+        .map(content_md => ({ side: 'a', content_md })),
+    )).toBe(gameId)
+  })
+})
