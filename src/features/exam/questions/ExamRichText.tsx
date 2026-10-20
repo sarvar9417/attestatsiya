@@ -1,4 +1,4 @@
-import InlineText from '../../../components/learning/theory/InlineText'
+import ExamProse, { normalizeExamLineBreaks } from './ExamProse'
 
 /**
  * Exam stems are partly Markdown, but InlineText intentionally supports only
@@ -12,7 +12,7 @@ export function splitExamContent(input: string):
   const parts: Array<{ kind: 'prose' | 'code'; text: string; language?: string }> = []
   // Some imported questions incorrectly wrapped a whole fenced block in **bold**.
   // Remove only that outer wrapper; leave legitimate bold prose untouched.
-  const content = input.replace(/\*\*(```[\s\S]*?```)\*\*/g, '$1')
+  const content = normalizeExamLineBreaks(input).replace(/\*\*(```[\s\S]*?```)\*\*/g, '$1')
   const fence = /```([a-zA-Z0-9_+#.-]*)[ \t]*(?:\r?\n|[ \t]+)([\s\S]*?)[ \t]*```/g
   let cursor = 0
   let match: RegExpExecArray | null
@@ -28,7 +28,7 @@ export function splitExamContent(input: string):
     cursor = match.index + match[0].length
   }
   if (cursor < content.length) parts.push({ kind: 'prose', text: content.slice(cursor) })
-  return parts.length ? parts : [{ kind: 'prose', text: input }]
+  return parts.length ? parts : [{ kind: 'prose', text: content }]
 }
 
 const languageNames: Record<string, string> = {
@@ -53,9 +53,7 @@ export default function ExamRichText({ text }: { text: string }) {
             ><code className="whitespace-pre">{part.text}</code></pre>
           </div>
         ) : (
-          <div key={index} className="whitespace-pre-wrap break-words leading-relaxed">
-            <InlineText text={part.text} />
-          </div>
+          <ExamProse key={index} text={part.text} />
         )
       ))}
     </div>
