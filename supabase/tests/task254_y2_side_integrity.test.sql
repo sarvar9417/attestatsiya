@@ -1,4 +1,4 @@
--- TASK-254: test ALL immutable published legacy Y2 matching items through
+-- TASK-254/TASK-304: test ALL immutable archived legacy Y2 items through
 -- the existing exam_payload() compatibility projection. No published writes.
 -- The 2026-10-18 RPC repair already resolves 8/a storage into 4/a + 4/b
 -- in the learner payload when protected key mappings prove the shape.
@@ -15,14 +15,16 @@ DECLARE
 BEGIN
   SELECT count(*) INTO v_expected
   FROM public.questions q
-  WHERE q.status='published' AND q.format='Y2'
+  JOIN public.question_bank_revisions r ON r.source_question_id=q.id
+    AND r.revision_kind='legacy_y2_native_sides'
+  WHERE q.status='archived' AND q.format='Y2'
     AND (SELECT count(*) FROM public.question_options o
          WHERE o.question_id=q.id AND o.side='a')=8
     AND (SELECT count(*) FROM public.question_options o
          WHERE o.question_id=q.id AND o.side='b')=0;
 
   IF v_expected=0 THEN
-    RAISE EXCEPTION 'TASK-254: expected a legacy published Y2 fixture in the seed';
+    RAISE EXCEPTION 'TASK-254: expected archived legacy Y2 history in the seed';
   END IF;
 
   INSERT INTO auth.users(id,email)
@@ -36,7 +38,9 @@ BEGIN
   SELECT v_exam,q.id,q.construct_id,
          row_number() over(order by q.id)::integer
   FROM public.questions q
-  WHERE q.status='published' AND q.format='Y2'
+  JOIN public.question_bank_revisions r ON r.source_question_id=q.id
+    AND r.revision_kind='legacy_y2_native_sides'
+  WHERE q.status='archived' AND q.format='Y2'
     AND (SELECT count(*) FROM public.question_options o
          WHERE o.question_id=q.id AND o.side='a')=8
     AND (SELECT count(*) FROM public.question_options o
@@ -61,13 +65,15 @@ BEGIN
      OR p.item ? 'correct_option_id'
      OR p.item ? 'explanation_md';
   IF v_bad<>0 THEN
-    RAISE EXCEPTION 'TASK-254: % immutable published Y2 payloads violate 4+4 or key secrecy',v_bad;
+    RAISE EXCEPTION 'TASK-254: % immutable historical Y2 payloads violate 4+4 or key secrecy',v_bad;
   END IF;
 
-  -- Projections MUST NOT mutate original published option-side metadata.
+  -- Projections MUST NOT mutate original archived option-side metadata.
   SELECT count(*) INTO v_actual
   FROM public.questions q
-  WHERE q.status='published' AND q.format='Y2'
+  JOIN public.question_bank_revisions r ON r.source_question_id=q.id
+    AND r.revision_kind='legacy_y2_native_sides'
+  WHERE q.status='archived' AND q.format='Y2'
     AND (SELECT count(*) FROM public.question_options o
          WHERE o.question_id=q.id AND o.side='a')=8
     AND (SELECT count(*) FROM public.question_options o
@@ -91,5 +97,5 @@ BEGIN
 END
 $task254$;
 
-SELECT 'task254_all_published_y2_payload_projection_ok' AS result;
+SELECT 'task254_all_historical_y2_payload_projection_ok' AS result;
 ROLLBACK;

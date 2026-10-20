@@ -1,3 +1,10 @@
+## TASK-305 — Test bank ekspert remediatsiyasi (2026-10-19)
+
+- **Status:** IN_PROGRESS.
+- **Owner:** Codex; foydalanuvchi 2026-10-19 19:23 Asia/Samarkandda topilgan barcha savol-bank kamchiliklarini tuzatish va ishchi holatda topshirishni buyurdi.
+- **Branch:** `task/TASK-305-question-bank-expert-remediation` (`origin/main`dan).
+- **Scope:** rasmiy 2026 spetsifikatsiyasi; kuzgi demo 50 tasnifi; legacy published Y2 revisionlari; universal sifat gate/QA navbati; production `official-mock-v3` parity; regressiya, production migration, GitHub merge. Published revision joyida tahrirlanmaydi, reviewer imzosi soxtalashtirilmaydi, Vercel deploy qilinmaydi.
+
 ## TASK-304 — M14 source-verified QA audit handoff (2026-10-19)
 
 - **Branch:** `task/TASK-304-m14-final-qa-safe-merge`; 2026-10-19 main'dan yangi olingan; eski TASK-303 branch 23 main commit ortida qolgani uchun eski ishlar bilan konflikt chiqarmaslik maqsadida yangi branch ishlatildi.

@@ -237,6 +237,15 @@ PK composite.
 
 Unique `(question_id, revision_number)`. `payload` discriminated schema server va database function bilan validate qilinadi.
 
+Amaldagi savol bankida TASK-305 remediatsiyasi immutable almashtirishlarni
+`question_bank_revisions` orqali bog‘laydi va ochiq sifat qarzini
+`question_quality_findings`da saqlaydi. Har ikki jadval private va RLS-enabled:
+learner rollariga ruxsat yo‘q, backend `service_role` faqat sifat navbatini
+o‘qiydi. Published savollar snapshot bilan o‘zgarmas; yangi nashr mustaqil,
+joriy fingerprintga bog‘langan to‘liq tahririy tekshiruvni talab qiladi. Rasmiy
+mock faqat strukturaviy/manba shartlariga mos va unresolved high/critical
+finding’i bo‘lmagan savollarni tanlaydi.
+
 ### `question_revision_objectives`
 
 `question_revision_id`, `learning_objective_id`, `weight`, `is_primary`.

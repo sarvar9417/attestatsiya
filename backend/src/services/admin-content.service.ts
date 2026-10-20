@@ -281,12 +281,39 @@ export const adminContentService = {
       // database migration is authorized. Preserve CMS access; render no badges.
       quality = new Map(((flags ?? []) as QualityFlag[]).map(flag => [flag.question_id, flag]))
     }
+
+    type QualityFinding = {
+      question_id: string
+      finding_code: string
+      severity: 'info' | 'medium' | 'high' | 'critical'
+      details: Record<string, unknown>
+      detected_at: string
+      resolved_at: string | null
+    }
+    const itemIds = items.map(item => item.id)
+    const findings = new Map<string, QualityFinding[]>()
+    if (itemIds.length > 0) {
+      const { data: findingRows, error: findingError } = await supabase
+        .from('question_quality_findings')
+        .select('question_id, finding_code, severity, details, detected_at, resolved_at')
+        .in('question_id', itemIds)
+        .is('resolved_at', null)
+      if (findingError && !['PGRST205', '42P01'].includes(findingError.code ?? '')) {
+        throw new AppError('Savollar sifat navbati yuklanmadi', 503, 'EDITORIAL_QUALITY_UNAVAILABLE')
+      }
+      for (const finding of (findingRows ?? []) as QualityFinding[]) {
+        findings.set(finding.question_id, [
+          ...(findings.get(finding.question_id) ?? []), finding,
+        ])
+      }
+    }
     return {
       items: items.map(item => ({
         ...item,
         length_bias_flag: queued.has(item.id),
         revision_question_id: queued.get(item.id) ?? null,
         quality_flags: quality.get(item.id) ?? null,
+        quality_findings: findings.get(item.id) ?? [],
       })),
       total: count ?? 0, page, page_size: pageSize,
     }
@@ -322,11 +349,6 @@ export const adminContentService = {
       .eq('id', questionId).maybeSingle()
     if (questionError) throw new AppError('Savolni olishda xatolik', 500, 'ADMIN_QUERY_ERROR')
     if (!question) throw new NotFoundError('Savol topilmadi')
-    if (!(['KS','PM.GEN','PM.MET'].includes(question.group_code) ||
-      question.source_reference?.startsWith('authored:pedguli-') ||
-      question.source_reference?.startsWith('authored:pedagogy-pdf-corpus:'))) {
-      throw new AppError('Bu tekshiruv pedagogika va kasb standarti savollari uchun', 400, 'INVALID_EDITORIAL_SOURCE')
-    }
     const { data, error } = await supabase.from('question_editorial_checks')
       .select('question_id, reviewer_id, reviewed_at, answer_verified, reference_verified, wording_verified, original_authorship_verified, reviewer_notes')
       .eq('question_id', questionId).maybeSingle()
@@ -346,15 +368,15 @@ export const adminContentService = {
 
     const { data: question, error: questionError } = await supabase
       .from('questions')
-      .select('id, status, source_reference, group_code')
+      .select('id, status, source_reference, group_code, author_id')
       .eq('id', questionId).maybeSingle()
     if (questionError) throw new AppError('Savolni olishda xatolik', 500, 'ADMIN_QUERY_ERROR')
     if (!question) throw new NotFoundError('Savol topilmadi')
-    if (question.status !== 'review' || !(
-      ['KS','PM.GEN','PM.MET'].includes(question.group_code) ||
-      question.source_reference?.startsWith('authored:pedguli-') ||
-      question.source_reference?.startsWith('authored:pedagogy-pdf-corpus:'))) {
-      throw new AppError('Faqat Review holatidagi pedagogika savolini tasdiqlash mumkin', 409, 'INVALID_EDITORIAL_STATUS')
+    if (question.status !== 'review') {
+      throw new AppError('Faqat Review holatidagi savolni tasdiqlash mumkin', 409, 'INVALID_EDITORIAL_STATUS')
+    }
+    if (question.author_id && question.author_id === staff.id) {
+      throw new ForbiddenError('Muallif o‘z savoliga mustaqil ekspert xulosasi bera olmaydi')
     }
 
     const { data, error } = await supabase.from('question_editorial_checks')
@@ -439,16 +461,16 @@ export const adminContentService = {
       }
     }
 
-    if (nextStatus === 'published' && (['KS','PM.GEN','PM.MET'].includes((current as {group_code?:string}).group_code ?? '') ||
-      current.source_reference?.startsWith('authored:pedguli-') ||
-      current.source_reference?.startsWith('authored:pedagogy-pdf-corpus:'))) {
+    if (nextStatus === 'published') {
       const { data: approval, error: approvalError } = await supabase
         .from('question_editorial_checks')
-        .select('answer_verified, reference_verified, wording_verified, original_authorship_verified')
+        .select('reviewer_id, answer_verified, reference_verified, wording_verified, original_authorship_verified, reviewer_notes')
         .eq('question_id', questionId).maybeSingle()
       if (approvalError) throw new AppError('Tahririy tekshiruvni olishda xatolik', 500, 'ADMIN_QUERY_ERROR')
       if (!approval || !approval.answer_verified || !approval.reference_verified ||
-          !approval.wording_verified || !approval.original_authorship_verified) {
+          !approval.wording_verified || !approval.original_authorship_verified ||
+          approval.reviewer_id === current.author_id ||
+          (approval.reviewer_notes?.trim().length ?? 0) < 20) {
         throw new AppError('Nashrdan oldin javob, manba, matn va mualliflikni tekshiring', 409, 'EDITORIAL_APPROVAL_REQUIRED')
       }
       // DB fingerprint trigger checks that no question text/key changed after review.
@@ -481,7 +503,10 @@ export const adminContentService = {
 
     if (error?.message?.includes('PEDGULI_EDITORIAL_APPROVAL_REQUIRED') ||
         error?.message?.includes('PEDAGOGY_EDITORIAL_APPROVAL_REQUIRED') ||
-        error?.message?.includes('PEDAGOGY_Y1_DISTRACTOR_REVIEW_REQUIRED')) {
+        error?.message?.includes('PEDAGOGY_Y1_DISTRACTOR_REVIEW_REQUIRED') ||
+        error?.message?.includes('QUESTION_EDITORIAL_APPROVAL_REQUIRED') ||
+        error?.message?.includes('QUESTION_RELEASE_QUALITY_REQUIREMENTS_FAILED') ||
+        error?.message?.includes('QUESTION_REVIEW_BEFORE_PUBLICATION_REQUIRED')) {
       throw new AppError('Tasdiq eskirgan yoki yetarli emas. Savolni qayta tekshiring', 409, 'EDITORIAL_APPROVAL_REQUIRED')
     }
     if (error || !data) throw new AppError('Savol holati yangilanmadi', 500, 'ADMIN_SAVE_ERROR')
