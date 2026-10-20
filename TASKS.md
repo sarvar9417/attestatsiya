@@ -1,3 +1,9 @@
+## TASK-348 — Guruhli Mock resilient xona UX (2026-10-20)
+
+| ID | Status | Scope | Acceptance |
+|---|---|---|---|
+| TASK-348 | CODE READY / CI PENDING | `group_mock_my_rooms` orqali xonaga qaytish; 8 belgili kodga havola; lobby-only cancel/leave; server membership/RLS; qo‘lda tanlangan savollar tartibini o‘zgartirish; poll ulanish ogohlantirishi | `group_mock_resilience.test.sql` + frontend ordering test, CI `quality`, staging two-users, no production DB/deploy. `docs/TASK348_GROUP_MOCK_RESILIENCE_20261020.md`. |
+
 ## TASK-347 — Guruhli Mock Test (2026-10-20)
 
 | ID | Status | Scope | Acceptance |

@@ -3,8 +3,8 @@
 ## Owner va status
 - Owner: ChatGPT, user confirmed 2026-10-20.
 - Branch: `task/TASK-347-group-mock`.
-- Status: **CODE IN BRANCH / CI + authenticated staging acceptance pending**.
-- No production database migration, Vercel deploy or main merge performed.
+- Status: **MERGED TO MAIN via PR #352 (2026-10-20), GitHub quality PASS**. Authenticated staging acceptance and production release remain pending.
+- Merge commit: `72ce5b67d9e918312e5ea65f973246561ea811fc`. Production Supabase migration and explicit Vercel deploy were **not** performed as part of the merge.
 
 ## Requirement
 User can create a code-joined shared room; everyone sees the same current question.
@@ -23,7 +23,12 @@ an official independently-proctored examination or mastery evidence.
 3. **Manual:** browse published/source-backed question stems by lesson; choose
    ordered individual question IDs (1–100, unique). Hidden keys inaccessible.
 
-All three additionally reuse the exact official-mock v4 quality eligibility helper\n(excluding high/critical open findings, malformed Y1/Y2/Y3 keys, source gaps and\nunreviewed revisions). Manual bank previews randomize option order so Y3's saved\nsource order cannot imply the correct sequence.\n\nAll three take a snapshot of question data, option order, answer key and
+All three additionally reuse the exact official-mock v4 quality eligibility helper
+(excluding high/critical open findings, malformed Y1/Y2/Y3 keys, source gaps and
+unreviewed revisions). Manual bank previews randomize option order so Y3's saved
+source order cannot imply the correct sequence.
+
+All three take a snapshot of question data, option order, answer key and
 explanation into private server-side `group_mock_items`. The published bank is
 not modified; prior exam semantics are unchanged.
 

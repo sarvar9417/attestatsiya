@@ -1,3 +1,12 @@
+## TASK-348 — Guruhli Mock Test xonalarini tiklash (2026-10-20)
+
+- **Base:** TASK-347 #352 GitHub main merge SUCCESS, `72ce5b67d9e918312e5ea65f973246561ea811fc` (2026-10-20).
+- **Branch:** `task/TASK-348-group-mock-resilience`; hali main merge/production deploy qilinmagan.
+- **Status:** CODE READY / CI + staging 2-session acceptance PENDING.
+- **Scope:** a'zolik bo‘yicha qayta kirish ro‘yxati, xonani lobbyda bekor qilish, a'zoning boshlashdan oldin chiqishi, taklif havolasi, manual savol ID ketma-ketligini boshqarish va stale polling response guard.
+- **Security:** auth.uid() ga bog‘langan group_mock_my_rooms, direct table select yo‘q, host-only lobby cancellation, started room + scores uchun fail closed; migration va SQL regression yangi.
+- **Evidence:** `docs/TASK348_GROUP_MOCK_RESILIENCE_20261020.md`.
+
 ## TASK-347 — Guruhli Mock Test (2026-10-20)
 
 - **Owner:** ChatGPT; foydalanuvchi 2026-10-20 loyiha bajarilishini tasdiqladi.
