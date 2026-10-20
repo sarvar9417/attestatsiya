@@ -1,19 +1,20 @@
-## TASK-346 continuation — Informatika Telegram candidate QA (2026-10-20)
+## TASK-343 — Pedagogik javob izohlari sifat nazorati (2026-10-20)
 
-- **Status:** IN_PROGRESS / private QA only, PR #346 draft; no learner publication, merge, or deploy.
-- **Corpus preserved:** 4,470 Telegram poll candidates, 580 theory excerpts, 316 PDF attachment links and 228 PDF fragments.
-- **Additional verified work:** 20 machine-computed `print(...)` solutions (20/20 unique matching choices, reviewer=AI, no human approval); 118 REVIEW-only suggested module mappings (security-invoker view; no canonical change); 484 same-sender immediately preceding missing-photo links (0–1 s, 364 newly discovered beyond original content flag).
-- **New code/schema:** `scripts/telegram_numeric_review.py`, Python unit tests; three private QA migrations and SQL regression; `docs/TASK346_INFORMATIKA_QA_FOLLOWUP_20261020.md`.
-- **Validation:** 7/7 local AST regression tests (reference implementation), DB data-integrity DO checks pass; full remote CI not yet checked. Existing public questions/lessons and official mock blueprints unchanged.
-- **Still blocked:** actual missing image bytes, full PDF visual/page verification, source-backed editorial answer review, authenticated learner UI regression and CI. All suggested answers stay in private staging.
+- **Owner request:** savollarda Telegram kanalining ✅/✔ javob belgisiga tayangan “izoh” o‘rniga o‘quvchini o‘rgatuvchi pedagogik tushuntirish berilishi.
+- **DB READ-ONLY audit:** 8 025 keyed savol; 140 Telegram marker-only explanation: 84 published (9 historical exam uses), 56 review; 2 “rasm/surat” savolda assets=[] (biri published).
+- **Code:** `20261021000000_task343_source_only_explanation_publish_gate.sql` yangi source-only izoh bilan publishni bloklaydi; `task343_source_only_explanation_gate.test.sql` positive/negative/boundary; `task343_explanation_source_only_readonly.sql` keyless inventory.
+- **Sample revision:** `task343_pedagogic_tact_immutable_revision_AFTER_APPROVAL.sql` pedagogik taktga didaktik izoh kiritadi, eski published/historical snapshotlarni saqlaydi. Live transaction ROLLBACK rehearsal PASS: yangi replacement yaratiladi, so‘ng o‘zgartirishlar qaytarildi. Productionda yozuv yo‘q; bundan “saytda tuzatildi” xulosasi kelib chiqmaydi.
+- **Status:** CODE READY / editorial rollout PARTIAL; 140 itemning hammasi qayta yozilmadi, yangi guard productionga apply qilinmadi; main merge alohida. Authenticated UI va prod release, 139 qolgan savol semantik editorial, rasmsiz savollarni karantinga olish ochiq. Vercel deploy yo‘q.
 
-## TASK-346 — Telegram Informatika + PDF private corpus staging (2026-10-20)
+## TASK-345 — O‘rganish kitob bo‘limlarini birlashtirish (2026-10-20)
 
-- **Status:** IN_PROGRESS / REVIEW-ONLY. Owner: ChatGPT. User authorized importing from barnoyevak Drive Informatika Telegram export and PDFs.
-- **Source:** Informatika Attestatsiya 86+ / result.json: 51,529 messages, 16,804 polls, 4,470 unique question+option candidates, 580 theory text candidates. 535 linked files (320 PDFs), 316 unique PDF manifest entries; first 18 PDFs yielded 228 question fragments.
-- **DB:** Production Supabase ingest schema migration done; live counts 4,470 poll + 580 theory + 316 PDF source + 228 PDF question candidate. All private RLS; 0 unverified answer keys; untouched public.questions/public.lessons/mock; smoke tests PASS.
-- **Git:** `task/TASK-346-telegram-informatika-ingest`, draft PR #346, no merge/deploy. Audit `docs/TASK346_TELEGRAM_INFORMATIKA_INGEST_20261020.md`.
-- **Blockers:** PDF/page figures and 115 ambiguous option parses; 32 potential visual dependencies; 2,366 poll module hints unresolved; independent source+answer editorial QA. Do not claim completed learner-facing integration until validated and published through appropriate gates.
+- **Owner:** ChatGPT (2026-10-20, confirmed by user).
+- **Branch:** `task/TASK-345-consolidate-short-lesson-pages`, `main`dan.
+- **Status:** CODE READY / CI & release checks PENDING (test va GitHub CI natijalariga qarab yangilanadi).
+- **Scope:** Har bir M01–M16 nazariya sahifasini `BookReader.splitBalancedSections` orqali bo‘lish. 4 blokli ortiqcha ajratish o‘rniga mazmunli bo‘limlar, qisqa bo‘limlarni bitta sahifaga jamlash; example/solved/task+code birligi; orphan tail nazorati.
+- **Invariants:** `TheoryBlock` tarkibi va ketma-ketligi, published revision, savol identifikatorlari va kalitlar o‘zgarmaydi; browser progress `sections.length`dan avtomatik hisoblanadi. Testlar `LessonPageConsolidation`, `BookReader`, `UnifiedLessonBookDesign`, `TASK277`da.
+- **Not in scope:** Ma’lumotlar bazasi migratsiyasi, published darsni joyida tahrirlash, deploy, kontekstni qayta yozish yoki yangi savollar nashri.
+- **QA:** Manba: `docs/TASK345_LESSON_PAGE_CONSOLIDATION_20261020.md`. Final workflow CI hamda mobil/desktop authenticated UI smoke statusi alohida ko‘rsatiladi.
 
 Warning: truncated output (original token count: 38340)
 Total output lines: 2050
