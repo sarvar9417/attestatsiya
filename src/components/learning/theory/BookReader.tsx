@@ -143,7 +143,10 @@ export function splitBalancedSections(
   if (pages.length > 1) {
     const last = pages[pages.length - 1]
     const before = pages[pages.length - 2]
+    const sameHeading = last.continued && before.blocks.some(block =>
+      block.type === 'heading' && plainText(block.content) === last.title.replace(/ — davomi$/, ''))
     if (charactersOf(last.blocks) < minCharacters
+      && (sameHeading || charactersOf(before.blocks) < minCharacters)
       && charactersOf([...before.blocks, ...last.blocks]) <= maxCharacters * 1.25
       && before.blocks.length + last.blocks.length <= maxBlocks * 2
     ) {
