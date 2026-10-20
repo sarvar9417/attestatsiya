@@ -13,6 +13,15 @@ const OFFICE = new Set([
 ])
 const M07_SOURCE_BLOCKS = new Set(['m07_sl2_05_014','m07_sl2_05_018','m07_sl2_05_020','m07_sl2_05_023','m07_sl2_05_028','m07_sl2_06_015','m07_sl2_06_020','m07_sl2_06_022','m07_sl2_06_025','m07_sl2_06_026','m07_sl2_06_027'])
 const M07_AUDIT = new Set(['m07_logo_nested_squares_20261020'])
+const PEDGULI_SOURCE = new Set(['pedguli-4842-classroom-game', 'pedguli-4843-debate'])
+const PEDGULI_PUBLISHED_DEBATE_QUESTION_ID = 'd41ab61f-a43e-4b2d-919b-5b06dde05341'
+const DEBATE_ASSET = {
+  kind: 'image',
+  diagram_id: 'pedguli-4843-debate',
+  alt: 'Ikki kishi minbardan navbat bilan bahslashayotgan sinf mashg‘uloti',
+  src: '/pedguli-source/pedguli-4843-debate.jpg',
+} as const
+
 const KUZGI_DEMO = new Set([
   'demo_q01_powerpoint','demo_q11_access','demo_q18_flowchart',
   'demo_q04_blocks','demo_q04_options','demo_q14_labyrinth',
@@ -28,6 +37,7 @@ function approvedImagePath(id: string): string | null {
   if (KUZGI_DEMO.has(id)) return `/kuzgi-demo/${id}.svg`
   if (M07_AUDIT.has(id)) return `/m07-audit-2026/${id}.svg`
   if (M07_SOURCE_BLOCKS.has(id)) return `/m07-source-blocks/${id}.svg`
+  if (PEDGULI_SOURCE.has(id)) return `/pedguli-source/${id}.jpg`
   return null
 }
 
@@ -47,10 +57,24 @@ export function safeAsset(value: unknown): Asset | null {
   }
 }
 
-export default function ExamQuestionAssets({ assets }: { assets: unknown[] }) {
+export default function ExamQuestionAssets({ assets, questionId }: {
+  assets: unknown[]
+  questionId?: string
+}) {
   const images = (Array.isArray(assets) ? assets : [])
     .map(safeAsset)
     .filter((image): image is Asset => image !== null)
+
+  // One source-verified, historically published Telegram item was imported
+  // without its original photo. The question snapshot remains immutable;
+  // restore visual presentation ONLY for that exact question ID and only when
+  // the server still sends no assets. Other IDs, URLs and payloads fail closed.
+  if (questionId === PEDGULI_PUBLISHED_DEBATE_QUESTION_ID
+    && Array.isArray(assets) && assets.length === 0) {
+    const image = safeAsset(DEBATE_ASSET)
+    if (image) images.push(image)
+  }
+
   if (!images.length) return null
 
   return (
