@@ -178,6 +178,19 @@ begin
               and l306.slug ~ '^m13-axr-0[1-7]'
               and length(l306.slug)=length('m13-axr-01')
           ))
+        -- TASK-308: only seven reviewed Y1 source-backed editorial clones.
+        and not (lane.module_code='M13'
+          and q.status='review'::public.content_status
+          and q.format='Y1'::public.question_format
+          and q.source_reference IN ('m13-y1-qa-v2:Y1:AXR-01-001','m13-y1-qa-v2:Y1:AXR-02-002','m13-y1-qa-v2:Y1:AXR-03-003','m13-y1-qa-v2:Y1:AXR-04-001','m13-y1-qa-v2:Y1:AXR-05-011','m13-y1-qa-v2:Y1:AXR-06-001','m13-y1-qa-v2:Y1:AXR-07-001')
+          and exists (
+            select 1 from public.questions original
+            where original.source_reference = replace(
+               q.source_reference,'m13-y1-qa-v2:','m13-axr-v1:')
+              and original.status='published'::public.content_status
+              and original.source_lesson_id=q.source_lesson_id
+              and original.construct_id=q.construct_id
+          ))
         -- TASK-213 graphics/web V2 is a separate unpublished content edition.
         -- Do not exempt published items or non-V2 sources from drift checks.
         and not (lane.module_code IN ('M10','M11')
