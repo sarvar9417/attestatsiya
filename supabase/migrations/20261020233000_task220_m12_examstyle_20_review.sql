@@ -11,7 +11,7 @@ BEGIN
     SELECT c.id INTO STRICT cons FROM public.constructs c WHERE c.code=x->>'construct' AND c.group_code='S6.NET';
     IF NOT EXISTS(
       SELECT 1 FROM public.lessons l JOIN public.modules m ON m.id=l.module_id
-      WHERE l.id=lid AND l.status='draft'::public.content_status AND m.code='M12')
+      WHERE l.id=lid AND l.status IN ('draft','published') AND m.code='M12')
     THEN RAISE EXCEPTION 'Exam-style M12 V2 draft chapter not found %',x->>'chapter'; END IF;
     qid:=md5('task220-real-exam-original-'||(x->>'id'))::uuid;
     INSERT INTO public.questions
