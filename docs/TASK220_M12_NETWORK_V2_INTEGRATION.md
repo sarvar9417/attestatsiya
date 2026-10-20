@@ -1,0 +1,67 @@
+# TASK-220 — Kompyuter tarmoqlari V2 integratsiya
+
+## Manba va chegaralar
+- Mavjud **M12** moduliga integratsiya; alohida modul yaratilmaydi.
+- 2026 attestatsiya spesifikatsiyasi: 32–33-savollar, S6.1–S6.6.
+- Asosiy manba: milliy 11-sinf Informatika, 129–196-betlar; qo‘shimcha 6-sinf, Cambridge darsliklari.
+- Original V2 JSON: `src/content/tarmoq/Kompyuter_tarmoqlari_300_savol_V2.json`.
+- Original V2 nazariya: `src/content/tarmoq/Kompyuter_tarmoqlari_nazariya_V2.tex`.
+- V2 nazariyadan 10 ta Markdown-ish `body_mdx` yozuvi migratsiyaga ajratildi.
+- S6.1 → NET.01, S6.2 → NET.02, S6.3 → NET.03, S6.4 → NET.04, S6.5–6 → NET.05.
+
+## Migratsiya va xavfsizlik
+`supabase/migrations/20261018220000_task220_m12_network_v2_review_import.sql`
+- 10 ta yangi dars: `tarmoq-v2-bob-01` … `10`, `order_idx` 11–20, faqat `draft`.
+- 300 ta barqaror `TAR-XX-YYY` manba IDli savol, barcha savollar `review`.
+- Har bir savol 4 ta javob variantiga, alohida `question_keys`da saqlanadigan 1 ta kalitga va izohga ega.
+- Qayta import `md5(... )::uuid` identifikatorlari bilan idempotent; `ON CONFLICT DO NOTHING` eskisini almashtirmaydi.
+- Published M12 darslari/savollari, foydalanuvchi attempt/resultlari o‘zgartirilmaydi.
+- Manbadagi 280 Y1 + 10 Y2 + 10 Y3: dastlabgi kombinatsion savollardan **10 native moslashtirish (Y2)** va **10 native ketma-ketlik (Y3)** source-backed ravishda qayta tuzildi. Jami bank 300 ta; barcha savollar `review` holatida. Native `pairs` / `order` kalitlari faqat server DB da.
+- 25 vizual kodning statik matnli muqobillari stem ichiga kiritilgan. TikZ sxemalari va jadvalning pixel-pariteti hali to‘liq emas; vizual QA shart.
+
+## Holat va nashr siyosati
+**Stage only / NOT learner published.** `AGENTS.md` va `README.md` bo‘yicha AI yaratgan kontent `draft/review`dan inson eksperti imzosisiz `published`ga o‘tkazilmaydi. Admin ko‘rigidan so‘ng native mavzu-kod routingini (M12.10–M12.19), mobil renderingni, preflight minimumini, 30 savollik bob testini va 50 talik bo‘lim mockini yakunlab alohida release qilish kerak. Nashr bo‘lmagan darslarni learner katalogiga kiritmang.
+
+## Tekshiruvlar
+- V2 JSON: 300 noyob ID, 10 bob × 30 savol, javob variantlari va to‘g‘ri javob mosligi.
+- Migratsiya: `BEGIN … ROLLBACK` bilan mavjud Supabase loyihasida sintaksis/constraint preflight muvaffaqiyatli.
+- SQL regression: `supabase/tests/task220_m12_network_v2_review.test.sql`.
+- CI backend/database/quality 2026-10-18 holatida muvaffaqiyatli (run 39131096051).
+- Supabase plyqezulrfowyblsfpzy ga migratsiya haqiqatan qo‘llandi: 10 draft, 300 review, 1200 variant, 300 kalit; oldingi 91 savol va 5 published dars saqlandi.
+- Live SQL regression `task220_m12_network_v2_review.test.sql` muvaffaqiyatli.
+- **Production DB staging bajarildi, ammo learner release emas.** Ekspert tasdig‘i, admin UI ko‘rigi, front-end/math/diagram QA va real learner E2E bo‘lmaguncha nashr va merge qilmang.
+
+## Rollback / forward-fix
+Migratsiya append-only. Sinovda xato topilsa yangi versiyalangan forward-fix migratsiyasi kiriting; nashr qilingan oldingi dars va savollarni hech qachon o‘chirmang. User natijalari bilan bog‘langan manbalar ustida DELETE/UPDATE qilmang.
+
+## Handoff
+Task: TASK-220
+Natija: source-backed M12 V2 kontent SQL/staging; learner release emas.
+Migratsiya: 20261018220000_task220_m12_network_v2_review_import.sql
+Qolgan ish: human review, real render/diagram audit, topic frontend routing, E2E, main bilan branch sync va learner release.
+
+## 2026-10-18 davomiy preproduction update
+- 20261019210000: `Kompyuter_tarmoqlari_theory_reader_V2.json` asosida **20 table, 3 SVG diagram marker, 7 display math** bilan draft theory forward-fix. Reader regressiya testlari live Supabase'da yashil.
+- 20261019220000: 20 review kombinatsion savol haqiqiy native Y2/Y3 ga migratsiya qilindi; 280 Y1 / 10 Y2 / 10 Y3. Live 300-item savol–variant–key testi yashil.
+- `src/hooks/useCatalog.ts`: M12 V2 faqat o‘nta bob **barchasi published** bo‘lsa learner katalogida paydo bo‘ladi; incomplete va offline rejim eski M12 ni saqlaydi.
+- `src/components/learning/TopicView.tsx`: published M12 UUID dars nazariyasi va server preflight ulanadi, test tayyor bo‘lmasa noto‘g‘ri `completeTopic` yo‘q.
+- `src/features/content/professionalLessonTheory.ts` va `BookDiagrams.tsx`: formula/jadval/diagram bloklari native reader bilan render qilinadi.
+- Alohida release checklist: `docs/TASK220_M12_PREPRODUCTION_RELEASE_QA.md`.
+- **Hali nashr qilinmagan:** original 91 ta S6.NET savol va 5 published dars saqlangan. Inson eksperti approval + real learner E2E bo‘lmaguncha `published` migratsiyasi qilinmaydi.
+
+
+## 2026-10-18: Y2/Y3 bo‘yicha 80 yangi savol
+- Manba: `src/content/tarmoq/Kompyuter_tarmoqlari_Y2_Y3_qoshimcha_80_V3.json`.
+- 40 ta yangi native Y2 (3×3 matching), 40 ta yangi native Y3 (4 bosqichli ordering), o‘nta bobning har birida 4 tadan yangi Y2 + 4 tadan yangi Y3.
+- Rejalashtirilgan umumiy bank: 280 Y1 + 50 Y2 + 50 Y3 = **380**. Har bobda 38 ta savol, ammo bob testida avvalgi 30 savollik limit saqlanadi.
+- Migratsiya: `20261020230000_task220_m12_y2_y3_extra_80_review.sql` (append-only, yangi UUID, faqat review; avvalgi 300 savol o‘zgarmaydi).
+- Regression: `supabase/tests/task220_m12_extra_80_native_formats.test.sql` va `src/tests/m12NetworkNative80Source.test.ts`.
+- Manbalar darsliklar va V2 qo‘llanmasining tematik qamrovi asosida sintez; har bir yangi savolning to‘g‘riligi inson eksperti tomonidan tasdiqlanmaguncha published qilinmaydi.
+
+
+## 2026-10-20 live-state and clean-main correction
+- Original implementation PR #155 is not mergeable against current main; equivalent M12 code/history is reorganized into [PR #331](https://github.com/sarvar9417/attestatsiya/pull/331).
+- Current 10 M12 V2 lessons already have status `published` (different workflow). From 380 source items, 321 published and 59 review; additional 20 original + 22 version-safe revised questions are separately `review` in live DB (no old attempts modified).
+- 2025 demo evidence is now confirmed for PDF p11 Q25 `192.168.10.32/27`; mask 255.255.255.224, 32 total, 30 usable. See [evidence](TASK220_M12_2025_DEMO_CIDR_SOURCE_Q25.md).
+- Critical QA gate remains: 22 flagged published distractor sets; no independent expert sign-off for 380 source items, so do not publish the extra 101 pending review items without human approval and forward-only release migration.
+- Clean merge must pass CI including original M07/M13 regressions. This merge records review assets and repairs M12 learner navigation; it is NOT content publishing approval.

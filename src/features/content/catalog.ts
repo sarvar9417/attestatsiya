@@ -18,7 +18,7 @@
  *   orqali code → UUID ga o'tkaziladi, shuning uchun UI UUID tashimaydi.
  */
 import { type Module } from '../../data/contentTree'
-import { type ModuleSection, type ModuleSummary, type LessonSummary } from './contentApi'
+import { type ModuleSection, type ModuleSummary, type LessonSummary, type ModuleDetail } from './contentApi'
 
 export interface CatalogSubtopic {
   id: string
@@ -117,4 +117,44 @@ export function publishedScratchLogoSubtopics(lessons: LessonSummary[]): Catalog
     code: lesson.slug,
     title: lesson.title_uz,
   }))
+}
+
+
+/**
+ * TASK-220: Only switch the M12 learner catalog to the complete, independently
+ * published ten-chapter V2 edition. The database remains the source of truth:
+ * 10 draft lessons, a partial rollout, duplicate/missing chapters and an
+ * offline API can never leak review-stage content to learners.
+ */
+export function selectPublishedNetworkV2Catalog(
+  modules: CatalogModule[],
+  detail: ModuleDetail,
+): CatalogModule[] {
+  if (detail.code !== 'M12') return modules
+  const chapters = detail.lessons.filter(lesson =>
+    /^tarmoq-v2-bob-(0[1-9]|10)$/.test(lesson.slug),
+  )
+  if (chapters.length !== 10 ||
+      chapters.some(lesson => lesson.status !== 'published' || !lesson.body_mdx?.trim())) {
+    return modules
+  }
+  const bySlug = new Map(chapters.map(lesson => [lesson.slug, lesson]))
+  if (bySlug.size !== 10 ||
+      Array.from({ length: 10 }, (_, index) => `tarmoq-v2-bob-${String(index + 1).padStart(2, '0')}`)
+        .some(slug => !bySlug.has(slug))) {
+    return modules
+  }
+  const canonical = Array.from({ length: 10 }, (_, index) =>
+    bySlug.get(`tarmoq-v2-bob-${String(index + 1).padStart(2, '0')}`)!,
+  )
+  return modules.map(module => module.code === 'M12'
+    ? {
+        ...module,
+        subtopics: canonical.map(lesson => ({
+          id: lesson.id,
+          code: lesson.slug,
+          title: lesson.title_uz,
+        })),
+      }
+    : module)
 }
