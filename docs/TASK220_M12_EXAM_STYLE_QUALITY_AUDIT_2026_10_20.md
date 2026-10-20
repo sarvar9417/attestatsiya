@@ -86,3 +86,9 @@ Manba: `src/content/tarmoq/M12_22_P1_published_item_revision_proposals_2026.json
 - V2 6-bobdagi IPv4 numerical savollardan 27 tasi aniq ko‘lamli regex bilan ajratildi: **17 network, 4 broadcast, 3 usable host soni, 2 oxirgi usable host, 1 birinchi usable host**.
 - To‘g‘ri javob 32-bit IPv4/maska bitwise AND, host bitlari OR, network+1 / broadcast−1 va 2^(32−p)−2 orqali qog‘oz bankidan mustaqil hisoblandi: **27/27 key mos**, xato topilmadi.
 - Regression: `src/tests/m12NetworkIPv4Independent27.test.ts` (27 ta individual assertion); bu barcha IPv4, Y2 va Y3 konseptual savollar ekspertizasi o‘rniga o‘tmaydi.
+
+
+## Drive 2025–2026 demo cross-check — latest finding
+- Drive’dan alohida `2025 kuzgi demo @Informatika_fani_ustozlari.pdf` fayli **topildi**: https://drive.google.com/file/d/11fCXWHUJ3j7IHz619Ja84wqbcRaraept/view . Drive text extraction **0 belgi** qaytardi, chunki hujjat skaner tasvirlaridan iborat; uning M12 savollarini to‘liq o‘qib baholash hali qilinmagan. Oldingi “2025 informatika manbasi topilmadi” farazini shu topilma bilan tuzating.
+- Lokal skaner `Informatika Demo testi .pdf` ning 17-betida 32-savol Scratch rasmini talqin qilish, 33-savol Logo toshbaqa chizmasi haqidadir. Bu aynan **2026-yil spesifikatsiyasining 32–33 M12** savollari bilan mavzu jihatdan mos emas. Shu sabab demo to‘plami **savol raqamlari va rasmiy kompetensiya qamrovining manbasi EMAS**, balki faqat struktura (kod tahlili, diagram/visual, variantlar, matnli hukmlar) uchun namuna bo‘lishi mumkin.
+- `Informatika Kuzgi demo testlari.docx` ham Drive da mavjud (ID `13VVttASqpDVP4R1fsVtt3YARHs4uHnB8`), biroq text fetch qaytarmadi. Undan M12 mosligi haqida hech qanday tasdiqlangan fakt yozilmadi.
