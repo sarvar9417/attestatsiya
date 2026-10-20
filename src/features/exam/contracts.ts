@@ -147,6 +147,9 @@ export const examReviewItemSchema = z
     order_idx: z.number().int().positive(),
     stem_md: z.string().min(1),
     format: z.enum(['Y1', 'Y2', 'Y3']),
+    // Older finalized attempts can be read before the accompanying DB migration.
+    options: z.array(examOptionSchema).optional(),
+    assets: z.array(z.unknown()).optional(),
     construct: z.string().optional(),
     construct_slug: z.string().optional(),
     user_answer: z.unknown(),
