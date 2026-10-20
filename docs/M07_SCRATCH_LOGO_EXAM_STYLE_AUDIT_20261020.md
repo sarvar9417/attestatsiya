@@ -35,6 +35,14 @@
 
 Manba izlarida “USLUB” / “ORIGINAL_REVIEW” ko‘rsatiladi. Ular asl attestatsiyada tushgan ayni savollar emas; manbalardagi ta’limiy va vizual shakldan ilhomlangan mustaqil topshiriqlar.
 
+
+## 2026-10-20 production xavfsiz tuzatishlari
+
+* **2 ta Y2 format xatosi**: barcha 8 ta o‘ng ustun variantlari mos UUIDlarini saqlagan holda `side='b'` sifatida tuzatildi; keyingi DB strukturaviy auditi `broken_formats=null` qaytardi.
+* **12 ta v3 murakkablik kalibrlashi**: 5/5 qiyin va `mulohaza` deb avtomatik belgilangan, aslida bevosita bilish yoki sodda qo‘llashni so‘raydigan savollar 1–3 daraja va `bilish`/`qollash`ga ko‘chirildi. Faqat aniq `SL3-xx-005/010` manba IDlari o‘zgardi; savol, javob va attempt UUIDlar o‘zgarmadi. SQL: `20261020110500_m07_scratch_logo_difficulty_calibration.sql`.
+* Mahalliy 240 ta Y1 metadata mezonlari bilan **106 ta eslab qolishga moyil nomzod** va **14 ta chizma haqida so‘rab, alohida rasm/kodga ega bo‘lmagan nomzod** ajratildi. Bular avtomatik *flag*, xato deb qat’iy belgilash uchun ekspert tekshiruvi zarur. CSV: `local_question_flags.csv` (audit paketida).
+* Yangi 14 ta review savolda 12 ta Y1, 1 ta Y2, 1 ta Y3 va barcha kalitlar texnik to‘g‘ri. Published qilinmagan.
+
 ## Qolgan sifat eshiklari
 
 * 317+ ta savolning **har bir** semantik yechimi inson eksperti / ishonchli Scratch yoki LOGO bajarilish modeli bilan qayta tekshirilmagan — 100% ekspert tekshiruvi bajarildi deb e’lon qilinmaydi.
