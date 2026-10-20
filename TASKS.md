@@ -1,3 +1,9 @@
+## TASK-347 — Guruhli Mock Test (2026-10-20)
+
+| ID | Status | Scope | Acceptance |
+|---|---|---|---|
+| TASK-347 | CODE IN BRANCH / CI AND DB ACCEPTANCE PENDING | 8 belgili xona kodi; 3 savol tanlash rejimi (rasmiy spesifikatsiya, mavzu/daraja, qo‘lda); barcha qatnashchilarga bitta savol; server baholash, muhokama, reyting | RLS/private keys; auto-reveal/all-answer; host next/override; Y1/Y2/Y3; GitHub quality + fresh SQL regressions + authenticated multi-browser QA; no deploy. `docs/TASK347_GROUP_MOCK_20261020.md`. |
+
 ## TASK-346 — PedGuli rasmli savolni tuzatish (2026-10-20)
 
 | ID | Status | Scope | Acceptance |
