@@ -8,7 +8,8 @@ begin
   select count(*) into v_count
   from public.questions
   where (source_reference like 'formatbank-2026:T063-Y2-%'
-         or source_reference='m13-qa-fix:v2:T063-Y2-022')
+         or source_reference='m13-qa-fix:v2:T063-Y2-022'
+         or source_reference like 'TASK291:Y2:NATIVE-REVISION-OF:formatbank-2026:T063-Y2-%')
     and format='Y2'::public.question_format
     and status='published'::public.content_status;
   if v_count <> 24 then
@@ -29,10 +30,15 @@ begin
     from public.questions q
     join public.question_keys qk on qk.question_id=q.id
     where (q.source_reference like 'formatbank-2026:T063-Y2-%'
-           or q.source_reference='m13-qa-fix:v2:T063-Y2-022')
+           or q.source_reference='m13-qa-fix:v2:T063-Y2-022'
+           or q.source_reference like 'TASK291:Y2:NATIVE-REVISION-OF:formatbank-2026:T063-Y2-%')
+      and q.status='published'::public.content_status
       and (
         (select count(*) from public.question_options qo where qo.question_id=q.id) <> 8
         or (select count(*) from jsonb_each(qk.payload->'pairs')) <> 4
+        or (q.source_reference like 'TASK291:Y2:NATIVE-REVISION-OF:%' and
+           ((select count(*) from public.question_options qo where qo.question_id=q.id and qo.side='a')<>4
+           or (select count(*) from public.question_options qo where qo.question_id=q.id and qo.side='b')<>4))
         or not public.check_answer(q.format,qk.payload,qk.payload)
         or q.source_lesson_id is null
         or not exists (
