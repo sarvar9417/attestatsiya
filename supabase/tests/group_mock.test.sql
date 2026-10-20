@@ -46,6 +46,7 @@ begin
  if not exists(select 1 from task347_fixture where other_option_id is not null)
  then raise exception 'TASK347 fixture needs a published Y1 question with distractor'; end if;
 end $check_fixture$;
+grant select on task347_fixture to authenticated;
 set role authenticated;
 select set_config('request.jwt.claim.sub','93470000-0000-4000-8000-000000000001',false);
 
@@ -150,10 +151,7 @@ begin
  perform public.group_mock_step(v_room,'next');
  v_state:=public.group_mock_state(v_room);
  if v_state->>'status'<>'finished' then raise exception 'final step did not finish test'; end if;
- if (select count(*) from public.group_mock_answers where room_id=v_room)<>2
- then raise exception 'missing answers'; end if;
- if (select count(*) from public.group_mock_rooms where id=v_room and status='finished')<>1
- then raise exception 'missing finished status'; end if;
+ if jsonb_array_length(v_state->'answers')<>2 then raise exception 'missing final answers'; end if;
 end $test$;
 
 reset role;
