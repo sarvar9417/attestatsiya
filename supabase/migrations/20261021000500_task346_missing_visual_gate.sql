@@ -34,7 +34,14 @@ AS $fn$
 BEGIN
   IF NEW.status='published'::public.content_status
     AND OLD.status IS DISTINCT FROM 'published'::public.content_status
-    AND public.task346_requires_source_visual(NEW.stem_md)
+    AND (
+      public.task346_requires_source_visual(NEW.stem_md)
+      OR EXISTS (
+        SELECT 1 FROM jsonb_array_elements(NEW.assets) AS x(asset)
+        WHERE (x.asset->>'kind')='source_screenshot'
+           OR (x.asset->>'type')='source_visual_review_required'
+      )
+    )
     AND NOT public.task346_has_usable_source_visual(NEW.assets, NEW.stem_md)
   THEN
     RAISE EXCEPTION USING ERRCODE='23514',
