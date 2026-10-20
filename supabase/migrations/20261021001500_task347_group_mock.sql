@@ -70,35 +70,16 @@ revoke all on public.group_mock_rooms, public.group_mock_items,
   public.group_mock_members, public.group_mock_answers,
   public.group_mock_messages from public, anon, authenticated;
 
+-- Shared official-mock v4 publication and source-quality invariant.
+-- The official helper also serves BEFORE-publish review triggers, so this
+-- wrapper must explicitly exclude review/draft questions for learners.
 create function public.group_mock_eligible(p_question uuid)
 returns boolean language sql stable security definer set search_path = ''
 as $gm$
   select exists (
     select 1 from public.questions q
-    join public.constructs c on c.id = q.construct_id
-    join public.question_keys k on k.question_id = q.id
-    where q.id = p_question
-      and q.status = 'published'::public.content_status
-      -- Match the official mock v4 audited quality/format exclusion gate.
+    where q.id=p_question and q.status='published'::public.content_status
       and public.is_question_official_mock_eligible(q.id)
-      and c.is_active and c.group_code = q.group_code
-      and q.source_reference is not null
-      and (
-        (q.format = 'Y1'::public.question_format
-         and (select count(*) from public.question_options o where o.question_id=q.id and o.side='a') >= 2
-         and exists (select 1 from public.question_options o
-                     where o.question_id=q.id and o.side='a'
-                       and o.id::text = k.payload->>'correct_option_id'))
-        or
-        (q.format = 'Y2'::public.question_format
-         and jsonb_typeof(k.payload->'pairs')='object'
-         and exists (select 1 from public.question_options o where o.question_id=q.id and o.side='a')
-         and exists (select 1 from public.question_options o where o.question_id=q.id and o.side='b'))
-        or
-        (q.format = 'Y3'::public.question_format
-         and jsonb_typeof(k.payload->'order')='array'
-         and (select count(*) from public.question_options o where o.question_id=q.id and o.side='a') >= 2)
-      )
   );
 $gm$;
 
