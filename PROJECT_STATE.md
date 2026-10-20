@@ -2005,3 +2005,13 @@ Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user co
 - Old public Git answer/key exposure remains **OPEN** issue #323.
 - Validation: database 4×5 encrypted-key contract, frontend exam Y2 4-left/5-right completeness and duplicate-right prevention, canonical other revisions intact, full backend+frontend CI.
 - Production release NOT yet executed. Full docs: `docs/audits/TASK306_M13_MATCHING_4X5_PILOT.md`.
+
+
+## TASK-307 — M13 4×5 reviewed revision publication, 2026-10-20
+- Branch `task/TASK-307-m13-4x5-release`.
+- Scope restricted to TASK-306 7 `review` Y2 revised questions. Following user's instruction, assistant conducts AI-led topical/source/technical QA and proceeds without waiting for another separate human editor, **but no claim of independent human certification**.
+- Atomic publication migration promotes seven 4x5 review revisions, archives only their seven published 4x4 versions, keeps immutable options/keys and old attempts; 71 live Y2 and 414 live M13 total required.
+- Updates exact old/new logical test census in TASK-213; maintains canonical source integrity; adds TASK-307 regression.
+- **Pending:** complete GitHub CI, merge, apply migration to production, verify post-apply 414 (271 Y1,71 Y2,72 Y3) and zero malformed keys.
+- No frontend code changes required for 4x5; `src/features/exam/contracts.ts` already permits 4 left/5 right and rejects duplicate/unknown right selections (TASK-306 unit coverage). Live learner E2E after deploy still required.
+- Open risk: public Git historical answer exposure issue #323; improving distractor count is not a full secret-bank rotation.

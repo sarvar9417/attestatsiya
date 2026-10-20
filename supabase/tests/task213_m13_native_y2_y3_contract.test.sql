@@ -4,7 +4,10 @@ DECLARE v_bad int; v_fmt text; v_count int;
 BEGIN
  FOR v_fmt IN SELECT unnest(ARRAY['Y2','Y3']) LOOP
    SELECT count(*) INTO v_count FROM public.questions q
-     WHERE q.source_reference LIKE 'm13-axr-native-v1:'||v_fmt||':AXRN-%'
+     WHERE (
+        q.source_reference LIKE 'm13-axr-native-v1:'||v_fmt||':AXRN-%'
+        OR (v_fmt='Y2' AND q.source_reference LIKE 'm13-qc-v2:Y2:AXRN-%')
+       )
        AND q.format=v_fmt::public.question_format AND q.status='published'::public.content_status;
    IF v_count<>70 THEN RAISE EXCEPTION 'TASK-213 expected 70 % found %',v_fmt,v_count; END IF;
  END LOOP;

@@ -8,12 +8,12 @@ DECLARE
 BEGIN
  SELECT count(*) INTO v_count FROM public.questions
  WHERE source_reference~'^m13-qc-v2:Y2:AXRN-0[1-7]-Y2-01$'
-   AND status='review'::public.content_status;
+   AND status='published'::public.content_status;
  IF v_count<>7 THEN RAISE EXCEPTION 'TASK-306 seven review Y2 expected %',v_count; END IF;
  SELECT count(*) INTO v_count FROM public.questions
  WHERE source_reference~'^m13-axr-native-v1:Y2:AXRN-0[1-7]-Y2-01$'
-   AND status='published'::public.content_status;
- IF v_count<>7 THEN RAISE EXCEPTION 'TASK-306 seven immutable published Y2 originals expected %',v_count; END IF;
+   AND status='archived'::public.content_status;
+ IF v_count<>7 THEN RAISE EXCEPTION 'TASK-306 seven immutable archived Y2 originals expected %',v_count; END IF;
 
  SELECT count(*) INTO v_bad FROM public.questions q
  JOIN public.question_keys k ON k.question_id=q.id
@@ -21,7 +21,7 @@ BEGIN
  LEFT JOIN public.lesson_constructs lc ON lc.lesson_id=l.id AND lc.construct_id=q.construct_id
  WHERE q.source_reference~'^m13-qc-v2:Y2:AXRN-0[1-7]-Y2-01$'
    AND (
-      q.status<>'review'::public.content_status
+      q.status<>'published'::public.content_status
       OR q.group_code<>'S7.SEC'
       OR q.format<>'Y2'::public.question_format
       OR l.slug !~ '^m13-axr-0[1-7]$'
@@ -48,7 +48,7 @@ BEGIN
  JOIN public.question_keys nk ON nk.question_id=q.id
  JOIN public.question_keys ok ON ok.question_id=old.id
  WHERE q.source_reference~'^m13-qc-v2:Y2:AXRN-0[1-7]-Y2-01$'
- AND (old.status<>'published'::public.content_status
+ AND (old.status<>'archived'::public.content_status
  OR old.stem_md IS DISTINCT FROM q.stem_md
  OR old.construct_id IS DISTINCT FROM q.construct_id
  OR old.source_lesson_id IS DISTINCT FROM q.source_lesson_id
