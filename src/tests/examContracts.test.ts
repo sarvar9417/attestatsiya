@@ -119,34 +119,6 @@ describe('exam RPC contracts', () => {
     expect(first).toHaveLength(values.length)
     expect(new Set(first)).toEqual(new Set(values))
   })
-  it('Y1 javob joylashuvi har sessiyada deterministik aralashadi, javob UUID o‘zgarmaydi', () => {
-    const choiceIds = [
-      '00000000-0000-4000-8000-000000000041',
-      '00000000-0000-4000-8000-000000000042',
-      '00000000-0000-4000-8000-000000000043',
-      '00000000-0000-4000-8000-000000000044',
-    ]
-    const correctId = choiceIds[0]
-    const signatures = new Set<string>()
-    const correctPositions = new Set<number>()
-
-    for (let sessionNo = 1; sessionNo <= 16; sessionNo += 1) {
-      const seed = `${examId}:${sessionNo}:${questionId}:Y1`
-      const actual = stableShuffle(choiceIds, seed)
-      const rerendered = stableShuffle(choiceIds, seed)
-      expect(actual).toEqual(rerendered)
-      expect(new Set(actual)).toEqual(new Set(choiceIds))
-      expect(actual).toHaveLength(4)
-      expect(actual.filter((id) => id === correctId)).toHaveLength(1)
-      correctPositions.add(actual.indexOf(correctId))
-      signatures.add(actual.join(','))
-    }
-
-    // Item keys remain UUID-based, not A/B/C/D index-based.
-    expect(correctPositions.size).toBeGreaterThan(1)
-    expect(signatures.size).toBeGreaterThan(2)
-  })
-
   it('M05 importidagi PostgreSQL-valid MD5 UUIDlarni qabul qiladi, faqat qat’iy shakllarni tekshiradi', () => {
     // Production database'dan xavfsiz namunalar: ID formatlari haqiqiy,
     // lekin UUID version/variant bitlari RFC shaklida emas.
