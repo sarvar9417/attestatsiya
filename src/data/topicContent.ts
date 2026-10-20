@@ -7,12 +7,19 @@ import { M10_GRAPHICS_TEXTBOOK_ADDITIONS } from './topics/m10GraphicsTextbookAdd
 import { M10_01_CANONICAL_BOOK } from './topics/m10GraphicsFundamentalsCanonicalBook'
 import { M10_02_CANONICAL_BOOK } from './topics/m10PaintPhotoshopCanonicalBook'
 import { M10_03_CANONICAL_BOOK } from './topics/m10SelectionsLayersCanonicalBook'
+import { M10_04_CANONICAL_BOOK } from './topics/m10PhotoTextCanonicalBook'
+import { M10_05_CANONICAL_BOOK } from './topics/m10ThreeDCanonicalBook'
+import { M10_06_CANONICAL_BOOK } from './topics/m10AnimationCanonicalBook'
+import { M10_07_CANONICAL_BOOK } from './topics/m10AudioVideoCanonicalBook'
 import { M12_NETWORK_TEXTBOOK_ADDITIONS } from './topics/m12NetworkTextbookAdditions'
 import { M11_WEB_TEXTBOOK_ADDITIONS } from './topics/m11WebTextbookAdditions'
 import { M11_04_CANONICAL_BOOK } from './topics/m11HtmlLinksMediaCanonicalBook'
 import { M11_05_CANONICAL_BOOK } from './topics/m11CssColorsCanonicalBook'
 import { M11_06_CANONICAL_BOOK } from './topics/m11CssLayoutCanonicalBook'
 import { M11_07_CANONICAL_BOOK } from './topics/m11WebDesignQaCanonicalBook'
+import { M11_01_CANONICAL_BOOK } from './topics/m11HtmlFoundationsCanonicalBook'
+import { M11_02_CANONICAL_BOOK } from './topics/m11HtmlTextImagesCanonicalBook'
+import { M11_03_CANONICAL_BOOK } from './topics/m11HtmlTablesFormsCanonicalBook'
 import { M09_DATABASE_TEXTBOOK_ADDITIONS } from './topics/m09DatabaseTextbookAdditions'
 import { M03_OFFICE_TEXTBOOK_ADDITIONS } from './topics/m03OfficeTextbookAdditions'
 import { M03_05_CANONICAL_BOOK } from './topics/m03ExcelCanonicalBook'
@@ -928,7 +935,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   ]),
 
   'M10.06': t('M10.06', 'Animatsiya va Adobe Animate', [
-    { type: 'definition', content: 'Animatsiya — ketma-ket kadrlarni tez almashlab, harakat illuziyasini yaratish. Framerate (FPS) — sekunddagi kadrlar soni. Standart: 24 FPS (kino), 30 FPS (TV), 60 FPS (o\'yin).' },
+    { type: 'definition', content: 'Animatsiya — ketma-ket kadrlarni tez almashlab, harakat illuziyasini yaratish. Framerate (FPS) — sekunddagi kadrlar soni. Amaliy variantlar: 24, 30 yoki 60 FPS; loyiha va qurilmaga qarab tanlanadi.' },
     { type: 'table', content: '| Animatsiya turi | Izoh |\n|----------------|------|\n| Traditional (2D) | Qo\'lda chizilgan kadrlar |\n| Stop-motion | Jismoniy obyektlarni suratga olish |\n| 3D animatsiya | Kompyuterda 3D modellarni harakatlantirish |\n| Motion graphics | Matn va grafik elementlar harakati |\n| Tween animatsiya | Oraliq kadrlarni avtomatik yaratish |' },
     { type: 'text', content: 'Adobe Animate (sobiq Flash Professional) — 2D animatsiya va interfaol kontent yaratish dasturi. Asosiy vositalar: Timeline (vaqt shkalasi), Keyframe (kalit kadr), Tween (oraliq kadr), Symbol (belgi).' },
     { type: 'note', content: '🎬 Tween animatsiya: boshlang\'ich va tugash holatini belgilaysiz, dastur oraliq kadrlarni avtomatik yaratadi.' },
@@ -940,7 +947,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   'M10.07': t('M10.07', 'Audio va video tahrirlash', [
     { type: 'definition', content: 'Audio tahrirlash — ovoz fayllarini kesish, birlashtirish, effekt qo\'shish, sifatni yaxshilash. Video tahrirlash — video lavhalarni montaj qilish, tranzisiya va effektlar qo\'shish.' },
     { type: 'table', content: '| Dastur | Turi | Xususiyati |\n|--------|------|-----------|\n| Audacity | Audio | Bepul, ko\'p platformali |\n| Adobe Audition | Audio | Professional, keng imkoniyatlar |\n| DaVinci Resolve | Video | Bepul, professional |\n| Adobe Premiere Pro | Video | Professional, industriya standarti |\n| CapCut | Video | Mobil, sodda |' },
-    { type: 'text', content: 'Audio formatlar: WAV (lossless), MP3 (siqilgan), FLAC (lossless siqilgan), AAC (Apple). Video formatlar: MP4, AVI, MOV, MKV, WebM.' },
+    { type: 'text', content: 'Audio formatlar: WAV (ko‘pincha siqilmagan PCM konteyner), MP3 (odatda yo‘qotishli), FLAC (yo‘qotishsiz siqilgan), AAC (keng qo‘llanadigan audio kodek). Video konteynerlar: MP4, AVI, MOV, MKV, WebM.' },
     { type: 'example', content: 'Audacity da audio tahrirlash:\n1) Faylni ochish\n2) Kesish (Ctrl+X) / Nusxa (Ctrl+C)\n3) Effekt qo\'shish (Reverb, Echo, Noise Reduction)\n4) Eksport (MP3, WAV)' },
     { type: 'note', content: '🎵 Video montajda uch asosiy bosqich: import → tahrirlash (kesish, joylashtirish, tranzisiya) → eksport (render qilish).' },
   ], [
@@ -959,7 +966,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'note', content: '💡 Atributlar teg ichida yoziladi: <a href="https://example.com">Link</a>. href — atribut, "url" — qiymat.' },
   ], [
     { id: 'M11.01-q1', text: 'HTML nimaning qisqartmasi?', options: ['HyperText Markup Language', 'High Tech Modern Language', 'HyperText Modern Layout', 'Home Tool Markup Language'], correctIndex: 0, explanation: 'HTML — HyperText Markup Language', type: 'Y1' },
-    { id: 'M11.01-q2', text: 'Qaysi teg eng katta sarlavha uchun ishlatiladi?', options: ['<h6>', '<h1>', '<header>', '<title>'], correctIndex: 1, explanation: '<h1> eng katta, <h6> eng kichik sarlavha', type: 'Y1' },
+    { id: 'M11.01-q2', text: 'HTML sarlavhalari iyerarxiyasida eng yuqori darajali sarlavha qaysi teg bilan yoziladi?', options: ['<h6>', '<h1>', '<header>', '<title>'], correctIndex: 1, explanation: '<h1> semantik jihatdan eng yuqori, <h6> eng quyi sarlavha darajasi. Ekrandagi hajm CSS bilan o‘zgarishi mumkin.', type: 'Y1' },
     { id: 'M11.01-q3', text: '<a href="...">Link</a> da href nima?', options: ['Teg', 'Atribut', 'Qiymat', 'Element'], correctIndex: 1, explanation: 'href — atribut, uning qiymati havola manzili', type: 'Y2' },
   ]),
 
@@ -971,7 +978,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   ], [
     { id: 'M11.02-q1', text: 'Matnni qalin qilish uchun qaysi teg ishlatiladi?', options: ['<i>', '<b>', '<u>', '<small>'], correctIndex: 1, explanation: '<b> (bold) — qalin matn', type: 'Y1' },
     { id: 'M11.02-q2', text: 'Tartibli ro\'yxat qaysi teg bilan yaratiladi?', options: ['<ul>', '<ol>', '<li>', '<list>'], correctIndex: 1, explanation: '<ol> (ordered list) — tartibli (raqamli) ro\'yxat', type: 'Y1' },
-    { id: 'M11.02-q3', text: 'Rasm tegi <img> qanday atributga ega bo\'lishi shart?', options: ['width', 'height', 'src', 'style'], correctIndex: 2, explanation: 'src (source) — rasm manzilini ko\'rsatishi shart', type: 'Y1' },
+    { id: 'M11.02-q3', text: '<img> elementida rasmning oddiy fayl manzilini qaysi atribut beradi?', options: ['width', 'height', 'src', 'style'], correctIndex: 2, explanation: 'src (source) — rasmning odatiy manzil atributi. HTMLda srcset yordamida muqobil/responsiv manba tanlash imkoniyati ham bor; alt mazmunli muqobildir.', type: 'Y1' },
   ]),
 
   'M11.03': t('M11.03', 'HTML jadval va forma', [
@@ -981,7 +988,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'table', content: '| Input turi | Vazifasi |\n|-----------|---------|\n| text | Matn kiritish |\n| password | Parol (yashirin) |\n| radio | Bir tanlovli |\n| checkbox | Ko\'p tanlovli |\n| email | Elektron pochta |\n| number | Son kiritish |\n| date | Sana tanlash |\n| file | Fayl yuklash |\n| submit | Yuborish tugmasi |' },
   ], [
     { id: 'M11.03-q1', text: 'Jadval sarlavhasi uchun qaysi teg ishlatiladi?', options: ['<td>', '<th>', '<tr>', '<table>'], correctIndex: 1, explanation: '<th> (table header) — jadval sarlavhasi', type: 'Y1' },
-    { id: 'M11.03-q2', text: 'Formada parol kiritish maydoni uchun qaysi input turi ishlatiladi?', options: ['text', 'password', 'hidden', 'number'], correctIndex: 1, explanation: 'type="password" — kiritilgan matn yashirin ko\'rinadi', type: 'Y1' },
+    { id: 'M11.03-q2', text: 'Formada parol kiritish maydoni uchun qaysi input turi ishlatiladi?', options: ['text', 'password', 'hidden', 'number'], correctIndex: 1, explanation: 'type="password" belgilarni ekranda niqoblaydi; u ma’lumotni avtomatik shifrlamaydi, HTTPS va server himoyasi alohida zarur.', type: 'Y1' },
   ]),
 
   'M11.04': t('M11.04', 'HTML havola, iframe, audio va video', [
@@ -1714,6 +1721,37 @@ for (const [id, book, source] of [
   if (!previous) continue
   const appendix = M10_GRAPHICS_TEXTBOOK_ADDITIONS[id] ?? []
   TOPIC_CONTENT[id] = { ...previous, kind: 'chapter', source, theory: [...book, ...appendix] }
+}
+
+// TASK-304: four M10 graphics / 3D / animation / media long-form books.
+// Append reviewed M10 source blocks, but do not render their old short seed as
+// an unrelated second lesson. Preserve static quiz IDs, options, keys and Y types.
+for (const [id, book, source] of [
+  ['M10.04', M10_04_CANONICAL_BOOK, 'Cambridge+ ICT 8/10–11 + Adobe — photo, retouching and typography'],
+  ['M10.05', M10_05_CANONICAL_BOOK, 'Cambridge+ ICT 9/10–11 + Blender — 3D and CAD'],
+  ['M10.06', M10_06_CANONICAL_BOOK, 'Cambridge+ ICT 8 + Adobe 2026 — animation'],
+  ['M10.07', M10_07_CANONICAL_BOOK, 'Cambridge+ ICT 8/10–11 + Audacity — digital audio and video'],
+] as const) {
+  const original = TOPIC_CONTENT[id]
+  if (!original) continue
+  const reviewed = M10_GRAPHICS_TEXTBOOK_ADDITIONS[id] ?? []
+  TOPIC_CONTENT[id] = { ...original, source, kind: 'chapter', theory: [...book, ...reviewed] }
+}
+
+// TASK-305: Complete sourced HTML learner chapters precede reviewed Cambridge+
+// web appendices. Preserve prior quiz keys and use a single BookReader flow.
+for (const [id, book, source] of [
+  ['M11.01', M11_01_CANONICAL_BOOK, 'Cambridge+ ICT 8/9 + MDN — semantic HTML foundation'],
+  ['M11.02', M11_02_CANONICAL_BOOK, 'Cambridge+ ICT 8/9 + MDN — HTML text, lists and images'],
+  ['M11.03', M11_03_CANONICAL_BOOK, 'Cambridge+ ICT 9/10–11 — HTML tables and forms'],
+] as const) {
+  const original = TOPIC_CONTENT[id]
+  if (!original) continue
+  const sourceAppendix = M11_WEB_TEXTBOOK_ADDITIONS[id] ?? []
+  TOPIC_CONTENT[id] = {
+    ...original, source, kind: 'chapter',
+    theory: [...book, ...sourceAppendix],
+  }
 }
 
 // TASK-306: Four complete HTML/CSS/website QA books in the single reader.

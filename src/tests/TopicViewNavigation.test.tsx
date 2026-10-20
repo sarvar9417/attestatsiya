@@ -43,7 +43,7 @@ describe('M11 unified book theory navigation regression', () => {
     const sectionCount = screen.getAllByRole('tab').length
     expect(sectionCount).toBeGreaterThan(2)
     expect(screen.getByText(`/${sectionCount} bo‘lim`)).toBeInTheDocument()
-    expect(screen.getByText('HTML da matn elementlari: paragraf, sarlavha, formatlash teglari (qalin, kursiv, tagiga chizish). Fon — sahifa yoki element orqa foni.')).toBeInTheDocument()
+    expect(screen.getByText(/O‘quv materialini faqat chiroyli shrift va rasm qilib qo‘yish yetarli emas/)).toBeInTheDocument()
 
     await waitFor(() =>
       expect(screen.getByText(/Test serveriga ulanib bo‘lmadi/)).toBeInTheDocument()

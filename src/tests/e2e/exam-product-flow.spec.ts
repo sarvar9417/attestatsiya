@@ -153,7 +153,8 @@ test.describe('Attestatsiya protected product flow E2E', () => {
     await expect(page.getByRole('link', { name: 'Bosh sahifa' })).toHaveCount(0)
 
     await page.getByRole('button', { name: /Variant B/ }).click()
-    await page.getByRole('button', { name: 'Javobni saqlash' }).click()
+    await expect(page.getByText('Saqlandi ✓')).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Javobni saqlash' })).toHaveCount(0)
 
     await page.getByRole('button', { name: 'Sinovni yakunlash' }).first().click()
 

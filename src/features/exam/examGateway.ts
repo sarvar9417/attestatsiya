@@ -37,7 +37,7 @@ export interface TopicTestPreview {
 }
 
 export interface ExamGateway {
-  /** The current owner's first offline submission, never a correct-answer key. */
+  /** Owner's pending offline choice (latest revision for mocks, never a key). */
   getPendingAnswer?(examId: string, questionId: string): Json | undefined
   getAxborotChapters?(): Promise<AXBChapter[]>
   startAxborotChapter?(chapter: number, count: number): Promise<ExamSession>
@@ -52,6 +52,10 @@ export interface ExamGateway {
   ): Promise<ExamSession>
   /** Intro ekranda vaqt cheklovini ko'rsatish uchun (mavzu testi). */
   previewTopicTest?(lessonId: string): Promise<TopicTestPreview | null>
+  /** Persist a complete mock draft locally immediately; no answer keys. */
+  queueMockAnswer?(input: SubmitAnswerInput): void
+  /** Replay locally queued drafts and return server-pending count. */
+  flushQueuedAnswers?(examId: string): Promise<{ remaining: number; rejected?: string[]; stoppedByNetwork?: boolean }>
   submitAnswer(input: SubmitAnswerInput): Promise<SubmitAnswerResponse>
   finishExam(examId: string): Promise<FinishExamResponse>
   getReview(examId: string): Promise<ExamReviewItem[]>
