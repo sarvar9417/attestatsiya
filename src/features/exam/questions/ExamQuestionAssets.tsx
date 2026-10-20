@@ -24,7 +24,7 @@ const OFFICE = new Set([
 ])
 const M07_SOURCE_BLOCKS = new Set(['m07_sl2_05_014','m07_sl2_05_018','m07_sl2_05_020','m07_sl2_05_023','m07_sl2_05_028','m07_sl2_06_015','m07_sl2_06_020','m07_sl2_06_022','m07_sl2_06_025','m07_sl2_06_026','m07_sl2_06_027'])
 const M07_AUDIT = new Set(['m07_logo_nested_squares_20261020'])
-const PEDGULI_SOURCE = new Set(['pedguli-4842-classroom-game', 'pedguli-4843-debate'])
+const PEDGULI_SOURCE = new Set(['pedguli-4842-classroom-game', 'pedguli-4843-debate', 'pedguli-4844-discussion'])
 const PEDGULI_DEBATE_QUESTION_ID = 'd41ab61f-a43e-4b2d-919b-5b06dde05341'
 const PEDGULI_GAME_QUESTION_ID = '05d53eb9-56de-454c-9440-e207668dd2c4'
 const GAME_ASSET = {
