@@ -1,0 +1,63 @@
+{
+  "date": "2026-10-20",
+  "reviewScope": 380,
+  "formatCount": {
+    "Y1": 280,
+    "Y2": 50,
+    "Y3": 50
+  },
+  "auditFlagCount": {
+    "WEAK_DISTRACTORS": 1,
+    "EXPERT_EXAMPLE": 4,
+    "MANUAL_ITEM_REVIEW": 240,
+    "VISUAL_PARITY_CHECK": 25,
+    "LEVEL_RECHECK": 3,
+    "IP_CALC_CHECK": 118,
+    "COARSE_SOURCE": 2,
+    "GENERIC_STEM": 10,
+    "STEM_RECHECK": 1,
+    "DUPLICATE_STEM": 10,
+    "DISTRACTOR_PLAUSIBILITY_CHECK": 80,
+    "MULTIPLE_ABSURD_DISTRACTORS": 34
+  },
+  "patternCount": {
+    "short-MCQ": 149,
+    "scenario": 34,
+    "classification": 16,
+    "calculation": 81,
+    "native-pairing": 50,
+    "native-ordering": 50
+  },
+  "priorityCount": {
+    "HIGH": 48,
+    "STANDARD": 179,
+    "MEDIUM": 153
+  },
+  "duplicateStemGroups": [
+    {
+      "stem": "quyidagi tushunchalarni ularga mos tarif va xususiyatlar bilan juftlang",
+      "ids": [
+        "TAR-01-029",
+        "TAR-02-029",
+        "TAR-03-029",
+        "TAR-04-029",
+        "TAR-05-001",
+        "TAR-06-001",
+        "TAR-07-001",
+        "TAR-08-029",
+        "TAR-09-029",
+        "TAR-10-029"
+      ]
+    }
+  ],
+  "weakDistractorExamples": [
+    "TAR-01-001"
+  ],
+  "humanSignoffs": 0,
+  "limitation": "automated flags are triage; all 380 require human source/answer justification; cannot equate simple absence of flags with expert approval.",
+  "heuristicNotes": [
+    "80/280 Y1 items include at least one answer choice starting with 'Faqat'; 34 include two or more, frequently making elimination too easy.",
+    "Flags indicate editorial priority, not automatic disqualification.",
+    "The 380-question registry does not encompass independent human validation."
+  ]
+}

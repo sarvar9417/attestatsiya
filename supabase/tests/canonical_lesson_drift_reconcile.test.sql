@@ -170,6 +170,21 @@ begin
                       and v2.slug like 'tarmoq-v2-bob-%'
                       and v2.status='draft'::public.content_status
                  ))
+        -- TASK-230: only 20 new independent M12 review items with exact V2 source links.
+        and not (lane.module_code='M12'
+                 and q.status='review'::public.content_status
+                 and coalesce(q.source_reference,'') like 'm12-examstyle-v4-20261020:TAR-EXAM26-%'
+                 and exists (
+                   select 1 from public.lessons chapter
+                   join public.modules cm on cm.id=chapter.module_id
+                   join public.lesson_constructs cl on cl.lesson_id=chapter.id
+                                              and cl.construct_id=q.construct_id
+                   where chapter.id=q.source_lesson_id
+                     and cm.code='M12'
+                     and chapter.slug like 'tarmoq-v2-bob-%'
+                     and chapter.status in ('draft'::public.content_status,
+                                            'published'::public.content_status)
+                 ))
     ) then
       raise exception 'TASK-064 % question source lesson drift remains',lane.module_code;
     end if;

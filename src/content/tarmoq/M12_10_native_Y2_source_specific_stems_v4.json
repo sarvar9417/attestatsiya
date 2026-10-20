@@ -1,0 +1,42 @@
+[
+  {
+    "id": "TAR-01-029",
+    "new_stem": "PAN, LAN va WAN tarmoq ko‘lamini unga mos hudud tavsifi bilan juftlang."
+  },
+  {
+    "id": "TAR-02-029",
+    "new_stem": "Switch, router va AP qurilmalarini ular bajaradigan tarmoq vazifalari bilan moslang."
+  },
+  {
+    "id": "TAR-03-029",
+    "new_stem": "Yulduz, halqa va shina topologiyalarini ularning fizik tuzilish belgilariga moslang."
+  },
+  {
+    "id": "TAR-04-029",
+    "new_stem": "TCP, IP va DNS protokollarining tarmoqdagi vazifalarini to‘g‘ri juftlang."
+  },
+  {
+    "id": "TAR-05-001",
+    "new_stem": "/24, /26, /27 prefikslarini to‘g‘ri nuqtali-o‘nlik IPv4 maskalari bilan juftlang."
+  },
+  {
+    "id": "TAR-06-001",
+    "new_stem": "Network, broadcast va usable atamalarini subnetning host-bitlari xossasi bilan moslang."
+  },
+  {
+    "id": "TAR-07-001",
+    "new_stem": "14, 30 va 62 ta usable host sig‘diradigan odatiy IPv4 subnetlarni mos CIDR prefikslari bilan juftlang."
+  },
+  {
+    "id": "TAR-08-029",
+    "new_stem": "DNS, DHCP va NAT xizmatlarini ularning asosiy vazifalari bilan juftlang."
+  },
+  {
+    "id": "TAR-09-029",
+    "new_stem": "Qidiruv operatorlaridan `site:`, `filetype:` va qo‘shtirnoqning qidiruvdagi vazifalarini moslang."
+  },
+  {
+    "id": "TAR-10-029",
+    "new_stem": "Phishing, ransomware va MFA tushunchalarini xatar yoki himoya funksiyasi bilan juftlang."
+  }
+]

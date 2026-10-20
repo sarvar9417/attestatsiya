@@ -1800,3 +1800,15 @@ Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user co
 - Handoff: docs/TASK220_M12_NETWORK_V2_INTEGRATION.md. Do not publish AI-generated content without independent human approval.
 
 - **2026-10-18 Y2/Y3 kengayish VERIFIED:** `20261020230000_task220_m12_y2_y3_extra_80_review.sql` migratsiyasi Supabase `plyqezulrfowyblsfpzy`da `success:true`; yangi 40 native Y2 + 40 native Y3. Umumiy V2/V3 bank **380 ta review savol: 280 Y1, 50 Y2, 50 Y3**, har 10 bobda 38 ta pool (30 original +8 yangi). Avvalgi 300 V2/91 legacy tarmoq savoli va 5 published M12 dars saqlandi, yangi 80 savolning 0 tasi published. Live SQL `task220_m12_extra_80_native_formats.test.sql` PASS; GitHub CI run 39136485127 backend/database/quality (lint/typecheck/unit/build/Playwright E2E smoke) PASS. 380 savol uchun inson eksperti approve va real authorized learner E2E hali OPEN.
+
+
+## TASK-230 — M12 exam-style deep QA (2026-10-20)
+- Branch: task/TASK-230-m12-exam-style-qa; draft PR #319 against parent PR #155.
+- Drive examples: 2025 kuzgi annotated demo PDF p11 Q25 (CIDR /27), 2026 paid demo p14–15 Q26–28 (CIDR /19, IP puzzle, set arithmetic), 13.04.2026 recorded tests p2/p16/p26 (search OR, binary IP, hub/switch).
+- Source caution: 2025 demo p11 cites computer IP 192.168.10.32/27, which is actually subnet network address; do not copy defective assumptions.
+- QA: 380 original V2/V3 IDs, 80 weak distractor candidates (34 with ≥2 implausible 'Faqat ...' choices), 10 generic Y2 prompts, 25 visual flags; 31 IPv4 oracle recalculations match.
+- 20 original source-style Y1 review items plus 10 review Y2 stem fixes applied to live Supabase using tracked migrations 20261020234000 and 20261020235000; live SQL QA PASS.
+- Current M12 V2/V3/V4 = 400 questions (300 Y1, 50 Y2, 50 Y3); 321 published, 79 review. Earlier published items and attempts unchanged.
+- CI run 39364116215 backend/database/quality PASS.
+- OPEN: each question needs independent human expert signoff, 80 weak Y1 need version-safe published revision proposals, visual/authorized learner E2E and parent PR merge.
+- Handoff: docs/content/TASK230_M12_EXAM_STYLE_2025_2026_QA.md.
