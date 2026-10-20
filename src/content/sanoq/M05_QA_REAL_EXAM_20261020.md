@@ -47,6 +47,7 @@ Manba/stil izlari `metadata`, `source`, `source_reference`, `question_keys.expla
 - Oldingi 75 parametrik Y1 savolning 75/75 tasida eng kichik asos / butun sonni o‘tkazish / qo‘shish qayta hisoblandi — **0 xato**.
 - Avvalgi 180 savollik 2026 LaTeX to‘plamining 100 ta C–E hisoblashli topshirig‘i va B turidagi 26 ta hisoblanuvchi topshirig‘i tekshirildi — **0 aniqlangan xato**. Qolgan tushuncha va qog‘oz Y2/Y3 ko‘rinishidagi topshiriqlarga bu hisoblash statistikasi tatbiq etilmaydi; shuning uchun barcha 180 savol mustaqil ekspert ko‘rigidan o‘tgan deb da’vo qilinmaydi.
 - Oldingi 74 ta Y2/Y3 qo‘shimcha savol oldingi bosqichda hisoblash, moslashtirish va ketma-ketlik tekshiruvlaridan o‘tgan.
+- `sanoq-2026:%` turidagi 184 ta Y1 topshiriqdan **128 tasida barcha to‘rt variantni sanoq tizimiga qarab son qiymatiga aylantirib**, ikkita variant bir xil qiymatga ega emasligi tekshirildi: **0 ta bir xil qiymatli variant**. Qolgan Y1 variantlari tushunchaviy/jadval ko‘rinishida bo‘lgani uchun ayni matematik solishtirishga kiritilmadi.
 
 ## 4. Yakuniy live Supabase strukturaviy tekshiruv
 
