@@ -72,7 +72,7 @@ export function safeAsset(value: unknown): Asset | null {
     // Legacy graphics/web question assets have no diagram_id. Derive an ID
     // only from a fixed first-party static path registry, never from a caller
     // controlled URL, a path prefix or a generic file extension.
-    const match = /^\\/graphics-web-v2\\/([a-z_]+)\\.svg$/.exec(asset.src)
+    const match = new RegExp('^/graphics-web-v2/([a-z_]+)[.]svg$').exec(asset.src)
     if (!match || !GRAPHICS_WEB_V2.has(match[1])) return null
     diagramId = match[1]
   } else {
