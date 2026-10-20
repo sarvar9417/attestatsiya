@@ -102,7 +102,7 @@ describe('TASK-346 source-verified PedGuli media', () => {
     expect(malformed.querySelector('img')).toBeNull()
   })
 
-  it('accepts both audited Telegram photo paths without allowing arbitrary JPGs', () => {
+  it('accepts three source-verified Telegram JPGs but rejects fabricated image paths', () => {
     render(<ExamQuestionAssets assets={[
       {
         kind: 'image', diagram_id: 'pedguli-4842-classroom-game',
@@ -110,9 +110,10 @@ describe('TASK-346 source-verified PedGuli media', () => {
         alt: 'Ta’limiy o‘yin mashg‘uloti',
       },
       { kind: 'image', diagram_id: 'pedguli-4843-debate', src: debateSrc, alt: 'Debat' },
+      { kind: 'image', diagram_id: 'pedguli-4844-discussion', src: '/pedguli-source/pedguli-4844-discussion.jpg', alt: 'Diskussiya' },
       { kind: 'image', diagram_id: 'pedguli-4844-debate', src: '/pedguli-source/pedguli-4844-debate.jpg' },
     ]} />)
-    expect(screen.getAllByRole('img')).toHaveLength(2)
+    expect(screen.getAllByRole('img')).toHaveLength(3)
   })
 })
 
