@@ -50,13 +50,16 @@ Private PDF inbox jami 649: 195 `independently_verified` (40 linked, 155 unlinke
 This PR may be merged **after CI** to retain migration and audit provenance, but 19 items were deliberately staged REVIEW, not auto-published. The larger 450-item semantic distractor-by-distractor review and candidate authoring to correct shallow active questions **remain in progress**. `review` -> `published` needs legitimate source/key/editorial checks and production learner E2E.
 
 
-## P0 finding: Y1 position leakage (2026-10-20)
+## 2026-10-20 — Y1 persisted order versus actual learner display
 
-Actual displayed first option rank (ordered by `question_options.order_idx`, per question) for 426 published pedagogika Y1:
-- KS **78/130** at position A;
-- PM.GEN **173/223** at position A;
-- PM.MET **48/73** at position A;
-- **299/426 = 70.2%** default-first correct. This is NOT inferred by assuming option order_idx begins at zero; it is measured with window `row_number()` per question.
-- `ExamRunner.tsx` was rendering Y1 options as `item.options.filter(side='a')` without a shuffle; unlike Y2 right-hand options and Y3 initial ordering. This creates an exploitable positional pattern if the RPC returns the persisted order. Guardrail in this branch: `stableShuffle(Y1-options, exam_id + question_id + ':Y1')` while correct answer/selection stays **option UUID**. Option ordering remains deterministic across React re-renders and session restore; different exam IDs normally yield different positions.
-- New frontend contract test checks deterministic ordering, coverage and key UUID preservation across 16 seeded sessions. Only after CI, merge and independently verified Vercel production deployment is this bug fixed for learners.
-- Do not alter existing published answer keys or DB option order in place, preserving historical attempts.
+Published question_options stored physical order: **299/426** Y1 have correct option in the first stored position (KS 78/130; PM.GEN 173/223; PM.MET 48/73). This is a **storage-position skew, NOT proof of a learner-exposed bias**.
+
+Production RPC implementation checked after the first heuristic alert:
+- `generate_official_mock()` sets `exam_items.option_order = array_agg(o.id ORDER BY o.side, random())`.
+- `generate_topic_test()` does likewise.
+- `generate_professional_practice_15()` sets `exam_items.option_order = array_agg(o.id ORDER BY random())`.
+- `exam_payload()` respects persisted per-session `option_order`, not raw database `question_options.order_idx`, when option order is present.
+- Real production aggregates: 690/691 recorded published-professional Y1 exam_items carry a stored option_order. One legacy item had null (requires separate historical lineage inspection; not proof of ongoing systematic leakage).
+- Frontend `ExamRunner` deliberately displays server session order. An initially proposed extra client shuffle was **reverted** after finding the existing server-side randomization; double shuffling is unnecessary. No user-facing production code change to Y1 ordering is proposed by this PR.
+- Therefore the earlier tentative P0 «learner always sees A» allegation was **disproven**. Audit findings correctly focus on pedagogic question semantics and distractor quality.
+
