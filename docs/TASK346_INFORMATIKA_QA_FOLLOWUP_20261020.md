@@ -32,3 +32,17 @@
 - "HTML savollar 1.pdf": 13 HTML/kodli savol matni; variantlar hujjatda yo'q, shu sabab `answer_options_missing_or_unreliable` bilan tekshirishga qoldi.
 - Kodlash PDFidagi 20 savoldan 18 ta mustaqil hisoblandi va `attest_ingest.telegram_informatika_pdf_independent_qa` ga izohli taklif sifatida joylashtirildi; 2 ta talqini noaniq savol avtomatik hal qilinmadi. 18 ta taklif ham `confirmed_by_human=false`; source `answer_key` to'ldirilmadi.
 - `supabase/migrations/20261020203000_task346_pdf_independent_qa.sql` va `scripts/tests/test_telegram_pdf_math_review.py` bilan nazorat qilinadi.
+
+## 3-bosqich — keyingi manbalar va 2 betlik Sanoq PDF vizual QA
+- Dastlabki 261 candidate ustiga 20 ta `Sanoq sistemalari savollar.pdf`, 40 ta `Excelda Matematik va Mantiqiy funksiyalarga oid savollar.pdf`, 2 ta oldin raqamlar tutashib ketgan `Internet test.pdf` (#15, #29), 4 ta `MS EXCEL savollar.pdf` (#9, #13, #17, #19) qo'shildi. Jami **327 PDF candidates / 22 source PDFs**. Barchasida source `answer_key=NULL`.
+- `MS EXCEL savollar.pdf`da #8, #12, #16, #18 oldingi savolga keyingi savol yopishganligi asl PDF matni bilan taqqoslanib ajratildi. Bu faqat private candidate matni, public learner content emas.
+- Original `Sanoq sistemalari savollar.pdf` 2 bet / A4, asl sahifalar render orqali birma-bir vizual ko'rildi. #1–10 1-bet, #11–20 2-bet. `source_page_number` hamda `source_visually_checked=true` **faqat shu 20 savol** uchun yozildi. Yangi migration: `20261020205000_task346_pdf_visual_source_locator.sql`.
+- #7 savolda yo'qolgan `B` variant asl 1-betdan tiklandi; #11 dagi `3^12` daraja belgisi 2-betdan tiklandi. Boshqa sahifalar original rasm ko'rilmasdan `checked` qilinmadi.
+- 16 ta yechim mustaqil matematik hisob-kitobdan `attest_ingest.telegram_informatika_pdf_independent_qa`ga `needs_editorial_review` va `confirmed_by_human=false` bilan qo'shildi. Shu bilan PDF independent QA jami **34** (oldingi 18 + yangi 16). Telegram computation QA alohida 20.
+- #4 (9 asosli son ichida A raqami), #6 (filtrlash sharti/variant nomuvofiqligi), #8 (ko'paytma va mavjud ikkilik variantlar), #9 (daraja-asos va 0 soni variantlari) source-level chalkashlik tufayli QA'da bloklandi. Ularga `pdf_independent_qa`ga yechim yozilmadi, savol muallifi/ekspert tekshiruvi zarur.
+- QA SQL 0 ta nomuvofiqlik: 327 PDF nomzodda 0 ta original key, 20/20 page-locator, 4/4 unresolved flag, 34 mustaqil yechim private, `anon/authenticated` uchun ruxsat yo'q. Yangi regressiya `supabase/tests/telegram_informatika_visual_source_qa.test.sql`.
+
+### Muhim chegaralar
+- `source_visually_checked=true` faqat asl PDF sahifasi ko'rilganini tasdiqlaydi. Savol ekspert tomonidan tasdiqlangan yoki published degani emas.
+- Excelning 40 ta formulasi to'rt variantli test emas, javobi keyin alohida tasdiqlanadigan mashq. Ularni soxta variant bilan to'ldirish va attestatsiya mockiga qo'shish mumkin emas.
+- Qolgan PDFlar, rasmlar, Telegramdagi javob manbasi, semantic duplicate, yakuniy ekspert tasdig'i va authenticated UX ochiq. **Merge/deploy yo'q.**
