@@ -24,7 +24,7 @@ GRANT SELECT, INSERT ON public.m09_owner_ai_release_waivers TO service_role;
 
 CREATE OR REPLACE FUNCTION public.m09_ai_release_fingerprint(p_question_id uuid)
 RETURNS text LANGUAGE sql STABLE SET search_path=public AS $fingerprint$
- SELECT encode(extensions.digest(
+ SELECT encode(pg_catalog.sha256(convert_to(
  jsonb_build_object(
   'question_id',q.id,'stem',q.stem_md,'format',q.format,'cognitive',q.cognitive,
   'difficulty',q.difficulty,'construct',q.construct_id,'source_lesson',q.source_lesson_id,
@@ -32,7 +32,7 @@ RETURNS text LANGUAGE sql STABLE SET search_path=public AS $fingerprint$
   'options',COALESCE((SELECT jsonb_agg(jsonb_build_object('id',o.id,'side',o.side,'idx',o.order_idx,'text',o.content_md)
               ORDER BY o.side,o.order_idx) FROM public.question_options o WHERE o.question_id=q.id),'[]'::jsonb),
   'answer_key',k.payload,'explanation',k.explanation_md
- )::text, 'sha256'), 'hex')
+ )::text, 'UTF8')), 'hex')
  FROM public.questions q JOIN public.question_keys k ON k.question_id=q.id
  WHERE q.id=p_question_id;
 $fingerprint$;
