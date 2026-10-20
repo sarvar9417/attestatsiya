@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { BookOpen, CheckCircle2, ClipboardList, Copy, LoaderCircle, MessageCircle, Play, Users } from 'lucide-react'
+import { ArrowDown, ArrowUp, BookOpen, CheckCircle2, ClipboardList, Copy, Link2, LoaderCircle, MessageCircle, Play, RefreshCw, Trash2, Users } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 import { getCustomTestCatalog, type CatalogModule } from '../features/custom-test/customTestApi'
 import type { AnswerValue } from '../features/exam/contracts'
@@ -11,12 +11,13 @@ import Y3Order from '../features/exam/questions/Y3Order'
 import ExamRichText from '../features/exam/questions/ExamRichText'
 import ExamQuestionAssets from '../features/exam/questions/ExamQuestionAssets'
 import {
-  answerGroupMock, correctGroupAnswerLabel, createGroupMock,
-  getGroupMockState, joinGroupMock, listGroupBank, messageGroupMock,
+  answerGroupMock, cancelGroupMockLobby, correctGroupAnswerLabel, createGroupMock,
+  getGroupMockState, joinGroupMock, leaveGroupMockLobby, listGroupBank, listMyGroupMockRooms, messageGroupMock,
   startGroupMock, stepGroupMock, visibleGroupFeedback,
-  type BankQuestion, type GroupMockMode, type GroupMockState,
+  type BankQuestion, type GroupMockMode, type GroupMockRoomSummary, type GroupMockState,
   type GroupMockTopic,
 } from '../features/group-mock/groupMockApi'
+import { reorderManualQuestions } from '../features/group-mock/manualSelection'
 
 type TopicSelection = Record<string, { count: number; difficulty: number }>
 const panel = 'rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900'
@@ -174,7 +175,13 @@ export default function GroupMockPage() {
   const [bankLesson, setBankLesson] = useState('')
   const [bankSearch, setBankSearch] = useState('')
   const [bank, setBank] = useState<BankQuestion[]>([])
+  const [manualCatalog, setManualCatalog] = useState<Record<string, BankQuestion>>({})
   const [manual, setManual] = useState<string[]>([])
+  const [myRooms, setMyRooms] = useState<GroupMockRoomSummary[]>([])
+  const [roomsLoading, setRoomsLoading] = useState(false)
+  const [roomsError, setRoomsError] = useState<string | null>(null)
+  const [connectionWarning, setConnectionWarning] = useState<string | null>(null)
+  const requestSequence = useRef(0)
   const [state, setState] = useState<GroupMockState | null>(null)
   const [chat, setChat] = useState('')
   const [busy, setBusy] = useState(false)
@@ -183,25 +190,53 @@ export default function GroupMockPage() {
 
   const refresh = useCallback(async () => {
     if (!roomId) return
-    const value = await getGroupMockState(roomId)
-    setState(value)
+    const requestId = ++requestSequence.current
+    try {
+      const value = await getGroupMockState(roomId)
+      // A slower response must not roll a question/reveal back to an earlier phase.
+      if (requestId === requestSequence.current) {
+        setState(value)
+        setConnectionWarning(null)
+      }
+    } catch (error) {
+      if (requestId === requestSequence.current) {
+        setConnectionWarning('Ulanish uzildi. Natijalar yangilanmayapti; tarmoq tiklanganda avtomatik qayta ulanadi.')
+      }
+      throw error
+    }
   }, [roomId])
 
   useEffect(() => {
+    requestSequence.current += 1
     if (!roomId) {
       setState(null)
+      setConnectionWarning(null)
       return
     }
-    let active = true
-    void getGroupMockState(roomId).then(result => { if (active) setState(result) })
-      .catch(err => { if (active) setError(err instanceof Error ? err.message : 'Xona yuklanmadi') })
+    setState(null)
+    void refresh().catch(err => setError(err instanceof Error ? err.message : 'Xona yuklanmadi'))
     const timer = window.setInterval(() => {
-      void getGroupMockState(roomId).then(result => { if (active) setState(result) }).catch(() => {
-        // The next refresh reconnects after a temporary network outage.
+      void refresh().catch(() => {
+        // Show a connection warning but keep the last valid answer selection.
       })
     }, 2500)
-    return () => { active = false; window.clearInterval(timer) }
-  }, [roomId])
+    return () => {
+      requestSequence.current += 1
+      window.clearInterval(timer)
+    }
+  }, [roomId, refresh])
+
+  useEffect(() => {
+    if (roomId || !user?.id) return
+    let active = true
+    setRoomsLoading(true)
+    void listMyGroupMockRooms().then(rooms => {
+      if (active) { setMyRooms(rooms); setRoomsError(null) }
+    }).catch(err => {
+      if (active) setRoomsError(err instanceof Error ? err.message : 'Xonalar ro‘yxati yuklanmadi')
+    }).finally(() => { if (active) setRoomsLoading(false) })
+    return () => { active = false }
+  }, [roomId, user?.id])
 
   useEffect(() => {
     if (roomId || mode === 'spec' || catalog.length) return
@@ -219,7 +254,14 @@ export default function GroupMockPage() {
     if (!bankLesson || mode !== 'manual' || roomId) return
     let active = true
     void listGroupBank(bankLesson, bankSearch).then(items => {
-      if (active) setBank(items)
+      if (active) {
+        setBank(items)
+        setCatalogError(null)
+        setManualCatalog(previous => ({
+          ...previous,
+          ...Object.fromEntries(items.map(item => [item.id, item])),
+        }))
+      }
     }).catch(err => {
       if (active) setCatalogError(err instanceof Error ? err.message : 'Savollar yuklanmadi')
     })
@@ -269,6 +311,39 @@ export default function GroupMockPage() {
     if (!state) return
     void navigator.clipboard?.writeText(state.code)
   }
+  const copyInviteLink = () => {
+    if (!state) return
+    const url = new URL('/group-mock', window.location.origin)
+    url.searchParams.set('code', state.code)
+    void navigator.clipboard?.writeText(url.toString())
+  }
+  const refreshRooms = () => {
+    if (roomsLoading) return
+    setRoomsLoading(true)
+    void listMyGroupMockRooms().then(rooms => {
+      setMyRooms(rooms)
+      setRoomsError(null)
+    }).catch(err => setRoomsError(err instanceof Error ? err.message : 'Xonalarni yangilab bo‘lmadi'))
+      .finally(() => setRoomsLoading(false))
+  }
+  const moveManual = (index: number, direction: -1 | 1) => {
+    setManual(current => reorderManualQuestions(current, index, direction))
+  }
+  const exitLobby = (asHost: boolean) => {
+    if (!roomId || busy) return
+    if (!window.confirm(asHost
+      ? 'Xonani bekor qilasizmi? Taklif kodi ham o‘chadi.'
+      : 'Test boshlanmasdan xonadan chiqasizmi?')) return
+    setBusy(true)
+    setError(null)
+    const operation = asHost ? cancelGroupMockLobby(roomId) : leaveGroupMockLobby(roomId)
+    void operation.then(() => {
+      setState(null)
+      setSearchParams({})
+    }).catch(err => {
+      setError(err instanceof Error ? err.message : 'Xonadan chiqib bo‘lmadi')
+    }).finally(() => setBusy(false))
+  }
   const sendMessage = () => void act(async () => {
     if (!roomId || !chat.trim()) return
     await messageGroupMock(roomId, chat)
@@ -291,6 +366,40 @@ export default function GroupMockPage() {
               className={field + ' sm:max-w-xs'} placeholder="Masalan: A12BC34D" />
             <button disabled={busy || joinCode.trim().length !== 8} type="button" className={action} onClick={join}>Kirish</button>
           </div>
+        </section>
+        <section className={panel}>
+          <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+            <h2 className="text-lg font-bold dark:text-white">Mening guruhli testlarim</h2>
+            <button type="button" disabled={roomsLoading} onClick={refreshRooms}
+              className="inline-flex min-h-10 items-center gap-2 rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:text-gray-200">
+              <RefreshCw size={16} className={roomsLoading ? 'animate-spin' : ''} /> Yangilash
+            </button>
+          </div>
+          {roomsError && <p role="alert" className="mb-3 text-sm text-red-600">{roomsError}</p>}
+          {myRooms.length === 0 ? (
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              {roomsLoading ? 'Xonalar qidirilmoqda...' : 'Hali saqlangan guruhli testingiz yo‘q.'}
+            </p>
+          ) : (
+            <div className="space-y-2">
+              {myRooms.map(room => (
+                <button key={room.room_id} type="button"
+                  onClick={() => setSearchParams({ room: room.room_id })}
+                  className="flex w-full min-h-14 flex-wrap items-center justify-between gap-3 rounded-xl border border-gray-200 p-3 text-left hover:border-indigo-400 dark:border-gray-700 dark:text-white">
+                  <span className="min-w-0">
+                    <strong className="font-mono">{room.code}</strong>
+                    <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
+                      {room.is_host ? 'Tashkilotchi' : 'Ishtirokchi'} · {room.mode === 'spec' ? 'Spetsifikatsiya' : room.mode === 'topics' ? 'Mavzuli' : 'Qo‘lda'}
+                    </span>
+                  </span>
+                  <span className="text-sm text-gray-600 dark:text-gray-300">
+                    {room.status === 'lobby' ? 'Kutilmoqda' : room.status === 'question' ? 'Savol' : room.status === 'reveal' ? 'Muhokama' : 'Yakunlangan'}
+                    {' · '}{room.current_idx}/{room.total_count}{' · '}{room.member_count} kishi
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
         </section>
         <section className={panel}>
           <h2 className="mb-4 flex items-center gap-2 text-xl font-bold dark:text-white"><ClipboardList /> Guruhli test tashkil etish</h2>
@@ -404,6 +513,30 @@ export default function GroupMockPage() {
                     </>
                   )}
                   <p className="font-semibold dark:text-white">{manual.length} ta savol tanlandi (maksimal 100)</p>
+                  {manual.length > 0 && (
+                    <div className="space-y-2 rounded-xl border border-indigo-200 p-3 dark:border-indigo-900" aria-label="Tanlangan savollar tartibi">
+                      <h3 className="font-semibold dark:text-white">Savollar ketma-ketligi</h3>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">Pastdagi tartib testda aynan shu ketma-ketlikda ishlatiladi.</p>
+                      {manual.map((id,index) => (
+                        <div key={id} className="flex items-center gap-2 rounded-lg bg-gray-50 px-3 py-2 dark:bg-gray-800">
+                          <span className="shrink-0 text-sm font-semibold dark:text-gray-200">{index+1}.</span>
+                          <span className="min-w-0 flex-1 truncate text-sm dark:text-gray-200" title={manualCatalog[id]?.stem_md}>
+                            {manualCatalog[id]?.stem_md ?? 'Tanlangan savol'}
+                          </span>
+                          <button type="button" disabled={index===0} onClick={() => moveManual(index,-1)}
+                            className="rounded p-2 disabled:opacity-30 dark:text-gray-200"
+                            aria-label={`${index+1}-savolni yuqoriga ko‘chirish`}><ArrowUp size={17}/></button>
+                          <button type="button" disabled={index===manual.length-1} onClick={() => moveManual(index,1)}
+                            className="rounded p-2 disabled:opacity-30 dark:text-gray-200"
+                            aria-label={`${index+1}-savolni pastga ko‘chirish`}><ArrowDown size={17}/></button>
+                          <button type="button" onClick={() => setManual(old=>old.filter(item=>item!==id))}
+                            className="rounded p-2 text-red-600" aria-label={`${index+1}-savolni o‘chirish`}>
+                            <Trash2 size={17}/>
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </>
               )}
             </div>
@@ -432,11 +565,16 @@ export default function GroupMockPage() {
               className="inline-flex min-h-10 items-center gap-2 rounded-lg bg-white/15 px-3 hover:bg-white/25">
               <Copy size={16} /> Kodni nusxalash
             </button>
+            <button onClick={copyInviteLink} type="button"
+              className="inline-flex min-h-10 items-center gap-2 rounded-lg bg-white/15 px-3 hover:bg-white/25">
+              <Link2 size={16} /> Taklif havolasini nusxalash
+            </button>
             <span className="text-indigo-100">{state.members.length} ishtirokchi</span>
           </div>
         )}
       </header>
       {error && <p role="alert" className="rounded-xl border border-red-300 bg-red-50 p-3 text-red-700">{error}</p>}
+      {connectionWarning && <p role="status" className="rounded-xl border border-amber-300 bg-amber-50 p-3 text-amber-800">{connectionWarning}</p>}
       {!state && <p role="status" className={panel}>Xona yuklanmoqda...</p>}
       {state && (
         <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_320px]">
@@ -447,11 +585,17 @@ export default function GroupMockPage() {
                 <p className="mb-4 text-sm text-gray-600 dark:text-gray-300">
                   {state.total_count} ta savol tayyor. Kodni ulashing. Ishtirokchilar qo‘shilgach, tashkilotchi testni boshlaydi.
                 </p>
-                {state.is_host ? (
-                  <button className={action} disabled={busy} onClick={() => void act(() => startGroupMock(roomId ?? ''))}>
-                    <Play className="inline" size={17}/> Testni boshlash
+                <div className="flex flex-wrap items-center gap-3">
+                  {state.is_host ? (
+                    <button className={action} disabled={busy} onClick={() => void act(() => startGroupMock(roomId ?? ''))}>
+                      <Play className="inline" size={17}/> Testni boshlash
+                    </button>
+                  ) : <p role="status" className="font-medium text-indigo-700 dark:text-indigo-300">Tashkilotchi boshlashini kuting.</p>}
+                  <button type="button" disabled={busy} onClick={() => exitLobby(state.is_host)}
+                    className="min-h-11 rounded-xl border border-red-300 px-4 text-sm font-semibold text-red-700 hover:bg-red-50 disabled:opacity-50">
+                    {state.is_host ? 'Xonani bekor qilish' : 'Xonadan chiqish'}
                   </button>
-                ) : <p role="status" className="font-medium text-indigo-700 dark:text-indigo-300">Tashkilotchi boshlashini kuting.</p>}
+                </div>
               </section>
             ) : (
               <GroupQuestionCard room={state} busy={busy}
