@@ -1,7 +1,9 @@
 import { describe, expect, it, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import BookReader, { splitAdaptiveSections, splitSections } from '../components/learning/theory/BookReader'
+import BookReader, {
+  splitAdaptiveSections, splitBalancedSections, splitSections,
+} from '../components/learning/theory/BookReader'
 import BookBlock from '../components/learning/theory/BookBlock'
 import type { TheoryBlock, TopicContent } from '../data/topicContent'
 
@@ -44,6 +46,22 @@ describe('TASK-262 unified theory book presentation', () => {
     expect(splitAdaptiveSections([])).toEqual(splitSections([]))
   })
 
+  it('uses one balanced pagination contract without losing authored blocks', () => {
+    const blocks = [
+      block('heading', 'Uzun bo‘lim'),
+      block('text', 'A'), block('text', 'B'), block('text', 'C'), block('text', 'D'),
+      block('heading', 'Ikkinchi bo‘lim'), block('text', 'E'),
+    ]
+    const pages = splitBalancedSections(blocks, 3, 10_000)
+    expect(pages.flatMap(page => page.blocks)).toEqual(blocks)
+    expect(pages.map(page => page.title)).toEqual([
+      'Uzun bo‘lim', 'Uzun bo‘lim — davomi', 'Ikkinchi bo‘lim',
+    ])
+    expect(pages[1].continued).toBe(true)
+    expect(() => splitBalancedSections(blocks, 0)).toThrow('Invalid block limit')
+    expect(() => splitBalancedSections(blocks, 3, 0)).toThrow('Invalid character limit')
+  })
+
   it('renders markdown-only legacy tables using the textbook table classes', () => {
     const { container } = render(<BookBlock index={0} block={pedagogy.theory[2]} />)
     expect(container.querySelector('.book-table')).toBeInTheDocument()
@@ -71,9 +89,9 @@ describe('TASK-262 unified theory book presentation', () => {
     expect(container.querySelector('.book-box-definition')).toBeInTheDocument()
     expect(screen.getByText('Pedagogika')).toBeInTheDocument()
     expect(progress).toHaveBeenCalledWith(50)
+    expect(screen.getByText('Dars jarayonidagi vaziyat.')).toBeInTheDocument()
 
     await user.click(screen.getByRole('button', { name: /Keyingi/i }))
-    expect(screen.getByText('Dars jarayonidagi vaziyat.')).toBeInTheDocument()
     expect(screen.getByText(/Xoliqov/)).toBeInTheDocument()
     expect(progress).toHaveBeenLastCalledWith(100)
     expect(screen.getByRole('button', { name: /test tayyorligi kutilmoqda/i })).toBeDisabled()

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { getTopicContent, type TheoryBlock } from '../data/topicContent'
 import BookReader, { splitSections } from '../components/learning/theory/BookReader'
 
@@ -51,6 +51,7 @@ describe('M05: Sanoq sistemalari nazariyasining to‘liq integratsiyasi', () => 
 
     const content = getTopicContent('M05.01')!
     render(<BookReader content={content} questionCount={20} onFinishReading={() => {}} />)
+    fireEvent.click(screen.getAllByRole('tab', { name: /1\.1\. Asosiy atamalar/ })[0])
     expect(screen.getAllByText(/1\.1\. Asosiy atamalar/).length).toBeGreaterThan(0)
     expect(screen.getAllByText(/Sanoq sistemasining mohiyati/).length).toBeGreaterThan(0)
   })

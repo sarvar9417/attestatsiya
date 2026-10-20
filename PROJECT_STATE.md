@@ -1961,6 +1961,21 @@ Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user co
 - **Status:** IN_PROGRESS / REVIEW ONLY. Local npm suite va real desktop/mobile authenticated acceptance hali verifikatsiya qilinishi shart; release-frozen pedagogika PRiga o‘zboshimchalik bilan qo‘shilmaydi.
 - **Release:** main merge, production migratsiya va production deploy YO‘Q. See `docs/TASK262_UNIFIED_LESSON_BOOK_DESIGN_20261019.md`.
 
+## TASK-277 — Informatika va pedagogika nazariyalarini yagona kitobga keltirish (2026-10-19)
+
+- Branch: task/TASK-277-unified-theory-book; **MERGE_AUTHORIZED**.
+- Barcha nazariya uchun sourcega bog‘liq bo‘lmagan, blok tartibini saqlovchi
+  balanced pagination qo‘shildi (4 blok / 4200 belgi, katta blok kesilmaydi).
+- Yangilangan main bilan reconciled: M03.08–M03.10 uchun TASK-289 va
+  M15.07–M15.08 uchun TASK-290 dagi chuqurroq kitoblar saqlandi; TASK-277
+  endi ularning barchasiga yagona global sahifalash kontraktini beradi.
+- M03 test ID/kalitlari saqlandi; M15ga lokal kalit qo‘shilmadi.
+- Depth triage: 121 mavzu = 93 brief, 7 partial, 21 substantial candidate.
+  Qolgan 93 brief bob ochiq.
+- Production visual audit auth bilan bloklandi. Foydalanuvchi mergega ruxsat
+  berdi; **deploy va production DB write taqiqlangan**. Batafsil:
+  docs/audits/TASK277_UNIFIED_THEORY_BOOK_ROLLOUT_20261019.md.
+
 ## TASK-301 — Mavjud dars kontentini yagona kitobda to‘liq ko‘rsatish
 
 - Owner: Codex; started: 2026-10-19T08:05:00Z. Status: IN_REVIEW / MERGE_AUTHORIZED.

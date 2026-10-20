@@ -96,15 +96,16 @@ describe('complete existing lesson material', () => {
     expect(screen.getByText('Short lesson')).toBeInTheDocument()
     expect(screen.queryByText('Long 11')).not.toBeInTheDocument()
   })
-  it('resets safely when the same lesson switches from adaptive to source section boundaries', () => {
+  it('resets safely when source metadata changes under the unified pagination contract', () => {
     const content = topic('M11.01', Array.from({ length: 9 }, (_, n) => text(`Shared ${n}`)))
     const props = { questionCount: 0, onFinishReading: vi.fn() }
     const { rerender } = render(<BookReader {...props} content={content} />)
     fireEvent.click(screen.getAllByRole('tab').at(-1)!)
     rerender(<BookReader {...props} content={{ ...content, source: 'Named textbook' }} />)
     expect(screen.getByText('Shared 0')).toBeInTheDocument()
-    expect(screen.getByText('Shared 8')).toBeInTheDocument()
-    expect(screen.queryByRole('tab')).not.toBeInTheDocument()
+    expect(screen.queryByText('Shared 8')).not.toBeInTheDocument()
+    expect(screen.getAllByRole('tab')).toHaveLength(3)
+    expect(screen.getAllByRole('tab')[0]).toHaveAttribute('aria-selected', 'true')
   })
 
 })

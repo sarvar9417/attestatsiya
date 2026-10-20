@@ -1581,6 +1581,11 @@ html.dark .text-gradient {
     background: linear-gradient(to bottom, var(--bk-gold-soft), var(--bk-teal));
     flex-shrink: 0;
   }
+  .book-continuation-heading {
+    margin-bottom: 1rem;
+    padding-bottom: 0.65rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--bk-teal) 22%, transparent);
+  }
 
   .book-subheading {
     color: var(--bk-teal);
