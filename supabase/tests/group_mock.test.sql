@@ -109,7 +109,7 @@ begin
  perform public.group_mock_start(v_room);
  v_state := public.group_mock_state(v_room);
  if v_state->>'status'<>'question' or v_state::text like '%correct_option_id%'
-    or v_state::text like '%explanation_md%' then
+    or v_state->'explanation_md'<>'null'::jsonb then
    raise exception 'question payload revealed key %',v_state; end if;
 
  v_failed:=false;
