@@ -46,6 +46,9 @@ const bankQuestion = z.object({
   stem_md: z.string().min(1),
   format: z.enum(['Y1', 'Y2', 'Y3']),
   difficulty: z.number().int().min(1).max(5),
+  options: z.array(z.object({
+    id: postgresUuidSchema, side: z.enum(['a', 'b']), content_md: z.string(),
+  })),
 })
 export type BankQuestion = z.infer<typeof bankQuestion>
 export type GroupMockMode = 'spec' | 'topics' | 'manual'
