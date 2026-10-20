@@ -57,19 +57,17 @@ function GroupQuestionCard({
   const [choice, setChoice] = useState<AnswerValue | undefined>()
   const questionId = question?.question_id
   const currentIndex = room.current_idx
+  const questionFormat = question?.format
+  const questionOptionIds = question?.options.map(option => option.id).join(',') ?? ''
 
   useEffect(() => {
-    if (!question) {
-      setChoice(undefined)
-      return
-    }
-    if (question.format === 'Y3') {
-      setChoice(stableShuffle(question.options.map(option => option.id),
-        room.room_id + ':' + question.question_id))
+    if (questionFormat === 'Y3' && questionId) {
+      setChoice(stableShuffle(questionOptionIds.split(','),
+        room.room_id + ':' + questionId))
     } else {
       setChoice(undefined)
     }
-  }, [questionId, currentIndex, room.room_id])
+  }, [questionId, questionFormat, questionOptionIds, currentIndex, room.room_id])
 
   if (!question) return null
   const locked = room.status !== 'question' || room.my_answer !== null || busy
@@ -441,14 +439,14 @@ export default function GroupMockPage() {
                   {state.total_count} ta savol tayyor. Kodni ulashing. Ishtirokchilar qo‘shilgach, tashkilotchi testni boshlaydi.
                 </p>
                 {state.is_host ? (
-                  <button className={action} disabled={busy} onClick={() => void act(() => startGroupMock(roomId))}>
+                  <button className={action} disabled={busy} onClick={() => void act(() => startGroupMock(roomId ?? ''))}>
                     <Play className="inline" size={17}/> Testni boshlash
                   </button>
                 ) : <p role="status" className="font-medium text-indigo-700 dark:text-indigo-300">Tashkilotchi boshlashini kuting.</p>}
               </section>
             ) : (
               <GroupQuestionCard room={state} busy={busy}
-                onAnswer={answer => void act(() => answerGroupMock(roomId, answer))} />
+                onAnswer={answer => void act(() => answerGroupMock(roomId ?? '', answer))} />
             )}
 
             {state.is_host && state.status === 'question' && (
@@ -457,14 +455,14 @@ export default function GroupMockPage() {
                 <p className="mb-3 text-sm text-gray-500">Barcha ishtirokchilar javob bergach natija avtomatik ochiladi. Zarur bo‘lsa, erta ochishingiz mumkin.</p>
                 <button type="button" className={action} disabled={busy} onClick={() => {
                   if (window.confirm('Hamma javob bermagan bo‘lsa ham natijani ochasizmi?')) {
-                    void act(() => stepGroupMock(roomId, 'reveal'))
+                    void act(() => stepGroupMock(roomId ?? '', 'reveal'))
                   }
                 }}>Natijani hozir ochish</button>
               </section>
             )}
             {state.is_host && state.status === 'reveal' && (
               <button type="button" className={action} disabled={busy}
-                onClick={() => void act(() => stepGroupMock(roomId, 'next'))}>
+                onClick={() => void act(() => stepGroupMock(roomId ?? '', 'next'))}>
                 {state.current_idx===state.total_count ? 'Testni yakunlash' : 'Keyingi savolga o‘tish →'}
               </button>
             )}
