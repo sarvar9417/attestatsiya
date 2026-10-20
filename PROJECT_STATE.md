@@ -1,3 +1,13 @@
+## TASK-291 — S5.WEB grafika/veb attestatsiya demo uslubi auditi (2026-10-20)
+
+- **Owner/status:** ChatGPT, foydalanuvchi 2026-10-20 kuni tasdiqlagan; IN_PROGRESS, pedagogik release BLOCKED.
+- **Branch:** `task/TASK-291-gv-attestation-question-audit`; TASK-240 review-only immutable reviziyalar, TASK-244 Y2 UI cheklovlari saqlanadi.
+- **Real Drive samplelar:** 2025 kuzgi demo pp.9/14 (HTML inline style, rowspan va A-D render rasmlari), 2026-04-13 pp.14/22/23 (nested list, form, CSS rang). Asl rasmiylik mustaqil tasdiqlanmagan.
+- **DB audit 2026-10-20:** S5.WEB 884 total = 64 published + 380 review + 440 archived. 444 current risk scan: 276 qisqa izoh, 145 qisqa stem, 119 veb kodi yo‘q, 432 vizual yo‘q, 2 eski published Y2 side=a bilan cheklangan. Indicatorlar avtomatik, odam ekspert hukmi emas.
+- **Artifacts:** 444-ID anonim risk CSV Github, 300 eski V2 private Google Sheet, yangi original 30 candidate private Google Doc (20 Y1 + 5 Y2 + 5 Y3), HTML/variant/formula qa 0 blocking issue, production SQL invariant PASS.
+- **Safety:** production published/review/archived status va foydalanuvchi attemptlariga hech qanday o‘zgartirish kiritilmadi. 30 draft productionga import qilinmadi va nashr qilinmadi.
+- **Next:** aniq sahifa va insonga mos ekspert ko‘rigi, 2 legacy published Y2 safe revision, vizual rendered exam options, E2E, release approval. Hujjat: `docs/TASK291_GV_REAL_DEMO_STYLE_AND_BANK_DEEP_AUDIT_20261020.md`.
+
 ## TASK-304 — M14 source-verified QA audit handoff (2026-10-19)
 
 - **Branch:** `task/TASK-304-m14-final-qa-safe-merge`; 2026-10-19 main'dan yangi olingan; eski TASK-303 branch 23 main commit ortida qolgani uchun eski ishlar bilan konflikt chiqarmaslik maqsadida yangi branch ishlatildi.
