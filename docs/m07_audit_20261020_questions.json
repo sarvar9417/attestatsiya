@@ -235,7 +235,7 @@
     "explanation": "Ichki REPEAT 4 [FD 30 RT 90] kvadrat chizib yo‘nalishni tiklaydi; undan keyingi FD 30 navbatdagi kvadratni boshlab beradi. Dastlab 3 kvadrat yuqoriga, RT 45 dan keyin yana 3 kvadrat 45° o‘ngga og‘ib chiziladi; B mos keladi.",
     "difficulty": 5,
     "cognitive": "mulohaza",
-    "source": "2026-04-13 attestatsiyada tushgan LOGO masalasi, PDF 4 (FAKAT USLUB); kod va rasm — mustaqil mualliflik varianti",
+    "source": "2026-04-13 attestatsiya savoli №10, PDF 4: LOGO kodi moslashtirilgan; A–D grafik javoblar qayta chizilgan, yangi original kod emas",
     "assets": [
       {
         "kind": "image",
@@ -282,7 +282,7 @@
     "uuid": "8b74787a-ea14-5f35-85d2-df3aaeccc2af",
     "lesson": 6,
     "format": "Y3",
-    "stem": "LOGOda qalam izisiz oldinga 20 birlik o‘tib, so‘ng chapga yo‘nalib 40 birlik chiziq chizish uchun quyidagi to‘rtta buyruqni tartiblang. Qalam dastlab pastda (PD) deb oling.",
+    "stem": "LOGOda qalam izisiz oldinga 20 birlik o‘tib, so‘ng chapga yo‘nalib 40 birlik chiziq chizish uchun quyidagi to‘rtta kartochkani tartiblang. Oxirgi kartochkada `PD` va `FD 40` ketma-ket yozilgan. Qalam dastlab tushirilgan (PD) deb oling.",
     "order": [
       "PU",
       "FD 20",
