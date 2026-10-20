@@ -1,6 +1,6 @@
 -- Attestation style calibration 2026-10-20: 7 additional original REVIEW pedagogy candidates.
 -- Style inspiration only from Drive 2024/25/26 historic pedagogy collections; authoritative content = canonical M14-M16 + official 2026 exam specification.
--- Idempotent source-reference guard. No learner publication, previous question mutation, or invented editorial attestations.
+-- Idempotent source-reference guard. First install stages REVIEW; already published items are preserved on reapply. No automatic learner publication.
 BEGIN;
 DO $calibrate$
 DECLARE v jsonb; v_q uuid; v_o uuid; v_ids uuid[]; v_payload jsonb; v_pairs jsonb; v_subject uuid; v_construct uuid; v_lesson uuid; v_group text; v_ref text; v_type text; i integer; j integer;
@@ -32,7 +32,7 @@ BEGIN
    ELSE RAISE EXCEPTION 'Unknown format %',v_type;END IF;
    INSERT INTO public.question_keys(question_id,payload,explanation_md) VALUES(v_q,v_payload,v->>'e');
  END LOOP;
- IF (SELECT count(*) FROM public.questions WHERE source_reference LIKE 'authored:pedagogy-examstyle:20261020-wave2:%')<>7 THEN RAISE EXCEPTION 'Calibrated review batch count != 12';END IF;
- IF EXISTS (SELECT 1 FROM public.questions q LEFT JOIN public.question_keys k ON k.question_id=q.id WHERE q.source_reference LIKE 'authored:pedagogy-examstyle:20261020-wave2:%' AND (q.status<>'review' OR q.source_lesson_id IS NULL OR k.question_id IS NULL)) THEN RAISE EXCEPTION 'Calibrated review batch integrity fail';END IF;
+ IF (SELECT count(*) FROM public.questions WHERE source_reference LIKE 'authored:pedagogy-examstyle:20261020-wave2:%')<>7 THEN RAISE EXCEPTION 'Calibrated review batch count != 7';END IF;
+ IF EXISTS (SELECT 1 FROM public.questions q LEFT JOIN public.question_keys k ON k.question_id=q.id WHERE q.source_reference LIKE 'authored:pedagogy-examstyle:20261020-wave2:%' AND (q.status NOT IN ('review','published') OR q.source_lesson_id IS NULL OR k.question_id IS NULL)) THEN RAISE EXCEPTION 'Calibrated review batch integrity fail';END IF;
 END $calibrate$;
 COMMIT;
