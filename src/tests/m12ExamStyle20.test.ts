@@ -58,7 +58,7 @@ describe('TASK-230 2025/2026 sample-style M12 questions',()=>{
     let previousLast=-1
     for(const [ip,prefix,needed] of specs) {
       const [start,last]=networkBroadcast(ip,prefix)
-      const addr=x=>x.split('.').map(Number).reduce((n,v)=>(n*256+v)>>>0,0)>>>0
+      const addr=(x:string)=>x.split('.').map(Number).reduce((n,v)=>(n*256+v)>>>0,0)>>>0
       expect(addr(start)).toBeGreaterThan(previousLast)
       previousLast=addr(last)
       expect(2**(32-prefix)-2).toBeGreaterThanOrEqual(needed)
