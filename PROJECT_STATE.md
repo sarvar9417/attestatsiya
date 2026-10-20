@@ -1,3 +1,11 @@
+## TASK-346 — Telegram Informatika + PDF private corpus staging (2026-10-20)
+
+- **Status:** IN_PROGRESS / REVIEW-ONLY. Owner: ChatGPT. User authorized importing from barnoyevak Drive Informatika Telegram export and PDFs.
+- **Source:** Informatika Attestatsiya 86+ / result.json: 51,529 messages, 16,804 polls, 4,470 unique question+option candidates, 580 theory text candidates. 535 linked files (320 PDFs), 316 unique PDF manifest entries; first 18 PDFs yielded 228 question fragments.
+- **DB:** Production Supabase ingest schema migration done; live counts 4,470 poll + 580 theory + 316 PDF source + 228 PDF question candidate. All private RLS; 0 unverified answer keys; untouched public.questions/public.lessons/mock; smoke tests PASS.
+- **Git:** `task/TASK-346-telegram-informatika-ingest`, draft PR #346, no merge/deploy. Audit `docs/TASK346_TELEGRAM_INFORMATIKA_INGEST_20261020.md`.
+- **Blockers:** PDF/page figures and 115 ambiguous option parses; 32 potential visual dependencies; 2,366 poll module hints unresolved; independent source+answer editorial QA. Do not claim completed learner-facing integration until validated and published through appropriate gates.
+
 Warning: truncated output (original token count: 38340)
 Total output lines: 2050
 
