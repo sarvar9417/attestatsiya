@@ -150,6 +150,19 @@ BEGIN
    RETURN;
  END IF;
  IF v_n<>8 THEN RAISE EXCEPTION 'TASK-338 partial cohort %/8; fail closed',v_n; END IF;
+ IF (SELECT count(*) FROM public.m10_owner_ai_release_waivers)>0 THEN
+   -- Replaying a successfully released migration is idempotent; a partial
+   -- ledger, changed content or unpublished source is a hard failure.
+   IF (SELECT count(*) FROM public.m10_owner_ai_release_waivers)=8
+      AND (SELECT count(*) FROM public.questions q
+         JOIN public.m10_owner_ai_release_waivers w ON w.question_id=q.id
+         JOIN task338_expected x ON x.question_id=q.id
+         JOIN public.lessons l ON l.id=q.source_lesson_id
+         WHERE q.status='published' AND l.status='published'
+           AND w.item_fingerprint=public.professional_question_fingerprint(q.id))=8
+   THEN RAISE NOTICE 'TASK-338 exact eight already published and fingerprint-verified'; RETURN;
+   ELSE RAISE EXCEPTION 'TASK-338 partial/tampered previous ledger; fail closed'; END IF;
+ END IF;
  SELECT count(*) INTO v_bad FROM public.questions q JOIN task338_expected x ON x.question_id=q.id
  JOIN public.question_keys k ON k.question_id=q.id
  JOIN public.lessons l ON l.id=q.source_lesson_id
