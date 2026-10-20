@@ -10,7 +10,7 @@ BEGIN
     JOIN public.modules m ON m.id=l.module_id
   WHERE q.source_reference LIKE 'm12-examstyle-20261020:%'
     AND q.status='review'::public.content_status AND q.format='Y1'::public.question_format
-    AND l.status='draft'::public.content_status AND m.code='M12';
+    AND l.status IN ('draft','published') AND m.code='M12';
   IF n<>20 THEN RAISE EXCEPTION 'M12 exam-style review isolation failed: %',n; END IF;
   SELECT count(*) INTO n FROM public.questions q
     LEFT JOIN public.question_keys k ON k.question_id=q.id
