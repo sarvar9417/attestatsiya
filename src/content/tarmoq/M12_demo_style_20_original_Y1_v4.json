@@ -269,7 +269,7 @@
     "id": "TAR-EXAM26-08-01",
     "ch": 8,
     "format": "Y1",
-    "stem": "Ofisda `https://203.0.113.10` orqali sinov serveriga kiriladi, lekin `https://portal.example` domeni ishlamaydi. IP ulanishi ishlashini faraz qiling. Qaysi xizmatni birinchi tekshirish kerak?",
+    "stem": "Ofisda lokal sinov serverining `192.168.5.10` manziliga ping muvaffaqiyatli, ammo `portal.intra` nomi uchun 'nom topilmadi' xatosi chiqmoqda. IP orqali aloqa ishlashini faraz qiling. Qaysi xizmatni birinchi tekshirish kerak?",
     "options": [
       "DNS yozuvi va resolveri",
       "Printer server navbati",
@@ -277,7 +277,7 @@
       "Ekran drayveri"
     ],
     "correct": 0,
-    "explanation": "IP orqali ulanish mavjud bo‘lsa, domen nomini IPga aniqlash ishlamayotgan bo‘lishi mumkin. Domen, DNS resolver/yozuvini tekshirish mantiqli birinchi diagnostik qadamdir.",
+    "explanation": "IP manzilga tarmoq ulanishi muvaffaqiyatli, xost nomi aniqlanmayapti. DNS resolveri va `portal.intra` uchun tegishli yozuvni tekshirish kerak.",
     "style_reference": "nosozlik diagnostikasi",
     "source_reference": "M11 186–195-betlar; internet va xizmatlar; S6.5",
     "source_demo": "2026 demo: vaziyatga asoslangan qaror",
