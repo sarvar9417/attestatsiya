@@ -57,3 +57,11 @@ Qolgan ish: human review, real render/diagram audit, topic frontend routing, E2E
 - Migratsiya: `20261020230000_task220_m12_y2_y3_extra_80_review.sql` (append-only, yangi UUID, faqat review; avvalgi 300 savol o‘zgarmaydi).
 - Regression: `supabase/tests/task220_m12_extra_80_native_formats.test.sql` va `src/tests/m12NetworkNative80Source.test.ts`.
 - Manbalar darsliklar va V2 qo‘llanmasining tematik qamrovi asosida sintez; har bir yangi savolning to‘g‘riligi inson eksperti tomonidan tasdiqlanmaguncha published qilinmaydi.
+
+
+## 2026-10-20 live-state and clean-main correction
+- Original implementation PR #155 is not mergeable against current main; equivalent M12 code/history is reorganized into [PR #331](https://github.com/sarvar9417/attestatsiya/pull/331).
+- Current 10 M12 V2 lessons already have status `published` (different workflow). From 380 source items, 321 published and 59 review; additional 20 original + 22 version-safe revised questions are separately `review` in live DB (no old attempts modified).
+- 2025 demo evidence is now confirmed for PDF p11 Q25 `192.168.10.32/27`; mask 255.255.255.224, 32 total, 30 usable. See [evidence](TASK220_M12_2025_DEMO_CIDR_SOURCE_Q25.md).
+- Critical QA gate remains: 22 flagged published distractor sets; no independent expert sign-off for 380 source items, so do not publish the extra 101 pending review items without human approval and forward-only release migration.
+- Clean merge must pass CI including original M07/M13 regressions. This merge records review assets and repairs M12 learner navigation; it is NOT content publishing approval.
