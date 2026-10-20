@@ -138,10 +138,10 @@ begin
         from generate_subscripts(lane.canonical_lesson_ids,1) s(i)
       ) m on m.construct_code=c.code
       where q.source_lesson_id is distinct from m.lesson_id
-        -- TASK-204 introduces a separate audited V2 edition with its own
-        -- immutable source lesson snapshots, not a TASK-064 drift.
+        -- TASK-204/205/207 source-backed M06 V2/V3/V4 editions are
+        -- independent source lessons, not TASK-064 legacy mapping drift.
         and (lane.module_code <> 'M06'
-             or coalesce(q.source_reference,'') not like 'algoritmlash-v2:%')
+             or coalesce(q.source_reference,'') !~ '^algoritmlash-v[234]:')
         -- TASK-211/212/213 version the seven M13 AXR lessons.
         -- Only the exact AXR bank may use its independent source-lesson ID.
         and not (lane.module_code = 'M13'
