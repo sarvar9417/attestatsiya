@@ -1800,3 +1800,11 @@ Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user co
 - Handoff: docs/TASK220_M12_NETWORK_V2_INTEGRATION.md. Do not publish AI-generated content without independent human approval.
 
 - **2026-10-18 Y2/Y3 kengayish VERIFIED:** `20261020230000_task220_m12_y2_y3_extra_80_review.sql` migratsiyasi Supabase `plyqezulrfowyblsfpzy`da `success:true`; yangi 40 native Y2 + 40 native Y3. Umumiy V2/V3 bank **380 ta review savol: 280 Y1, 50 Y2, 50 Y3**, har 10 bobda 38 ta pool (30 original +8 yangi). Avvalgi 300 V2/91 legacy tarmoq savoli va 5 published M12 dars saqlandi, yangi 80 savolning 0 tasi published. Live SQL `task220_m12_extra_80_native_formats.test.sql` PASS; GitHub CI run 39136485127 backend/database/quality (lint/typecheck/unit/build/Playwright E2E smoke) PASS. 380 savol uchun inson eksperti approve va real authorized learner E2E hali OPEN.
+
+
+## TASK-220 — 2026-10-20 M12 test QA continuation
+- 2026-04-13 savollaridan IP/binary, hub-switch rost-yolg‘on, qidiruv OR uslublari ajratildi. 2025 M12 fan manbasi va barcha demo scan sahifalar tekshiruvi OPEN.
+- 380 savol risk + LIVE status reyestri: docs/content/TASK220_M12_380_ITEM_RISK_MATRIX_LIVE_STATUS.csv. 35 P1 (22 published), 197 P2, 148 P3. Auto-triage, ekspert tasdig‘i emas.
+- Jonli DB: M12 V2 10 bob va 321 original savol published, 59 original review. Oldingi nashr/attemptlar o‘zgartirilmagan.
+- 20 original exam-style Y1 + 22 P1 revised Y1 candidate yangi UUID bilan review sifatida Supabase'ga kiritildi; live SQL regressions PASS. Audit scope 422 = 321 published + 101 review.
+- PR #155 draft. Human expert 380 keys/source check, 2025 ICT demo, 22 candidate signoff, real E2E OPEN.
