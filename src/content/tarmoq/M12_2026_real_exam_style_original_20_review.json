@@ -1,0 +1,382 @@
+[
+  {
+    "id": "M12-REAL26-001",
+    "chapter": 5,
+    "format": "Y1",
+    "stem": "Ikkilik yozuvdagi 11000000 10101000 00000001 01100100 IPv4 manzilini o‘nlik nuqtali shaklga o‘tkazing.",
+    "options": [
+      "192.168.1.100",
+      "192.168.1.98",
+      "192.168.2.100",
+      "192.186.1.100"
+    ],
+    "answer": "A",
+    "explanation": "Har bir sakkiz bit alohida oktet: 11000000=192, 10101000=168, 00000001=1, 01100100=100.",
+    "family": "binary-ip",
+    "construct": "S6.NET.03",
+    "source_reference": "2026-04-13 xotira asosidagi to‘plam, 16-bet (faqat uslub); IPv4 mavzusi",
+    "editorial_status": "review",
+    "difficulty": 3
+  },
+  {
+    "id": "M12-REAL26-002",
+    "chapter": 5,
+    "format": "Y1",
+    "stem": "11000000 10101000 00001010 00101101 ketma-ketligining IPv4 ko‘rinishini aniqlang.",
+    "options": [
+      "192.168.10.37",
+      "192.168.20.45",
+      "192.168.10.45",
+      "192.168.10.44"
+    ],
+    "answer": "C",
+    "explanation": "00101101₂=45; dastlabki uch oktet mos ravishda 192, 168 va 10.",
+    "family": "binary-ip",
+    "construct": "S6.NET.03",
+    "source_reference": "2026-04-13 xotira asosidagi to‘plam, 16-bet (faqat uslub); IPv4 mavzusi",
+    "editorial_status": "review",
+    "difficulty": 3
+  },
+  {
+    "id": "M12-REAL26-003",
+    "chapter": 5,
+    "format": "Y1",
+    "stem": "00001010 00000001 11111110 00000001 manzili uchun to‘g‘ri o‘nlik yozuvni toping.",
+    "options": [
+      "10.1.255.1",
+      "10.1.254.1",
+      "10.2.254.1",
+      "10.1.254.2"
+    ],
+    "answer": "B",
+    "explanation": "11111110₂=254, ikkinchi oktet 1, qolgan oktetlar 10 va 1.",
+    "family": "binary-ip",
+    "construct": "S6.NET.03",
+    "source_reference": "2026-04-13 xotira asosidagi to‘plam, 16-bet (faqat uslub); IPv4 mavzusi",
+    "editorial_status": "review",
+    "difficulty": 3
+  },
+  {
+    "id": "M12-REAL26-004",
+    "chapter": 5,
+    "format": "Y1",
+    "stem": "Ikkilik manzil 10101100 00010000 00000010 11110000 uchun to‘g‘ri yozuvni aniqlang.",
+    "options": [
+      "172.16.2.240",
+      "172.16.4.240",
+      "172.32.2.240",
+      "172.16.2.224"
+    ],
+    "answer": "A",
+    "explanation": "10101100₂=172; 00010000₂=16; 00000010₂=2; 11110000₂=240.",
+    "family": "binary-ip",
+    "construct": "S6.NET.03",
+    "source_reference": "2026-04-13 xotira asosidagi to‘plam, 16-bet (faqat uslub); IPv4 mavzusi",
+    "editorial_status": "review",
+    "difficulty": 3
+  },
+  {
+    "id": "M12-REAL26-005",
+    "chapter": 6,
+    "format": "Y1",
+    "stem": "192.168.44.74/26 manziliga tegishli network va broadcast juftligini toping.",
+    "options": [
+      "192.168.44.0 va 192.168.44.63",
+      "192.168.44.64 va 192.168.44.127",
+      "192.168.44.64 va 192.168.44.126",
+      "192.168.44.72 va 192.168.44.127"
+    ],
+    "answer": "B",
+    "explanation": "/26 blok qadami 64: .74 manzil .64–.127 blokda; network .64, broadcast .127.",
+    "family": "subnet",
+    "construct": "S6.NET.03",
+    "source_reference": "11-sinf tarmoqlar; 2026 spetsifikatsiyasi 6-bo‘lim",
+    "editorial_status": "review",
+    "difficulty": 3
+  },
+  {
+    "id": "M12-REAL26-006",
+    "chapter": 6,
+    "format": "Y1",
+    "stem": "10.2.7.190/27 manzilining tarmoq va broadcast chegaralari qaysi?",
+    "options": [
+      "10.2.7.160 va 10.2.7.191",
+      "10.2.7.192 va 10.2.7.223",
+      "10.2.7.176 va 10.2.7.191",
+      "10.2.7.160 va 10.2.7.190"
+    ],
+    "answer": "A",
+    "explanation": "/27 blok 32 ta manzil: .190 manzil .160–.191 blokda.",
+    "family": "subnet",
+    "construct": "S6.NET.03",
+    "source_reference": "11-sinf tarmoqlar; 2026 spetsifikatsiyasi 6-bo‘lim",
+    "editorial_status": "review",
+    "difficulty": 3
+  },
+  {
+    "id": "M12-REAL26-007",
+    "chapter": 6,
+    "format": "Y1",
+    "stem": "172.16.5.151/28 uchun birinchi va oxirgi oddiy foydalaniladigan hostni toping.",
+    "options": [
+      "172.16.5.144 va 172.16.5.159",
+      "172.16.5.145 va 172.16.5.158",
+      "172.16.5.146 va 172.16.5.159",
+      "172.16.5.129 va 172.16.5.158"
+    ],
+    "answer": "B",
+    "explanation": "/28 da 16 manzilli blok .144–.159; network .144 va broadcast .159, oddiy hostlar .145–.158.",
+    "family": "subnet",
+    "construct": "S6.NET.03",
+    "source_reference": "11-sinf tarmoqlar; 2026 spetsifikatsiyasi 6-bo‘lim",
+    "editorial_status": "review",
+    "difficulty": 3
+  },
+  {
+    "id": "M12-REAL26-008",
+    "chapter": 7,
+    "format": "Y1",
+    "stem": "Bir bo‘lim uchun kamida 90 ta oddiy IPv4 host kerak. Eng kichik mos CIDR prefiksni tanlang.",
+    "options": [
+      "/26",
+      "/24",
+      "/25",
+      "/27"
+    ],
+    "answer": "C",
+    "explanation": "/26 — 62 host, yetarli emas; /25 — 126 host, eng kichik yetarli subnet.",
+    "family": "subnet",
+    "construct": "S6.NET.03",
+    "source_reference": "11-sinf tarmoqlar; 2026 spetsifikatsiyasi 6-bo‘lim",
+    "editorial_status": "review",
+    "difficulty": 3
+  },
+  {
+    "id": "M12-REAL26-009",
+    "chapter": 2,
+    "format": "Y1",
+    "stem": "1) Hub kelgan unicast freymni boshqa portlarga takrorlaydi. 2) Switch o‘rgangan unicast MAC manzilga tegishli portni tanlaydi. Berilgan sharoitda mulohazalarni baholang.",
+    "options": [
+      "1 — rost, 2 — rost",
+      "1 — rost, 2 — yolg‘on",
+      "1 — yolg‘on, 2 — rost",
+      "1 — yolg‘on, 2 — yolg‘on"
+    ],
+    "answer": "A",
+    "explanation": "Hub signalni boshqa portlarga uzatadi; switch o‘rganilgan destination MAC portiga uzatadi. Noma’lum unicast va broadcast bundan mustasno.",
+    "family": "two-statements",
+    "construct": "S6.NET.01",
+    "source_reference": "2026-04-13 xotira asosidagi to‘plam, 26-bet (faqat uslub); 11-sinf tarmoqlar",
+    "editorial_status": "review",
+    "difficulty": 4
+  },
+  {
+    "id": "M12-REAL26-010",
+    "chapter": 2,
+    "format": "Y1",
+    "stem": "1) Switch har qanday broadcast freymni faqat bitta portga uzatadi. 2) Router IP tarmoqlar orasida paket yo‘naltiradi. Mulohazalar qaysi qiymatga ega?",
+    "options": [
+      "1 — rost, 2 — rost",
+      "1 — rost, 2 — yolg‘on",
+      "1 — yolg‘on, 2 — rost",
+      "1 — yolg‘on, 2 — yolg‘on"
+    ],
+    "answer": "C",
+    "explanation": "Oddiy L2 switch broadcastni VLAN doirasida flood qiladi; router IP tarmoqlar orasida yo‘naltiradi.",
+    "family": "two-statements",
+    "construct": "S6.NET.01",
+    "source_reference": "2026-04-13 xotira asosidagi to‘plam, 26-bet (faqat uslub); 11-sinf tarmoqlar",
+    "editorial_status": "review",
+    "difficulty": 4
+  },
+  {
+    "id": "M12-REAL26-011",
+    "chapter": 3,
+    "format": "Y1",
+    "stem": "1) Yulduz topologiyasida markaziy switchning ishdan chiqishi shu segmentdagi aloqani uzishi mumkin. 2) Har bir yulduz topologiyasida barcha qurilmalar bir-biriga bevosita kabel bilan ulangan bo‘ladi. Baholang.",
+    "options": [
+      "1 — rost, 2 — rost",
+      "1 — rost, 2 — yolg‘on",
+      "1 — yolg‘on, 2 — rost",
+      "1 — yolg‘on, 2 — yolg‘on"
+    ],
+    "answer": "B",
+    "explanation": "Yulduzda chekka tugunlar markazga ulanadi, bir-biriga to‘g‘ridan-to‘g‘ri ulanish shart emas.",
+    "family": "two-statements",
+    "construct": "S6.NET.02",
+    "source_reference": "2026-04-13 xotira asosidagi to‘plam, 26-bet (faqat uslub); 11-sinf tarmoqlar",
+    "editorial_status": "review",
+    "difficulty": 4
+  },
+  {
+    "id": "M12-REAL26-012",
+    "chapter": 4,
+    "format": "Y1",
+    "stem": "1) TCP transporti ketma-ketlik va qayta uzatish imkoniyatlarini beradi. 2) UDP yuborilgan datagrammaning qabul qilinishini o‘zi kafolatlaydi. To‘g‘ri bahoni toping.",
+    "options": [
+      "1 — yolg‘on, 2 — rost",
+      "1 — rost, 2 — rost",
+      "1 — rost, 2 — yolg‘on",
+      "1 — yolg‘on, 2 — yolg‘on"
+    ],
+    "answer": "C",
+    "explanation": "TCP ishonchlilik mexanizmlariga ega; UDP o‘zi yetkazish tasdig‘ini va qayta uzatishni kafolatlamaydi.",
+    "family": "two-statements",
+    "construct": "S6.NET.02",
+    "source_reference": "2026-04-13 xotira asosidagi to‘plam, 26-bet (faqat uslub); 11-sinf tarmoqlar",
+    "editorial_status": "review",
+    "difficulty": 4
+  },
+  {
+    "id": "M12-REAL26-013",
+    "chapter": 9,
+    "format": "Y1",
+    "stem": "Veb-qidiruvda aynan «axborot xavfsizligi» iborasi qatnashsin, qo‘shimcha ravishda «kitob» yoki «maktab» so‘zidan biri bo‘lsin. OR operatori va ibora qidiruvi ishlaydigan tizim uchun eng mos so‘rov qaysi?",
+    "options": [
+      "\"axborot xavfsizligi\" (kitob OR maktab)",
+      "axborot xavfsizligi OR kitob OR maktab",
+      "\"axborot xavfsizligi\" kitob maktab",
+      "\"axborot xavfsizligi\" -kitob -maktab"
+    ],
+    "answer": "A",
+    "explanation": "Qo‘shtirnoq iborani saqlaydi, (kitob OR maktab) esa ikki qo‘shimcha atamadan kamida bittasini talab qiladi.",
+    "family": "search",
+    "construct": "S6.NET.05",
+    "source_reference": "2026-04-13 xotira asosidagi to‘plam, 2-bet (faqat uslub); 6-sinf qidiruv mavzusi",
+    "editorial_status": "review",
+    "difficulty": 4
+  },
+  {
+    "id": "M12-REAL26-014",
+    "chapter": 9,
+    "format": "Y1",
+    "stem": "Faqat maktab.uz domenidagi PDF hujjatlarda «tarmoq topologiyasi» iborasini qidirish uchun mos so‘rov qaysi?",
+    "options": [
+      "site:maktab.uz \"tarmoq topologiyasi\" filetype:pdf",
+      "filetype:docx tarmoq topologiyasi",
+      "\"tarmoq topologiyasi\" -site:maktab.uz",
+      "site:edu.uz filetype:pdf \"tarmoq topologiyasi\""
+    ],
+    "answer": "A",
+    "explanation": "site: domen doirasini, filetype:pdf formatni, qo‘shtirnoq esa aynan iborani belgilaydi.",
+    "family": "search",
+    "construct": "S6.NET.05",
+    "source_reference": "2026-04-13 xotira asosidagi to‘plam, 2-bet (faqat uslub); 6-sinf qidiruv mavzusi",
+    "editorial_status": "review",
+    "difficulty": 4
+  },
+  {
+    "id": "M12-REAL26-015",
+    "chapter": 9,
+    "format": "Y1",
+    "stem": "Tadqiqotchi faqat rasmiy «gov.uz» domenidagi «internet xavfsizligi» iborasi qatnashgan sahifalarni izlaydi. Qaysi so‘rov maqsadga mos?",
+    "options": [
+      "\"internet xavfsizligi\" OR gov.uz",
+      "\"internet xavfsizligi\" -site:gov.uz",
+      "site:gov.uz \"internet xavfsizligi\"",
+      "filetype:pdf \"internet xavfsizligi\""
+    ],
+    "answer": "C",
+    "explanation": "site:gov.uz domenni cheklaydi, qo‘shtirnoq esa aynan so‘z birikmasini izlaydi.",
+    "family": "search",
+    "construct": "S6.NET.05",
+    "source_reference": "2026-04-13 xotira asosidagi to‘plam, 2-bet (faqat uslub); 6-sinf qidiruv mavzusi",
+    "editorial_status": "review",
+    "difficulty": 4
+  },
+  {
+    "id": "M12-REAL26-016",
+    "chapter": 9,
+    "format": "Y1",
+    "stem": "Talabaga «subnet maska» iborasi bilan bog‘liq PDF qo‘llanma kerak. Qaysi qidiruv eng aniq?",
+    "options": [
+      "\"subnet maska\" -filetype:pdf",
+      "\"subnet maska\" filetype:pdf",
+      "subnet OR maska",
+      "site:example.org \"subnet maska\""
+    ],
+    "answer": "B",
+    "explanation": "Aniq ibora va PDF formati birga so‘ralgan; boshqa variantlar talabni to‘liq bajarmaydi.",
+    "family": "search",
+    "construct": "S6.NET.05",
+    "source_reference": "2026-04-13 xotira asosidagi to‘plam, 2-bet (faqat uslub); 6-sinf qidiruv mavzusi",
+    "editorial_status": "review",
+    "difficulty": 4
+  },
+  {
+    "id": "M12-REAL26-017",
+    "chapter": 4,
+    "format": "Y1",
+    "stem": "Kompyuter IP manzil orqali serverga ulanyapti, ammo shu serverning domen nomi orqali ulanmayapti. Qaysi muammoni avval tekshirish maqsadga muvofiq?",
+    "options": [
+      "DNS nomni yechish sozlamasi va javoblari",
+      "Monitordagi yangilanish chastotasi",
+      "Printerdagi qog‘oz turi",
+      "Ethernetdagi kabel ranglari"
+    ],
+    "answer": "A",
+    "explanation": "IP orqali aloqa borligi umumiy transport yo‘li ishlayotganidan dalolat beradi; domen nomi bilan muammo DNS ga bog‘liq bo‘lishi mumkin.",
+    "family": "diagnosis",
+    "construct": "S6.NET.02",
+    "source_reference": "11-sinf tarmoqlar; 2026 spetsifikatsiyasi 6-bo‘lim",
+    "editorial_status": "review",
+    "difficulty": 4
+  },
+  {
+    "id": "M12-REAL26-018",
+    "chapter": 2,
+    "format": "Y1",
+    "stem": "Ikki turli IP subnetdagi kompyuterlar har biri o‘z lokal tarmog‘ida ishlayapti, ammo bir-biriga chiqa olmayapti. Qaysi sozlamani birinchi navbatda tekshirish kerak?",
+    "options": [
+      "Klaviatura tilini",
+      "Har ikki qurilmaning default gateway va marshrutlarini",
+      "Brauzer xatcho‘plarini",
+      "Fayl kengaytmasini"
+    ],
+    "answer": "B",
+    "explanation": "Turli subnetlararo aloqa gateway/router marshrutiga bog‘liq.",
+    "family": "diagnosis",
+    "construct": "S6.NET.01",
+    "source_reference": "11-sinf tarmoqlar; 2026 spetsifikatsiyasi 6-bo‘lim",
+    "editorial_status": "review",
+    "difficulty": 4
+  },
+  {
+    "id": "M12-REAL26-019",
+    "chapter": 10,
+    "format": "Y1",
+    "stem": "Foydalanuvchi o‘zini bank nomidan tanishtirgan xatda SMS kod so‘ralganini ko‘rdi. Eng xavfsiz birinchi harakat qaysi?",
+    "options": [
+      "Xatdagi havolani ochib kodni yuborish",
+      "Kodning birinchi uch raqamini yuborish",
+      "Kod bermay, bankning rasmiy kanalidan mustaqil tekshirish",
+      "Xatni do‘stlariga jo‘natib baholatish"
+    ],
+    "answer": "C",
+    "explanation": "Bir martalik kod begona shaxsga berilmaydi; rasmiy manzil/ilova orqali mustaqil tekshiriladi.",
+    "family": "security",
+    "construct": "S6.NET.04",
+    "source_reference": "11-sinf tarmoqlar; 2026 spetsifikatsiyasi 6-bo‘lim",
+    "editorial_status": "review",
+    "difficulty": 4
+  },
+  {
+    "id": "M12-REAL26-020",
+    "chapter": 10,
+    "format": "Y1",
+    "stem": "Maktabda muhim fayllar ransomware tufayli ochilmay qoldi. Oldindan tayyorlangan qaysi chora tiklanish imkonini eng ko‘p oshiradi?",
+    "options": [
+      "Yagona nusxani ish stolidagi papkada saqlash",
+      "Mustaqil, sinovdan o‘tgan zaxira nusxalar",
+      "Barcha foydalanuvchilarga bitta parol berish",
+      "Antivirus bildirishnomalarini o‘chirish"
+    ],
+    "answer": "B",
+    "explanation": "Ajratilgan, tekshirilgan backup ransomware va ma’lumot buzilishidan so‘ng tiklash imkonini oshiradi.",
+    "family": "security",
+    "construct": "S6.NET.04",
+    "source_reference": "11-sinf tarmoqlar; 2026 spetsifikatsiyasi 6-bo‘lim",
+    "editorial_status": "review",
+    "difficulty": 4
+  }
+]
