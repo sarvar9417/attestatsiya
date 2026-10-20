@@ -29,10 +29,7 @@ export const PHOTOSHOP_STUDY_STAGES = [
 /** Original worked exercises, not copied textbook passages.
  * The canonical 12-chapter books remain intact and precede these labs.
  */
-export const M10_PHOTOSHOP_PRACTICAL_LABS: Record<
-  (typeof PHOTOSHOP_STUDY_STAGES)[number]['id'],
-  TheoryBlock[]
-> = {
+export const M10_PHOTOSHOP_PRACTICAL_LABS: Partial<Record<string, TheoryBlock[]>> = {
   'M10.02': [
     { type: 'heading', content: 'Photoshop amaliyoti 1 — yangi loyiha va ish muhiti' },
     { type: 'goal', content: '2026 spetsifikatsiyasidagi «Adobe Photoshopda tasvir yaratish va tahrirlash» talabining birinchi qadami: fayl yaratish, panel topish, faol asbob va qatlamni tushunish.' },
@@ -45,7 +42,7 @@ export const M10_PHOTOSHOP_PRACTICAL_LABS: Record<
   ],
   'M10.03': [
     { type: 'heading', content: 'Photoshop amaliyoti 2 — obyektni ajratish va fonni saqlab qolish' },
-    { type: 'goal', content: '7-sinf darsligining 14–15-darslari asosida tanlash, kesish, qatlam, rang va maskani birbiridan farqlash va ish jarayonida to‘g‘ri qo‘llash.' },
+    { type: 'goal', content: '7-sinf darsligining 14–15-darslari asosida tanlash, kesish, qatlam, rang va maskani bir-biridan farqlash va ish jarayonida to‘g‘ri qo‘llash.' },
     { type: 'table', content: '| Amal | Maqsad | Nima o‘zgarmaydi? |\n|---|---|---|\n| Marquee/Lasso | Ish hududini belgilash | Tanlovning o‘zi pikselni o‘chirmaydi |\n| Magic Wand | O‘xshash rang sohalarini belgilash | Tolerance natijaga ta’sir qiladi |\n| Crop | Kadr chegarasini o‘zgartirish | Rezolyutsiya oshib ketmaydi |\n| Resize | Piksel o‘lchamini o‘zgartirish | O‘chirilgan detal qaytmaydi |\n| Layer Mask | Qatlamning qaysi qismi ko‘rinishini boshqarish | Original piksellar saqlanishi mumkin |' },
     { type: 'solved', content: '**Fotomontaj amaliyoti.** 1) File → Open orqali portretni oching, ishchi nusxani PSD qilib saqlang. 2) Select Subject yoki mos Lasso/Quick Selection orqali odamni tanlang; chetini tekshiring. 3) Layers panelida tanlangan qatlamga Reveal Selection maskasini qo‘shing. 4) Boshqa fon qatlamini pastga joylashtiring. 5) Maska thumbnailini tanlab qora Brush bilan yashiring, oq bilan xatoni tuzating. 6) PSDni qayta saqlang va PNG/JPEG natijani tekshiring.' },
     { type: 'case', content: 'Masala: 800×600 px rasmdan 600×500 px hudud Crop qilindi. Natija 300 000 piksel. Agar 800×600 rasmni 50% Resize qilsangiz 400×300 = 120 000 piksel qoladi. Crop va Resize bir xil amal emas.' },
