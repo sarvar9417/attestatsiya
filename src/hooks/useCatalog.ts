@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { MODULES } from '../data/contentTree'
 import { getModuleDetail, listModules } from '../features/content/contentApi'
 import { mergeCatalog, publishedScratchLogoSubtopics, type CatalogModule } from '../features/content/catalog'
+import { withPublishedPyjsV2Lessons } from '../features/content/pyjsV2Catalog'
 
 export interface CatalogState {
   modules: CatalogModule[]
@@ -58,6 +59,19 @@ export function useCatalog(): CatalogState {
           if (mod && chapters) mod.subtopics = chapters
         } catch {
           // Never hide the module when the API is offline.
+        }
+        // M08 Python/JavaScript: atomic cutover ONLY after all 14 non-empty
+        // source-backed lessons are published. Unpublished appendices remain hidden.
+        try {
+          const mod = base.find(module => module.code === 'M08')
+          if (mod) {
+            const detail = await getModuleDetail('M08')
+            const updated = withPublishedPyjsV2Lessons(mod, detail.lessons)
+            const index = base.indexOf(mod)
+            base[index] = updated
+          }
+        } catch {
+          // Offline/incomplete backend: preserve the existing M08 catalogue.
         }
         // TASK-212: Use the exact published seven-chapter M13 AXR edition,
         // otherwise retain the previous M13 catalog. Never show review questions.

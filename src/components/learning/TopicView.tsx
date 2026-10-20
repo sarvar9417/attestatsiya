@@ -154,12 +154,14 @@ export default function TopicView({
   const isProfessionalLesson = /^(?:M04|M1[456])\.\d{2}$/.test(subtopicId)
   const isAlgoritmlashV2 = moduleId === 'M06' &&
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
+  const isPyjsV2 = moduleId === 'M08' &&
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
   const isPublishedScratchLogoLesson = moduleId === 'M07' &&
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
   const isAxrM13 = moduleId === 'M13' &&
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
   const isCanonicalPublishedTheory = /^(?:M02|M04|M14|M15|M16)\.\d{2}$/.test(subtopicId) ||
-    isAlgoritmlashV2 || isAxrM13 || isPublishedScratchLogoLesson
+    isAlgoritmlashV2 || isPyjsV2 || isAxrM13 || isPublishedScratchLogoLesson
   // Keep the same canonical core object during unrelated progress/test updates.
   const isPedagogyTopic = moduleId === 'M15' && /^M15\.\d{2}$/.test(subtopicId)
   const staticContent = useMemo(() => getTopicContent(subtopicId), [subtopicId])
@@ -231,23 +233,25 @@ export default function TopicView({
     return () => { cancelled = true }
   }, [subtopicId, staticContent, theoryRetry])
 
-  // M06 V2 and M13 AXR learner theory come strictly from published DB records.
+  // M06, M08 Python/JavaScript and M13 learner theory come strictly from published DB records.
   // Catalog links edition UUIDs only when all relevant chapters are published.
   useEffect(() => {
-    if (!isAlgoritmlashV2 && !isAxrM13) return
+    if (!isAlgoritmlashV2 && !isPyjsV2 && !isAxrM13) return
     let cancelled = false
     getLessonDetail(subtopicId)
       .then(lesson => {
         if (cancelled || lesson.status !== 'published' || !lesson.body_mdx?.trim() ||
             !(isAlgoritmlashV2
               ? lesson.slug.startsWith('algoritmlash-v2-')
-              : /^m13-axr-0[1-7]$/.test(lesson.slug))) return
+              : isPyjsV2
+                ? /^pyjs-v2-(?:[PJ]0[1-7]|A0[1-3])$/.test(lesson.slug)
+                : /^m13-axr-0[1-7]$/.test(lesson.slug))) return
         setPublishedTheory({
           subtopicId,
           content: {
             subtopicId,
             title: lesson.title_uz,
-            source: isAlgoritmlashV2 ? 'Algoritmlash V2' : 'Axborot xavfsizligi — 2026',
+            source: isAlgoritmlashV2 ? 'Algoritmlash V2' : isPyjsV2 ? 'Python va JavaScript V2' : 'Axborot xavfsizligi — 2026',
             kind: lesson.blocks_kind === 'appendix' ? 'appendix' : 'chapter',
             theory: markdownToTheoryBlocks(lesson.body_mdx),
             questions: [],
@@ -257,7 +261,7 @@ export default function TopicView({
       .catch(() => { /* Fail closed on unpublished or unavailable theory. */ })
       .finally(() => { if (!cancelled) setTheoryResolved(subtopicId) })
     return () => { cancelled = true }
-  }, [isAlgoritmlashV2, isAxrM13, subtopicId])
+  }, [isAlgoritmlashV2, isPyjsV2, isAxrM13, subtopicId])
 
   // M07 previously rendered only six short static topics. The twelve source-
   // backed published lessons now load their complete body_mdx into BookReader.
@@ -295,7 +299,7 @@ export default function TopicView({
       .then(data => { if (active) { setTopicReadiness({ subtopicId, data }); setReadinessErrorTopic(null) } })
       .catch(() => { if (active) { setTopicReadiness(null); setReadinessErrorTopic(subtopicId) } })
     return () => { active = false }
-  }, [subtopicId, isProfessionalLesson, isAlgoritmlashV2, isAxrM13, readinessRetry])
+  }, [subtopicId, isProfessionalLesson, isAlgoritmlashV2, isPyjsV2, isAxrM13, readinessRetry])
 
   // Tests are authenticated ExamRunner sessions; do not preload exam-bank questions.
 
