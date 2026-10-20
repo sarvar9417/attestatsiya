@@ -19,6 +19,13 @@ No production deploy, no SQL writes, no content-status promotion.
 - Historical 380 GV2 review items remain quarantined/review; do not publish them solely to reach a number (see TASK-240).
 - Source-based spot checks of newly added content used Adobe Photoshop raster/vector and PSD documentation. Source citation does not replace independent review of each key, distractor, illustration and provenance.
 
+## Cross-module quantitative gate
+The read-only query ran successfully against all 16 published modules. 15/16
+have at least 50 eligible questions. **M11 / HTML va CSS has 35, a gap of 15**
+and its section-mock fails closed until legitimately verified questions become
+eligible. Every other module including M10 meets the numeric threshold.
+This is a pool-only check; it is NOT a universal independent editorial audit.
+
 ## Verification and constraints
 - Code regression: `src/tests/ExamPage.test.tsx` checks M10 intro 50 / 100, server gateway invocation and no fallback to full mock.
 - Existing DB property test: `supabase/tests/section_mock_50.test.sql` covers 50 unique items, per-topic/critical coverage and boundary pass.
