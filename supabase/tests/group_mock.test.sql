@@ -1,0 +1,150 @@
+-- TASK-347: Group mock security, timing, answer privacy and room lifecycle.
+-- A transaction rollback leaves production/test fixtures untouched.
+begin;
+
+insert into auth.users(id,email)
+values
+ ('93470000-0000-4000-8000-000000000001','task347-host@example.invalid'),
+ ('93470000-0000-4000-8000-000000000002','task347-member@example.invalid'),
+ ('93470000-0000-4000-8000-000000000003','task347-outsider@example.invalid');
+
+do $priv$
+begin
+ if exists (select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace
+   where n.nspname='public' and c.relname like 'group_mock_%'
+     and c.relkind='r' and not c.relrowsecurity)
+ then raise exception 'group tables missing RLS'; end if;
+ if has_table_privilege('authenticated','public.group_mock_items','SELECT')
+    or has_table_privilege('authenticated','public.group_mock_answers','SELECT')
+    or has_table_privilege('authenticated','public.group_mock_rooms','SELECT')
+    or has_table_privilege('authenticated','public.group_mock_messages','SELECT')
+    or has_table_privilege('authenticated','public.group_mock_members','SELECT')
+ then raise exception 'private group rows readable by learner'; end if;
+ if has_function_privilege('anon','public.group_mock_state(uuid)','EXECUTE')
+    or has_function_privilege('anon','public.group_mock_create(text,jsonb)','EXECUTE')
+    or has_function_privilege('authenticated','public.group_mock_eligible(uuid)','EXECUTE')
+ then raise exception 'group RPC access too broad'; end if;
+end $priv$;
+
+set role authenticated;
+select set_config('request.jwt.claim.sub','93470000-0000-4000-8000-000000000001',false);
+
+do $test$
+declare
+ v_q uuid;
+ v_correct_id uuid;
+ v_other_id uuid;
+ v_lesson uuid;
+ v_room uuid;
+ v_code text;
+ v_response jsonb;
+ v_state jsonb;
+ v_failed boolean;
+begin
+ -- Use existing published Y1 source-backed question without mutating its key.
+ select q.id,q.source_lesson_id
+ into v_q,v_lesson
+ from public.questions q
+ where q.format='Y1'::public.question_format
+   and public.group_mock_eligible(q.id)
+   and q.source_lesson_id is not null
+ order by q.id limit 1;
+ if v_q is null then raise exception 'TASK347 fixture requires one source-backed published Y1'; end if;
+ select (k.payload->>'correct_option_id')::uuid into v_correct_id
+ from public.question_keys k where k.question_id=v_q;
+ select o.id into v_other_id from public.question_options o
+ where o.question_id=v_q and o.id<>v_correct_id and o.side='a' order by o.id limit 1;
+ if v_other_id is null then raise exception 'TASK347 fixture requires a distractor'; end if;
+
+ -- Validation and duplicate question failures cannot leave a room behind.
+ v_failed:=false;
+ begin
+   perform public.group_mock_create('manual',
+      jsonb_build_object('question_ids',jsonb_build_array(v_q,v_q)));
+ exception when others then
+   v_failed := position('group_question_unavailable' in sqlerrm)>0;
+ end;
+ if not v_failed then raise exception 'duplicate manual questions accepted'; end if;
+
+ v_response := public.group_mock_create('manual',
+     jsonb_build_object('question_ids',jsonb_build_array(v_q)));
+ v_room := (v_response->>'room_id')::uuid;
+ v_code := v_response->>'code';
+ if v_code !~ '^[A-F0-9]{8}$' then raise exception 'unsafe invitation code'; end if;
+ v_state := public.group_mock_state(v_room);
+ if v_state->>'status'<>'lobby' or v_state->'question' <> 'null'::jsonb
+    or v_state ? 'answer_key' or v_state::text like '%correct_option_id%'
+ then raise exception 'lobby state leaked item/key %',v_state; end if;
+
+ -- Outsider cannot infer question, roster, results or discussion from room UUID.
+ perform set_config('request.jwt.claim.sub','93470000-0000-4000-8000-000000000003',true);
+ v_failed:=false;
+ begin perform public.group_mock_state(v_room);
+ exception when others then v_failed:=position('group_not_member' in sqlerrm)>0;
+ end;
+ if not v_failed then raise exception 'outsider accessed room'; end if;
+
+ -- Invite-only authenticated peer may join lobby, but cannot start it.
+ perform set_config('request.jwt.claim.sub','93470000-0000-4000-8000-000000000002',true);
+ perform public.group_mock_join(v_code);
+ perform public.group_mock_join(v_code);
+ v_failed:=false;
+ begin perform public.group_mock_start(v_room);
+ exception when others then v_failed:=position('group_not_host' in sqlerrm)>0;
+ end;
+ if not v_failed then raise exception 'member started host room'; end if;
+
+ perform set_config('request.jwt.claim.sub','93470000-0000-4000-8000-000000000001',true);
+ perform public.group_mock_start(v_room);
+ v_state := public.group_mock_state(v_room);
+ if v_state->>'status'<>'question' or v_state::text like '%correct_option_id%'
+    or v_state::text like '%explanation_md%' then
+   raise exception 'question payload revealed key %',v_state; end if;
+
+ v_failed:=false;
+ begin
+   perform public.group_mock_answer(v_room,jsonb_build_object('option_id',gen_random_uuid()));
+ exception when others then v_failed:=position('group_invalid_answer' in sqlerrm)>0;
+ end;
+ if not v_failed then raise exception 'foreign option accepted'; end if;
+
+ v_response := public.group_mock_answer(v_room,jsonb_build_object('option_id',v_other_id));
+ if v_response<>'{"saved": true}'::jsonb then raise exception 'answer leaked result'; end if;
+ v_state := public.group_mock_state(v_room);
+ if v_state->>'status'<>'question' or (v_state->>'answered_count')::int<>1
+   or jsonb_array_length(v_state->'answers')<>0
+   or v_state->'correct_answer'<>'null'::jsonb
+ then raise exception 'first answer revealed too early %',v_state; end if;
+
+ v_failed:=false;
+ begin perform public.group_mock_answer(v_room,jsonb_build_object('option_id',v_correct_id));
+ exception when others then v_failed:=position('group_already_answered' in sqlerrm)>0;
+ end;
+ if not v_failed then raise exception 'vote was mutable'; end if;
+
+ perform set_config('request.jwt.claim.sub','93470000-0000-4000-8000-000000000002',true);
+ perform public.group_mock_answer(v_room,jsonb_build_object('option_id',v_correct_id));
+ v_state := public.group_mock_state(v_room);
+ if v_state->>'status'<>'reveal'
+    or v_state->'correct_answer'->>'correct_option_id'<>v_correct_id::text
+    or jsonb_array_length(v_state->'answers')<>2
+    or v_state->>'explanation_md' is null
+ then raise exception 'reveal missing answers/key %',v_state; end if;
+ v_failed:=false;
+ begin perform public.group_mock_step(v_room,'next');
+ exception when others then v_failed:=position('group_not_host' in sqlerrm)>0;
+ end;
+ if not v_failed then raise exception 'member advanced question'; end if;
+
+ perform set_config('request.jwt.claim.sub','93470000-0000-4000-8000-000000000001',true);
+ perform public.group_mock_step(v_room,'next');
+ v_state:=public.group_mock_state(v_room);
+ if v_state->>'status'<>'finished' then raise exception 'final step did not finish test'; end if;
+ if (select count(*) from public.group_mock_answers where room_id=v_room)<>2
+ then raise exception 'missing answers'; end if;
+ if (select count(*) from public.group_mock_rooms where id=v_room and status='finished')<>1
+ then raise exception 'missing finished status'; end if;
+end $test$;
+
+reset role;
+rollback;
