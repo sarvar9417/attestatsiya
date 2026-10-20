@@ -26,3 +26,16 @@ WHERE id='8b74787a-ea14-5f35-85d2-df3aaeccc2af'::uuid
 -- This nested-REPEAT code follows the actual April 13 2026 exam item, not an independently new script.
 UPDATE public.questions SET source_reference=replace(replace(source_reference,'(FAKAT USLUB); kod va rasm — mustaqil mualliflik varianti','(Q10 KODI MOSLASHTIRILGAN); A–D grafik variantlar qayta chizilgan'),'ORIGINAL_REVIEW','ADAPTED_PAST_EXAM'),updated_at=now()
 WHERE id='a279bed1-465c-5652-ac9d-221e51081eb3'::uuid;
+
+-- The imported autumn demo question accidentally listed b) Ovoz for BLUE blocks.
+-- BLUE in Scratch is Motion/Harakat, whereas Sound/Ovoz is pink. Keep option/key UUIDs.
+UPDATE public.questions SET
+ stem_md=replace(stem_md,'b) ovoz','b) harakat'),updated_at=now()
+WHERE id='802811d2-91e8-4cf7-904a-79da099c65e0'::uuid
+ AND status='published'::content_status
+ AND stem_md LIKE '%b) ovoz%'
+ AND stem_md LIKE '%1) ko‘k%';
+UPDATE public.question_keys SET
+ explanation_md='Scratch: harakat bloklari ko‘k, hodisalar sariq, operatorlar yashil, sensorlar havorang, ko‘rinish binafsha rangda. Ovoz bloklari esa pushti rangda. Shuning uchun moslik 1–b, 2–d, 3–c, 4–a, 5–e.'
+WHERE question_id='802811d2-91e8-4cf7-904a-79da099c65e0'::uuid
+ AND explanation_md LIKE '%harakat ko‘k%';
