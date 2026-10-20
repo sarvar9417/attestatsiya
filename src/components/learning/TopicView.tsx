@@ -1,3 +1,4 @@
+import { M12_LEARNER_RELEASE_APPROVED } from '../../features/content/m12ReleaseGate'
 import { useState, useRef, useEffect, useMemo, lazy, Suspense } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getTopicContent, displayedCognitiveLevel, type TestQuestion, type TheoryBlock } from '../../data/topicContent'
@@ -158,7 +159,7 @@ export default function TopicView({
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
   const isAxrM13 = moduleId === 'M13' &&
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
-  const isNetworkM12 = moduleId === 'M12' &&
+  const isNetworkM12 = M12_LEARNER_RELEASE_APPROVED && moduleId === 'M12' &&
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
   const isCanonicalPublishedTheory = /^(?:M02|M04|M14|M15|M16)\.\d{2}$/.test(subtopicId) ||
     isAlgoritmlashV2 || isAxrM13 || isNetworkM12 || isPublishedScratchLogoLesson
