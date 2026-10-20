@@ -182,6 +182,8 @@ describe('stable theory in learner module', () => {
     expect(mocks.getLessonDetail).toHaveBeenCalledTimes(1)
     expect(screen.queryByText('Tekshirilgan qo‘shimcha material (ixtiyoriy)')).toBeNull()
     expect(screen.queryByText('Bu server xulosasi asosiy dars o‘rniga o‘tmasligi kerak.')).toBeNull()
-    expect(screen.getByRole('tab', { name: /Ilmiy-metodik qo‘shimcha/ })).toBeDefined()
+    expect(screen.getByText('O‘quvchining mustaqil o‘qishi davom ettiriladi.')).toBeDefined()
+    // Short sourced sections are now read together, with no artificial tab.
+    expect(screen.queryByRole('tab')).toBeNull()
   })
 })
