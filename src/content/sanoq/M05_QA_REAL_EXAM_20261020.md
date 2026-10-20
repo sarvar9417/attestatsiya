@@ -49,7 +49,7 @@ Manba/stil izlari `metadata`, `source`, `source_reference`, `question_keys.expla
 - Oldingi 74 ta Y2/Y3 qo‘shimcha savol oldingi bosqichda hisoblash, moslashtirish va ketma-ketlik tekshiruvlaridan o‘tgan.
 - `sanoq-2026:%` turidagi 184 ta Y1 topshiriqdan **128 tasida barcha to‘rt variantni sanoq tizimiga qarab son qiymatiga aylantirib**, ikkita variant bir xil qiymatga ega emasligi tekshirildi: **0 ta bir xil qiymatli variant**. Qolgan Y1 variantlari tushunchaviy/jadval ko‘rinishida bo‘lgani uchun ayni matematik solishtirishga kiritilmadi.
 
-## 4. Yakuniy live Supabase strukturaviy tekshiruv
+## 4. 20-oktabrdagi dastlabki live Supabase strukturaviy tekshiruv (keyingi korreksiyalardan oldin)
 
 `M05.01: 129`, `M05.02: 176`, `M05.03: 107` = **412 published** savol.
 
@@ -85,3 +85,28 @@ Manba/stil izlari `metadata`, `source`, `source_reference`, `question_keys.expla
 - **Bajada:** aynan bitta Y2 variantning matni va `question_keys.explanation_md` yangilandi. Savol, variant va javob kaliti UUIDlari saqlandi; mavjud `exam_items` qayta yozilmadi. JSON manba, 74 savollik SQL seed va alohida idempotent `m05_fix_fraction_matching_wording_20261020.sql` moslashtirildi.
 - **Regressiya:** `src/tests/M05QuestionBankQA.test.ts` yangi va mavjud 104 ta mualliflik Y1/Y2/Y3 savoli uchun strukturaviy va arifmetik xossalarni test qiladi: son qiymatlari, unikal variantlar, Y2 bir qiymatli moslik, Y3 tartib, Y1 haqiqiy attestatsiya arifmetikasi va kasr konversiyasi qoidasi.
 - **Izoh:** DB’dagi barcha 412 ta published savol uchun keyin ham alohida bosqichda nazariy-semantik auditni davom ettirish mumkin; bu tekshiruv doirasidan ortiqcha «100% ekspert tasdiqladi» deyish noto‘g‘ri.
+
+## 8. Expert review: konstrukt cheklovlari va yakuniy live holat
+
+`Informatika Testlar spesifikatsiyasi.pdf`da M05 yo‘nalishining kompetensiyalari: sanoq tizimi asosi, sonlarni turli asosga o‘tkazish va turli asosda arifmetik amallar. `two's complement` (ishorali butun sonlarni kodlash) hamda `ishora-modul` modelining bit vazifasi bu uchta konstrukt bo‘yicha **bevosita sanoq tizimi topshirig‘i emas**. Ushbu ikkita foydalanilmagan published savol boshqa bobga ko‘chirilmasdan, M05 doirasida arxivlandi:
+- `m01-professional-bank:AXB-06-030` — two’s complement diapazoni;
+- `sanoq-2026:SS-A-009:paper-Y1` — ishora-modul modelida belgi biti.
+
+`sanoq-2026:SS-A-031` va `SS-B-006` oldingi `exam_items` bilan bog‘langanligi uchun o‘zgartirilmadi; barcha savol tarixi saqlandi. Boshqa konseptual-shedevr savollar mutlaq off-spec deb belgilanmadi: sanoq tizimidagi xonalar sig‘imi va maksimal raqamni hisoblash bilan semantik bog‘lanish bo‘lishi mumkin.
+
+**Oxirgi published bank:**
+
+| M05 darsi | Y1 | Y2 | Y3 | Jami |
+| --- | ---: | ---: | ---: | ---: |
+| M05.01 | 112 | 11 | 4 | 127 |
+| M05.02 | 120 | 33 | 23 | 176 |
+| M05.03 | 72 | 12 | 23 | 107 |
+| **Jami** | **304** | **56** | **50** | **410** |
+
+Live Supabase diagnostikasi: `published=410`, `missing_keys=0`, `bad_y1=0`, `bad_y2=0`, `bad_y3=0`. Y2/Y3 uchun foydalanuvchi so‘ragan eng kam 50 tadan chegara saqlangan.
+
+`src/tests/M05QuestionBankQA.test.ts` — 104 ta manbaga asoslangan mualliflik Y1/Y2/Y3 savollarining javob va nazariy invariantlarini regression CI orqali mustaqil qayta hisoblaydi.
+
+**Muhim:** ushbu joriy hisobot 20-oktabrdagi mustaqil ekspert korreksiyasi haqida. Yuqoridagi 4-bo‘lim 412 savollik avvalgi oraliq snapshot, bu 8-bo‘lim esa oxirgi 410 published holati.
+
+Boshqa modul yoki savolning `construct_id`, foydalanuvchi natijalari va oldingi `exam_items` o‘zgarmadi.
