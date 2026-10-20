@@ -9,7 +9,7 @@
 ## O‘zgarish
 - M10.02/03/04 katalog va reader sarlavhalarida **Adobe Photoshop** aniq ko‘rsatiladi.
 - M10 landing sahifasiga accessible “Adobe Photoshop — darslik va attestatsiya bo‘yicha o‘quv yo‘li” qo‘shildi; u shu uchta mavjud IDni navigatsiya qiladi. 7 static mavzu soni, progress ID, modul sinovi marshruti o‘zgarmaydi.
-- Har bir kitobning asosiy nazariyasidan so‘ng 8 tadan **original amaliy blok** qo‘shildi: panel/workspace/file, selection/crop/layer mask, Type/retush/PSD/export. Ular vaziyat, jadval, ishlangan ketma-ketlik, xato, topshiriq, javob va source trace’dan iborat.
+- Har bir kitobning asosiy nazariyasidan so‘ng 10 tadan **original amaliy blok** qo‘shildi: panel/workspace/F7/tool shortcuts/file; Rectangular/Elliptical/Polygonal/Magnetic Lasso + color picker; Type/Warp Text FishEye + Layer Style/retush/PSD/webpage mockup/export. Ular vaziyat, jadval, ishlangan ketma-ketlik, xato, topshiriq, javob va source trace’dan iborat.
 - Original 7-sinf va Adobe manbalari bo‘yicha izohlar bor; o‘quv kontenti kitobdan katta parcha nusxa olmaydi.
 - Istalgan bosqich nazariyasi ochiladi; review/draft statusdagi DB savollar nashr qilinmaydi, javob kalitlari client/server contracti o‘zgarmaydi.
 
