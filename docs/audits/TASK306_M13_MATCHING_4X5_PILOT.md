@@ -37,3 +37,17 @@
 
 ## Acceptance
 `supabase/tests/task306_m13_native_4x5_contract.test.sql`, `src/tests/examContracts.test.ts`, existing `task213` and canonical drift; GitHub database/backend/quality green, SQL migration applied to production as **review only**, read-only parity audit afterwards. Reviewer waiver if user confirms platform release; old independent-human editorial signoff is not falsely claimed.
+
+
+## TASK-306 actual production result, 2026-10-20
+- PR #325 merged to main at `6862b9d693fefc4f86229f522f28a2e444e6c5af`.
+- Supabase applied migration `task306_m13_seven_native_y2_4x5_review_20261020` successfully.
+- Read-only audit confirms 7 review items, all 7 are 4×5, all 7 keys contain exactly 4 protected pair mappings, 0 mismatched keys. Published M13 unchanged: 414 total, 71 native Y2, 72 Y3.
+- TASK-307 is separate follow-up versioned release, not performed during TASK-306.
+
+## TASK-307 release approach
+- New version `m13-qc-v2:Y2:AXRN-XX-Y2-01` 7 review -> published; corresponding original `m13-axr-native-v1:Y2:AXRN-XX-Y2-01` 7 published -> archived in **same DB transaction**.
+- Fails closed on any mismatch of source lesson, construct, original stem, option sides, protected pair mapping, or expected 71 active Y2.
+- Old attempt history and old answer keys remain immutable. Old `task213` and `task306` regressions updated for 63 original published Y2 + 7 revised published Y2; 70 logical native AXR Y2 preserved.
+- The owner explicitly instructed ongoing assistant-led source/format quality control without waiting for another external human examiner. This is a **scope-specific owner override** of an external editorial sign-off for M13. It is *not* an independent human or official exam certification.
+- Answer exposure risk #323 (public Git history) remains open; the new revision does not cure already-public original answers.

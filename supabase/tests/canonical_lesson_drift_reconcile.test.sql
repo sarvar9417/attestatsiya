@@ -145,7 +145,7 @@ begin
         -- TASK-211/212/213 version the seven M13 AXR lessons.
         -- Only the exact AXR bank may use its independent source-lesson ID.
         and not (lane.module_code = 'M13'
-                 and q.status in ('review'::public.content_status,'published'::public.content_status)
+                 and q.status in ('review'::public.content_status,'published'::public.content_status,'archived'::public.content_status)
                  and (
                    coalesce(q.source_reference,'') like 'm13-axr-v1:%:AXR-%'
                    or (coalesce(q.source_reference,'') like 'm13-axr-native-v1:Y2:AXRN-%'
@@ -164,7 +164,7 @@ begin
                  ))
         -- TASK-306 exact seven source-backed REVIEW 4x5 matching revisions.
         and not (lane.module_code = 'M13'
-          and q.status = 'review'::public.content_status
+          and q.status in ('review'::public.content_status,'published'::public.content_status)
           and q.format = 'Y2'::public.question_format
           and coalesce(q.source_reference,'') ~ '^m13-qc-v2:Y2:AXRN-0[1-7]-Y2-01'
           and length(coalesce(q.source_reference,'')) = length('m13-qc-v2:Y2:AXRN-01-Y2-01')
