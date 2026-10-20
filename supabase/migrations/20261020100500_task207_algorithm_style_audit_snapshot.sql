@@ -54,8 +54,7 @@ SELECT id,source_reference,md5(coalesce(stem_md,'')||coalesce(all_options,'')||c
  ]::text[],NULL)),
  jsonb_build_object('spec','Informatika Testlar spesifikatsiyasi.pdf PDF 4: 4 kompetensiya, 3 savol',
  'style_sources',jsonb_build_array('Demo 2026 test 10 000 so‘mlik.pdf PDF 6 Q12','20000 LIK informatika.pdf PDF 6 Q13-Q14','Informatika Demo testi .pdf PDF 18 Q35'),
- 'method','Dasturiy strukturaviy audit va manba uslublari solishtiruvi. Har bir savolning matematik kaliti mustaqil ekspertdan o‘tdi degani emas.'),
- now()
+ 'method','Dasturiy strukturaviy audit va manba uslublari solishtiruvi. Har bir savolning matematik kaliti mustaqil ekspertdan o‘tdi degani emas.')
 FROM enriched
 ON CONFLICT(question_id) DO NOTHING;
 DO $$ BEGIN
