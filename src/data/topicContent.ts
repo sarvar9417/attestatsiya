@@ -12,6 +12,10 @@ import { M10_05_CANONICAL_BOOK } from './topics/m10ThreeDCanonicalBook'
 import { M10_06_CANONICAL_BOOK } from './topics/m10AnimationCanonicalBook'
 import { M10_07_CANONICAL_BOOK } from './topics/m10AudioVideoCanonicalBook'
 import { M12_NETWORK_TEXTBOOK_ADDITIONS } from './topics/m12NetworkTextbookAdditions'
+import { M12_01_CANONICAL_BOOK } from './topics/m12NetworkScopesCanonicalBook'
+import { M12_02_CANONICAL_BOOK } from './topics/m12NetworkHardwareCanonicalBook'
+import { M12_03_CANONICAL_BOOK } from './topics/m12TopologyCanonicalBook'
+import { M12_04_CANONICAL_BOOK } from './topics/m12PacketsOsiCanonicalBook'
 import { M11_WEB_TEXTBOOK_ADDITIONS } from './topics/m11WebTextbookAdditions'
 import { M11_04_CANONICAL_BOOK } from './topics/m11HtmlLinksMediaCanonicalBook'
 import { M11_05_CANONICAL_BOOK } from './topics/m11CssColorsCanonicalBook'
@@ -1044,7 +1048,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   ], [
     { id: 'M12.01-q1', text: 'Internet qanday turdagi tarmoqqa misol?', options: ['LAN', 'MAN', 'WAN', 'PAN'], correctIndex: 2, explanation: 'Internet butun dunyoni qamrab olgan WAN (Wide Area Network)', type: 'Y1' },
     { id: 'M12.01-q2', text: 'Shaxsiy qurilmalarni bog\'lovchi tarmoq?', options: ['PAN', 'LAN', 'MAN', 'WAN'], correctIndex: 0, explanation: 'PAN (Personal Area Network) — shaxsiy qurilmalar uchun', type: 'Y1' },
-    { id: 'M12.01-q3', text: 'VPN qanday vazifani bajaradi?', options: ['Internet tezligini oshiradi', 'Xavfsiz virtual ulanish yaratadi', 'Tarmoq qurilmalarini birlashtiradi', 'Wi-Fi signalini kuchaytiradi'], correctIndex: 1, explanation: 'VPN (Virtual Private Network) — internet orqali xavfsiz ulanishni ta\'minlaydi', type: 'Y2' },
+    { id: 'M12.01-q3', text: 'VPN qanday vazifani bajaradi?', options: ['Internet tezligini oshiradi', 'Xavfsiz virtual ulanish yaratadi', 'Tarmoq qurilmalarini birlashtiradi', 'Wi-Fi signalini kuchaytiradi'], correctIndex: 1, explanation: 'VPN mavjud tarmoq ustida odatda shifrlangan mantiqiy tunnel yaratadi; xavfsizlik protokol, konfiguratsiya va ishonilgan provayderga bog‘liq.', type: 'Y2' },
   ]),
 
   'M12.02': t('M12.02', 'Komponentlar, qurilmalar va aloqa vositalari', [
@@ -1054,7 +1058,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'note', content: '🔌 Router — tarmoqlararo ulanish (internetga chiqish). Switch — bir tarmoq ichida qurilmalarni ulash.' },
   ], [
     { id: 'M12.02-q1', text: 'Tarmoqlarni bir-biriga ulash uchun qaysi qurilma ishlatiladi?', options: ['Switch', 'Router', 'Hub', 'Modem'], correctIndex: 1, explanation: 'Router — turli tarmoqlarni ulaydi va paketlarni marshrutlaydi', type: 'Y1' },
-    { id: 'M12.02-q2', text: 'Eng tez aloqa vositasi qaysi?', options: ['UTP-kabel', 'Wi-Fi', 'Optik tolali', 'Bluetooth'], correctIndex: 2, explanation: 'Optik tolali — yorug\'lik orqali, 100 Gbit/s gacha tezlik', type: 'Y1' },
+    { id: 'M12.02-q2', text: 'Uzoq masofali, katta sig‘imli magistral aloqa uchun odatda qaysi uzatish muhiti tanlanadi?', options: ['UTP-kabel', 'Wi-Fi', 'Optik tolali', 'Bluetooth'], correctIndex: 2, explanation: 'Optik tola yorug‘lik impulslari bilan ishlaydi va katta sig‘imli uzoq kanallarda qo‘llanadi; tezlik uskuna hamda standartga bog‘liq, universal 100 Gbit/s limit yo‘q.', type: 'Y1' },
     { id: 'M12.02-q3', text: 'Switch va Hub o\'rtasidagi asosiy farq?', options: ['Switch tezroq', 'Switch har bir portga alohida kanal beradi', 'Hub xavfsizroq', 'Farqi yo\'q'], correctIndex: 1, explanation: 'Switch har bir ulangan qurilmaga alohida kanal ajratadi, Hub barcha portlarga signalni takrorlaydi', type: 'Y2' },
   ]),
 
@@ -1064,9 +1068,9 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'text', content: 'Arxitektura turlari: Client-Server (mijoz-server) — markaziy server, qolgani mijozlar. Peer-to-Peer (P2P) — barcha qurilmalar teng huquqli.' },
     { type: 'note', content: '⭐ Eng keng tarqalgan topologiya — Yulduz (Star). Zamonaviy tarmoqlarda asosan switch asosida yulduz topologiyasi ishlatiladi.' },
   ], [
-    { id: 'M12.03-q1', text: 'Eng keng tarqalgan tarmoq topologiyasi?', options: ['Shina', 'Halqa', 'Yulduz', 'Mesh'], correctIndex: 2, explanation: 'Yulduz (Star) — zamonaviy tarmoqlarda eng ko\'p ishlatiladi', type: 'Y1' },
+    { id: 'M12.03-q1', text: 'Zamonaviy sinf Ethernet LANida kompyuterlar markaziy switchga alohida ulangan bo‘lsa, qaysi topologiya?', options: ['Shina', 'Halqa', 'Yulduz', 'Mesh'], correctIndex: 2, explanation: 'Markaziy switchga alohida kabel orqali ulanadigan endpointlar fizik yulduz (star) topologiyasini hosil qiladi.', type: 'Y1' },
     { id: 'M12.03-q2', text: 'Client-server arxitekturasida qurilmalar qanday munosabatda?', options: ['Hamma teng', 'Markaziy server va mijozlar', 'Faqat o\'zaro', 'Ketma-ket ulangan'], correctIndex: 1, explanation: 'Client-Server: server resurslarni boshqaradi, mijozlar ulardan foydalanadi', type: 'Y1' },
-    { id: 'M12.03-q3', text: 'To\'liq Mesh topologiyasining kamchiligi?', options: ['Ishonchsiz', 'Ko\'p kabel talab qiladi', 'Sekin', 'Faoliyati cheklangan'], correctIndex: 1, explanation: 'Mesh topologiyada har bir qurilma barcha qurilmalar bilan bog\'lanadi, juda ko\'p kabel talab qiladi', type: 'Y2' },
+    { id: 'M12.03-q3', text: 'Simli to‘liq Mesh topologiyasini kengaytirishdagi asosiy kamchilik nimada?', options: ['Ishonchsiz', 'Ko\'p kabel talab qiladi', 'Sekin', 'Faoliyati cheklangan'], correctIndex: 1, explanation: 'Simli full meshda n tugun uchun n(n−1)/2 bog‘lanish kerak, kabel/port xarajati tez oshadi. Simsiz meshda esa fizik kabel miqdori boshqa bo‘lishi mumkin.', type: 'Y2' },
   ]),
 
   'M12.04': t('M12.04', 'Tarmoq ishlash prinsipi', [
@@ -1075,9 +1079,9 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { type: 'note', content: '📡 TCP — ishonchli ulanishli protokol (ma\'lumot yetib borishi kafolatlanadi). UDP — tez, lekin ishonchsiz (video, o\'yin).' },
     { type: 'example', content: 'Veb-sahifa ochish:\n1) Brauzer (Amaliy) HTTP so\'rov yuboradi\n2) TCP (Transport) ulanish o\'rnatadi\n3) IP (Tarmoq) paketni marshrutlaydi\n4) Ethernet (Ulanish) kadrni uzatadi\n5) Fizik sath signalni yuboradi' },
   ], [
-    { id: 'M12.04-q1', text: 'TCP protokoli qaysi OSI sathida ishlaydi?', options: ['Tarmoq', 'Transport', 'Amaliy', 'Fizik'], correctIndex: 1, explanation: 'TCP — Transport sathida ishlaydi, ishonchli yetkazishni ta\'minlaydi', type: 'Y1' },
+    { id: 'M12.04-q1', text: 'TCP protokoli qaysi OSI sathida ishlaydi?', options: ['Tarmoq', 'Transport', 'Amaliy', 'Fizik'], correctIndex: 1, explanation: 'TCP transport qatlamida tartibli bayt oqimini qayta uzatish/ACK bilan boshqaradi, ammo aloqa uzilishida yakuniy yetkazish mutlaq kafolatlanmaydi.', type: 'Y1' },
     { id: 'M12.04-q2', text: 'IP protokoli qaysi vazifani bajaradi?', options: ['Ma\'lumotni shifrlash', 'Paketlarni marshrutlash', 'Sessiyani boshqarish', 'Ilovalar bilan ishlash'], correctIndex: 1, explanation: 'IP (Internet Protocol) — paketlarni manzil bo\'yicha marshrutlaydi', type: 'Y1' },
-    { id: 'M12.04-q3', text: 'UDP protokoli TCP dan qanday farq qiladi?', options: ['Sekinroq', 'Ishonchsiz, lekin tez', 'Xavfsizroq', 'Faqat matn uchun'], correctIndex: 1, explanation: 'UDP — ulanishsiz, tez, lekin paket yetib borishini kafolatlamaydi', type: 'Y2' },
+    { id: 'M12.04-q3', text: 'UDP protokoli TCP dan qanday farq qiladi?', options: ['Sekinroq', 'Ishonchsiz, lekin tez', 'Xavfsizroq', 'Faqat matn uchun'], correctIndex: 1, explanation: 'UDP ulanishsiz datagram yuboradi, o‘zi retransmission yoki tartib kafolatlamaydi; past overhead bo‘lishi mumkin, lekin amaldagi tezlik hamda ishonchlilik ilova va kanalga bog‘liq.', type: 'Y2' },
   ]),
 
   'M12.05': t('M12.05', 'IP manzil, maska va tarmoq hisobi', [
@@ -1767,6 +1771,21 @@ for (const [id, book, source] of [
   if (!original) continue
   const appendix = M11_WEB_TEXTBOOK_ADDITIONS[id] ?? []
   TOPIC_CONTENT[id] = { ...original, kind: 'chapter', source, theory: [...book, ...appendix] }
+}
+
+// TASK-308: Replace brief M12.01–04 seeds with full contiguous network books,
+// then preserve the reviewed five-block Cambridge+ appendix at each chapter end.
+// No static ID, answer index, options or cognitive-level metadata changed.
+for (const [id, book, source] of [
+  ['M12.01', M12_01_CANONICAL_BOOK, 'Cambridge+ ICT 9/10–11 — scopes, PAN/LAN/WAN, VPN'],
+  ['M12.02', M12_02_CANONICAL_BOOK, 'Cambridge+ ICT 9/10–11 + Cloudflare — devices and media'],
+  ['M12.03', M12_03_CANONICAL_BOOK, 'Cambridge+ ICT 9/10–11 + Cisco — topology'],
+  ['M12.04', M12_04_CANONICAL_BOOK, 'Cambridge+ ICT 9/10–11 + IETF — OSI/TCP/IP and packets'],
+] as const) {
+  const previous = TOPIC_CONTENT[id]
+  if (!previous) continue
+  const appendix = M12_NETWORK_TEXTBOOK_ADDITIONS[id] ?? []
+  TOPIC_CONTENT[id] = { ...previous, source, kind: 'chapter', theory: [...book, ...appendix] }
 }
 
 // M02 canonical chapters combine multiple lengthy source lessons. Rebuilding
