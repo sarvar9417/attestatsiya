@@ -57,6 +57,23 @@ export function safeAsset(value: unknown): Asset | null {
   }
 }
 
+/**
+ * Older finalized exam-review payloads contain option texts but no question_id.
+ * The two Telegram posts share their stem, so ONLY the exact published
+ * four-option fingerprint may recover its picture in the results screen.
+ * No answer key, answer position or grading data is involved.
+ */
+export function legacyPedguliDebateReviewId(
+  stemMd: string,
+  options: readonly { side: string; content_md: string }[],
+): string | undefined {
+  if (!stemMd.includes('Ushbu suratda qaysi metod tasvirlangan?')) return undefined
+  const actual = options.filter(option => option.side === 'a').map(option => option.content_md.trim()).sort()
+  const expected = ['Debat', 'Debrifing', 'Demonstratsiya', 'Diskussiya'].sort()
+  if (actual.length !== expected.length || actual.some((text, i) => text !== expected[i])) return undefined
+  return PEDGULI_PUBLISHED_DEBATE_QUESTION_ID
+}
+
 export default function ExamQuestionAssets({ assets, questionId }: {
   assets: unknown[]
   questionId?: string
