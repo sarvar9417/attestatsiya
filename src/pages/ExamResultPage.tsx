@@ -3,15 +3,13 @@ import { Link, useParams } from 'react-router-dom'
 import {
   AlertCircle,
   ArrowLeft,
-  Check,
   ChevronDown,
   Clock3,
   LoaderCircle,
   RefreshCw,
-  X,
 } from 'lucide-react'
 import { backendGateway } from '../features/exam/backendGateway'
-import ExamRichText from '../features/exam/questions/ExamRichText'
+import ExamReviewList from '../features/exam/ExamReviewList'
 import CustomExamAnalysis from '../features/custom-test/CustomExamAnalysis'
 import type {
   ExamResultDetail,
@@ -251,35 +249,7 @@ export default function ExamResultPage() {
 
         {review && review.length === 0 && <p className="mt-4 rounded-xl bg-gray-50 p-4 text-sm text-gray-500 dark:bg-gray-950/50 dark:text-gray-400">Savollar tahlili mavjud emas.</p>}
 
-        {review && review.length > 0 && (
-          <div className="mt-5 space-y-3">
-            {review.map(item => (
-              <article key={item.order_idx} className="rounded-xl border border-gray-200 p-4 dark:border-gray-800">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="rounded-lg bg-gray-100 px-2 py-1 text-[11px] font-semibold text-gray-600 dark:bg-gray-800 dark:text-gray-300">Savol {item.order_idx}</span>
-                      {item.construct && <span className="font-mono text-[11px] font-semibold text-indigo-600 dark:text-indigo-300">{item.construct}</span>}
-                    </div>
-                    <div className="mt-3 text-sm font-medium leading-6 text-gray-900 dark:text-gray-100"><ExamRichText text={item.stem_md} /></div>
-                  </div>
-                  <span className={[
-                    'inline-flex shrink-0 items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-semibold',
-                    item.is_correct === true
-                      ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300'
-                      : item.is_correct === false
-                        ? 'bg-rose-50 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300'
-                        : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-200',
-                  ].join(' ')}>
-                    {item.is_correct === true ? <Check size={13} /> : item.is_correct === false ? <X size={13} /> : <Clock3 size={13} />}
-                    {item.is_correct === true ? 'To‘g‘ri' : item.is_correct === false ? 'Xato' : 'Javobsiz'}
-                  </span>
-                </div>
-                {item.explanation_md && <div className="mt-4 rounded-xl bg-indigo-50/70 p-3 text-sm leading-6 text-indigo-900 dark:bg-indigo-950/30 dark:text-indigo-100"><strong>Izoh: </strong><div className="mt-1"><ExamRichText text={item.explanation_md} /></div></div>}
-              </article>
-            ))}
-          </div>
-        )}
+        {review && review.length > 0 && <ExamReviewList items={review} />}
       </section>
 
       <div className="flex flex-wrap gap-2">
