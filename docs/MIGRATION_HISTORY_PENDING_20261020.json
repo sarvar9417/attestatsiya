@@ -1,284 +1,458 @@
 {
-  "audit_date": "2026-10-20",
-  "project_id": "plyqezulrfowyblsfpzy",
-  "source": "GitHub main at initial audit; pull request branch post-rename",
-  "summary": {
-    "local_migrations": 214,
-    "remote_history": 272,
-    "local_unmatched_version": 38,
-    "same_name_different_sql": 9,
-    "unmatched_name": 29,
-    "remote_only_versions": 96
-  },
-  "unmatched_local": [
+  "snapshot_date": "2026-10-20",
+  "production_project": "plyqezulrfowyblsfpzy",
+  "status": "Before 26-row exact-SQL history reconciliation; these six and other proven rows will be fixed in a guarded transaction after CI and main merge",
+  "unmatched_local_before_repair": [
     {
       "filename": "20261012100000_pedguli_original_topic_bank_30.sql",
       "version": "20261012100000",
       "name": "pedguli_original_topic_bank_30",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
     },
     {
       "filename": "20261012103000_pedguli_html_themes_original_24.sql",
       "version": "20261012103000",
       "name": "pedguli_html_themes_original_24",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
     },
     {
       "filename": "20261012104000_pedguli_m16_scenarios_original_30.sql",
       "version": "20261012104000",
       "name": "pedguli_m16_scenarios_original_30",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
     },
     {
       "filename": "20261012105000_pedguli_scenario_based_lessons_6.sql",
       "version": "20261012105000",
       "name": "pedguli_scenario_based_lessons_6",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
     },
     {
       "filename": "20261012105900_professional_120_canonical_lesson_links.sql",
       "version": "20261012105900",
       "name": "professional_120_canonical_lesson_links",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
     },
     {
       "filename": "20261012105901_pedguli_editorial_review_gate.sql",
       "version": "20261012105901",
       "name": "pedguli_editorial_review_gate",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
+    },
+    {
+      "filename": "20261012105902_pedguli_editorial_fingerprint_gate.sql",
+      "version": "20261012105902",
+      "name": "pedguli_editorial_fingerprint_gate",
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261013050845"
+    },
+    {
+      "filename": "20261012105903_pedguli_published_item_lock.sql",
+      "version": "20261012105903",
+      "name": "pedguli_published_item_lock",
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261013050854"
     },
     {
       "filename": "20261016105000_restore_m02_m05_source_lessons.sql",
       "version": "20261016105000",
       "name": "restore_m02_m05_source_lessons",
-      "classification": "same_name_but_different_sql",
-      "existing_remote_version": "20261016055144"
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261016055144"
     },
     {
       "filename": "20261016210000_task200_balanced_pedagogy_review_batch.sql",
       "version": "20261016210000",
       "name": "task200_balanced_pedagogy_review_batch",
-      "classification": "same_name_but_different_sql",
-      "existing_remote_version": "20261016161707"
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261016161707"
     },
     {
-      "filename": "20261018131001_topic_test_preflight.sql",
+      "filename": "20261018100001_task202_pedagogy_revision_queue.sql",
+      "version": "20261018100001",
+      "name": "task202_pedagogy_revision_queue",
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261018044809"
+    },
+    {
+      "filename": "20261018102000_repair_mock_y2_options_payload.sql",
+      "version": "20261018102000",
+      "name": "repair_mock_y2_options_payload",
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261018042805"
+    },
+    {
+      "filename": "20261018102001_task202_immutability_transfer_guard.sql",
+      "version": "20261018102001",
+      "name": "task202_immutability_transfer_guard",
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261018044829"
+    },
+    {
+      "filename": "20261018105900_task202_atomic_admin_y1_save.sql",
+      "version": "20261018105900",
+      "name": "task202_atomic_admin_y1_save",
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261018044843"
+    },
+    {
+      "filename": "20261018105901_task202_verified_analytic_method_question.sql",
+      "version": "20261018105901",
+      "name": "task202_verified_analytic_method_question",
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261018044859"
+    },
+    {
+      "filename": "20261018105902_task202_verified_bullying_key_correction.sql",
+      "version": "20261018105902",
+      "name": "task202_verified_bullying_key_correction",
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261018044904"
+    },
+    {
+      "filename": "20261018115900_task202_assistant_distractor_drafts_07.sql",
+      "version": "20261018115900",
+      "name": "task202_assistant_distractor_drafts_07",
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261018044955"
+    },
+    {
+      "filename": "20261018115901_task202_assistant_distractor_drafts_08.sql",
+      "version": "20261018115901",
+      "name": "task202_assistant_distractor_drafts_08",
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261018045000"
+    },
+    {
+      "filename": "20261018115902_task202_assistant_distractor_drafts_09.sql",
+      "version": "20261018115902",
+      "name": "task202_assistant_distractor_drafts_09",
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261018045012"
+    },
+    {
+      "filename": "20261018115903_task202_assistant_distractor_drafts_10.sql",
+      "version": "20261018115903",
+      "name": "task202_assistant_distractor_drafts_10",
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261018045017"
+    },
+    {
+      "filename": "20261018120001_task202_assistant_distractor_drafts_11.sql",
+      "version": "20261018120001",
+      "name": "task202_assistant_distractor_drafts_11",
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261018045022"
+    },
+    {
+      "filename": "20261018121001_task202_assistant_distractor_drafts_12.sql",
+      "version": "20261018121001",
+      "name": "task202_assistant_distractor_drafts_12",
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261018045027"
+    },
+    {
+      "filename": "20261018131001_ktd_independent_publication_gate.sql",
       "version": "20261018131001",
+      "name": "ktd_independent_publication_gate",
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
+    },
+    {
+      "filename": "20261018131002_topic_test_preflight.sql",
+      "version": "20261018131002",
       "name": "topic_test_preflight",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
     },
     {
       "filename": "20261018132000_pedagogy_draft_learning_objectives.sql",
       "version": "20261018132000",
       "name": "pedagogy_draft_learning_objectives",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
     },
     {
       "filename": "20261018133000_pedagogy_review_provenance.sql",
       "version": "20261018133000",
       "name": "pedagogy_review_provenance",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
     },
     {
       "filename": "20261018134000_private_pedagogy_quality_flags.sql",
       "version": "20261018134000",
       "name": "private_pedagogy_quality_flags",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
     },
     {
       "filename": "20261018135500_task203_scratch_logo_v2_draft_bank.sql",
       "version": "20261018135500",
       "name": "task203_scratch_logo_v2_draft_bank",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
     },
     {
       "filename": "20261018195000_task204_m06_algo_v2_rfc_uuid_rekey.sql",
       "version": "20261018195000",
       "name": "task204_m06_algo_v2_rfc_uuid_rekey",
-      "classification": "same_name_but_different_sql",
-      "existing_remote_version": "20261018074359"
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261018074359"
+    },
+    {
+      "filename": "20261018195900_task204_m06_v2_distractor_balance.sql",
+      "version": "20261018195900",
+      "name": "task204_m06_v2_distractor_balance",
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261018075314"
+    },
+    {
+      "filename": "20261018220000_task214_gv_v2_gfx_y2_y3_extra_review.sql",
+      "version": "20261018220000",
+      "name": "task214_gv_v2_gfx_y2_y3_extra_review",
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261018143241"
+    },
+    {
+      "filename": "20261018220001_task220_m12_network_v2_review_import.sql",
+      "version": "20261018220001",
+      "name": "task220_m12_network_v2_review_import",
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261018132253"
     },
     {
       "filename": "20261019020000_task210_custom_presets.sql",
       "version": "20261019020000",
       "name": "task210_custom_presets",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
+    },
+    {
+      "filename": "20261019020001_task212_m13_axr_owner_publication.sql",
+      "version": "20261019020001",
+      "name": "task212_m13_axr_owner_publication",
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
     },
     {
       "filename": "20261019023000_task230_custom_construct_filter.sql",
       "version": "20261019023000",
       "name": "task230_custom_construct_filter",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
     },
     {
       "filename": "20261019024000_task231_custom_exam_analysis.sql",
       "version": "20261019024000",
       "name": "task231_custom_exam_analysis",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
     },
     {
       "filename": "20261019025000_task232_custom_exam_resume.sql",
       "version": "20261019025000",
       "name": "task232_custom_exam_resume",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
     },
     {
-      "filename": "20261019030000_task233_custom_learning_feedback.sql",
+      "filename": "20261019030000_task213_m13_native_y2_y3_140.sql",
       "version": "20261019030000",
+      "name": "task213_m13_native_y2_y3_140",
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
+    },
+    {
+      "filename": "20261019030001_task233_custom_learning_feedback.sql",
+      "version": "20261019030001",
       "name": "task233_custom_learning_feedback",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
     },
     {
       "filename": "20261019031000_task234_admin_custom_coverage.sql",
       "version": "20261019031000",
       "name": "task234_admin_custom_coverage",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
     },
     {
       "filename": "20261019032000_task240_graphics_web_v2_quarantine.sql",
       "version": "20261019032000",
       "name": "task240_graphics_web_v2_quarantine",
-      "classification": "same_name_but_different_sql",
-      "existing_remote_version": "20261018162350"
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261018162350"
     },
     {
       "filename": "20261019040000_task239_office_v2_visual_review.sql",
       "version": "20261019040000",
       "name": "task239_office_v2_visual_review",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
     },
     {
       "filename": "20261019190000_exact_topic_test_count.sql",
       "version": "20261019190000",
       "name": "exact_topic_test_count",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
     },
     {
       "filename": "20261019210000_official_mock_random_selector.sql",
       "version": "20261019210000",
       "name": "official_mock_random_selector",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
+    },
+    {
+      "filename": "20261019210001_task220_m12_v2_theory_render_fix.sql",
+      "version": "20261019210001",
+      "name": "task220_m12_v2_theory_render_fix",
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261018135907"
+    },
+    {
+      "filename": "20261019220000_official_mock_v3_diversity.sql",
+      "version": "20261019220000",
+      "name": "official_mock_v3_diversity",
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
+    },
+    {
+      "filename": "20261019220001_task220_m12_native_y2_y3_review.sql",
+      "version": "20261019220001",
+      "name": "task220_m12_native_y2_y3_review",
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261018140453"
     },
     {
       "filename": "20261020083000_pedagogy_examstyle_review_12.sql",
       "version": "20261020083000",
       "name": "pedagogy_examstyle_review_12",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
     },
     {
       "filename": "20261020084000_pedagogy_examstyle_review_7.sql",
       "version": "20261020084000",
       "name": "pedagogy_examstyle_review_7",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
+    },
+    {
+      "filename": "20261020093000_task306_m13_native_y2_4x5_review.sql",
+      "version": "20261020093000",
+      "name": "task306_m13_native_y2_4x5_review",
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
+    },
+    {
+      "filename": "20261020093001_task330_m03_office_visual_draft_assets.sql",
+      "version": "20261020093001",
+      "name": "task330_m03_office_visual_draft_assets",
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261020044625"
     },
     {
       "filename": "20261020100500_task207_algorithm_style_audit_snapshot.sql",
       "version": "20261020100500",
       "name": "task207_algorithm_style_audit_snapshot",
-      "classification": "same_name_but_different_sql",
-      "existing_remote_version": "20261020035937"
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261020035937"
     },
     {
       "filename": "20261020101500_task207_original_attest_style_examples.sql",
       "version": "20261020101500",
       "name": "task207_original_attest_style_examples",
-      "classification": "same_name_but_different_sql",
-      "existing_remote_version": "20261020040301"
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261020040301"
     },
     {
       "filename": "20261020110000_m07_scratch_logo_exam_style_review.sql",
       "version": "20261020110000",
       "name": "m07_scratch_logo_exam_style_review",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
     },
     {
       "filename": "20261020110500_m07_scratch_logo_difficulty_calibration.sql",
       "version": "20261020110500",
       "name": "m07_scratch_logo_difficulty_calibration",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
     },
     {
       "filename": "20261020150000_m07_final_semantic_clarity.sql",
       "version": "20261020150000",
       "name": "m07_final_semantic_clarity",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
     },
     {
       "filename": "20261020151000_m07_prevent_shape_answer_leak.sql",
       "version": "20261020151000",
       "name": "m07_prevent_shape_answer_leak",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
     },
     {
       "filename": "20261020160000_m07_expert_semantic_pass2.sql",
       "version": "20261020160000",
       "name": "m07_expert_semantic_pass2",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
     },
     {
       "filename": "20261020160500_m07_logo_retrace_correction.sql",
       "version": "20261020160500",
       "name": "m07_logo_retrace_correction",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
     },
     {
       "filename": "20261020200000_task346_numeric_qa_staging.sql",
       "version": "20261020200000",
       "name": "task346_numeric_qa_staging",
-      "classification": "same_name_but_different_sql",
-      "existing_remote_version": "20261020103208"
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261020103208"
     },
     {
       "filename": "20261020203000_task332_algo_v4_six_owner_waiver_publish.sql",
       "version": "20261020203000",
       "name": "task332_algo_v4_six_owner_waiver_publish",
-      "classification": "same_name_but_different_sql",
-      "existing_remote_version": "20261020050023"
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261020050023"
+    },
+    {
+      "filename": "20261020203001_task346_pdf_independent_qa.sql",
+      "version": "20261020203001",
+      "name": "task346_pdf_independent_qa",
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261020104347"
     },
     {
       "filename": "20261020220000_task346_access_source_defects.sql",
       "version": "20261020220000",
       "name": "task346_access_source_defects",
-      "classification": "same_name_but_different_sql",
-      "existing_remote_version": "20261020112419"
+      "remote_name_matched": true,
+      "remote_version_if_name_matched": "20261020112419"
     },
     {
       "filename": "20261021000500_task346_missing_visual_gate.sql",
       "version": "20261021000500",
       "name": "task346_missing_visual_gate",
-      "classification": "not_found_in_production_history",
-      "existing_remote_version": null
+      "remote_name_matched": false,
+      "remote_version_if_name_matched": null
     }
   ],
-  "remote_without_local_version": [
+  "remote_without_local_version_before_repair": [
     {
       "version": "20260801000018",
       "name": "exam_batch_finish"
@@ -288,12 +462,68 @@
       "name": "pedguli_review_bank_safe_import"
     },
     {
+      "version": "20261013050845",
+      "name": "pedguli_editorial_fingerprint_gate"
+    },
+    {
+      "version": "20261013050854",
+      "name": "pedguli_published_item_lock"
+    },
+    {
       "version": "20261016055144",
       "name": "restore_m02_m05_source_lessons"
     },
     {
       "version": "20261016161707",
       "name": "task200_balanced_pedagogy_review_batch"
+    },
+    {
+      "version": "20261018042805",
+      "name": "repair_mock_y2_options_payload"
+    },
+    {
+      "version": "20261018044809",
+      "name": "task202_pedagogy_revision_queue"
+    },
+    {
+      "version": "20261018044829",
+      "name": "task202_immutability_transfer_guard"
+    },
+    {
+      "version": "20261018044843",
+      "name": "task202_atomic_admin_y1_save"
+    },
+    {
+      "version": "20261018044859",
+      "name": "task202_verified_analytic_method_question"
+    },
+    {
+      "version": "20261018044904",
+      "name": "task202_verified_bullying_key_correction"
+    },
+    {
+      "version": "20261018044955",
+      "name": "task202_assistant_distractor_drafts_07"
+    },
+    {
+      "version": "20261018045000",
+      "name": "task202_assistant_distractor_drafts_08"
+    },
+    {
+      "version": "20261018045012",
+      "name": "task202_assistant_distractor_drafts_09"
+    },
+    {
+      "version": "20261018045017",
+      "name": "task202_assistant_distractor_drafts_10"
+    },
+    {
+      "version": "20261018045022",
+      "name": "task202_assistant_distractor_drafts_11"
+    },
+    {
+      "version": "20261018045027",
+      "name": "task202_assistant_distractor_drafts_12"
     },
     {
       "version": "20261018045141",
@@ -310,6 +540,10 @@
     {
       "version": "20261018074359",
       "name": "task204_m06_algo_v2_rfc_uuid_rekey"
+    },
+    {
+      "version": "20261018075314",
+      "name": "task204_m06_v2_distractor_balance"
     },
     {
       "version": "20261018123529",
@@ -428,6 +662,26 @@
       "name": "task205_m08_pyjs_v2_appendix_markdown_repair"
     },
     {
+      "version": "20261018132253",
+      "name": "task220_m12_network_v2_review_import"
+    },
+    {
+      "version": "20261018132658",
+      "name": "task212_m13_axr_owner_publication_20261019"
+    },
+    {
+      "version": "20261018135907",
+      "name": "task220_m12_v2_theory_render_fix"
+    },
+    {
+      "version": "20261018140453",
+      "name": "task220_m12_native_y2_y3_review"
+    },
+    {
+      "version": "20261018140538",
+      "name": "ktd_independent_publication_gate_20261018"
+    },
+    {
       "version": "20261018140845",
       "name": "task206_m08_pyjs_v2_rebalance_p01_review"
     },
@@ -488,12 +742,20 @@
       "name": "task206_m09_native_publish_guard"
     },
     {
+      "version": "20261018141751",
+      "name": "task213_m13_native_y2_y3_140_20261019"
+    },
+    {
       "version": "20261018141839",
       "name": "task206_m09_supplemental_release_guard"
     },
     {
       "version": "20261018142153",
       "name": "task206_native_guard_nullable_source_fix"
+    },
+    {
+      "version": "20261018143241",
+      "name": "task214_gv_v2_gfx_y2_y3_extra_review"
     },
     {
       "version": "20261018162350",
@@ -608,12 +870,24 @@
       "name": "task291_native_y2_legacy_two_revisions_review_20261020"
     },
     {
+      "version": "20261020040720",
+      "name": "task306_m13_seven_native_y2_4x5_review_20261020"
+    },
+    {
       "version": "20261020040821",
       "name": "task291_native_y2_safe_publication_cutover_20261020"
     },
     {
+      "version": "20261020044625",
+      "name": "task330_m03_office_visual_draft_assets"
+    },
+    {
       "version": "20261020050023",
       "name": "task332_algo_v4_six_owner_waiver_publish"
+    },
+    {
+      "version": "20261020090807",
+      "name": "official_mock_v3_diversity_task306_prereq"
     },
     {
       "version": "20261020092602",
@@ -622,6 +896,10 @@
     {
       "version": "20261020103208",
       "name": "task346_numeric_qa_staging"
+    },
+    {
+      "version": "20261020104347",
+      "name": "task346_pdf_independent_qa"
     },
     {
       "version": "20261020104545",
@@ -664,5 +942,5 @@
       "name": "task346_access_source_defects"
     }
   ],
-  "warning": "Do not mark unmatched entries applied or run unrestricted db push without production semantic review and linked CLI dry-run."
+  "warning": "No unverified migration is applied. Do not run unrestricted db push."
 }
