@@ -33,10 +33,10 @@ BEGIN
   OR (SELECT COUNT(DISTINCT lower(trim(o.content_md))) FROM public.question_options o WHERE o.question_id=q.id AND o.side='a')<>4
   OR NOT EXISTS(SELECT 1 FROM public.question_options o WHERE o.id::text=k.payload->>'correct_option_id' AND o.question_id=q.id)
   OR (
-    SELECT max(array_length(regexp_split_to_array(trim(o.content_md),'\\s+'),1))
+    SELECT max(array_length(regexp_split_to_array(trim(o.content_md),'[[:space:]]+'),1))
     FROM public.question_options o WHERE o.question_id=q.id AND o.id::text=k.payload->>'correct_option_id'
   )>(
-    SELECT max(array_length(regexp_split_to_array(trim(o.content_md),'\\s+'),1))
+    SELECT max(array_length(regexp_split_to_array(trim(o.content_md),'[[:space:]]+'),1))
     FROM public.question_options o WHERE o.question_id=q.id AND o.id::text<>k.payload->>'correct_option_id'
   )
  )
@@ -68,7 +68,7 @@ BEGIN
  IF EXISTS(
    SELECT 1 FROM public.questions q WHERE q.source_reference LIKE 'authored:pedagogy-examstyle:20261020%'
      AND EXISTS(SELECT 1 FROM public.questions q2 WHERE q2.id<>q.id AND q2.status='published'
-      AND lower(regexp_replace(trim(q2.stem_md),'\\s+',' ','g'))=lower(regexp_replace(trim(q.stem_md),'\\s+',' ','g')))
+      AND lower(regexp_replace(trim(q2.stem_md),'[[:space:]]+',' ','g'))=lower(regexp_replace(trim(q.stem_md),'[[:space:]]+',' ','g')))
  ) THEN RAISE EXCEPTION 'New review question duplicates a published stem'; END IF;
 END $qa$;
 ROLLBACK;
