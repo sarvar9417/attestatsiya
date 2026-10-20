@@ -10,6 +10,10 @@ FOR q IN SELECT value FROM jsonb_array_elements('[{"id":"001","fmt":"Y1","stem":
  IF EXISTS(SELECT 1 FROM public.questions WHERE source_reference='algoritmlash-v4:ALG-V4-'||(q->>'id')) THEN CONTINUE;END IF;
  SELECT id INTO cid FROM public.constructs WHERE code=q->>'construct';
  SELECT id INTO lid FROM public.lessons WHERE slug=q->>'lesson';
+ -- TASK-205 is still a separate PR: on a clean main database the V3 lesson may not exist.
+ IF lid IS NULL AND q->>'lesson'='algoritmlash-v3-shart-keyin-sikl' THEN
+  SELECT id INTO lid FROM public.lessons WHERE slug='algoritmlash-v2-04';
+ END IF;
  IF cid IS NULL OR lid IS NULL THEN RAISE EXCEPTION 'Missing construct/lesson %',q->>'id'; END IF;
  qid:=gen_random_uuid();
  INSERT INTO public.questions(id,subject_id,construct_id,group_code,format,cognitive,difficulty,stem_md,assets,is_generated,status,source_reference,source_lesson_id)
