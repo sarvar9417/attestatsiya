@@ -1,3 +1,11 @@
+## TASK-356 — Migration history reconciliation (2026-10-20)
+- Owner: ChatGPT; status: **IN PROGRESS / PR CI pending, production history partially reconciled**.
+- Evidence: 118 GitHub/Supabase migration-version mismatches corrected after SQL blob SHA-1 equality checks; no SQL re-execution.
+- Repo: 24 duplicate/invalid migration filenames normalized without changing SQL contents; add migration-version CI preflight and tests.
+- Blocker: 38 unproven GitHub migration contents and 122 orphaned remote history versions; **unrestricted db push is prohibited** until reconciled.
+- Acceptance: CI green, review/merge filename fixes, SHA-verify remapped remaining exact matches, audit unresolved historical migrations and dry-run CLI.
+- Details: `docs/TASK356_MIGRATION_HISTORY_RECONCILIATION_20261020.md`.
+
 ## TASK-348 — Guruhli Mock resilient xona UX (2026-10-20)
 
 | ID | Status | Scope | Acceptance |
