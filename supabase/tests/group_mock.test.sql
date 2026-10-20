@@ -121,6 +121,10 @@ begin
 
  v_response := public.group_mock_answer(v_room,jsonb_build_object('option_id',v_other_id));
  if v_response<>'{"saved": true}'::jsonb then raise exception 'answer leaked result'; end if;
+ v_response := public.group_mock_answer(v_room,jsonb_build_object('option_id',v_other_id));
+ if v_response->>'saved'<>'true' or v_response->>'already_answered'<>'true'
+   or v_response ? 'correct' or v_response ? 'explanation_md'
+ then raise exception 'same-answer retry failed or revealed feedback'; end if;
  v_state := public.group_mock_state(v_room);
  if v_state->>'status'<>'question' or (v_state->>'answered_count')::int<>1
    or jsonb_array_length(v_state->'answers')<>0
@@ -135,6 +139,9 @@ begin
 
  perform set_config('request.jwt.claim.sub','93470000-0000-4000-8000-000000000002',true);
  perform public.group_mock_answer(v_room,jsonb_build_object('option_id',v_correct_id));
+ v_response := public.group_mock_answer(v_room,jsonb_build_object('option_id',v_correct_id));
+ if v_response->>'already_answered'<>'true' or v_response ? 'correct'
+ then raise exception 'post-reveal idempotent retry leaked result'; end if;
  v_state := public.group_mock_state(v_room);
  if v_state->>'status'<>'reveal'
     or v_state->'correct_answer'->>'correct_option_id'<>v_correct_id::text
