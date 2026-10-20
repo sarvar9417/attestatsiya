@@ -158,8 +158,10 @@ export default function TopicView({
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
   const isAxrM13 = moduleId === 'M13' &&
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
+  const isNetworkM12 = moduleId === 'M12' &&
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
   const isCanonicalPublishedTheory = /^(?:M02|M04|M14|M15|M16)\.\d{2}$/.test(subtopicId) ||
-    isAlgoritmlashV2 || isAxrM13 || isPublishedScratchLogoLesson
+    isAlgoritmlashV2 || isAxrM13 || isNetworkM12 || isPublishedScratchLogoLesson
   // Keep the same canonical core object during unrelated progress/test updates.
   const isPedagogyTopic = moduleId === 'M15' && /^M15\.\d{2}$/.test(subtopicId)
   const staticContent = useMemo(() => getTopicContent(subtopicId), [subtopicId])
@@ -231,23 +233,25 @@ export default function TopicView({
     return () => { cancelled = true }
   }, [subtopicId, staticContent, theoryRetry])
 
-  // M06 V2 and M13 AXR learner theory come strictly from published DB records.
+  // M06, M12 and M13 learner theory come strictly from published DB records.
   // Catalog links edition UUIDs only when all relevant chapters are published.
   useEffect(() => {
-    if (!isAlgoritmlashV2 && !isAxrM13) return
+    if (!isAlgoritmlashV2 && !isAxrM13 && !isNetworkM12) return
     let cancelled = false
     getLessonDetail(subtopicId)
       .then(lesson => {
         if (cancelled || lesson.status !== 'published' || !lesson.body_mdx?.trim() ||
             !(isAlgoritmlashV2
               ? lesson.slug.startsWith('algoritmlash-v2-')
-              : /^m13-axr-0[1-7]$/.test(lesson.slug))) return
+              : isAxrM13
+                ? /^m13-axr-0[1-7]$/.test(lesson.slug)
+                : /^tarmoq-v2-bob-(0[1-9]|10)$/.test(lesson.slug))) return
         setPublishedTheory({
           subtopicId,
           content: {
             subtopicId,
             title: lesson.title_uz,
-            source: isAlgoritmlashV2 ? 'Algoritmlash V2' : 'Axborot xavfsizligi — 2026',
+            source: isAlgoritmlashV2 ? 'Algoritmlash V2' : isAxrM13 ? 'Axborot xavfsizligi — 2026' : 'Kompyuter tarmoqlari V2',
             kind: lesson.blocks_kind === 'appendix' ? 'appendix' : 'chapter',
             theory: markdownToTheoryBlocks(lesson.body_mdx),
             questions: [],
@@ -257,7 +261,7 @@ export default function TopicView({
       .catch(() => { /* Fail closed on unpublished or unavailable theory. */ })
       .finally(() => { if (!cancelled) setTheoryResolved(subtopicId) })
     return () => { cancelled = true }
-  }, [isAlgoritmlashV2, isAxrM13, subtopicId])
+  }, [isAlgoritmlashV2, isAxrM13, isNetworkM12, subtopicId])
 
   // M07 previously rendered only six short static topics. The twelve source-
   // backed published lessons now load their complete body_mdx into BookReader.

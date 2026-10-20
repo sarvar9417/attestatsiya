@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { MODULES } from '../data/contentTree'
 import { getModuleDetail, listModules } from '../features/content/contentApi'
-import { mergeCatalog, publishedScratchLogoSubtopics, type CatalogModule } from '../features/content/catalog'
+import { mergeCatalog, selectPublishedNetworkV2Catalog, publishedScratchLogoSubtopics, type CatalogModule } from '../features/content/catalog'
 
 export interface CatalogState {
   modules: CatalogModule[]
@@ -78,7 +78,13 @@ export function useCatalog(): CatalogState {
         } catch {
           // Legacy M13 stays available when API is offline or incomplete.
         }
-        if (!cancelled) setState({ modules: base, loading: false, online: true })
+        let learnerModules = base
+        try {
+          learnerModules = selectPublishedNetworkV2Catalog(base, await getModuleDetail('M12'))
+        } catch {
+          // Offline/incomplete M12: preserve existing learner catalog.
+        }
+        if (!cancelled) setState({ modules: learnerModules, loading: false, online: true })
       })
       .catch(() => {
         if (cancelled) return
