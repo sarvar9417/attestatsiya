@@ -7,6 +7,13 @@
 - **Risk/open:** DB published lessons remain 3 vs static 7; Photoshop-only test coverage/editiorial sign-off not asserted; source textbook image-level QA not complete; no deploy requested.
 - **Document:** `docs/TASK337_PHOTOSHOP_TEXTBOOK_LEARNING_PATH_20261020.md`.
 
+## TASK-305 — Excel/Markdown savol ko‘rinishi (2026-10-20)
+
+- **Status:** CODE READY / CI previously PASS (frontend/backend/database/quality on PR #335), final current-base gate pending. Branch: `task/TASK-305-exam-markdown-table-render`.
+- **Scope:** Savollarning serverdagi `stem_md`/`content_md` qiymatlari va scoringni o‘zgartirmasdan, learner Y1/Y2/Y3 hamda yakuniy exam reviewda escape qilingan qatorlar, semantik Markdown jadval va mavjud fenced kod renderingini to‘g‘rilash.
+- **Files:** `src/features/exam/questions/ExamProse.tsx`, `ExamRichText.tsx` va uning Vitest regression testi, `ExamRunner.tsx`, `ExamResultPage.tsx`.
+- **Verification:** CI/lint/typecheck/test statusini PR tekshiruvidan keyin yangilash; production DB va deployga tegilmagan.
+
 ## TASK-304 — M14 source-verified QA audit handoff (2026-10-19)
 
 - **Branch:** `task/TASK-304-m14-final-qa-safe-merge`; 2026-10-19 main'dan yangi olingan; eski TASK-303 branch 23 main commit ortida qolgani uchun eski ishlar bilan konflikt chiqarmaslik maqsadida yangi branch ishlatildi.
