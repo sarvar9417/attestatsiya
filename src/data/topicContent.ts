@@ -1,3 +1,6 @@
+Warning: truncated output (original token count: 65164)
+Total output lines: 1927
+
 import { M01_CONTENT } from './topics/m01'
 import { withVerifiedM01Additions } from './topics/m01TextbookAudit'
 import { M05_THEORY } from './topics/m05'
@@ -46,6 +49,10 @@ import { M12_05_CANONICAL_BOOK } from './topics/m12IPv4CanonicalBook'
 import { M08_TEXTBOOK_STUDY_ADDITIONS } from './topics/m08TextbookStudyAdditions'
 import { M14_NORMATIVE_SOURCE_ADDITIONS } from './topics/m14NormativeSourceAdditions'
 import { M16_SOURCE_THEORY_ADDITIONS } from './topics/m16SourceTheoryAdditions'
+import { M04_LOGIC_CANONICAL_BOOKS } from './topics/m04LogicCanonicalBooks'
+import { M06_ALGORITHM_CANONICAL_BOOKS } from './topics/m06AlgorithmCanonicalBooks'
+import { M07_SCRATCH_LOGO_CANONICAL_BOOKS } from './topics/m07ScratchLogoCanonicalBooks'
+import { buildUnifiedTheoryBook } from './topics/unifiedTheoryBook'
 // M14–M16 use server-scored exams exclusively. Legacy mini-quiz answer keys
 // have intentionally been stripped from the shipped JavaScript bundle.
 
@@ -774,118 +781,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   ], [
     { id: 'M08.10-q1', text: 'Python\'da mashinaviy o\'qitish uchun qaysi kutubxona ishlatiladi?', options: ['NumPy', 'Scikit-learn', 'Matplotlib', 'Flask'], correctIndex: 1, explanation: 'Scikit-learn — mashinaviy o\'qitish kutubxonasi', type: 'Y1' },
     { id: 'M08.10-q2', text: 'Hozirgi kunda mavjud bo\'lgan SI turi?', options: ['AGI', 'ASI', 'ANI', 'Barchasi'], correctIndex: 2, explanation: 'ANI (Weak AI) — tor vazifalarni bajaradigan SI, AGI va ASI hali mavjud emas', type: 'Y1' },
-    { id: 'M08.10-q3', text: 'Pandas kutubxonasining vazifasi?', options: ['Grafik chizish', 'Ma\'lumotlarni tahlil qilish', 'Veb-server', 'O\'yin yaratish'], correctIndex: 1, explanation: 'Pandas — ma\'lumotlarni tahlil qilish va qayta ishlash kutubxonasi', type: 'Y1' },
-  ]),
-
-  'M08.11': t('M08.11', 'JavaScript sintaksisi va ma\'lumotlari', [
-    { type: 'definition', content: 'JavaScript — Brendan Eich tomonidan 1995-yilda yaratilgan, veb-sahifalarni interaktiv qilish uchun mo\'ljallangan yuqori darajali dasturlash tili. ECMAScript standarti asosida rivojlanadi.' },
-    { type: 'text', content: 'JavaScript xususiyatlari: interpretator til, dinamik tiplash, birinchi darajali funksiyalar, prototipga asoslangan OOP. Veb-brauzerlarda ishlaydi, Node.js orqali serverda ham ishlatiladi.' },
-    { type: 'code', content: '// O\'zgaruvchilar\nlet ism = "Ali"\nconst yosh = 15\nvar eski = "ES5 usuli"\n\n// Ma\'lumot turlari\nlet son = 42             // number\nlet matn = "Salom"       // string\nlet rost = true           // boolean\nlet arr = [1, 2, 3]      // object (array)\nlet obj = {a: 1, b: 2}   // object\n\n// console ga chiqarish\nconsole.log("Salom, dunyo!")\n\n// String metodlari\nconsole.log("hello".toUpperCase())  // HELLO\nconsole.log("hello".length)         // 5\nconsole.log("hello".slice(1, 4))    // ell\n\n// Number\nconsole.log(10 + 5)        // 15\nconsole.log(10 / 3)        // 3.333...\nconsole.log(10 % 3)        // 1\nconsole.log(2 ** 3)        // 8 (ES7)', language: 'javascript' },
-    { type: 'note', content: '🌐 JavaScript vebning asosiy tilidir. HTML va CSS bilan birga ishlatiladi. let — o\'zgaruvchi, const — o\'zgarmas qiymat, var — eski usul.' },
-  ], [
-    { id: 'M08.11-q1', text: 'JavaScript kim tomonidan yaratilgan?', options: ['Gvido van Rossum', 'Brendan Eich', 'James Gosling', 'Dennis Ritchie'], correctIndex: 1, explanation: 'Brendan Eich — JavaScript yaratuvchisi (1995)', type: 'Y1' },
-    { id: 'M08.11-q2', text: 'JavaScript\'da o\'zgarmas o\'zgaruvchi e\'lon qilish uchun qaysi kalit so\'z ishlatiladi?', options: ['let', 'var', 'const', 'static'], correctIndex: 2, explanation: 'const — o\'zgarmas qiymat e\'lon qilish', type: 'Y1' },
-    { id: 'M08.11-q3', text: '"hello".length qiymati?', options: ['4', '5', '6', 'undefined'], correctIndex: 1, explanation: '"hello" da 5 ta harf, length = 5', type: 'Y1' },
-  ]),
-
-  'M08.12': t('M08.12', 'JavaScript shart, sikl, funksiya va massivlari', [
-    { type: 'definition', content: 'JavaScript\'da shart operatorlari (if/else, switch), sikllar (for, while, do-while), funksiyalar va massivlar bilan ishlash imkoniyati mavjud.' },
-    { type: 'table', content: '| Konstruksiya | Sintaksis |\n|-------------|----------|\n| if/else | if (shart) { } else { } |\n| switch | switch(x) { case 1: break } |\n| for | for (let i=0; i<n; i++) |\n| while | while (shart) { } |\n| for...of | for (let el of arr) |\n| Funksiya | function f(x) { return } |\n| Arrow funksiya | const f = (x) => x*2 |' },
-    { type: 'code', content: '// Shart\nlet yosh = 15\nif (yosh >= 18) {\n    console.log("Voyaga yetgan")\n} else {\n    console.log("Voyaga yetmagan")\n}\n\n// Ternary\nlet natija = yosh >= 18 ? "Katta" : "Kichik"\n\n// Sikl\nfor (let i = 0; i < 5; i++) {\n    console.log(i)  // 0 1 2 3 4\n}\n\n// While\nlet n = 0\nwhile (n < 3) {\n    console.log(n)\n    n++\n}\n\n// Funksiya\nfunction kvadrat(x) {\n    return x * x\n}\n\n// Arrow funksiya\nconst kub = (x) => x ** 3\n\nconsole.log(kvadrat(5))  // 25\nconsole.log(kub(3))      // 27\n\n// Massiv\nlet arr = [1, 2, 3, 4, 5]\narr.push(6)\nconsole.log(arr.length)   // 6\nconsole.log(arr[0])       // 1\nconsole.log(arr.slice(1, 3))  // [2, 3]\n\n// Massiv metodlari\narr.forEach(x => console.log(x))\nlet ikkilangan = arr.map(x => x * 2)\nlet juft = arr.filter(x => x % 2 === 0)\nconsole.log(arr.find(x => x > 3))  // 4', language: 'javascript' },
-    { type: 'note', content: '⚡ Arrow funksiyalar (=>) ES6 dan boshlab qo\'shilgan. Massiv metodlari (map, filter, find, reduce) deklarativ usulda kod yozish imkonini beradi.' },
-  ], [
-    { id: 'M08.12-q1', text: 'JavaScript\'da massiv oxiriga element qo\'shish metodi?', options: ['push()', 'pop()', 'unshift()', 'shift()'], correctIndex: 0, explanation: 'push() — massiv oxiriga element qo\'shadi', type: 'Y1' },
-    { id: 'M08.12-q2', text: 'Arrow funksiya sintaksisi?', options: ['function(x) {return x*2}', '(x) => x*2', 'def(x): return x*2', 'fn(x) => x*2'], correctIndex: 1, explanation: 'Arrow funksiya: (parametr) => ifoda', type: 'Y1' },
-    { id: 'M08.12-q3', text: 'arr.map(x => x * 2) nimani qaytaradi?', options: ['Faqat juftlarni', 'Har bir elementni 2 ga ko\'paytiradi', 'Massiv uzunligini', 'Birinchi elementni'], correctIndex: 1, explanation: 'map() — har bir elementga funksiyani qo\'llab, yangi massiv qaytaradi', type: 'Y2' },
-  ]),
-'M09.01': t('M09.01', 'Ma\'lumotlar bazasi va MBBT', [
-    { type: 'definition', content: 'Ma\'lumotlar bazasi (MB) — tartiblangan, o\'zaro bog\'langan ma\'lumotlar to\'plami. MBBT (DBMS) — MB ni yaratish, boshqarish va ishlatish uchun dastur.' },
-    { type: 'text', content: 'MB turlari: relyatsion (jadval ko\'rinishida — PostgreSQL, MySQL), hujjatli (JSON — MongoDB), kalit-qiymat (Redis), grafli (Neo4j). Relyatsion MB eng keng tarqalgan.' },
-    { type: 'table', content: '| MBBT | Turi | Xususiyatlari |\n|------|------|-------------|\n| PostgreSQL | Relyatsion | Bepul, kuchli, ACID |\n| MySQL | Relyatsion | Tez, mashhur |\n| MongoDB | Hujjatli | NoSQL, moslashuvchan |\n| Redis | Kalit-qiymat | Juda tez, kesh uchun |' },
-    { type: 'note', content: '💡 Relyatsion MB da ma\'lumotlar jadvallarda saqlanadi, jadvallar o\'zaro kalitlar orqali bog\'lanadi. SQL — relyatsion MB lar uchun so\'rovlar tili.' },
-    { type: 'example', content: 'Maktab MB: O\'quvchilar jadvali, Fanlar jadvali, Baholar jadvali. Uchala jadval o\'zaro kalitlar orqali bog\'lanadi.' },
-  ], [
-    { id: 'M09.01-q1', text: 'MBBT nima?', options: ['Ma\'lumotlar to\'plami', 'Ma\'lumotlar bazasini boshqarish tizimi', 'Dasturlash tili', 'Veb-server'], correctIndex: 1, explanation: 'MBBT — Ma\'lumotlar Bazasini Boshqarish Tizimi (DBMS)', type: 'Y1' },
-    { id: 'M09.01-q2', text: 'Quyidagilardan qaysi biri relyatsion MBBT?', options: ['MongoDB', 'Redis', 'PostgreSQL', 'Neo4j'], correctIndex: 2, explanation: 'PostgreSQL — relyatsion MBBT. MongoDB (hujjatli), Redis (kalit-qiymat), Neo4j (grafli)', type: 'Y1' },
-    { id: 'M09.01-q3', text: 'Relyatsion MB da ma\'lumotlar qanday saqlanadi?', options: ['JSON ko\'rinishida', 'Jadvallarda', 'Graf ko\'rinishida', 'Kalit-qiymat juftligida'], correctIndex: 1, explanation: 'Relyatsion MB ma\'lumotlarni o\'zaro bog\'langan jadvallarda saqlaydi', type: 'Y1' },
-  ]),
-
-  'M09.02': t('M09.02', 'Baza turlari, jadvallar va ma\'lumot turlari', [
-    { type: 'definition', content: 'Ma\'lumotlar bazasi turlari: relyatsion, iyerarxik, tarmoq, obyektga yo\'naltirilgan, NoSQL. Relyatsion MB da ma\'lumotlar jadvallar ko\'rinishida tashkil etiladi.' },
-    { type: 'text', content: 'Jadval — MB ning asosiy obyekti. Ustunlar (maydonlar) ma\'lumot turini belgilaydi, qatorlar (yozuvlar) ma\'lumotlarni saqlaydi. Ma\'lumot turlari: matn (TEXT, VARCHAR), son (INTEGER, FLOAT, DECIMAL), sana/vaqt (DATE, DATETIME), mantiqiy (BOOLEAN), BLOB (rasm, fayl).' },
-    { type: 'table', content: '| Ma\'lumot turi | Izoh | Misol |\n|---------------|------|------|\n| INTEGER | Butun son | 25 |\n| VARCHAR(n) | O\'zgaruvchan matn | \'Ali\' |\n| DECIMAL(p,s) | Aniq kasr son | 45.50 |\n| DATE | Sana | 2024-09-01 |\n| BOOLEAN | Mantiqiy | TRUE/FALSE |\n| TEXT | Uzun matn | Maqola matni |' },
-    { type: 'note', content: '🔑 Ma\'lumot turini to\'g\'ri tanlash — MB ning samarali ishlashi va xotira tejamkorligi uchun muhim.' },
-  ], [
-    { id: 'M09.02-q1', text: 'VARCHAR(n) ma\'lumot turi qanday ma\'lumot uchun ishlatiladi?', options: ['Butun son', 'O\'zgaruvchan matn', 'Sana', 'Mantiqiy'], correctIndex: 1, explanation: 'VARCHAR — o\'zgaruvchan uzunlikdagi matn saqlash uchun', type: 'Y1' },
-    { id: 'M09.02-q2', text: 'Relyatsion MB da ma\'lumotlar qanday tuzilmada saqlanadi?', options: ['Ro\'yxat', 'Jadval', 'Daraxt', 'Graf'], correctIndex: 1, explanation: 'Relyatsion MB ma\'lumotlarni jadvallarda saqlaydi', type: 'Y1' },
-    { id: 'M09.02-q3', text: 'O\'quvchining tug\'ilgan sanasini saqlash uchun qaysi ma\'lumot turi mos?', options: ['INTEGER', 'VARCHAR', 'DATE', 'BOOLEAN'], correctIndex: 2, explanation: 'Sana ma\'lumotlari uchun DATE turi ishlatiladi', type: 'Y2' },
-  ]),
-
-  'M09.03': t('M09.03', 'Kalitlar va jadvallarni bog\'lash', [
-    { type: 'definition', content: 'Kalit — jadvaldagi yozuvlarni unikal aniqlash uchun ishlatiladigan maydon yoki maydonlar guruhi. Birlamchi kalit (Primary Key) — har bir yozuvni noyob aniqlaydi. Tashqi kalit (Foreign Key) — ikki jadvalni bog\'lash uchun ishlatiladi.' },
-    { type: 'table', content: '| Kalit turi | Vazifasi | Xususiyati |\n|-----------|---------|-----------|\n| Birlamchi (PK) | Yozuvni unikal aniqlaydi | NULL bo\'lmaydi, takrorlanmaydi |\n| Tashqi (FK) | Jadvallarni bog\'laydi | Boshqa jadval PK ga murojaat |\n| Unikal (UNIQUE) | Takrorlanmaslikni ta\'minlaydi | Bir nechta bo\'lishi mumkin |\n| Indeks | Qidiruvni tezlashtiradi | PK avtomatik indeks |' },
-    { type: 'example', content: 'O\'quvchilar (ID(PK), Ism, Familiya, Sinf)\nBaholar (ID(PK), O\'quvchiID(FK), Fan, Baho, Sana)\nO\'quvchiID — O\'quvchilar jadvalidagi ID ga murojaat qiladi.' },
-    { type: 'note', content: '🔗 Jadvallarni bog\'lash turlari: 1:1 (bir-birga), 1:M (birga-ko\'p), M:M (ko\'pga-ko\'p). M:M munosabatda oraliq jadval ishlatiladi.' },
-  ], [
-    { id: 'M09.03-q1', text: 'Birlamchi kalit (Primary Key) qanday xususiyatga ega?', options: ['NULL bo\'lishi mumkin', 'Takrorlanishi mumkin', 'NULL bo\'lmaydi va takrorlanmaydi', 'Faqat matnli maydon'], correctIndex: 2, explanation: 'PK — noyob, NULL bo\'lmaydi, har bir yozuvni unikal aniqlaydi', type: 'Y1' },
-    { id: 'M09.03-q2', text: 'Tashqi kalit (Foreign Key) nima vazifani bajaradi?', options: ['Yozuvlarni tartiblaydi', 'Jadvallarni bog\'laydi', 'Ma\'lumotlarni tekshiradi', 'Indeks yaratadi'], correctIndex: 1, explanation: 'Foreign Key ikki jadval o\'rtasida bog\'lanishni ta\'minlaydi', type: 'Y1' },
-    { id: 'M09.03-q3', text: 'Ikki jadval o\'rtasida M:M munosabat qanday amalga oshiriladi?', options: ['To\'g\'ridan-to\'g\'ri FK bilan', 'Oraliq jadval orqali', 'Birlamchi kalit orqali', 'Unikal kalit orqali'], correctIndex: 1, explanation: 'Ko\'pga-ko\'p munosabatda oraliq jadval yaratiladi', type: 'Y2' },
-  ]),
-
-  'M09.04': t('M09.04', 'Accessda oddiy so‘rovlar va tanlash shartlari', [
-    { type: 'definition', content: 'So‘rov (Query) — bazadagi bir yoki bir nechta jadvaldan berilgan talabga mos yozuv va maydonlarni ko‘rsatish vositasi. Oddiy so‘rov bir jadval ma’lumotlaridan foydalanishi mumkin.' },
-    { type: 'text', content: 'Accessda Query Design (Конструктор запросов) orqali jadval tanlanadi, kerakli maydonlar so‘rov panjarasiga qo‘shiladi va mezon (Criteria / Условия отбора) ko‘rsatiladi. So‘rov natijasi jadvalning barcha satrlarini avtomatik ko‘rsatishi shart emas: tanlash mezoni ishlatilsa, faqat unga mos yozuvlar olinadi.' },
-    { type: 'table', content: '| Amal | Vazifasi |\n|---|---|\n| Jadvalni qo‘shish | So‘rov ma’lumot manbasini tanlash |\n| Maydonni tanlash | Natijada ko‘rinadigan ustunlarni belgilash |\n| Criteria | Yozuvlarni shart bo‘yicha tanlash |\n| Run/Execute | So‘rov natijasini hisoblash va ko‘rsatish |' },
-    { type: 'example', content: '“Kitoblar” jadvalidan “Muallif” va “Kitob nomi” maydonlari tanlandi. Muallif mezoniga muayyan yozuvchi nomi berilsa, natijada o‘sha yozuvchiga mos kitoblar chiqadi. Mezon qo‘yilmagan maydon natijani ko‘rsatishda ishlatilishi mumkin.' },
-    { type: 'source', content: 'Manba: Informatika va axborot texnologiyalari, 11-sinf (2021), 7-dars, bosma 44–50-betlar — Access oddiy/ko‘p jadvalli so‘rovlarni loyihalash va ishlatish.' },
-  ], [
-    { id: 'M09.04-2021-query-q1', text: 'Accessda so‘rov loyihasiga jadval va kerakli maydonlarni qo‘shish uchun qaysi vosita mos?', options: ['Report Wizard', 'Query Design', 'Form View', 'Slide Master'], correctIndex: 1, explanation: 'Query Design so‘rov uchun jadval, maydon va mezonlarni belgilash imkonini beradi.', type: 'Y1' },
-    { id: 'M09.04-2021-query-q2', text: 'Access so‘rovining Criteria (Условия отбора) qatori nimaga xizmat qiladi?', options: ['Jadvalni butunlay o‘chirishga', 'Yangi hisobot sahifasini bezashga', 'Dastur interfeysini tarjima qilishga', 'Natijaga tushadigan yozuvlarni shart bilan tanlashga'], correctIndex: 3, explanation: 'Criteria — so‘rov natijasidagi yozuvlarni filtrlaydigan tanlash mezoni.', type: 'Y1' },
-    { id: 'M09.04-2021-query-q3', text: 'So‘rovdagi maydonni tanlash va unga mezon yozish o‘rtasidagi farq qaysi?', options: ['Maydon natijadagi ustunni, mezon esa mos yozuvlarni belgilaydi', 'Ikkalasi faqat satrni o‘chiradi', 'Maydon faqat rangni o‘zgartiradi', 'Mezon har doim barcha yozuvni qaytaradi'], correctIndex: 0, explanation: 'Maydon tanlash qaysi ustun ishlatilishini, mezon esa qaysi satrlar mos kelishini aniqlaydi.', type: 'Y1' },
-  ]),
-
-  'M09.05': t('M09.05', 'Murakkab so‘rovlar va tanlash mezonlari', [
-    { type: 'definition', content: 'So‘rov — jadvaldagi yozuvlarni shart bo‘yicha tanlash va tahlil qilish vositasi. MS Access so‘rovlarida bir yoki bir nechta jadvalning maydonlaridan foydalanish mumkin.' },
-    { type: 'text', content: 'Access konstruktoridagi mezon (Criteria / Условия отбора) yozuvlarni filtrlash uchun ishlatiladi. Like matn namunasiga mosligini, Not Like esa namuna mos kelmasligini tekshiradi. Accessning darslikdagi odatiy namuna sintaksisida * istalgan belgilar ketma-ketligini bildiradi; bu SQLdagi % belgisi bilan adashtirilmasin.' },
-    { type: 'table', content: '| Access mezoni | Natija |\n|---|---|\n| Like "Gul*" | Gul bilan boshlanadigan matn |\n| Like "*a" | a bilan tugaydigan matn |\n| Like "*gul*" | Ichida gul ketma-ketligi bor matn |\n| Not Like "*gul*" | Ichida gul ketma-ketligi bo‘lmagan matn |\n| Between 5 And 11 | 5 va 11 ni ham o‘z ichiga oluvchi sonli oraliq |' },
-    { type: 'example', content: 'Kutubxona jadvalidagi Ism maydonida Like "Gul*" mezoni Gulnora, Gulsara va Gulhayo kabi yozuvlarni tanlaydi. Bu misol Access Query Design mezoniga tegishli; boshqa SQL muhitlaridagi LIKE belgilarini avtomatik aynan shunday deb qabul qilmang.' },
-    { type: 'source', content: 'Manba: Informatika va axborot texnologiyalari, 11-sinf (2021), 7-dars, bosma 44–52-betlar: Access so‘rovlari, tanlash shartlari, Like / Not Like / Between.' },
-  ], [
-    { id: 'M09.05-2021-query-q1', text: 'MS Access so‘rovida Ism maydoni "Gul" bilan boshlanishi uchun qaysi mezon mos?', options: ['Like "Gul*"', 'Like "*Gul"', 'Like "*Gul*"', 'Not Like "Gul*"'], correctIndex: 0, explanation: 'Darslikda Like "Gul*" Gul bilan boshlanuvchi yozuvlarni tanlash uchun ishlatiladi.', type: 'Y1' },
-    { id: 'M09.05-2021-query-q2', text: 'ID maydonidagi Between 5 And 11 mezoni qaysi yozuvlarni tanlaydi?', options: ['Faqat 5 va 11 ni', 'Faqat 6 dan 10 gacha', '5 dan 11 gacha, chegaralar bilan birga', '11 dan katta qiymatlarni'], correctIndex: 2, explanation: 'Between ... And ... ikki chegara qiymatini ham qamrab oladigan oraliq mezonidir.', type: 'Y1' },
-    { id: 'M09.05-2021-query-q3', text: 'Ism maydonida Not Like "*gul*" mezonining vazifasi nima?', options: ['Faqat gul bilan boshlanadiganlarni olish', 'gul ketma-ketligini o‘z ichiga olmagan matnlarni olish', 'Faqat gul bilan tugaydiganlarni olish', 'Barcha yozuvlarni olish'], correctIndex: 1, explanation: 'Not Like "*gul*" ushbu harflar ketma-ketligiga mos kelmaydigan matnlarni tanlaydi.', type: 'Y1' },
-  ]),
-
-  'M09.06': t('M09.06', 'SQL SELECT, INSERT, UPDATE, DELETE', [
-    { type: 'definition', content: 'SQL (Structured Query Language) — relyatsion MB larni boshqarish uchun standart so\'rovlar tili. DML (Data Manipulation Language) — ma\'lumotlar bilan ishlash buyruqlari.' },
-    { type: 'code', content: '-- SELECT: ma\'lumotlarni tanlash\nSELECT ism, fam FROM oquvchilar WHERE sinf = \'9A\';\n\n-- INSERT: yangi yozuv qo\'shish\nINSERT INTO oquvchilar (ism, fam, sinf) VALUES (\'Ali\', \'Valiyev\', \'9A\');\n\n-- UPDATE: yozuvni yangilash\nUPDATE oquvchilar SET sinf = \'9B\' WHERE ism = \'Ali\';\n\n-- DELETE: yozuvni o\'chirish\nDELETE FROM oquvchilar WHERE id = 5;', language: 'sql' },
-    { type: 'table', content: '| Buyruq | Vazifasi | Muhim so\'zlar |\n|--------|---------|--------------|\n| SELECT | Ma\'lumot tanlash | FROM, WHERE, ORDER BY, GROUP BY |\n| INSERT | Yozuv qo\'shish | INTO, VALUES |\n| UPDATE | Yozuv yangilash | SET, WHERE |\n| DELETE | Yozuv o\'chirish | FROM, WHERE |' },
-    { type: 'note', content: '⚠️ WHERE shartisiz UPDATE yoki DELETE butun jadvalni o\'zgartirishi mumkin. Doim WHERE shartini tekshiring!' },
-    { type: 'example', content: 'SELECT COUNT(*) FROM oquvchilar WHERE sinf = \'9A\'; -- 9A sinfidagi o\'quvchilar soni\nSELECT * FROM baholar ORDER BY sana DESC; -- Baholarni sana bo\'yicha kamayish tartibida' },
-  ], [
-    { id: 'M09.06-q1', text: 'SQL da yangi yozuv qo\'shish uchun qaysi buyruq ishlatiladi?', options: ['SELECT', 'INSERT', 'UPDATE', 'DELETE'], correctIndex: 1, explanation: 'INSERT — jadvalga yangi yozuv qo\'shadi', type: 'Y1' },
-    { id: 'M09.06-q2', text: 'WHERE shartisiz UPDATE buyrug\'i nima qiladi?', options: ['Hech narsa', 'Bitta yozuvni yangilaydi', 'Barcha yozuvlarni o\'zgartiradi', 'Xatolik beradi'], correctIndex: 2, explanation: 'WHERE sharti bo\'lmasa, UPDATE jadvaldagi barcha yozuvlarni o\'zgartiradi', type: 'Y2' },
-    { id: 'M09.06-q3', text: 'SELECT * FROM oquvchilar ORDER BY fam; buyrug\'i nima qaytaradi?', options: ['Familiya bo\'yicha saralangan ro\'yxat', 'Faqat familiyalar', 'O\'quvchilar soni', 'Familiyasi eng uzun o\'quvchi'], correctIndex: 0, explanation: 'ORDER BY fam — natijalarni familiya bo\'yicha saralaydi', type: 'Y2' },
-  ]),
-
-  'M09.07': t('M09.07', 'Sun\'iy intellekt tushunchasi va turlari', [
-    { type: 'definition', content: 'Sun\'iy intellekt (SI) — kompyuter tizimlarining inson aqlini talab qiladigan vazifalarni bajarish qobiliyati: o\'qish, fikrlash, muammo yechish, qaror qabul qilish.' },
-    { type: 'table', content: '| Tur | Izoh | Misol |\n|-----|------|------|\n| ANI (Weak AI) | Tor vazifalar | Siri, ChatGPT, shaxmat |\n| AGI (Strong AI) | Inson darajasi | Hali mavjud emas |\n| ASI | Insonni ortda qoldiradi | Nazariy |' },
-    { type: 'text', content: 'SI yo\'nalishlari: Mashinaviy o\'qitish (ML), Tabiiy tilni qayta ishlash (NLP), Kompyuter ko\'rishi (CV), Robototexnika, Ekspert tizimlari.' },
-    { type: 'note', content: '🤖 ANI (Artificial Narrow Intelligence) — bugungi kunda mavjud bo\'lgan yagona SI turi. AGI hali yaratilmagan. ASI — kelajak tushunchasi.' },
-    { type: 'example', content: 'SI misollari:\n- Tavsiya tizimlari (Netflix, YouTube)\n- Ovozli yordamchilar (Siri, Google Assistant)\n- Avtonom mashinalar (Tesla)\n- Tibbiy diagnostika' },
-  ], [
-    { id: 'M09.07-q1', text: 'Hozirgi kunda mavjud bo\'lgan SI turi?', options: ['AGI', 'ASI', 'ANI', 'Barchasi'], correctIndex: 2, explanation: 'ANI (Weak AI) — tor vazifalarni bajaradigan SI. AGI va ASI hali mavjud emas', type: 'Y1' },
-    { id: 'M09.07-q2', text: 'Quyidagilardan qaysi biri SI yo\'nalishi emas?', options: ['Mashinaviy o\'qitish', 'Kompyuter ko\'rishi', 'Veb-dizayn', 'NLP'], correctIndex: 2, explanation: 'Veb-dizayn — SI yo\'nalishi emas. ML, CV, NLP — SI yo\'nalishlari', type: 'Y1' },
-    { id: 'M09.07-q3', text: 'AGI nimani anglatadi?', options: ['Tor SI', 'Inson darajasidagi SI', 'Tezkor SI', 'Avtomatik SI'], correctIndex: 1, explanation: 'AGI (Artificial General Intelligence) — inson darajasida fikrlay oladigan SI', type: 'Y2' },
-  ]),
-
-  // ============================================================
-  // M10 — Kompyuter grafikasi va media
-  // ============================================================
-  'M10.01': t('M10.01', 'Grafika turlari, rang modellari va formatlar', [
-    { type: 'definition', content: 'Kompyuter grafikasi — kompyuter yordamida tasvirlarni yaratish va qayta ishlash. Ikki asosiy tur: rastrli va vektorli grafika.' },
-    { type: 'table', content: '| Tur | Asos | Sifat | Formatlar |\n|-----|------|------|----------|\n| Rastrli | Piksel | Kattalashtirilganda piksellashadi | BMP, JPEG, PNG, GIF |\n| Vektorli | Chiziq va shakllar | Sifat yo\'qotmaydi | SVG, CDR, AI, EPS |' },
+    { id: 'M08.10-q3', text: 'Pandas kutubxonasini…5164 tokens truncated…n| Vektorli | Chiziq va shakllar | Sifat yo\'qotmaydi | SVG, CDR, AI, EPS |' },
     { type: 'text', content: 'Rang modellari: RGB (qizil, yashil, ko\'k — ekran uchun), CMYK (havorang, qizg\'ish, sariq, qora — bosma uchun), HSB (rang tus, to\'yinganlik, yorqinlik).' },
     { type: 'table', content: '| Format | Xususiyati | Qo\'llanishi |\n|--------|-----------|-----------|\n| JPEG | Siqilgan, 16.7M rang | Foto, veb |\n| PNG | Shaffoflik, lossless | Veb, logotip |\n| GIF | Animatsiya, 256 rang | Animatsiya |\n| SVG | Vektor, masshtablanadi | Veb-ikona |\n| BMP | Siqilmagan | Windows fon |' },
     { type: 'note', content: '🎨 RGB qo\'shuvchi rang modeli — qora ekrandan rang hosil qiladi. CMYK ayiruvchi model — oq qog\'ozdan rang hosil qiladi.' },
@@ -1789,6 +1685,92 @@ for (const [id, book, source] of [
   TOPIC_CONTENT[id] = { ...previous, source, kind: 'chapter', theory: [...book, ...appendix] }
 }
 
+// TASK-344: Promote the full logic/modelling and algorithms families to the
+// shared source-complete book contract. The books replace only the brief
+// theory seed: all existing quiz IDs, answer keys and cognitive metadata are
+// inherited from the original topic object unchanged.
+for (const [id, book, source] of [
+  ...Object.entries(M04_LOGIC_CANONICAL_BOOKS).map(([topicId, theory]) => [
+    topicId,
+    theory,
+    'ICT 9-sinf (2020), I–II boblar + Ma’ruza (Tayyor), 6-§',
+  ] as const),
+  ...Object.entries(M06_ALGORITHM_CANONICAL_BOOKS).map(([topicId, theory]) => [
+    topicId,
+    theory,
+    'ICT 9-sinf (2020), III bob + Ma’ruza (Tayyor), 8-§',
+  ] as const),
+  ...Object.entries(M07_SCRATCH_LOGO_CANONICAL_BOOKS).map(([topicId, theory]) => [
+    topicId,
+    theory,
+    'ICT 5–6-sinf Scratch boblari + Cambridge yo‘nalishi 9-sinf Toshbaqa grafika',
+  ] as const),
+]) {
+  const previous = TOPIC_CONTENT[id]
+  if (!previous) continue
+  TOPIC_CONTENT[id] = {
+    ...previous,
+    source,
+    kind: 'chapter',
+    theory: id.startsWith('M07.') ? [...book, ...previous.theory] : book,
+  }
+}
+
+// TASK-344: Earlier source audits left several families as uneven collections
+// of notes. Keep every reviewed block, then add the same learner path and
+// assessment-supported examples/exercises used by the full canonical books.
+// This is deliberately explicit so appendices and already complete books are
+// never rewritten by a broad character-count heuristic.
+const UNIFIED_LEGACY_CHAPTER_IDS = new Set([
+  'M08.01', 'M08.02', 'M08.03', 'M08.04', 'M08.05', 'M08.06',
+  'M08.07', 'M08.08', 'M08.09', 'M08.10', 'M08.11', 'M08.12',
+  'M09.01', 'M09.02', 'M09.03', 'M09.04', 'M09.05', 'M09.06',
+  'M12.06', 'M12.07', 'M12.08', 'M12.09',
+  'M13.01', 'M13.02', 'M13.03', 'M13.04', 'M13.05', 'M13.06',
+  'M13.07', 'M13.08', 'M13.09', 'M13.10', 'M13.11',
+  'M14.01', 'M14.02', 'M14.03', 'M14.04', 'M14.05', 'M14.06', 'M14.07',
+  'M16.01', 'M16.02', 'M16.03',
+])
+
+for (const id of UNIFIED_LEGACY_CHAPTER_IDS) {
+  const previous = TOPIC_CONTENT[id]
+  if (!previous) continue
+  TOPIC_CONTENT[id] = {
+    ...previous,
+    kind: 'chapter',
+    theory: buildUnifiedTheoryBook(previous),
+  }
+}
+
+// M05 already has a carefully paginated 9/14/21-section textbook. Complete
+// its self-study contract without inserting headings or disturbing those page
+// anchors: only an answer key and the verified source trace are appended.
+for (const id of ['M05.01', 'M05.02', 'M05.03']) {
+  const previous = TOPIC_CONTENT[id]
+  if (!previous) continue
+  TOPIC_CONTENT[id] = {
+    ...previous,
+    kind: 'chapter',
+    theory: [
+      ...previous.theory,
+      {
+        type: 'task',
+        content: 'Mustaqil mashq: bobdagi usullardan foydalanib yangi sanoq sistemasi misolini yeching; har bir oraliq qadamni yozing va natijani teskari amal yoki o‘nlik sanoq sistemasiga qaytarish bilan tekshiring.',
+      },
+      {
+        type: 'answers',
+        content: previous.questions.map((question, index) =>
+          `${index + 1}) **${question.options[question.correctIndex]}** — ${question.explanation}`,
+        ).join('\n\n'),
+      },
+      {
+        type: 'source',
+        content: 'Manba izi: “Ma’ruza (Tayyor)”, 5-§ “Sanoq sistemalari”, PDF 30–33; pozitsion yozuv, o‘tkazish va arifmetik amallar bo‘yicha mavjud nazariya shu manba bilan solishtirilgan.',
+      },
+    ],
+  }
+}
+
 // M02 canonical chapters combine multiple lengthy source lessons. Rebuilding
 // their arrays at every React render invalidates BookReader/observer state and
 // can visually reflow an already opened lesson.
@@ -1797,7 +1779,10 @@ const m02CachedContent = new Map<string, TopicContent | undefined>()
 export function getTopicContent(subtopicId: string): TopicContent | undefined {
   if (!subtopicId.startsWith('M02.')) return TOPIC_CONTENT[subtopicId]
   if (!m02CachedContent.has(subtopicId)) {
-    m02CachedContent.set(subtopicId, buildCanonicalM02Topic(subtopicId, TOPIC_CONTENT))
+    const canonical = buildCanonicalM02Topic(subtopicId, TOPIC_CONTENT)
+    m02CachedContent.set(subtopicId, canonical
+      ? { ...canonical, theory: buildUnifiedTheoryBook(canonical) }
+      : undefined)
   }
   return m02CachedContent.get(subtopicId) ?? TOPIC_CONTENT[subtopicId]
 }
