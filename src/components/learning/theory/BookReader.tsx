@@ -66,60 +66,96 @@ export function splitAdaptiveSections(theory: TheoryBlock[], pageSize = 3): Sect
 }
 
 /**
- * Barcha yangi va eski darslar uchun yagona, o‘qishga qulay sahifalash qoidasi.
- * Muallif bergan sarlavhalar asosiy bo‘lim chegarasi bo‘lib qoladi; juda uzun
- * bo‘limlar esa blok va matn hajmi bo‘yicha davom sahifalariga bo‘linadi.
- * Nazariya bloklari o‘zgarmaydi, yo‘qolmaydi va qayta tartiblanmaydi.
+ * Butun mavzuni mazmunli sahifalarga jamlaydi: kichik sarlavhali bo‘limlarni
+ * birlashtiradi, bitta tushuntirish va uning kodi/misolini ajratmaydi.
+ * Bloklarning manbaviy tartibi va mazmuni o‘zgarmaydi; backend reviziyasiga
+ * tegilmaydi. maxBlocks — qisqa matn uchun qattiq chegara emas.
  */
 export function splitBalancedSections(
   theory: TheoryBlock[],
-  maxBlocks = 4,
-  maxCharacters = 4200,
+  maxBlocks = 16,
+  maxCharacters = 6500,
 ): Section[] {
   if (!Number.isInteger(maxBlocks) || maxBlocks < 1) throw new Error('Invalid block limit')
   if (!Number.isInteger(maxCharacters) || maxCharacters < 1) throw new Error('Invalid character limit')
   if (theory.length === 0) return splitSections(theory)
 
-  const sections: Section[] = []
+  const minCharacters = Math.min(1200, Math.max(1, Math.floor(maxCharacters / 3)))
+  const charactersOf = (blocks: TheoryBlock[]) => blocks.reduce((sum, block) => (
+    sum + block.content.length
+    + (block.items?.join('').length ?? 0)
+    + (block.rows?.flat().join('').length ?? 0)
+  ), 0)
+  const parts: Section[] = []
+
   for (const group of splitSections(theory)) {
-    for (let start = 0, partNumber = 0; start < group.blocks.length; partNumber++) {
+    const groupTitle = group.title || `${parts.length + 1}-bo‘lim`
+    for (let start = 0; start < group.blocks.length;) {
       let end = start
       let characters = 0
 
       while (end < group.blocks.length) {
         const next = group.blocks[end]
-        const nextCharacters = next.content.length
-          + (next.items?.join('').length ?? 0)
-          + (next.rows?.flat().join('').length ?? 0)
-        const reachedLimit = end > start
-          && (end - start >= maxBlocks || characters + nextCharacters > maxCharacters)
-        if (reachedLimit) break
+        const nextCharacters = charactersOf([next])
+        const previous = group.blocks[end - 1]
+        // Misolning kodi va sarlavhaning birinchi izohi bitta sahifada qolsin.
+        const companion = (previous?.type === 'example' || previous?.type === 'solved'
+          || previous?.type === 'task') && next.type === 'code'
+        const headingNeedsExplanation = end === start + 1 && group.blocks[start]?.type === 'heading'
+        const canBreak = end > start && !companion && !headingNeedsExplanation
+        if (canBreak && (
+          (characters >= minCharacters
+            && (characters + nextCharacters > maxCharacters || end - start >= maxBlocks))
+          || end - start >= maxBlocks * 2
+        )) break
+
         characters += nextCharacters
         end++
       }
 
-      // Bir blok limitdan katta bo‘lsa ham uni butun saqlaymiz.
-      if (end === start) end++
-
-      const part = group.blocks.slice(start, end)
-      const beginsWithHeading = part[0]?.type === 'heading'
-      const leadOnly = partNumber === 0 && Boolean(group.title)
-        && !part.some(block => block.type === 'heading')
-      const continued = partNumber > 0 && !beginsWithHeading
-      const fallbackTitle = `${sections.length + 1}-bo‘lim`
-      sections.push({
-        title: leadOnly
-          ? 'Kirish'
-          : group.title
-          ? (continued ? `${group.title} — davomi` : group.title)
-          : fallbackTitle,
-        blocks: part,
+      const continued = start > 0
+      parts.push({
+        title: continued ? `${groupTitle} — davomi` : groupTitle,
+        blocks: group.blocks.slice(start, end),
         continued,
       })
       start = end
     }
   }
-  return sections
+
+  // Ketma-ket joylashgan juda qisqa kichik bo‘limlar bitta sahifa bo‘lsin.
+  // Sarlavhalar blocks ichida qoladi — mundarijadan kontent yo‘qolmaydi.
+  const pages: Section[] = []
+  for (const part of parts) {
+    const previous = pages[pages.length - 1]
+    if (previous && !part.continued
+      && charactersOf(previous.blocks) < minCharacters
+      && charactersOf([...previous.blocks, ...part.blocks]) <= maxCharacters
+      && previous.blocks.length + part.blocks.length <= maxBlocks * 2
+    ) {
+      previous.blocks.push(...part.blocks)
+    } else {
+      pages.push({ ...part, blocks: [...part.blocks] })
+    }
+  }
+
+  // Oxirgi 1–2 blokdan iborat «davomi» sahifasini yolg‘iz qoldirmang.
+  if (pages.length > 1) {
+    const last = pages[pages.length - 1]
+    const before = pages[pages.length - 2]
+    const sameHeading = last.continued && before.blocks.some(block =>
+      block.type === 'heading' && plainText(block.content) === last.title.replace(/ — davomi$/, ''))
+    if (charactersOf(last.blocks) < minCharacters
+      && (sameHeading || charactersOf(before.blocks) < minCharacters)
+      && charactersOf([...before.blocks, ...last.blocks]) <= maxCharacters * 1.25
+      && before.blocks.length + last.blocks.length <= maxBlocks * 2
+    ) {
+      before.blocks.push(...last.blocks)
+      pages.pop()
+    }
+  }
+
+  return pages
 }
 
 interface Props {
@@ -269,7 +305,15 @@ export default function BookReader({
                   <span className="book-outline-num">
                     {visited.has(i) && i !== index ? <Check size={12} /> : i + 1}
                   </span>
-                  <span className="book-outline-text">{s.title || content.title}</span>
+                  <span className="book-outline-text">
+                    {s.title || content.title}
+                    {s.blocks.filter(block => block.type === 'heading'
+                      && plainText(block.content) !== s.title).map((block, headingIndex) => (
+                      <span key={headingIndex} className="block text-xs opacity-70">
+                        {plainText(block.content)}
+                      </span>
+                    ))}
+                  </span>
                 </button>
               </li>
             ))}

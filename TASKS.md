@@ -1,3 +1,9 @@
+## TASK-345 — O‘rganish sahifalarini mantiqiy birlashtirish (2026-10-20)
+
+| ID | Status | Scope | Acceptance |
+|---|---|---|---|
+| TASK-345 | CODE READY / CI PENDING | M01–M16 `BookReader` qisqa bo‘limlarini birlashtirish; oldingi/keyingi, progress, kontent va testlar | «Ikki o‘lchovli ro‘yxat» va ishlangan misol bir sahifada; mayda headinglar jamlanadi; kod/misol bo‘linmaydi; barcha bloklar va savollar saqlanadi; regression test, lint/typecheck/CI; DB/deploy yo‘q. `docs/TASK345_LESSON_PAGE_CONSOLIDATION_20261020.md`. |
+
 ## TASK-305 — Sinov savollarida Excel/Markdown jadvallarini to‘g‘ri ko‘rsatish (2026-10-20)
 
 | Task | Status | Scope | Acceptance |
