@@ -54,6 +54,7 @@ TASK-240 allaqachon 380 ta oldin published bo‘lgan V2 ni **archived** qilib, 3
 - Y3: 4 ta izchil qadam; import vaqtida ko‘rsatiladigan tartib aralashtiriladi.
 - Har topshiriqda `ORIGINAL_DEMO_STYLE_NOT_VERBATIM`, manbalar va `REVIEW_REQUIRED` qaydi bor.
 - **Shakl mualliflik; ko‘chirilgan “rasmiy savol” deb belgilab yoki odam imzosiz nashr qilinmaydi.**
+- **Vizual demo qo‘shimchasi:** [A–D HTML ro‘yxat ko‘rinishlari](https://drive.google.com/file/d/175xaPbYWFwp9ea-s7meAPHqlzS6OB_Bs/view?usp=drivesdk), haqiqiy Chromium renderer bilan yaratilgan va [30 savolli Google Doc](https://docs.google.com/document/d/1VoZ4aZjONJgwTRDjQ22dOvFtn2zqWxhuoIj6mozZsPk/edit?usp=drivesdk) oxiriga rasm sifatida kiritilgan; `GV-DEMO-2026-HT-022` uchun B variant.
 
 ## Tahririy navbat va reliz shartlari
 
