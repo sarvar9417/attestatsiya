@@ -42,6 +42,9 @@ jobs:
       - name: Private bank validator syntax
         run: node --check scripts/validate-private-question-bank.mjs
 
+      - name: TASK-305 M13 evidence-based bank QA and keyless proposal guard
+        run: node scripts/task305_m13_attestation_quality_audit.mjs
+
       - name: Lint
         run: npm run lint
 
@@ -278,6 +281,9 @@ jobs:
             -f supabase/tests/anon_rpc_hardening.test.sql \
             -f supabase/tests/m01_exact_source_lesson_reconcile.test.sql \
             -f supabase/tests/canonical_lesson_drift_reconcile.test.sql \
+            -f supabase/tests/task305_m13_y2_revision_contract.test.sql \
+            -f supabase/tests/task306_m13_native_4x5_contract.test.sql \
+            -f supabase/tests/task307_m13_4x5_release_contract.test.sql \
             -f supabase/tests/m02_release_readiness.test.sql \
             -f supabase/tests/m01_exact_source_lesson_reconcile.test.sql
 

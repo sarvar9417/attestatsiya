@@ -145,7 +145,7 @@ begin
         -- TASK-211/212/213 version the seven M13 AXR lessons.
         -- Only the exact AXR bank may use its independent source-lesson ID.
         and not (lane.module_code = 'M13'
-                 and q.status in ('review'::public.content_status,'published'::public.content_status)
+                 and q.status in ('review'::public.content_status,'published'::public.content_status,'archived'::public.content_status)
                  and (
                    coalesce(q.source_reference,'') like 'm13-axr-v1:%:AXR-%'
                    or (coalesce(q.source_reference,'') like 'm13-axr-native-v1:Y2:AXRN-%'
@@ -162,6 +162,22 @@ begin
                      and em.code='M13'
                      and edition.slug ~ '^m13-axr-0[1-7]$'
                  ))
+        -- TASK-306 exact seven source-backed REVIEW 4x5 matching revisions.
+        and not (lane.module_code = 'M13'
+          and q.status in ('review'::public.content_status,'published'::public.content_status)
+          and q.format = 'Y2'::public.question_format
+          and coalesce(q.source_reference,'') ~ '^m13-qc-v2:Y2:AXRN-0[1-7]-Y2-01'
+          and length(coalesce(q.source_reference,'')) = length('m13-qc-v2:Y2:AXRN-01-Y2-01')
+          and exists (
+            select 1 from public.lessons l306
+            join public.modules m306 on m306.id=l306.module_id
+            join public.lesson_constructs lc306 on lc306.lesson_id=l306.id
+            where l306.id=q.source_lesson_id
+              and lc306.construct_id=q.construct_id
+              and m306.code='M13'
+              and l306.slug ~ '^m13-axr-0[1-7]'
+              and length(l306.slug)=length('m13-axr-01')
+          ))
         -- TASK-213 graphics/web V2 is a separate unpublished content edition.
         -- Do not exempt published items or non-V2 sources from drift checks.
         and not (lane.module_code IN ('M10','M11')
