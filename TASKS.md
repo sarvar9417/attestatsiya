@@ -281,3 +281,6 @@ Har task uchun kamida:
 
 
 | TASK-306 | IN_PROGRESS | TASK-305 (Y2 contract fixed) | M13 seven chapters: 7 pilot Y2 4×5 review revisions from published 4×4, database-private key remap (no keys in Git), preserving 70 published originals and history; 4×5 scorer unit and DB regression. Source QA docs/audits/TASK306_M13_MATCHING_4X5_PILOT.md; require CI, parity and future versioned publication. |
+
+
+| TASK-307 | IN_PROGRESS / RELEASE_AWAITING_CI | TASK-306 (DB review import DONE) | Owner-authorized 7 published 4×4 Y2 -> 7 verified published 4×5 Y2 via atomic new version status + old archive; 71 active Y2 and 414 active M13 unchanged, existing attempts immutable. Release SQL and TASK-213/306/307 QA contracts; #323 public source-answer issue still OPEN. |
