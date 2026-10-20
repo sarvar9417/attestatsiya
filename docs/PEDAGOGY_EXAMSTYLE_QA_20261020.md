@@ -63,3 +63,11 @@ Production RPC implementation checked after the first heuristic alert:
 - Frontend `ExamRunner` deliberately displays server session order. An initially proposed extra client shuffle was **reverted** after finding the existing server-side randomization; double shuffling is unnecessary. No user-facing production code change to Y1 ordering is proposed by this PR.
 - Therefore the earlier tentative P0 «learner always sees A» allegation was **disproven**. Audit findings correctly focus on pedagogic question semantics and distractor quality.
 
+
+## 2026-10-20 — All 24 active matching/sequencing items mechanical read-only audit
+
+Published active Y2 **11** (KS8, PM.GEN3) and Y3 **13** (KS2, PM.GEN7, PM.MET4). Every key has 4 unique pairs or 4 distinct ordered item UUIDs, no repeated option text, and no invalid 8-option / 4-step structure (**0 violations**).
+
+- Two Y2 are legacy `side='a'`×8/`side='b'`×0 with valid four-pair keys, and nine use 4+4 option sides. Production `exam_payload()` includes an explicit safe legacy-pair side-recovery predicate; this is intentional and must be preserved.
+- **21/24** have stems shorter than 75 characters (KS 10/10, PM.GEN 8/10, PM.MET 3/4), typically brief matching/sequencing imperatives. Length alone is not a defect, but context specificity, uniqueness of each pair and absence of equivalent orderings need individual semantic confirmation.
+- A duplicated generic KS Y2 stem was found: `Baholash va qayta aloqa tushunchalarini mos vazifa bilan juftlang.` The two items can have different option/answer contents. No automatic archival; compare the actual sides and source topic editorially.
