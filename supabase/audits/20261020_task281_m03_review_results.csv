@@ -1,0 +1,37 @@
+code,format,chapter,original_difficulty,revised_difficulty,qa_result,reason,verification_scope,independent_human_signoff
+M03-S26-W02-01,Y1,W02,5,5,MODEL_CHECK_PASSED,No definite technical issue found in model review,structural + selected semantic check; not independently certified,PENDING
+M03-S26-W02-02,Y1,W02,4,4,MODEL_CHECK_PASSED,No definite technical issue found in model review,structural + selected semantic check; not independently certified,PENDING
+M03-S26-W03-01,Y1,W03,5,4,REVISED_CORE,Added meaningful handling of changed data source to Mail Merge,structural + selected semantic check; not independently certified,PENDING
+M03-S26-W03-02,Y1,W03,3,2,RECALIBRATED,Difficulty reclassified,structural + selected semantic check; not independently certified,PENDING
+M03-S26-W01-01,Y1,W01,4,4,MODEL_CHECK_PASSED,No definite technical issue found in model review,structural + selected semantic check; not independently certified,PENDING
+M03-S26-W03-03,Y2,W03,4,4,MODEL_CHECK_PASSED,No definite technical issue found in model review,structural + selected semantic check; not independently certified,PENDING
+M03-S26-W02-03,Y2,W02,5,5,MODEL_CHECK_PASSED,No definite technical issue found in model review,structural + selected semantic check; not independently certified,PENDING
+M03-S26-W03-04,Y3,W03,5,5,MODEL_CHECK_PASSED,No definite technical issue found in model review,structural + selected semantic check; not independently certified,PENDING
+M03-S26-E02-01,Y1,E02,5,5,MODEL_CHECK_PASSED,No definite technical issue found in model review,structural + selected semantic check; not independently certified,PENDING
+M03-S26-E02-02,Y1,E02,4,4,MODEL_CHECK_PASSED,No definite technical issue found in model review,structural + selected semantic check; not independently certified,PENDING
+M03-S26-E02-03,Y1,E02,4,4,MODEL_CHECK_PASSED,No definite technical issue found in model review,structural + selected semantic check; not independently certified,PENDING
+M03-S26-E02-04,Y1,E02,4,2,RECALIBRATED,Difficulty reclassified,structural + selected semantic check; not independently certified,PENDING
+M03-S26-E02-05,Y1,E02,3,2,RECALIBRATED,Difficulty reclassified,structural + selected semantic check; not independently certified,PENDING
+M03-S26-E03-01,Y1,E03,4,4,MODEL_CHECK_PASSED,No definite technical issue found in model review,structural + selected semantic check; not independently certified,PENDING
+M03-S26-E03-02,Y1,E03,5,5,MODEL_CHECK_PASSED,No definite technical issue found in model review,structural + selected semantic check; not independently certified,PENDING
+M03-S26-E03-03,Y1,E03,4,3,RECALIBRATED,Difficulty reclassified,structural + selected semantic check; not independently certified,PENDING
+M03-S26-E03-04,Y1,E03,5,5,MODEL_CHECK_PASSED,No definite technical issue found in model review,structural + selected semantic check; not independently certified,PENDING
+M03-S26-E03-05,Y1,E03,4,3,RECALIBRATED,Difficulty reclassified,structural + selected semantic check; not independently certified,PENDING
+M03-S26-E04-01,Y1,E04,4,2,RECALIBRATED,Difficulty reclassified,structural + selected semantic check; not independently certified,PENDING
+M03-S26-E04-02,Y1,E04,4,3,RECALIBRATED,Difficulty reclassified,structural + selected semantic check; not independently certified,PENDING
+M03-S26-E04-03,Y1,E04,5,4,REVISED_CORE,Simple two-row counting cannot justify highest difficulty,structural + selected semantic check; not independently certified,PENDING
+M03-S26-E04-04,Y1,E04,5,5,MODEL_CHECK_PASSED,No definite technical issue found in model review,structural + selected semantic check; not independently certified,PENDING
+M03-S26-E02-06,Y2,E02,4,4,MODEL_CHECK_PASSED,No definite technical issue found in model review,structural + selected semantic check; not independently certified,PENDING
+M03-S26-E03-06,Y2,E03,5,5,MODEL_CHECK_PASSED,No definite technical issue found in model review,structural + selected semantic check; not independently certified,PENDING
+M03-S26-E04-05,Y2,E04,4,4,MODEL_CHECK_PASSED,No definite technical issue found in model review,structural + selected semantic check; not independently certified,PENDING
+M03-S26-E02-07,Y3,E02,5,5,REVISED_CORE,Dollar-linked reference analysis and coordinate shift were unordered independent steps,structural + selected semantic check; not independently certified,PENDING
+M03-S26-E03-07,Y3,E03,4,4,REVISED_CORE,Lookup key/range/column selection were unordered independent steps,structural + selected semantic check; not independently certified,PENDING
+M03-S26-E04-06,Y3,E04,5,5,MODEL_CHECK_PASSED,No definite technical issue found in model review,structural + selected semantic check; not independently certified,PENDING
+M03-S26-P02-01,Y1,P02,4,2,RECALIBRATED,Difficulty reclassified,structural + selected semantic check; not independently certified,PENDING
+M03-S26-P02-02,Y1,P02,4,2,RECALIBRATED,Difficulty reclassified,structural + selected semantic check; not independently certified,PENDING
+M03-S26-P01-01,Y1,P01,5,5,REVISED_CORE,Merely recognizing Slide Master cannot justify highest difficulty,structural + selected semantic check; not independently certified,PENDING
+M03-S26-P01-02,Y1,P01,4,3,RECALIBRATED,Difficulty reclassified,structural + selected semantic check; not independently certified,PENDING
+M03-S26-P02-03,Y1,P02,4,2,RECALIBRATED,Difficulty reclassified,structural + selected semantic check; not independently certified,PENDING
+M03-S26-P02-04,Y2,P02,4,3,RECALIBRATED,Difficulty reclassified,structural + selected semantic check; not independently certified,PENDING
+M03-S26-P01-03,Y3,P01,4,4,REVISED_CORE,Theme and Slide Master stages could be performed in multiple orders,structural + selected semantic check; not independently certified,PENDING
+M03-S26-P02-05,Y3,P02,5,5,REVISED_CORE,Timing settings can be configured in several equivalent orders,structural + selected semantic check; not independently certified,PENDING
