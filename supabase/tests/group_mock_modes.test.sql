@@ -26,10 +26,35 @@ begin
   then raise exception 'TASK347 no eligible topic/difficulty'; end if;
 end $fixture$;
 
+-- A fresh CI seed can lack enough quality-approved items in some official
+-- quota cells. Both cases are valid contracts: exactly 50 or fail-closed.
+create temporary table task347_spec_capacity as
+with bp as (
+ select id from public.blueprints where is_active order by version desc limit 1
+), cells as (
+ select q.group_code,c.cognitive,c.n
+ from public.blueprint_quotas q
+ join bp on bp.id=q.blueprint_id
+ cross join lateral (values
+   ('bilish'::public.cognitive_level,q.n_bilish),
+   ('qollash'::public.cognitive_level,q.n_qollash),
+   ('mulohaza'::public.cognitive_level,q.n_mulohaza)
+ ) c(cognitive,n)
+ where c.n>0
+), capacity as (
+ select c.n, (
+   select count(*) from public.questions q
+   where q.group_code=c.group_code and q.cognitive=c.cognitive
+     and public.group_mock_eligible(q.id)
+ ) available
+ from cells c
+)
+select coalesce(bool_and(available>=n),false) as ready from capacity;
+
 create temporary table task347_mode_rooms(
   mode text primary key, room_id uuid not null
 ) on commit drop;
-grant select on task347_mode_fixture to authenticated;
+grant select on task347_mode_fixture,task347_spec_capacity to authenticated;
 grant select,insert on task347_mode_rooms to authenticated;
 
 set role authenticated;
@@ -45,6 +70,7 @@ declare
   v_topics uuid;
   v_bank jsonb;
   v_failed boolean;
+  v_ready boolean;
 begin
   select lesson_id,difficulty into v_lesson,v_difficulty
   from task347_mode_fixture;
@@ -70,15 +96,27 @@ begin
      or (v_state->>'current_idx')::int<>1
   then raise exception 'incorrect topic room %',v_state; end if;
 
-  -- Exact quotas, no answer key in lobby, and no partial rooms on shortage.
-  v_result := public.group_mock_create('spec','{}'::jsonb);
-  v_spec := (v_result->>'room_id')::uuid;
-  insert into task347_mode_rooms values('spec',v_spec);
-  v_state := public.group_mock_state(v_spec);
-  if v_state->>'mode'<>'spec' or (v_state->>'total_count')::int<>50
-     or v_state->>'status'<>'lobby'
-     or v_state->'question'<>'null'::jsonb
-  then raise exception 'incorrect official blueprint room %',v_state; end if;
+  -- If quality-approved supply is sufficient, exact 50 must be created.
+  -- Otherwise the DB must reject the entire request before room creation.
+  select ready into v_ready from task347_spec_capacity;
+  if v_ready then
+    v_result := public.group_mock_create('spec','{}'::jsonb);
+    v_spec := (v_result->>'room_id')::uuid;
+    insert into task347_mode_rooms values('spec',v_spec);
+    v_state := public.group_mock_state(v_spec);
+    if v_state->>'mode'<>'spec' or (v_state->>'total_count')::int<>50
+       or v_state->>'status'<>'lobby'
+       or v_state->'question'<>'null'::jsonb
+    then raise exception 'incorrect official blueprint room %',v_state; end if;
+  else
+    v_failed:=false;
+    begin
+      perform public.group_mock_create('spec','{}'::jsonb);
+    exception when others then
+      v_failed:=position('group_spec_pool_insufficient' in sqlerrm)>0;
+    end;
+    if not v_failed then raise exception 'infeasible blueprint accepted or wrong error'; end if;
+  end if;
 
   v_failed := false;
   begin
@@ -102,7 +140,14 @@ declare
   v_bp uuid;
   v_count int;
   v_diff_count int;
+  v_ready boolean;
+  v_expected_rooms int;
 begin
+  select ready into v_ready from task347_spec_capacity;
+  v_expected_rooms:=case when v_ready then 2 else 1 end;
+  if (select count(*) from public.group_mock_rooms where owner_id='93470000-0000-4000-8000-000000000040')<>v_expected_rooms
+  then raise exception 'infeasible request created a partial room'; end if;
+  if v_ready then
   select room_id into v_room from task347_mode_rooms where mode='spec';
   select id into v_bp from public.blueprints where is_active order by version desc limit 1;
   select count(*),count(distinct i.question_id) into v_count,v_diff_count
@@ -131,6 +176,7 @@ begin
     where coalesce(a.selected,0) <> e.target
   )
   then raise exception 'group specification quota mismatch'; end if;
+  end if;
 
   select room_id into v_room from task347_mode_rooms where mode='topics';
   select count(*) into v_count
