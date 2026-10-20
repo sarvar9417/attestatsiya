@@ -1997,3 +1997,11 @@ Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user co
 - **P0 SECURITY:** GitHub repo is public; existing historical M13 JSON/migration files disclose/reconstruct answer keys from source, despite runtime key RLS. New questions should not repeat leakage; remediation requires key migration + versioning, not just deleting tracked files.
 - CI/merge/release status: PR branch automated gates pending. Production database and Vercel not changed by TASK-305 as of this entry.
 - Full details: `docs/audits/TASK305_M13_ATTESTATSIYA_QUESTION_QUALITY_20261020.md`.
+
+
+## TASK-306 — M13 4×5 matching pilot, 2026-10-20
+- User has explicitly directed continued assistant-led source/exam-style QA without waiting for separate outside human expert. This is **AI-assisted source review**, not a claim of independent human certification.
+- Branch `task/TASK-306-m13-matching-4x5-revisions`. Seven old published Y2 stay immutable; seven new reviewed candidates (one per M13 chapter) are inserted in `review` using private DB re-keying, with one sensible surplus right-side distractor each.
+- Old public Git answer/key exposure remains **OPEN** issue #323.
+- Validation: database 4×5 encrypted-key contract, frontend exam Y2 4-left/5-right completeness and duplicate-right prevention, canonical other revisions intact, full backend+frontend CI.
+- Production release NOT yet executed. Full docs: `docs/audits/TASK306_M13_MATCHING_4X5_PILOT.md`.
