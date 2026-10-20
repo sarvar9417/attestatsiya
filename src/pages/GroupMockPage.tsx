@@ -17,6 +17,7 @@ import {
   type BankQuestion, type GroupMockMode, type GroupMockRoomSummary, type GroupMockState,
   type GroupMockTopic,
 } from '../features/group-mock/groupMockApi'
+import { reorderManualQuestions } from '../features/group-mock/manualSelection'
 
 type TopicSelection = Record<string, { count: number; difficulty: number }>
 const panel = 'rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900'
@@ -326,13 +327,7 @@ export default function GroupMockPage() {
       .finally(() => setRoomsLoading(false))
   }
   const moveManual = (index: number, direction: -1 | 1) => {
-    setManual(current => {
-      const target = index + direction
-      if (target < 0 || target >= current.length) return current
-      const next = [...current]
-      ;[next[index], next[target]] = [next[target], next[index]]
-      return next
-    })
+    setManual(current => reorderManualQuestions(current, index, direction))
   }
   const exitLobby = (asHost: boolean) => {
     if (!roomId || busy) return
