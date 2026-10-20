@@ -58,7 +58,7 @@ Manba: `src/content/tarmoq/M12_2026_real_exam_style_original_20_review.json`.
 ### 22 ta P1-published savol uchun xavfsiz tahrir takliflari
 Manba: `src/content/tarmoq/M12_22_P1_published_item_revision_proposals_2026.json`.
 - Har bir taklif `replaces_published_id` bilan eski savolga bog‘langan; mos/to‘g‘ri variant indekslari saqlangan, chalg‘ituvchilar mavzuga yaqinlashtirilgan.
-- Version-safe `supabase/migrations/20261020234500_task220_m12_22_style_revision_candidates.sql` mavjud (append-only; eski published matn/kalit va urinishlarni UPDATE/DELETE qilmaydi).
+- Version-safe `supabase/migrations/20261020234500_task220_m12_22_style_revision_candidates.sql` **jonli Supabase bazasiga qo‘llandi va SQL yaxlitlik sinovi o‘tdi**. Barcha 22 taklif `review`; eski published matn/kalit va urinishlar UPDATE/DELETE qilinmadi.
 - Har qanday tahrirni approved/released qilishdan OLDIN mustaqil ekspert faktik to‘g‘riligini tekshirsin.
 
 ## Qattiq release/gate cheklovlari
@@ -71,3 +71,12 @@ Manba: `src/content/tarmoq/M12_22_P1_published_item_revision_proposals_2026.json
 ## Ish holati
 **Bajarildi:** 380 qatorlik manba/status risk matritsasi, 20 original 2026-style review savol, 22 xavfli published savol uchun revision nomzodi, migratsiyalar va SQL yaxlitlik sinovlari.
 **Bajarilmadi / kelgusi bosqich:** 380 savolning fan eksperti tomonidan birma-bir yakuniy tasdig‘i; barcha rasmiy/skanerlangan demo sahifalarini indekslash; 2025 informatika manbasi; 22 tahrirning alohida ekspert approval/published release; full learner E2E.
+
+
+## DB yakuniy audit snapshot — 2026-10-20
+- V2/V3 original 380: **321 published / 59 review** (280 published Y1, 41 published Y3, 50 review Y2, 9 review Y3). Dastlabki 380 bank saqlangan.
+- Yangi original 2026-style **20 Y1 review**; yangi qayta ishlangan **22 Y1 review**; jami **42 yangi review**, 10 bobga bog‘langan, protected key bilan.
+- Audit nishonidagi jami: **422 ta (321 published + 101 review)**; boshqalar bilan aralashtirmang.
+- M12/S6.NET’ning qolgan legacy yozuvlari: 153 ta (published, review va archived statuslari aralash); importdan oldin alohida mavjud edi va bu ishda o‘zgartirilmadi.
+- `supabase/tests/task220_m12_examstyle_20_review.test.sql` va `supabase/tests/task220_m12_22_revision_candidates.test.sql` jonli Supabase’da PASS.
+- Materiallarni texnik bazaga kiritish ularning **fan eksperti yoki imtihon tasdig‘idan o‘tganini anglatmaydi**. 22 xavfli nashr qilingan savol o‘z holicha qolgan; almashtirish uchun ekspert va versiyalangan release kerak.
