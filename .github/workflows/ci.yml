@@ -167,6 +167,9 @@ jobs:
       - name: Install generator dependencies
         run: npm ci
 
+      - name: Validate migration version uniqueness and timestamp format
+        run: python3 scripts/check_migration_filenames.py
+
       - name: Fresh database — complete active migration chain
         run: |
           psql -X -v ON_ERROR_STOP=1 -d attestatsiya_test \
