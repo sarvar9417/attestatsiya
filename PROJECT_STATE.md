@@ -9,6 +9,14 @@
 - **Acceptance:** fayllarning checksumlari mos, ma’lumot va baholash o‘zgarmaydi, rasm noto‘g‘ri savollarga tushmaydi, CI success. **Production saytda tuzatish faqat deploydan keyin ko‘rinadi**. Rasmli yangi DB revision va human editorial approval alohida.
 - **Evidence:** `docs/TASK346_PEDGULI_MISSING_SOURCE_PHOTO_20261020.md`.
 
+## TASK-343 — Pedagogik javob izohlari sifat nazorati (2026-10-20)
+
+- **Owner request:** savollarda Telegram kanalining ✅/✔ javob belgisiga tayangan “izoh” o‘rniga o‘quvchini o‘rgatuvchi pedagogik tushuntirish berilishi.
+- **DB READ-ONLY audit:** 8 025 keyed savol; 140 Telegram marker-only explanation: 84 published (9 historical exam uses), 56 review; 2 “rasm/surat” savolda assets=[] (biri published).
+- **Code:** `20261021000000_task343_source_only_explanation_publish_gate.sql` yangi source-only izoh bilan publishni bloklaydi; `task343_source_only_explanation_gate.test.sql` positive/negative/boundary; `task343_explanation_source_only_readonly.sql` keyless inventory.
+- **Sample revision:** `task343_pedagogic_tact_immutable_revision_AFTER_APPROVAL.sql` pedagogik taktga didaktik izoh kiritadi, eski published/historical snapshotlarni saqlaydi. Live transaction ROLLBACK rehearsal PASS: yangi replacement yaratiladi, so‘ng o‘zgartirishlar qaytarildi. Productionda yozuv yo‘q; bundan “saytda tuzatildi” xulosasi kelib chiqmaydi.
+- **Status:** CODE READY / editorial rollout PARTIAL; 140 itemning hammasi qayta yozilmadi, yangi guard productionga apply qilinmadi; main merge alohida. Authenticated UI va prod release, 139 qolgan savol semantik editorial, rasmsiz savollarni karantinga olish ochiq. Vercel deploy yo‘q.
+
 ## TASK-345 — O‘rganish kitob bo‘limlarini birlashtirish (2026-10-20)
 
 - **Owner:** ChatGPT (2026-10-20, confirmed by user).

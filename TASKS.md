@@ -4,6 +4,12 @@
 |---|---|---|---|
 | TASK-346 | CODE READY / CI PENDING | Published PM.GEN Telegram 4843 original foto 867, review 4842 original foto 866, first-party image render | 4843 aynan source JPG bilan ko‘rinsin; noto‘g‘ri savolga rasm chiqmasin; 4842 bilan adashmasin; original SHA256 pin; published revision/keys/exam attempts immutable; frontend/backend/E2E CI; production DB/deploy yo‘q. `docs/TASK346_PEDGULI_MISSING_SOURCE_PHOTO_20261020.md`. |
 
+## TASK-343 — Test javoblaridagi manba-only izohlarni o‘quv izohlariga almashtirish (2026-10-20)
+
+| Task | Status | Scope | Acceptance |
+|---|---|---|---|
+| TASK-343 | IN_PROGRESS — 140 ta nomzod sanaldi; QA gate CODE READY / rollback sinovi PASS; production release qilinmagan | Telegram ✅/✔ kalitga tayangan 84 published + 56 review Y1 pedagogika izohi; boshqa qisqa izohlarni alohida semantik audit | Educational-explanation publish guard, SQL regression va keyless audit; pedagogik takt uchun immutable revision operator script rollback testdan o‘tdi. 139 ta kontent izohini individual yozish, rasmsiz 2 itemni tekshirish va production publish huquqi ochiq. `docs/TASK343_ANSWER_EXPLANATION_EDITORIAL_20261020.md` |
+
 ## TASK-345 — O‘rganish sahifalarini mantiqiy birlashtirish (2026-10-20)
 
 | ID | Status | Scope | Acceptance |
