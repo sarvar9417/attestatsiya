@@ -1,3 +1,12 @@
+## TASK-332 — Module exam 50-item display / M10 pool audit (2026-10-20)
+
+- **Owner:** AI assistant; **status:** CODE READY / QA GATES OPEN.
+- **Branch:** `task/TASK-332-module-exam-50-ux-m10-qa` from main.
+- **Change:** module intro 15/30 → backend-contract 50/100; M10 regression; read-only SQL for all 16 modules; audit report.
+- **M10:** initial 41 eligible then concurrently 59; 3 DB published topics vs 7 static topics, 18 AI-only published candidates without independent human signature; no production data writes.
+- **M11:** 35/50 eligible; 15-question shortage not bypassed. Other 15 modules numerically pass 50.
+- **Release gates:** CI/tests and authenticated smoke pending; editorial review and seven-topic mapping open. No Vercel deploy or production SQL write.
+
 ## TASK-304 — M14 source-verified QA audit handoff (2026-10-19)
 
 - **Branch:** `task/TASK-304-m14-final-qa-safe-merge`; 2026-10-19 main'dan yangi olingan; eski TASK-303 branch 23 main commit ortida qolgani uchun eski ishlar bilan konflikt chiqarmaslik maqsadida yangi branch ishlatildi.
