@@ -11,7 +11,7 @@
 5. `ICT 11_sinf-2021(1).pdf`, 4–65-bet: 1–9-darslar — MB, MBBT, ma’lumot turlari, Access jadval/Relationships, forma, Query/Report, import/eksport.
 6. `10-11-sinf informatika (Cambridge +)(1).pdf` va mavjud V2 .tex/.pdf — qo‘shimcha darslik va oldingi nazariya-test konteksti. Barcha savollar uchun **mustaqil sahifa-sahifa tekshiruv tugallangan deb da’vo qilinmaydi**.
 7. Boshqa 2026/demo va 2026 tushgan test PDFlari ichida matn qidiruvi Access savoli topmagan; ayrimlari skan sahifalar va OCR qilinmadi, shuning uchun `0 ta Access savol bor` degan umumiy xulosa chiqarilmadi.
-8. Google Drive `Informatika Kuzgi demo testlari.docx` va `2025 kuzgi demo @Informatika_fani_ustozlari.pdf`: ro‘yxatda topildi, ammo ushbu auditda qayta ishlatish uchun to‘liq tekshiriladigan matn olinmadi; **ulardagi barcha Access topshiriqlari ko‘rib chiqildi** deb yozilmaydi.
+8. Google Drive [`Informatika Kuzgi demo testlari.docx`](https://docs.google.com/document/d/13VVttASqpDVP4R1fsVtt3YARHs4uHnB8/edit) — fayl asl DOCX sifatida yuklab olindi va **54 ta ichki rasm fragmenti ko‘rib chiqildi**. 11-rasm — Access `Book` datasheet va Query Design sharti; 12-rasm — to‘rtta variantning **natijaviy jadval ko‘rinishi**. Bu uslubiy qiyos uchun asosiy namuna. [`2025 kuzgi demo @Informatika_fani_ustozlari.pdf`](https://drive.google.com/file/d/11fCXWHUJ3j7IHz619Ja84wqbcRaraept/view) ham 14 betli skan yechim to‘plami sifatida olindi va umumiy vizual ko‘rikdan o‘tkazildi; uning har bir savoliga Access tegishli degan xulosa chiqarilmadi.
 
 ## DB auditi
 | Ko‘rsatkich | Natija |
@@ -40,6 +40,7 @@
 - **8 ta yangi mustaqil Y1**, shu jumladan Access Query Design mezonlari, SQL agregat, PK/FK, Access ma’lumot turlari va `JOIN` hisoblash. Original demo savolning datasetini qaytarib ko‘chirmasdan, yangi o‘zbekcha ma’lumotlar bilan tuzildi; 4 variant + serverda kalit + izoh.
 - **7 ta** dastlabki SQL savolida to‘liq jadval nomi / `FROM` sintaksisi qayta tiklandi (`DB-04-024`, `DB-05-013`, `DB-05-015`, `DB-05-019`, `DB-05-023`, `DB-05-030`, `DB-06-015`).
 - Qo‘shimcha **9 ta** savolda jadval manbasi nomi va qisman SQL parchasining chegarasi aniqlandi (`DB-04-024`, `DB-05-013`, `DB-05-015`, `DB-05-019`, `DB-05-023`, `DB-05-030`, `DB-06-015`, `DB-06-016`, `DB-06-024`).
+- Qo‘shimcha `DB-06-018` savolida Access matn literaliga qo‘shtirnoq qo‘yilib, so‘rovning `SELECT ... FROM ... WHERE ...` sintaksisi to‘liq berildi.
 - **16 ta** yuqoriroq bilim darajasidagi savol izohi `WHERE`, `HAVING`, PK/FK, `NULL`, `COUNT` va `JOIN` bo‘yicha bosqichli yechim bilan kengaytirildi.
 - **2 ta native Y2** (`DBN-Y2-031`, `DBN-Y2-034`) eski ta’rifni tanishdan aniq jadval/Query Design natijasini moslashtirishga aylantirildi; mavjud juftlik UUIDlari saqlangan.
 - **2 ta native Y3** (`DBN-Y3-055`, `DBN-Y3-058`) tartib old shartlari va tenglikda saralash noaniqligi bartaraf qilindi.
