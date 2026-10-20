@@ -13,6 +13,7 @@ begin
       on r.source_question_id=source_q.id
      and r.revision_kind='legacy_y2_native_sides'
     where source_q.source_reference like 'formatbank-2026:T063-Y2-%'
+      and source_q.source_reference<>'formatbank-2026:T063-Y2-022'
     union all
     select q.id
     from public.questions q
@@ -45,6 +46,7 @@ begin
         on r.source_question_id=source_q.id
        and r.revision_kind='legacy_y2_native_sides'
       where source_q.source_reference like 'formatbank-2026:T063-Y2-%'
+        and source_q.source_reference<>'formatbank-2026:T063-Y2-022'
       union all
       select q.id
       from public.questions q
