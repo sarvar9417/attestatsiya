@@ -6,5 +6,5 @@ export function isEditorialReviewEligible(
   return ['KS','PM.GEN','PM.MET'].includes(groupCode ?? '') ||
     Boolean(sourceReference?.startsWith('authored:pedguli-')) ||
     Boolean(sourceReference?.startsWith('authored:pedagogy-pdf-corpus:')) ||
-    Boolean(sourceReference?.startsWith('MSACCESS-DEMO-STYLE-2026/'))
+    /^MSACCESS-DEMO-STYLE-2026\/DBS-Q0[1-8](?:\s*\||$)/.test(sourceReference ?? '')
 }
