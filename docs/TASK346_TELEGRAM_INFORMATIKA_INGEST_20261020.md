@@ -14,6 +14,7 @@
 
 ## PDF text candidates
 - `attest_ingest.telegram_informatika_pdf_question_candidates`ga matndan ajratilgan dastlabki nomzodlar kiritiladi. Matnni chiqarib bo'lmagan rasm/skanlar va ma'no uchun zarur diagrammalar mustaqil vizual tekshiruvga muhtoj.
+- Dastlabki PDF partiyasidan **18 manbaga tegishli 228 savol fragmenti** review-only saqlandi. Ulardan **115 tasi variant ajratish ishonchsiz**, **32 tasi vizual kontent ehtimoliga** flag qilingan; 0 ta tasdiqlangan key. 18/320 PDF deyilganda qolganlarini to'liq ko'rib chiqildi deb talqin qilmaslik kerak.
 - Testlar `answer_key=NULL`, `review_state=needs_answer_and_visual_review` bilan saqlanadi; sahifa raqami va korrekt javob yaratilmaydi.
 
 ## Sifat va xavfsizlik
@@ -29,12 +30,13 @@
 1. Noto'g'ri module_hint larni 2026 specs konstruktiga qayta mapping, Telegram bot so'rovlarini original answer key va source bilan verifikatsiya.
 2. Qolgan PDF fayllarni text/image/page sifat nazoratidan o'tkazish; bir faylning dublyajlariga dedup; PDF candidate extraction.
 3. 580 nazariya parchasi uchun fakt tekshiruv, mualliflikka mos original izohli darslar (M01–M16) va yakuniy ekspertiza.
-4. Dastlabki va to'liq user-facing dars/test release uchun code QA, CI, authenticated real UX va permissions tekshiruvi.
-5. Private source importni qayta bajarish idempotent; raw import artefaktlari public GitHub'da saqlanmaydi.
+4. Import PDF namunasida 228 candidate fragmentni source-page/diagram bilan taqqoslash, shu jumladan 115 formatli va 32 vizual belgilangan savolni qayta ajratish.
+5. Dastlabki va to'liq user-facing dars/test release uchun code QA, CI, authenticated real UX va permissions tekshiruvi.
+6. Private source importni qayta bajarish idempotent; raw import artefaktlari public GitHub'da saqlanmaydi.
 
 ## Handoff
 Task: TASK-346 — Telegram Informatika import/staging.
-Natija: review-only schema + 4470 poll + 580 theory + 316 PDF manifest; keyless.
+Natija: review-only schema + 4470 poll + 580 theory + 316 PDF manifest + 228 PDF question candidate; keyless.
 O'zgargan fayllar: ikki migration, private ingest smoke test va ushbu audit.
 Migratsiyalar: task346_telegram_informatika_ingest, task346_telegram_informatika_pdf_candidates.
 Qolgan blocker: no verified answer key; image-heavy PDF, QA/human editorial source.
