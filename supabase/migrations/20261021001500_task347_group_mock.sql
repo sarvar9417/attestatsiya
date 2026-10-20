@@ -117,7 +117,7 @@ begin
       'options',coalesce((
         select jsonb_agg(jsonb_build_object(
           'id',o.id,'side',o.side,'content_md',o.content_md
-        ) order by o.side, o.order_idx)
+        ) order by o.side, random())
         from public.question_options o where o.question_id=q.id
       ),'[]'::jsonb)
     ) x
