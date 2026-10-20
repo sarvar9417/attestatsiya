@@ -7,6 +7,10 @@ import { M10_GRAPHICS_TEXTBOOK_ADDITIONS } from './topics/m10GraphicsTextbookAdd
 import { M10_01_CANONICAL_BOOK } from './topics/m10GraphicsFundamentalsCanonicalBook'
 import { M10_02_CANONICAL_BOOK } from './topics/m10PaintPhotoshopCanonicalBook'
 import { M10_03_CANONICAL_BOOK } from './topics/m10SelectionsLayersCanonicalBook'
+import { M10_04_CANONICAL_BOOK } from './topics/m10PhotoTextCanonicalBook'
+import { M10_05_CANONICAL_BOOK } from './topics/m10ThreeDCanonicalBook'
+import { M10_06_CANONICAL_BOOK } from './topics/m10AnimationCanonicalBook'
+import { M10_07_CANONICAL_BOOK } from './topics/m10AudioVideoCanonicalBook'
 import { M12_NETWORK_TEXTBOOK_ADDITIONS } from './topics/m12NetworkTextbookAdditions'
 import { M11_WEB_TEXTBOOK_ADDITIONS } from './topics/m11WebTextbookAdditions'
 import { M09_DATABASE_TEXTBOOK_ADDITIONS } from './topics/m09DatabaseTextbookAdditions'
@@ -924,7 +928,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   ]),
 
   'M10.06': t('M10.06', 'Animatsiya va Adobe Animate', [
-    { type: 'definition', content: 'Animatsiya — ketma-ket kadrlarni tez almashlab, harakat illuziyasini yaratish. Framerate (FPS) — sekunddagi kadrlar soni. Standart: 24 FPS (kino), 30 FPS (TV), 60 FPS (o\'yin).' },
+    { type: 'definition', content: 'Animatsiya — ketma-ket kadrlarni tez almashlab, harakat illuziyasini yaratish. Framerate (FPS) — sekunddagi kadrlar soni. Amaliy variantlar: 24, 30 yoki 60 FPS; loyiha va qurilmaga qarab tanlanadi.' },
     { type: 'table', content: '| Animatsiya turi | Izoh |\n|----------------|------|\n| Traditional (2D) | Qo\'lda chizilgan kadrlar |\n| Stop-motion | Jismoniy obyektlarni suratga olish |\n| 3D animatsiya | Kompyuterda 3D modellarni harakatlantirish |\n| Motion graphics | Matn va grafik elementlar harakati |\n| Tween animatsiya | Oraliq kadrlarni avtomatik yaratish |' },
     { type: 'text', content: 'Adobe Animate (sobiq Flash Professional) — 2D animatsiya va interfaol kontent yaratish dasturi. Asosiy vositalar: Timeline (vaqt shkalasi), Keyframe (kalit kadr), Tween (oraliq kadr), Symbol (belgi).' },
     { type: 'note', content: '🎬 Tween animatsiya: boshlang\'ich va tugash holatini belgilaysiz, dastur oraliq kadrlarni avtomatik yaratadi.' },
@@ -936,7 +940,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
   'M10.07': t('M10.07', 'Audio va video tahrirlash', [
     { type: 'definition', content: 'Audio tahrirlash — ovoz fayllarini kesish, birlashtirish, effekt qo\'shish, sifatni yaxshilash. Video tahrirlash — video lavhalarni montaj qilish, tranzisiya va effektlar qo\'shish.' },
     { type: 'table', content: '| Dastur | Turi | Xususiyati |\n|--------|------|-----------|\n| Audacity | Audio | Bepul, ko\'p platformali |\n| Adobe Audition | Audio | Professional, keng imkoniyatlar |\n| DaVinci Resolve | Video | Bepul, professional |\n| Adobe Premiere Pro | Video | Professional, industriya standarti |\n| CapCut | Video | Mobil, sodda |' },
-    { type: 'text', content: 'Audio formatlar: WAV (lossless), MP3 (siqilgan), FLAC (lossless siqilgan), AAC (Apple). Video formatlar: MP4, AVI, MOV, MKV, WebM.' },
+    { type: 'text', content: 'Audio formatlar: WAV (ko‘pincha siqilmagan PCM konteyner), MP3 (odatda yo‘qotishli), FLAC (yo‘qotishsiz siqilgan), AAC (keng qo‘llanadigan audio kodek). Video konteynerlar: MP4, AVI, MOV, MKV, WebM.' },
     { type: 'example', content: 'Audacity da audio tahrirlash:\n1) Faylni ochish\n2) Kesish (Ctrl+X) / Nusxa (Ctrl+C)\n3) Effekt qo\'shish (Reverb, Echo, Noise Reduction)\n4) Eksport (MP3, WAV)' },
     { type: 'note', content: '🎵 Video montajda uch asosiy bosqich: import → tahrirlash (kesish, joylashtirish, tranzisiya) → eksport (render qilish).' },
   ], [
@@ -1710,6 +1714,21 @@ for (const [id, book, source] of [
   if (!previous) continue
   const appendix = M10_GRAPHICS_TEXTBOOK_ADDITIONS[id] ?? []
   TOPIC_CONTENT[id] = { ...previous, kind: 'chapter', source, theory: [...book, ...appendix] }
+}
+
+// TASK-304: four M10 graphics / 3D / animation / media long-form books.
+// Append reviewed M10 source blocks, but do not render their old short seed as
+// an unrelated second lesson. Preserve static quiz IDs, options, keys and Y types.
+for (const [id, book, source] of [
+  ['M10.04', M10_04_CANONICAL_BOOK, 'Cambridge+ ICT 8/10–11 + Adobe — photo, retouching and typography'],
+  ['M10.05', M10_05_CANONICAL_BOOK, 'Cambridge+ ICT 9/10–11 + Blender — 3D and CAD'],
+  ['M10.06', M10_06_CANONICAL_BOOK, 'Cambridge+ ICT 8 + Adobe 2026 — animation'],
+  ['M10.07', M10_07_CANONICAL_BOOK, 'Cambridge+ ICT 8/10–11 + Audacity — digital audio and video'],
+] as const) {
+  const original = TOPIC_CONTENT[id]
+  if (!original) continue
+  const reviewed = M10_GRAPHICS_TEXTBOOK_ADDITIONS[id] ?? []
+  TOPIC_CONTENT[id] = { ...original, source, kind: 'chapter', theory: [...book, ...reviewed] }
 }
 
 // M02 canonical chapters combine multiple lengthy source lessons. Rebuilding
