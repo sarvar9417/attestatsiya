@@ -305,7 +305,15 @@ export default function BookReader({
                   <span className="book-outline-num">
                     {visited.has(i) && i !== index ? <Check size={12} /> : i + 1}
                   </span>
-                  <span className="book-outline-text">{s.title || content.title}</span>
+                  <span className="book-outline-text">
+                    {s.title || content.title}
+                    {s.blocks.filter(block => block.type === 'heading'
+                      && plainText(block.content) !== s.title).map((block, headingIndex) => (
+                      <span key={headingIndex} className="block text-xs opacity-70">
+                        {plainText(block.content)}
+                      </span>
+                    ))}
+                  </span>
                 </button>
               </li>
             ))}
