@@ -43,6 +43,7 @@ import {
 import { backendGateway } from './backendGateway'
 import type { Json } from '../../lib/database.types'
 import ExamResultActions from './ExamResultActions'
+import ExamReviewList from './ExamReviewList'
 import ExamRichText from './questions/ExamRichText'
 import Y1Choice from './questions/Y1Choice'
 import ExamQuestionAssets from './questions/ExamQuestionAssets'
@@ -1023,57 +1024,7 @@ export default function ExamRunner({
             </p>
           )}
 
-          {reviewItems && reviewItems.length > 0 && (
-            <div className="mt-5 space-y-3" aria-label="Yakunlangan sinov savollari tahlili">
-              {reviewItems.map((item) => (
-                <article
-                  key={item.order_idx}
-                  className="rounded-xl border border-gray-200 p-4 dark:border-gray-800"
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="min-w-0">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span className="rounded-lg bg-gray-100 px-2 py-1 text-[11px] font-semibold text-gray-600 dark:bg-gray-800 dark:text-gray-300">
-                          Savol {item.order_idx}
-                        </span>
-                        {item.construct && (
-                          <span className="font-mono text-[11px] font-semibold text-indigo-600 dark:text-indigo-300">
-                            {item.construct}
-                          </span>
-                        )}
-                      </div>
-                      <div className="mt-3 text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">
-                        <ExamRichText text={item.stem_md} />
-                      </div>
-                    </div>
-
-                    <span
-                      className={[
-                        'inline-flex shrink-0 items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-semibold',
-                        item.is_correct
-                          ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300'
-                          : 'bg-rose-50 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300',
-                      ].join(' ')}
-                    >
-                      {item.is_correct ? (
-                        <Check size={13} aria-hidden="true" />
-                      ) : (
-                        <X size={13} aria-hidden="true" />
-                      )}
-                      {item.is_correct ? 'To‘g‘ri' : 'Xato'}
-                    </span>
-                  </div>
-
-                  {item.explanation_md && (
-                    <div className="mt-4 rounded-xl bg-indigo-50/70 p-3 text-sm leading-6 text-indigo-900 dark:bg-indigo-950/30 dark:text-indigo-100">
-                      <span className="font-semibold">Izoh: </span>
-                      <div className="mt-1"><ExamRichText text={item.explanation_md} /></div>
-                    </div>
-                  )}
-                </article>
-              ))}
-            </div>
-          )}
+          {reviewItems && reviewItems.length > 0 && <ExamReviewList items={reviewItems} />}
         </section>
 
         <div className="flex flex-col gap-3 sm:flex-row">
