@@ -5,6 +5,7 @@ import TopicView from '../components/learning/TopicView'
 import AxborotPracticePage from './AxborotPracticePage'
 import { useCatalog } from '../hooks/useCatalog'
 import { useProgressStore } from '../store/progressStore'
+import { PHOTOSHOP_STUDY_STAGES } from '../data/topics/m10PhotoshopLearningPath'
 
 export default function ModulePage() {
   const { moduleId } = useParams()
@@ -195,6 +196,50 @@ export default function ModulePage() {
           </div>
         </div>
       </section>
+
+      {moduleId === 'M10' && (
+        <section
+          aria-label="Adobe Photoshop bo‘yicha o‘quv yo‘li"
+          className="rounded-2xl border border-indigo-200 bg-indigo-50/50 p-5 dark:border-indigo-900 dark:bg-indigo-950/20 sm:p-6"
+        >
+          <div className="mb-4">
+            <h2 className="flex items-center gap-2 text-lg font-semibold text-gray-950 dark:text-white">
+              <BookOpen size={19} className="text-indigo-600 dark:text-indigo-300" aria-hidden="true" />
+              Adobe Photoshop — darslik va attestatsiya bo‘yicha o‘quv yo‘li
+            </h2>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-gray-600 dark:text-gray-300">
+              Photoshop darslari yashirin emas: 7-sinf informatika darsligining 13–18-darslari
+              va 2026-yil spetsifikatsiyasidagi rasmlarni yaratish va tahrirlash talabi
+              quyidagi uchta ketma-ket bobda o‘rganiladi. Har bir bobda nazariya,
+              amaliy bajarish ketma-ketligi, mustaqil mashq va tekshirish izohi mavjud.
+            </p>
+          </div>
+          <div className="grid gap-3 md:grid-cols-3">
+            {PHOTOSHOP_STUDY_STAGES.map(stage => (
+              <button
+                key={stage.id}
+                type="button"
+                disabled={!mod.subtopics.some(topic => topic.id === stage.id)}
+                onClick={() => setActiveSubtopicId(stage.id)}
+                className="group flex min-h-40 flex-col justify-between gap-3 rounded-xl border border-gray-200 bg-white p-4 text-left shadow-sm transition hover:border-indigo-400 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-60 dark:border-gray-700 dark:bg-gray-900"
+              >
+                <span className="text-sm font-semibold text-gray-950 dark:text-white">{stage.title}</span>
+                <span className="text-xs leading-5 text-gray-600 dark:text-gray-300">{stage.topics}</span>
+                <span className="flex w-full items-center justify-between gap-3 text-xs text-indigo-700 dark:text-indigo-300">
+                  <span>{stage.textbook}</span>
+                  <ChevronRight size={17} aria-hidden="true" className="shrink-0 group-hover:translate-x-0.5" />
+                </span>
+              </button>
+            ))}
+          </div>
+          <p className="mt-4 text-xs leading-5 text-gray-600 dark:text-gray-400">
+            Bu — o‘quv yo‘li. Attestatsiyaning 27–31-savollari grafika va
+            veb-texnologiyalar uchun umumiy 5 ta savoldan iborat; M10 modul sinovi
+            esa alohida 50 savollik mashqdir. O‘quv materialining mavjudligi
+            serverda shu mavzu bo‘yicha test savoli tasdiqlanganini bildirmaydi.
+          </p>
+        </section>
+      )}
 
       <section>
         <div className="mb-3 flex items-center justify-between gap-3">
