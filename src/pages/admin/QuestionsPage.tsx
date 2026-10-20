@@ -45,6 +45,14 @@ interface QuestionRow {
     invalid_y1_contract: boolean
     authorship_unknown: boolean
   } | null
+  quality_findings?: Array<{
+    question_id: string
+    finding_code: string
+    severity: 'info' | 'medium' | 'high' | 'critical'
+    details: Record<string, unknown>
+    detected_at: string
+    resolved_at: string | null
+  }>
 }
 
 const STATUS_FLOW: Record<
@@ -440,6 +448,22 @@ export default function QuestionsPage() {
                             Savol kaliti/variant xatosi
                           </span>
                         )}
+                        {question.quality_findings?.some(finding =>
+                          finding.finding_code === 'y1_answer_length_high_risk'
+                        ) && (
+                          <span title="To‘g‘ri javob uzunligi variantni mazmunsiz topishga imkon berishi mumkin; rasmiy mockdan chiqarilgan."
+                            className="rounded-lg bg-red-100 px-2 py-1 text-[11px] font-semibold text-red-900 dark:bg-red-950/50 dark:text-red-200">
+                            Mockdan chiqarilgan
+                          </span>
+                        )}
+                        {question.quality_findings?.some(finding =>
+                          finding.finding_code === 'editorial_evidence_missing'
+                        ) && (
+                          <span title="Bu tarixiy nashr uchun joriy fingerprintga bog‘langan mustaqil tahririy dalil yo‘q."
+                            className="rounded-lg border border-amber-300 px-2 py-1 text-[11px] font-medium text-amber-800 dark:border-amber-800 dark:text-amber-300">
+                            Ekspert dalili navbatda
+                          </span>
+                        )}
                         {question.status === 'review' && question.quality_flags?.authorship_unknown && (
                           <span title="Haqiqiy muallif hali tasdiqlanmagan."
                             className="rounded-lg border border-gray-300 px-2 py-1 text-[11px] font-medium text-gray-600 dark:border-gray-700 dark:text-gray-300">
@@ -478,10 +502,7 @@ export default function QuestionsPage() {
                         </button>
                       ))}
 
-                      {status === 'review' && (['KS', 'PM.GEN', 'PM.MET'].includes(question.group_code) ||
-                        question.source_reference?.startsWith('authored:pedguli-') ||
-                        question.source_reference?.startsWith('authored:pedagogy-pdf-corpus:') ||
-                        question.source_reference?.startsWith('MSACCESS-DEMO-STYLE-2026/')) && (
+                      {status === 'review' && (
                         <button
                           type="button"
                           onClick={() => setEditorialQuestion(question)}

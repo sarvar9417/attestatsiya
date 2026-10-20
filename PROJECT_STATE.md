@@ -13,6 +13,13 @@
 - **Files:** `src/features/exam/questions/ExamProse.tsx`, `ExamRichText.tsx` va uning Vitest regression testi, `ExamRunner.tsx`, `ExamResultPage.tsx`.
 - **Verification:** CI/lint/typecheck/test statusini PR tekshiruvidan keyin yangilash; production DB va deployga tegilmagan.
 
+## TASK-306 — Test bank ekspert remediatsiyasi (2026-10-19)
+
+- **Status:** DONE — production migration/postflight PASS; final GitHub required CI va merge ushbu handoff commitida bajariladi; deploy yo‘q.
+- **Owner:** Codex; foydalanuvchi 2026-10-19 19:23 Asia/Samarkandda topilgan barcha savol-bank kamchiliklarini tuzatish va ishchi holatda topshirishni buyurdi.
+- **Branch:** `task/TASK-306-question-bank-expert-remediation` (`origin/main`dan).
+- **Result:** demo 50 immutable review revision (8/35/7, q53→PM.GEN.08); 20 production legacy Y2 native 4+4 review revision; universal independent-editorial/fingerprint publish gate; private QA queue; `official-mock-v4` quality gate; 5 063/5 063 published snapshot; 27/27 blueprint capacity cells yetarli, min zaxira +11. Published revision joyida tahrirlanmadi, reviewer imzosi soxtalashtirilmadi, Vercel deploy qilinmadi. Batafsil: `docs/TASK306_QUESTION_BANK_EXPERT_REMEDIATION_20261020.md`.
+
 ## TASK-304 — M14 source-verified QA audit handoff (2026-10-19)
 
 - **Branch:** `task/TASK-304-m14-final-qa-safe-merge`; 2026-10-19 main'dan yangi olingan; eski TASK-303 branch 23 main commit ortida qolgani uchun eski ishlar bilan konflikt chiqarmaslik maqsadida yangi branch ishlatildi.

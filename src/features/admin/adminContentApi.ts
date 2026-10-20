@@ -66,6 +66,14 @@ export interface AdminQuestionRow {
     invalid_y1_contract: boolean
     authorship_unknown: boolean
   } | null
+  quality_findings?: Array<{
+    question_id: string
+    finding_code: string
+    severity: 'info' | 'medium' | 'high' | 'critical'
+    details: Record<string, unknown>
+    detected_at: string
+    resolved_at: string | null
+  }>
 }
 
 export interface AdminConstructRow {

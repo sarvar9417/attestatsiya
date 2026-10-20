@@ -4,6 +4,12 @@
 |---|---|---|---|
 | TASK-305 | CODE READY / CI PENDING | Learner sinovlari Y1/Y2/Y3 hamda tugagan sinov tahlili; manbadagi literal \n, jadval, kod bloklari | Escaped va odatiy Markdown jadval semantik table ko‘rinishida; kod/formula va server savol kalitlari o‘zgarmaydi; mobil gorizontal scrolling; Vitest regressiyalar; CI tekshiruvi |
 
+## TASK-306 — Test bank ekspert remediatsiyasi (2026-10-19)
+
+| ID | Status | Dependency | Deliverable |
+|---|---|---|---|
+| TASK-306 | DONE — PRODUCTION POSTFLIGHT PASS / FINAL CI+MERGE | TASK-240, TASK-244, TASK-246, TASK-282 | Demo 50 immutable review revision (8/35/7, q53→PM.GEN.08); productiondagi 20 aktiv legacy Y2 uchun native 4+4 review revision; universal independent-editorial/fingerprint gate va private QA navbati; `official-mock-v4`; 5 063/5 063 published snapshot; 27/27 kvota katagi yetarli. Human sign-off soxtalashtirilmaydi, deploy yo‘q. `docs/TASK306_QUESTION_BANK_EXPERT_REMEDIATION_20261020.md`. |
+
 ## TASK-304 — M14 kasbiy standart PDF va savollarini yakuniy manba nazorati (2026-10-19)
 
 | TASK-304 | REVIEW AUDIT DONE / HUMAN PUBLISH APPROVAL OPEN | TASK-303 QA, TASK-301 learner source-safety | 13-betli PDF SHA-256 mustaqil tekshirildi; 7 M14 uchun 7×12 sahifali annotated review-only blok; 140 published KS savolning stem va keyed variantlari, barcha 8 Y2 juftlik va 2 Y3 tartibi ko‘rildi; 1 Y2da 8×side=a topildi, staging-only draft script tayyor; 37/140 full editorial flags, 103 human sign-off debt. `docs/audits/TASK303_M14_FINAL_SOURCE_SEMANTIC_QA_20261019.md`; nashr qilingan DB/dars o‘zgarmaydi, deploy yo‘q. Final CI/merge rekvizitlarini PR orqali tekshirish kerak. |
