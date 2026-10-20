@@ -182,6 +182,11 @@ describe('stable theory in learner module', () => {
     expect(mocks.getLessonDetail).toHaveBeenCalledTimes(1)
     expect(screen.queryByText('Tekshirilgan qo‘shimcha material (ixtiyoriy)')).toBeNull()
     expect(screen.queryByText('Bu server xulosasi asosiy dars o‘rniga o‘tmasligi kerak.')).toBeNull()
-    expect(screen.getByRole('tab', { name: /Ilmiy-metodik qo‘shimcha/ })).toBeDefined()
+    // Multiple short sourced headings now share the "Chuqurlashtirilgan nazariya"
+    // page; the former standalone "Ilmiy-metodik qo‘shimcha" tab is absent.
+    expect(screen.getByRole('tab', { name: /Chuqurlashtirilgan nazariya/ })).toBeDefined()
+    fireEvent.click(screen.getByRole('tab', { name: /Chuqurlashtirilgan nazariya/ }))
+    expect(screen.getByText('O‘quvchining mustaqil o‘qishi davom ettiriladi.')).toBeDefined()
+    expect(screen.queryByRole('tab', { name: /Ilmiy-metodik qo‘shimcha/ })).toBeNull()
   })
 })

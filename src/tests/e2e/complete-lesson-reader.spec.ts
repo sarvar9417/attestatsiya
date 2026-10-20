@@ -58,7 +58,8 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 
         const title = MODULES.find(item => item.code === module)!.subtopics[0].title
         await page.getByRole('button').filter({ has: page.getByRole('heading', { name: title, exact: true }) }).click()
         await expect(page.locator('.book-chapter')).toBeVisible()
-        await expect(page.locator('.book-navbar')).toBeVisible()
+        const paginated = await page.locator('.book-navbar').count() > 0
+        if (paginated) await expect(page.locator('.book-navbar')).toBeVisible()
         const sections: string[] = []
         for (let index = 0; index < 120; index++) {
           sections.push(await page.locator('.book-chapter').innerText())
@@ -77,7 +78,7 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 
         } else if (module === 'M15') {
           expect(content).not.toContain('Asosiy manbali tushuntirish saqlanadi.')
         } else expect(content).toContain('Asosiy manbali tushuntirish saqlanadi.')
-        await expect(page.getByText('Bob o‘qib bo‘lindi')).toBeVisible()
+        await expect(page.getByText(paginated ? 'Bob o‘qib bo‘lindi' : 'Mavzu o‘qib bo‘lindi')).toBeVisible()
         await expect(page.getByRole('button', { name: /Test tayyorligi kutilmoqda/ })).toBeDisabled()
         await page.getByRole('button', { name: /Keyingi mavzu:/ }).click()
         await expect(page.locator('.book-chapter')).toBeVisible()

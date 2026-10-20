@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { CheckCircle2, Clock3, Lightbulb, XCircle } from 'lucide-react'
 import type { ExamOption, ExamReviewItem } from './contracts'
 import ExamRichText from './questions/ExamRichText'
-import ExamQuestionAssets from './questions/ExamQuestionAssets'
+import ExamQuestionAssets, { legacyPedguliDebateReviewId } from './questions/ExamQuestionAssets'
 
 type Filter = 'all' | 'wrong' | 'correct' | 'skipped'
 
@@ -202,7 +202,7 @@ export default function ExamReviewList({ items }: { items: ExamReviewItem[] }) {
           <div className="mt-4 min-w-0 text-base font-semibold text-gray-900 dark:text-gray-100">
             <ExamRichText text={item.stem_md} />
           </div>
-          {item.assets && <div className="mt-4"><ExamQuestionAssets assets={item.assets} /></div>}
+          <ExamQuestionAssets assets={item.assets ?? []} questionId={legacyPedguliDebateReviewId(item.stem_md, item.options ?? [])} />
           <AnswerReview item={item} />
           {item.explanation_md && <div className="mt-4 rounded-xl border border-indigo-100 bg-indigo-50/70 p-4 dark:border-indigo-900 dark:bg-indigo-950/30">
             <h4 className="mb-2 flex items-center gap-2 text-sm font-bold text-indigo-900 dark:text-indigo-200">

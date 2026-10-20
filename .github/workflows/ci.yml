@@ -222,6 +222,8 @@ jobs:
             -f supabase/seed.sql \
             -f supabase/tests/security_hardening.test.sql \
             -f supabase/tests/custom_exam.test.sql \
+            -f supabase/tests/group_mock.test.sql \
+            -f supabase/tests/group_mock_modes.test.sql \
             -f supabase/tests/custom_exam_presets.test.sql \
             -f supabase/tests/rls_product_access.test.sql \
             -f supabase/tests/onboarding_profile.test.sql \
@@ -261,6 +263,7 @@ jobs:
             -f supabase/tests/task213_graphics_web_v2_review_contract.test.sql \
             -f supabase/tests/task214_graphics_web_380_practice_review_contract.test.sql \
             -f supabase/tests/task338_m10_owner_ai_eight_release.test.sql \
+            -f supabase/tests/task346_missing_visual_media_contract.sql \
             -f supabase/tests/m12_m13_network_security_lessons.test.sql \
             -f supabase/tests/m14_kasb_standarti_lessons.test.sql \
             -f supabase/tests/axb_chapter_practice.test.sql \

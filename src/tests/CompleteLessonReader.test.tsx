@@ -87,24 +87,24 @@ describe('complete existing lesson material', () => {
 
   it('switches from the last page of a long lesson to the first page of a short one', () => {
     const props = { questionCount: 0, onFinishReading: vi.fn() }
-    const long = topic('M11.01', Array.from({ length: 12 }, (_, n) => text(`Long ${n}`)))
+    const long = topic('M11.01', [text('Kengaytirilgan nazariya. '.repeat(320)), ...Array.from({ length: 12 }, (_, n) => text(`Long ${n}`))])
     const { rerender } = render(<BookReader {...props} content={long} />)
     fireEvent.click(screen.getAllByRole('tab').at(-1)!)
     expect(screen.getByText('Long 11')).toBeInTheDocument()
-    expect(screen.getByText('Bobning oxirgi bo‘limi')).toBeInTheDocument()
+    expect(screen.getByText('Bob o‘qib bo‘lindi')).toBeInTheDocument()
     rerender(<BookReader {...props} content={topic('M16.01', [text('Short lesson')])} />)
     expect(screen.getByText('Short lesson')).toBeInTheDocument()
     expect(screen.queryByText('Long 11')).not.toBeInTheDocument()
   })
   it('resets safely when source metadata changes under the unified pagination contract', () => {
-    const content = topic('M11.01', Array.from({ length: 9 }, (_, n) => text(`Shared ${n}`)))
+    const content = topic('M11.01', [text('Shared 0'), text('Batafsil mazmun. '.repeat(430)), ...Array.from({ length: 8 }, (_, n) => text(`Shared ${n + 1}`))])
     const props = { questionCount: 0, onFinishReading: vi.fn() }
     const { rerender } = render(<BookReader {...props} content={content} />)
     fireEvent.click(screen.getAllByRole('tab').at(-1)!)
     rerender(<BookReader {...props} content={{ ...content, source: 'Named textbook' }} />)
     expect(screen.getByText('Shared 0')).toBeInTheDocument()
     expect(screen.queryByText('Shared 8')).not.toBeInTheDocument()
-    expect(screen.getAllByRole('tab')).toHaveLength(3)
+    expect(screen.getAllByRole('tab')).toHaveLength(2)
     expect(screen.getAllByRole('tab')[0]).toHaveAttribute('aria-selected', 'true')
   })
 

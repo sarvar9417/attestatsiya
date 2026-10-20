@@ -270,13 +270,13 @@ describe('M07 source-backed reader', () => {
     '**Manbalar:** ICT 5-sinf',
     '',
     '## Sahna va koordinatalar',
-    'Scratch sahnasi 480×360 birlik.',
+    'Scratch sahnasi 480×360 birlik. '.repeat(115),
     '',
     '## Scratch bloklari',
-    'Bu bo‘limda bloklar haqidagi batafsil material.',
+    'Bu bo‘limda bloklar haqidagi batafsil material. '.repeat(95),
     '',
     '## Yakuniy amaliy topshiriq',
-    'LOGO va Pen bo‘yicha mashq.',
+    'LOGO va Pen bo‘yicha mashq. '.repeat(145),
   ].join('\n')
   const content = {
     subtopicId: '97000000-0000-4000-8000-000000000001',

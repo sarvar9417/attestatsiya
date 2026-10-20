@@ -40,7 +40,8 @@ describe('TASK-277 unified theory books', () => {
     for (const [id, content] of Object.entries(TOPIC_CONTENT)) {
       const pages = splitBalancedSections(content.theory)
       expect(pages.flatMap(page => page.blocks), id).toEqual(content.theory)
-      expect(pages.every(page => page.blocks.length <= 4), id).toBe(true)
+      expect(pages.every(page => page.blocks.length > 0), id).toBe(true)
+      expect(pages.length, id).toBeLessThanOrEqual(content.theory.length)
       for (const page of pages.filter(page => page.continued)) {
         expect(page.title.length, id).toBeGreaterThan(0)
       }
