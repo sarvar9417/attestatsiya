@@ -23,7 +23,7 @@ an official independently-proctored examination or mastery evidence.
 3. **Manual:** browse published/source-backed question stems by lesson; choose
    ordered individual question IDs (1–100, unique). Hidden keys inaccessible.
 
-All three take a snapshot of question data, option order, answer key and
+All three additionally reuse the exact official-mock v4 quality eligibility helper\n(excluding high/critical open findings, malformed Y1/Y2/Y3 keys, source gaps and\nunreviewed revisions). Manual bank previews randomize option order so Y3's saved\nsource order cannot imply the correct sequence.\n\nAll three take a snapshot of question data, option order, answer key and
 explanation into private server-side `group_mock_items`. The published bank is
 not modified; prior exam semantics are unchanged.
 
@@ -53,7 +53,7 @@ not modified; prior exam semantics are unchanged.
 
 ## Verification / release gates
 1. GitHub CI `npm run lint`, `npm run typecheck`, `npm run test`,
-   `npm run build` must pass.
+   `npm run build` must pass. Both SQL tests are included in database CI.
 2. Fresh local Supabase migrations, `group_mock.test.sql` regression and
    generated database types must be verified.
 3. Two actual authenticated browser sessions must validate join/answer/
