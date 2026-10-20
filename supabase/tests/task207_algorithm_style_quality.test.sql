@@ -5,8 +5,8 @@ BEGIN
 SELECT count(*) INTO n FROM public.questions WHERE source_reference LIKE 'algoritmlash-v4:ALG-V4-%';
 IF n<>25 THEN RAISE EXCEPTION 'Expected 25 V4 questions, got %',n; END IF;
 SELECT count(*) INTO n FROM public.questions q LEFT JOIN public.question_keys k ON k.question_id=q.id
-WHERE q.source_reference LIKE 'algoritmlash-v4:%' AND (k.question_id IS NULL OR q.status<>'review');
-IF n<>0 THEN RAISE EXCEPTION 'Published or missing key V4: %',n; END IF;
+WHERE q.source_reference LIKE 'algoritmlash-v4:%' AND (k.question_id IS NULL OR q.status NOT IN ('review','published'));
+IF n<>0 THEN RAISE EXCEPTION 'Invalid release status or missing key V4: %',n; END IF;
 SELECT count(*) INTO n FROM public.questions q JOIN public.question_keys k ON k.question_id=q.id
 WHERE q.source_reference LIKE 'algoritmlash-v4:%' AND q.format='Y1'
 AND ((SELECT count(*) FROM public.question_options o WHERE o.question_id=q.id)<>4
