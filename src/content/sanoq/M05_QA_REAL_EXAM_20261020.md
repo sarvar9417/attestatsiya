@@ -78,3 +78,10 @@ Manba/stil izlari `metadata`, `source`, `source_reference`, `question_keys.expla
 - `src/content/sanoq/M05_EXAM_STYLE_30_20261020.json` — 30 savol, misollar, manba izlari va javoblar.
 - `supabase/maintenance/m05_exam_style_quality_20261020.sql` — 30 savolni atomic insert, faqat ishlatilmagan 12 Y3 ni arxivlovchi, 400→418 published release.
 - `supabase/maintenance/m05_unused_min_base_dedup_20261020.sql` — faqat ishlatilmagan 6 Y1 ni arxivlovchi release, 418→412 published.
+
+## 7. Mustaqil ekspert korreksiyasi va avtomatlashtirilgan regressiya (2026-10-20)
+- **Aniq topilgan nuqson:** `m05-20261018:y2y3:038` Y2 savolida «Kasrni asosga ko‘paytirish» jarayoni «Kasr raqamlarini butun qismdan ajratib olish» deb berilgan. Bu algoritmga to‘g‘ri kelmaydi.
+- **Darslik/nazariya asosidagi to‘g‘ri yozuv:** «Kasr qismini yangi asosga takroriy ko‘paytirib, hosil bo‘lgan ko‘paytmalarning butun qismlarini raqam sifatida yozish». `Sanoq_sistemalari_nazariya.tex` — `Kasrlarni o‘tkazish va davriylik`, `O‘nlik kasrni boshqa asosga ko‘paytirish` bo‘limi; ICT7 PDF 13–16.
+- **Bajada:** aynan bitta Y2 variantning matni va `question_keys.explanation_md` yangilandi. Savol, variant va javob kaliti UUIDlari saqlandi; mavjud `exam_items` qayta yozilmadi. JSON manba, 74 savollik SQL seed va alohida idempotent `m05_fix_fraction_matching_wording_20261020.sql` moslashtirildi.
+- **Regressiya:** `src/tests/M05QuestionBankQA.test.ts` yangi va mavjud 104 ta mualliflik Y1/Y2/Y3 savoli uchun strukturaviy va arifmetik xossalarni test qiladi: son qiymatlari, unikal variantlar, Y2 bir qiymatli moslik, Y3 tartib, Y1 haqiqiy attestatsiya arifmetikasi va kasr konversiyasi qoidasi.
+- **Izoh:** DB’dagi barcha 412 ta published savol uchun keyin ham alohida bosqichda nazariy-semantik auditni davom ettirish mumkin; bu tekshiruv doirasidan ortiqcha «100% ekspert tasdiqladi» deyish noto‘g‘ri.
