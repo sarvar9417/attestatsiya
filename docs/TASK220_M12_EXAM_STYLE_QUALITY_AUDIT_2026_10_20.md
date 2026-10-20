@@ -80,3 +80,9 @@ Manba: `src/content/tarmoq/M12_22_P1_published_item_revision_proposals_2026.json
 - M12/S6.NET’ning qolgan legacy yozuvlari: 153 ta (published, review va archived statuslari aralash); importdan oldin alohida mavjud edi va bu ishda o‘zgartirilmadi.
 - `supabase/tests/task220_m12_examstyle_20_review.test.sql` va `supabase/tests/task220_m12_22_revision_candidates.test.sql` jonli Supabase’da PASS.
 - Materiallarni texnik bazaga kiritish ularning **fan eksperti yoki imtihon tasdig‘idan o‘tganini anglatmaydi**. 22 xavfli nashr qilingan savol o‘z holicha qolgan; almashtirish uchun ekspert va versiyalangan release kerak.
+
+
+## Mustaqil hisoblash QA (source answer keys)
+- V2 6-bobdagi IPv4 numerical savollardan 27 tasi aniq ko‘lamli regex bilan ajratildi: **17 network, 4 broadcast, 3 usable host soni, 2 oxirgi usable host, 1 birinchi usable host**.
+- To‘g‘ri javob 32-bit IPv4/maska bitwise AND, host bitlari OR, network+1 / broadcast−1 va 2^(32−p)−2 orqali qog‘oz bankidan mustaqil hisoblandi: **27/27 key mos**, xato topilmadi.
+- Regression: `src/tests/m12NetworkIPv4Independent27.test.ts` (27 ta individual assertion); bu barcha IPv4, Y2 va Y3 konseptual savollar ekspertizasi o‘rniga o‘tmaydi.
