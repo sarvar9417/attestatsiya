@@ -1323,7 +1323,7 @@ export default function ExamRunner({
 
               <div className="exam-question-card">
                 <div className="exam-question-stem">
-                  <ExamQuestionAssets assets={currentItem.assets} />
+                  <ExamQuestionAssets assets={currentItem.assets} questionId={currentItem.question_id} />
                   {renderQuestion(currentItem)}
                 </div>
               </div>
