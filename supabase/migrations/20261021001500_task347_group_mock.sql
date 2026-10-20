@@ -315,16 +315,23 @@ declare
   v_format text;
   v_count int;
   v_correct boolean;
+  v_existing jsonb;
 begin
   if v_user is null then raise exception 'group_auth_required'; end if;
   select * into v_room from public.group_mock_rooms where id=p_room for update;
-  if not found or v_room.status<>'question' then raise exception 'group_answer_closed'; end if;
+  if not found then raise exception 'group_answer_closed'; end if;
   if not exists(select 1 from public.group_mock_members m
      where m.room_id=p_room and m.user_id=v_user)
   then raise exception 'group_not_member'; end if;
-  if exists(select 1 from public.group_mock_answers a where a.room_id=p_room
-     and a.idx=v_room.current_idx and a.user_id=v_user)
-  then raise exception 'group_already_answered'; end if;
+  select a.answer into v_existing from public.group_mock_answers a
+  where a.room_id=p_room and a.idx=v_room.current_idx and a.user_id=v_user;
+  if found then
+    if v_existing = p_answer then
+      return jsonb_build_object('saved',true,'already_answered',true);
+    end if;
+    raise exception 'group_already_answered';
+  end if;
+  if v_room.status<>'question' then raise exception 'group_answer_closed'; end if;
   select * into v_item from public.group_mock_items
    where room_id=p_room and idx=v_room.current_idx;
   v_format := v_item.payload->>'format';
