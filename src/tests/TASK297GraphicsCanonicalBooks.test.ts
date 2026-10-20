@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { getTopicContent } from '../data/topicContent'
 import { M10_GRAPHICS_TEXTBOOK_ADDITIONS } from '../data/topics/m10GraphicsTextbookAdditions'
+import { M10_PHOTOSHOP_PRACTICAL_LABS } from '../data/topics/m10PhotoshopLearningPath'
 import { M10_01_CANONICAL_BOOK } from '../data/topics/m10GraphicsFundamentalsCanonicalBook'
 import { M10_02_CANONICAL_BOOK } from '../data/topics/m10PaintPhotoshopCanonicalBook'
 import { M10_03_CANONICAL_BOOK } from '../data/topics/m10SelectionsLayersCanonicalBook'
@@ -26,11 +27,13 @@ describe('TASK-297 — coherent source-guided M10 graphics textbooks', () => {
       }
       expect(topic.theory.slice(0, book.length)).toEqual(book)
       const appendix = M10_GRAPHICS_TEXTBOOK_ADDITIONS[id]
+      const labs = M10_PHOTOSHOP_PRACTICAL_LABS[id] ?? []
+      expect(topic.theory.slice(book.length, book.length + labs.length)).toEqual(labs)
       expect(appendix.length).toBeGreaterThan(0)
-      expect(topic.theory).toHaveLength(book.length + appendix.length)
+      expect(topic.theory).toHaveLength(book.length + labs.length + appendix.length)
       expect(topic.theory.slice(-appendix.length)).toEqual(appendix)
       expect(splitSections(topic.theory).flatMap(x => x.blocks)).toEqual(topic.theory)
-      expect(splitSections(topic.theory).length).toBe(chapters + 1)
+      expect(splitSections(topic.theory).length).toBe(chapters + 1 + (labs.length > 0 ? 1 : 0))
       expect(book.at(-1)?.content).toContain('drive.google.com')
       expect(book.at(-1)?.content).toMatch(/1:1/)
     })

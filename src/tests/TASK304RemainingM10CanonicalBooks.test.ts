@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { getTopicContent, displayedCognitiveLevel } from '../data/topicContent'
 import { splitSections } from '../components/learning/theory/BookReader'
 import { M10_GRAPHICS_TEXTBOOK_ADDITIONS } from '../data/topics/m10GraphicsTextbookAdditions'
+import { M10_PHOTOSHOP_PRACTICAL_LABS } from '../data/topics/m10PhotoshopLearningPath'
 import { M10_04_CANONICAL_BOOK } from '../data/topics/m10PhotoTextCanonicalBook'
 import { M10_05_CANONICAL_BOOK } from '../data/topics/m10ThreeDCanonicalBook'
 import { M10_06_CANONICAL_BOOK } from '../data/topics/m10AnimationCanonicalBook'
@@ -19,6 +20,7 @@ describe('TASK-304: M10.04–07 source-first reader books and assessment parity'
     it(`${id} exposes 12 complete authored sections before the original appendix`, () => {
       const topic = getTopicContent(id)!
       const appendix = M10_GRAPHICS_TEXTBOOK_ADDITIONS[id]
+      const labs = M10_PHOTOSHOP_PRACTICAL_LABS[id] ?? []
       expect(topic).toBeDefined()
       expect(topic.kind).toBe('chapter')
       expect(topic.source).toContain('Cambridge+')
@@ -31,9 +33,10 @@ describe('TASK-304: M10.04–07 source-first reader books and assessment parity'
       expect(book.at(-1)?.content).toMatch(/1:1/)
       expect(topic.theory.slice(0, book.length)).toEqual(book)
       expect(topic.theory.slice(-appendix.length)).toEqual(appendix)
-      expect(topic.theory).toHaveLength(book.length + appendix.length)
+      expect(topic.theory.slice(book.length, book.length + labs.length)).toEqual(labs)
+      expect(topic.theory).toHaveLength(book.length + labs.length + appendix.length)
       expect(splitSections(topic.theory).flatMap(x => x.blocks)).toEqual(topic.theory)
-      expect(splitSections(topic.theory)).toHaveLength(13)
+      expect(splitSections(topic.theory)).toHaveLength(13 + (labs.length > 0 ? 1 : 0))
     })
 
     it(`${id} retains the original unpublished offline test shape and answer keys`, () => {
