@@ -309,6 +309,27 @@ describe('secure ExamRunner', () => {
     expect(await screen.findByText('Yagona javobni tanlang')).toBeDefined()
   })
 
+  it('modul sinovi kirish oynasi backendning 50 savol va 100 daqiqalik kontraktini ko‘rsatadi', async () => {
+    const user = userEvent.setup()
+    const gateway = successfulGateway()
+    vi.mocked(gateway.startModuleExam).mockResolvedValue({
+      ...examSession(),
+      kind: 'bolim',
+      duration_sec: 6000,
+    })
+
+    renderExam(gateway, '/exam/bolim/M10')
+
+    expect(screen.getByRole('heading', { name: 'Modul sinovi' })).toBeDefined()
+    expect(screen.getByText('50 savol')).toBeDefined()
+    expect(screen.getByText('100 daqiqa')).toBeDefined()
+    expect(gateway.startModuleExam).not.toHaveBeenCalled()
+
+    await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
+    expect(gateway.startModuleExam).toHaveBeenCalledWith('M10')
+    expect(await screen.findByText('Yagona javobni tanlang')).toBeDefined()
+  })
+
   it('bo‘lim sinovi modul kodi bilan server gateway orqali boshlanadi', async () => {
     const user = userEvent.setup()
     const gateway = successfulGateway()

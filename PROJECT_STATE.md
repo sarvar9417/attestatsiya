@@ -1,3 +1,11 @@
+## TASK-342 — Photoshop ta’lim yo‘li, modul sinovi 50, 8 savol nashri (2026-10-20)
+
+- **Owner requested:** darslik va 2026 spetsifikatsiyasiga muvofiq Adobe Photoshop mavzusini o‘rganish, yetarli sifatli savollarni publish va main merge.
+- **Integrated work:** TASK-332 (#336), TASK-337 (#340), TASK-338 (#341), combined PR on TASK-342. Three discoverable Photoshop study chapters M10.02/M10.03/M10.04, original ICT 7-sinf exercises + official Photoshop tools. 50 savol/100 daqiqa module UX; existing protected assessment unchanged.
+- **Production Supabase release:** TASK-338 migration applied through Supabase on 2026-10-20, journal version `20261020053127`; EXACTLY 8 Photoshop/Paint GV2 reviews moved to published M10 canonical lesson, 4 Y2 + 4 Y3. M10 eligible 59→67, remaining 220 M10 review, 0 unauthorized GV2 published. Fingerprint 8/8, live immutable guard and RLS pass; `reviewer_kind=ai`, NO human editorial claim.
+- **Limits:** Published canonical DB has 3 official required-construct lessons vs 7 legacy static study topics; four other static topics have no safe published DB/test parity. No claim of textbook PDF diagrams 1:1 visual verification. Other review/archived banks remain quarantined. No Vercel production deploy.
+- **Status:** Combined code pending Github required `quality` gate + merge. See `docs/TASK332_M10_MODULE_EXAM_50_COVERAGE_AUDIT_20261020.md`, `docs/TASK337_PHOTOSHOP_TEXTBOOK_LEARNING_PATH_20261020.md`, `docs/TASK338_M10_OWNER_AI_PHOTOSHOP_8_20261020.md`.
+
 ## TASK-305 — Excel/Markdown savol ko‘rinishi (2026-10-20)
 
 - **Status:** CODE READY / CI previously PASS (frontend/backend/database/quality on PR #335), final current-base gate pending. Branch: `task/TASK-305-exam-markdown-table-render`.

@@ -4,6 +4,7 @@ import { M05_THEORY } from './topics/m05'
 import { buildCanonicalM02Topic } from './topics/m02Canonical'
 import { M13_DIGITAL_TEXTBOOK_ADDITIONS } from './topics/m13DigitalTextbookAdditions'
 import { M10_GRAPHICS_TEXTBOOK_ADDITIONS } from './topics/m10GraphicsTextbookAdditions'
+import { M10_PHOTOSHOP_PRACTICAL_LABS } from './topics/m10PhotoshopLearningPath'
 import { M10_01_CANONICAL_BOOK } from './topics/m10GraphicsFundamentalsCanonicalBook'
 import { M10_02_CANONICAL_BOOK } from './topics/m10PaintPhotoshopCanonicalBook'
 import { M10_03_CANONICAL_BOOK } from './topics/m10SelectionsLayersCanonicalBook'
@@ -894,7 +895,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { id: 'M10.01-q3', text: 'Bosma mahsulotlar uchun qaysi rang modeli ishlatiladi?', options: ['RGB', 'CMYK', 'HSB', 'HEX'], correctIndex: 1, explanation: 'CMYK — bosma rang modeli (Cyan, Magenta, Yellow, Black)', type: 'Y2' },
   ]),
 
-  'M10.02': t('M10.02', 'Paint va Photoshop interfeysi', [
+  'M10.02': t('M10.02', 'Adobe Photoshop: interfeys va asboblar (MS Paint bilan)', [
     { type: 'definition', content: 'MS Paint — oddiy rastrli grafik muharrir, Windows tarkibiga kiradi. Adobe Photoshop — professional rastrli grafik muharrir, keng imkoniyatlarga ega.' },
     { type: 'table', content: '| Xususiyat | MS Paint | Adobe Photoshop |\n|-----------|----------|----------------|\n| Qatlamlar | Windows 11 yangilangan Paintda mavjud | Bor, keng sozlanadi |\n| Filtrlar | Minimal | Ko\'p (100+) |\n| Rang tuzatish | Cheklangan | Keng |\n| Formatlar | BMP, PNG, JPEG | PSD, TIFF, barchasi |\n| Narx | Bepul | Pullik (abonement) |' },
     { type: 'text', content: 'Photoshop interfeysi: asboblar paneli (chapda), menyu (yuqorida), qatlamlar paneli (o\'ngda), rang palitrasi, ish maydoni. Paint interfeysi soddaroq: asboblar paneli, lenta, ranglar palitrasi.' },
@@ -905,7 +906,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { id: 'M10.02-q3', text: 'Photoshopning odatiy boshlang‘ich ish maydonida Layers paneli qayerda joylashadi?', options: ['Chapda', 'Yuqorida', 'O\'ngda', 'Pastda'], correctIndex: 2, explanation: 'Photoshop da qatlamlar paneli odatda o\'ng tomonda joylashgan', type: 'Y2' },
   ]),
 
-  'M10.03': t('M10.03', 'Belgilash, kesish, rang va qatlamlar', [
+  'M10.03': t('M10.03', 'Adobe Photoshop: belgilash, kesish, qatlamlar va maskalar', [
     { type: 'definition', content: 'Belgilash (selection) — tasvirning ma\'lum qismini ajratish. Kesish (cropping) — keraksiz qismlarni olib tashlash. Rang — piksel rangini o\'zgartirish. Qatlam (layer) — bir-biridan mustaqil tasvir sathlari.' },
     { type: 'table', content: '| Asbob | Vazifasi |\n|-------|---------|\n| Rectangular Marquee | To\'g\'ri to\'rtburchak belgilash |\n| Lasso | Erkin shaklda belgilash |\n| Magic Wand | Rang bo\'yicha belgilash |\n| Crop | Kesish |\n| Brush | Bo\'yash |\n| Eraser | O\'chirish |\n| Gradient | Rang o\'tishi |' },
     { type: 'text', content: 'Qatlamlar muhim afzallik: har bir qatlam mustaqil tahrirlanadi, boshqa qatlamlarga ta\'sir qilmaydi. Qatlamlarni aralashtirish rejimlari (blending modes) qiziqarli effektlar yaratish imkonini beradi.' },
@@ -915,7 +916,7 @@ export const TOPIC_CONTENT: Record<string, TopicContent> = {
     { id: 'M10.03-q2', text: 'Qatlam (layer) qanday afzallik beradi?', options: ['Rasm tezroq ochiladi', 'Mustaqil tahrirlash imkoniyati', 'Fayl hajmi kichiklashadi', 'Ranglar yorqinlashadi'], correctIndex: 1, explanation: 'Qatlamlar mustaqil tahrirlash imkonini beradi, bir qatlamdagi o\'zgarish boshqasiga ta\'sir qilmaydi', type: 'Y2' },
   ]),
 
-  'M10.04': t('M10.04', 'Matn, foto va rasmlarni tahrirlash', [
+  'M10.04': t('M10.04', 'Adobe Photoshop: matn, fotomontaj va retush', [
     { type: 'text', content: 'Matn tahrirlash: shrift, o\'lcham, rang, effekt (soya, glow), matnni egri chiziq bo\'ylab joylashtirish. Photoshop da Type asbobi yordamida matn qo\'shiladi.' },
     { type: 'text', content: 'Foto tahrirlash: yorqinlik/kontrast, rang balansi, to\'yinganlik, keskinlik, dog\'larni tozalash, qizil ko\'zlarni olib tashlash. Filtrlar: blur (xiralashtirish), sharpen (keskinlashtirish), distort (buzish).' },
     { type: 'table', content: '| Amal | Vazifasi |\n|------|---------|\n| Brightness/Contrast | Yorqinlik va kontrastni sozlash |\n| Levels | Rang darajalarini sozlash |\n| Curves | Tonlarni aniq sozlash |\n| Hue/Saturation | Rang tus va to\'yinganlik |\n| Clone Stamp | Nusxa ko\'chirish (dog\'larni tozalash) |\n| Red Eye Tool | Qizil ko\'zni olib tashlash |' },
@@ -1724,7 +1725,7 @@ for (const [id, book, source] of [
   const previous = TOPIC_CONTENT[id]
   if (!previous) continue
   const appendix = M10_GRAPHICS_TEXTBOOK_ADDITIONS[id] ?? []
-  TOPIC_CONTENT[id] = { ...previous, kind: 'chapter', source, theory: [...book, ...appendix] }
+  TOPIC_CONTENT[id] = { ...previous, kind: 'chapter', source, theory: [...book, ...(M10_PHOTOSHOP_PRACTICAL_LABS[id] ?? []), ...appendix] }
 }
 
 // TASK-304: four M10 graphics / 3D / animation / media long-form books.
@@ -1739,7 +1740,7 @@ for (const [id, book, source] of [
   const original = TOPIC_CONTENT[id]
   if (!original) continue
   const reviewed = M10_GRAPHICS_TEXTBOOK_ADDITIONS[id] ?? []
-  TOPIC_CONTENT[id] = { ...original, source, kind: 'chapter', theory: [...book, ...reviewed] }
+  TOPIC_CONTENT[id] = { ...original, source, kind: 'chapter', theory: [...book, ...(M10_PHOTOSHOP_PRACTICAL_LABS[id] ?? []), ...reviewed] }
 }
 
 // TASK-305: Complete sourced HTML learner chapters precede reviewed Cambridge+
