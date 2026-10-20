@@ -284,3 +284,5 @@ Har task uchun kamida:
 
 
 | TASK-307 | IN_PROGRESS / RELEASE_AWAITING_CI | TASK-306 (DB review import DONE) | Owner-authorized 7 published 4×4 Y2 -> 7 verified published 4×5 Y2 via atomic new version status + old archive; 71 active Y2 and 414 active M13 unchanged, existing attempts immutable. Release SQL and TASK-213/306/307 QA contracts; #323 public source-answer issue still OPEN. |
+
+| TASK-220 | IN_PROGRESS — QA sync | M12 380-item source & 2025 demo audit, 42 independent review candidates, documented migrations, published-only frontend navigation. PR #331 clean-main sync. 22 published high-risk items need independent expert signoff; **new publication NOT authorized by AI-only QA**. |

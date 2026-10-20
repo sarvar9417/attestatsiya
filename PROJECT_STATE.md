@@ -2015,3 +2015,14 @@ Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user co
 - **Pending:** complete GitHub CI, merge, apply migration to production, verify post-apply 414 (271 Y1,71 Y2,72 Y3) and zero malformed keys.
 - No frontend code changes required for 4x5; `src/features/exam/contracts.ts` already permits 4 left/5 right and rejects duplicate/unknown right selections (TASK-306 unit coverage). Live learner E2E after deploy still required.
 - Open risk: public Git historical answer exposure issue #323; improving distractor count is not a full secret-bank rotation.
+
+
+## TASK-220 — M12 audit/main sync, 2026-10-20
+- Owner: ChatGPT; status: CODE MERGE READY AFTER GREEN CI / CONTENT RELEASE BLOCKED.
+- Original PR #155 conflicts with main; clean-main PR #331 is active: https://github.com/sarvar9417/attestatsiya/pull/331
+- M12 10 textbook theory chapters already published in live DB by other workflow; initial 380 source questions: 321 published and 59 review at audit snapshot.
+- 20 original exam-style Y1 + 22 separate safer revision candidates = 42 new REVIEW, independently stored without modifying published items/attempts. Targeted audit scope 422.
+- 380-ID QA matrix: 35 high risk, 197 medium, 148 low. 22 published high-risk items need expert editorial assessment and version-safe publication if accepted.
+- 2025 kuzgi Informatika demo PDF was visually inspected: PDF p11 Q25, /27 mask = 255.255.255.224, 32 total vs 30 usable. docs/TASK220_M12_2025_DEMO_CIDR_SOURCE_Q25.md.
+- Original source and six tracked migrations are in PR #331; production DB had already applied them through tracked Supabase apply_migration calls.
+- Gate: independent human specialist approval of full M12 source/key/distractor review, final authorized learner checks and release migration still OPEN. Never auto-promote 101 review items or rewrite 321 published snapshots.

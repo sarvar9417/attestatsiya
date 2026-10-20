@@ -221,7 +221,10 @@ function Formula({ block, accent }: { block: TheoryBlock; accent?: boolean }) {
 
 function Diagram({ block }: { block: TheoryBlock }) {
   const Component = block.diagram ? BOOK_DIAGRAMS[block.diagram] : undefined
-  if (!Component) return <p className="book-paragraph"><InlineText text={block.content} /></p>
+  // Unknown source figure IDs must not create blank paragraphs or invented diagrams.
+  if (!Component) return block.content.trim()
+    ? <p className="book-paragraph"><InlineText text={block.content} /></p>
+    : null
   return (
     <figure className="book-diagram">
       <Component />

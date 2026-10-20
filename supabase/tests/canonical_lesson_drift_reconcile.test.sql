@@ -190,6 +190,23 @@ begin
                       AND v2.status='review'::public.content_status
                       AND v2.slug LIKE '%-v2-review'
                  ))
+        -- TASK-220: isolated REVIEW edition question candidates must remain linked
+        -- to their own M12 V2 source snapshots even when lessons are published.
+        -- Strict source labels and status-review keep every other item gated.
+        and not (lane.module_code = 'M12'
+                 and q.status in ('review'::public.content_status,'published'::public.content_status)
+                 and (coalesce(q.source_reference,'') like 'network-v2-20261018:TAR-%:original-%'
+                      or coalesce(q.source_reference,'') like 'network-v3-extra-20261018:TAR-NET26-Y%'
+                      or coalesce(q.source_reference,'') like 'm12-examstyle-20261020:M12-REAL26-%'
+                      or coalesce(q.source_reference,'') like 'm12-stylefix-20261020:M12-REV26-%')
+                 and exists (
+                    select 1 from public.lessons v2
+                    join public.modules vm on vm.id=v2.module_id
+                    where v2.id=q.source_lesson_id
+                      and vm.code='M12'
+                      and v2.slug like 'tarmoq-v2-bob-%'
+                      and v2.status IN ('draft','published')
+                 ))
     ) then
       raise exception 'TASK-064 % question source lesson drift remains',lane.module_code;
     end if;
