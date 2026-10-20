@@ -40,10 +40,18 @@ begin
   end if;
 
   if exists (
+    with effective as (
+      select coalesce(r.revision_question_id,source_q.id) question_id
+      from public.questions source_q
+      left join public.question_bank_revisions r
+        on r.source_question_id=source_q.id
+       and r.revision_kind='legacy_y2_native_sides'
+      where source_q.source_reference like 'authored:pedagogy-pdf-corpus:v2:%'
+    )
     select 1
-    from public.questions q
-    where q.source_reference like 'authored:pedagogy-pdf-corpus:v2:%'
-      and (
+    from effective e
+    join public.questions q on q.id=e.question_id
+    where (
         q.status<>'review'::public.content_status
         or q.source_lesson_id is null
         or not exists(select 1 from public.question_keys k where k.question_id=q.id)

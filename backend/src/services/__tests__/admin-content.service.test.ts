@@ -176,6 +176,14 @@ describe('adminContentService publish workflow', () => {
         }),
       )
       .mockReturnValueOnce(singleRow({ question_id: QUESTION_ID }))
+      .mockReturnValueOnce(singleRow({
+        reviewer_id: STAFF_ID,
+        answer_verified: true,
+        reference_verified: true,
+        wording_verified: true,
+        original_authorship_verified: true,
+        reviewer_notes: 'Javob, manba, matn va mualliflik mustaqil tekshirildi.',
+      }))
       .mockReturnValueOnce(updateChain)
       .mockReturnValueOnce(auditChain)
 

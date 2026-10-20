@@ -15,8 +15,19 @@ begin
   if exists (
     select 1
     from public.questions q
+    left join public.question_bank_revisions r
+      on r.source_question_id=q.id
+     and r.revision_kind='legacy_y2_native_sides'
+    left join public.questions revision_q on revision_q.id=r.revision_question_id
     where q.source_reference like 'specgap-2026:ZC-%'
-      and q.status <> 'review'::public.content_status
+      and (
+        (q.format='Y2'::public.question_format and (
+          q.status<>'archived'::public.content_status
+          or revision_q.status<>'review'::public.content_status
+        ))
+        or (q.format<>'Y2'::public.question_format
+            and q.status<>'review'::public.content_status)
+      )
   ) then
     raise exception 'spec-gap bank must remain review-only';
   end if;
@@ -83,11 +94,19 @@ begin
   end if;
 
   if exists (
+    with effective as (
+      select coalesce(r.revision_question_id,source_q.id) question_id
+      from public.questions source_q
+      left join public.question_bank_revisions r
+        on r.source_question_id=source_q.id
+       and r.revision_kind='legacy_y2_native_sides'
+      where source_q.source_reference like 'specgap-2026:ZC-%'
+    )
     select 1
-    from public.questions q
+    from effective e
+    join public.questions q on q.id=e.question_id
     left join public.question_keys qk on qk.question_id = q.id
-    where q.source_reference like 'specgap-2026:ZC-%'
-      and (
+    where (
         q.construct_id is null
         or q.source_lesson_id is null
         or q.source_reference is null
@@ -104,12 +123,20 @@ begin
   end if;
 
   if exists (
+    with effective as (
+      select coalesce(r.revision_question_id,source_q.id) question_id
+      from public.questions source_q
+      left join public.question_bank_revisions r
+        on r.source_question_id=source_q.id
+       and r.revision_kind='legacy_y2_native_sides'
+      where source_q.source_reference like 'specgap-2026:ZC-%'
+    )
     select 1
-    from public.questions q
+    from effective e
+    join public.questions q on q.id=e.question_id
     join public.constructs c on c.id = q.construct_id
     join public.lessons l on l.id = q.source_lesson_id
-    where q.source_reference like 'specgap-2026:ZC-%'
-      and l.slug <> case c.code
+    where l.slug <> case c.code
         when 'S3.LOGIC.01' then 'mantiqiy-mulohazalar'
         when 'S3.LOGIC.03' then 'mantiqiy-xulosa-va-masala'
         when 'S3.ALGO.03' then 'masala-algoritmini-tuzish'
@@ -143,9 +170,13 @@ begin
 
   if exists (
     select 1
-    from public.questions q
+    from public.questions source_q
+    join public.question_bank_revisions r
+      on r.source_question_id=source_q.id
+     and r.revision_kind='legacy_y2_native_sides'
+    join public.questions q on q.id=r.revision_question_id
     join public.question_keys qk on qk.question_id = q.id
-    where q.source_reference like 'specgap-2026:ZC-%'
+    where source_q.source_reference like 'specgap-2026:ZC-%'
       and q.format = 'Y2'::public.question_format
       and (
         (select count(*) from public.question_options qo where qo.question_id = q.id) <> 8

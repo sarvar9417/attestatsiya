@@ -6,6 +6,7 @@ declare
   v_subject uuid;
   v_qid uuid;
   v_construct uuid;
+  v_lesson uuid;
   v_format public.question_format;
   v_group text;
   v_cognitive public.cognitive_level;
@@ -84,12 +85,13 @@ begin
     difficulty,
     stem_md,
     status,
-    source_reference
+    source_reference,
+    source_lesson_id
   )
   select
     v_subject,
-    construct_id,
-    group_code,
+    r.construct_id,
+    r.group_code,
     'Y1'::public.question_format,
     cognitive,
     case cognitive
@@ -97,23 +99,47 @@ begin
       when 'qollash'::public.cognitive_level then 3
       else 4
     end,
-    'T045 ' || group_code || ' ' || cognitive::text || ' ' || n,
-    case when group_code in ('KS','PM.GEN','PM.MET')
+    'T045 ' || r.group_code || ' ' || r.cognitive::text || ' ' || r.n,
+    case when r.group_code in ('KS','PM.GEN','PM.MET')
       then 'draft'::public.content_status
       else 'published'::public.content_status end,
-    'T045:' || group_code || ':' || cognitive::text || ':' || n
-  from rows_to_insert
-  where construct_id is not null;
+    'T045:' || r.group_code || ':' || r.cognitive::text || ':' || r.n,
+    (
+      select lc.lesson_id
+      from public.lesson_constructs lc
+      join public.lessons l on l.id=lc.lesson_id
+      where lc.construct_id=r.construct_id
+        and l.status='published'::public.content_status
+      order by l.order_idx,l.id
+      limit 1
+    )
+  from rows_to_insert r
+  where r.construct_id is not null;
+
+  insert into public.question_options(question_id,side,order_idx,content_md)
+  select q.id,'a',x,'T045 option '||x
+  from public.questions q
+  cross join generate_series(1,4) x
+  where q.source_reference like 'T045:%'
+    and q.format='Y1'::public.question_format;
 
   insert into public.question_keys (question_id, payload, explanation_md)
-  select q.id, '{}'::jsonb, 'T045 key'
+  select q.id,
+    jsonb_build_object(
+      'correct_option_id',(
+        select o.id from public.question_options o
+        where o.question_id=q.id and o.side='a'
+        order by o.order_idx,o.id limit 1
+      )
+    ),
+    'T045 regression answer explanation'
   from public.questions q
   where q.source_reference like 'T045:%'
     and not exists (
       select 1 from public.question_keys qk where qk.question_id = q.id
     );
 
-  -- Add real structurally valid Y2/Y3 questions to verify the v3 selector
+  -- Add real structurally valid Y2/Y3 questions to verify the v4 selector
   -- sees both formats and spreads picks across topic constructs.
   for v_format, v_group, v_cognitive in
     select 'Y2'::public.question_format, 'S5.WEB'::text, 'qollash'::public.cognitive_level
@@ -128,14 +154,23 @@ begin
       offset (case when v_group = 'S5.WEB' then (v_idx - 1) % 3 else 0 end)
       limit 1;
 
+      select lc.lesson_id into strict v_lesson
+      from public.lesson_constructs lc
+      join public.lessons l on l.id=lc.lesson_id
+      where lc.construct_id=v_construct
+        and l.status='published'::public.content_status
+      order by l.order_idx,l.id
+      limit 1;
+
       insert into public.questions (
         subject_id, construct_id, group_code, format, cognitive, difficulty,
-        stem_md, status, source_reference
+        stem_md, status, source_reference, source_lesson_id
       ) values (
         v_subject, v_construct, v_group, v_format, v_cognitive, 3,
         'T045-V3 ' || v_group || ' ' || v_format::text || ' ' || v_idx,
         'published'::public.content_status,
-        'T045:V3:' || v_group || ':' || v_format::text || ':' || v_idx
+        'T045:V4:' || v_group || ':' || v_format::text || ':' || v_idx,
+        v_lesson
       ) returning id into v_qid;
 
       if v_format = 'Y2'::public.question_format then
@@ -225,11 +260,11 @@ begin
     select selection_meta into strict v_meta
     from public.exams where id = v_exam;
 
-    if (v_meta->>'selector_version') <> 'official-mock-v3'
+    if (v_meta->>'selector_version') <> 'official-mock-v4'
        or (v_meta->>'target_count')::int <> 50
        or (v_meta->>'selected_count')::int <> 50
        or (v_meta->>'duration_sec')::int <> 7200
-       or v_meta->>'selection_strategy' <> 'least_exposure_diverse_random'
+       or v_meta->>'selection_strategy' <> 'least_exposure_quality_gated_diverse_random'
        or not (v_meta->'rules' ? 'soft_y2_y3_diversity')
        or not (v_meta->'rules' ? 'soft_distinct_stem_and_construct')
        or not (v_meta->'rules' ? 'selectable_nonzero_cognitive_cells_only') then
@@ -258,6 +293,7 @@ begin
     join public.constructs c on c.id=q.construct_id
     join public.blueprint_quotas bq on bq.blueprint_id=v_bp and bq.group_code=q.group_code
     where q.status='published'::public.content_status
+      and public.is_question_official_mock_eligible(q.id)
       and c.is_active and c.group_code=q.group_code
       and exists(select 1 from public.question_keys k where k.question_id=q.id)
       and (
@@ -266,7 +302,7 @@ begin
         or (q.cognitive='mulohaza'::public.cognitive_level and bq.n_mulohaza>0)
       );
     if (v_meta->>'eligible_pool_count')::int <> v_match_pool then
-      raise exception 'v3 eligible pool not actionable: metadata %, actual %',
+      raise exception 'v4 eligible pool not actionable: metadata %, actual %',
         v_meta->>'eligible_pool_count', v_match_pool;
     end if;
 
@@ -411,7 +447,8 @@ begin
   into v_ddl;
   if position('random(),' in v_ddl) = 0
      or position('official_mock_blueprint_invalid: 2026_subject_group_quotas' in v_ddl) = 0
-     or position('official-mock-v3' in v_ddl) = 0 then
+     or position('official-mock-v4' in v_ddl) = 0
+     or position('is_question_official_mock_eligible' in v_ddl) = 0 then
     raise exception '2026 selector randomization / quota guard missing';
   end if;
 end

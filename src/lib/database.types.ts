@@ -497,6 +497,45 @@ export type Database = {
         }
         Relationships: []
       }
+      question_bank_revisions: {
+        Row: {
+          created_at: string
+          evidence: Json
+          revision_kind: string
+          revision_question_id: string
+          source_question_id: string
+        }
+        Insert: {
+          created_at?: string
+          evidence?: Json
+          revision_kind: string
+          revision_question_id: string
+          source_question_id: string
+        }
+        Update: {
+          created_at?: string
+          evidence?: Json
+          revision_kind?: string
+          revision_question_id?: string
+          source_question_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "question_bank_revisions_revision_question_id_fkey"
+            columns: ["revision_question_id"]
+            isOneToOne: true
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "question_bank_revisions_source_question_id_fkey"
+            columns: ["source_question_id"]
+            isOneToOne: true
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       question_keys: {
         Row: {
           explanation_md: string
@@ -551,6 +590,41 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "question_options_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      question_quality_findings: {
+        Row: {
+          details: Json
+          detected_at: string
+          finding_code: string
+          question_id: string
+          resolved_at: string | null
+          severity: string
+        }
+        Insert: {
+          details?: Json
+          detected_at?: string
+          finding_code: string
+          question_id: string
+          resolved_at?: string | null
+          severity: string
+        }
+        Update: {
+          details?: Json
+          detected_at?: string
+          finding_code?: string
+          question_id?: string
+          resolved_at?: string | null
+          severity?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "question_quality_findings_question_id_fkey"
             columns: ["question_id"]
             isOneToOne: false
             referencedRelation: "questions"
@@ -887,6 +961,10 @@ export type Database = {
       generate_topic_test: { Args: { p_lesson_id: string }; Returns: Json }
       get_due_reviews: { Args: never; Returns: Json }
       get_review: { Args: { p_exam_id: string }; Returns: Json }
+      is_question_official_mock_eligible: {
+        Args: { p_question_id: string }
+        Returns: boolean
+      }
       mark_lesson_read: { Args: { p_lesson_id: string }; Returns: undefined }
       pick_due_questions: {
         Args: { p_n: number; p_user: string }
