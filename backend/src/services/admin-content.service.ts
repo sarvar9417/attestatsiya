@@ -323,9 +323,10 @@ export const adminContentService = {
     if (questionError) throw new AppError('Savolni olishda xatolik', 500, 'ADMIN_QUERY_ERROR')
     if (!question) throw new NotFoundError('Savol topilmadi')
     if (!(['KS','PM.GEN','PM.MET'].includes(question.group_code) ||
+      question.source_reference?.startsWith('MSACCESS-DEMO-STYLE-2026/') ||
       question.source_reference?.startsWith('authored:pedguli-') ||
       question.source_reference?.startsWith('authored:pedagogy-pdf-corpus:'))) {
-      throw new AppError('Bu tekshiruv pedagogika va kasb standarti savollari uchun', 400, 'INVALID_EDITORIAL_SOURCE')
+      throw new AppError('Bu tekshiruv pedagogika, kasb standarti va M09 demo-uslub savollari uchun', 400, 'INVALID_EDITORIAL_SOURCE')
     }
     const { data, error } = await supabase.from('question_editorial_checks')
       .select('question_id, reviewer_id, reviewed_at, answer_verified, reference_verified, wording_verified, original_authorship_verified, reviewer_notes')
@@ -352,9 +353,10 @@ export const adminContentService = {
     if (!question) throw new NotFoundError('Savol topilmadi')
     if (question.status !== 'review' || !(
       ['KS','PM.GEN','PM.MET'].includes(question.group_code) ||
+      question.source_reference?.startsWith('MSACCESS-DEMO-STYLE-2026/') ||
       question.source_reference?.startsWith('authored:pedguli-') ||
       question.source_reference?.startsWith('authored:pedagogy-pdf-corpus:'))) {
-      throw new AppError('Faqat Review holatidagi pedagogika savolini tasdiqlash mumkin', 409, 'INVALID_EDITORIAL_STATUS')
+      throw new AppError('Faqat ruxsat etilgan Review holatidagi savolni tasdiqlash mumkin', 409, 'INVALID_EDITORIAL_STATUS')
     }
 
     const { data, error } = await supabase.from('question_editorial_checks')
@@ -441,7 +443,8 @@ export const adminContentService = {
 
     if (nextStatus === 'published' && (['KS','PM.GEN','PM.MET'].includes((current as {group_code?:string}).group_code ?? '') ||
       current.source_reference?.startsWith('authored:pedguli-') ||
-      current.source_reference?.startsWith('authored:pedagogy-pdf-corpus:'))) {
+      current.source_reference?.startsWith('authored:pedagogy-pdf-corpus:') ||
+      current.source_reference?.startsWith('MSACCESS-DEMO-STYLE-2026/'))) {
       const { data: approval, error: approvalError } = await supabase
         .from('question_editorial_checks')
         .select('answer_verified, reference_verified, wording_verified, original_authorship_verified')
