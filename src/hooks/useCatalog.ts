@@ -1,3 +1,4 @@
+import { M12_LEARNER_RELEASE_APPROVED } from '../features/content/m12ReleaseGate'
 import { useEffect, useState } from 'react'
 import { MODULES } from '../data/contentTree'
 import { getModuleDetail, listModules } from '../features/content/contentApi'
@@ -79,10 +80,12 @@ export function useCatalog(): CatalogState {
           // Legacy M13 stays available when API is offline or incomplete.
         }
         let learnerModules = base
-        try {
-          learnerModules = selectPublishedNetworkV2Catalog(base, await getModuleDetail('M12'))
-        } catch {
-          // Offline/incomplete M12: preserve existing learner catalog.
+        if (M12_LEARNER_RELEASE_APPROVED) {
+          try {
+            learnerModules = selectPublishedNetworkV2Catalog(base, await getModuleDetail('M12'))
+          } catch {
+            // Offline/incomplete M12: preserve existing learner catalog.
+          }
         }
         if (!cancelled) setState({ modules: learnerModules, loading: false, online: true })
       })
