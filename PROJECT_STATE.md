@@ -1,3 +1,12 @@
+## TASK-337 — Photoshop darsligi bo‘yicha o‘quv yo‘li (2026-10-20)
+
+- **Status:** CODE IMPLEMENTED, CI/authenticated UI verification and source visual QA pending.
+- **Owner:** AI assistant; branch: `task/TASK-337-photoshop-learning-path`.
+- **Scope:** M10.02–M10.04 named Photoshop reader navigation and three original worked practice labs based on 7-sinf 2021 lessons 13–18 + 2026 specifications; no new DB question publication.
+- **Regression:** new ModulePage reader-path test; M10 canonical and legacy exam-key preservation tests updated.
+- **Risk/open:** DB published lessons remain 3 vs static 7; Photoshop-only test coverage/editiorial sign-off not asserted; source textbook image-level QA not complete; no deploy requested.
+- **Document:** `docs/TASK337_PHOTOSHOP_TEXTBOOK_LEARNING_PATH_20261020.md`.
+
 ## TASK-304 — M14 source-verified QA audit handoff (2026-10-19)
 
 - **Branch:** `task/TASK-304-m14-final-qa-safe-merge`; 2026-10-19 main'dan yangi olingan; eski TASK-303 branch 23 main commit ortida qolgani uchun eski ishlar bilan konflikt chiqarmaslik maqsadida yangi branch ishlatildi.
