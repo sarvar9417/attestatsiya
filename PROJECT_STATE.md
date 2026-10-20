@@ -1,3 +1,10 @@
+## TASK-356 — Supabase history reconciliation (2026-10-20)
+- Branch: `task/TASK-356-migration-history-preflight`; production data/schema untouched, migration metadata changes only.
+- Baseline 207 local migration files / 265 remote history rows, 29 versions matched. After hash-proven guarded repairs 147 local versions matched.
+- 24 file timestamp fixes (12 duplicate, 12 invalid UTC), migration checker and unit tests in branch, CI pending.
+- Remaining before branch merge: 60 local versions unmatched (22 exact SQL but invalid/duplicate filename and 38 unproven), 122 orphaned remote versions; **no unrestricted db push**.
+- Verification plan and rollback: `docs/TASK356_MIGRATION_HISTORY_RECONCILIATION_20261020.md`.
+
 ## TASK-348 — Guruhli Mock Test xonalarini tiklash (2026-10-20)
 
 - **Base:** TASK-347 #352 GitHub main merge SUCCESS, `72ce5b67d9e918312e5ea65f973246561ea811fc` (2026-10-20).

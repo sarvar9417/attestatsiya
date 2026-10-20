@@ -167,6 +167,11 @@ jobs:
       - name: Install generator dependencies
         run: npm ci
 
+      - name: Validate unique migration versions
+        run: |
+          node --test scripts/tests/check_migration_versions.test.mjs
+          node scripts/check_migration_versions.mjs
+
       - name: Fresh database — complete active migration chain
         run: |
           psql -X -v ON_ERROR_STOP=1 -d attestatsiya_test \
