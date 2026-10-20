@@ -27,4 +27,21 @@ BEGIN
   RAISE EXCEPTION 'TASK-346 module suggestion check failed';
  END IF;
 END $$;
+
+-- Independent PDF computations must not impersonate a source key or human approval.
+DO $
+BEGIN
+ IF EXISTS (
+  SELECT 1 FROM attest_ingest.telegram_informatika_pdf_independent_qa q
+  JOIN attest_ingest.telegram_informatika_pdf_question_candidates p
+   ON p.source_file_id=q.source_file_id AND p.source_question_no=q.source_question_no
+  WHERE q.confirmed_by_human
+     OR q.review_state <> 'needs_editorial_review'
+     OR p.answer_key IS NOT NULL
+     OR jsonb_array_length(p.extracted_answer_options) <> 4
+ ) THEN
+  RAISE EXCEPTION 'TASK-346 PDF independent QA must remain unapproved';
+ END IF;
+END $;
+
 ROLLBACK;
