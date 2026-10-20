@@ -50,3 +50,15 @@ Bu fayllar vazifaga tegishli sahifa va savol tuzilishi bo‘yicha ko‘rilgan. S
 ## Handoff
 
 Task: TASK-230. Natija: 380-item audit reyestri, manbalar uslubiy taqqoslanishi, 31 matematik oracle, 20 original imtihon-shaklli review Y1, 10 review Y2 stem patch. Migratsiyalar: 20261020234000, 20261020235000. Qolgan: mustaqil fan ekspert signoff, barcha flaglar bo‘yicha ehtimoliy yangi nashr reviziyalari, vizual E2E, PR merge/deploy. Ekpert signoff va production learner release bu taskda qilinmaydi.
+
+## Jonli Supabase natijalari (2026-10-20, oxirgi tekshiruv)
+
+- **Bajarildi**: `20261020234000_task230_m12_examstyle_20_review.sql` qo‘llandi; 20 yangi M12 Y1 savol, barchasi `review`, har bir 10 bobda 2 tadan, protected key va 4 javob varianti bor.
+- **Bajarildi**: `20261020235000_task230_m12_10_review_y2_stems.sql` qo‘llandi; aynan 10 ta `review` native Y2 savolning umumiy matni mavzuga moslandi, variant/juftlik/kalitlar saqlandi.
+- **PASS**: real Supabase’da `supabase/tests/task230_m12_exam_style_qa.test.sql`: 20 yangi Y1, 4 variant + key, 10 distinct Y2 prompt, original 380 qator.
+- **PASS**: GitHub CI [39364116215](https://github.com/sarvar9417/attestatsiya/actions/runs/39364116215) backend, database, quality (jumladan numeric oracle, unit, build, E2E smoke).
+- **Yakuniy bank scope**: V2/V3/V4 = **400** savol (**300 Y1, 50 Y2, 50 Y3**); holatlar: avvalgi 380 dan 321 published + 59 review; 20 yangi review => **321 published, 79 review**. Bundan tashqari oldingi alohida S6.NET manbalari ham bor (ushbu 400ga qo‘shilmaydi).
+- **Chalg‘ituvchi variantlarni qayta ishlash OPEN**: 80 Y1 ning manba/javob/distractor ekspert auditi va nashr qilingan versiyaga tegmaydigan yangi replacement versiyasi talab etiladi. 20 yangi savol bu 80 tadan alohida yangi kontent; ularni 80 muammoning yakuniy tuzatmasi deb hisoblamang.
+- **Published content immutability**: bu task hech bir published savol yoki oldingi test natijasini tahrir qilmagan.
+
+Release policy: owner/fan ekspert approval, UI visual review va real authorized learner end-to-end QA hali talab qilinadi. PR #319 draft holda `task/TASK-220-m12-network-v2`ga qarshi ochilgan; main hali parent branch bilan sinxronlanmagan.
