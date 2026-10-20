@@ -43,7 +43,7 @@ import {
 import { backendGateway } from './backendGateway'
 import type { Json } from '../../lib/database.types'
 import ExamResultActions from './ExamResultActions'
-import InlineText from '../../components/learning/theory/InlineText'
+import ExamRichText from './questions/ExamRichText'
 import Y1Choice from './questions/Y1Choice'
 import ExamQuestionAssets from './questions/ExamQuestionAssets'
 import Y2Match from './questions/Y2Match'
@@ -1042,9 +1042,9 @@ export default function ExamRunner({
                           </span>
                         )}
                       </div>
-                      <p className="mt-3 whitespace-pre-wrap text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">
-                        <InlineText text={item.stem_md} />
-                      </p>
+                      <div className="mt-3 text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">
+                        <ExamRichText text={item.stem_md} />
+                      </div>
                     </div>
 
                     <span
@@ -1067,7 +1067,7 @@ export default function ExamRunner({
                   {item.explanation_md && (
                     <div className="mt-4 rounded-xl bg-indigo-50/70 p-3 text-sm leading-6 text-indigo-900 dark:bg-indigo-950/30 dark:text-indigo-100">
                       <span className="font-semibold">Izoh: </span>
-                      <span className="whitespace-pre-wrap"><InlineText text={item.explanation_md} /></span>
+                      <div className="mt-1"><ExamRichText text={item.explanation_md} /></div>
                     </div>
                   )}
                 </article>
