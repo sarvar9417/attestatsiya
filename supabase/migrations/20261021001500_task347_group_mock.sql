@@ -79,6 +79,8 @@ as $gm$
     join public.question_keys k on k.question_id = q.id
     where q.id = p_question
       and q.status = 'published'::public.content_status
+      -- Match the official mock v4 audited quality/format exclusion gate.
+      and public.is_question_official_mock_eligible(q.id)
       and c.is_active and c.group_code = q.group_code
       and q.source_reference is not null
       and (
