@@ -1,3 +1,14 @@
+## TASK-346 — PedGuli xabar 4843 rasm tiklash (2026-10-20)
+
+- **Owner:** ChatGPT — foydalanuvchi rasm yo‘qligi haqida xabar berdi.
+- **Branch:** `task/TASK-346-pedguli-missing-method-photos`.
+- **Status:** CODE READY / CI PENDING, no merge/deploy/production DB writes.
+- **Source:** Pedagogika Telegram JSON `@PedMahoratGuli:4843`, exact JPEG `photo_867@09-10-2025_17-17-41.jpg`; 4842 analog rasm ham asl holicha saqlandi. Original tekshiruv ✔ belgisi Debat variantida.
+- **Problem:** published `d41ab61f-a43e-4b2d-919b-5b06dde05341` savolida `assets=[]`; tarixiy exam bog‘lanishi 1. 4842 review nusxada ham `assets=[]`.
+- **Fix:** Immutable published reviziya/key/tarixni o‘zgartirmasdan, frontend rasmni faqat aniq ID va bo‘sh assets holatida tiklaydi; review sahifasida qat’iy stem+4-option fingerprint tekshiradi. Same-origin asset allowlist, JPEG SHA256 test, fail-closed tests.
+- **Acceptance:** fayllarning checksumlari mos, ma’lumot va baholash o‘zgarmaydi, rasm noto‘g‘ri savollarga tushmaydi, CI success. **Production saytda tuzatish faqat deploydan keyin ko‘rinadi**. Rasmli yangi DB revision va human editorial approval alohida.
+- **Evidence:** `docs/TASK346_PEDGULI_MISSING_SOURCE_PHOTO_20261020.md`.
+
 ## TASK-343 — Pedagogik javob izohlari sifat nazorati (2026-10-20)
 
 - **Owner request:** savollarda Telegram kanalining ✅/✔ javob belgisiga tayangan “izoh” o‘rniga o‘quvchini o‘rgatuvchi pedagogik tushuntirish berilishi.
