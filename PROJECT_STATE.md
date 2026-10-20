@@ -1,3 +1,13 @@
+## TASK-345 — O‘rganish kitob bo‘limlarini birlashtirish (2026-10-20)
+
+- **Owner:** ChatGPT (2026-10-20, confirmed by user).
+- **Branch:** `task/TASK-345-consolidate-short-lesson-pages`, `main`dan.
+- **Status:** CODE READY / CI & release checks PENDING (test va GitHub CI natijalariga qarab yangilanadi).
+- **Scope:** Har bir M01–M16 nazariya sahifasini `BookReader.splitBalancedSections` orqali bo‘lish. 4 blokli ortiqcha ajratish o‘rniga mazmunli bo‘limlar, qisqa bo‘limlarni bitta sahifaga jamlash; example/solved/task+code birligi; orphan tail nazorati.
+- **Invariants:** `TheoryBlock` tarkibi va ketma-ketligi, published revision, savol identifikatorlari va kalitlar o‘zgarmaydi; browser progress `sections.length`dan avtomatik hisoblanadi. Testlar `LessonPageConsolidation`, `BookReader`, `UnifiedLessonBookDesign`, `TASK277`da.
+- **Not in scope:** Ma’lumotlar bazasi migratsiyasi, published darsni joyida tahrirlash, deploy, kontekstni qayta yozish yoki yangi savollar nashri.
+- **QA:** Manba: `docs/TASK345_LESSON_PAGE_CONSOLIDATION_20261020.md`. Final workflow CI hamda mobil/desktop authenticated UI smoke statusi alohida ko‘rsatiladi.
+
 Warning: truncated output (original token count: 38340)
 Total output lines: 2050
 
