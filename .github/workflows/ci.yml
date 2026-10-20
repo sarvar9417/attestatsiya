@@ -282,6 +282,7 @@ jobs:
             -f supabase/tests/m01_exact_source_lesson_reconcile.test.sql \
             -f supabase/tests/canonical_lesson_drift_reconcile.test.sql \
             -f supabase/tests/task305_m13_y2_revision_contract.test.sql \
+            -f supabase/tests/task306_m13_native_4x5_contract.test.sql \
             -f supabase/tests/m02_release_readiness.test.sql \
             -f supabase/tests/m01_exact_source_lesson_reconcile.test.sql
 
