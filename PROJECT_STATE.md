@@ -1,3 +1,12 @@
+## TASK-346 continuation — Informatika Telegram candidate QA (2026-10-20)
+
+- **Status:** IN_PROGRESS / private QA only, PR #346 draft; no learner publication, merge, or deploy.
+- **Corpus preserved:** 4,470 Telegram poll candidates, 580 theory excerpts, 316 PDF attachment links and 228 PDF fragments.
+- **Additional verified work:** 20 machine-computed `print(...)` solutions (20/20 unique matching choices, reviewer=AI, no human approval); 118 REVIEW-only suggested module mappings (security-invoker view; no canonical change); 484 same-sender immediately preceding missing-photo links (0–1 s, 364 newly discovered beyond original content flag).
+- **New code/schema:** `scripts/telegram_numeric_review.py`, Python unit tests; three private QA migrations and SQL regression; `docs/TASK346_INFORMATIKA_QA_FOLLOWUP_20261020.md`.
+- **Validation:** 7/7 local AST regression tests (reference implementation), DB data-integrity DO checks pass; full remote CI not yet checked. Existing public questions/lessons and official mock blueprints unchanged.
+- **Still blocked:** actual missing image bytes, full PDF visual/page verification, source-backed editorial answer review, authenticated learner UI regression and CI. All suggested answers stay in private staging.
+
 ## TASK-346 — Telegram Informatika + PDF private corpus staging (2026-10-20)
 
 - **Status:** IN_PROGRESS / REVIEW-ONLY. Owner: ChatGPT. User authorized importing from barnoyevak Drive Informatika Telegram export and PDFs.
