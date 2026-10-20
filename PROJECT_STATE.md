@@ -1985,3 +1985,33 @@ Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user co
 - TASK-301 validation after final rebase: 141 files / 905 tests passed with 4 workers and 30s timeout; affected 3 files / 58 tests passed. Lint/typecheck/build/bundle scan PASS.
 - Local Chromium absent; browser download returned a corrupt archive, so desktop/mobile E2E scenarios are delegated to GitHub CI. No production write. Handoff: `docs/TASK301_COMPLETE_LESSON_READER.md`.
 - TASK-301 user authorization, 2026-10-19: push and merge requested explicitly; do not deploy. `vercel.json` has `git.deploymentEnabled: false`; no deploy workflow found. Awaiting exact-head CI before merge.
+
+
+## TASK-305 M13 imtihon uslubi bo'yicha chuqur QA — 2026-10-20
+
+- Branch `task/TASK-305-m13-attestation-style-quality-audit`, PR #315 **DRAFT**.
+- Benchmarks: official 2026 informatika test specification M13 34–35; paid 2026 demo physical p18 q33 (4×5 matching, q34 hosting), 13.04.2026 reported PDF p21/p27/p28 (missing-stage/CMS/multi-statement); historical demo source officiality not presumed.
+- Live Supabase read-only snapshot: 414 published M13 = 271 Y1 + 71 Y2 + 72 Y3; 15 archived and 1 review. Published 414 key presence 0 gaps; 1 format-contract P0 (`T063-Y2-022`: all 8 matching options side `a`); proposed revision SQL auto-remaps private keys without exposing answers.
+- 350 AXR source items: 49 potentially trivial distractor and 24 correct-answer-length flags among 196 ordinary Y1; 14 paper Y2/Y3 metadata are published as native Y1; 70 native Y2 are 4×4 unlike sampled 4×5 demo.
+- 21 **keyless** new source-benchmark original question proposals, no answer/ordering maps in public HEAD, no DB writes. Publication requires source/content review and separately approved private-key workflow.
+- **P0 SECURITY:** GitHub repo is public; existing historical M13 JSON/migration files disclose/reconstruct answer keys from source, despite runtime key RLS. New questions should not repeat leakage; remediation requires key migration + versioning, not just deleting tracked files.
+- CI/merge/release status: PR branch automated gates pending. Production database and Vercel not changed by TASK-305 as of this entry.
+- Full details: `docs/audits/TASK305_M13_ATTESTATSIYA_QUESTION_QUALITY_20261020.md`.
+
+
+## TASK-306 — M13 4×5 matching pilot, 2026-10-20
+- User has explicitly directed continued assistant-led source/exam-style QA without waiting for separate outside human expert. This is **AI-assisted source review**, not a claim of independent human certification.
+- Branch `task/TASK-306-m13-matching-4x5-revisions`. Seven old published Y2 stay immutable; seven new reviewed candidates (one per M13 chapter) are inserted in `review` using private DB re-keying, with one sensible surplus right-side distractor each.
+- Old public Git answer/key exposure remains **OPEN** issue #323.
+- Validation: database 4×5 encrypted-key contract, frontend exam Y2 4-left/5-right completeness and duplicate-right prevention, canonical other revisions intact, full backend+frontend CI.
+- Production release NOT yet executed. Full docs: `docs/audits/TASK306_M13_MATCHING_4X5_PILOT.md`.
+
+
+## TASK-307 — M13 4×5 reviewed revision publication, 2026-10-20
+- Branch `task/TASK-307-m13-4x5-release`.
+- Scope restricted to TASK-306 7 `review` Y2 revised questions. Following user's instruction, assistant conducts AI-led topical/source/technical QA and proceeds without waiting for another separate human editor, **but no claim of independent human certification**.
+- Atomic publication migration promotes seven 4x5 review revisions, archives only their seven published 4x4 versions, keeps immutable options/keys and old attempts; 71 live Y2 and 414 live M13 total required.
+- Updates exact old/new logical test census in TASK-213; maintains canonical source integrity; adds TASK-307 regression.
+- **Pending:** complete GitHub CI, merge, apply migration to production, verify post-apply 414 (271 Y1,71 Y2,72 Y3) and zero malformed keys.
+- No frontend code changes required for 4x5; `src/features/exam/contracts.ts` already permits 4 left/5 right and rejects duplicate/unknown right selections (TASK-306 unit coverage). Live learner E2E after deploy still required.
+- Open risk: public Git historical answer exposure issue #323; improving distractor count is not a full secret-bank rotation.
