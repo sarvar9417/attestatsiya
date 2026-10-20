@@ -8,7 +8,7 @@ BEGIN
  IF n>0 THEN
   IF n<>40 OR (SELECT count(*) FROM attest_ingest.telegram_informatika_pdf_question_candidates
       WHERE source_file_id='1PEx1IJ4cpMyfhBcUiwP5D_iVadACjUYU'
-        AND NOT source_visually_checked OR source_page_number IS DISTINCT FROM 1
+        AND (NOT source_visually_checked OR source_page_number IS DISTINCT FROM 1)
     )>0 THEN
     RAISE EXCEPTION 'Excel 40 items must reconcile to original one-page visual source';
   END IF;
