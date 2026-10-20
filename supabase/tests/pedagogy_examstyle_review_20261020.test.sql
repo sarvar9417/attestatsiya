@@ -1,5 +1,5 @@
 -- 2026-10-20 attestation-style pedagogy REVIEW regressions.
--- No question is auto-published; this verifies machine-readable structure only.
+-- Questions stage as review; owner-authorized production promotion may publish them. Test structural invariants in both states.
 BEGIN;
 DO $qa$
 DECLARE n integer;
@@ -16,7 +16,7 @@ BEGIN
  LEFT JOIN public.question_keys k ON k.question_id=q.id
  LEFT JOIN public.lessons l ON l.id=q.source_lesson_id
  WHERE q.source_reference LIKE 'authored:pedagogy-examstyle:20261020%'
- AND (q.status<>'review'::public.content_status OR q.author_id IS NOT NULL
+ AND (q.status NOT IN ('review'::public.content_status,'published'::public.content_status) OR q.author_id IS NOT NULL
  OR c.group_code<>q.group_code OR l.status<>'published'::public.content_status OR k.question_id IS NULL
  OR NOT EXISTS(SELECT 1 FROM public.lesson_constructs lc WHERE lc.lesson_id=l.id AND lc.construct_id=c.id)
  OR length(q.stem_md)<160 OR length(k.explanation_md)<50)
