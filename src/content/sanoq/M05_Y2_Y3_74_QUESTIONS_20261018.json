@@ -1061,7 +1061,7 @@
       ],
       "right": [
         "Son qiymatini chapdan o‘ngga ko‘paytirib qo‘shib hisoblash",
-        "Kasr raqamlarini butun qismdan ajratib olish",
+        "Kasr qismini yangi asosga takroriy ko‘paytirib, hosil bo‘lgan ko‘paytmalarning butun qismlarini raqam sifatida yozish",
         "Xona qiymatlarining asos darajalari bo‘yicha yig‘indisi",
         "Butun qismni yangi asosga takroriy bo‘lish"
       ],
@@ -1074,7 +1074,7 @@
       "difficulty": 2,
       "cognitive": "qollash",
       "source": "ICT7 (2021), PDF 11–17; 2026 spetsifikatsiyasi, S3.NUM.02; original moslashtirish",
-      "explanation": "Yoyiq yozuv — Xona qiymatlarining asos darajalari bo‘yicha yig‘indisi; Gorner sxemasi — Son qiymatini chapdan o‘ngga ko‘paytirib qo‘shib hisoblash; Qoldiqli bo‘lish — Butun qismni yangi asosga takroriy bo‘lish; Kasrni asosga ko‘paytirish — Kasr raqamlarini butun qismdan ajratib olish."
+      "explanation": "Yoyiq yozuv — Xona qiymatlarining asos darajalari bo‘yicha yig‘indisi; Gorner sxemasi — Son qiymatini chapdan o‘ngga ko‘paytirib qo‘shib hisoblash; Qoldiqli bo‘lish — Butun qismni yangi asosga takroriy bo‘lish; Kasrni asosga ko‘paytirish — Kasr qismini yangi asosga takroriy ko‘paytirib, hosil bo‘lgan ko‘paytmalarning butun qismlarini raqam sifatida yozish."
     },
     {
       "lesson": 1,

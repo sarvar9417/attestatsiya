@@ -1,0 +1,470 @@
+{
+  "metadata": {
+    "task": "TASK-305",
+    "count": 21,
+    "formatCounts": {
+      "Y1": 7,
+      "Y2": 7,
+      "Y3": 7
+    },
+    "status": "keyless proposals only",
+    "warning": "No correct answer, no pair mapping, no correct order or rationale is stored in this public file. Build private answer keys in protected DB review workflow."
+  },
+  "questions": [
+    {
+      "ref": "m13-style-2026:v1:C1:Y1",
+      "chapter": 1,
+      "slug": "m13-axr-01",
+      "construct": "S7.SEC.01",
+      "format": "Y1",
+      "cognitive": "mulohaza",
+      "difficulty": 4,
+      "stem": "Axborot xavfsizligi mavzusiga oid to‘rtta mulohazani baholang. Qaysi ikkita mulohaza to‘g‘ri?\n1) Ko‘p omilli autentifikatsiya parol oshkor bo‘lgandagi ayrim xavflarni kamaytiradi.\n2) Zaxira nusxa avtomatik ravishda ma’lumot maxfiyligini kafolatlaydi.\n3) Minimal vakolat tamoyili foydalanuvchiga faqat zarur ruxsatni berishni nazarda tutadi.\n4) Antivirus barcha ijtimoiy muhandislik usullarini to‘liq to‘xtatadi.",
+      "source_basis": "2026 rasmiy spesifikatsiya p.6, 7-mazmun sohasi; 13.04.2026 foydalanuvchi to‘plami fizik p.28 (4 mulohaza uslubi)",
+      "origin": "original didaktik; historical copied question emas",
+      "status": "candidate_no_key",
+      "choices": [
+        "1 va 3",
+        "1 va 2",
+        "2 va 4",
+        "3 va 4"
+      ]
+    },
+    {
+      "ref": "m13-style-2026:v1:C1:Y2",
+      "chapter": 1,
+      "slug": "m13-axr-01",
+      "construct": "S7.SEC.01",
+      "format": "Y2",
+      "cognitive": "qollash",
+      "difficulty": 4,
+      "stem": "Axborot xavfsizligi: to‘rtta bandni beshta ta’rifdan mosiga juftlang. Bitta ta’rif ortiqcha.",
+      "source_basis": "2026 rasmiy spesifikatsiya p.6; pullik demo 2026 fizik p.18 q33 (4×5 matching tuzilishi)",
+      "origin": "original didaktik; demo variantlari ko‘chirilmagan",
+      "status": "candidate_no_key",
+      "left_labels": [
+        "Maxfiylik",
+        "Yaxlitlik",
+        "Mavjudlik",
+        "Audit izi"
+      ],
+      "right_choices": [
+        "Elektr uzilgach jurnalni qayta ishga tushirish",
+        "Ikkinchi autentifikatsiya omilini ulash",
+        "Vakolatsiz shaxsning hujjatni o‘qishini cheklash",
+        "Bahoni kim va qachon o‘zgartirganini qayd qilish",
+        "Bahoning ruxsatsiz o‘zgartirilmaganini tekshirish"
+      ],
+      "unused_right_count": 1
+    },
+    {
+      "ref": "m13-style-2026:v1:C1:Y3",
+      "chapter": 1,
+      "slug": "m13-axr-01",
+      "construct": "S7.SEC.01",
+      "format": "Y3",
+      "cognitive": "qollash",
+      "difficulty": 4,
+      "stem": "Axborot xavfsizligi: quyidagi topshiriq uchun oldingi bosqich natijasi keyingisiga asos bo‘ladigan to‘rtta amalni boshlanishidan yakunigacha tartiblang.",
+      "source_basis": "2026 rasmiy spesifikatsiya p.6; 13.04.2026 foydalanuvchi to‘plami fizik p.21 (tartibdagi bosqichni aniqlash)",
+      "origin": "original didaktik; source savol matni ko‘chirilmagan",
+      "status": "candidate_no_key",
+      "scrambled_steps": [
+        "Har bir rolning o‘qish/tahrir amallarini sinov hisobida tekshirish",
+        "Jurnal uchun ruxsat modeli va rollarni yozma belgilash",
+        "Sinovdan o‘tgan ruxsatlarni haqiqiy xodimlarga tatbiq etish",
+        "Tasdiqlangan modelga mos guruh va hisoblarni yaratish"
+      ]
+    },
+    {
+      "ref": "m13-style-2026:v1:C2:Y1",
+      "chapter": 2,
+      "slug": "m13-axr-02",
+      "construct": "S7.SEC.02",
+      "format": "Y1",
+      "cognitive": "mulohaza",
+      "difficulty": 4,
+      "stem": "Zararli dastur va phishing mavzusiga oid to‘rtta mulohazani baholang. Qaysi ikkita mulohaza to‘g‘ri?\n1) Phishing zararli fayl biriktirilmagan xabar orqali ham bajarilishi mumkin.\n2) Worm (qurt) tarqalishi uchun har doim hujjatga birikishi shart.\n3) Troyan odatda foydali dastur yoki fayl kabi ko‘rinib aldashi mumkin.\n4) Ransomware faqat brauzer tarixini o‘chiradi, fayllarni bloklamaydi.",
+      "source_basis": "2026 rasmiy spesifikatsiya p.6, 7-mazmun sohasi; 13.04.2026 foydalanuvchi to‘plami fizik p.28 (4 mulohaza uslubi)",
+      "origin": "original didaktik; historical copied question emas",
+      "status": "candidate_no_key",
+      "choices": [
+        "1 va 2",
+        "1 va 3",
+        "2 va 4",
+        "3 va 4"
+      ]
+    },
+    {
+      "ref": "m13-style-2026:v1:C2:Y2",
+      "chapter": 2,
+      "slug": "m13-axr-02",
+      "construct": "S7.SEC.02",
+      "format": "Y2",
+      "cognitive": "qollash",
+      "difficulty": 4,
+      "stem": "Zararli dastur va phishing: to‘rtta bandni beshta ta’rifdan mosiga juftlang. Bitta ta’rif ortiqcha.",
+      "source_basis": "2026 rasmiy spesifikatsiya p.6; pullik demo 2026 fizik p.18 q33 (4×5 matching tuzilishi)",
+      "origin": "original didaktik; demo variantlari ko‘chirilmagan",
+      "status": "candidate_no_key",
+      "left_labels": [
+        "Worm (qurt)",
+        "Troyan",
+        "Spyware",
+        "Ransomware"
+      ],
+      "right_choices": [
+        "Foydalanuvchi faoliyatidan yashirin ma’lumot to‘playdi",
+        "Foydalanuvchini soxta sahifaga yo‘naltiruvchi phishing xabari",
+        "Tarmoq bo‘ylab o‘zini mustaqil ko‘paytirishga intiladi",
+        "Fayllarni bloklab yoki shifrlab to‘lov talab qilishi mumkin",
+        "Foydali dastur niqobida zararli amal bajaradi"
+      ],
+      "unused_right_count": 1
+    },
+    {
+      "ref": "m13-style-2026:v1:C2:Y3",
+      "chapter": 2,
+      "slug": "m13-axr-02",
+      "construct": "S7.SEC.02",
+      "format": "Y3",
+      "cognitive": "qollash",
+      "difficulty": 4,
+      "stem": "Zararli dastur va phishing: quyidagi topshiriq uchun oldingi bosqich natijasi keyingisiga asos bo‘ladigan to‘rtta amalni boshlanishidan yakunigacha tartiblang.",
+      "source_basis": "2026 rasmiy spesifikatsiya p.6; 13.04.2026 foydalanuvchi to‘plami fizik p.21 (tartibdagi bosqichni aniqlash)",
+      "origin": "original didaktik; source savol matni ko‘chirilmagan",
+      "status": "candidate_no_key",
+      "scrambled_steps": [
+        "Haqiqiy xizmatda parolni yangilab eski sessiyalarni bekor qilish",
+        "Shubhali havolaga parol kiritilganini qayd etish va soxta sahifani yopish",
+        "Hisob kirish tarixini tekshirib, tashkilot xavfsizlik mas’uliga xabar berish",
+        "Haqiqiy xizmat manzilini mustaqil yozib ishonchli qurilmadan kirish"
+      ]
+    },
+    {
+      "ref": "m13-style-2026:v1:C3:Y1",
+      "chapter": 3,
+      "slug": "m13-axr-03",
+      "construct": "S7.SEC.03",
+      "format": "Y1",
+      "cognitive": "mulohaza",
+      "difficulty": 4,
+      "stem": "Antivirus va tiklash mavzusiga oid to‘rtta mulohazani baholang. Qaysi ikkita mulohaza to‘g‘ri?\n1) Himoya dasturining yangilanishi yangi tahdidlarni aniqlash imkonini kengaytirishi mumkin.\n2) Antivirus bor tizimda zaxira nusxaga ehtiyoj qolmaydi.\n3) Zaxira nusxani faqat yaratish emas, undan tiklashni sinash ham zarur.\n4) Bulutli sinxronlash har doim zararli shifrlangan fayllarning tarqalishini to‘xtatadi.",
+      "source_basis": "2026 rasmiy spesifikatsiya p.6, 7-mazmun sohasi; 13.04.2026 foydalanuvchi to‘plami fizik p.28 (4 mulohaza uslubi)",
+      "origin": "original didaktik; historical copied question emas",
+      "status": "candidate_no_key",
+      "choices": [
+        "1 va 2",
+        "2 va 4",
+        "1 va 3",
+        "3 va 4"
+      ]
+    },
+    {
+      "ref": "m13-style-2026:v1:C3:Y2",
+      "chapter": 3,
+      "slug": "m13-axr-03",
+      "construct": "S7.SEC.03",
+      "format": "Y2",
+      "cognitive": "qollash",
+      "difficulty": 4,
+      "stem": "Antivirus va tiklash: to‘rtta bandni beshta ta’rifdan mosiga juftlang. Bitta ta’rif ortiqcha.",
+      "source_basis": "2026 rasmiy spesifikatsiya p.6; pullik demo 2026 fizik p.18 q33 (4×5 matching tuzilishi)",
+      "origin": "original didaktik; demo variantlari ko‘chirilmagan",
+      "status": "candidate_no_key",
+      "left_labels": [
+        "Real vaqt skaneri",
+        "Signatura yangilanishi",
+        "Karantin",
+        "Restore testi"
+      ],
+      "right_choices": [
+        "Shubhali faylni izolyatsiya holatiga ko‘chirish",
+        "Tizimning o‘zgarishlar jurnalini har soat chop etish",
+        "Fayl ishga tushganda uni tekshirish",
+        "Zaxiradan haqiqatan tiklash mumkinligini tekshirish",
+        "Ma’lum zararli kodlarni tanish bazasini boyitish"
+      ],
+      "unused_right_count": 1
+    },
+    {
+      "ref": "m13-style-2026:v1:C3:Y3",
+      "chapter": 3,
+      "slug": "m13-axr-03",
+      "construct": "S7.SEC.03",
+      "format": "Y3",
+      "cognitive": "qollash",
+      "difficulty": 4,
+      "stem": "Antivirus va tiklash: quyidagi topshiriq uchun oldingi bosqich natijasi keyingisiga asos bo‘ladigan to‘rtta amalni boshlanishidan yakunigacha tartiblang.",
+      "source_basis": "2026 rasmiy spesifikatsiya p.6; 13.04.2026 foydalanuvchi to‘plami fizik p.21 (tartibdagi bosqichni aniqlash)",
+      "origin": "original didaktik; source savol matni ko‘chirilmagan",
+      "status": "candidate_no_key",
+      "scrambled_steps": [
+        "Tanlangan nusxani ajratilgan xavfsiz muhitda tiklash",
+        "Zarar yetkazgan jarayon to‘xtatilganini va tiklash muhiti tozaligini tekshirish",
+        "Tiklangan ma’lumot yaxlitligini va xizmat ishini mustaqil sinash",
+        "Zararlanishdan oldingi ishonchli zaxira nusxani tanlash"
+      ]
+    },
+    {
+      "ref": "m13-style-2026:v1:C4:Y1",
+      "chapter": 4,
+      "slug": "m13-axr-04",
+      "construct": "S7.SEC.04",
+      "format": "Y1",
+      "cognitive": "mulohaza",
+      "difficulty": 4,
+      "stem": "Elektron hukumat va e-imzo mavzusiga oid to‘rtta mulohazani baholang. Qaysi ikkita mulohaza to‘g‘ri?\n1) Elektron xizmatdan foydalanishda identifikatsiya arizachi kimligini aniqlash bilan bog‘liq.\n2) SMSda kelgan har qanday havola rasmiy davlat portali ekanini kafolatlaydi.\n3) Elektron raqamli imzo hujjatga tegishli imzoning haqiqiyligini tekshirishga yordam beradi.\n4) Elektron imzo qo‘yilgan har qanday fayl o‘zi avtomatik ravishda maxfiy bo‘lib qoladi.",
+      "source_basis": "2026 rasmiy spesifikatsiya p.6, 7-mazmun sohasi; 13.04.2026 foydalanuvchi to‘plami fizik p.28 (4 mulohaza uslubi)",
+      "origin": "original didaktik; historical copied question emas",
+      "status": "candidate_no_key",
+      "choices": [
+        "1 va 2",
+        "2 va 4",
+        "3 va 4",
+        "1 va 3"
+      ]
+    },
+    {
+      "ref": "m13-style-2026:v1:C4:Y2",
+      "chapter": 4,
+      "slug": "m13-axr-04",
+      "construct": "S7.SEC.04",
+      "format": "Y2",
+      "cognitive": "qollash",
+      "difficulty": 4,
+      "stem": "Elektron hukumat va e-imzo: to‘rtta bandni beshta ta’rifdan mosiga juftlang. Bitta ta’rif ortiqcha.",
+      "source_basis": "2026 rasmiy spesifikatsiya p.6; pullik demo 2026 fizik p.18 q33 (4×5 matching tuzilishi)",
+      "origin": "original didaktik; demo variantlari ko‘chirilmagan",
+      "status": "candidate_no_key",
+      "left_labels": [
+        "Identifikatsiya",
+        "Autentifikatsiya",
+        "Avtorizatsiya",
+        "Elektron imzo verifikatsiyasi"
+      ],
+      "right_choices": [
+        "Tasdiqlangan shaxsga qaysi amal mumkinligini belgilash",
+        "Brauzer rangini rasmiy portal ko‘rinishiga moslashtirish",
+        "Murojaat qiluvchining qaysi shaxs ekanini aniqlash",
+        "Imzo hamda imzolangan ma’lumot yaxlitligini tekshirish",
+        "Ko‘rsatilgan shaxs aynan o‘zi ekanini tekshirish"
+      ],
+      "unused_right_count": 1
+    },
+    {
+      "ref": "m13-style-2026:v1:C4:Y3",
+      "chapter": 4,
+      "slug": "m13-axr-04",
+      "construct": "S7.SEC.04",
+      "format": "Y3",
+      "cognitive": "qollash",
+      "difficulty": 4,
+      "stem": "Elektron hukumat va e-imzo: quyidagi topshiriq uchun oldingi bosqich natijasi keyingisiga asos bo‘ladigan to‘rtta amalni boshlanishidan yakunigacha tartiblang.",
+      "source_basis": "2026 rasmiy spesifikatsiya p.6; 13.04.2026 foydalanuvchi to‘plami fizik p.21 (tartibdagi bosqichni aniqlash)",
+      "origin": "original didaktik; source savol matni ko‘chirilmagan",
+      "status": "candidate_no_key",
+      "scrambled_steps": [
+        "Ariza ma’lumotlarini kiritib ilova hujjatlarni tekshirish",
+        "Rasmiy portal manzilini mustaqil tekshirib ochish",
+        "Arizani yuborib tasdiq raqami va holatini saqlash",
+        "Talab qilingan usulda arizachi shaxsini tasdiqlash"
+      ]
+    },
+    {
+      "ref": "m13-style-2026:v1:C5:Y1",
+      "chapter": 5,
+      "slug": "m13-axr-05",
+      "construct": "S7.SEC.05",
+      "format": "Y1",
+      "cognitive": "mulohaza",
+      "difficulty": 4,
+      "stem": "CMS, LMS, MOOC, SMM mavzusiga oid to‘rtta mulohazani baholang. Qaysi ikkita mulohaza to‘g‘ri?\n1) CMS odatda veb-sayt kontentini boshqarishni yengillashtiradi.\n2) LMS topshiriqlar va o‘quvchi natijalarini kuzatish uchun ishlatilishi mumkin.\n3) MOOC deganda albatta faqat bir maktab uchun yopiq mahalliy kurs tushuniladi.\n4) SMM faqat bosma gazetadagi reklama bilan ishlashni anglatadi.",
+      "source_basis": "2026 rasmiy spesifikatsiya p.6, 7-mazmun sohasi; 13.04.2026 foydalanuvchi to‘plami fizik p.28 (4 mulohaza uslubi)",
+      "origin": "original didaktik; historical copied question emas",
+      "status": "candidate_no_key",
+      "choices": [
+        "1 va 2",
+        "2 va 3",
+        "1 va 4",
+        "3 va 4"
+      ]
+    },
+    {
+      "ref": "m13-style-2026:v1:C5:Y2",
+      "chapter": 5,
+      "slug": "m13-axr-05",
+      "construct": "S7.SEC.05",
+      "format": "Y2",
+      "cognitive": "qollash",
+      "difficulty": 4,
+      "stem": "CMS, LMS, MOOC, SMM: to‘rtta bandni beshta ta’rifdan mosiga juftlang. Bitta ta’rif ortiqcha.",
+      "source_basis": "2026 rasmiy spesifikatsiya p.6; pullik demo 2026 fizik p.18 q33 (4×5 matching tuzilishi)",
+      "origin": "original didaktik; demo variantlari ko‘chirilmagan",
+      "status": "candidate_no_key",
+      "left_labels": [
+        "CMS",
+        "LMS",
+        "MOOC",
+        "SMM"
+      ],
+      "right_choices": [
+        "Keng auditoriyaga mo‘ljallangan onlayn kurs",
+        "CRM — mijozlar bilan munosabatlarni hisobga olish tizimi",
+        "Saytdagi sahifa va yozuvlarni boshqarish",
+        "Ijtimoiy tarmoqlarda auditoriya bilan ishlash",
+        "Kurs, topshiriq va baholash jarayonini yuritish"
+      ],
+      "unused_right_count": 1
+    },
+    {
+      "ref": "m13-style-2026:v1:C5:Y3",
+      "chapter": 5,
+      "slug": "m13-axr-05",
+      "construct": "S7.SEC.05",
+      "format": "Y3",
+      "cognitive": "qollash",
+      "difficulty": 4,
+      "stem": "CMS, LMS, MOOC, SMM: quyidagi topshiriq uchun oldingi bosqich natijasi keyingisiga asos bo‘ladigan to‘rtta amalni boshlanishidan yakunigacha tartiblang.",
+      "source_basis": "2026 rasmiy spesifikatsiya p.6; 13.04.2026 foydalanuvchi to‘plami fizik p.21 (tartibdagi bosqichni aniqlash)",
+      "origin": "original didaktik; source savol matni ko‘chirilmagan",
+      "status": "candidate_no_key",
+      "scrambled_steps": [
+        "Har bir mavzuga topshiriq va baholash mezonini bog‘lash",
+        "Kurs maqsadlarini va baholanadigan natijalarni belgilash",
+        "Sinov o‘quvchi hisobida o‘tish va baholashni tekshirish",
+        "Shu natijalarga mos LMS mavzu-modullarini tuzish"
+      ]
+    },
+    {
+      "ref": "m13-style-2026:v1:C6:Y1",
+      "chapter": 6,
+      "slug": "m13-axr-06",
+      "construct": "S7.SEC.05",
+      "format": "Y1",
+      "cognitive": "mulohaza",
+      "difficulty": 4,
+      "stem": "Kontent va auditoriya mavzusiga oid to‘rtta mulohazani baholang. Qaysi ikkita mulohaza to‘g‘ri?\n1) Reach odatda kontentni ko‘rgan noyob foydalanuvchilar sonini anglatadi.\n2) Impressions faqat obunachilarning har biriga bitta ko‘rsatishni hisoblaydi.\n3) CTR havolaga bosilish ulushini taassurotlar (ko‘rsatishlar) bilan bog‘laydi.\n4) Auditoriyani segmentlashda faqat yoshni bilish har doim yetarli.",
+      "source_basis": "2026 rasmiy spesifikatsiya p.6, 7-mazmun sohasi; 13.04.2026 foydalanuvchi to‘plami fizik p.28 (4 mulohaza uslubi)",
+      "origin": "original didaktik; historical copied question emas",
+      "status": "candidate_no_key",
+      "choices": [
+        "1 va 2",
+        "1 va 3",
+        "2 va 4",
+        "3 va 4"
+      ]
+    },
+    {
+      "ref": "m13-style-2026:v1:C6:Y2",
+      "chapter": 6,
+      "slug": "m13-axr-06",
+      "construct": "S7.SEC.05",
+      "format": "Y2",
+      "cognitive": "qollash",
+      "difficulty": 4,
+      "stem": "Kontent va auditoriya: to‘rtta bandni beshta ta’rifdan mosiga juftlang. Bitta ta’rif ortiqcha.",
+      "source_basis": "2026 rasmiy spesifikatsiya p.6; pullik demo 2026 fizik p.18 q33 (4×5 matching tuzilishi)",
+      "origin": "original didaktik; demo variantlari ko‘chirilmagan",
+      "status": "candidate_no_key",
+      "left_labels": [
+        "Reach",
+        "Impressions",
+        "CTR",
+        "Conversion"
+      ],
+      "right_choices": [
+        "Ko‘rsatishlarga nisbatan bosish ulushi",
+        "Fayl hajmini piksel hisobiga avtomatik baholash",
+        "Kontentga yetib borgan noyob hisoblar miqdori",
+        "Maqsadli harakatni bajargan foydalanuvchi hodisasi",
+        "Kontent ko‘rsatilgan jami marta soni"
+      ],
+      "unused_right_count": 1
+    },
+    {
+      "ref": "m13-style-2026:v1:C6:Y3",
+      "chapter": 6,
+      "slug": "m13-axr-06",
+      "construct": "S7.SEC.05",
+      "format": "Y3",
+      "cognitive": "qollash",
+      "difficulty": 4,
+      "stem": "Kontent va auditoriya: quyidagi topshiriq uchun oldingi bosqich natijasi keyingisiga asos bo‘ladigan to‘rtta amalni boshlanishidan yakunigacha tartiblang.",
+      "source_basis": "2026 rasmiy spesifikatsiya p.6; 13.04.2026 foydalanuvchi to‘plami fizik p.21 (tartibdagi bosqichni aniqlash)",
+      "origin": "original didaktik; source savol matni ko‘chirilmagan",
+      "status": "candidate_no_key",
+      "scrambled_steps": [
+        "Tanlangan xabar bilan kontent variantlarini tayyorlash",
+        "Kampaniya uchun auditoriya segmentining ehtiyojini tadqiq etish",
+        "E’lon qilingan variantlar natijasini oldindan belgilangan metrikalarda solishtirish",
+        "Tadqiqotga tayangan bitta aniq taklif va xabarni tanlash"
+      ]
+    },
+    {
+      "ref": "m13-style-2026:v1:C7:Y1",
+      "chapter": 7,
+      "slug": "m13-axr-07",
+      "construct": "S7.SEC.06",
+      "format": "Y1",
+      "cognitive": "mulohaza",
+      "difficulty": 4,
+      "stem": "Web-freelance mavzusiga oid to‘rtta mulohazani baholang. Qaysi ikkita mulohaza to‘g‘ri?\n1) Loyiha vazifasi va qabul mezonini yozma kelishish kelishmovchilik xavfini kamaytiradi.\n2) Mijozning maxfiy faylini ruxsatsiz portfolioga joylash mumkin.\n3) Bosqichlarga bo‘lingan to‘lov va topshirish ish hajmini nazorat qilishga yordam beradi.\n4) Escrow xizmati har qanday sharoitda huquqiy nizoni butunlay imkonsiz qiladi.",
+      "source_basis": "2026 rasmiy spesifikatsiya p.6, 7-mazmun sohasi; 13.04.2026 foydalanuvchi to‘plami fizik p.28 (4 mulohaza uslubi)",
+      "origin": "original didaktik; historical copied question emas",
+      "status": "candidate_no_key",
+      "choices": [
+        "1 va 2",
+        "2 va 4",
+        "1 va 3",
+        "3 va 4"
+      ]
+    },
+    {
+      "ref": "m13-style-2026:v1:C7:Y2",
+      "chapter": 7,
+      "slug": "m13-axr-07",
+      "construct": "S7.SEC.06",
+      "format": "Y2",
+      "cognitive": "qollash",
+      "difficulty": 4,
+      "stem": "Web-freelance: to‘rtta bandni beshta ta’rifdan mosiga juftlang. Bitta ta’rif ortiqcha.",
+      "source_basis": "2026 rasmiy spesifikatsiya p.6; pullik demo 2026 fizik p.18 q33 (4×5 matching tuzilishi)",
+      "origin": "original didaktik; demo variantlari ko‘chirilmagan",
+      "status": "candidate_no_key",
+      "left_labels": [
+        "Brief",
+        "Scope",
+        "Milestone",
+        "Escrow"
+      ],
+      "right_choices": [
+        "Oraliq topshirish yoki tasdiqlash bosqichi",
+        "SEO — saytning qidiruv tizimidagi ko‘rinishini yaxshilash",
+        "Buyurtmachining maqsad va vazifa tavsifi",
+        "Kelishuvga ko‘ra mablag‘ni vositachilikda ushlab turish",
+        "Kelishilgan ish chegarasi va hajmi"
+      ],
+      "unused_right_count": 1
+    },
+    {
+      "ref": "m13-style-2026:v1:C7:Y3",
+      "chapter": 7,
+      "slug": "m13-axr-07",
+      "construct": "S7.SEC.06",
+      "format": "Y3",
+      "cognitive": "qollash",
+      "difficulty": 4,
+      "stem": "Web-freelance: quyidagi topshiriq uchun oldingi bosqich natijasi keyingisiga asos bo‘ladigan to‘rtta amalni boshlanishidan yakunigacha tartiblang.",
+      "source_basis": "2026 rasmiy spesifikatsiya p.6; 13.04.2026 foydalanuvchi to‘plami fizik p.21 (tartibdagi bosqichni aniqlash)",
+      "origin": "original didaktik; source savol matni ko‘chirilmagan",
+      "status": "candidate_no_key",
+      "scrambled_steps": [
+        "Kelishilgan milestone bo‘yicha ishni bajarib dalil bilan topshirish",
+        "Buyurtmachidan yozma brief va qabul mezonini olish",
+        "Buyurtmachining qabulini qayd etib keyingi to‘lov/ish bosqichiga o‘tish",
+        "Brief asosida scope, muddat va milestone jadvalini kelishish"
+      ]
+    }
+  ]
+}
