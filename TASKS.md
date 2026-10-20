@@ -101,6 +101,12 @@
 |---|---|---|---|
 | TASK-213 | IN_PROGRESS | M10/M11 original lessons + active `S5.WEB` constructs | 6 review lessons + 300 review questions (Y1/Y2/Y3), 8 SVG, additive migrations, fresh DB invariant, guarded editorial approval and production verification; see `docs/TASK213_GRAPHICS_WEB_V2_INTEGRATION.md` |
 
+## TASK-291 — Grafika/veb 27–31: attestatsiya demo uslubida chuqur savol auditi
+
+| ID | Status | Dependency | Natija / qolgan shart |
+|---|---|---|---|
+| TASK-291 | IN_PROGRESS (EDITORIAL GATE) | TASK-240 completed immutable revisions; TASK-244 Y2 UX alohida | Drive 2025 demo pp.9/14, 2026 bahorgi savollar pp.14/22/23 va ICT/Cambridge+ manbalari ajratildi; production 884 historical/444 current — 380 review/64 published. 444-item source-safe risk matrix; original 300 full private sheet; yangi 30 demo-uslubidagi Y1/Y2/Y3 private Drive review Doc; SQL read-only audit va live-tested native format invariant. Qolgan: 444 itemni individual sahifa, javob va chalg‘ituvchilar bo‘yicha mustaqil inson ekspertizasi; 2 legacy Y2 UI tekshiruvi va safe revision; browser E2E; productionga hech qanday yozuv qilinmadi. [Audit](docs/TASK291_GV_REAL_DEMO_STYLE_AND_BANK_DEEP_AUDIT_20261020.md). |
+
 # TASKS.md — atomik backlog
 
 > Loyiha React+Vite, Supabase, files/ spec bo'yicha.
