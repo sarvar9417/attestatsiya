@@ -7,9 +7,10 @@ import BookBlock from './BookBlock'
 import { plainText } from './InlineText'
 
 /** Bir bo'lim — kitobdagi bitta \section va unga tegishli bloklar. */
-interface Section {
+export interface Section {
   title: string
   blocks: TheoryBlock[]
+  continued?: boolean
 }
 
 /**
@@ -64,6 +65,63 @@ export function splitAdaptiveSections(theory: TheoryBlock[], pageSize = 3): Sect
   return sections
 }
 
+/**
+ * Barcha yangi va eski darslar uchun yagona, o‘qishga qulay sahifalash qoidasi.
+ * Muallif bergan sarlavhalar asosiy bo‘lim chegarasi bo‘lib qoladi; juda uzun
+ * bo‘limlar esa blok va matn hajmi bo‘yicha davom sahifalariga bo‘linadi.
+ * Nazariya bloklari o‘zgarmaydi, yo‘qolmaydi va qayta tartiblanmaydi.
+ */
+export function splitBalancedSections(
+  theory: TheoryBlock[],
+  maxBlocks = 4,
+  maxCharacters = 4200,
+): Section[] {
+  if (!Number.isInteger(maxBlocks) || maxBlocks < 1) throw new Error('Invalid block limit')
+  if (!Number.isInteger(maxCharacters) || maxCharacters < 1) throw new Error('Invalid character limit')
+  if (theory.length === 0) return splitSections(theory)
+
+  const sections: Section[] = []
+  for (const group of splitSections(theory)) {
+    for (let start = 0, partNumber = 0; start < group.blocks.length; partNumber++) {
+      let end = start
+      let characters = 0
+
+      while (end < group.blocks.length) {
+        const next = group.blocks[end]
+        const nextCharacters = next.content.length
+          + (next.items?.join('').length ?? 0)
+          + (next.rows?.flat().join('').length ?? 0)
+        const reachedLimit = end > start
+          && (end - start >= maxBlocks || characters + nextCharacters > maxCharacters)
+        if (reachedLimit) break
+        characters += nextCharacters
+        end++
+      }
+
+      // Bir blok limitdan katta bo‘lsa ham uni butun saqlaymiz.
+      if (end === start) end++
+
+      const part = group.blocks.slice(start, end)
+      const beginsWithHeading = part[0]?.type === 'heading'
+      const leadOnly = partNumber === 0 && Boolean(group.title)
+        && !part.some(block => block.type === 'heading')
+      const continued = partNumber > 0 && !beginsWithHeading
+      const fallbackTitle = `${sections.length + 1}-bo‘lim`
+      sections.push({
+        title: leadOnly
+          ? 'Kirish'
+          : group.title
+          ? (continued ? `${group.title} — davomi` : group.title)
+          : fallbackTitle,
+        blocks: part,
+        continued,
+      })
+      start = end
+    }
+  }
+  return sections
+}
+
 interface Props {
   content: TopicContent
   /** Mavzudagi test savollari soni. */
@@ -93,10 +151,7 @@ export default function BookReader({
   content, questionCount, isAppendix, requireTest = false, onFinishReading, onProgress,
   previousTopic, onOpenPreviousTopic, nextTopic, onOpenNextTopic,
 }: Props) {
-  const sections = useMemo(
-    () => content.source ? splitSections(content.theory) : splitAdaptiveSections(content.theory),
-    [content.source, content.theory],
-  )
+  const sections = useMemo(() => splitBalancedSections(content.theory), [content.theory])
   const [pageIndex, setIndex] = useState(0)
   const [visited, setVisited] = useState<Set<number>>(() => new Set([0]))
   const [outlineOpen, setOutlineOpen] = useState(false)
@@ -223,6 +278,9 @@ export default function BookReader({
       )}
 
       <div ref={headingRef} tabIndex={-1} className="book-chapter focus:outline-none">
+        {section.continued && section.blocks[0]?.type !== 'heading' && (
+          <h2 className="book-heading book-continuation-heading">{section.title}</h2>
+        )}
         {section.blocks.map((block, i) => (
           <div key={`${index}-${i}`} data-block={block.type}>
             <BookBlock block={block} index={i} />

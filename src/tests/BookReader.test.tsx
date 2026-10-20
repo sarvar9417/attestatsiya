@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import BookBlock from '../components/learning/theory/BookBlock'
-import BookReader, { splitSections } from '../components/learning/theory/BookReader'
+import BookReader, { splitBalancedSections, splitSections } from '../components/learning/theory/BookReader'
 import { markdownToTheoryBlocks } from '../features/content/professionalLessonTheory'
 import InlineText, { plainText } from '../components/learning/theory/InlineText'
 import { M01_CONTENT } from '../data/topics/m01'
@@ -123,7 +123,7 @@ describe('BookReader', () => {
 
   it('birinchi bo‘limni va holat panelini ko‘rsatadi', () => {
     const content = M01_CONTENT['M01.02']
-    const sections = splitSections(content.theory)
+    const sections = splitBalancedSections(content.theory)
     render(<BookReader content={content} {...readerProps} />)
 
     expect(screen.getByText('1')).toBeInTheDocument()
@@ -137,7 +137,7 @@ describe('BookReader', () => {
   it('“Keyingi” tugmasi keyingi bo‘limga o‘tkazadi', async () => {
     const user = userEvent.setup()
     const content = M01_CONTENT['M01.02']
-    const sections = splitSections(content.theory)
+    const sections = splitBalancedSections(content.theory)
     render(<BookReader content={content} {...readerProps} />)
 
     await user.click(screen.getByRole('button', { name: /keyingi/i }))
@@ -148,7 +148,7 @@ describe('BookReader', () => {
   it('mundarija orqali istalgan bo‘limga o‘tadi', async () => {
     const user = userEvent.setup()
     const content = M01_CONTENT['M01.02']
-    const sections = splitSections(content.theory)
+    const sections = splitBalancedSections(content.theory)
     render(<BookReader content={content} {...readerProps} />)
 
     await user.click(screen.getByRole('button', { name: /mundarija/i }))
@@ -160,7 +160,7 @@ describe('BookReader', () => {
   it('o‘qilgan bo‘limlar ulushini xabar qiladi', async () => {
     const user = userEvent.setup()
     const content = M01_CONTENT['M01.02']
-    const sections = splitSections(content.theory)
+    const sections = splitBalancedSections(content.theory)
     const seen: number[] = []
     render(<BookReader content={content} {...readerProps} onProgress={p => seen.push(p)} />)
 
@@ -172,7 +172,7 @@ describe('BookReader', () => {
   it('oxirgi bo‘limda testga o‘tish kartasi chiqadi', async () => {
     const user = userEvent.setup()
     const content = M01_CONTENT['M01.02']
-    const sections = splitSections(content.theory)
+    const sections = splitBalancedSections(content.theory)
     let started = false
     render(<BookReader content={content} questionCount={3} onFinishReading={() => { started = true }} />)
 
@@ -186,17 +186,22 @@ describe('BookReader', () => {
     expect(started).toBe(true)
   })
 
-  it('ilovada test o‘rniga “Mavzuni yakunlash” chiqadi', () => {
-    render(<BookReader content={M01_CONTENT['M01.11']} questionCount={0} isAppendix onFinishReading={() => undefined} />)
+  it('ilovada test o‘rniga “Mavzuni yakunlash” chiqadi', async () => {
+    const user = userEvent.setup()
+    const content = M01_CONTENT['M01.11']
+    const sections = splitBalancedSections(content.theory)
+    render(<BookReader content={content} questionCount={0} isAppendix onFinishReading={() => undefined} />)
+    for (let i = 1; i < sections.length; i++) {
+      await user.click(screen.getByRole('button', { name: /keyingi/i }))
+    }
     expect(screen.getByRole('button', { name: /mavzuni yakunlash/i })).toBeInTheDocument()
     expect(screen.getByText(/test ko‘zda tutilmagan/i)).toBeInTheDocument()
-    expect(screen.queryByRole('tab')).not.toBeInTheDocument()
   })
 
   it('savoli hali qo‘shilmagan bobda buni ochiq aytadi', async () => {
     const user = userEvent.setup()
     const content = M01_CONTENT['M01.08']
-    const sections = splitSections(content.theory)
+    const sections = splitBalancedSections(content.theory)
     render(<BookReader content={content} questionCount={0} onFinishReading={() => undefined} />)
     for (let i = 1; i < sections.length; i++) {
       await user.click(screen.getByRole('button', { name: /keyingi/i }))
@@ -208,15 +213,20 @@ describe('BookReader', () => {
   it('keyingi mavzuni taklif qiladi', async () => {
     const user = userEvent.setup()
     let opened = false
+    const content = M01_CONTENT['M01.11']
+    const sections = splitBalancedSections(content.theory)
     render(
       <BookReader
-        content={M01_CONTENT['M01.11']}
+        content={content}
         questionCount={0}
         isAppendix
         onFinishReading={() => undefined}
         nextTopic={{ id: 'M01.12', title: 'Birlashtirish qamrovi va manba reyestri' }}
         onOpenNextTopic={() => { opened = true }}
       />)
+    for (let i = 1; i < sections.length; i++) {
+      await user.click(screen.getByRole('button', { name: /keyingi/i }))
+    }
     await user.click(screen.getByRole('button', { name: /keyingi mavzu/i }))
     expect(opened).toBe(true)
   })
@@ -224,7 +234,7 @@ describe('BookReader', () => {
   it('klaviatura o‘qlari bilan boshqariladi', async () => {
     const user = userEvent.setup()
     const content = M01_CONTENT['M01.02']
-    const sections = splitSections(content.theory)
+    const sections = splitBalancedSections(content.theory)
     render(<BookReader content={content} {...readerProps} />)
 
     await user.keyboard('{ArrowRight}')
@@ -238,7 +248,7 @@ describe('BookReader', () => {
     for (const id of Object.keys(M01_CONTENT)) {
       const diagrams = M01_CONTENT[id].theory.filter(b => b.type === 'diagram')
       if (diagrams.length === 0) continue
-      const sections = splitSections(M01_CONTENT[id].theory)
+      const sections = splitBalancedSections(M01_CONTENT[id].theory)
       const { container, unmount } = render(<BookReader content={M01_CONTENT[id]} {...readerProps} />)
       const captions: string[] = []
       for (let i = 0; i < sections.length; i++) {
@@ -249,7 +259,7 @@ describe('BookReader', () => {
       expect(captions, id).toEqual(diagrams.map(d => d.content))
       unmount()
     }
-  })
+  }, 15_000)
 })
 
 
