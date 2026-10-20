@@ -1,3 +1,11 @@
+## TASK-291 — Grafika/veb attestatsiya savollari sifat nazorati (2026-10-20)
+
+- **Holat:** IN_PROGRESS. 2025 kuzgi demo va 2026-04-13 HTML/CSS kod-to-render namunalaridan yangi uslubiy mezonlar tuzildi; mustaqil inson ko‘rigi deb da’vo qilinmaydi.
+- **Production:** S5.WEB 916 yozuv = 64 published + 410 review + 442 archived. 30 yangi demo-uslubiy savol review (20 Y1/5 Y2/5 Y3), 2 tuzatilgan 4a/4b Y2 published. Eski HTML/CSS 8a/0b Y2 versiyalari archived; 2 ta tarixiy exam-item ID saqlandi.
+- **Model ekspert xatolari:** ED-017 moslashtirish sharti moslashtirildi; ED-018 Photoshop Reveal Selection ko‘rinadigan obyektni tanlashga tuzatildi (Adobe manbasi).
+- **Audit:** GitHub dagi TASK-291 migration/test/docs va 444 savollik dastlabki risk reestri; 30 review + 2 replacement migratsiyasi Supabase'da muvaffaqiyatli, 3 SQL production test PASS.
+- **Qolgan:** 474 faol savol semantik/darslik sahifasi tekshiruvi, 30 review savol uchun brauzer render/E2E, independent human certification yo‘q.
+
 ## TASK-304 — M14 source-verified QA audit handoff (2026-10-19)
 
 - **Branch:** `task/TASK-304-m14-final-qa-safe-merge`; 2026-10-19 main'dan yangi olingan; eski TASK-303 branch 23 main commit ortida qolgani uchun eski ishlar bilan konflikt chiqarmaslik maqsadida yangi branch ishlatildi.
