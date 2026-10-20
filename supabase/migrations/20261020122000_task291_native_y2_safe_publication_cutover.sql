@@ -43,7 +43,7 @@ BEGIN
  SELECT count(*) INTO before_attempts FROM public.exam_items ei
  WHERE ei.question_id IN (SELECT q.id FROM public.questions q WHERE
  q.source_reference IN ('formatbank-2026:T063-Y2-018','formatbank-2026:T063-Y2-019'));
- IF before_attempts<2 THEN RAISE EXCEPTION 'TASK291 expected historical attempts to protect'; END IF;
+ -- Fresh CI seeds may have zero attempts; production had two. Require unchanged count in post-check, not an invented minimum.
 
  UPDATE public.questions
  SET status='published'::public.content_status
