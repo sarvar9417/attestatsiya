@@ -92,3 +92,10 @@
 - Barcha 8 va barcha 3 record `human_approved=false`, `published=false`, ruxsatlar `anon/authenticated` uchun REVOKE, RLS enabled. **Public lessonsga yangi revision yoki nashr yo'q**.
 - Yangi migration `20261020223500_task346_theory_selected_editorial_drafts.sql`, test `supabase/tests/telegram_informatika_theory_editorial_drafts.test.sql`; repo ichida ma'lumot manbasining uzun Telegram matnlaridan nusxa yo'q.
 - Endi private poolda **469 PDF savol/mashq (26 PDF)**, **43 PDF variantli QA taklifi**, **48 erkin javobli Excel formula hisobi**, **4 xato Excel source** va **3 unpublished original nazariya qoralamasi** mavjud. Bu 100% review yoki nashr holati emas.
+
+## 9-bosqich — SHA-256 bilan haqiqiy PDF dublikatlarini aniqlash
+- Drive inventaridagi bir xil normallashgan nom+bayt hajmiga ega 13 gumonli guruhdan hozircha 2 juftlikning **asl PDF baytlari** alohida yuklab olinib SHA-256 hash bilan tekshirildi.
+- `Axborot kodlash test.pdf` / `Axborot kodlash test (1).pdf`: ikkalasi bir xil 216037 bayt; SHA256=`a58aa2ce8911f2607e765a4b187176ba0eb95de72c879ea3c7689dc002c596cd`.
+- `O\`TGAN MAVZULARDAN TEST.pdf` / `O\`TGAN MAVZULARDAN TEST (1).pdf`: ikkalasi bir xil 143669 bayt; SHA256=`3aaf64b98b89b7a6ea0ec7e35a91061215e06a8224ad3110388c4bffdb45a1d6`.
+- SHA256 byte-identical 2 juftlik private `attest_ingest.telegram_informatika_drive_pdf_verified_duplicates`da qayd etildi. Boshqa 11 gumonli guruhda baytlarni tekshirmasdan `confirmed` aytilmaydi. `source_file_id_a<source_file_id_b`, original metadata FKs, anon/authenticated REVOKE, RLS, `content_review_approved=false` va `published=false`.
+- Repo migratsiya `20261020224500_task346_verified_pdf_binary_duplicates.sql`, test `supabase/tests/telegram_informatika_pdf_sha256_duplicates.test.sql`. PDF baytlari ommaviy GitHubga yuborilmadi.
