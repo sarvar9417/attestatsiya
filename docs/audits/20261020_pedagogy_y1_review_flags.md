@@ -6,4 +6,4 @@ Heuristika: `stem_chars<70` qisqa savol; `<45` juda qisqa; `correct_one_word` ja
 
 Counts: {"short_under70":83,"ultra_short_under45":24,"tiny_wrong":33,"absolute_two_plus":92,"correct_one_word":8,"semantic_risk_queue":40,"position_bias_not_in_csv":"Measured separately"}. Groups: {"KS":130,"PM.GEN":223,"PM.MET":73}. See `20261020_pedagogy_y1_review_flags.csv`. Hech bir published savol/yakuniy natija bu audit paytida o‘zgartirilmagan.
 
-**Alohida P0:** 299/426 savolda correct bazada birinchi variant, shuning uchun ExamRunner Y1 uchun sessiyaga xos seeded shuffle zarur; kod PR #322 da.
+**To‘g‘rilangan tekshiruv:** 299/426 savolda correct *saqlangan* bazaviy tartibning birinchi joyida. Lekin production `generate_official_mock`, `generate_topic_test`, `generate_professional_practice_15` sessiya uchun `exam_items.option_order`ni randomizatsiya qiladi va `exam_payload` uni hurmat qiladi. 691 professional imtihon qatorining 690 tasida saqlangan random option_order mavjud. Frontendga qo‘shimcha shuffle qilish zarur emas; avvalgi P0 taxmini rad etildi.
