@@ -37,8 +37,8 @@ BEGIN
  SELECT COUNT(*) FILTER(WHERE q.format='Y1'),COUNT(*) FILTER(WHERE q.format='Y2'),COUNT(*) FILTER(WHERE q.format='Y3')
  INTO y1,y2,y3 FROM public.questions q JOIN public.lessons l ON l.id=q.source_lesson_id
  JOIN public.modules m ON m.id=l.module_id WHERE m.code='M05' AND q.status='published';
- IF y1<>289 OR y2<>50 OR y3<>50 THEN
-    RAISE EXCEPTION 'Expected prior M05 289/50/50, saw %/%/%',y1,y2,y3;
+ IF y1<>300 OR y2<>50 OR y3<>50 THEN
+    RAISE EXCEPTION 'Expected prior M05 300/50/50, saw %/%/%',y1,y2,y3;
  END IF;
  FOR q IN SELECT value FROM jsonb_array_elements(bank) LOOP
    SELECT l.* INTO STRICT module_lesson FROM public.lessons l JOIN public.modules m ON m.id=l.module_id
@@ -114,7 +114,7 @@ BEGIN
  SELECT COUNT(*) FILTER(WHERE q.format='Y1'),COUNT(*) FILTER(WHERE q.format='Y2'),COUNT(*) FILTER(WHERE q.format='Y3')
  INTO y1,y2,y3 FROM public.questions q JOIN public.lessons l ON l.id=q.source_lesson_id
  JOIN public.modules m ON m.id=l.module_id WHERE m.code='M05' AND q.status='published';
- IF y1<>301 OR y2<>56 OR y3<>50 THEN RAISE EXCEPTION 'Expected post M05 301/56/50, saw %/%/%',y1,y2,y3; END IF;
+ IF y1<>312 OR y2<>56 OR y3<>50 THEN RAISE EXCEPTION 'Expected post M05 312/56/50, saw %/%/%',y1,y2,y3; END IF;
 END $m05q$;
 COMMIT;
 SELECT q.format::text, q.status::text,COUNT(*) n FROM public.questions q
