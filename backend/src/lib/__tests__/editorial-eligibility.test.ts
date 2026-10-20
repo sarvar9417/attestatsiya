@@ -17,6 +17,8 @@ describe('human editorial source allowlist', () => {
   })
   it('does not approve fake similar prefixes', () => {
     expect(isEditorialReviewEligible('S4.DB','MSACCESS-DEMO-STYLE-2026-FAKE/DBS-Q01')).toBe(false)
+    expect(isEditorialReviewEligible('S4.DB','MSACCESS-DEMO-STYLE-2026/DBS-Q09')).toBe(false)
+    expect(isEditorialReviewEligible('S4.DB','MSACCESS-DEMO-STYLE-2026/OTHER')).toBe(false)
     expect(isEditorialReviewEligible(null,null)).toBe(false)
   })
 })
