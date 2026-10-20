@@ -1,3 +1,9 @@
+## TASK-291 — Grafika/veb 27–31: demo uslubida chuqur ekspert auditi
+
+| ID | Holat | Qilingan ish / qolgan shart |
+|---|---|---|
+| TASK-291 | IN_PROGRESS | 444 oldingi faol savol risk-auditi, 30 yangi demo-sifatli savol productionda REVIEW; 2 eski Y2 (HTML/CSS, 8a/0b) yangi 4a/4b PUBLISHED reviziyaga almashtirildi, eski exam tarixi saqlandi. 474 faol savolning mustaqil mazmuniy ekspertizasi va 30 review brauzer E2E hali davom etadi. |
+
 ## TASK-304 — M14 kasbiy standart PDF va savollarini yakuniy manba nazorati (2026-10-19)
 
 | TASK-304 | REVIEW AUDIT DONE / HUMAN PUBLISH APPROVAL OPEN | TASK-303 QA, TASK-301 learner source-safety | 13-betli PDF SHA-256 mustaqil tekshirildi; 7 M14 uchun 7×12 sahifali annotated review-only blok; 140 published KS savolning stem va keyed variantlari, barcha 8 Y2 juftlik va 2 Y3 tartibi ko‘rildi; 1 Y2da 8×side=a topildi, staging-only draft script tayyor; 37/140 full editorial flags, 103 human sign-off debt. `docs/audits/TASK303_M14_FINAL_SOURCE_SEMANTIC_QA_20261019.md`; nashr qilingan DB/dars o‘zgarmaydi, deploy yo‘q. Final CI/merge rekvizitlarini PR orqali tekshirish kerak. |
@@ -100,12 +106,6 @@
 | ID | Status | Dependency | Deliverable |
 |---|---|---|---|
 | TASK-213 | IN_PROGRESS | M10/M11 original lessons + active `S5.WEB` constructs | 6 review lessons + 300 review questions (Y1/Y2/Y3), 8 SVG, additive migrations, fresh DB invariant, guarded editorial approval and production verification; see `docs/TASK213_GRAPHICS_WEB_V2_INTEGRATION.md` |
-
-## TASK-291 — Grafika/veb 27–31: attestatsiya demo uslubida chuqur savol auditi
-
-| ID | Status | Dependency | Natija / qolgan shart |
-|---|---|---|---|
-| TASK-291 | IN_PROGRESS (EDITORIAL GATE) | TASK-240 completed immutable revisions; TASK-244 Y2 UX alohida | Drive 2025 demo pp.9/14, 2026 bahorgi savollar pp.14/22/23 va ICT/Cambridge+ manbalari ajratildi; production 884 historical/444 current — 380 review/64 published. 444-item source-safe risk matrix; original 300 full private sheet; yangi 30 demo-uslubidagi Y1/Y2/Y3 private Drive review Doc; SQL read-only audit va live-tested native format invariant. Qolgan: 444 itemni individual sahifa, javob va chalg‘ituvchilar bo‘yicha mustaqil inson ekspertizasi; 2 legacy Y2 UI tekshiruvi va safe revision; browser E2E; productionga hech qanday yozuv qilinmadi. [Audit](docs/TASK291_GV_REAL_DEMO_STYLE_AND_BANK_DEEP_AUDIT_20261020.md). |
 
 # TASKS.md — atomik backlog
 
@@ -281,3 +281,9 @@ Har task uchun kamida:
 
 | TASK-301 | IN_REVIEW / MERGE_AUTHORIZED | TASK-UI-003 (DONE); existing reader on main | Preserve existing theory/notes/verified supplements in M01-style reading, retain rendering and navigation, test content-loss regressions; merge authorized after green CI, no deploy. |
 | TASK-277 | IN_PROGRESS / MERGE_AUTHORIZED | TASK-262/TASK-301 reader foundation | Global balanced BookReader pagination; current-main TASK-289 PowerPoint va TASK-290 M15.07–08 books preserved; depth triage now 93 brief / 7 partial / 21 substantial candidate. Remaining brief topics and authenticated production visual QA OPEN. User authorized merge; no deploy/DB write. |
+
+
+| TASK-305 | IN_PROGRESS / DRAFT PR | TASK-211/212/213 DONE; current main | M13 source benchmark (2026 demo and 13.04 claimed test), 414 published database QA; 49 Y1 easy-distractor + 24 key-length flags, 70 4×4 Y2 risk; one definite malformed published Y2 (`T063-Y2-022`) versioned migration/test awaiting CI and approval; 21 keyless review candidates (Y1/Y2 4×5/Y3), no production insert, public repo answer exposure P0 mitigation separate. PR #315, `docs/audits/TASK305_M13_ATTESTATSIYA_QUESTION_QUALITY_20261020.md`. |
+
+
+| TASK-306 | IN_PROGRESS | TASK-305 (Y2 contract fixed) | M13 seven chapters: 7 pilot Y2 4×5 review revisions from published 4×4, database-private key remap (no keys in Git), preserving 70 published originals and history; 4×5 scorer unit and DB regression. Source QA docs/audits/TASK306_M13_MATCHING_4X5_PILOT.md; require CI, parity and future versioned publication. |

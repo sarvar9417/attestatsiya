@@ -93,6 +93,33 @@ describe('exam RPC contracts', () => {
     expect(isAnswerComplete(duplicatedLeft, valid)).toBe(false)
   })
 
+  it('M13 attestatsiya Y2: 4 chap va 5 o‘ng (bitta ortiqcha) variantni baholashga yuboradi', () => {
+    const makeId = (i: number) => `00000000-0000-4000-8000-${String(i).padStart(12, '0')}`
+    const left = [10, 11, 12, 13].map(makeId)
+    const right = [20, 21, 22, 23, 24].map(makeId)
+    const item: ExamItem = {
+      ...y2Item(),
+      options: [
+        ...left.map((id, i) => ({ id, side: 'a' as const, content_md: `Atama ${i + 1}` })),
+        ...right.map((id, i) => ({ id, side: 'b' as const, content_md: `Ta'rif ${i + 1}` })),
+      ],
+    }
+    const valid = Object.fromEntries(left.map((id, i) => [id, right[i]]))
+    expect(examSessionSchema.safeParse({
+      exam_id: examId, kind: 'mavzu', duration_sec: 2400,
+      started_at: '2026-10-20T04:00:00.000Z', items: [item],
+    }).success).toBe(true)
+    expect(isAnswerComplete(item, valid)).toBe(true)
+    expect(encodeAnswer(item, valid)).toEqual({ pairs: valid })
+    // Ortiqcha o‘ng variant mavjudligi barcha chap bandni moslash
+    // talabini pasaytirmaydi; bir o‘ngni ikki marta tanlash taqiqlangan.
+    expect(isAnswerComplete(item, Object.fromEntries(
+      left.slice(0, 3).map((id, i) => [id, right[i]])
+    ))).toBe(false)
+    expect(isAnswerComplete(item, { ...valid, [left[3]]: right[1] })).toBe(false)
+    expect(isAnswerComplete(item, { ...valid, 'stale-id': right[4] })).toBe(false)
+  })
+
   it('Y2 ko‘p elementli testda o‘ng javoblar takrorlanishini rad etadi', () => {
     const secondLeft = '00000000-0000-4000-8000-000000000006'
     const secondRight = '00000000-0000-4000-8000-000000000007'

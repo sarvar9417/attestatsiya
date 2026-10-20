@@ -1,12 +1,10 @@
-## TASK-291 — S5.WEB grafika/veb attestatsiya demo uslubi auditi (2026-10-20)
+## TASK-291 — Grafika/veb attestatsiya savollari sifat nazorati (2026-10-20)
 
-- **Owner/status:** ChatGPT, foydalanuvchi 2026-10-20 kuni tasdiqlagan; IN_PROGRESS, pedagogik release BLOCKED.
-- **Branch:** `task/TASK-291-gv-attestation-question-audit`; TASK-240 review-only immutable reviziyalar, TASK-244 Y2 UI cheklovlari saqlanadi.
-- **Real Drive samplelar:** 2025 kuzgi demo pp.9/14 (HTML inline style, rowspan va A-D render rasmlari), 2026-04-13 pp.14/22/23 (nested list, form, CSS rang). Asl rasmiylik mustaqil tasdiqlanmagan.
-- **DB audit 2026-10-20:** S5.WEB 884 total = 64 published + 380 review + 440 archived. 444 current risk scan: 276 qisqa izoh, 145 qisqa stem, 119 veb kodi yo‘q, 432 vizual yo‘q, 2 eski published Y2 side=a bilan cheklangan. Indicatorlar avtomatik, odam ekspert hukmi emas.
-- **Artifacts:** 444-ID anonim risk CSV Github, 300 eski V2 private Google Sheet, yangi original 30 candidate private Google Doc (20 Y1 + 5 Y2 + 5 Y3), HTML/variant/formula qa 0 blocking issue, production SQL invariant PASS.
-- **Safety:** production published/review/archived status va foydalanuvchi attemptlariga hech qanday o‘zgartirish kiritilmadi. 30 draft productionga import qilinmadi va nashr qilinmadi.
-- **Next:** aniq sahifa va insonga mos ekspert ko‘rigi, 2 legacy published Y2 safe revision, vizual rendered exam options, E2E, release approval. Hujjat: `docs/TASK291_GV_REAL_DEMO_STYLE_AND_BANK_DEEP_AUDIT_20261020.md`.
+- **Holat:** IN_PROGRESS. 2025 kuzgi demo va 2026-04-13 HTML/CSS kod-to-render namunalaridan yangi uslubiy mezonlar tuzildi; mustaqil inson ko‘rigi deb da’vo qilinmaydi.
+- **Production:** S5.WEB 916 yozuv = 64 published + 410 review + 442 archived. 30 yangi demo-uslubiy savol review (20 Y1/5 Y2/5 Y3), 2 tuzatilgan 4a/4b Y2 published. Eski HTML/CSS 8a/0b Y2 versiyalari archived; 2 ta tarixiy exam-item ID saqlandi.
+- **Model ekspert xatolari:** ED-017 moslashtirish sharti moslashtirildi; ED-018 Photoshop Reveal Selection ko‘rinadigan obyektni tanlashga tuzatildi (Adobe manbasi).
+- **Audit:** GitHub dagi TASK-291 migration/test/docs va 444 savollik dastlabki risk reestri; 30 review + 2 replacement migratsiyasi Supabase'da muvaffaqiyatli, 3 SQL production test PASS.
+- **Qolgan:** 474 faol savol semantik/darslik sahifasi tekshiruvi, 30 review savol uchun brauzer render/E2E, independent human certification yo‘q.
 
 ## TASK-304 — M14 source-verified QA audit handoff (2026-10-19)
 
@@ -1995,3 +1993,23 @@ Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user co
 - TASK-301 validation after final rebase: 141 files / 905 tests passed with 4 workers and 30s timeout; affected 3 files / 58 tests passed. Lint/typecheck/build/bundle scan PASS.
 - Local Chromium absent; browser download returned a corrupt archive, so desktop/mobile E2E scenarios are delegated to GitHub CI. No production write. Handoff: `docs/TASK301_COMPLETE_LESSON_READER.md`.
 - TASK-301 user authorization, 2026-10-19: push and merge requested explicitly; do not deploy. `vercel.json` has `git.deploymentEnabled: false`; no deploy workflow found. Awaiting exact-head CI before merge.
+
+
+## TASK-305 M13 imtihon uslubi bo'yicha chuqur QA — 2026-10-20
+
+- Branch `task/TASK-305-m13-attestation-style-quality-audit`, PR #315 **DRAFT**.
+- Benchmarks: official 2026 informatika test specification M13 34–35; paid 2026 demo physical p18 q33 (4×5 matching, q34 hosting), 13.04.2026 reported PDF p21/p27/p28 (missing-stage/CMS/multi-statement); historical demo source officiality not presumed.
+- Live Supabase read-only snapshot: 414 published M13 = 271 Y1 + 71 Y2 + 72 Y3; 15 archived and 1 review. Published 414 key presence 0 gaps; 1 format-contract P0 (`T063-Y2-022`: all 8 matching options side `a`); proposed revision SQL auto-remaps private keys without exposing answers.
+- 350 AXR source items: 49 potentially trivial distractor and 24 correct-answer-length flags among 196 ordinary Y1; 14 paper Y2/Y3 metadata are published as native Y1; 70 native Y2 are 4×4 unlike sampled 4×5 demo.
+- 21 **keyless** new source-benchmark original question proposals, no answer/ordering maps in public HEAD, no DB writes. Publication requires source/content review and separately approved private-key workflow.
+- **P0 SECURITY:** GitHub repo is public; existing historical M13 JSON/migration files disclose/reconstruct answer keys from source, despite runtime key RLS. New questions should not repeat leakage; remediation requires key migration + versioning, not just deleting tracked files.
+- CI/merge/release status: PR branch automated gates pending. Production database and Vercel not changed by TASK-305 as of this entry.
+- Full details: `docs/audits/TASK305_M13_ATTESTATSIYA_QUESTION_QUALITY_20261020.md`.
+
+
+## TASK-306 — M13 4×5 matching pilot, 2026-10-20
+- User has explicitly directed continued assistant-led source/exam-style QA without waiting for separate outside human expert. This is **AI-assisted source review**, not a claim of independent human certification.
+- Branch `task/TASK-306-m13-matching-4x5-revisions`. Seven old published Y2 stay immutable; seven new reviewed candidates (one per M13 chapter) are inserted in `review` using private DB re-keying, with one sensible surplus right-side distractor each.
+- Old public Git answer/key exposure remains **OPEN** issue #323.
+- Validation: database 4×5 encrypted-key contract, frontend exam Y2 4-left/5-right completeness and duplicate-right prevention, canonical other revisions intact, full backend+frontend CI.
+- Production release NOT yet executed. Full docs: `docs/audits/TASK306_M13_MATCHING_4X5_PILOT.md`.
