@@ -157,9 +157,9 @@ export const MODULES: Module[] = [
     section: 'specialty', examQuestionCount: 2,
     subtopics: [
       { id: 'M10.01', title: 'Grafika turlari, rang modellari va formatlar' },
-      { id: 'M10.02', title: 'Paint va Photoshop interfeysi' },
-      { id: 'M10.03', title: 'Belgilash, kesish, rang va qatlamlar' },
-      { id: 'M10.04', title: 'Matn, foto va rasmlarni tahrirlash' },
+      { id: 'M10.02', title: 'Adobe Photoshop: interfeys va asboblar (MS Paint bilan)' },
+      { id: 'M10.03', title: 'Adobe Photoshop: belgilash, kesish, qatlamlar va maskalar' },
+      { id: 'M10.04', title: 'Adobe Photoshop: matn, fotomontaj va retush' },
       { id: 'M10.05', title: '3D modellashtirish' },
       { id: 'M10.06', title: 'Animatsiya va Adobe Animate' },
       { id: 'M10.07', title: 'Audio va video tahrirlash' },
