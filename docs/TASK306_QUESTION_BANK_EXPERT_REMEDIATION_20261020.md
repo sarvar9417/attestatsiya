@@ -29,8 +29,8 @@ kalit joyida tahrirlanmadi.
 - Barcha review savollar uchun universal admin editorial UI/API ochildi.
   Muallif o‘z savolini tekshira olmaydi; publish uchun to‘rtta tekshiruv,
   kamida 20 belgili izoh, mustaqil reviewer va joriy content fingerprint shart.
-- Published savollar universal immutable snapshot bilan himoyalandi. Production
-  postflight: 5 063 / 5 063 published savol snapshotlangan.
+- Published savollar universal immutable snapshot bilan himoyalandi. Yakuniy
+  production postflight: 5 147 / 5 147 published savol snapshotlangan.
 - `official-mock-v4` har to‘rtta candidate oqimida
   `is_question_official_mock_eligible` gate ishlatadi. Gate source, published
   lesson/construct, izoh, native Y1/Y2/Y3 payload va unresolved high/critical
@@ -46,7 +46,7 @@ kalit joyida tahrirlanmadi.
 | Demo kognitiv taqsimot | 8 / 35 / 7 |
 | Native legacy Y2 review revision | 20 |
 | Aktiv review 8×`side=a` Y2 | 0 |
-| Published immutable snapshot | 5 063 / 5 063 |
+| Published immutable snapshot | 5 147 / 5 147 |
 | Blueprint non-zero kvota kataklari | 27 |
 | Yetishmaydigan kvota kataklari | 0 |
 | Eng kichik eligible zaxira | +11 (`S2.HW`, `bilish`) |

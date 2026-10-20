@@ -8,7 +8,7 @@
 
 | ID | Status | Dependency | Deliverable |
 |---|---|---|---|
-| TASK-306 | DONE — PRODUCTION POSTFLIGHT PASS / FINAL CI+MERGE | TASK-240, TASK-244, TASK-246, TASK-282 | Demo 50 immutable review revision (8/35/7, q53→PM.GEN.08); productiondagi 20 aktiv legacy Y2 uchun native 4+4 review revision; universal independent-editorial/fingerprint gate va private QA navbati; `official-mock-v4`; 5 063/5 063 published snapshot; 27/27 kvota katagi yetarli. Human sign-off soxtalashtirilmaydi, deploy yo‘q. `docs/TASK306_QUESTION_BANK_EXPERT_REMEDIATION_20261020.md`. |
+| TASK-306 | DONE — PRODUCTION POSTFLIGHT PASS / FINAL CI+MERGE | TASK-240, TASK-244, TASK-246, TASK-282 | Demo 50 immutable review revision (8/35/7, q53→PM.GEN.08); productiondagi 20 aktiv legacy Y2 uchun native 4+4 review revision; universal independent-editorial/fingerprint gate va private QA navbati; `official-mock-v4`; 5 147/5 147 published snapshot; 27/27 kvota katagi yetarli. Human sign-off soxtalashtirilmaydi, deploy yo‘q. `docs/TASK306_QUESTION_BANK_EXPERT_REMEDIATION_20261020.md`. |
 
 ## TASK-304 — M14 kasbiy standart PDF va savollarini yakuniy manba nazorati (2026-10-19)
 
