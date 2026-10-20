@@ -11,6 +11,7 @@ import {
   X,
 } from 'lucide-react'
 import { backendGateway } from '../features/exam/backendGateway'
+import ExamRichText from '../features/exam/questions/ExamRichText'
 import CustomExamAnalysis from '../features/custom-test/CustomExamAnalysis'
 import type {
   ExamResultDetail,
@@ -260,7 +261,7 @@ export default function ExamResultPage() {
                       <span className="rounded-lg bg-gray-100 px-2 py-1 text-[11px] font-semibold text-gray-600 dark:bg-gray-800 dark:text-gray-300">Savol {item.order_idx}</span>
                       {item.construct && <span className="font-mono text-[11px] font-semibold text-indigo-600 dark:text-indigo-300">{item.construct}</span>}
                     </div>
-                    <p className="mt-3 whitespace-pre-wrap text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">{item.stem_md}</p>
+                    <div className="mt-3 text-sm font-medium leading-6 text-gray-900 dark:text-gray-100"><ExamRichText text={item.stem_md} /></div>
                   </div>
                   <span className={[
                     'inline-flex shrink-0 items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-semibold',
@@ -274,7 +275,7 @@ export default function ExamResultPage() {
                     {item.is_correct === true ? 'To‘g‘ri' : item.is_correct === false ? 'Xato' : 'Javobsiz'}
                   </span>
                 </div>
-                {item.explanation_md && <div className="mt-4 rounded-xl bg-indigo-50/70 p-3 text-sm leading-6 text-indigo-900 dark:bg-indigo-950/30 dark:text-indigo-100"><strong>Izoh: </strong><span className="whitespace-pre-wrap">{item.explanation_md}</span></div>}
+                {item.explanation_md && <div className="mt-4 rounded-xl bg-indigo-50/70 p-3 text-sm leading-6 text-indigo-900 dark:bg-indigo-950/30 dark:text-indigo-100"><strong>Izoh: </strong><div className="mt-1"><ExamRichText text={item.explanation_md} /></div></div>}
               </article>
             ))}
           </div>
