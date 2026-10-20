@@ -43,3 +43,62 @@ describe('ExamRichText fenced code', () => {
     expect(document.querySelector('code.book-code')?.textContent).toBe('print(1)')
   })
 })
+
+
+describe('ExamRichText Markdown table regressions', () => {
+  it('renders imported escaped Excel rows as an accessible table', () => {
+    const stem = 'Quyidagi Excel jadvalida C — xarid narxi.\\n\\n| Qator | Meva | C (so‘m) | D (kg) | E (so‘m) | F (kg) |\\n|---|---|---:|---:|---:|---:|\\n| 2 | Olma | 18 000 | 24 | 25 000 | 17 |\\n| 3 | Apelsin | 24 000 | 18 | 33 000 | 13 |\\n\\nG2 va G3 kataklarning fon rangi qanday bo‘ladi?'
+    render(<ExamRichText text={stem} />)
+
+    const table = screen.getByRole('table')
+    expect(table).toBeTruthy()
+    expect(screen.getByRole('region', { name: 'Savol jadvali' })).toBeTruthy()
+    expect(screen.getAllByRole('columnheader')).toHaveLength(6)
+    expect(screen.getAllByRole('row')).toHaveLength(3)
+    expect(screen.getByText('Olma')).toBeTruthy()
+    expect(screen.getByText('Apelsin')).toBeTruthy()
+    expect(screen.getByText(/G2 va G3 kataklarning/)).toBeTruthy()
+    expect(document.body.textContent).not.toContain('|---|')
+    expect(document.body.textContent).not.toContain('\\n\\n')
+  })
+
+  it('also parses a table with ordinary newlines and Markdown in cells', () => {
+    const stem = 'Jadval:\n\n| **Meva** | Narx |\n|:---|---:|\n| Olma | `25000` |\n\nTahlil qiling.'
+    render(<ExamRichText text={stem} />)
+    expect(screen.getAllByRole('columnheader')).toHaveLength(2)
+    expect(screen.getByText('Meva')).toBeTruthy()
+    expect(document.querySelector('td code')?.textContent).toBe('25000')
+    expect(screen.getByText('Tahlil qiling.')).toBeTruthy()
+  })
+
+  it('does not turn ordinary pipe-delimited text without a header divider into a table', () => {
+    render(<ExamRichText text={'Matn: A | B\\n\\nC | D'} />)
+    expect(screen.queryByRole('table')).toBeNull()
+    expect(screen.getByText(/A \| B/)).toBeTruthy()
+  })
+
+  it('keeps literal backslash escapes in inline code while normalizing external layout', () => {
+    const stem = 'Koddagi `\\n` belgisi.\\n\\n| A | B |\\n|---|---|\\n| 1 | 2 |'
+    render(<ExamRichText text={stem} />)
+    expect(document.querySelector('code.book-code')?.textContent).toBe('\\n')
+    expect(screen.getAllByRole('row')).toHaveLength(2)
+  })
+
+  it('renders untrusted table values as inert text', () => {
+    const stem = '| Narsa | Qiymat |\n|---|---|\n| X | <img src=x onerror=alert(1)> |'
+    render(<ExamRichText text={stem} />)
+    expect(document.querySelector('img')).toBeNull()
+    expect(screen.getByText('<img src=x onerror=alert(1)>')).toBeTruthy()
+  })
+})
+
+
+describe('legacy question-wide bold Markdown', () => {
+  it('removes orphaned outer bold markers without changing table cells', () => {
+    render(<ExamRichText text={'**Savol:\\n\\n| Meva | Narx |\\n|---|---:|\\n| Olma | 25000 |\\n\\nJavobni tanlang.**'} />)
+    expect(screen.getByRole('table')).toBeTruthy()
+    expect(screen.getByText('Savol:')).toBeTruthy()
+    expect(screen.getByText('Javobni tanlang.')).toBeTruthy()
+    expect(document.body.textContent).not.toContain('**')
+  })
+})
