@@ -257,6 +257,7 @@ jobs:
             -f supabase/tests/task213_graphics_web_v2_review_contract.test.sql \
             -f supabase/tests/task214_graphics_web_380_practice_review_contract.test.sql \
             -f supabase/tests/task291_gv_review_bank_invariants.test.sql \
+            -f supabase/tests/task291_gv_demo_30_review_key_integrity.test.sql \
             -f supabase/tests/m12_m13_network_security_lessons.test.sql \
             -f supabase/tests/m14_kasb_standarti_lessons.test.sql \
             -f supabase/tests/axb_chapter_practice.test.sql \
