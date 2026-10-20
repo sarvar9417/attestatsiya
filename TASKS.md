@@ -1,3 +1,9 @@
+## TASK-346 — PedGuli rasmli savolni tuzatish (2026-10-20)
+
+| ID | Status | Scope | Acceptance |
+|---|---|---|---|
+| TASK-346 | CODE READY / CI PENDING | Published PM.GEN Telegram 4843 original foto 867, review 4842 original foto 866, first-party image render | 4843 aynan source JPG bilan ko‘rinsin; noto‘g‘ri savolga rasm chiqmasin; 4842 bilan adashmasin; original SHA256 pin; published revision/keys/exam attempts immutable; frontend/backend/E2E CI; production DB/deploy yo‘q. `docs/TASK346_PEDGULI_MISSING_SOURCE_PHOTO_20261020.md`. |
+
 ## TASK-345 — O‘rganish sahifalarini mantiqiy birlashtirish (2026-10-20)
 
 | ID | Status | Scope | Acceptance |
