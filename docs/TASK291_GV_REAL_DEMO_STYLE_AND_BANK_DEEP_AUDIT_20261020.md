@@ -47,7 +47,7 @@ TASK-240 allaqachon 380 ta oldin published bo‘lgan V2 ni **archived** qilib, 3
 
 ## Yangi savollar: foydalanuvchining Drive papkasida
 
-[**30 ta demo-uslubidagi original REVIEW topshiriq**](https://docs.google.com/document/d/1pEzmvMdrczvHVa31V-sR2IC-K8SHPSuWDVtOodF53OE/edit?usp=drivesdk) — 5 yo‘nalish × (4 Y1 + 1 Y2 + 1 Y3), jami **20 Y1 / 5 Y2 / 5 Y3**.
+[**30 ta demo-uslubidagi original REVIEW topshiriq**](https://docs.google.com/document/d/1VoZ4aZjONJgwTRDjQ22dOvFtn2zqWxhuoIj6mozZsPk/edit?usp=drivesdk) — 5 yo‘nalish × (4 Y1 + 1 Y2 + 1 Y3), jami **20 Y1 / 5 Y2 / 5 Y3**. Y1 kalitlari A/B/C/D harflariga 5 tadan muvozanatlangan; 30 ta savolning sintaktik/variant avtomatik testi 0 xatolik.
 
 - Y1: 4 ta real tanlov + batafsil izoh; murakkab kod, piksel/matn natijasi, kerak bo‘lsa hisob.
 - Y2: 4 ta to‘liq one-to-one juftlik; import vaqtida o‘ng tomon alohida aralashtiriladi.
