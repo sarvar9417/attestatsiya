@@ -75,3 +75,43 @@ describe('Kuzgi demo question 30 logic diagram', () => {
     expect(container.querySelector('img')).toBeNull()
   })
 })
+
+
+describe('TASK-346 source-verified PedGuli media', () => {
+  const legacyId = 'd41ab61f-a43e-4b2d-919b-5b06dde05341'
+  const debateSrc = '/pedguli-source/pedguli-4843-debate.jpg'
+
+  it('restores the exact original photo for the affected published question only', () => {
+    render(<ExamQuestionAssets questionId={legacyId} assets={[]} />)
+    const picture = screen.getByRole('img', {
+      name: 'Ikki kishi minbardan navbat bilan bahslashayotgan sinf mashg‘uloti',
+    })
+    expect(picture).toHaveAttribute('src', debateSrc)
+    expect(screen.getByRole('link', { name: /to‘liq hajmda ochish/i })).toHaveAttribute('href', debateSrc)
+  })
+
+  it('does not inject images for any other question or untrusted supplied asset', () => {
+    const { container } = render(
+      <ExamQuestionAssets questionId="00000000-0000-4000-8000-000000000000" assets={[]} />
+    )
+    expect(container.querySelector('img')).toBeNull()
+    const { container: malformed } = render(
+      <ExamQuestionAssets questionId={legacyId}
+        assets={[{ kind: 'image', diagram_id: 'pedguli-4843-debate', src: 'https://evil.invalid/a.jpg' }]} />
+    )
+    expect(malformed.querySelector('img')).toBeNull()
+  })
+
+  it('accepts both audited Telegram photo paths without allowing arbitrary JPGs', () => {
+    render(<ExamQuestionAssets assets={[
+      {
+        kind: 'image', diagram_id: 'pedguli-4842-classroom-game',
+        src: '/pedguli-source/pedguli-4842-classroom-game.jpg',
+        alt: 'Ta’limiy o‘yin mashg‘uloti',
+      },
+      { kind: 'image', diagram_id: 'pedguli-4843-debate', src: debateSrc, alt: 'Debat' },
+      { kind: 'image', diagram_id: 'pedguli-4844-debate', src: '/pedguli-source/pedguli-4844-debate.jpg' },
+    ]} />)
+    expect(screen.getAllByRole('img')).toHaveLength(2)
+  })
+})
