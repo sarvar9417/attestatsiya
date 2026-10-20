@@ -548,10 +548,7 @@ export default function ExamRunner({
       return (
         <Y1Choice
           prompt={item.stem_md}
-          options={stableShuffle(
-            item.options.filter((option) => option.side === 'a'),
-            `${session?.exam_id}:${item.question_id}:Y1`
-          )}
+          options={item.options.filter((option) => option.side === 'a')}
           value={typeof value === 'string' ? value : undefined}
           disabled={disabled}
           onChange={updateDraft}
