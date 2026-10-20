@@ -1,3 +1,4 @@
+import { isEditorialReviewEligible } from '../lib/editorial-eligibility.js'
 import { supabase } from '../lib/supabase.js'
 import { AppError, AuthError, ForbiddenError, NotFoundError } from '../lib/errors.js'
 import type {
@@ -322,10 +323,7 @@ export const adminContentService = {
       .eq('id', questionId).maybeSingle()
     if (questionError) throw new AppError('Savolni olishda xatolik', 500, 'ADMIN_QUERY_ERROR')
     if (!question) throw new NotFoundError('Savol topilmadi')
-    if (!(['KS','PM.GEN','PM.MET'].includes(question.group_code) ||
-      question.source_reference?.startsWith('MSACCESS-DEMO-STYLE-2026/') ||
-      question.source_reference?.startsWith('authored:pedguli-') ||
-      question.source_reference?.startsWith('authored:pedagogy-pdf-corpus:'))) {
+    if (!(isEditorialReviewEligible(question.group_code, question.source_reference))) {
       throw new AppError('Bu tekshiruv pedagogika, kasb standarti va M09 demo-uslub savollari uchun', 400, 'INVALID_EDITORIAL_SOURCE')
     }
     const { data, error } = await supabase.from('question_editorial_checks')
@@ -352,10 +350,7 @@ export const adminContentService = {
     if (questionError) throw new AppError('Savolni olishda xatolik', 500, 'ADMIN_QUERY_ERROR')
     if (!question) throw new NotFoundError('Savol topilmadi')
     if (question.status !== 'review' || !(
-      ['KS','PM.GEN','PM.MET'].includes(question.group_code) ||
-      question.source_reference?.startsWith('MSACCESS-DEMO-STYLE-2026/') ||
-      question.source_reference?.startsWith('authored:pedguli-') ||
-      question.source_reference?.startsWith('authored:pedagogy-pdf-corpus:'))) {
+      isEditorialReviewEligible(question.group_code, question.source_reference))) {
       throw new AppError('Faqat ruxsat etilgan Review holatidagi savolni tasdiqlash mumkin', 409, 'INVALID_EDITORIAL_STATUS')
     }
 
@@ -441,10 +436,7 @@ export const adminContentService = {
       }
     }
 
-    if (nextStatus === 'published' && (['KS','PM.GEN','PM.MET'].includes((current as {group_code?:string}).group_code ?? '') ||
-      current.source_reference?.startsWith('authored:pedguli-') ||
-      current.source_reference?.startsWith('authored:pedagogy-pdf-corpus:') ||
-      current.source_reference?.startsWith('MSACCESS-DEMO-STYLE-2026/'))) {
+    if (nextStatus === 'published' && (isEditorialReviewEligible((current as {group_code?:string}).group_code, current.source_reference))) {
       const { data: approval, error: approvalError } = await supabase
         .from('question_editorial_checks')
         .select('answer_verified, reference_verified, wording_verified, original_authorship_verified')
