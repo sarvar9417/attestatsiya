@@ -1,3 +1,4 @@
+import { formatCodeForDisplay } from '../../lib/formatQuestionCode'
 import { Copy, Check } from 'lucide-react'
 import { useState } from 'react'
 
@@ -11,7 +12,7 @@ export default function CodeBlock({ code, language = 'c' }: CodeBlockProps) {
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(code)
+      await navigator.clipboard.writeText(formatCodeForDisplay(code, language))
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch {
@@ -57,7 +58,7 @@ export default function CodeBlock({ code, language = 'c' }: CodeBlockProps) {
       {/* Code content */}
       <div className="overflow-x-auto">
         <pre className="px-4 py-3.5 text-sm leading-relaxed font-mono text-[#e6edf3]">
-          <code>{code}</code>
+          <code>{formatCodeForDisplay(code, language)}</code>
         </pre>
       </div>
     </div>
