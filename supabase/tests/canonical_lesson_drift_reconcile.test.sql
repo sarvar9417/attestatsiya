@@ -161,7 +161,8 @@ begin
         and not (lane.module_code = 'M12'
                  and q.status = 'review'::public.content_status
                  and (coalesce(q.source_reference,'') like 'network-v2-20261018:TAR-%:original-%'
-                      or coalesce(q.source_reference,'') like 'network-v3-extra-20261018:TAR-NET26-Y%')
+                      or coalesce(q.source_reference,'') like 'network-v3-extra-20261018:TAR-NET26-Y%'
+                      or coalesce(q.source_reference,'') like 'm12-examstyle-20261020:M12-REAL26-%')
                  and exists (
                     select 1 from public.lessons v2
                     join public.modules vm on vm.id=v2.module_id
