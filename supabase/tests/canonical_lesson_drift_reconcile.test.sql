@@ -138,14 +138,14 @@ begin
         from generate_subscripts(lane.canonical_lesson_ids,1) s(i)
       ) m on m.construct_code=c.code
       where q.source_lesson_id is distinct from m.lesson_id
-        -- TASK-204/205/207 introduce independent source-backed M06 V2/V3/V4
-        -- lesson references, not TASK-064 legacy canonical mapping drift.
+        -- TASK-204/205/207 independent M06 V2/V3/V4 lesson versions
+        -- must not be forced onto TASK-064 legacy lesson identifiers.
         and (lane.module_code <> 'M06'
              or coalesce(q.source_reference,'') !~ '^algoritmlash-v[234]:')
         -- TASK-211/212/213 version the seven M13 AXR lessons.
         -- Only the exact AXR bank may use its independent source-lesson ID.
         and not (lane.module_code = 'M13'
-                 and q.status in ('review'::public.content_status,'published'::public.content_status)
+                 and q.status in ('review'::public.content_status,'published'::public.content_status,'archived'::public.content_status)
                  and (
                    coalesce(q.source_reference,'') like 'm13-axr-v1:%:AXR-%'
                    or (coalesce(q.source_reference,'') like 'm13-axr-native-v1:Y2:AXRN-%'
@@ -164,7 +164,7 @@ begin
                  ))
         -- TASK-306 exact seven source-backed REVIEW 4x5 matching revisions.
         and not (lane.module_code = 'M13'
-          and q.status = 'review'::public.content_status
+          and q.status in ('review'::public.content_status,'published'::public.content_status)
           and q.format = 'Y2'::public.question_format
           and coalesce(q.source_reference,'') ~ '^m13-qc-v2:Y2:AXRN-0[1-7]-Y2-01'
           and length(coalesce(q.source_reference,'')) = length('m13-qc-v2:Y2:AXRN-01-Y2-01')
