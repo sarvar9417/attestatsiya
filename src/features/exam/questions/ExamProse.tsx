@@ -37,6 +37,23 @@ function isSeparator(cells: string[] | null, length: number): boolean {
 }
 
 /** Parse only real Markdown tables (header + alignment delimiter + data). */
+/** Decode imported HTML entities as plain text; never interpret source as HTML. */
+export function decodeImportedEntities(input: string): string {
+  const named: Record<string, string> = {
+    amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ',
+  }
+  return input.replace(/&#(?:x([0-9a-f]+)|([0-9]+));|&(amp|lt|gt|quot|apos|nbsp);/gi,
+    (full, hex: string | undefined, decimal: string | undefined, name: string | undefined) => {
+      if (name) return named[name.toLowerCase()] ?? full
+      const code = Number.parseInt(hex ?? decimal ?? '', hex ? 16 : 10)
+      return Number.isFinite(code) && code > 0 && code <= 0x10FFFF &&
+        !(code >= 0xD800 && code <= 0xDFFF) && (code >= 32 || code === 9 || code === 10)
+        ? String.fromCodePoint(code)
+        : full
+    },
+  )
+}
+
 export function splitExamProse(input: string): ExamProseBlock[] {
   const lines = input.split(/\n/)
   const blocks: ExamProseBlock[] = []
@@ -75,7 +92,7 @@ export function splitExamProse(input: string): ExamProseBlock[] {
 export default function ExamProse({ text }: { text: string }) {
   return (
     <div className="min-w-0 max-w-full space-y-3">
-      {splitExamProse(text).map((block, index) =>
+      {splitExamProse(decodeImportedEntities(text)).map((block, index) =>
         block.kind === 'table' ? (
           <div
             key={index}
