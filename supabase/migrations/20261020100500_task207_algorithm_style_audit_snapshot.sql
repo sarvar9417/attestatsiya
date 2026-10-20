@@ -58,8 +58,11 @@ SELECT id,source_reference,md5(coalesce(stem_md,'')||coalesce(all_options,'')||c
 FROM enriched
 ON CONFLICT(question_id) DO NOTHING;
 DO $$ BEGIN
- IF (SELECT count(*) FROM public.algoritmlash_style_audit a WHERE a.source_reference LIKE 'algoritmlash-v2:%' OR a.source_reference LIKE 'algoritmlash-v3:%')<>288
- THEN RAISE EXCEPTION 'TASK-207 expected 288 historic V2/V3 audits'; END IF;
+ IF (SELECT count(*) FROM public.algoritmlash_style_audit a WHERE a.source_reference LIKE 'algoritmlash-v2:%' OR a.source_reference LIKE 'algoritmlash-v3:%')<>
+    (SELECT count(*) FROM public.questions q WHERE q.source_reference LIKE 'algoritmlash-v2:%' OR q.source_reference LIKE 'algoritmlash-v3:%')
+ THEN RAISE EXCEPTION 'TASK-207 audit snapshot incomplete'; END IF;
+ IF (SELECT count(*) FROM public.questions WHERE source_reference LIKE 'algoritmlash-v2:%')<>240
+ THEN RAISE EXCEPTION 'TASK-207 V2 base has changed'; END IF;
  IF EXISTS(SELECT 1 FROM public.algoritmlash_style_audit a JOIN public.questions q ON q.id=a.question_id WHERE a.status_at_audit='published' AND q.status<>'published')
  THEN RAISE EXCEPTION 'A published item changed status while auditing'; END IF;
 END $$;
