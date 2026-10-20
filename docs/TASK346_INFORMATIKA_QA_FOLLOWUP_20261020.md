@@ -25,3 +25,10 @@
 - Inspect the missing photographs and 320 PDFs visually and semantically, verify all keys and distractors, reconcile textbook topics, run full CI and authenticated UI tests before any learner release.
 - 116 of the 136 print-containing candidates were not uniquely resolved by the restricted checker.
 - Remaining 2,248 originally unclassified candidates need manual classification after the 118 proposals are reviewed.
+
+## Qo'shimcha PDF tajribasi
+- PDF nomzodlari 228 tadan 261 taga, manba soni 18 dan 20 taga o'sdi.
+- "Axborot kodlash test.pdf": 20 savol matni va 4 tadan javob varianti review-only tarzda ajratildi.
+- "HTML savollar 1.pdf": 13 HTML/kodli savol matni; variantlar hujjatda yo'q, shu sabab `answer_options_missing_or_unreliable` bilan tekshirishga qoldi.
+- Kodlash PDFidagi 20 savoldan 18 ta mustaqil hisoblandi va `attest_ingest.telegram_informatika_pdf_independent_qa` ga izohli taklif sifatida joylashtirildi; 2 ta talqini noaniq savol avtomatik hal qilinmadi. 18 ta taklif ham `confirmed_by_human=false`; source `answer_key` to'ldirilmadi.
+- `supabase/migrations/20261020203000_task346_pdf_independent_qa.sql` va `scripts/tests/test_telegram_pdf_math_review.py` bilan nazorat qilinadi.
