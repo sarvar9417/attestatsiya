@@ -8,6 +8,7 @@ import {
   ClipboardCheck,
   SlidersHorizontal,
   History,
+  UsersRound,
   LayoutDashboard,
   Monitor,
   Moon,
@@ -39,6 +40,11 @@ const NAV_ITEMS: NavItem[] = [
     to: '/exam',
     icon: <ClipboardCheck size={18} aria-hidden="true" />,
     label: 'Testlar va mock imtihon',
+  },
+  {
+    to: '/group-mock',
+    icon: <UsersRound size={18} aria-hidden="true" />,
+    label: 'Guruhli Mock Test',
   },
   {
     to: '/custom-test',
