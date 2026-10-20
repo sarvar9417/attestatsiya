@@ -21,16 +21,17 @@ const EMPTY: PedguliEditorialCheckInput = {
 }
 const STEPS: { key: keyof Omit<PedguliEditorialCheckInput, 'reviewer_notes'>; label: string; help: string }[] = [
   { key: 'answer_verified', label: 'To‘g‘ri javob tasdiqlandi',
-    help: 'Variantlar va javob izohini darslik yoki rasmiy pedagogik manba bilan tekshiring.' },
+    help: 'To‘g‘ri javobni darslik va ishonchli manba bilan tekshiring.' },
   { key: 'reference_verified', label: 'Mavzu va manba to‘g‘ri',
-    help: 'Savolning M14–M16 konstruktiga mosligi va darsda manba borligini tekshiring.' },
+    help: 'Manbaning aniq mavzusi, spetsifikatsiya konstrukti va darslikka mosligini tekshiring.' },
   { key: 'wording_verified', label: 'Matn va variantlar tekshirildi',
     help: 'Noaniq ifodalar, ikki to‘g‘ri javob, noto‘g‘ri variantlar va takrorlarni tekshiring.' },
   { key: 'original_authorship_verified', label: 'Asl kanaldan nusxalanmagan',
-    help: 'Mustaqil yozilganini va Telegram savolining ruxsatsiz nusxasi emasligini tekshiring.' },
+    help: 'Savol mustaqil tuzilganini, asl test matni yoki tasviri ruxsatsiz ko‘chirilmaganini tekshiring.' },
 ]
 
 export default function PedguliEditorialModal({ question, onClose, onSaved }: Props) {
+  const isAccessDemo = question.source_reference?.startsWith('MSACCESS-DEMO-STYLE-2026/') ?? false
   const [input, setInput] = useState<PedguliEditorialCheckInput>(EMPTY)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -105,7 +106,9 @@ export default function PedguliEditorialModal({ question, onClose, onSaved }: Pr
           <div>
             <h2 id="editorial-title" className="text-xl font-bold text-gray-950 dark:text-white">Savolni tahririy tekshirish</h2>
             <p className="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-400">
-              {question.source_reference?.startsWith('authored:pedagogy-pdf-corpus:')
+              {isAccessDemo
+                ? 'M09 MS Access demo uslubida mustaqil ishlab chiqilgan test. Manbadagi asl imtihon savoli deb ko‘rsatilmang.'
+                : question.source_reference?.startsWith('authored:pedagogy-pdf-corpus:')
                 ? 'PDF to‘plamidagi mavzuga asoslangan qayta yozilgan mashq. To‘plam rasmiy imtihon o‘tkazilganining mustaqil dalili emas.'
                 : 'Bu original mashq savoli. Telegramdan olingan haqiqiy imtihon savoli deb tasdiqlanmagan.'}
             </p>
@@ -144,7 +147,7 @@ export default function PedguliEditorialModal({ question, onClose, onSaved }: Pr
                 </li>)}
               </ul>
               {question.format === 'Y1' && <p className={`mt-3 text-xs font-semibold ${balanced ? 'text-emerald-600' : 'text-red-600'}`}>
-                {balanced ? 'Variantlar uzunligi nazoratdan o‘tdi' : 'To‘g‘ri javob uzunligi yoki variantlar nisbati talabga mos emas. Oldin savolni tahrirlang.'}
+                {balanced ? 'Variantlar uzunligi nazoratdan o‘tdi' : isAccessDemo ? 'Variantlar uzunligi turlicha: mazmuniy tekshiruv talab qilinadi.' : 'To‘g‘ri javob uzunligi yoki variantlar nisbati talabga mos emas. Oldin savolni tahrirlang.'}
               </p>}
             </section>}
             {STEPS.map(step => (
@@ -176,7 +179,7 @@ export default function PedguliEditorialModal({ question, onClose, onSaved }: Pr
             <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
               <p className="text-xs text-gray-500">{approved ? '4/4 tekshiruv belgilandi' : 'Tekshiruv to‘liq yakunlanmagan'}</p>
               <button type="button" onClick={() => void save()}
-                disabled={saving || !notesValid || (approved && (!balanced || !!optionLoadError))} className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-indigo-600 px-5 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50">
+                disabled={saving || !notesValid || (approved && ((!balanced && !isAccessDemo) || !!optionLoadError))} className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-indigo-600 px-5 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50">
                 <Save size={16}/>{saving ? 'Saqlanmoqda…' : 'Tekshiruvni saqlash'}
               </button>
             </div>
