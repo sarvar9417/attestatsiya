@@ -33,3 +33,22 @@ CI: lint, typecheck, test, build, Playwright E2E, backend, database.
 Bu commitda production SQL, Vercel deploy, mualliflik manbani avtomatik publish yoki test javob kalitini o‘zgartirish YO‘Q. Deploy bo‘lmaguncha production sayt eski ko‘rinishda qoladi.
 
 Rollback: PR merge commitni revert qilish. Binary first-party assets qo‘shilishining DBga ta’siri yo‘q.
+
+## Kengaytirilgan to‘liq rasm auditi (2026-10-20)
+- **140** ta `telegram:@PedMahoratGuli:<id>` imported question / export JSON message ID qo‘shma solishtiruvi: aynan **2 xabar**, 4842 va 4843, `photo` maydoniga ega. Ikkala JPG original baytlarining SHA-256 va fayl hajmi saqlangan.
+- Production SELECT: 4843 tarixiy savol hozir `archived` (`assets=[]`), `pedagogy_published_revisions` bilan qulflangan; 4842 `review` (`assets=[]`, nashr qilinmagan).
+- **6 published `algoritmlash-v4`** rasmli savoli uchta haqiqiy SVG assetga murojaat qiladi, lekin oldingi renderer allowlistiga tushmagan. Uchala mavjud rasm `public/algoritmlash-v4/`dan tekshirilib, qat’iy whitelistga qo‘shildi. Savol/kalitlar o‘zgarmaydi.
+- **9 `review` `graphics-web-v2`** rasmli savolida `src`/alt bor, ammo `diagram_id` yo‘q; 8 ta tasdiqlangan SVGni exact `src` asosida render qilish qo‘shildi. Boshqa manzillar qat’iyan qabul qilinmaydi.
+- **52 published `logic_circuit`** source assetlar xato deb belgilanmadi: ular `[[FIG:G001]]` va `MantiqCircuit` orqali frontend proza ichida chiziladi. Faqat `safeAsset` tipiga qaramaslik kerak.
+- Review `source_screenshot` provenance markerlari ham valid `demo_q..svg` bilan birga keladi. O‘z-o‘zicha img emas; existing static crop renderi saqlanadi.
+- Strong visual-dependent stem / no-asset SQL preflight: aynan bitta **review** `4842` topildi; qolgan keng so‘z kalitli flaglar (`blok-sxemada romb nimani anglatadi`, `rasmda PPI` kabi) mustaqil vizual talab qilmaydi. Ommaviy noto‘g‘ri arxivlash yo‘q.
+
+## Yangi himoya va testlar
+`supabase/migrations/20261021000500_task346_missing_visual_gate.sql`:
+1. Faqat ko‘rsatilgan `review` 4842 rasm maydonini asl, trusted `pedguli-4842-classroom-game.jpg`ga to‘ldiradi; tarixiy published/archived 4843ga tegmaydi.
+2. Kelajakdagi `review -> published` status o‘tishda rasmga aniq ishora qilgan savolga yaroqli first-party asset talab etiladi; ifoda holida faqat `source_screenshot` yoki masofaviy URL rad etiladi.
+3. Hech bir savolga ekspert tasdig‘i yoki javob kaliti uydirilmaydi, editorial gate'lar buzilmaydi.
+
+`supabase/tests/task346_missing_visual_media_contract.sql` CI fresh-db ketma-ketligiga qo‘shilgan; `ExamQuestionAssets.test.tsx` 2 Telegram fotosurati + 11 SVG + spoofed path regressiyalarini o‘tkazadi. Ishdagi media tarkibi / nashr holati SQL ma’lumotini boshqa tasklar mustaqil o‘zgartirishi mumkin, merge oldi qayta tekshirilsin.
+
+Rollback: TS/media revert; database trigger keyingi forward-fix migratsiyada `drop trigger` va `drop function`, review 4842 original `assets=[]`ga qaytarilishi mumkin (lekin release va urinish tarixiga tegmasin).
