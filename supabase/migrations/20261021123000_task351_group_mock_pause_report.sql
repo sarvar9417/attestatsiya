@@ -12,7 +12,8 @@ alter table public.group_mock_rooms add constraint group_mock_rooms_status_check
 
 alter table public.group_mock_rooms add constraint group_mock_rooms_pause_consistency
   check (
-    (status='paused' and paused_from_status in ('lobby','question','reveal') and paused_at is not null)
+    (status='paused' and paused_from_status is not null
+      and paused_from_status in ('lobby','question','reveal') and paused_at is not null)
     or
     (status<>'paused' and paused_from_status is null and paused_at is null)
   );
