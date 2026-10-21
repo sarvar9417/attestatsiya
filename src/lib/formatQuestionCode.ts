@@ -12,6 +12,7 @@ function formatJavaScript(code: string): string {
   // Comments, template literals and regular-expression syntax need a real JS parser.
   // Preserve these rather than risk changing meaning when inserting newlines.
   if (code.includes('//') || code.includes('/*') || code.includes('*/') || code.includes('`')) return code
+  // Regular-expression literals are preserved until a parser-aware formatter is available.
   if (/\/(?![/*=])[^\n/]+\/[gimsuy]*/.test(code) && !/\breturn\s+\d+\s*\/\s*\d+/.test(code)) return code
 
   const packed = code.split(/\r?\n/).some(line =>
@@ -80,7 +81,14 @@ function formatJavaScript(code: string): string {
     current += char
   }
   flush()
-  return lines.join('\n') || code
+  const formatted = lines.join('\n') || code
+  // Standalone, unbraced returns are still the same statement after a line
+  // break. This is display-only: do not insert or remove braces/semicolons.
+  return formatted.replace(
+    /^(\s*)(if\s*\([^()\n]*\))\s*(return\b[^\n]*)$/gm,
+    (_, indentation: string, condition: string, statement: string) =>
+      indentation + condition + '\n' + indentation + '  ' + statement,
+  )
 }
 
 function formatPython(code: string): string {
