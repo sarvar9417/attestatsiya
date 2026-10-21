@@ -112,10 +112,11 @@ export default function ModulePage() {
   }
 
   const progress = getModuleProgress(moduleId)
-  const completedCount = Math.min(
-    progress.completedTopics.length,
-    mod.subtopics.length,
-  )
+  // Supplemental legacy M13 content is not part of the seven canonical
+  // published chapters and must not inflate their completion percentage.
+  const completedCount = moduleId === 'M13'
+    ? mod.subtopics.filter(topic => progress.completedTopics.includes(topic.id)).length
+    : Math.min(progress.completedTopics.length, mod.subtopics.length)
   const totalTopics = mod.subtopics.length
   const progressPercent =
     totalTopics > 0 ? Math.round((completedCount / totalTopics) * 100) : 0
@@ -169,6 +170,11 @@ export default function ModulePage() {
       </div>
     )
   }
+
+  const isPublishedM13Catalog = moduleId === 'M13' &&
+    mod.subtopics.length === 7 &&
+    mod.subtopics.every(topic => /^m13-axr-0[1-7]$/.test(topic.code))
+  const supplementalCommerceTopic = legacyM13Topics?.find(topic => topic.id === 'M13.06')
 
   const firstIncompleteIndex = mod.subtopics.findIndex(
     subtopic => !progress.completedTopics.includes(subtopic.id),
@@ -379,6 +385,27 @@ export default function ModulePage() {
           })}
         </div>
       </section>
+
+      {isPublishedM13Catalog && supplementalCommerceTopic && (
+        <section
+          aria-label="M13 qo‘shimcha mavzusi"
+          className="rounded-2xl border border-indigo-200 bg-indigo-50/50 p-5 dark:border-indigo-900 dark:bg-indigo-950/20 sm:p-6"
+        >
+          <h2 className="text-base font-semibold text-gray-950 dark:text-white">Qo‘shimcha mavzu</h2>
+          <p className="mt-2 text-xs leading-5 text-gray-500 dark:text-gray-400">
+            Oldingi o‘quv rejasidagi ushbu darsni ham o‘qishingiz mumkin.
+            U yetti nashr qilingan bobdan alohida va asosiy progressga qo‘shilmaydi.
+          </p>
+          <button
+            type="button"
+            onClick={() => openSubtopic(supplementalCommerceTopic.id)}
+            className="mt-3 flex min-h-12 w-full items-center justify-between gap-3 rounded-xl border border-indigo-200 bg-white px-4 py-3 text-left text-sm font-semibold text-indigo-700 transition hover:border-indigo-400 hover:shadow-sm dark:border-indigo-800 dark:bg-gray-900 dark:text-indigo-300"
+          >
+            <span>{supplementalCommerceTopic.title}</span>
+            <ChevronRight size={17} aria-hidden="true" />
+          </button>
+        </section>
+      )}
 
       {moduleId === 'M01' && (
         <section
