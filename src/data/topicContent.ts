@@ -28,6 +28,8 @@ import { M11_03_CANONICAL_BOOK } from './topics/m11HtmlTablesFormsCanonicalBook'
 import { M09_DATABASE_TEXTBOOK_ADDITIONS } from './topics/m09DatabaseTextbookAdditions'
 import { M03_OFFICE_TEXTBOOK_ADDITIONS } from './topics/m03OfficeTextbookAdditions'
 import { M03_05_CANONICAL_BOOK } from './topics/m03ExcelCanonicalBook'
+import { M03_01_LONGFORM } from './topics/m03WordEditingLongform'
+import { M03_02_LONGFORM } from './topics/m03WordFormattingLongform'
 import { M03_04_CANONICAL_BOOK } from './topics/m03ExcelFoundationsCanonicalBook'
 import { M03_06_CANONICAL_BOOK, M03_07_CANONICAL_BOOK } from './topics/m03ExcelAnalysisCanonicalBooks'
 import { M03_08_CANONICAL_BOOK } from './topics/m03PowerPointDesignCanonicalBook'
@@ -1508,6 +1510,25 @@ for (const [subtopicId, additions] of Object.entries(M09_DATABASE_TEXTBOOK_ADDIT
 for (const [subtopicId, additions] of Object.entries(M03_OFFICE_TEXTBOOK_ADDITIONS)) {
   const local = TOPIC_CONTENT[subtopicId]
   if (local) TOPIC_CONTENT[subtopicId] = { ...local, theory: [...local.theory, ...additions] }
+}
+
+// TASK-285: place the complete original Word teaching chapters before the
+// legacy short summaries and TASK-273 additions; preserve older question keys.
+for (const [id, chapter] of Object.entries({
+  'M03.01': M03_01_LONGFORM,
+  'M03.02': M03_02_LONGFORM,
+})) {
+  const existing = TOPIC_CONTENT[id]
+  if (existing) TOPIC_CONTENT[id] = {
+    ...existing,
+    source: 'Cambridge+ ICT 10–11 + Word textbook-style original explanations',
+    kind: 'chapter',
+    theory: [
+      ...chapter,
+      { type: 'heading', content: 'Qo‘shimcha takrorlash: avvalgi Word nazariyasi' },
+      ...existing.theory,
+    ],
+  }
 }
 
 // TASK-284: Unlike earlier 5-block addenda, this is a complete, structured
