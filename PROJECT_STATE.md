@@ -1,3 +1,11 @@
+## TASK-372 — PM.MET qisqa savol izohlari sifati (2026-10-21)
+
+- Read-only QA: 88 published Y1 PM.MET savolidan 35 tasida 80 belgidan qisqa izoh; har biri stem, eski izoh va javob semantikasi bilan solishtirildi.
+- 35 noyob va 267–328 belgilik pedagogik-metodik asoslash draft sifatida `supabase/maintenance/task372_pmmet_35_explanations_ROLLBACK_ONLY.sql`da; skript migratsiya emas, `ROLLBACK` bilan tugaydi, live bazada bajarilmagan.
+- `src/tests/task372MethodologyExplanationReview.test.ts` — 35 manba, uzunlik, fan qamrovi, no-commit/no-publish regressiyasi.
+- `supabase/maintenance/task372_pmmet_short_audit_READONLY.sql` va `docs/TASK372_METHODICAL_EXPLANATIONS_20261021.md`.
+- Immutable published, unchanged answer keys, no user attempt changes. **Release: user explicit buyurmaguncha productionga deploy, SQL write, publish qilinmaydi; faqat GitHub `main` merge.**
+
 ## TASK-371 — M15 Y1 pedagogika 56 izoh sifatini chuqurlashtirish (2026-10-21)
 
 - 2026-10-21 read-only QA: 5 415 published savoldan 1 945 tasida 70 belgidan qisqa izoh; M15 `authored:m15-topictest-20261018:*` qismidagi 8 mavzu bo‘yicha 56 published Y1 savol uchun alohida didaktik izoh tayyorlandi.
