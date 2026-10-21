@@ -1,3 +1,9 @@
+## TASK-423 — GitHub flowchart source va CI handoff (2026-10-21, davom)
+
+- **Status:** 10/10 Graphviz DOT source GitHub `task/TASK-423-informatika-flowchart-qa-20261021` branch’da; script renderer, Node regressiya testlari va dedicated GitHub workflow qo‘shilgan. CI queued; PR #512 **draft**, merge qilinmagan.
+- **Bajarilgan:** Har bir №15–24 source fayli commitdan qayta o‘qildi, sahifa mosligi/strukturaviy graph QA PASS. Supabase private reviewda 10 ta source-commit flag qo‘shildi. Public/static learner asset yoki exam revisionga tegilmagan.
+- **Hali:** CI verdict, script-rendered SVG visual comparison, asset publish/storage mapping, source-editorial QA. PNG/SVG binarlar GitHub’da yo‘q. Documentation: `docs/TASK423_INFORMATIKA_FLOWCHART_QA_20261021.md`.
+
 ## TASK-423 — Informatika PDFdagi 10 blok-sxema (2026-10-21)
 
 - **Owner:** ChatGPT. Branch: `task/TASK-423-informatika-flowchart-qa-20261021`.
