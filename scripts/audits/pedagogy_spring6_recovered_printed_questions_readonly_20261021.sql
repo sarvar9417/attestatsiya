@@ -34,3 +34,27 @@ SELECT r.source_question_id,q.status::text AS existing_question_status,
 FROM public.pedagogy_revision_queue r
 JOIN public.questions q ON q.id=r.source_question_id
 WHERE r.reason LIKE 'y3_task_goal_specificity_20261021%';
+
+-- Publication-safe Y3 revision: verify both legacy and new candidate are intact.
+WITH pair AS (
+ SELECT source_question_id AS old_id,revision_question_id AS new_id
+ FROM public.pedagogy_revision_queue
+ WHERE source_question_id='527051c4-4a1d-40af-b05a-7e31db939441'::uuid
+), scored AS (
+ SELECT k.question_id,array_agg(o.content_md ORDER BY t.ord) AS ordered_meanings
+ FROM public.question_keys k
+ CROSS JOIN LATERAL jsonb_array_elements_text(k.payload->'order')
+   WITH ORDINALITY AS t(option_id,ord)
+ JOIN public.question_options o ON o.id=t.option_id::uuid AND o.question_id=k.question_id
+ WHERE k.question_id IN (SELECT old_id FROM pair UNION SELECT new_id FROM pair)
+ GROUP BY k.question_id
+)
+SELECT oldq.status::text AS old_status,newq.status::text AS new_status,
+ (SELECT count(*) FROM public.question_options WHERE question_id=oldq.id) old_options,
+ (SELECT count(*) FROM public.question_options WHERE question_id=newq.id) new_options,
+ older.ordered_meanings=newer.ordered_meanings AS same_scoring_semantics,
+ newq.source_reference
+FROM pair r JOIN public.questions oldq ON oldq.id=r.old_id
+ JOIN public.questions newq ON newq.id=r.new_id
+ JOIN scored older ON older.question_id=r.old_id
+ JOIN scored newer ON newer.question_id=r.new_id;
