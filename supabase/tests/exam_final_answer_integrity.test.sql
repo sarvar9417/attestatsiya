@@ -2,10 +2,12 @@
 BEGIN;
 DO $$
 BEGIN
- IF to_regprocedure('public.finish_exam_batch(uuid,jsonb)') IS NOT NULL
- AND (has_function_privilege('authenticated','public.finish_exam_batch(uuid,jsonb)','EXECUTE')
-  OR has_function_privilege('anon','public.finish_exam_batch(uuid,jsonb)','EXECUTE'))
- THEN RAISE EXCEPTION 'unsafe batch-finish must not be exposed'; END IF;
+ IF to_regprocedure('public.finish_exam_batch(uuid,jsonb)') IS NOT NULL THEN
+   IF has_function_privilege('authenticated','public.finish_exam_batch(uuid,jsonb)','EXECUTE')
+     OR has_function_privilege('anon','public.finish_exam_batch(uuid,jsonb)','EXECUTE') THEN
+     RAISE EXCEPTION 'unsafe batch-finish must not be exposed';
+   END IF;
+ END IF;
  IF has_function_privilege('authenticated','public.persist_final_mastery_evidence(uuid)','EXECUTE')
  THEN RAISE EXCEPTION 'internal evidence helper callable by learner'; END IF;
  IF position('v_available < v_target' in pg_get_functiondef('public.generate_topic_test(uuid)'::regprocedure))=0
