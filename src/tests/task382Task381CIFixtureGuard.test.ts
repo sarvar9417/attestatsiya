@@ -6,8 +6,8 @@ const task381 = 'supabase/migrations/20261021220000_task381_y3_missing_goal_immu
 
 describe('TASK-382 production-only content migration and fresh CI fixture separation', () => {
   it('excludes the source-pinned TASK-381 release in both fresh schema loops', () => {
-    expect(ci.split('if [ "${migration}" = "' + task381 + '" ]; then')).toHaveLength(3)
-    expect(ci).toContain('Skipping TASK-381 production-specific data release')
+    expect(ci.split(task381)).toHaveLength(3)
+    expect(ci).toContain('Skipping previously applied production-only Office Y3 data revision')
   })
   it('keeps the production migration on disk and other DB test gates intact', () => {
     const source = readFileSync(task381,'utf8')
