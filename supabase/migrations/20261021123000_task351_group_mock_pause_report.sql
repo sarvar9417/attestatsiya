@@ -195,6 +195,7 @@ begin
     'idx',i.idx,
     'stem_md',i.payload->>'stem_md',
     'format',i.payload->>'format',
+    'options',coalesce(i.payload->'options','[]'::jsonb),
     'correct_answer',i.answer_key,
     'explanation_md',i.explanation_md,
     'answered',(select count(*)::int from public.group_mock_answers a
