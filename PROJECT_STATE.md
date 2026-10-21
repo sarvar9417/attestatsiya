@@ -2,7 +2,7 @@
 
 - **Owner:** ChatGPT; branch `task/TASK-426-informatika-pdf-browser-logic-qa-20261021`.
 - **Done:** 9-betli `Html savollar2.pdf` sahifalariga 21/21 source locator tasdiqlandi; hammasi uchun `attest_ingest.telegram_informatika_pdf_free_response_qa`da model javob izohlari saqlandi, human/editorial approval va nashr NO. 8 ta eskirgan merged-question blocker matni dolzarb nuqsonga moslandi, bloklar saqlandi.
-- **Mantiq 2-dars:** №2,3,4,8,9,13,14 uchun butun son domeni yoki intervalni so‘raydigan yangi 4-variantli editor proposal private blok daliliga biriktirildi; 7 ta explanatory QA row tayyorlandi. Source savollar va answer_key o‘zgartirilmagan.
+- **Mantiq 2-dars:** №2,3,4,8,9,13,14,59 uchun butun son domeni yoki intervalni so‘raydigan yangi 4-variantli editor proposal private blok daliliga biriktirildi; 8 ta explanatory QA row tayyorlandi. Source savollar va answer_key o‘zgartirilmagan.
 - **Regression:** `scripts/task426-pdf-logic.test.mjs` / `.github/workflows/task426-pdf-source-qa.yml`; PR CI status pending.
 - **Release:** Only code/docs PR merge scope; learner content NOT ready (original MC variantlar, human signoff, visual asset release unresolved). No production learner publish or deploy.
 - **Handoff:** `docs/TASK426_INFORMATIKA_PDF_SOURCE_REMEDIATION_20261021.md`.
