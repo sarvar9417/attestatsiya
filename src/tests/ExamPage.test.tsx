@@ -597,27 +597,30 @@ describe('secure ExamRunner', () => {
     expect(vi.mocked(gateway.submitAnswer).mock.calls[0][0].answer).toMatchObject({ option_id: ids.optionB })
   })
 
-  it('waits for an in-flight save before automatic timeout finalization', async () => {
+  it('vaqt tugaganda avval avtomatik saqlangan tanlovni serverga yetkazadi', async () => {
     vi.useFakeTimers({ toFake: ['setInterval', 'clearInterval'] })
     const now = Date.now()
     const clock = vi.spyOn(Date, 'now').mockReturnValue(now)
     try {
       const user = userEvent.setup()
       const gateway = successfulGateway()
-      vi.mocked(gateway.startModuleExam).mockResolvedValue({ ...examSession(), kind: 'bolim',
-        started_at: new Date(now).toISOString(), duration_sec: 30 })
-      let resolveSave!: (value: { saved: true }) => void
-      vi.mocked(gateway.submitAnswer).mockImplementationOnce(() => new Promise(resolve => { resolveSave = resolve }))
+      vi.mocked(gateway.startModuleExam).mockResolvedValue({
+        ...examSession(), kind: 'bolim', started_at: new Date(now).toISOString(), duration_sec: 30,
+      })
       renderExam(gateway, '/exam/bolim/M01')
       await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
-      await user.click(screen.getByRole('button', { name: /Variant A/ }))
-      await waitFor(() => expect(gateway.submitAnswer).toHaveBeenCalledTimes(1))
+      await user.click(await screen.findByRole('button', { name: /Variant A/ }))
+      expect(gateway.queueExamAnswer).toHaveBeenCalledWith(expect.objectContaining({
+        questionId: ids.question1, answer: expect.objectContaining({ option_id: ids.optionA }),
+      }))
+      // Reconnect events trigger immediate flush; the 300ms debounce is not
+      // a prerequisite for correctness when the server deadline approaches.
+      await act(async () => { window.dispatchEvent(new Event('online')) })
+      await waitFor(() => expect(gateway.submitAnswer).toHaveBeenCalled())
       clock.mockReturnValue(now + 31_500)
       act(() => { vi.advanceTimersByTime(30_000) })
-      expect(gateway.finishExam).not.toHaveBeenCalled()
-      await act(async () => { resolveSave({ saved: true }) })
+      await waitFor(() => expect(gateway.finishExam).toHaveBeenCalledWith(ids.exam))
       expect(await screen.findByRole('heading', { name: 'Sinov yakunlandi' })).toBeDefined()
-      expect(gateway.finishExam).toHaveBeenCalledTimes(1)
     } finally {
       clock.mockRestore()
       vi.useRealTimers()
