@@ -9,9 +9,9 @@ digraph savol_19 {
   input [label="n ni kiritish",shape=parallelogram];
   zero [label="n = 0 ?",shape=diamond];
   one [label="1 ni chiqarish",shape=parallelogram];
-  init [label="k = 1\\ni = 1",shape=box];
+  init [label="k = 1\ni = 1",shape=box];
   cond [label="i <= n ?",shape=diamond];
-  mul [label="k = k * i\\ni = i + 1",shape=box];
+  mul [label="k = k * i\ni = i + 1",shape=box];
   out [label="k ni chiqarish",shape=parallelogram];
   end [label="Tugatish",shape=oval];
   start -> input;
