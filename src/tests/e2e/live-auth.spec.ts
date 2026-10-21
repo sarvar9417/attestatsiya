@@ -2,14 +2,16 @@ import { test, expect } from '@playwright/test'
 
 // CI'da haqiqiy Supabase credential yo'q (placeholder env ishlatiladi) —
 // live login testlarini faqat real supabase mavjud bo'lganda ishga tushiramiz.
-const hasLiveSupabase = !(process.env.VITE_SUPABASE_URL ?? '').includes('example.invalid')
-
-const EMAIL = 'live-e2e@test.attestatsiya.uz'
-const PASSWORD = 'LiveTest123!'
+const EMAIL = process.env.E2E_LIVE_EMAIL ?? ''
+const PASSWORD = process.env.E2E_LIVE_PASSWORD ?? ''
+const hasLiveSupabase = Boolean(
+  EMAIL && PASSWORD &&
+  !(process.env.VITE_SUPABASE_URL ?? '').includes('example.invalid'),
+)
 const KEY = 'attestatsiya.session.v1'
 
 test.describe('Live auth regression', () => {
-  test.skip(!hasLiveSupabase, 'Live Supabase credentiallarisiz (CI) skip qilinadi')
+  test.skip(!hasLiveSupabase, 'Live E2E hisob maʼlumotlari faqat xavfsiz environment orqali berilganda ishlaydi')
   test('login -> profil; muddati o\'tgan session reload\'da refresh qilinadi', async ({ page }) => {
     await page.goto('/auth')
     await page.getByLabel('Email').fill(EMAIL)
