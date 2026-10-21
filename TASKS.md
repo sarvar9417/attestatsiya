@@ -1,3 +1,9 @@
+## TASK-374 — Umumiy pedagogika PM.GEN, M15dan tashqari 30 ta qisqa izoh (2026-10-21)
+
+| Task | Status | Acceptance / release |
+|---|---|---|
+| TASK-374 | 30 rationale review drafts; PR CI/main merge pending | `PM.GEN` M15dan tashqari 96 ta qisqa izohdan 30 tasi savol, eski izoh va to‘g‘ri variantning mazmuniga ko‘ra tahlil qilindi. 30 ta 297–355 belgilik o‘zbekcha pedagogik izoh `supabase/maintenance/task374_pmgen_30_explanations_ROLLBACK_ONLY.sql`da; migration emas, productionga qo‘llanmagan, `ROLLBACK` bilan tugaydi. `src/tests/task374GeneralPedagogyRationales.test.ts` unique/rationale/no-commit/no-publish va read-only audit. Handoff `docs/TASK374_PMGEN_30_EXPLANATIONS_20261021.md`. **Foydalanuvchi ko‘rsatmasi: faqat GitHub main merge; production deploy/DB write/publish qat’iyan taqiqlangan.** |
+
 ## TASK-373 — Kasbiy standart (KS) 60 ta qisqa izoh uchun didaktik tahrir (2026-10-21)
 
 | Task | Status | Acceptance / release |

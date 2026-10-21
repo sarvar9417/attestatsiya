@@ -1,3 +1,10 @@
+## TASK-374 — Pedagogika PM.GEN 30 ta Y1 izoh ekspert tahriri (2026-10-21)
+
+- Read-only Supabase: 495 published PM.GEN Y1, 152 ta qisqa izoh; M15dagi 56 ta oldingi TASK-371 tayyorlamasi ayrilganda qolgan 96 tadan 30 tasi tanlandi.
+- 30 ta noyob 297–355 belgilik pedagogik tushuntirish `supabase/maintenance/task374_pmgen_30_explanations_ROLLBACK_ONLY.sql`da faqat **review-only**, migration emas, `ROLLBACK`, production bazasida bajarilmagan.
+- Regressiya: `src/tests/task374GeneralPedagogyRationales.test.ts`; read-only audit `supabase/maintenance/task374_pmgen_short_audit_READONLY.sql`. Hisobot `docs/TASK374_PMGEN_30_EXPLANATIONS_20261021.md`.
+- Published revisions, correct answer keys va exam attempts o‘zgartirilmagan. Inson eksperti review’i alohida talab. User alohida buyurmaguncha **faqat GitHub main merge, production deploy/SQL write/publish yo‘q**.
+
 ## TASK-373 — Kasbiy standart 60 Y1 savolning tushuntirish sifatini oshirish (2026-10-21)
 
 - Read-only Supabase QA: 211 published KS Y1 savoldan 60 tasining izohi 80 belgidan qisqa va hali reviziya navbatida yo‘q; savol matni, eski izoh va server to‘g‘ri varianti mazmunan solishtirildi.
