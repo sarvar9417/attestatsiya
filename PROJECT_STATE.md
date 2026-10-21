@@ -1,3 +1,12 @@
+## TASK-420 — M13 dars oynasi hydrationda yopilishi (2026-10-21)
+
+- **Owner:** ChatGPT; branch: `task/TASK-420-m13-lesson-refresh-20261021`.
+- **Status:** Implementation and four regression tests committed; GitHub CI/main merge pending.
+- **Root cause:** `useCatalog` static M13 (11) → published AXR M13 (7 UUID) almashtiradi; `ModulePage` faqat yangi subtopics ichida eski `M13.06` IDni qidirib darsni yopadi.
+- **Fix:** M13 `?topic=` deep link, legacy content preserve, published UUID restore, loading gate. Published 7 bob, DB va boshqa modullar o‘zgartirilmaydi.
+- **Release:** **Faqat main merge; production deploy taqiqlangan.** `vercel.json` git deployment disabled; hech qanday production DB yozuvi yo‘q.
+- **Evidence:** `src/tests/LearningModulePages.test.tsx`, `docs/TASK420_M13_LESSON_REFRESH.md`.
+
 ## TASK-378 — Ota-ona suhbat misoli productionga chiqarish (2026-10-21)
 
 - **Owner:** ChatGPT. Oldingi 16 ta TASK-377 release muvaffaqiyatli (Supabase postflight 16/16, 41 historic).
