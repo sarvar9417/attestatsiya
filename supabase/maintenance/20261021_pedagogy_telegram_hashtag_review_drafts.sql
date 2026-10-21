@@ -1,5 +1,5 @@
 -- Pedagogika: one review-only replacement per published legacy question
--- beginning with #attestatsiya_YEAR. Original published snapshots and options
+-- beginning with an imported source hashtag. Original published snapshots and options
 -- remain byte-for-byte unchanged. Editorial signoff is NOT fabricated.
 BEGIN;
 DO $tagclean$
@@ -10,7 +10,7 @@ BEGIN
    WHERE status='published'::public.content_status
    AND group_code IN ('KS','PM.GEN','PM.MET')
    AND format='Y1'::public.question_format
-   AND stem_md ~* '^#attestatsiya_[0-9]{4}'
+   AND stem_md ~* '^#[[:alnum:]_]{3,40}'
    ORDER BY id
  LOOP
    SELECT * INTO v_old FROM public.questions WHERE id=r.id FOR UPDATE;
@@ -25,9 +25,9 @@ BEGIN
    IF v_old_key IS NULL OR v_c<>4 THEN
       RAISE EXCEPTION 'Invalid original Y1: %',r.id;
    END IF;
-   v_stem:=regexp_replace(v_old.stem_md,E'^#attestatsiya_[0-9]{4}([[:space:]]|\\\\n)*','','i');
+   v_stem:=regexp_replace(v_old.stem_md,E'^#[[:alnum:]_]{3,40}([[:space:]]|\\\\n)*','','i');
    v_stem:=btrim(replace(replace(v_stem,chr(92)||'n',chr(10)),chr(92)||'"','"'));
-   IF length(v_stem)<20 OR v_stem ~* '^#attestatsiya_' THEN
+   IF length(v_stem)<20 OR v_stem ~* '^#' THEN
      RAISE EXCEPTION 'Tag normalization failed %',r.id;
    END IF;
    v_new:=gen_random_uuid();v_new_key:=NULL;
