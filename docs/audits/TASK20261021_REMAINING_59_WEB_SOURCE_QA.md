@@ -19,9 +19,9 @@ In earlier PR #386, 24 of 83 short-explanation review questions received initial
 
 ### Evidence classification (based on user-provided physical PDF page text extraction)
 
-- **27 direct:** relevant textbook wording/tool/attribute occurs on the cited original pages. This does not prove the exact question or distractor design is endorsed by the textbook.
-- **24 partial:** answer is independently derived from supported subject knowledge/arithmetic, but the exact wording, image-only explanation or all subclaims are not directly in the cited text.
-- **8 original-book text gaps:** relevant precise term/convention was **not found in the cited page range's text layer**. An embedded image might still provide support; this is **not evidence that the key is wrong**.
+- **29 direct:** relevant textbook wording/tool/attribute occurs on the cited original pages. This does not prove the exact question or distractor design is endorsed by the textbook.
+- **23 partial:** answer is independently derived from supported subject knowledge/arithmetic, but the exact wording, image-only explanation or all subclaims are not directly in the cited text.
+- **7 original-book text gaps:** relevant precise term/convention was **not found in the cited page range's text layer**. An embedded image might still provide support; this is **not evidence that the key is wrong**.
 - **29** entries share semantic clusters worth checking for test diversity, including CSS box width, PSD/Photoshop mask terminology, image pixel-count multiplication and vector operations. This is a deduplication **risk flag**, not proof that questions are exact duplicates.
 
 > **Correction after a visual/original-text check:** `GV2:GV-ED-027` has textbook support in ICT 5-sinf (2020), physical PDF p.77 (rectangle selection followed by crop/«обрезка»). The old `gap` flag was a false negative; the question should say *Paint.NET* rather than generic *Paint*. Remaining 8 entries have independent vendor/web-standard references documented separately in `TASK20261021_NINE_SOURCE_GAPS_PRIMARY_EVIDENCE.csv`. These do not retroactively make the cited textbook pages contain that material.
@@ -30,7 +30,7 @@ In earlier PR #386, 24 of 83 short-explanation review questions received initial
 
 | Source alias | Evidence gap |
 |---|---|
-| `GV2:GV-ED-039`, `GV2:GV-ED-040` | Layer-mask white/black reveal/hide convention not located in extracted prose |
+| `GV2:GV-ED-039` | Layer-mask white/black reveal/hide convention not located in extracted prose |
 | `GV2:GV-ED-046` | Gaussian Blur term not located in cited ICT7/ICT5 page ranges |
 | `GV2:GV-HT-024` | `required` / `disabled` form attributes absent from cited ICT7 text layer |
 | `GV2:GV-RV-006` | RGBA token absent; arithmetic `32/8 = 4` is nevertheless correct |
@@ -77,4 +77,20 @@ Three previously marked `partial` entries have direct explanation in the **user-
 - `GV2:GV-HT-017`: **p.138** defines the `name` field identifier sent with form data; **p.142** explicitly describes the `<label for>` reference to the HTML element's `id`.
 - `GV2:GV-HT-018`: **p.139** describes one-choice `radio`, **p.140** multiple-choice `checkbox`, and **p.144** shows three radio buttons sharing `name="who"`.
 
-The verified tally for the 59-row evidence matrix is now **27 direct, 24 partial, 8 source gaps**. This upgrades *source-text support* for these concepts; it is not exam publication approval or evidence of exhaustive visual inspection of every page. Original answer keys, review statuses and archived editions are unchanged.
+The verified tally for the 59-row evidence matrix is now **29 direct, 23 partial, 7 original-book gaps**. This upgrades *source-text support* for these concepts; it is not exam publication approval or evidence of exhaustive visual inspection of every page. Original answer keys, review statuses and archived editions are unchanged.
+
+### 2026-10-21 follow-up: actual PDF image and text inspection (not web inference)
+
+Three evidence levels changed after inspecting **user-supplied ICT 7_sinf-2021(1).pdf physical PDF pages 31 and 64** as rendered images, and checking actual `review` stems and stored answer variants against those pages.
+
+1. **`GV2:GV-GFX-023` — direct.** The original textbook's p.31 RGB truth table explicitly shows **R=0, G=0, B=0 → Qora**. The old inference-only classification was too cautious.
+2. **`GV2:GV-RV-005` — direct.** The same p.31 states modern RGB uses **24 bits per pixel**, with **8 bits each** for red, green and blue. `24/8=3` raw bytes is an immediate unit conversion. This does not claim a compressed PNG or JPEG file occupies 3 bytes per pixel on disk.
+3. **`GV2:GV-ED-040` — partial, visual support.** On p.64, Photoshop step 5 shows **black foreground color**, a black mask thumbnail and diminished flower visibility after the layer-mask action. This visually supports *black conceal*, but the surrounding prose does **not** state the general white/black mask rule. Keep `ED-039` (white reveals) as an unsupported **original-book page** claim; vendor guidance already documented in the separate supplement.
+4. **`GV2:GV-HT-019` remains partial.** ICT7 physical p.115 explicitly shows both `<b>` and `<strong>` with bold typography but does **not** explain the HTML semantic importance distinction claimed in the keyed answer. Do not cite that page as direct evidence for `strong` semantics; standards-based supplemental documentation is needed.
+5. **`GV2:GV-GFX-008` remains partial.** ICT7 physical p.42 explains three spatial dimensions (height, width, depth), but does not name the third Cartesian axis `z`; 3D concept and axis-label proof are distinct.
+
+The new **59-item matrix totals 29 direct, 23 partial, 7 original-book gaps**. The 7 gap count measures *original book citation* support, not factual wrongness. Source checks were scoped to the affected PDF pages; an exhaustive cross-book proof is still pending.
+
+The same original p.31 includes a worked *24-color/640x480* example using 5 bits to encode 24 possible colors; this must **not** be silently read as a 24-bits-per-pixel example. Verify palette-bit-depth vs true-color bit-depth when reviewing future numeric explanations.
+
+**No question texts or answer keys were published to GitHub, no database mutations, no human signoff or deployment occurred.**
