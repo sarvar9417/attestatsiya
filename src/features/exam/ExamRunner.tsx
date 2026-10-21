@@ -143,10 +143,20 @@ export default function ExamRunner({
   const submitInFlightRef = useRef(false)
   const autoFinishAttemptedRef = useRef(false)
   const autosaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  // Prevent unresolved answer-sync promises from touching an unmounted exam.
+  const mountedRef = useRef(true)
   const latestDraftsRef = useRef<Record<string, AnswerValue>>({})
   const locallyQueuedRef = useRef<Set<string>>(new Set())
   const lastMockRevisionRef = useRef(0)
   const rejectedMockRef = useRef<Set<string>>(new Set())
+
+  useEffect(() => {
+    mountedRef.current = true
+    return () => {
+      mountedRef.current = false
+      if (autosaveTimerRef.current) clearTimeout(autosaveTimerRef.current)
+    }
+  }, [])
 
   useEffect(() => {
     if (examKind !== 'mavzu' || phase !== 'intro') return
@@ -338,6 +348,7 @@ export default function ExamRunner({
     if (!session || session.kind !== 'mock' || !gateway.flushQueuedAnswers) return
     try {
       const report = await gateway.flushQueuedAnswers(session.exam_id)
+      if (!mountedRef.current) return
       const rejected = new Set(report.rejected ?? [])
       for (const id of rejected) rejectedMockRef.current.add(id)
       const remaining = new Set(session.items.filter(item =>
@@ -352,6 +363,7 @@ export default function ExamRunner({
       else if (report.remaining > 0) setMessage('Javob qurilmada saqlandi. Serverga yuborish amalga oshmadi; internetni tekshiring.')
     } catch (error) {
       // A failed network request does not clear the durable local answer.
+      if (!mountedRef.current) return
       setMessage(errorMessage(error))
     }
   }, [session, gateway])
