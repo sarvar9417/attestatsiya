@@ -1,3 +1,9 @@
+## TASK-371 — M15 pedagogika qisqa izohlarini 56 ta to‘liq pedagogik tushuntirishga tayyorlash (2026-10-21)
+
+| Task | Status | Acceptance / release contract |
+|---|---|---|
+| TASK-371 | 56 review-only rationales ready in branch; CI / PR pending | 8 ta M15 mavzudan 56 ta published Y1 savolning 80 belgidan qisqa izohiga 56 ta har biri kamida 155 belgilik alohida pedagogik tushuntirish yaratildi. `supabase/maintenance/task371_m15_56_explanation_revisions_ROLLBACK_ONLY.sql` — migration emas, `ROLLBACK` bilan tugaydi. Vitest unique/reference/rollback/no-publish reggressiyasi hamda read-only audit bor. **Faqat GitHub main merge; user alohida buyurmaguncha production deploy, db push va publish YO‘Q.** `docs/TASK371_M15_56_PEDAGOGY_EXPLANATIONS_20261021.md`. |
+
 ## TASK-350 — M14/M15 nazariyada Telegram import izohlarini o‘quvchi ko‘rinishidan tozalash (2026-10-21)
 
 | ID | Status | Scope | Acceptance |
