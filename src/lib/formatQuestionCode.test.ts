@@ -42,6 +42,13 @@ describe('legacy exam code readability', () => {
     expect(prepareExamCodeText('Natija: ' + tick + 'print(1)' + tick)).not.toContain(tick.repeat(3))
   })
 
+  it('does not risk changing JavaScript template literals or regular expressions', () => {
+    const template = 'const name=\u0060Hello ${user}\u0060;console.log(name);'
+    const regex = 'const valid=/[a-z]{2,4}/;console.log(valid.test("abc"));'
+    expect(formatCodeForDisplay(template, 'javascript')).toBe(template)
+    expect(formatCodeForDisplay(regex, 'javascript')).toBe(regex)
+  })
+
   it('does not reformat deliberate syntax-error code or unknown languages', () => {
     const snippet = 'if x=5:'
     expect(formatCodeForDisplay(snippet, 'python')).toBe(snippet)
