@@ -31,7 +31,7 @@ describe('TASK-369 learner-facing explanations', () => {
   })
 
   it('preserves mathematical, multiline and code explanations unless there is a dedicated source paragraph', () => {
-    const explanation = 'Ko‘paytirish natijasi: 3 * 4 = 12.\n\n\`\`\`python\nprint(12)\n\`\`\`'
+    const explanation = 'Ko‘paytirish natijasi: 3 * 4 = 12.\n\n```python\nprint(12)\n```'
     expect(learnerExplanation(explanation)).toBe(explanation)
   })
 
