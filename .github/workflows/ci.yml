@@ -201,18 +201,6 @@ jobs:
               continue
             fi
 
-            # TASK-385 is a pinned, live-only Office_2026_v2 corpus release.
-            # The clean test database does not contain that import. Skip it
-            # only when NONE of the Office_2026_v2 source rows are present;
-            # partial imports must instead fail closed in its SQL guards.
-            if [ "${migration}" = "supabase/migrations/20261021223000_task385_office_nine_more_generic_y3_revisions.sql" ]; then
-              office_source_count="$(psql -X -qAt -d attestatsiya_test -c "SELECT count(*) FROM public.questions WHERE source_reference LIKE 'Office_2026_v2|%'")"
-              if [ "${office_source_count}" = "0" ]; then
-                echo "Skipping TASK-385 production-only Office source revision in empty CI fixture"
-                continue
-              fi
-            fi
-
             if [ "${migration}" = "${BROKEN_MIGRATION}" ]; then
               echo "Replacing repaired historical migration ${migration} with ${REPAIR_MIGRATION}"
               psql -X -v ON_ERROR_STOP=1 -d attestatsiya_test -f "${REPAIR_MIGRATION}"
