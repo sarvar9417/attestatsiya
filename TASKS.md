@@ -2,7 +2,7 @@
 
 | Task | Status | Acceptance / release |
 |---|---|---|
-| TASK-420 | QA / CI pending | M13 11 legacy → 7 published katalog almashganda ochiq dars saqlanadi; refresh URLdan darsni tiklaydi; oldingi M13.06 noto‘g‘ri published bobga almashtirilmaydi; loading va invalid query xavfsiz. 4 regressiya testi. **Main merge ONLY, production deploy va DB yozuvi yo‘q.** [Handoff](docs/TASK420_M13_LESSON_REFRESH.md). |
+| TASK-420 | QA / CI pending | M13 11 legacy → 7 published katalog almashganda ochiq dars saqlanadi; refresh URLdan darsni tiklaydi; oldingi M13.06 noto‘g‘ri published bobga almashtirilmaydi; loading va invalid query xavfsiz. 5 regressiya testi; legacy elektron tijorat qo‘shimcha mavzu sifatida ochiladi, asosiy progressga qo‘shilmaydi. **Main merge ONLY, production deploy va DB yozuvi yo‘q.** [Handoff](docs/TASK420_M13_LESSON_REFRESH.md). |
 
 ## TASK-378 — Ota-ona bilan suhbat savoli, alohida production release (2026-10-21)
 
