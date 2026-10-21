@@ -81,10 +81,8 @@ function queueIdentity(input: Pick<SubmitAnswerInput, 'examId' | 'questionId'>):
   return `${input.examId}:${input.questionId}`
 }
 
-/**
- * Mock: latest answer wins, including offline edits. Other exam kinds retain
- * their immutable first-offline-submission policy.
- */
+/** Latest answer wins for every unfinished test; old in-flight acks cannot
+ * drop a more recent local edit. */
 export function enqueuePendingAnswer(
   input: SubmitAnswerInput, ownerId = sessionStore.get()?.user.id
 ): PendingAnswer {
@@ -92,7 +90,6 @@ export function enqueuePendingAnswer(
   const identity = queueIdentity(input)
   const existing = queue.find(item => queueIdentity(item) === identity)
   if (existing) {
-    if (input.examKind !== 'mock') return existing
     const pending: PendingAnswer = { ...input, queuedAt: new Date().toISOString() }
     writeQueue(queue.map(item => queueIdentity(item) === identity ? pending : item), ownerId)
     return pending

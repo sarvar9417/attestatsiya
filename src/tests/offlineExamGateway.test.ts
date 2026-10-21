@@ -68,11 +68,15 @@ describe('offline exam persistence', () => {
     expect(listPendingAnswers()).toHaveLength(1)
   })
 
-  it('retries the first queued answer and removes it only after server acknowledgment', async () => {
-    enqueuePendingAnswer(answer)
+  it('sends the newest edited answer for non-mock exams and acknowledges only that draft', async () => {
+    backendGateway.queueExamAnswer?.({ ...answer, examKind: 'bolim',
+      answer: { option_id: 'first', _client_revision: 101 } })
+    backendGateway.queueExamAnswer?.({ ...answer, examKind: 'bolim',
+      answer: { option_id: 'revised', _client_revision: 102 } })
     const post = vi.spyOn(api, 'post').mockResolvedValue({ saved: true })
-    await backendGateway.submitAnswer({ ...answer, examKind: 'bolim', answer: { option_id: 'different-option' } })
-    expect(post).toHaveBeenCalledWith('/api/exam/submit', expect.objectContaining({ answer: answer.answer }))
+    await backendGateway.flushQueuedAnswers?.(answer.examId)
+    expect(post).toHaveBeenCalledWith('/api/exam/submit',
+      expect.objectContaining({ answer: { option_id: 'revised', _client_revision: 102 } }))
     expect(listPendingAnswers()).toEqual([])
   })
 

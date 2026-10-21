@@ -60,7 +60,7 @@ describe('offline answer queue', () => {
     }
   })
 
-  it('boshqa test turida birinchi offline urinishni immutable saqlaydi', () => {
+  it('boshqa test turlarida ham eng oxirgi offline tanlov saqlanadi', () => {
     enqueuePendingAnswer({ ...firstAnswer, examKind: 'bolim' })
     enqueuePendingAnswer({
       ...firstAnswer,
@@ -71,8 +71,8 @@ describe('offline answer queue', () => {
 
     const queue = listPendingAnswers()
     expect(queue).toHaveLength(1)
-    expect(queue[0].answer).toEqual(firstAnswer.answer)
-    expect(queue[0].timeSpentSec).toBe(12)
+    expect(queue[0].answer).toEqual({ option_id: '30000000-0000-4000-8000-000000000032' })
+    expect(queue[0].timeSpentSec).toBe(99)
   })
 
   it('mock tanlovi o‘zgarsa navbatdagi eng so‘nggi qiymat saqlanadi', () => {
@@ -94,6 +94,24 @@ describe('offline answer queue', () => {
     expect((sender.mock.calls[1][0] as SubmitAnswerInput).answer).toEqual({
       option_id: 'newer', _client_revision: 22,
     })
+  })
+
+  it('bolim/mavzu/AXB uchun ham eski in-flight so‘rov yangi offline tanlovni o‘chirmaydi', async () => {
+    for (const examKind of ['bolim', 'mavzu', 'axb_bob', 'custom'] as const) {
+      clearPendingAnswers()
+      enqueuePendingAnswer({ ...firstAnswer, examKind })
+      const sender = vi.fn().mockImplementationOnce(async () => {
+        enqueuePendingAnswer({ ...firstAnswer, examKind,
+          answer: { option_id: 'last-edit', _client_revision: 44 } })
+        return { saved: true }
+      }).mockResolvedValue({ saved: true })
+      const report = await flushPendingAnswers(sender)
+      expect(report.remaining).toBe(0)
+      expect(sender).toHaveBeenCalledTimes(2)
+      expect((sender.mock.calls[1][0] as SubmitAnswerInput).answer).toEqual({
+        option_id: 'last-edit', _client_revision: 44,
+      })
+    }
   })
 
   it('muvaffaqiyatli reconnect flush navbatni tozalaydi', async () => {
