@@ -73,6 +73,41 @@ describe('legacy exam code readability', () => {
     expect(formatCodeForDisplay(samples[0], 'javascript')).toContain('if(x%2===0)\n    return x/2;')
   })
 
+
+  it('retains syntax and tokens for additional packed JavaScript control-flow specimens', () => {
+    const samples = [
+      'function fib(n){return n<=1?n:fib(n-1)+fib(n-2);}console.log(fib(6));',
+      'function fib(n){if(n<=1)return n;return fib(n-1)+fib(n-2);}console.log(fib(5));',
+      'function f(x,y=5){return Math.floor(x/y)}console.log(f(14),f(14,2));',
+      'let s=0;for(let i=9;i>0;i-=3)s+=i;console.log(s);',
+      'let s=0;for(let i=1;i<=7;i++)if(i%2===0)s+=i;console.log(s);',
+      'let s=0;for(let i=0;i<11;i++)if(i%2===0)s+=i+1;console.log(s);',
+      'let v=25,k=0;while(v>0){v=Math.floor(v/2);k++;}console.log(k);',
+      'let x=17;while(x>1){console.log(x);x=Math.floor(x/2);}',
+      'const a=[8,5,3,1];while(a.length)console.log(a.shift());',
+      'let n=24,k=0;while(n>0){k+=n%10;n=Math.floor(n/10);}console.log(k);',
+      'let n=1031,r=0;while(n){r=r*10+n%10;n=Math.floor(n/10);}console.log(r);',
+      'let k=9;console.log(k>3 && (k%3===0));',
+      'let k=5; k+=3; console.log(k*2);',
+      'const f=x=>y=>x+y;console.log(f(4)(5));',
+      'const h=(a,b=2)=>a*b+a;for(const x of [1,2,3,4])console.log(h(x));',
+      'const a=[4,3,2,1],b=[...a].sort((x,y)=>x-y);console.log(a[0],b[0]);',
+      'const a=[5,1,5,2];a.splice(a.indexOf(5),1);console.log(a);',
+      'const a=[6,5,8];console.log(a.filter(x=>x%2===0).map(x=>x*x).reduce((s,x)=>s+x,0));',
+      'let x=5;function f(x){return x+4;}console.log(f(x)+x);',
+      'function f(x){let s=0;for(let k=0;k<=x;k++)s+=k;return s;}console.log(f(6));',
+      'const f=n=>n<2?n:f(n-1)+f(n-2);for(let n=2;n<=5;n++)console.log(f(n));',
+      'const a=[10,20,30,40];for(const i of [0,3,1,2])console.log(a[i]+i);',
+    ]
+    const compile = (source: string) => transpileModule(source, {
+      compilerOptions: { target: ScriptTarget.ES2020, module: ModuleKind.None },
+    }).outputText.replace(/\\s+/g, '')
+    for (const original of samples) {
+      const displayed = formatCodeForDisplay(original, 'javascript')
+      expect(compile(displayed), original).toBe(compile(original))
+    }
+  })
+
   it('does not reformat deliberate syntax-error code or unknown languages', () => {
     const snippet = 'if x=5:'
     expect(formatCodeForDisplay(snippet, 'python')).toBe(snippet)
