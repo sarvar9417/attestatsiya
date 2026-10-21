@@ -29,3 +29,16 @@ SELECT count(*) FILTER(WHERE editorial_status='needs_review') AS editorial_pendi
        count(*) FILTER(WHERE editorial_status='needs_review'
                        AND answer_key_status='independently_verified') AS pending_claimed_verified_source_keys
 FROM public.pedagogy_pdf_source_candidates;
+
+-- Additional exact-source duplicate #98 should remain private and retired;
+-- canonical source #56 is independently checked and publicly linked.
+SELECT copy.source_question_no,copy.editorial_status,copy.answer_key_status,
+       copy.linked_question_id IS NOT NULL AS copy_is_public,
+       canonical.source_question_no AS canonical_source_no,
+       canonical.editorial_status AS canonical_status,
+       canonical.linked_question_id IS NOT NULL AS canonical_is_public
+FROM public.pedagogy_pdf_source_candidates copy
+LEFT JOIN public.pedagogy_pdf_source_candidates canonical
+ ON canonical.id=copy.duplicate_of_candidate_id
+WHERE copy.source_file_name='Attestatsiya to''plam ped mahorat @PedMahoratGuli.pdf'
+  AND copy.source_question_no=98;
