@@ -192,6 +192,15 @@ jobs:
           # Fresh DB uchun 00014 schema prerequisite'ni 00012 dan oldin bir marta
           # qo'llaymiz; 00014 normal joyiga kelganda uni qayta ishlatmaymiz.
           while IFS= read -r migration; do
+            # TASK-385 Office Y3 nine-question publication is already applied
+            # in production (Supabase version 20261021145544; SQL md5
+            # 2ff72f3bb0d90eb266b1d945e466a1e2). It depends on a complete
+            # imported source corpus, which clean CI fixtures do not include.
+            if [ "${migration}" = "supabase/migrations/20261021223000_task385_office_nine_more_generic_y3_revisions.sql" ]; then
+              echo "Skipping TASK-385 Office Y3 production cutover in fresh-schema CI"
+              continue
+            fi
+
             # TASK-383 is the final source-pinned Office Y3 cutover.
             # It relies on production-only OFF-E01-017 and five sibling rows.
             if [ "${migration}" = "supabase/migrations/20261021222000_task383_office_final_six_y3_semantic_repair.sql" ]; then
@@ -202,7 +211,7 @@ jobs:
             # TASK-382 is another production-only owner-authorized question
             # wording cutover with 38 specific Office Y3 source questions.
             # The clean CI fixture omits those production-only question rows.
-            if [ "${migration}" = "supabase/migrations/20261021221000_task382_office_38_explicit_y3_goals_immutable_revisions.sql" ]; then
+            if [ "${migration}" = "supabase/migrations/20261021221001_task382_office_38_explicit_y3_goals_immutable_revisions.sql" ]; then
               echo "Skipping TASK-382 production-only content release in clean CI"
               continue
             fi
@@ -406,6 +415,15 @@ jobs:
           ORDER_PREP_APPLIED=false
 
           while IFS= read -r migration; do
+            # TASK-385 Office Y3 nine-question publication is already applied
+            # in production (Supabase version 20261021145544; SQL md5
+            # 2ff72f3bb0d90eb266b1d945e466a1e2). It depends on a complete
+            # imported source corpus, which clean CI fixtures do not include.
+            if [ "${migration}" = "supabase/migrations/20261021223000_task385_office_nine_more_generic_y3_revisions.sql" ]; then
+              echo "Skipping TASK-385 Office Y3 production cutover in fresh-schema CI"
+              continue
+            fi
+
             # TASK-383 is the final source-pinned Office Y3 cutover.
             # It relies on production-only OFF-E01-017 and five sibling rows.
             if [ "${migration}" = "supabase/migrations/20261021222000_task383_office_final_six_y3_semantic_repair.sql" ]; then
@@ -416,7 +434,7 @@ jobs:
             # TASK-382 is another production-only owner-authorized question
             # wording cutover with 38 specific Office Y3 source questions.
             # The clean CI fixture omits those production-only question rows.
-            if [ "${migration}" = "supabase/migrations/20261021221000_task382_office_38_explicit_y3_goals_immutable_revisions.sql" ]; then
+            if [ "${migration}" = "supabase/migrations/20261021221001_task382_office_38_explicit_y3_goals_immutable_revisions.sql" ]; then
               echo "Skipping TASK-382 production-only content release in clean CI"
               continue
             fi
