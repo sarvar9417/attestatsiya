@@ -10,6 +10,7 @@ import type { TheoryBlock, TopicContent } from '../../data/topicContent'
 import type { LessonSummary } from './contentApi'
 import { M16_SOURCE_THEORY_ADDITIONS } from '../../data/topics/m16SourceTheoryAdditions'
 import { M14_NORMATIVE_SOURCE_ADDITIONS } from '../../data/topics/m14NormativeSourceAdditions'
+import { cleanLearnerPedagogyText } from './learnerPedagogyTextCleanup'
 
 const rowCells = (line: string): string[] =>
   line.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map(cell => cell.trim())
@@ -170,7 +171,8 @@ export function overlayPublishedProfessionalLesson(
   const extraIndex = sections.findIndex(line => SUPPLEMENT_HEADING.test(line.trim()))
   const coreMarkdown = extraIndex < 0 ? lesson.body_mdx : sections.slice(0, extraIndex).join('\n')
   const extraMarkdown = extraIndex < 0 ? '' : sections.slice(extraIndex + 1).join('\n')
-  const theory = markdownToTheoryBlocks(coreMarkdown)
+  const isPedagogyLesson = /^M1[45]\.\d{2}$/.test(staticContent.subtopicId)
+  const theory = markdownToTheoryBlocks(isPedagogyLesson ? cleanLearnerPedagogyText(coreMarkdown) : coreMarkdown)
   // Independently checked professional-standard/Cambridge explanations are
   // displayed after the canonical M16 published core. They do not modify the DB.
   const sourceAdditions = M16_SOURCE_THEORY_ADDITIONS[staticContent.subtopicId] ?? M14_NORMATIVE_SOURCE_ADDITIONS[staticContent.subtopicId] ?? []
@@ -187,7 +189,8 @@ export function overlayPublishedProfessionalLesson(
   const publishedCore = appendDistinctTheory(theory, m14Legacy)
   // The published M14/M16 deeper corpus belongs to this same reader, but the
   // source-checked local additions must retain their established final order.
-  const deeper = extraMarkdown.trim() ? markdownToTheoryBlocks(extraMarkdown) : []
+  const learnerExtra = isPedagogyLesson ? cleanLearnerPedagogyText(extraMarkdown) : extraMarkdown
+  const deeper = learnerExtra.trim() ? markdownToTheoryBlocks(learnerExtra) : []
   const isCanonicalProfessional = /^M1[46]\.\d{2}$/.test(staticContent.subtopicId)
   const withDeeper = isCanonicalProfessional ? appendDistinctTheory(publishedCore, deeper) : publishedCore
   const withSources = appendDistinctTheory(withDeeper, sourceAdditions)
@@ -238,7 +241,7 @@ export function resolveLearnerTheoryContent(
   const extras = isM02 ? verifiedM02Supplement(publishedContent) : (publishedContent.supplementalTheory ?? [])
   if (extras.length === 0) return staticContent
   const withHeading: TheoryBlock[] = isM02 ? extras : [
-    { type: 'heading', content: 'Manba korpusidan chuqurlashtirilgan nazariya' },
+    { type: 'heading', content: 'Qo‘shimcha pedagogik nazariya' },
     ...extras,
   ]
   const merged = appendDistinctTheory(staticContent.theory, withHeading)

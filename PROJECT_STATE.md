@@ -1,3 +1,10 @@
+## TASK-350 — Kasb standarti darsidagi ortiqcha Telegram izohlarini tozalash (2026-10-21)
+
+- **Root cause:** `public.lessons.body_mdx`ga import qilingan Telegram matnining sarlavha, manba havolasi va tahririy izlari o‘quvchi BookReaderiga ham ko‘chgan. `oquv-jarayonini-rejalashtirish`da `/15293` asosiy misol.
+- **Fix:** M14/M15 learner uchun `cleanLearnerPedagogyText` orqali 7 sohani sifatli taqqoslash jadvaliga aylantirish va besh xil editorial sarlavha/source izini yashirish. Original nashrdagi dars body maydoniga yozilmadi (published immutable) va manbalar audit izi saqlandi.
+- **Scope:** `src/features/content/learnerPedagogyTextCleanup.ts`, `professionalLessonTheory.ts`, Vitest regressiya testlari, `docs/TASK350_PEDAGOGY_LEARNER_TEXT_CLEANUP_20261021.md`. Database migration va qo‘lda deploy yo‘q.
+- **Status:** implemented; GitHub CI + PR merge acceptance verifikatsiyasi.
+
 ## TASK-369 — Pedagogika/PDF manba kandidat izohlari (2026-10-21)
 
 - User release rule: **faqat kodni `main`ga merge; explicit buyruq bo‘lmaguncha productionga deploy yoki Supabase o‘zgarish YO‘Q**. `vercel.json`da `git.deploymentEnabled=false` inspeksiya qilingan.
