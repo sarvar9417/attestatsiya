@@ -250,7 +250,7 @@ export default function ExamRunner({
     let resumeIndex = 0
     if (nextSession.kind === 'mock' && user?.id && typeof window !== 'undefined') {
       try {
-        const remembered = Number(window.sessionStorage.getItem(
+        const remembered = Number(window.localStorage.getItem(
           `attestatsiya:mock:position:${user.id}:${nextSession.exam_id}`
         ))
         if (Number.isInteger(remembered) && remembered >= 0 && remembered < nextSession.items.length) {
@@ -389,7 +389,7 @@ export default function ExamRunner({
   useEffect(() => {
     if (session?.kind !== 'mock' || !user?.id || typeof window === 'undefined') return
     try {
-      window.sessionStorage.setItem(
+      window.localStorage.setItem(
         `attestatsiya:mock:position:${user.id}:${session.exam_id}`,
         String(currentIndex)
       )
