@@ -45,3 +45,20 @@ Historical run for pedagogy publication PR #499 failed fresh DB validation becau
 **No manual frontend deployment, no scored question publication, no changes to learner attempts or existing published keys.**
 
 Read-only verification: `scripts/audits/pedagogy_drive_21_source_attribution_and_key_safety_20261021.sql`.
+
+
+## Additional original-PDF answer boundary correction: source #57
+
+Authenticated Google Drive `Attestatsiya to'plam ped mahorat @PedMahoratGuli.pdf` (file ID `1BL4lXlgWoaP36f1bF30d85J12EjVWZtT`, readable text 133,883 characters) contains **two occurrences of the same source question**. The first original (staged slot **57**, PDF page 13) has its complete printed answer followed by Telegram attribution and an unrelated following `Javob` line. The second occurrence (staged slot **221**, rejected as redundant source provenance) has the same complete stem and the uncontaminated answer.
+
+Guarded live Supabase update for **slot 57 only**:
+- Compared the complete original candidate answer against the clean second occurrence plus the specific following-answer contamination.
+- Replaced only the private `raw_answer_private` extraction with the independently PDF-confirmed clean complete printed answer.
+- Preserved the original raw extraction (including the extraneous next-answer fragment) in `review_notes`, within its `<=4000` length gate.
+- Added `raw_answer_overflow_trimmed_primary_pdf_verified`.
+- **Retained** `editorial_status='needs_review'` and prior `answer_key_status='independently_verified'`, because answer **meaning** did not change and the key's earlier independent theoretical check was not replaced by a guess.
+- Kept public questions, scored keys, and historical learner attempts untouched.
+
+A clean source answer is **not** by itself permission to republish this question. The wording and possible confusion with other methods still need editorial review.
+
+Read-only follow-up check is appended to the SQL audit below.

@@ -42,3 +42,14 @@ LEFT JOIN public.pedagogy_pdf_source_candidates canonical
  ON canonical.id=copy.duplicate_of_candidate_id
 WHERE copy.source_file_name='Attestatsiya to''plam ped mahorat @PedMahoratGuli.pdf'
   AND copy.source_question_no=98;
+
+-- Private source slot 57: original answer was cleaned of the next answer
+-- fragment after direct primary-PDF page verification. Source remains in review.
+SELECT source_question_no,page_no,editorial_status,answer_key_status,
+       length(raw_answer_private) AS cleaned_source_marker_characters,
+       linked_question_id IS NOT NULL AS public_linked,
+       'raw_answer_overflow_trimmed_primary_pdf_verified'=ANY(source_quality_flags)
+           AS primary_source_boundary_checked
+FROM public.pedagogy_pdf_source_candidates
+WHERE source_file_name='Attestatsiya to''plam ped mahorat @PedMahoratGuli.pdf'
+ AND source_question_no=57;
