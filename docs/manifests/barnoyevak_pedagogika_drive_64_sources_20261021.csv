@@ -45,7 +45,7 @@ drive_id,file_name,mime_type,inferred_category,ingestion_disposition,notes
 "1vx6tDQ62fQ8AomiVexBsplHHhpCpJuqZ","Pedagogik qobilyatlar umumiy.pdf","application/pdf","theory-reference","existing_published_lesson_partial_coverage","Classification inferred from name only; not approval"
 "1TPEO3luBu23qqtvpIAQTWX3_7DcXjaRG","dars tahlili turlari.pdf","application/pdf","theory-reference","existing_published_lesson_partial_coverage","Classification inferred from name only; not approval"
 "1L4PXxcviDgk5_iaOW5zLCG7536I6z0Ya","Dars turlari.pdf","application/pdf","unclassified-review","existing_published_lesson_partial_coverage","Classification inferred from name only; not approval"
-"1lPKtFtuZOhS_3zpQvVFPHMAWX5gLtzUj","Xoliqov Pedagogik mahorat I bob.pdf","application/pdf","theory-reference","requires-source-reconciliation","Classification inferred from name only; not approval"
+"1lPKtFtuZOhS_3zpQvVFPHMAWX5gLtzUj","Xoliqov Pedagogik mahorat I bob.pdf","application/pdf","theory-reference","review_theory_lesson_staged","Classification inferred from name only; not approval"
 "1_M_rzDJhI_QctjGicWbV3pilXs-IPGvc","Repetitsion test 2025.pdf","application/pdf","test-candidate","answer_notes_incomplete_question_stems_reference_only","Classification inferred from name only; not approval"
 "1LEx-padAsuF4Fa3V9mAGdUL-je6sHjiW","Pedagogik kompetentlik test 1.pdf","application/pdf","test-candidate","15_private_candidates_staged_missing_keys","Classification inferred from name only; not approval"
 "1UJCEnK9ZZcXHQnnPoF5B6ctWeeeRU0_I","Test Mirzayeva.pdf","application/pdf","test-candidate","15_private_candidates_staged_2_cross_source_duplicates","Classification inferred from name only; not approval"
