@@ -35,6 +35,15 @@ LEFT JOIN public.pedagogy_pdf_source_candidates previous
 WHERE current.source_file_name='Pedagogik mahorat to''plam 2025 (6).pdf'
   AND 'whole_stem_normalized_match_spring_2025_base'=ANY(current.source_quality_flags);
 
+-- Eleven source-only copies of existing published questions: no public link on the copy.
+SELECT count(*) AS redundant_published_source_copies,
+       count(*) FILTER(WHERE editorial_status='rejected') AS retired,
+       count(*) FILTER(WHERE linked_question_id IS NOT NULL) AS copy_public_links,
+       count(*) FILTER(WHERE near_duplicate_of_candidate_id IS NULL) AS missing_representative
+FROM public.pedagogy_pdf_source_candidates
+WHERE source_file_name='Pedagogik mahorat to''plam 2025 (6).pdf'
+  AND 'editorial_reject_duplicate_already_published_same_full_stem_and_key'=ANY(source_quality_flags);
+
 -- Source-only truncated answers must not be treated as independently keyed or published.
 SELECT source_question_no,page_no,editorial_status,answer_key_status,
        linked_question_id IS NOT NULL as public_link
