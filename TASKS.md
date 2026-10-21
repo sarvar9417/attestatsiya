@@ -1,3 +1,9 @@
+## TASK-423 — Informatika PDF №15–24 blok-sxemalarni validatsiya va xavfsiz integratsiya (2026-10-21)
+
+| Task | Status | Acceptance / release |
+|---|---|---|
+| TASK-423 | REVIEW — 10 local SVG+PNG audit PASS; GitHub asset upload / UI mapping / regression CI PENDING | Drive Python/Algoritm PDF betlari 9–18 dan №15–24 uchun yozuv/yechim tayyor; 10 SVG/PNG lokal arxivda DTD/skriptsiz, sha256 manifest. UIga figure faqat to‘g‘ri revisionga biriktirilsin; 10/10 render, no-key-leak, source-fidelity, snapshot/immutable tests PASS bo‘lmasdan learner publish taqiqlanadi. [Handoff](docs/TASK423_INFORMATIKA_FLOWCHART_QA_20261021.md). Production deploy/DB publish YO‘Q. |
+
 ## TASK-420 — M13 dars yangilanishida modulga tashlab yuborilishini tuzatish (2026-10-21)
 
 | Task | Status | Acceptance / release |
