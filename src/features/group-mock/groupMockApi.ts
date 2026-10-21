@@ -89,6 +89,7 @@ const messages: Record<string, string> = {
   group_lesson_unavailable: 'Tanlangan mavzu hozir mavjud emas.',
   group_host_cannot_leave: 'Tashkilotchi xonadan chiqish o‘rniga uni bekor qilishi mumkin.',
   group_report_unavailable: 'To‘liq hisobot faqat test yakunlangandan keyin ochiladi.',
+  group_delete_code_mismatch: 'O‘chirish tasdiq kodi xona kodiga mos emas. Xona o‘chirilmadi.',
 }
 
 // The platform authenticates through /api/auth and stores its JWT in sessionStore.
@@ -153,6 +154,13 @@ export async function joinGroupMock(code: string) {
 }
 export async function getGroupMockState(roomId: string): Promise<GroupMockState> {
   return stateSchema.parse(await call('group_mock_state', { p_room: roomId }))
+}
+
+export async function finishGroupMock(roomId: string): Promise<void> {
+  await call('group_mock_finish', { p_room: roomId })
+}
+export async function deleteGroupMockRoom(roomId: string, code: string): Promise<void> {
+  await call('group_mock_delete', { p_room: roomId, p_code: code })
 }
 
 export async function pauseGroupMock(roomId: string): Promise<void> {
