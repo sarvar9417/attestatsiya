@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import ExamPage from '../pages/ExamPage'
-import type { ExamGateway } from '../features/exam/examGateway'
+import type { ExamGateway, SubmitAnswerInput } from '../features/exam/examGateway'
 import type { ExamSession } from '../features/exam/contracts'
 
 const ids = {
@@ -38,8 +38,8 @@ function session(): ExamSession {
 }
 
 function gateway(): ExamGateway {
-  let pendingAnswer: unknown
-  return {
+  let pendingAnswer: SubmitAnswerInput | undefined
+  const result: ExamGateway = {
     getPendingAnswer: () => pendingAnswer as { option_id: string } | undefined,
     queueMockAnswer: vi.fn(input => { pendingAnswer = input.answer }),
     flushQueuedAnswers: vi.fn(async () => {
@@ -67,8 +67,8 @@ function gateway(): ExamGateway {
     getHistory: vi.fn().mockResolvedValue({ items: [], total: 0, page: 1, page_size: 20 }),
     getDueReviews: vi.fn().mockResolvedValue([]),
   }
+  return result
 }
-
 function renderMock(examGateway: ExamGateway, route = '/exam/mock') {
   return render(
     <MemoryRouter initialEntries={[route]}>
