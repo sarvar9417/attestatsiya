@@ -54,5 +54,5 @@ jobs:
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m 'TASK-423: store generated SVG review assets [skip ci]'
+          git commit -m 'TASK-423: store generated SVG review assets'
           git push origin HEAD:task/TASK-423-informatika-flowchart-qa-20261021
