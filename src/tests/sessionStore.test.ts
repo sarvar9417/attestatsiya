@@ -83,6 +83,44 @@ describe('sessionStore', () => {
     expect(sessionStore.get()).toBeNull()
   })
 
+  it('brauzer localStorage bloklansa ham session holati va bildirishlar ishlaydi', () => {
+    const listener = vi.fn()
+    const unsubscribe = sessionStore.subscribe(listener)
+    const persist = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new DOMException('Storage disabled', 'SecurityError')
+    })
+    const session = makeSession()
+
+    expect(() => sessionStore.set(session)).not.toThrow()
+    expect(sessionStore.get()?.access_token).toBe('access-1')
+    expect(listener).toHaveBeenCalledWith(session)
+
+    expect(() => sessionStore.updateUser({
+      ...session.user, display_name: 'Yangilangan',
+    })).not.toThrow()
+    expect(sessionStore.get()?.user.display_name).toBe('Yangilangan')
+
+    persist.mockRestore()
+    const remove = vi.spyOn(Storage.prototype, 'removeItem').mockImplementation(() => {
+      throw new DOMException('Storage disabled', 'SecurityError')
+    })
+    expect(() => sessionStore.clear()).not.toThrow()
+    expect(sessionStore.get()).toBeNull()
+    expect(listener).toHaveBeenLastCalledWith(null)
+    remove.mockRestore()
+    unsubscribe()
+  })
+
+  it('dastlabki localStorage o‘qib bo‘lmasa ham modulni yuklaydi', async () => {
+    vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+      throw new DOMException('Storage disabled', 'SecurityError')
+    })
+    vi.resetModules()
+    const fresh = await import('../features/auth/sessionStore')
+    expect(fresh.sessionStore.get()).toBeNull()
+    vi.restoreAllMocks()
+  })
+
   it('subscribe listener\'lar session o\'zgarishida chaqiriladi', () => {
     const listener = vi.fn()
     sessionStore.subscribe(listener)
