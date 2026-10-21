@@ -151,7 +151,7 @@ begin
 
   return new;
 end
-$function$
+$function$;
 
 CREATE OR REPLACE FUNCTION public.submit_answer(p_exam_id uuid, p_question_id uuid, p_answer jsonb, p_time_spent integer DEFAULT NULL::integer)
  RETURNS jsonb
@@ -316,7 +316,7 @@ begin
     'explanation_md', v_key.explanation_md
   );
 end
-$function$
+$function$;
 
 CREATE OR REPLACE FUNCTION public.finish_exam(p_exam_id uuid)
  RETURNS jsonb
@@ -398,7 +398,7 @@ begin
     'max_score', v_exam.max_score, 'passed', v_exam.passed,
     'breakdown', v_exam.breakdown, 'already_finished', false
   );
-end $function$
+end $function$;
 
 CREATE OR REPLACE FUNCTION public.generate_topic_test(p_lesson_id uuid)
  RETURNS jsonb
@@ -726,6 +726,6 @@ begin
     'selection_meta', v_meta
   );
 end
-$function$
+$function$;
 
 COMMIT;
