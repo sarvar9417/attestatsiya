@@ -174,6 +174,47 @@ describe('secure ExamRunner', () => {
     expect(gateway.startMockExam).not.toHaveBeenCalled()
   })
 
+  it.each([
+    ['/exam/bolim/M01', 'bolim', { moduleId: 'M01', lessonId: undefined, chapter: undefined, count: undefined }],
+    ['/exam/mavzu/M01?lessonId=M01.01', 'mavzu', { moduleId: undefined, lessonId: 'M01.01', chapter: undefined, count: undefined }],
+    ['/exam/mashq?lessonId=M01.01', 'mashq', { moduleId: undefined, lessonId: 'M01.01', chapter: undefined, count: undefined }],
+    ['/exam/diagnostika', 'diagnostika', { moduleId: undefined, lessonId: undefined, chapter: undefined, count: undefined }],
+    ['/exam/takrorlash', 'takrorlash', { moduleId: undefined, lessonId: undefined, chapter: undefined, count: undefined }],
+    ['/exam/zaif', 'zaif', { moduleId: undefined, lessonId: undefined, chapter: undefined, count: undefined }],
+    ['/exam/pedagogik_15', 'pedagogik_15', { moduleId: undefined, lessonId: undefined, chapter: undefined, count: undefined }],
+    ['/exam/axb_bob?chapter=3&count=5', 'axb_bob', { moduleId: undefined, lessonId: undefined, chapter: 3, count: 5 }],
+    ['/exam/custom', 'custom', { moduleId: undefined, lessonId: undefined, chapter: undefined, count: undefined }],
+  ] as const)('restores %s from its exact server scope with no extra start', async (route, kind, scope) => {
+    const gateway = successfulGateway()
+    gateway.getActiveExam = vi.fn().mockResolvedValue({
+      ...examSession(),
+      kind,
+      answered_question_ids: [ids.question1],
+      saved_answers: { [ids.question1]: { option_id: ids.optionB } },
+    })
+    renderExam(gateway, route)
+    expect(await screen.findByText('Yagona javobni tanlang')).toBeDefined()
+    expect(gateway.getActiveExam).toHaveBeenCalledWith(kind, scope)
+    expect(gateway.startMockExam).not.toHaveBeenCalled()
+    expect(gateway.startModuleExam).not.toHaveBeenCalled()
+    expect(gateway.startTopicExam).not.toHaveBeenCalled()
+    expect(gateway.submitAnswer).not.toHaveBeenCalled()
+  })
+
+  it('keeps section start fail-closed when its prior session cannot be checked', async () => {
+    const user = userEvent.setup()
+    const gateway = successfulGateway()
+    gateway.getActiveExam = vi.fn()
+      .mockRejectedValueOnce(new Error('Tarmoq uzildi'))
+      .mockResolvedValueOnce({ ...examSession(), kind: 'bolim' })
+    renderExam(gateway, '/exam/bolim/M01')
+    await screen.findByRole('button', { name: 'Oldingi testni qayta tiklash' })
+    expect(screen.getByRole('button', { name: 'Sinovni boshlash' })).toBeDisabled()
+    await user.click(screen.getByRole('button', { name: 'Oldingi testni qayta tiklash' }))
+    expect(await screen.findByText('Yagona javobni tanlang')).toBeDefined()
+    expect(gateway.startModuleExam).not.toHaveBeenCalled()
+  })
+
   it('mock Y1/Y2/Y3 javoblarini saqlash tugmasisiz avtomatik yuboradi va o‘zgartirishga ruxsat beradi', async () => {
     const user = userEvent.setup()
     const gateway = successfulGateway()
