@@ -390,3 +390,8 @@ Har task uchun kamida:
 | TASK-307 | IN_PROGRESS / RELEASE_AWAITING_CI | TASK-306 (DB review import DONE) | Owner-authorized 7 published 4×4 Y2 -> 7 verified published 4×5 Y2 via atomic new version status + old archive; 71 active Y2 and 414 active M13 unchanged, existing attempts immutable. Release SQL and TASK-213/306/307 QA contracts; #323 public source-answer issue still OPEN. |
 
 | TASK-220 | IN_PROGRESS — QA sync | M12 380-item source & 2025 demo audit, 42 independent review candidates, documented migrations, published-only frontend navigation. PR #331 clean-main sync. 22 published high-risk items need independent expert signoff; **new publication NOT authorized by AI-only QA**. |
+## TASK-421 — PedMahoratGuli Telegram tarixidan attestatsiya testlarini ekspert qabul qilish (2026-10-21)
+
+| Task | Status | Acceptance / release |
+|---|---|---|
+| TASK-421 | DONE — ChatGPT, 2026-10-21 | Barnoyevak Drive `attestatsiya/pedagogika/result.json` (21 085 xabar) to‘liq inventarizatsiya qilindi. 20 591 oddiy xabarning 20 588 tasi private archive bilan parity berdi; qolgan 3 tasi test emas. Faqat attestatsiyaga aloqador, aniq mavzuli, 4 variantli va mustaqil tekshirilgan 16 ta yangi savol 7 konstrukt bo‘yicha `review`ga kiritildi. Poll/reklama/shaxsiy natija, kalitsiz/noaniq/eskirgan va dublikat kontent learner bankiga chiqarilmadi. Production SQL migratsiya bilan, 16/16 postflight; Vercel/application deploy yo‘q. |
