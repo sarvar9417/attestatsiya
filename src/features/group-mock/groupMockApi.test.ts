@@ -10,6 +10,7 @@ const base: GroupMockState = {
   code: 'A1B2C3D4',
   mode: 'manual',
   status: 'question',
+  paused_from_status: null,
   is_host: false,
   total_count: 1,
   current_idx: 1,
@@ -47,6 +48,7 @@ describe('group mock result contract', () => {
     } satisfies GroupMockState
     expect(visibleGroupFeedback(unsafe)).toBeNull()
     expect(visibleGroupFeedback({ ...unsafe, status: 'lobby' })).toBeNull()
+    expect(visibleGroupFeedback({ ...unsafe, status: 'paused', paused_from_status: 'question' })).toBeNull()
   })
 
   it('renders the server-revealed key and per-member result after reveal', () => {
