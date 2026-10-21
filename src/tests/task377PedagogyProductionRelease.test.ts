@@ -35,6 +35,7 @@ describe('TASK-377 immutable pedagogical publication safety', () => {
     expect(migration).toContain('TASK377_POSTFLIGHT_PUBLISHED_')
     expect(migration).toContain('public.pedagogy_published_revisions')
     expect(migration).toContain('public.question_bank_revisions')
-    expect(migration).not.toMatch(/\bCOMMIT\s*;/i)
+    expect(migration.match(/\bCOMMIT\s*;/gi)).toHaveLength(1)
+    expect(migration).toContain('BEGIN;')
   })
 })
