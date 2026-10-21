@@ -1,0 +1,2 @@
+-- Read-only QA: inspect suspected Scratch repeat-until Y2 mapping.
+SELECT q.id, q.stem_md, o.id AS option_id, o.content_md FROM public.questions q JOIN public.question_options o ON o.question_id=q.id WHERE q.source_reference LIKE 'Scratch-LOGO-2026-v3.1:SL3-Y2-04-01;%';
