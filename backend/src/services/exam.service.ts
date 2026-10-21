@@ -94,6 +94,10 @@ export const examService = {
     }
 
     if (result.error) {
+      // SQLSTATE 57014: server-side timeout, not a learner input error.
+      if (result.error.code === '57014') {
+        throw new AppError('Imtihon savollarini tayyorlash vaqti tugadi. Qayta urinib ko‘ring.', 503, 'EXAM_DB_TIMEOUT')
+      }
       if (result.error.message?.includes('professional_15_pool_insufficient')) {
         throw new AppError('5+7+3 ta tekshirilgan savol yetarli emas.', 409, 'PROFESSIONAL_15_POOL_INSUFFICIENT')
       }
