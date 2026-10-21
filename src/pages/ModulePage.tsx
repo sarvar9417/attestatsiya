@@ -6,6 +6,7 @@ import AxborotPracticePage from './AxborotPracticePage'
 import { useCatalog } from '../hooks/useCatalog'
 import { useProgressStore } from '../store/progressStore'
 import { PHOTOSHOP_STUDY_STAGES } from '../data/topics/m10PhotoshopLearningPath'
+import { MODULES } from '../data/contentTree'
 
 export default function ModulePage() {
   const { moduleId } = useParams()
@@ -29,7 +30,22 @@ export default function ModulePage() {
 
   const { modules, loading } = useCatalog()
   const { getModuleProgress, completeTopic } = useProgressStore()
-  const [activeSubtopicId, setActiveSubtopicId] = useState<string | null>(null)
+  const [localSubtopicId, setLocalSubtopicId] = useState<string | null>(null)
+  // M13 originally showed eleven static topics before seven published lessons
+  // arrived. Persist the lesson in the URL across hydration and full reloads.
+  const activeSubtopicId = moduleId === 'M13'
+    ? searchParams.get('topic')
+    : localSubtopicId
+  const openSubtopic = (topicId: string | null) => {
+    if (moduleId !== 'M13') {
+      setLocalSubtopicId(topicId)
+      return
+    }
+    const next = new URLSearchParams(searchParams)
+    if (topicId) next.set('topic', topicId)
+    else next.delete('topic')
+    setSearchParams(next, { replace: true })
+  }
 
   const mod = modules.find(module => module.id === moduleId)
 
@@ -51,6 +67,18 @@ export default function ModulePage() {
             O‘rganishga qaytish
           </Link>
         </div>
+      </div>
+    )
+  }
+
+  // Avoid temporarily exposing legacy M13 buttons that will disappear as
+  // soon as the seven published chapters are hydrated from the backend.
+  if (moduleId === 'M13' && loading) {
+    return (
+      <div className="mx-auto max-w-xl px-5 py-16 text-center" role="status" aria-live="polite">
+        <BookOpen size={40} className="mx-auto mb-4 text-indigo-500" />
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white">M13 darslari yuklanmoqda…</h2>
+        <p className="mt-3 text-sm text-gray-600 dark:text-gray-300">Mavzular ro‘yxati tekshirilmoqda. Tanlangan darsingiz saqlanadi.</p>
       </div>
     )
   }
@@ -84,25 +112,33 @@ export default function ModulePage() {
   }
 
   const progress = getModuleProgress(moduleId)
-  const completedCount = Math.min(
-    progress.completedTopics.length,
-    mod.subtopics.length,
-  )
+  // Supplemental legacy M13 content is not part of the seven canonical
+  // published chapters and must not inflate their completion percentage.
+  const completedCount = moduleId === 'M13'
+    ? mod.subtopics.filter(topic => progress.completedTopics.includes(topic.id)).length
+    : Math.min(progress.completedTopics.length, mod.subtopics.length)
   const totalTopics = mod.subtopics.length
   const progressPercent =
     totalTopics > 0 ? Math.round((completedCount / totalTopics) * 100) : 0
 
-  const currentIndex = mod.subtopics.findIndex(
+  // Do not remap legacy M13.06 to published chapter 6 by index:
+  // the published chapter has an unrelated title and body.
+  const legacyM13Topics = moduleId === 'M13'
+    ? MODULES.find(module => module.id === 'M13')?.subtopics
+    : undefined
+  const selectedTopics = mod.subtopics.some(topic => topic.id === activeSubtopicId)
+    ? mod.subtopics
+    : legacyM13Topics?.some(topic => topic.id === activeSubtopicId)
+      ? legacyM13Topics
+      : mod.subtopics
+  const currentIndex = selectedTopics.findIndex(
     subtopic => subtopic.id === activeSubtopicId,
   )
-  const currentSubtopic =
-    activeSubtopicId === null
-      ? null
-      : mod.subtopics.find(subtopic => subtopic.id === activeSubtopicId) ?? null
-  const previousSubtopic = currentIndex > 0 ? mod.subtopics[currentIndex - 1] : null
+  const currentSubtopic = currentIndex >= 0 ? selectedTopics[currentIndex] : null
+  const previousSubtopic = currentIndex > 0 ? selectedTopics[currentIndex - 1] : null
   const nextSubtopic =
-    currentIndex >= 0 && currentIndex < totalTopics - 1
-      ? mod.subtopics[currentIndex + 1]
+    currentIndex >= 0 && currentIndex < selectedTopics.length - 1
+      ? selectedTopics[currentIndex + 1]
       : null
 
   const handleTopicComplete = (
@@ -111,7 +147,7 @@ export default function ModulePage() {
     total: number,
   ) => {
     completeTopic(moduleId, subtopicId, correct, total)
-    setActiveSubtopicId(null)
+    openSubtopic(null)
   }
 
   if (activeSubtopicId && currentSubtopic) {
@@ -122,18 +158,23 @@ export default function ModulePage() {
           subtopicId={activeSubtopicId}
           moduleTitle={mod.title}
           subtopicIndex={currentIndex}
-          subtopicCount={totalTopics}
+          subtopicCount={selectedTopics.length}
           previousSubtopic={previousSubtopic}
           nextSubtopic={nextSubtopic}
-          onOpenTopic={setActiveSubtopicId}
+          onOpenTopic={openSubtopic}
           onComplete={(correct, total) =>
             handleTopicComplete(activeSubtopicId, correct, total)
           }
-          onBack={() => setActiveSubtopicId(null)}
+          onBack={() => openSubtopic(null)}
         />
       </div>
     )
   }
+
+  const isPublishedM13Catalog = moduleId === 'M13' &&
+    mod.subtopics.length === 7 &&
+    mod.subtopics.every(topic => /^m13-axr-0[1-7]$/.test(topic.code))
+  const supplementalCommerceTopic = legacyM13Topics?.find(topic => topic.id === 'M13.06')
 
   const firstIncompleteIndex = mod.subtopics.findIndex(
     subtopic => !progress.completedTopics.includes(subtopic.id),
@@ -220,7 +261,7 @@ export default function ModulePage() {
                 key={stage.id}
                 type="button"
                 disabled={!mod.subtopics.some(topic => topic.id === stage.id)}
-                onClick={() => setActiveSubtopicId(stage.id)}
+                onClick={() => openSubtopic(stage.id)}
                 className="group flex min-h-40 flex-col justify-between gap-3 rounded-xl border border-gray-200 bg-white p-4 text-left shadow-sm transition hover:border-indigo-400 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-60 dark:border-gray-700 dark:bg-gray-900"
               >
                 <span className="text-sm font-semibold text-gray-950 dark:text-white">{stage.title}</span>
@@ -267,7 +308,7 @@ export default function ModulePage() {
               <button
                 key={subtopic.id}
                 type="button"
-                onClick={() => setActiveSubtopicId(subtopic.id)}
+                onClick={() => openSubtopic(subtopic.id)}
                 className={`group flex w-full items-center gap-3 rounded-2xl border bg-white px-4 py-3.5 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:bg-gray-900 sm:gap-4 sm:px-5 ${
                   current
                     ? 'border-indigo-200 ring-1 ring-indigo-100 dark:border-indigo-800 dark:ring-indigo-950'
@@ -344,6 +385,27 @@ export default function ModulePage() {
           })}
         </div>
       </section>
+
+      {isPublishedM13Catalog && supplementalCommerceTopic && (
+        <section
+          aria-label="M13 qo‘shimcha mavzusi"
+          className="rounded-2xl border border-indigo-200 bg-indigo-50/50 p-5 dark:border-indigo-900 dark:bg-indigo-950/20 sm:p-6"
+        >
+          <h2 className="text-base font-semibold text-gray-950 dark:text-white">Qo‘shimcha mavzu</h2>
+          <p className="mt-2 text-xs leading-5 text-gray-500 dark:text-gray-400">
+            Oldingi o‘quv rejasidagi ushbu darsni ham o‘qishingiz mumkin.
+            U yetti nashr qilingan bobdan alohida va asosiy progressga qo‘shilmaydi.
+          </p>
+          <button
+            type="button"
+            onClick={() => openSubtopic(supplementalCommerceTopic.id)}
+            className="mt-3 flex min-h-12 w-full items-center justify-between gap-3 rounded-xl border border-indigo-200 bg-white px-4 py-3 text-left text-sm font-semibold text-indigo-700 transition hover:border-indigo-400 hover:shadow-sm dark:border-indigo-800 dark:bg-gray-900 dark:text-indigo-300"
+          >
+            <span>{supplementalCommerceTopic.title}</span>
+            <ChevronRight size={17} aria-hidden="true" />
+          </button>
+        </section>
+      )}
 
       {moduleId === 'M01' && (
         <section
