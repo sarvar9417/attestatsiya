@@ -1,3 +1,9 @@
+## TASK-426 — Informatika PDF: HTML va Mantiq 2-dars private QA (2026-10-21)
+
+| Task | Status | Scope / release |
+|---|---|---|
+| TASK-426 | 21/21 HTML Chromium explanatory QA + 7/7 logic rewrite private Supabase PASS; GitHub Node regressiya CI pending | 8 eskirgan blocker dalili haqiqiy manba nuqsoniga moslandi; 21 ta original PDF question unchanged, source pages 21/21. 7 logic editorial proposal restricted to private blocker/free-response QA, original source intact. `scripts/task426-pdf-logic.test.mjs`, `.github/workflows/task426-pdf-source-qa.yml`, [handoff](docs/TASK426_INFORMATIKA_PDF_SOURCE_REMEDIATION_20261021.md). No learner publish, no Vercel deploy. |
+
 ## TASK-425 — Bankwide Y1 sifat tuzatishlari, ikkinchi 8 ta savol release (2026-10-21)
 
 | Task | Status | Verification |
