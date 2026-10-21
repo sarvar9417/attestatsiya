@@ -284,6 +284,22 @@ describe('Learning va Module Figma UI', () => {
     expect(screen.queryByText('Topic view: M13.06')).toBeNull()
   })
 
+  it('published M13da elektron tijorat qo‘shimcha darsi ochiladi va 7 bob progressiga qo‘shilmaydi', async () => {
+    const user = userEvent.setup()
+    mocks.useCatalog.mockReturnValue({ modules: [m13Published], loading: false })
+    mocks.useProgressStore.mockReturnValue({
+      getModuleProgress: () => ({ ...emptyProgress, completedTopics: ['M13.06'] }),
+      completeTopic: vi.fn(),
+    })
+    renderModule('/learn/M13')
+    expect(screen.getByText('0 / 7 mavzu')).toBeDefined()
+    expect(screen.getByText('7 mavzu · 2 attestatsiya savoli')).toBeDefined()
+
+    await user.click(screen.getByRole('button', { name: "Elektron tijorat, to'lov va blockchain" }))
+    expect(screen.getByText('Topic view: M13.06')).toBeDefined()
+    expect(screen.getByTestId('current-route').textContent).toBe('/learn/M13?topic=M13.06')
+  })
+
   it('M13 noto‘g‘ri topic query parametridan xavfsiz qaytadi', () => {
     mocks.useCatalog.mockReturnValue({ modules: [m13Published], loading: false })
     renderModule('/learn/M13?topic=INVALID')
