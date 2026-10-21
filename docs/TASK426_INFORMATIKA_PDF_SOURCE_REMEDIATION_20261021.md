@@ -47,7 +47,7 @@ Asl HTML kodlari, shu jumladan **xatoli** CSS/HTML, tuzatilmasdan Chromium headl
 
 Rasm tashqi resurslarining (№1–2) o‘zi PDF ichida yo‘q. Ularning real mavjud bo‘lgan saytdagi tasvirini taxmin qilib kalit qo‘yilmaydi. Brauzer ko‘rgan `naturalWidth=0` bu faqat mustaqil test muhitida tashqi fayl yo‘qligini ko‘rsatadi.
 
-## 3. Mantiq 2-dars: 7 ta nashrga yaroqli tahrir taklifi (hali RELEASE EMAS)
+## 3. Mantiq 2-dars: 8 ta nashrga yaroqli tahrir taklifi (hali RELEASE EMAS)
 
 Quyidagi variantlar **asl PDF matni emas**, yechimni yagona qiluvchi yangi tahrir draftlari. Ular `attest_ingest.telegram_informatika_pdf_release_blockers.evidence_uz` maydonida, asl nuqson dalilidan keyin `YANGI TAHRIR TAKLIFI` sifatida qayd etildi. Mustaqil izohlar `telegram_informatika_pdf_free_response_qa`ga qo‘shildi.
 
@@ -63,9 +63,20 @@ Quyidagi variantlar **asl PDF matni emas**, yechimni yagona qiluvchi yangi tahri
 
 Manbadagi xatolar manba/provenance uchun saqlangan, nashr blockerlar bekor qilinmagan. 4 variantli takliflar sonni tanlash yoki interval chegara operatorlarini chalg‘ituvchi sifatida ishlatadi. Originaldan mustaqil tahririy yangilanishlarni keyinchalik immutable version bilan nashr qilish kerak.
 
+### №59 — bir nechta to‘g‘ri va semantik jihatdan takror distractor
+
+Asl `¬A ↔ B` uchun manbadagi **A va C to‘g‘ri**, B va D esa o‘zaro teng kuchli (bir xil XNOR) javoblar edi. Rostlik jadvali asosida tekshirilgan yangi Y1 taklifi (**asl PDFning o‘zi emas**):
+
+- **A** `(¬A ∧ B) ∨ (A ∧ ¬B)` — **yagona to‘g‘ri**
+- **B** `(A ∧ B) ∨ (¬A ∧ ¬B)`
+- **C** `(¬A ∧ B) ∨ (A ∧ B)`
+- **D** `(A ∧ ¬B) ∨ (A ∧ B)`
+
+Har bir formula boshqa truth vector beradi. Bular dastlabki source answer_options emas; private `release_blockers.evidence_uz` va `free_response_qa`da yangi tahrir taklifi sifatida saqlangan. Nashr bloki saqlanadi.
+
 ## 4. Avtomatik regressiya
 
-`scripts/task426-pdf-logic.test.mjs` — 7 original predikat, har bir tuzatilgan yagona javob, interval chekkalari va `-100..100` (butun/yarim qadam) qiymatlari bilan tekshiradi. `.github/workflows/task426-pdf-source-qa.yml` PR triggerida `node --test` ishga tushiradi. HTML natijalari avval haqiqiy local Chromium bilan qayta hisoblandi; GitHub workflowdagi Node testi **Chromium'ni ishga tushirmaydi**, buni brower parity gate PASS deb da’vo qilish mumkin emas.
+`scripts/task426-pdf-logic.test.mjs` — 7 interval predikati va bitta 2-input XOR truth table, har bir tuzatilgan yagona javob, interval chekkalari va `-100..100` (butun/yarim qadam) qiymatlari bilan tekshiradi. `.github/workflows/task426-pdf-source-qa.yml` PR triggerida `node --test` ishga tushiradi. HTML natijalari avval haqiqiy local Chromium bilan qayta hisoblandi; GitHub workflowdagi Node testi **Chromium'ni ishga tushirmaydi**, buni brower parity gate PASS deb da’vo qilish mumkin emas.
 
 ## 5. Release himoyasi
 
