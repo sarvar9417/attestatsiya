@@ -1,4 +1,5 @@
 import { HelpCircle, LogOut, Wifi, WifiOff } from 'lucide-react'
+import { useSyncExternalStore } from 'react'
 import ThemeToggle from './ThemeToggle'
 
 interface TestHeaderProps {
@@ -6,9 +7,22 @@ interface TestHeaderProps {
   onHelp: () => void
 }
 
+function subscribeToConnectivity(notify: () => void): () => void {
+  window.addEventListener('online', notify)
+  window.addEventListener('offline', notify)
+  return () => {
+    window.removeEventListener('online', notify)
+    window.removeEventListener('offline', notify)
+  }
+}
+
+function getOnlineSnapshot(): boolean {
+  return typeof navigator === 'undefined' ? true : navigator.onLine
+}
+
 export default function TestHeader({ onExit, onHelp }: TestHeaderProps) {
-  // Simulate online status
-  const online = navigator.onLine
+  // Re-render when connectivity changes, not only when the parent rerenders.
+  const online = useSyncExternalStore(subscribeToConnectivity, getOnlineSnapshot, () => true)
 
   return (
     <header
