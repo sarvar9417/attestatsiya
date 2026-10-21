@@ -11,11 +11,11 @@ BEGIN
  LEFT JOIN public.questions rr ON rr.id=r.revision_question_id
  WHERE q.status='published'::public.content_status
    AND q.group_code IN ('KS','PM.GEN','PM.MET')
-   AND q.stem_md ~* '(asl[[:space:]]+(pdf|manba|to.plam)|manbadagi|manba[[:space:]]+to.plam|pdfda|#attestatsiya|pedmahorat[[:space:]]*[|])'
+   AND q.stem_md ~* '(^[[:space:]]*#|asl[[:space:]]+(pdf|manba|to.plam)|manbadagi|(^|[[:space:]])manbada[[:space:]]|manbaga[[:space:]]+ko.ra|manba[[:space:]]+qaysi|manba[[:space:]]+to.plam|pdfda|pedmahorat[[:space:]]*[|])'
  )
  SELECT count(*),count(*) FILTER(WHERE revision_question_id IS NOT NULL AND status='review'::public.content_status),
  count(*) FILTER(WHERE revision_question_id IS NOT NULL
-    AND stem_md ~* '(asl[[:space:]]+(pdf|manba|to.plam)|manbadagi|manba[[:space:]]+to.plam|pdfda|#attestatsiya|pedmahorat[[:space:]]*[|])')
+    AND stem_md ~* '(^[[:space:]]*#|asl[[:space:]]+(pdf|manba|to.plam)|manbadagi|(^|[[:space:]])manbada[[:space:]]|manbaga[[:space:]]+ko.ra|manba[[:space:]]+qaysi|manba[[:space:]]+to.plam|pdfda|pedmahorat[[:space:]]*[|])')
  INTO total,linked,bad FROM suspects;
  IF linked<>total OR bad<>0 THEN
    RAISE EXCEPTION 'source-label revisions incomplete: total %, linked %, bad %',total,linked,bad;
@@ -25,7 +25,7 @@ BEGIN
  JOIN public.questions rev ON rev.id=r.revision_question_id
  WHERE src.status='published'::public.content_status
  AND src.group_code IN ('KS','PM.GEN','PM.MET')
- AND src.stem_md ~* '(asl[[:space:]]+(pdf|manba|to.plam)|manbadagi|manba[[:space:]]+to.plam|pdfda|#attestatsiya|pedmahorat[[:space:]]*[|])'
+ AND src.stem_md ~* '(^[[:space:]]*#|asl[[:space:]]+(pdf|manba|to.plam)|manbadagi|(^|[[:space:]])manbada[[:space:]]|manbaga[[:space:]]+ko.ra|manba[[:space:]]+qaysi|manba[[:space:]]+to.plam|pdfda|pedmahorat[[:space:]]*[|])'
  AND (
  (SELECT count(*) FROM public.question_options o WHERE o.question_id=rev.id)<>4 OR
  (SELECT count(DISTINCT btrim(o.content_md)) FROM public.question_options o WHERE o.question_id=rev.id)<>4 OR
