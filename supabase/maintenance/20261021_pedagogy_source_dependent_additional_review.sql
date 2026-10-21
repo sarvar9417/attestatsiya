@@ -16,6 +16,19 @@ BEGIN
 ('aa0ebddf-5b9a-40d9-8c47-136c444f7086'::uuid,'Dars tashkiliy qismdan keyin yangi mavzuni bayon qilish bilan davom etadi, so‘ng material mustahkamlanib, uy vazifasi beriladi. Bu qaysi dars turiga xos?'),
 ('cfdfc860-3fe1-4046-9f61-96f08c164e90'::uuid,'Pedagog o‘z faoliyatini ijtimoiy talablar, huquqiy me’yorlar va ta’lim standartlari asosida rejalashtirib, ishini shu talablarga muvofiq olib boradi. Bu qaysi kasbiy sifat?'),
 ('d721b649-e3d3-456c-b554-8323e48c7a0e'::uuid,'Pedagogik refleksiya atamasidagi lotincha «reflexio» so‘zining asosiy ma’nosi nima?')
+,
+('0ac69f96-1a20-44d5-8a92-f1fb3038107b'::uuid,'O‘qituvchi o‘tgan darsning samarali va sust jihatlarini tahlil qilib, keyingi darsiga o‘zgartirishlar kiritdi. Bu kreativlikning qaysi jihatini ko‘rsatadi?'),
+('220929cc-5635-4080-b20f-59576833fd50'::uuid,'O‘qituvchi guruhda yoki mustaqil ishlashni o‘quvchilar tanloviga qoldirib, jarayonga deyarli aralashmadi. Qaysi boshqaruv uslubi namoyon bo‘lmoqda?'),
+('389f3699-02e1-4126-9037-253b775928a3'::uuid,'O‘qituvchi o‘quvchining boshqa fanga bo‘lgan qiziqishini inkor etib, uni matematika olimpiadasiga majburan yo‘naltirdi. Bu qaysi pedagogik tamoyilga zid?'),
+('549298ca-ea79-40cd-89ff-1f7f1adc9257'::uuid,'Xavfsiz va rivojlantiruvchi ta’lim muhitini ta’minlashda pedagogning qanday huquqiy bilimga ega bo‘lishi muhim?'),
+('7763dd85-4cc4-4996-a9d0-d87eb544da63'::uuid,'O‘quvchilar tarixga oid alohida dalillarni tahlil qilib, ulardan umumiy xulosa chiqardi. Bunday fikrlash qaysi metodga asoslanadi?'),
+('9148e2cb-13ba-4490-85ea-7ba843911c77'::uuid,'Maktab o‘qituvchilari bir-birini qo‘llab-quvvatlab, kasbiy faoliyatini o‘zaro hamkorlikda olib bormoqda. Refleksiyaning qaysi turi namoyon bo‘ladi?'),
+('9662ad36-1aff-4a77-9fd3-ac6a4579d5b3'::uuid,'Ikki o‘quvchi o‘rtasida nizo yuzaga keldi. O‘qituvchi har ikki tomonni tinglab, adolatli xulosa chiqardi. Qaysi nizoni hal etish usuli qo‘llandi?'),
+('9c3250d6-ab53-4548-a8cd-5467bbad5a4f'::uuid,'O‘qituvchi mavzuga oid rasmlarni doskaga ilib, shu tasvirlarga tayangan holda mavzuni tushuntirdi. Qaysi an’anaviy ta’lim metodi qo‘llandi?'),
+('a3768e0f-c8b2-45ac-89ca-575fa39d8a06'::uuid,'O‘qituvchi sinfni kichik guruhlarga bo‘ldi. Har bir guruh qisqa vaqtda muammo bo‘yicha fikr aytib, eng maqbul taklifni tanladi. Qaysi interfaol metodga misol?'),
+('c02b2968-30ad-494c-b2a8-70decca36dbc'::uuid,'Ikki o‘quvchi o‘rtasidagi nizoda o‘qituvchi tomonlarga dalillar va mantiqiy asoslarni ko‘rsatib, ularni kelishtirdi. Qaysi pedagogik ta’sir usuli qo‘llandi?'),
+('d7585fb9-68ed-46cd-b13f-2420ce813553'::uuid,'Pedagog o‘quvchining ovozi, yuz ifodasi va tana harakatlarini kuzatib, uning hissiy holatini angladi. Qaysi pedagogik qobiliyat namoyon bo‘ldi?'),
+('fe3791fb-259f-4a29-b1ef-3014bd7a115a'::uuid,'Pedagog o‘z fikrini o‘quvchiga aniq va ta’sirchan yetkazishi uchun qaysi nutqiy sifatga tayanadi?')
  ) AS proposed(source_id,stem)
  LOOP
   SELECT * INTO STRICT src FROM public.questions
