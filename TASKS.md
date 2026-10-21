@@ -1,3 +1,9 @@
+## TASK-373 — Kasbiy standart (KS) 60 ta qisqa izoh uchun didaktik tahrir (2026-10-21)
+
+| Task | Status | Acceptance / release |
+|---|---|---|
+| TASK-373 | 60 pedagogik rationales prepared; PR CI/main merge required | 211 published Y1 KS savolining 60 tasida 80 belgidan qisqa izoh topildi; har biri savol va mavjud to‘g‘ri javob bilan solishtirildi. 60 individual 285–359 belgilik didaktik izoh `supabase/maintenance/task373_ks_60_explanations_ROLLBACK_ONLY.sql`da; **migration emas, ROLLBACK-only, productionga qo‘llanmagan**. `src/tests/task373KSExplanationReview.test.ts` 60 manba/no-commit/no-publish tekshiruvi; read-only audit va `docs/TASK373_KS_60_EXPLANATIONS_20261021.md`. **Faqat GitHub main merge. User alohida buyurmaguncha production deploy, database write, publish qat’iyan yo‘q.** |
+
 ## TASK-372 — Metodika (PM.MET) bo‘yicha 35 qisqa javob izohini chuqurlashtirish (2026-10-21)
 
 | Task | Status | Acceptance / release |
