@@ -8,7 +8,7 @@ BEGIN
   END IF;
   SELECT lower(pg_get_functiondef('public.submit_answer(uuid,uuid,jsonb,integer)'::regprocedure))
   INTO body;
-  IF position('and v_exam.kind <> ''mock''' in body)>0
+  IF position('and not (p_answer ? ''_client_revision'')' in body)=0
      OR position('v_revision <=' in body)=0
      OR position('v_exam.finished_at is not null' in body)=0
      OR position('user_id = v_user' in body)=0
