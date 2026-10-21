@@ -1,3 +1,13 @@
+## TASK-379 — Butun test bazasi distractor/format sifat auditi (2026-10-21)
+
+- **Owner:** ChatGPT; user requested all database test items be systematically checked/corrected and quality-assured batches eventually published.
+- **Status:** IN PROGRESS. Exact snapshot: 8 603 records; 5 438 published (4 438 Y1 / 506 Y2 / 494 Y3), 1 406 review / 33 draft / 1 726 archived. Existing open findings on active questions 6 504 (not distinct questions).
+- Read-only all-format auditor: 257 Y1 answer-length >1.5× candidates; 308 lexical suspicious candidates; 1 934 short rationale; 20 Y2 matching-format candidates. Recognize valid 3×3/4×5 matching and Y3 3–6 ordering; keep case-sensitive code outputs distinct.
+- First batch: 8 high-signal INFO / OFFICE / NET Y1 items prepared with 3 realistic distractors and explanation each, source key unchanged; no false expert approval. Production Supabase `ROLLBACK` rehearsal: 8/8 staged, 32/32 options, 8/8 REVIEW, no persistent write. GitHub CI/PR and review-stage publication next.
+- **Safeguard:** published versions/historic scores immutable. REVIEW staging is **not** production release. Independent human/editorial gating still applies to substantive new distractors; don't mass-publish based only on heuristics.
+- Files: `supabase/maintenance/task379_full_bank_option_quality_audit_READONLY.sql`, `supabase/maintenance/task379_wave1_EIGHT_REVIEW_STAGE.sql`, `src/tests/task379BankwideQualityAudit.test.ts`, `docs/TASK379_BANKWIDE_OPTION_QUALITY_AUDIT_20261021.md`.
+- Longer continuation: GitHub issue #469. Previously existing pedagogy-specific issue #461 remains separate.
+
 ## TASK-378 — Ota-ona suhbat misoli productionga chiqarish (2026-10-21)
 
 - **Owner:** ChatGPT. Oldingi 16 ta TASK-377 release muvaffaqiyatli (Supabase postflight 16/16, 41 historic).
