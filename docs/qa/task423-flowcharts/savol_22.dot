@@ -1,0 +1,22 @@
+// TASK-423 review-only transcription from PDF page 16; not learner-published.
+// PDF source: Google Drive 13k9q8hDA5b-s-5x8p1apCAnRqJaLKtmi
+// Editorial note: graph is a redraw, NOT a pixel-exact original; source check required.
+digraph savol_22 {
+  graph [rankdir=TB, labelloc=t, label="№22. M18 — blok-sxema", fontname="DejaVu Sans", fontsize=18, bgcolor=white, splines=polyline];
+  node [fontname="DejaVu Sans", fontsize=13, style=filled, fillcolor="#f6f8fc", color="#334155"];
+  edge [fontname="DejaVu Sans", fontsize=11, color="#334155"];
+  start [label="Boshlash",shape=oval];
+  input [label="a, b, n ni kiritish",shape=parallelogram];
+  calc [label="c = a + b",shape=box];
+  cond [label="c <= n ?",shape=diamond];
+  out [label="c ni chiqarish",shape=parallelogram];
+  advance [label="a = b\\nb = c",shape=box];
+  end [label="Tugatish",shape=oval];
+  start -> input;
+  input -> calc;
+  calc -> cond;
+  cond -> out [label="ha"];
+  out -> advance;
+  advance -> calc;
+  cond -> end [label="yo'q"];
+}
