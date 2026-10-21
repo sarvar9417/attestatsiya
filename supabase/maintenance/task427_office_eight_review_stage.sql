@@ -137,7 +137,7 @@ FROM task427_review_map m;
 INSERT INTO public.question_quality_findings(
  question_id,finding_code,severity,details
 )
-SELECT m.source_id,'task427_semantic_distractor_review_pending','high',
+SELECT m.source_id,'task427_semantic_distractor_review_pending','medium',
  jsonb_build_object('task','TASK-427','replacement_question_id',m.review_id,
   'explanation','Three semantically adjacent distractors and longer individual rationale prepared',
   'publication_status','review_only','approved_independently',false)
