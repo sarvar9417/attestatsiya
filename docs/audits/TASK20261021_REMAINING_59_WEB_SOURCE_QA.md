@@ -19,16 +19,17 @@ In earlier PR #386, 24 of 83 short-explanation review questions received initial
 
 ### Evidence classification (based on user-provided physical PDF page text extraction)
 
-- **23 direct:** relevant textbook wording/tool/attribute occurs on the cited original pages. This does not prove the exact question or distractor design is endorsed by the textbook.
+- **24 direct:** relevant textbook wording/tool/attribute occurs on the cited original pages. This does not prove the exact question or distractor design is endorsed by the textbook.
 - **27 partial:** answer is independently derived from supported subject knowledge/arithmetic, but the exact wording, image-only explanation or all subclaims are not directly in the cited text.
-- **9 gaps:** relevant precise term/convention was **not found in the cited page range's text layer**. An embedded image might still provide support; this is **not evidence that the key is wrong**.
+- **8 original-book text gaps:** relevant precise term/convention was **not found in the cited page range's text layer**. An embedded image might still provide support; this is **not evidence that the key is wrong**.
 - **29** entries share semantic clusters worth checking for test diversity, including CSS box width, PSD/Photoshop mask terminology, image pixel-count multiplication and vector operations. This is a deduplication **risk flag**, not proof that questions are exact duplicates.
 
-### Nine source-evidence gaps for follow-up
+> **Correction after a visual/original-text check:** `GV2:GV-ED-027` has textbook support in ICT 5-sinf (2020), physical PDF p.77 (rectangle selection followed by crop/«обрезка»). The old `gap` flag was a false negative; the question should say *Paint.NET* rather than generic *Paint*. Remaining 8 entries have independent vendor/web-standard references documented separately in `TASK20261021_NINE_SOURCE_GAPS_PRIMARY_EVIDENCE.csv`. These do not retroactively make the cited textbook pages contain that material.
+
+### Eight original-book text evidence gaps for follow-up
 
 | Source alias | Evidence gap |
 |---|---|
-| `GV2:GV-ED-027` | Paint Select is present; Crop instruction not located in cited ICT5 pages |
 | `GV2:GV-ED-039`, `GV2:GV-ED-040` | Layer-mask white/black reveal/hide convention not located in extracted prose |
 | `GV2:GV-ED-046` | Gaussian Blur term not located in cited ICT7/ICT5 page ranges |
 | `GV2:GV-HT-024` | `required` / `disabled` form attributes absent from cited ICT7 text layer |
