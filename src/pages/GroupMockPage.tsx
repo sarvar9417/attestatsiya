@@ -377,7 +377,7 @@ export default function GroupMockPage() {
             </button>
           </div>
           {roomsError && <p role="alert" className="mb-3 text-sm text-red-600">{roomsError}</p>}
-          {myRooms.length === 0 ? (
+          {!roomsError && myRooms.length === 0 ? (
             <p className="text-sm text-gray-500 dark:text-gray-400">
               {roomsLoading ? 'Xonalar qidirilmoqda...' : 'Hali saqlangan guruhli testingiz yo‘q.'}
             </p>
