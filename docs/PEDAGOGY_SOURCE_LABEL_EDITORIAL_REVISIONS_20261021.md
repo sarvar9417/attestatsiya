@@ -39,3 +39,20 @@ Taklif etiladigan **review-only** variant:
 > Pedagogik nizolarning kechish muddati va jadalligiga oid ushbu to‘plamda qaysi belgilar nizo turlari sifatida keltirilgan? 1) Tez yakun topuvchi; 2) Uzoq muddat davom etuvchi; 3) Kuchsiz, sust kechadigan; 4) Kuchli, tez kechadigan; 5) Kuchsiz, tez kechadigan.
 
 To‘g‘ri javob (faqat source-key): **1, 2, 3, 4**. Bu nashrga tayyor variant emas: tasnifning nazariy asosini mustaqil tekshirish, 5-band nega kiritilmaganini aniq izohlash va chalg‘ituvchi variantlarni qayta yaratish kerak. Original savoldagi 5-bandning mazmun jihatidan mantiqan mumkinligi alohida xavf. Agar bu farq nazariy manbadan isbotlanmasa, savolni bekor qilish yoki boshqa formatda qayta yozish to‘g‘riroq.
+
+## 2026-10-21 — Batched production editorial staging QA
+
+Additional read-only scans identified **52 active published** pedagogy question stems bearing Telegram hashtags, explicit PDF/source-dependent wording or Pedmahorat|Guli attribution. This includes both original questions above, newly recognized PDF/"Manbadagi" cases, and imported `#attestatsiya_2025` tags.
+
+Production `plyqezulrfowyblsfpzy` now records **52/52 linked `review` revisions**, each with **4 nonempty distinct options** and an option UUID matching its keyed answer. **0 staged revised stems** still match the source-label detector. 52/52 says the **mechanical integrity checks pass**, not that all answer keys are pedagogically independently validated.
+
+Source scripts:
+- `supabase/maintenance/20261021_pedagogy_source_label_review_drafts.sql` — six corrected original concepts and wording with proposed rebalanced options; source PDF answer for nizo question verified in original.
+- `supabase/maintenance/20261021_pedagogy_telegram_hashtag_review_drafts.sql` — clone Y1 originals with source hashtag removed and text escapes normalized. Idempotently skips already linked revisions.
+- `supabase/maintenance/20261021_pedagogy_source_dependent_additional_review.sql` — eleven other source-dependent, PDF-centric prompts converted into self-contained review versions while retaining old option/key mapping.
+- `supabase/maintenance/audit_pedagogy_source_labels_readonly.sql` — inventory.
+- `supabase/tests/pedagogy_source_attribution_review_qa.sql` — read-only checks.
+
+All original published question content and historical attempts remain unchanged. No editor approval, production publication, merge, or deploy was fabricated or performed. Legacy published rows can still surface outside selectors enforcing high-severity findings until a coordinated final release atomically publishes each vetted revision and archives its predecessor via the existing `publish_pedagogy_revision` RPC. The `pedagogy_published_no_source_label_chk` constraint in the proposed release-guard SQL is **NOT applied**: it needs formal migration generation, final regression checks and release coordination under `PEDAGOGY_RELEASE_FREEZE.md`.
+
+Do **not** represent the 52 review drafts as 52 fixed learner-visible questions. Review each answer, ambiguity, plausible distractor and original content provenance before promotion; simple keyword cleanup does not verify pedagogical truth. Related informatika matches found by the same broad regex use "PDF" or "asl manba" in the *subject matter* rather than to reference an inaccessible questionnaire, so they are intentionally excluded.
