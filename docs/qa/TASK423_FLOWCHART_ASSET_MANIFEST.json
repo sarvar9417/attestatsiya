@@ -10,140 +10,186 @@
       "source_pdf_page": 9,
       "svg": {
         "name": "savol_15.svg",
-        "sha256": "a8147bb2d1a6d4f5a33efe23f73ebb1f77fc7932dc5add95a9b9fb419a8d2f06"
+        "sha256": "a8147bb2d1a6d4f5a33efe23f73ebb1f77fc7932dc5add95a9b9fb419a8d2f06",
+        "uploaded_to_repository": false
       },
       "png": {
         "name": "savol_15.png",
-        "sha256": "2e64b9162c0dadc9bd3bc26265329258c060db76111c013c3491cdefe33749ce"
+        "sha256": "2e64b9162c0dadc9bd3bc26265329258c060db76111c013c3491cdefe33749ce",
+        "uploaded_to_repository": false
       },
       "human_approved": false,
-      "published": false
+      "published": false,
+      "graphviz_dot_repo_path": "docs/qa/task423-flowcharts/savol_15.dot",
+      "graphviz_dot_committed": true
     },
     {
       "source_question_no": 16,
       "source_pdf_page": 10,
       "svg": {
         "name": "savol_16.svg",
-        "sha256": "017002bd60c277e1888bd4a9a32b94ccacca295fd6e6de521bfcb3c25bc34589"
+        "sha256": "017002bd60c277e1888bd4a9a32b94ccacca295fd6e6de521bfcb3c25bc34589",
+        "uploaded_to_repository": false
       },
       "png": {
         "name": "savol_16.png",
-        "sha256": "edb15e3c8b2ac6479b517c39989d475c219579a6cfb9fe1a67c55ff792d8d479"
+        "sha256": "edb15e3c8b2ac6479b517c39989d475c219579a6cfb9fe1a67c55ff792d8d479",
+        "uploaded_to_repository": false
       },
       "human_approved": false,
-      "published": false
+      "published": false,
+      "graphviz_dot_repo_path": "docs/qa/task423-flowcharts/savol_16.dot",
+      "graphviz_dot_committed": true
     },
     {
       "source_question_no": 17,
       "source_pdf_page": 11,
       "svg": {
         "name": "savol_17.svg",
-        "sha256": "2a3c40e7f108e0ad929832faea5f4845b124f4311cc96c0c45ea52ed4ed78fb4"
+        "sha256": "2a3c40e7f108e0ad929832faea5f4845b124f4311cc96c0c45ea52ed4ed78fb4",
+        "uploaded_to_repository": false
       },
       "png": {
         "name": "savol_17.png",
-        "sha256": "4049243f158e8aec24c6f0e44aa43416f5b1c8555fc7e27ffa426f5528709f4d"
+        "sha256": "4049243f158e8aec24c6f0e44aa43416f5b1c8555fc7e27ffa426f5528709f4d",
+        "uploaded_to_repository": false
       },
       "human_approved": false,
-      "published": false
+      "published": false,
+      "graphviz_dot_repo_path": "docs/qa/task423-flowcharts/savol_17.dot",
+      "graphviz_dot_committed": true
     },
     {
       "source_question_no": 18,
       "source_pdf_page": 12,
       "svg": {
         "name": "savol_18.svg",
-        "sha256": "7a298a6a1f8019e54c6c03104aa64f275a0d23c5e5d02ac0cbc1ad4197cc4275"
+        "sha256": "7a298a6a1f8019e54c6c03104aa64f275a0d23c5e5d02ac0cbc1ad4197cc4275",
+        "uploaded_to_repository": false
       },
       "png": {
         "name": "savol_18.png",
-        "sha256": "96028967d97e105aafa2b50099efd0f0e12bd1b7e26d585c4dd30c91652c01dc"
+        "sha256": "96028967d97e105aafa2b50099efd0f0e12bd1b7e26d585c4dd30c91652c01dc",
+        "uploaded_to_repository": false
       },
       "human_approved": false,
-      "published": false
+      "published": false,
+      "graphviz_dot_repo_path": "docs/qa/task423-flowcharts/savol_18.dot",
+      "graphviz_dot_committed": true
     },
     {
       "source_question_no": 19,
       "source_pdf_page": 13,
       "svg": {
         "name": "savol_19.svg",
-        "sha256": "cc75224135d510296586ebaab63836fae13f2d3470c2152e5994462230706960"
+        "sha256": "cc75224135d510296586ebaab63836fae13f2d3470c2152e5994462230706960",
+        "uploaded_to_repository": false
       },
       "png": {
         "name": "savol_19.png",
-        "sha256": "e2930fdad76d1c5e7b93f7fce74edeaaf62d1522f7724df4ddf7a87636a2fba9"
+        "sha256": "e2930fdad76d1c5e7b93f7fce74edeaaf62d1522f7724df4ddf7a87636a2fba9",
+        "uploaded_to_repository": false
       },
       "human_approved": false,
-      "published": false
+      "published": false,
+      "graphviz_dot_repo_path": "docs/qa/task423-flowcharts/savol_19.dot",
+      "graphviz_dot_committed": true
     },
     {
       "source_question_no": 20,
       "source_pdf_page": 14,
       "svg": {
         "name": "savol_20.svg",
-        "sha256": "63ea2ac928265680b600d82910ae71b641866a4c42128f09d82a0d6952efb5a6"
+        "sha256": "63ea2ac928265680b600d82910ae71b641866a4c42128f09d82a0d6952efb5a6",
+        "uploaded_to_repository": false
       },
       "png": {
         "name": "savol_20.png",
-        "sha256": "25806697988530455702aced6bb1d7af9ca4656526126207c2e3d0159df01fca"
+        "sha256": "25806697988530455702aced6bb1d7af9ca4656526126207c2e3d0159df01fca",
+        "uploaded_to_repository": false
       },
       "human_approved": false,
-      "published": false
+      "published": false,
+      "graphviz_dot_repo_path": "docs/qa/task423-flowcharts/savol_20.dot",
+      "graphviz_dot_committed": true
     },
     {
       "source_question_no": 21,
       "source_pdf_page": 15,
       "svg": {
         "name": "savol_21.svg",
-        "sha256": "a1ad7132a1e71a9e5ab04b98ecdedbcdfffd3d3e1bd563850a83f33d1a566719"
+        "sha256": "a1ad7132a1e71a9e5ab04b98ecdedbcdfffd3d3e1bd563850a83f33d1a566719",
+        "uploaded_to_repository": false
       },
       "png": {
         "name": "savol_21.png",
-        "sha256": "95a1ce26c21302bc3577cc1e499df827a11937f0e63052c81727407533d02fd5"
+        "sha256": "95a1ce26c21302bc3577cc1e499df827a11937f0e63052c81727407533d02fd5",
+        "uploaded_to_repository": false
       },
       "human_approved": false,
-      "published": false
+      "published": false,
+      "graphviz_dot_repo_path": "docs/qa/task423-flowcharts/savol_21.dot",
+      "graphviz_dot_committed": true
     },
     {
       "source_question_no": 22,
       "source_pdf_page": 16,
       "svg": {
         "name": "savol_22.svg",
-        "sha256": "c3720dbc6139cf0b96f09ccbbdf0cdc0c2aa328559a3b472538d7e0a78c9e0d2"
+        "sha256": "c3720dbc6139cf0b96f09ccbbdf0cdc0c2aa328559a3b472538d7e0a78c9e0d2",
+        "uploaded_to_repository": false
       },
       "png": {
         "name": "savol_22.png",
-        "sha256": "0a100b079a22bab58da540ddf9583d8f5b6ce103ba43c80560f6fdfe4905175b"
+        "sha256": "0a100b079a22bab58da540ddf9583d8f5b6ce103ba43c80560f6fdfe4905175b",
+        "uploaded_to_repository": false
       },
       "human_approved": false,
-      "published": false
+      "published": false,
+      "graphviz_dot_repo_path": "docs/qa/task423-flowcharts/savol_22.dot",
+      "graphviz_dot_committed": true
     },
     {
       "source_question_no": 23,
       "source_pdf_page": 17,
       "svg": {
         "name": "savol_23.svg",
-        "sha256": "d19b4c5353f7364d5cc2f107ccf3be9d550d837e386c2d112d2647a3d066e59b"
+        "sha256": "d19b4c5353f7364d5cc2f107ccf3be9d550d837e386c2d112d2647a3d066e59b",
+        "uploaded_to_repository": false
       },
       "png": {
         "name": "savol_23.png",
-        "sha256": "4ce06af24d2566eca2f4dc6576aa9a1c245fdca44f9745848df722be90f16e94"
+        "sha256": "4ce06af24d2566eca2f4dc6576aa9a1c245fdca44f9745848df722be90f16e94",
+        "uploaded_to_repository": false
       },
       "human_approved": false,
-      "published": false
+      "published": false,
+      "graphviz_dot_repo_path": "docs/qa/task423-flowcharts/savol_23.dot",
+      "graphviz_dot_committed": true
     },
     {
       "source_question_no": 24,
       "source_pdf_page": 18,
       "svg": {
         "name": "savol_24.svg",
-        "sha256": "edcd995fae6ef4d197ef753045f14dea3b7f3965ffa2a7eae5b1f9adb43b0a83"
+        "sha256": "edcd995fae6ef4d197ef753045f14dea3b7f3965ffa2a7eae5b1f9adb43b0a83",
+        "uploaded_to_repository": false
       },
       "png": {
         "name": "savol_24.png",
-        "sha256": "6ae4f7f35e9ecf913bbca0229398ce41448f0896ebce634e44624ed2a466f9f4"
+        "sha256": "6ae4f7f35e9ecf913bbca0229398ce41448f0896ebce634e44624ed2a466f9f4",
+        "uploaded_to_repository": false
       },
       "human_approved": false,
-      "published": false
+      "published": false,
+      "graphviz_dot_repo_path": "docs/qa/task423-flowcharts/savol_24.dot",
+      "graphviz_dot_committed": true
     }
-  ]
+  ],
+  "graphviz_source_repo": "docs/qa/task423-flowcharts",
+  "graphviz_source_count": 10,
+  "repo_renderer": "scripts/task423-render-flowcharts.mjs",
+  "repo_validation": "scripts/task423-flowcharts.test.mjs",
+  "repo_ci": ".github/workflows/task423-flowcharts.yml",
+  "graphviz_dot_committed": true
 }
