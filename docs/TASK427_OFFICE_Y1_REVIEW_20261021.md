@@ -15,7 +15,7 @@ User butun attestatsiya savollar bazasini audit qilish va sifatli tuzatishlarni 
 | 939fc993-7f18-1dd8-17ca-35882f0f5692 | Excel SUM va COUNTIF | OFF-E03-009, CAM6/CAM10–11 |
 | d53d3cfc-f971-a72c-8c98-90cd2084dbdb | Excel `#####` chiqishi | OFF-E01-019, CAM6/CAM7/CAM10–11 |
 
-**Evidence chegarasi:** Manba kodlari production savollarining `source_reference` metama’lumotidan olingan; tegishli darslik PDF sahifalari bu bosqichda mustaqil tasdiqlanmagan. Aniq eski to‘g‘ri javob matni va savol konteksti production `question_keys` / `question_options` bo‘yicha tekshirildi. Yangi noto‘g‘ri variantlar va kengaytirilgan izohlar AI-assisted didaktik tahrirdir; manbadan so‘zma-so‘z olingan degan da’vo qilinmaydi. Mustaqil inson ekspertizasi bajarilgan deb qayd etilmaydi.
+**Evidence chegarasi:** Manba kodlari production savollarining `source_reference` metama’lumotidan olingan; PowerPointning ikki savoli (Entrance/Transition va 15 soniyalik avtomatik o‘tish) uchun foydalanuvchi yuklagan **ICT 6 (2021), PDF 151–152-sahifalar** matni va 152-sahifa vizual tekshirildi: o‘tish effekti, 5-bandda slayd almashinish vaqtini belgilash va obyekt animatsiyasi aniq ajratilgan. Qolgan **6 Office savoli uchun aniq PDF sahifasi bu bosqichda mustaqil tasdiqlanmagan**. Aniq eski to‘g‘ri javob matni va savol konteksti production `question_keys` / `question_options` bo‘yicha tekshirildi. Yangi noto‘g‘ri variantlar va kengaytirilgan izohlar AI-assisted didaktik tahrirdir; manbadan so‘zma-so‘z olingan degan da’vo qilinmaydi. Mustaqil inson ekspertizasi bajarilgan deb qayd etilmaydi.
 
 ## Sifat va saqlash invarianti
 - Yangi har bir savolda 3 ta mavzuga yaqin noto‘g‘ri javob, aynan saqlangan to‘g‘ri javob va tushuntirish mavjud.
