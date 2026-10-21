@@ -44,4 +44,17 @@ describe('Y2 one-to-one matching quality gate', () => {
     expect(isRightChoiceUsedByAnotherPair(selected, 'c', '111')).toBe(true)
     expect(isRightChoiceUsedByAnotherPair(undefined, 'a', '101')).toBe(false)
   })
+  it('handles the native 4x4 pool without reusing right choices', () => {
+    const fourPairs = [
+      ...pairs,
+      { leftId: 'd', rightContent: '010' },
+    ]
+    expect(isCompleteOneToOneMatching(fourPairs, {
+      a: '010', b: '001', c: '111', d: '101',
+    })).toBe(true)
+    expect(isCompleteOneToOneMatching(fourPairs, {
+      a: '101', b: '111', c: '001', d: '001',
+    })).toBe(false)
+  })
+
 })
