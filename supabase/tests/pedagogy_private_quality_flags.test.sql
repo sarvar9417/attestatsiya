@@ -1,14 +1,17 @@
 -- P0 option quality flags remain private and do not mutate/publish questions.
 BEGIN;
 DO $verify$
-DECLARE v_n integer; v_length integer; v_wrongcue integer; v_review integer;
+DECLARE v_n integer; v_invalid integer; v_review integer;
 BEGIN
- SELECT count(*),count(*) FILTER(WHERE answer_length_signal),count(*) FILTER(WHERE absolute_word_cue)
- INTO v_n,v_length,v_wrongcue
+ -- A heuristic cue is NOT a broken schema: a reviewed production bank may have
+ -- zero length-signals even when CI synthetic fixtures have >100.
+ -- Structural errors and missing published baseline ARE release regressions.
+ SELECT count(*),count(*) FILTER(WHERE invalid_y1_contract)
+ INTO v_n,v_invalid
  FROM public.pedagogy_option_quality_flags WHERE status='published';
- IF v_n<160 OR v_length<100 OR v_wrongcue<100 THEN
-   RAISE EXCEPTION 'Published pedagogy option risk snapshot drift: total %, length %, cue %',
-     v_n,v_length,v_wrongcue;
+ IF v_n<160 OR v_invalid<>0 THEN
+   RAISE EXCEPTION 'Published pedagogy Y1 contract invalid: total %, broken %',
+     v_n,v_invalid;
  END IF;
  SELECT count(*) INTO v_review
  FROM public.pedagogy_option_quality_flags WHERE status='review';
@@ -18,9 +21,26 @@ BEGIN
      WHERE group_code IN ('KS','PM.GEN','PM.MET') AND status='published')<360 THEN
    RAISE EXCEPTION 'Neither draft inventory nor published owner-approved bank is present';
  END IF;
+ IF NOT EXISTS (
+   SELECT 1 FROM pg_class c
+   WHERE c.oid='public.pedagogy_option_quality_flags'::regclass
+     AND 'security_invoker=true'=ANY(c.reloptions)
+ ) THEN
+   RAISE EXCEPTION 'Private quality view must be security_invoker';
+ END IF;
  IF has_table_privilege('anon','public.pedagogy_option_quality_flags','SELECT')
    OR has_table_privilege('authenticated','public.pedagogy_option_quality_flags','SELECT') THEN
    RAISE EXCEPTION 'Key-derived editorial quality view must be inaccessible to learners';
+ END IF;
+ -- Previously user-reported pedagogik takt regression: channel badge is not
+ -- an explanation. Published revision must explain the pedagogic distinction.
+ IF EXISTS (
+   SELECT 1 FROM public.questions q
+   JOIN public.question_keys k ON k.question_id=q.id
+   WHERE q.status='published' AND q.stem_md ILIKE '%pedagogik taktga xos%'
+     AND (k.explanation_md NOT ILIKE '%xatoni%' OR k.explanation_md NOT ILIKE '%hurmat%')
+ ) THEN
+   RAISE EXCEPTION 'Pedagogik takt published explanation lost its reasoning';
  END IF;
  -- An approved owner batch can legitimately publish these draft identifiers,
  -- but an item must have an actual four-part editorial approval record.
