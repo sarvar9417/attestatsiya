@@ -8,6 +8,7 @@ import { paginateTheoryBlocks } from '../../features/content/theoryPagination'
 import { getTopicTestPreflight, type TopicTestPreflight } from '../../features/content/contentApi'
 import { getLessonDetail } from '../../features/content/contentApi'
 import { markdownToTheoryBlocks, overlayPublishedProfessionalLesson } from '../../features/content/professionalLessonTheory'
+import { isLocalAlgorithmSvgPath } from '../../features/content/localAlgorithmDiagram'
 import PedagogyTheoryBlock from './PedagogyTheoryBlock'
 import { completeLessonReader } from '../../features/content/completeLessonReader'
 import type { TopicContent } from '../../data/topicContent'
@@ -993,6 +994,28 @@ export function TheoryBlock({ block }: { block: TheoryBlock }) {
   const Icon = cfg.icon
 
   switch (block.type) {
+    case 'diagram': {
+      // This separate TopicView renderer must match the canonical BookBlock
+      // allowlist, never loading arbitrary Markdown image URLs.
+      const src = block.diagram && isLocalAlgorithmSvgPath(block.diagram) ? block.diagram : null
+      return src ? (
+        <figure className="rounded-2xl border border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-gray-900 sm:p-5">
+          <img
+            src={src}
+            alt={block.content}
+            loading="lazy"
+            decoding="async"
+            className="mx-auto h-auto max-h-[70vh] w-full object-contain"
+          />
+          <figcaption className="mt-3 text-center text-sm text-gray-600 dark:text-gray-400">
+            {block.content}
+          </figcaption>
+        </figure>
+      ) : (
+        <p className="text-sm text-gray-500 dark:text-gray-400">{block.content}</p>
+      )
+    }
+
     case 'heading':
       return (
         <h3 className="mt-5 border-b border-gray-200 pb-3 text-lg font-bold leading-7 text-gray-950 dark:border-gray-800 dark:text-white">
