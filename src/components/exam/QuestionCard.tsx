@@ -1,3 +1,4 @@
+import { prepareExamCodeText } from '../../lib/formatQuestionCode'
 import { Bookmark, BookmarkCheck } from 'lucide-react'
 import type { ExamQuestion } from './exam-data'
 import { LEVEL_LABELS, LETTERS } from './exam-data'
@@ -27,7 +28,7 @@ export default function QuestionCard({
   const options = question.options.filter((o) => o.side === 'a')
 
   // Parse stem for code blocks
-  const stemSegments = parseCodeBlocks(question.stem_md)
+  const stemSegments = parseCodeBlocks(prepareExamCodeText(question.stem_md))
 
   return (
     <div className="bg-card border border-border rounded-xl">

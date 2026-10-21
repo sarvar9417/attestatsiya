@@ -1,3 +1,4 @@
+import { formatCodeForDisplay, prepareExamCodeText } from '../../../lib/formatQuestionCode'
 import ExamProse, { normalizeExamLineBreaks } from './ExamProse'
 
 /**
@@ -12,7 +13,7 @@ export function splitExamContent(input: string):
   const parts: Array<{ kind: 'prose' | 'code'; text: string; language?: string }> = []
   // Some imported questions incorrectly wrapped a whole fenced block in **bold**.
   // Remove only that outer wrapper; leave legitimate bold prose untouched.
-  const content = normalizeExamLineBreaks(input).replace(/\*\*(```[\s\S]*?```)\*\*/g, '$1')
+  const content = normalizeExamLineBreaks(prepareExamCodeText(input)).replace(/\*\*(```[\s\S]*?```)\*\*/g, '$1')
   const fence = /```([a-zA-Z0-9_+#.-]*)[ \t]*(?:\r?\n|[ \t]+)([\s\S]*?)[ \t]*```/g
   let cursor = 0
   let match: RegExpExecArray | null
@@ -50,7 +51,7 @@ export default function ExamRichText({ text }: { text: string }) {
               className="m-0 max-w-full overflow-x-auto p-3 text-left font-mono text-[13px] leading-6 sm:text-sm"
               tabIndex={0}
               aria-label={`${languageNames[part.language ?? ''] ?? 'Dastur'} kodi`}
-            ><code className="whitespace-pre">{part.text}</code></pre>
+            ><code className="whitespace-pre">{formatCodeForDisplay(part.text, part.language)}</code></pre>
           </div>
         ) : (
           <ExamProse key={index} text={part.text} />
