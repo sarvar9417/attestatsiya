@@ -28,6 +28,12 @@ DECLARE
   source_key jsonb;
   v_total int:=0;
 BEGIN
+  -- Defer only when the complete remote-only Office source corpus is absent.
+  IF NOT EXISTS (SELECT 1 FROM public.questions
+                 WHERE source_reference LIKE 'Office_2026_v2|%') THEN
+    RAISE NOTICE 'TASK-383 Office_v2 bank absent: defer six source-specific revisions';
+    RETURN;
+  END IF;
   IF (SELECT count(*) FROM task383_cases)<>6 THEN
     RAISE EXCEPTION 'TASK-383 mappings must contain 6 items'; END IF;
 

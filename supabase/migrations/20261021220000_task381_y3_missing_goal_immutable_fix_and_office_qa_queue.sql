@@ -18,6 +18,13 @@ DECLARE
     'Avval rasmga Caption qo‘yiladi, keyin shu rasmga Cross-reference yaratiladi. Rasm raqamlanishi o‘zgargach, havola yangi raqamni ko‘rsatishi uchun Cross-reference maydoni yangilanadi. To‘g‘ri tartib: 2 → 3 → 4 → 1.';
   v_count integer;
 BEGIN
+  -- Fresh CI does not seed the remote-only Office_2026_v2 source bank.
+  -- All partial/imported cases continue to fail closed below.
+  IF NOT EXISTS (SELECT 1 FROM public.questions
+                 WHERE source_reference LIKE 'Office_2026_v2|%') THEN
+    RAISE NOTICE 'TASK-381 Office_v2 bank absent: defer source-specific revision';
+    RETURN;
+  END IF;
   SELECT * INTO src FROM public.questions
   WHERE source_reference LIKE 'Office_2026_v2|OFF-W03-028|%'
   FOR UPDATE;
