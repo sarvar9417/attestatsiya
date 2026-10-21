@@ -1,3 +1,9 @@
+## TASK-375 — Savollar bazasidagi bir qatorli kodlarni Markdown code blockka o‘tkazish (2026-10-21)
+
+| Task | Status | Acceptance / release |
+|---|---|---|
+| TASK-375 | DONE — production postflight PASS; main merge prepared | 37 inline-backtick va 22 markersiz psevdokod savol immutable revision orqali til yorliqli fenced blockka aylantirildi. 59 successor published, 59 source archived, 0 semantic mismatch, 80 ochiq quality finding ko‘chirildi, audited inline remainder 0. SQL/Vitest/lint/typecheck/build PASS; application deploy yo‘q. `docs/TASK375_DATABASE_CODE_BLOCKS_20261021.md`. |
+
 ## TASK-374 — Umumiy pedagogika PM.GEN, M15dan tashqari 30 ta qisqa izoh (2026-10-21)
 
 | Task | Status | Acceptance / release |
