@@ -4,9 +4,9 @@
 WITH candidate AS (
   SELECT q.id, q.group_code, q.status, q.source_reference, q.stem_md,
     CASE
-      WHEN q.stem_md ~* '^#attestatsiya_[0-9]{4}' THEN 'telegram_hashtag'
+      WHEN q.stem_md ~* '^#[[:alnum:]_]{3,40}' THEN 'telegram_hashtag'
       WHEN q.stem_md ~* 'pedmahorat[[:space:]]*[|][[:space:]]*guli' THEN 'pedguli_label'
-      WHEN q.stem_md ~* '(asl[[:space:]]+(pdf|manba|to.plam)|manbadagi|manba[[:space:]]+to.plam|pdfda)'
+      WHEN q.stem_md ~* '(asl[[:space:]]+(pdf|manba|to.plam)|manbadagi|(^|[[:space:]])manbada[[:space:]]|manbaga[[:space:]]+ko.ra|manba[[:space:]]+qaysi|manba[[:space:]]+to.plam|pdfda)'
         THEN 'external_source_dependent'
       ELSE 'none'
     END AS issue
