@@ -19,11 +19,18 @@ export async function healthRoutes(app: FastifyInstance) {
     }
 
     const status = dbOk ? 'healthy' : 'degraded'
+    // Vercel supplies this public Git SHA at deploy time when system env is exposed.
+    // A null value means identity is unverified, not that a guessed commit is live.
+    const candidateSha = process.env.VERCEL_GIT_COMMIT_SHA
+    const gitCommit = candidateSha && /^[a-f0-9]{40}$/i.test(candidateSha)
+      ? candidateSha.toLowerCase()
+      : null
 
-    return reply.code(dbOk ? 200 : 503).send({
+    return reply.header('Cache-Control', 'no-store').code(dbOk ? 200 : 503).send({
       status,
       timestamp: new Date().toISOString(),
       version: '1.0.0',
+      gitCommit,
       checks: {
         database: {
           status: dbOk ? 'healthy' : 'unhealthy',
