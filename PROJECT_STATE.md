@@ -1,3 +1,11 @@
+## TASK-373 — Kasbiy standart 60 Y1 savolning tushuntirish sifatini oshirish (2026-10-21)
+
+- Read-only Supabase QA: 211 published KS Y1 savoldan 60 tasining izohi 80 belgidan qisqa va hali reviziya navbatida yo‘q; savol matni, eski izoh va server to‘g‘ri varianti mazmunan solishtirildi.
+- 60 ta individual, 285–359 belgilik didaktik rationale: `supabase/maintenance/task373_ks_60_explanations_ROLLBACK_ONLY.sql`, **faqat review draft**, migratsiya emas, productionda bajarilmagan va `ROLLBACK` bilan tugaydi.
+- Regression: `src/tests/task373KSExplanationReview.test.ts` 60 noyob source, mazmun bo‘limlari, no-publish/no-COMMIT; read-only audit: `supabase/maintenance/task373_ks_short_explanation_audit_READONLY.sql`.
+- Handoff `docs/TASK373_KS_60_EXPLANATIONS_20261021.md`.
+- Published question keys, historical attempts va statuses unchanged. **User release rule: faqat GitHub `main`ga merge; ruxsatsiz production deploy/Supabase write/publish yo‘q.**
+
 ## TASK-372 — PM.MET qisqa savol izohlari sifati (2026-10-21)
 
 - Read-only QA: 88 published Y1 PM.MET savolidan 35 tasida 80 belgidan qisqa izoh; har biri stem, eski izoh va javob semantikasi bilan solishtirildi.
