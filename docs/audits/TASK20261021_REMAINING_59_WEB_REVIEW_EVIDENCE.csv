@@ -16,7 +16,7 @@
 "GV2:GV-ED-019","ED","ICT7 PDF 47-67; ICT5 PDF 67-85","conceptually_consistent_not_final_approval","direct","Crop and Move tool purposes distinguish selection/crop from move","none","not_recorded"
 "GV2:GV-ED-020","ED","ICT7 PDF 47-67; ICT5 PDF 67-85","conceptually_consistent_not_final_approval","partial","Layer mask concept supported; nondestructive background hiding is reasoned inference","mask_cluster","not_recorded"
 "GV2:GV-ED-021","ED","ICT7 PDF 47-67; ICT5 PDF 67-85","conceptually_consistent_not_final_approval","direct","Type tool documented in photo editor; key matches","none","not_recorded"
-"GV2:GV-ED-027","ED","ICT7 PDF 47-67; ICT5 PDF 67-85","conceptually_consistent_not_final_approval","gap","Paint Select documented; Crop command not found in cited ICT5 PDF text pages","none","not_recorded"
+"GV2:GV-ED-027","ED","ICT7 PDF 47-67; ICT5 PDF 67-85","conceptually_consistent_not_final_approval","direct","ICT5 2020 physical PDF p77 explicitly gives rectangular selection followed by crop (obrezka); clarify generic Paint to Paint.NET","none","not_recorded"
 "GV2:GV-ED-028","ED","ICT7 PDF 47-67; ICT5 PDF 67-85","conceptually_consistent_not_final_approval","direct","Lasso tool independently verified; close overlap with ED-006","lasso_repetition","not_recorded"
 "GV2:GV-ED-034","ED","ICT7 PDF 47-67; ICT5 PDF 67-85","conceptually_consistent_not_final_approval","direct","PSD layer-preserving project file key matches; repeated with ED-009 and ED-014","psd_repetition","not_recorded"
 "GV2:GV-ED-037","ED","ICT7 PDF 47-67; ICT5 PDF 67-85","conceptually_consistent_not_final_approval","partial","Opacity shown at 50 percent; zero-percent transparency is reasoned extension","none","not_recorded"
