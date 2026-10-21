@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { readFileSync } from 'node:fs'
 
 const migration = readFileSync(
-  'supabase/migrations/20261021114500_task377_pedagogy_16_distractor_release.sql',
+  'supabase/maintenance/task377_pedagogy_16_owner_authorized_release.sql',
   'utf8',
 )
 const sourceIds = [...migration.matchAll(/\('([\da-f-]{36})'::uuid,'([\da-f-]{36})'::uuid,\d+,/g)]
