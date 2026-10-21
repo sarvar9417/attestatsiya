@@ -54,6 +54,8 @@ export interface ExamGateway {
   ): Promise<ExamSession>
   /** Intro ekranda vaqt cheklovini ko'rsatish uchun (mavzu testi). */
   previewTopicTest?(lessonId: string): Promise<TopicTestPreview | null>
+  /** Durable local first-commit for every learning/assessment answer. */
+  queueExamAnswer?(input: SubmitAnswerInput): void
   /** Persist a complete mock draft locally immediately; no answer keys. */
   queueMockAnswer?(input: SubmitAnswerInput): void
   /** Replay locally queued drafts and return server-pending count. */
