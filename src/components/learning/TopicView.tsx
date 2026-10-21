@@ -22,6 +22,7 @@ import {
 } from 'lucide-react'
 import { syncTopicProgress } from '../../lib/progressSync'
 import { isCompleteOneToOneMatching, isRightChoiceUsedByAnotherPair } from '../../lib/exam/matching'
+import { isCompleteOrdering } from '../../lib/exam/ordering'
 
 // Kitob ko'rinishi KaTeX va sxemalarni olib keladi — faqat shu mavzular
 // ochilganda yuklanadi.
@@ -53,9 +54,10 @@ function isQuestionCorrect(q: TestQuestion, answer: unknown): boolean {
     return q.pairs.every(p => answer[p.leftId] === p.rightContent)
   }
   if (q.type === 'Y3' && q.items && q.correctOrder) {
-    const ans = answer as string[] | undefined
-    if (!ans) return false
-    return q.correctOrder.every((id, i) => id === ans[i])
+    if (!isCompleteOrdering(q.items, answer) || !isCompleteOrdering(q.items, q.correctOrder)) {
+      return false
+    }
+    return q.correctOrder.every((id, i) => id === answer[i])
   }
   return false
 }
@@ -1496,7 +1498,7 @@ function QuestionCard({ question: q, index, total, selected, isSubmitted, onSele
         {!isSubmitted ? (
           <button 
             onClick={onSubmit} 
-            disabled={selected === undefined || (q.type === 'Y2' && q.pairs && !isCompleteOneToOneMatching(q.pairs, selected)) || (q.type === 'Y3' && q.items && (selected as string[] | undefined)?.length !== q.items.length)} 
+            disabled={selected === undefined || (q.type === 'Y2' && q.pairs && !isCompleteOneToOneMatching(q.pairs, selected)) || (q.type === 'Y3' && q.items && !isCompleteOrdering(q.items, selected))} 
             className="px-5 py-2.5 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-xl text-xs font-semibold hover:from-primary-700 hover:to-primary-600 transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2"
           >
             {q.type === 'Y1' && <CheckCircle2 size={14} />}
