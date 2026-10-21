@@ -145,6 +145,35 @@ describe('secure ExamRunner', () => {
     useProgressStore.setState({ moduleProgress: {} })
   })
 
+  it('refresh loads the same unfinished mock without creating a second attempt', async () => {
+    const gateway = successfulGateway()
+    gateway.getActiveMockExam = vi.fn().mockResolvedValue({
+      ...examSession(),
+      answered_question_ids: [ids.question1],
+      saved_answers: { [ids.question1]: { option_id: ids.optionB } },
+    })
+    renderExam(gateway)
+    expect(await screen.findByText('Yagona javobni tanlang')).toBeDefined()
+    expect(screen.getByText('Saqlandi ✓')).toBeDefined()
+    expect(gateway.getActiveMockExam).toHaveBeenCalledTimes(1)
+    expect(gateway.startMockExam).not.toHaveBeenCalled()
+    expect(gateway.submitAnswer).not.toHaveBeenCalled()
+  })
+
+  it('keeps mock start disabled if resume cannot be checked and retries safely', async () => {
+    const user = userEvent.setup()
+    const gateway = successfulGateway()
+    gateway.getActiveMockExam = vi.fn()
+      .mockRejectedValueOnce(new Error('Tarmoq uzildi'))
+      .mockResolvedValueOnce(examSession())
+    renderExam(gateway)
+    await screen.findByRole('button', { name: 'Sinovni qayta tiklash' })
+    expect(screen.getByRole('button', { name: 'Sinovni boshlash' })).toBeDisabled()
+    await user.click(screen.getByRole('button', { name: 'Sinovni qayta tiklash' }))
+    expect(await screen.findByText('Yagona javobni tanlang')).toBeDefined()
+    expect(gateway.startMockExam).not.toHaveBeenCalled()
+  })
+
   it('mock Y1/Y2/Y3 javoblarini saqlash tugmasisiz avtomatik yuboradi va o‘zgartirishga ruxsat beradi', async () => {
     const user = userEvent.setup()
     const gateway = successfulGateway()
@@ -283,8 +312,6 @@ describe('secure ExamRunner', () => {
     await user.click(
       await screen.findByRole('button', { name: /Variant A/ })
     )
-    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
-
     expect(
       await screen.findByRole('heading', { name: 'Sinov yakunlandi' })
     ).toBeDefined()
@@ -374,13 +401,14 @@ describe('secure ExamRunner', () => {
     // Barcha savollarga javob berib sinovni yakunlash
     await screen.findByText('Yagona javobni tanlang')
     await user.click(screen.getByRole('button', { name: /Variant A/ }))
-    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
     await screen.findByText('Elementlarni moslang')
     await user.selectOptions(screen.getByLabelText(/Chap bir/), ids.right1)
     await user.selectOptions(screen.getByLabelText(/Chap ikki/), ids.right2)
-    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
     await screen.findByText('Qadamlarni tartiblang')
-    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
+    await user.click(screen.getAllByRole('button', { name: /— pastga/ }).find(
+      button => !(button as HTMLButtonElement).disabled
+    ) as HTMLButtonElement)
+    await waitFor(() => expect(gateway.submitAnswer).toHaveBeenCalledTimes(3))
     await user.click(screen.getByRole('button', { name: 'Sinovni yakunlash' }))
 
     expect(
@@ -473,7 +501,7 @@ describe('secure ExamRunner', () => {
     expect((screen.getByRole('button', { name: 'Sinovni boshlash' }) as HTMLButtonElement).disabled).toBe(true)
     expect(gateway.startTopicExam).not.toHaveBeenCalled()
   })
-  it('does not finish from an already-open confirmation while an answer is saving', async () => {
+  it('prevents finishing an exam while an autosaved answer is still in flight', async () => {
     const user = userEvent.setup()
     const gateway = successfulGateway()
     let resolveSave!: (value: { saved: true }) => void
@@ -481,11 +509,8 @@ describe('secure ExamRunner', () => {
     renderExam(gateway, '/exam/bolim/M01')
     await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
     await user.click(screen.getByRole('button', { name: /Variant A/ }))
-    await user.click(screen.getByRole('button', { name: 'Sinovni yakunlash' }))
-    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
-    const confirm = screen.getByRole('button', { name: 'Yakunlash' })
-    expect(confirm).toBeDisabled()
-    await user.click(confirm)
+    await waitFor(() => expect(gateway.submitAnswer).toHaveBeenCalledTimes(1))
+    expect(screen.getByRole('button', { name: 'Sinovni yakunlash' })).toBeDisabled()
     expect(gateway.finishExam).not.toHaveBeenCalled()
     await act(async () => { resolveSave({ saved: true }) })
     expect(await screen.findByText('Elementlarni moslang')).toBeDefined()
@@ -503,15 +528,13 @@ describe('secure ExamRunner', () => {
     renderExam(gateway, '/exam/bolim/M01')
     await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
     await user.click(screen.getByRole('button', { name: /Variant A/ }))
-    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
     await screen.findByText('Javob qurilmada saqlandi')
     // Reconnect already delivered A, so the queue is now empty. The UI must
     // still prevent changing to B before obtaining the idempotent receipt.
     queued = undefined
     expect(screen.getByRole('button', { name: /Variant B/ })).toBeDisabled()
-    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
-    expect(gateway.submitAnswer).toHaveBeenLastCalledWith(expect.objectContaining({ answer: { option_id: ids.optionA } }))
-    expect(await screen.findByText('Elementlarni moslang')).toBeDefined()
+    expect(gateway.submitAnswer).toHaveBeenCalledWith(expect.objectContaining({ answer: { option_id: ids.optionA } }))
+    expect(gateway.submitAnswer).toHaveBeenCalledTimes(1)
   })
 
   it('waits for an in-flight save before automatic timeout finalization', async () => {
@@ -528,7 +551,7 @@ describe('secure ExamRunner', () => {
       renderExam(gateway, '/exam/bolim/M01')
       await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
       await user.click(screen.getByRole('button', { name: /Variant A/ }))
-      await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
+      await waitFor(() => expect(gateway.submitAnswer).toHaveBeenCalledTimes(1))
       clock.mockReturnValue(now + 1500)
       act(() => { vi.advanceTimersByTime(1000) })
       expect(gateway.finishExam).not.toHaveBeenCalled()
