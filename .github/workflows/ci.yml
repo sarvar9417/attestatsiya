@@ -213,7 +213,8 @@ jobs:
               supabase/migrations/20261022001000_task397_five_informatika_y1_length_bias_semantic_repair.sql|\
               supabase/migrations/20261022002000_task398_ten_y1_informatika_office_security_answer_length_repairs.sql|\
               supabase/migrations/20261022003000_task399_ten_y1_info_office_security_second_answer_length_repairs.sql|\
-              supabase/migrations/20261022004000_task400_ten_y1_hardware_network_length_bias_repairs.sql)
+              supabase/migrations/20261022004000_task400_ten_y1_hardware_network_length_bias_repairs.sql|\
+              supabase/migrations/20261022005000_task401_ten_y1_information_hardware_concept_length_repairs.sql)
                 echo "Skipping previously applied production-only Office Y3 data revision in clean-schema CI: ${migration}"
                 continue
                 ;;
@@ -430,7 +431,8 @@ jobs:
               supabase/migrations/20261022001000_task397_five_informatika_y1_length_bias_semantic_repair.sql|\
               supabase/migrations/20261022002000_task398_ten_y1_informatika_office_security_answer_length_repairs.sql|\
               supabase/migrations/20261022003000_task399_ten_y1_info_office_security_second_answer_length_repairs.sql|\
-              supabase/migrations/20261022004000_task400_ten_y1_hardware_network_length_bias_repairs.sql)
+              supabase/migrations/20261022004000_task400_ten_y1_hardware_network_length_bias_repairs.sql|\
+              supabase/migrations/20261022005000_task401_ten_y1_information_hardware_concept_length_repairs.sql)
                 echo "Skipping previously applied production-only Office Y3 data revision in clean-schema CI: ${migration}"
                 continue
                 ;;
