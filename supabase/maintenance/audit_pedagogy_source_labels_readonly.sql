@@ -1,24 +1,31 @@
--- Read-only inspection of source labels leaking into pedagogy question stems.
--- Do not mutate published questions: assessment attempt integrity requires immutable revisions.
--- Run against Supabase using an administrative SQL console.
-WITH suspect AS (
+-- Read-only audit: exact published pedagogy source-label/hashtag leakage.
+-- Reports both original immutable published rows and staged editorial revisions.
+-- This is an editorial *candidate* detector; matched items still require source review.
+WITH candidate AS (
   SELECT q.id, q.group_code, q.status, q.source_reference, q.stem_md,
     CASE
-      WHEN q.stem_md ~* '^[[:space:]]*pedmahorat[[:space:]]*[|][[:space:]]*guli' THEN 'pedguli_label'
-      WHEN q.stem_md ~* '^[[:space:]]*(manba|telegram|pdf)[[:space:]]*[:|]' THEN 'generic_source_prefix'
+      WHEN q.stem_md ~* '^#attestatsiya_[0-9]{4}' THEN 'telegram_hashtag'
+      WHEN q.stem_md ~* 'pedmahorat[[:space:]]*[|][[:space:]]*guli' THEN 'pedguli_label'
+      WHEN q.stem_md ~* '(asl[[:space:]]+(pdf|manba|to.plam)|manbadagi|manba[[:space:]]+to.plam|pdfda)'
+        THEN 'external_source_dependent'
       ELSE 'none'
-    END AS reason
+    END AS issue
   FROM public.questions q
-  WHERE q.group_code IN ('KS','PM.GEN','PM.MET')
+  WHERE q.group_code IN ('KS','PM.GEN','PM.MET') AND q.status='published'
 )
-SELECT s.id, s.group_code, s.status, s.reason, s.source_reference,
-       left(s.stem_md,240) AS stem_preview,
-       count(DISTINCT o.id) AS option_count,
-       count(DISTINCT nullif(btrim(o.content_md),'')) AS distinct_options,
-       coalesce(array_agg(DISTINCT f.finding_code) FILTER (WHERE f.resolved_at IS NULL),ARRAY[]::text[]) AS open_findings
-FROM suspect s
-LEFT JOIN public.question_options o ON o.question_id=s.id
-LEFT JOIN public.question_quality_findings f ON f.question_id=s.id
-WHERE s.reason <> 'none'
-GROUP BY s.id,s.group_code,s.status,s.reason,s.source_reference,s.stem_md
-ORDER BY s.status,s.group_code,s.id;
+SELECT c.id, c.group_code, c.status, c.issue, c.source_reference,
+       left(c.stem_md,240) AS original_stem_preview,
+       count(DISTINCT o.id) AS original_options,
+       count(DISTINCT nullif(btrim(o.content_md),'')) AS distinct_original_options,
+       r.revision_question_id, rr.status AS revision_status,
+       left(rr.stem_md,240) AS replacement_preview,
+       coalesce(array_agg(DISTINCT f.finding_code) FILTER (WHERE f.resolved_at IS NULL),ARRAY[]::text[]) AS unresolved_findings
+FROM candidate c
+LEFT JOIN public.question_options o ON o.question_id=c.id
+LEFT JOIN public.pedagogy_revision_queue r ON r.source_question_id=c.id
+LEFT JOIN public.questions rr ON rr.id=r.revision_question_id
+LEFT JOIN public.question_quality_findings f ON f.question_id=c.id
+WHERE c.issue <> 'none'
+GROUP BY c.id,c.group_code,c.status,c.issue,c.source_reference,c.stem_md,
+  r.revision_question_id,rr.status,rr.stem_md
+ORDER BY c.issue,c.group_code,c.id;
