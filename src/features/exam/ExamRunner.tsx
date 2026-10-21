@@ -448,7 +448,7 @@ export default function ExamRunner({
     setMessage(null)
 
     try {
-      if (session.kind === 'mock' && gateway.flushQueuedAnswers) {
+      if (gateway.flushQueuedAnswers) {
         const pending = await gateway.flushQueuedAnswers(session.exam_id)
         if (pending.remaining > 0) {
           throw new Error('Ba’zi javoblar hali serverga saqlanmadi. Internetni tekshiring va yakunlashni qayta bosing.')
