@@ -128,6 +128,34 @@ describe('Exam Routes', () => {
     expect(response.json().error.code).toBe('TOKEN_REQUIRED')
   })
 
+  it('GET /api/exam/active requires a bearer token for all test kinds', async () => {
+    for (const kind of ['mock', 'mavzu', 'bolim', 'diagnostika', 'mashq',
+      'takrorlash', 'zaif', 'pedagogik_15', 'axb_bob', 'custom']) {
+      const response = await app.inject({
+        method: 'GET',
+        url: `/api/exam/active?kind=${kind}`,
+      })
+      expect(response.statusCode).toBe(401)
+      expect(response.json().error.code).toBe('TOKEN_REQUIRED')
+    }
+  })
+
+  it('GET /api/exam/active validates kind, count and chapter before any lookup', async () => {
+    for (const path of [
+      '/api/exam/active?kind=invalid',
+      '/api/exam/active?kind=axb_bob&chapter_no=20',
+      '/api/exam/active?kind=axb_bob&chapter_no=1&count=31',
+      '/api/exam/active?kind=mock&answer_key=1',
+    ]) {
+      const response = await app.inject({
+        method: 'GET', url: path,
+        headers: { authorization: 'Bearer token-abc' },
+      })
+      expect(response.statusCode).toBe(400)
+      expect(response.json().error.code).toBe('VALIDATION_ERROR')
+    }
+  })
+
   it('GET /api/exam/mock/active never exposes a resume without authentication', async () => {
     for (const authorization of [undefined, 'Basic foo', 'Bearer ']) {
       const response = await app.inject({
