@@ -177,7 +177,7 @@ begin
     'explanation_md', v_key.explanation_md
   );
 end
-$function$
+$function$;
 
 
 -- Both finalizers apply SM-2 once under the locked exam row, and are idempotent
@@ -260,7 +260,7 @@ begin
     'max_score', v_exam.max_score, 'passed', v_exam.passed,
     'breakdown', v_exam.breakdown, 'already_finished', false
   );
-end $function$
+end $function$;
 
 
 CREATE OR REPLACE FUNCTION public.finish_exam_batch(p_exam_id uuid, p_answers jsonb DEFAULT '[]'::jsonb)
@@ -486,7 +486,7 @@ begin
     'items', v_items
   );
 end
-$function$
+$function$;
 
 
 COMMIT;
