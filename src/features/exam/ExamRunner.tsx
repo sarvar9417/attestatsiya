@@ -564,6 +564,7 @@ export default function ExamRunner({
         items={item.options}
         value={Array.isArray(value) ? value : []}
         disabled={disabled}
+        allowConfirmCurrentOrder
         onChange={updateDraft}
       />
     )
