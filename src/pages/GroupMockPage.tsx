@@ -344,7 +344,20 @@ export default function GroupMockPage() {
     let active = true
     setRoomsLoading(true)
     void listMyGroupMockRooms().then(rooms => {
-      if (active) { setMyRooms(rooms); setRoomsError(null) }
+      if (active) {
+        setMyRooms(rooms)
+        setRoomsError(null)
+        // Recover the last active group room only after the server confirms
+        // this account is still a member. Never override an invitation code.
+        if (recentRoomKey && !searchParams.get('code')) {
+          let remembered: string | null = null
+          try { remembered = window.localStorage.getItem(recentRoomKey) } catch { /* optional */ }
+          if (remembered && rooms.some(room => room.room_id === remembered &&
+              room.status !== 'finished')) {
+            setSearchParams({ room: remembered }, { replace: true })
+          }
+        }
+      }
     }).catch(err => {
       if (active) setRoomsError(err instanceof Error ? err.message : 'Xonalar ro‘yxati yuklanmadi')
     }).finally(() => { if (active) setRoomsLoading(false) })
