@@ -1,3 +1,9 @@
+## TASK-377 — Pedagogika 16 savol uchun production release (2026-10-21)
+
+| Task | Status | Acceptance / release |
+|---|---|---|
+| TASK-377 | Migration staged; Supabase `ROLLBACK` release rehearsal PASS; CI + production apply pending | User "productionga chiqar" instruction. Apply only 16 TASK-376 wrong-option edits to REVIEW successors, record explicit historical owner waiver (not expert signoff), atomically publish 16 successors and archive 16 prior versions with preserved fingerprints and 41 historical exam refs. Production SQL only via migration, no Vercel app deploy needed. Evidence: `docs/TASK377_PEDAGOGY_PRODUCTION_RELEASE_20261021.md`. |
+
 ## TASK-376 — Pedagogika javob variantlari: semantic QA (2026-10-21)
 
 | Task | Status | Acceptance / release |
