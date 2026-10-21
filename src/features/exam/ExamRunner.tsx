@@ -1519,7 +1519,7 @@ export default function ExamRunner({
                 {currentQueued
                   ? (navigator.onLine ? 'Serverga yuborilmoqda…' : 'Qurilmada saqlandi')
                   : currentSaved
-                    ? 'Avtomatik saqlandi ✓'
+                    ? (session.kind === 'mock' ? 'Saqlandi ✓' : 'Avtomatik saqlandi ✓')
                     : currentItem.format === 'Y3' ? 'Tartibni o‘zgartiring' : 'Javobni belgilang'}
               </span>
 
