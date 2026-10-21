@@ -837,6 +837,13 @@ export default function ExamRunner({
                 </div>
               )}
 
+              {examKind === 'custom' && !customConfig && !resuming && !resumeFailed && (
+                <p className="mt-4 text-sm text-amber-700 dark:text-amber-300">
+                  Davom ettiriladigan shaxsiy test topilmadi. Yangi test uchun
+                  {' '}<Link to="/custom-test" className="font-semibold underline">konstruktorga qayting</Link>.
+                </p>
+              )}
+
               {resumeFailed && !resuming && (
                 <button type="button" onClick={() => setResumeRetry(n => n + 1)}
                   className="mt-4 rounded-lg border border-amber-300 px-3 py-2 text-sm font-semibold text-amber-700 dark:border-amber-700 dark:text-amber-300">
