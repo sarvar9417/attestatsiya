@@ -27,7 +27,7 @@ describe('TASK-427 Office question-bank editorial review staging', () => {
     expect(stage).toContain("WHERE q.status='review'")
     expect(stage).toContain("'human_editorial_approval',false")
     expect(stage).toContain("'release_performed',false")
-    expect(stage).toContain('task427_semantic_distractor_review_pending')
+    expect(stage).toContain("SELECT m.source_id,'task427_semantic_distractor_review_pending','medium',")
     expect(stage).toContain('TASK427_NOT_REVIEW_ONLY')
     expect(stage).not.toMatch(/SET\s+status\s*=\s*'published'/i)
   })
