@@ -36,7 +36,7 @@ BEGIN
         ('GV2:GV-RV-020','SUPPLEMENT Inkscape intersection https://inkscape.org/my/doc/keys.html'),
         ('GV2:GV-RV-021','SUPPLEMENT Inkscape z-order raise-to-top https://inkscape.org/my/doc/keys.html')
   ) AS s(source_alias,supplement) LOOP
-    SELECT count(*), min(q.id), min(q.stem_md)
+    SELECT count(*), (array_agg(q.id ORDER BY q.id))[1], min(q.stem_md)
       INTO matched,target_id,old_stem
       FROM public.questions q
      WHERE q.status='review'
