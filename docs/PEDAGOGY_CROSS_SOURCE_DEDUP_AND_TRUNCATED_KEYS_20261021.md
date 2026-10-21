@@ -22,6 +22,12 @@ A *different*, stricter verification removed the source question number, case, w
 
 All 95 remain `needs_review`; the source answer field, editorial review and learner question keys remain untouched. A matching source stem does NOT justify reusing a printed answer marker without confirming each option set. Readback confirmed **zero broken references, zero self-references, and all 95 remain in review**.
 
+### 3a. Eleven independently confirmed copies of already published questions
+
+A further pairwise editorial check showed **11 of the 95 full-stem-linked** spring (6) candidates also have exactly the same *complete normalized source answer marker* as an older `verified` / `independently_verified` and publicly linked counterpart (after stripping only Telegram attribution, case and punctuation).
+
+Private source slots **43, 107, 116, 117, 126, 144, 153, 171, 185, 187, 194** were therefore moved from `needs_review` to `rejected` as **redundant source occurrences of already published items**, retaining the raw source and canonical relationship for audit. The 11 candidates themselves have **no public links**. The five other candidates with **incomplete extracted source answer fragments** were not rejected on this rule and remain `needs_review` and `missing` as documented below.
+
 ### 4. Five extracted source answers confirmed incomplete
 
 Of 16 links to a verified/published counterpart, **11** spring source answer markers agreed with their verified counterpart under normalized watermark-stripped answer text. **Five** were shorter because the spring source extraction stopped at a line wrap:
@@ -38,7 +44,7 @@ All five original answer values were crosschecked against original authenticated
 
 ### 5. Counts and boundaries
 
-Readback shortly after this batch: **1,091** total private PDF source records and **428** `needs_review`. Counts are live snapshots (other work may also change the inbox); the two exact-duplicate retirements remove two pending slots, while this batch's near-duplicate metadata and truncation flags leave other pending counts unchanged.
+Readback shortly after this batch: **1,091** total private PDF source records and **417** `needs_review`. Counts are live snapshots (other work may also change the inbox); two source-exact copies and eleven duplicate copies of already published items were retired (13 pending slots total); 95 stem linkages and five truncated-source-answer flags do not independently approve other items.
 
 This batch did not touch `questions`, `question_options`, `question_keys` or user attempts. No manual production deploy was performed.
 
