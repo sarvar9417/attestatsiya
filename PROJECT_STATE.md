@@ -1,9 +1,9 @@
 ## TASK-369 — Pedagogika/PDF manba kandidat izohlari (2026-10-21)
 
 - User release rule: **faqat kodni `main`ga merge; explicit buyruq bo‘lmaguncha productionga deploy yoki Supabase o‘zgarish YO‘Q**. `vercel.json`da `git.deploymentEnabled=false` inspeksiya qilingan.
-- QA snapshot: 8 363 jami savol, 5 415 published; 18 published PDF kandidat/source-key editorial signali; 972 published alohida `Manba:`/source paragrafi. Bu source izlari har doim noto‘g‘ri kalit emas.
+- QA snapshot: 8 363 jami savol, 5 415 published; 26 published PDF kandidat/source-key editorial signali; 972 published alohida `Manba:`/source paragrafi. Bu source izlari har doim noto‘g‘ri kalit emas.
 - Yechim: `src/features/exam/learnerExplanation.ts` tozalash qatlami; ExamRunner, ExamReviewList, GroupMockPage, lessonContentGateway, TopicView funksiyalariga ulangan. Backend scoring javob kaliti clientga muddatidan avval chiqmaydi.
-- 18 savolning individual tushuntirishlari `supabase/maintenance/task369_pdf_explanations_review_ONLY_NO_PRODUCTION.sql`da saqlanadi; `ROLLBACK`, **hech qanday prod qo‘llash va publish yo‘q**.
+- 26 savolning individual tushuntirishlari `supabase/maintenance/task369_pdf_explanations_review_ONLY_NO_PRODUCTION.sql`da saqlanadi; `ROLLBACK`, **hech qanday prod qo‘llash va publish yo‘q**.
 - Regression va audit: `src/features/exam/learnerExplanation.test.ts`, `src/features/exam/ExamReviewList.test.tsx`, `supabase/maintenance/task369_explanation_audit_READONLY.sql`.
 - Documentation: `docs/TASK369_LEARNER_EXPLANATION_EDITORIAL_20261021.md`. Further release requires new direct owner instruction.
 
@@ -241,7 +241,7 @@ Total output lines: 2050
 - User authorization: complete single consolidated merge and production deployment; **freeze all future merges and deploys afterward until another explicit request**.
 - Green consolidated CI on `9361a4770b90ed449f3ded3a0c5ce45124fad4a6` (run `39098671181`): database, backend, quality/Playwright.
 - Production DB preparation: M15 lessons and 94 new M15 topic-bank questions staged `review`; total KS/PM published 175 (unchanged), review 249; original 175 source snapshots and keys locked. Two conflicting 2026 PDF answer keys remain source `rejected/conflict`, revised original items `review` only.
-- 118 published Y1 length-hint risks have separate private rewrite proposals and revision queue entries; all 118 pass the mechanical size/uniqueness QA, but **none were automatically published or falsely human-approved**.
+- 126 published Y1 length-hint risks have separate private rewrite proposals and revision queue entries; all 118 pass the mechanical size/uniqueness QA, but **none were automatically published or falsely human-approved**.
 - The private PDF source queue preserves provenance; 649 historical candidates require source-aware independent semantic checking. Work remaining for future editorial approval must never be conflated with this guarded technical release.
 - Final PR: `#121`; final Vercel SHA/READY must be verified, not inferred from GitHub merge. Refrain from any subsequent automatic GitHub or Vercel release.
 
@@ -256,7 +256,7 @@ Total output lines: 2050
 ## Pedagogika release security va practice fairness (TASK-201, 2026-10-16)
 
 - **Status:** IN_PROGRESS — 328 KS/PM bank: 175 published, 153 review; no editorial-check approvals. 649 PDF candidate, 195 verified, 335 accepted_general, 119 rejected.
-- **Audit:** 169 published pedagogika Y1 savolidan 118 tasida correct variant >30% longer than all wrong. Existing published content immutable, no auto rewrite.
+- **Audit:** 169 published pedagogika Y1 savolidan 126 tasida correct variant >30% longer than all wrong. Existing published content immutable, no auto rewrite.
 - **Patch:** new server-side publish gate for PDF-derived and all KS/PM, fingerprint locked to source/options/answers; immutable published snapshots survive archive; 15-item practice tie randomization keeps 5+7+3 and distinct constructs.
 - **No auto-publish:** 153 review savolga expert signoff talab; source key alone not definitive official truth.
 - **Remaining:** expert/editorial approval UX, 118 legacy questions replacement-by-new-revision, 155 verified unlinked source candidates, general-pedagogy non-official lane; see `docs/TASK201_PEDAGOGY_DEEP_AUDIT.md`.
@@ -265,7 +265,7 @@ Total output lines: 2050
 
 - **Status:** IN_PROGRESS. Private PDF candidate inbox (649) saqlangan, 15 ta original Y1 pedagogika/kasb standarti savoli yangi batch sifatida production DBda `review` holatda (KS 7, PM.GEN 8); 0 auto-published.
 - **Manba:** 2024 bahor, 2025 bahor, 2025 kuz va 2026 bahor PDFlaridagi `verified + independently_verified` candidate-lar. 15/15 provenance/answer key/4 option va option-length SQL regressiya muvaffaqiyatli.
-- **Jiddiy bias:** 169 published Y1 pedagogika savolining 118 tasida to‘g‘ri javob boshqa barcha variantlardan >30% uzun. Published revision immutable: expert approval, new revision va attempt snapshot preservation talab etiladi.
+- **Jiddiy bias:** 169 published Y1 pedagogika savolining 126 tasida to‘g‘ri javob boshqa barcha variantlardan >30% uzun. Published revision immutable: expert approval, new revision va attempt snapshot preservation talab etiladi.
 - **Remaining:** 649 source candidate to‘liq savolga aylantirilmagan; 335 general-pedagogy candidate alohida practice bucket; 15 yangi savol expert approval kutmoqda; Testlar/Maxsus pedagogikadan tayyorlanish learner E2E qabul tekshiruvi va PR CI tugamagan.
 - **Files:** `docs/TASK200_PEDAGOGY_BALANCED_BATCH.md`, SQL migration, SQL QA regressiya, admin-only audit query.
 
