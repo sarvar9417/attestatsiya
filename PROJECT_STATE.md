@@ -1,3 +1,11 @@
+## TASK-423 — Informatika PDFdagi 10 blok-sxema (2026-10-21)
+
+- **Owner:** ChatGPT. Branch: `task/TASK-423-informatika-flowchart-qa-20261021`.
+- **Status:** QA REVIEW. Manba `Python va Algoritm mavzusi savollari tahlili2.pdf`, №15–24 = PDF 9–18-betlar. Supabase xususiy QAda №1–24 alohida savollar, izohli yechim nomzodlari; 10 diagram uchun rasm nashrga tayyor emas.
+- **Local artifacts:** 10 SVG + 10 PNG va checksum manifestli ZIP; SVG DTD/kod/external image sanity PASS. SHA256 ZIP: `77ee58183eb3adadb6281e7b8ca873425a50aaffb44d55d7ee00518f26b8d576`. Arxiv hozirgi ChatGPT artifactida mavjud; **GitHub repo ichiga yuklanmagan**.
+- **Remaining:** rasmni public/Storagega haqiqiy upload, checksum, revision-specific mapping, №17 for-chegarasi/diagram original solishtirish, render+no-answer-leak regressiya CI, ekspert review. Yangi production publish yoki Vercel deploy YO‘Q.
+- **QA handoff:** `docs/TASK423_INFORMATIKA_FLOWCHART_QA_20261021.md`. Task dasturi incomplete; `DONE` emas.
+
 ## TASK-420 — M13 dars oynasi hydrationda yopilishi (2026-10-21)
 
 - **Owner:** ChatGPT; branch: `task/TASK-420-m13-lesson-refresh-20261021`.
