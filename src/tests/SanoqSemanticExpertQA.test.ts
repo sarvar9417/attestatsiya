@@ -23,7 +23,8 @@ describe('S3.NUM: independent arithmetic and base-notation QA', () => {
         }
         expect(q.key.kind).toBe('Y1')
         if (q.key.kind !== 'Y1') continue
-        const option = q.options.find(o => o.id === q.key.optionId)?.content
+        const key = q.key
+        const option = q.options.find(o => o.id === key.optionId)?.content
         expect(new Set(q.options.map(o => o.content)).size).toBe(4)
         let expected = ''
         if (code === 'S3.NUM.01') {
