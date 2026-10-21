@@ -259,7 +259,7 @@ describe('T-014 server-authoritative natija ekrani', () => {
     const user = userEvent.setup()
     const examGateway = gateway()
     let rejectSync: ((reason: Error) => void) | undefined
-    examGateway.flushQueuedAnswers = vi.fn(() => new Promise((_, reject) => {
+    examGateway.flushQueuedAnswers = vi.fn(() => new Promise<{ remaining: number }>((_, reject) => {
       rejectSync = reject
     }))
 
