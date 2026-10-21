@@ -1,5 +1,6 @@
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import { buildApp } from '../backend/src/app.js'
+import { normalizeVercelApiRequestUrl } from '../backend/src/lib/normalizeVercelApiRequestUrl.js'
 
 /**
  * Unified Vercel serverless entry.
@@ -23,6 +24,9 @@ async function getApp() {
 }
 
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
+  // Vercel attaches its :path* rewrite capture as a query parameter. Strip
+  // only verified platform metadata; keep strict backend query validation.
+  req.url = normalizeVercelApiRequestUrl(req.url)
   const app = await getApp()
   app.server.emit('request', req, res)
 }
