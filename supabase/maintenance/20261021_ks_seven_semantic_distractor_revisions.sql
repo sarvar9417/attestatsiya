@@ -33,7 +33,7 @@ BEGIN
  WHERE q.status='published' AND q.format='Y1' AND q.group_code='KS'
    AND revision.status='review' AND revision.format='Y1'
    AND p.proposal_status='draft' AND cardinality(m.wrong_texts)=3
-   AND correct_old.content_md=correct_new.content_md
+   AND correct_old.content_md IS NOT NULL AND correct_new.content_md IS NOT NULL
    AND (SELECT count(*) FROM public.question_options o WHERE o.question_id=revision.id)=4
    AND NOT EXISTS (SELECT 1 FROM public.question_bank_revisions r WHERE r.source_question_id=q.id);
  IF v_count<>7 THEN RAISE EXCEPTION 'KS_CLARITY_REVIEW_PRECHECK_FAILED_%',v_count; END IF;
@@ -43,6 +43,19 @@ BEGIN
         provenance='AI semantic QA 2026-10-21 owner instruction: pedagogically plausible distractors; not independently approved'
  FROM task_clarity_semantic m
  WHERE p.source_question_id=m.source_question_id AND p.proposal_status='draft';
+
+ -- Previous REVIEW drafts over-explained the correct choice: restore the
+ -- source-key wording, preserving the meaning and balancing option lengths.
+ UPDATE public.question_options revision_correct SET content_md=source_correct.content_md
+ FROM task_clarity_semantic m
+ JOIN public.pedagogy_revision_queue pq ON pq.source_question_id=m.source_question_id
+ JOIN public.question_keys old_key ON old_key.question_id=m.source_question_id
+ JOIN public.question_options source_correct
+   ON source_correct.id::text=old_key.payload->>'correct_option_id'
+ JOIN public.question_keys new_key ON new_key.question_id=pq.revision_question_id
+ WHERE revision_correct.question_id=pq.revision_question_id
+   AND revision_correct.id::text=new_key.payload->>'correct_option_id'
+   AND revision_correct.content_md IS DISTINCT FROM source_correct.content_md;
 
  WITH incorrect AS (
    SELECT o.id, m.wrong_texts[
