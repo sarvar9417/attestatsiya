@@ -1,3 +1,10 @@
+## TASK-423 — GitHub SVG source-to-asset sync va №17 source discrepancy (2026-10-21)
+
+- **Owner:** ChatGPT. Draft [PR #512](https://github.com/sarvar9417/attestatsiya/pull/512); branch `task/TASK-423-informatika-flowchart-qa-20261021`.
+- **Verified:** 10/10 `savol_15.svg`–`savol_24.svg` Graphviz CI yordamida xavfsiz qayta yaratilgan, `docs/qa/task423-flowcharts/rendered/`ga commit qilingan, `rendered/manifest.json`da source+SVG SHA-256 saqlangan. Sync workflow SUCCESS. Draft GitHub assets **review-only**, `public/` yoki learner UI’da emas.
+- **No.17 editorial blocker:** Asl PDF 11-bet bosma `i=1,5` → matematik 120; qizil qo‘lyozma `5`ni o‘chirib `24` deb hisoblaydi. Ikkala talqin zid; Supabase stagingdagi №17 `ambiguous_or_nonunique_answer` release blocker bilan himoyalandi. `savol_17.dot` bosma shartga mos va muallifning tan olingan kaliti emas.
+- **Remaining:** PNG learner/CDN yoki revision-specific asset wiring, original PDF mazmuniga tahririy moslik, key/option/revision immutability, render/security/end-to-end testlar, aniq deploy release. No production DB question write, no Vercel deploy, no merge. `TASK-423` hali `DONE` emas.
+
 ## TASK-423 — GitHub flowchart source va CI handoff (2026-10-21, davom)
 
 - **Status:** 10/10 Graphviz DOT source GitHub `task/TASK-423-informatika-flowchart-qa-20261021` branch’da; script renderer, Node regressiya testlari va dedicated GitHub workflow qo‘shilgan. CI queued; PR #512 **draft**, merge qilinmagan.
