@@ -477,7 +477,7 @@ export default function ExamRunner({
 
     autoFinishAttemptedRef.current = true
     void finishExam()
-  }, [finishExam, phase, remainingSeconds]
+  }, [finishExam, phase, remainingSeconds])
 
   const updateDraft = (value: AnswerValue) => {
     if (!currentItem || !session || phase !== 'active') return
