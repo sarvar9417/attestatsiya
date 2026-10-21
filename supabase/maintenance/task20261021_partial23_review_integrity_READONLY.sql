@@ -67,8 +67,8 @@ WITH expected(alias) AS (VALUES
     ('GV2:GV-RV-016')
 )
 SELECT split_part(e.alias,'-',2) AS family,
-       count(*) AS expected_count,
-       count(q.id) FILTER(WHERE q.status='review') AS current_review_count
+       count(DISTINCT e.alias) AS expected_count,
+       count(DISTINCT e.alias) FILTER(WHERE q.status='review') AS current_review_count
 FROM expected e LEFT JOIN public.questions q
   ON split_part(q.source_reference,';',1)=e.alias
 GROUP BY 1 ORDER BY 1;
