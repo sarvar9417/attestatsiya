@@ -18,7 +18,7 @@
 - Dry-run on live Supabase using `BEGIN; migration SQL; ROLLBACK;` passed, including 16 waiver/provenance entries and 16 ledger rows **inside the rolled back test transaction**. No durable modifications from rehearsal.
 
 ## Release operation
-- GitHub PR and CI required, then apply using Supabase migration runner. Source file: `supabase/migrations/20261021114500_task377_pedagogy_16_distractor_release.sql`.
+- GitHub PR and CI required; the one-time content release script resides in `supabase/maintenance` so fresh-schema CI databases cannot accidentally attempt a production-specific cutover. Apply it using the Supabase migration runner. Source file: `supabase/maintenance/task377_pedagogy_16_owner_authorized_release.sql`.
 - Postflight SQL check 16 active new / 16 old archived, original 41 historical references still intact, new key fingerprints valid, no duplicate new questions.
 - This release requires **no Vercel application deployment**: all changed content is stored in the production Supabase database; existing deployed API reads current question revisions.
 
