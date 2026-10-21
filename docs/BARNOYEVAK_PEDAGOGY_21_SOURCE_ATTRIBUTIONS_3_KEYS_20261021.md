@@ -28,7 +28,15 @@ While independently checking the underlying source, three distinct answer-extrac
 
 The initial guarded three-row transaction was **rejected and rolled back** due to the database `review_notes` CHECK (`length <= 4000`); therefore no partial state resulted. The next transaction respected that limit and succeeded, preserving the extended original source text for slot 200 rather than truncating evidence.
 
-These flags and corrected statuses were read back from live Supabase. The 21 source-attribution corrections **do not** constitute independent verification of every answer. After three source-key safety corrections, the global count of `needs_review` remains unchanged, while the separate `independently_verified` key-status subset decreases by 3.
+These flags and corrected statuses were read back from live Supabase. The 21 source-attribution corrections **do not** constitute independent verification of every answer. After three source-key safety corrections, the global count of `needs_review` remains unchanged, while the separate `independently_verified` key-status subset decreases by 3 from the key corrections and by 1 further reviewed duplicate elimination.
+
+## Additional within-source duplicate adjudication
+
+Eight same-source *near duplicate* pairs were compared by **complete normalized stem and normalized printed answer marker**. Some matched only in wording, some carried different answer markers, and some alternative source records were already rejected. These were **not blindly reclassified as exact duplicates**.
+
+`Attestatsiya to'plam ped mahorat @PedMahoratGuli.pdf` internal slot **98** matched **both complete stem and source answer** of slot **56** in the same PDF. Slot 56 is already `verified` with `independently_verified` answer status and has an active published question link. Slot 98 (itself not linked to public scoring) was marked `rejected` and `duplicate_of_candidate_id` now points to the canonical source record. Its original text, key and source page remain archived as provenance. Other seven pairs retained their previous review states.
+
+**New postflight:** **415** `needs_review` source records, of which **46** carry `independently_verified` source-key status. This is a source-record quality correction, not learner-question publication.
 
 ## CI observation / concurrent work
 
