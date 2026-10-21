@@ -6,7 +6,7 @@ digraph savol_18 {
   node [fontname="DejaVu Sans", fontsize=13, style=filled, fillcolor="#f6f8fc", color="#334155"];
   edge [fontname="DejaVu Sans", fontsize=11, color="#334155"];
   start [label="Boshlash",shape=oval];
-  init [label="P = 1\\ni = 1",shape=box];
+  init [label="P = 1\ni = 1",shape=box];
   mul [label="P = P * i",shape=box];
   inc [label="i = i + 2",shape=box];
   cond [label="i > 5 ?",shape=diamond];
