@@ -140,10 +140,11 @@ test('protected mock: native Y2 (3×3, 4×4) and Y3 (4 items) render, interact a
   await expect(page.getByRole('button', { name: /Bosqich .* — pastga/ })).toHaveCount(4)
   await page.getByRole('button', { name: /Bosqich .* — pastga/ }).first().click()
 
-  await expect.poll(() => submitted.find(x => x.question_id === uuid(23))?.answer.order).toSatisfy(
-    (order: unknown) => Array.isArray(order) && order.length === 4 &&
-      new Set(order).size === 4 && order.every(id => y3Ids.includes(id)),
-  )
+  await expect.poll(() => {
+    const order = submitted.find(x => x.question_id === uuid(23))?.answer.order
+    return Array.isArray(order) && order.length === 4 &&
+      new Set(order).size === 4 && order.every(id => y3Ids.includes(id))
+  }).toBe(true)
   // Assert only submitted item IDs are sent — never correctOrder or hidden answer keys.
   expect(submitted.every(x => !('correctOrder' in x.answer))).toBe(true)
 })
