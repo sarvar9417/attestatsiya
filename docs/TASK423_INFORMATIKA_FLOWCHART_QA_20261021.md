@@ -1,0 +1,50 @@
+# TASK-423 — Informatika №15–24 blok-sxema grafiklari: ekspert QA va nashr himoyasi
+
+**Sana:** 2026-10-21  
+**Holat:** REVIEW / grafiklarni GitHub va platformaga ulash bajarilmagan, deploy yo‘q.  
+**Owner:** ChatGPT; repository branch `task/TASK-423-informatika-flowchart-qa-20261021`.
+
+## Asl manba
+
+- Google Drive PDF: [Python va Algoritm mavzusi savollari tahlili2.pdf](https://drive.google.com/file/d/13k9q8hDA5b-s-5x8p1apCAnRqJaLKtmi/view).
+- PDF sahifalar 9–18 → savollar №15–24. №13 va №14 so‘z bilan ifodalangan, ular uchun diagramma talab qilinmaydi.
+- Source recordlar: `attest_ingest.telegram_informatika_pdf_question_candidates`, source ID `13k9q8hDA5b-s-5x8p1apCAnRqJaLKtmi`. 2026-10-21 da jami 24 ta savol alohida tiklangan.
+- Private QA: `telegram_informatika_pdf_free_response_qa` va `telegram_informatika_pdf_independent_qa`; barcha model takliflari tahririy holatda, human-approved/publish-ready emas.
+
+## Rasmni ko‘rib chiqish natijasi
+
+| № | PDF beti | Muallif sxemasi | Mazmun tekshiruvi | Asset status |
+| --- | ---: | --- | --- | --- |
+| 15 | 9 | M1 | P=1; i=5; P*=i; i+=2; i≤49 | SVG draft, platformaga yuklanmagan |
+| 16 | 10 | M2 | Manfiy kiritilguncha oldingi A yig‘iladi | SVG draft, platformaga yuklanmagan |
+| 17 | 11 | M4 | i=1..5 oralig‘idagi ko‘paytma; for chegarasi qo‘shimcha editorial tekshirilsin | SVG draft, platformaga yuklanmagan |
+| 18 | 12 | M5 | i=1,3,5; P*=i | SVG draft, platformaga yuklanmagan |
+| 19 | 13 | M8 | n=0 uchun 1; aks holda n! | SVG draft, platformaga yuklanmagan |
+| 20 | 14 | M11 | n=15: 2+4+...+14=56 | SVG draft, platformaga yuklanmagan |
+| 21 | 15 | M13 | 1,6,8,2,-6 → 17, manfiy qo‘shilmaydi | SVG draft, platformaga yuklanmagan |
+| 22 | 16 | M18 | c=a+b; c≤n; 1,2,3,5,8,13 chiqadi | SVG draft, platformaga yuklanmagan |
+| 23 | 17 | M19 | 1+2+3+4+5=15 | SVG draft, platformaga yuklanmagan |
+| 24 | 18 | M20 | 5×4×3×2×1=120 | SVG draft, platformaga yuklanmagan |
+
+## Tayyorlangan lokal aktivlar (REVIEW-only)
+
+- Arxiv: `attestatsiya_informatika_15_24_diagrammalar.zip`; 10 ta `savol_XX.svg`, 10 ta `savol_XX.png`, `README.md`, `manifest.json`.
+- Arxiv SHA-256: `77ee58183eb3adadb6281e7b8ca873425a50aaffb44d55d7ee00518f26b8d576`.
+- XML SVG parser tekshiruvlari, PNG dekodlanishi, tashqi skript/rasm va Graphviz DTDni tozalash, ZIP integrity — PASS.
+- Paket ushbu Git commit ichiga **hali yuklanmagan**. Grafiklar ChatGPTning joriy ish maydoni/artefakti sifatida mavjud; arxiv SHA-256 va ichki manifest bilan keyin alohida ulanishi kerak.
+- Muallif PDFidagi qizil qo‘lyozma javoblar chizmalarga ko‘chirilmagan; bu fayllar mustaqil qayta chizmalar.
+
+## Publish-gate / zarur acceptance
+
+1. 10 ta SVG + PNG GitHub/Storage'ga real upload va checksum verification. SVG xavfsizligi saqlansin; learner assetlari uchun CDN/access qonuniyligi tekshirilsin.
+2. UI SVG yoki PNGni learnerga aynan kerakli savol revision ID bilan bog‘lasin. Question lookup bo‘yicha cross-question image leakage mumkin bo‘lmasin.
+3. SVGni asl PDF bilan mustaqil tahririy solishtirish va sikl/fork shartlarini isbotlash; №17 bo‘yicha for-chegara aniq bo‘lsin.
+4. Private Supabase `telegram_informatika_pdf_visual_index` hozir 10 savolni `pdf_figure_not_exported_to_platform` deb ko‘rsatadi; haqiqiy asset deployment bo‘lmaguncha bu holatni kamaytirmang.
+5. Learner publish uchun kalit/source audit, options, revision immutability, tarixiy examlar va RLS testlari alohida o'tishi shart.
+6. Preview/asset render testlari, no-public-key-leak testlari, typecheck/lint/build va CI pass bo‘lmasdan merge qilinmasin.
+
+## Qo‘shimcha audit
+
+Sanoq sistemalariga oid 49 ta cross-PDF dublikatlar alohida belgilangan; №19 da 636(10)=529(11) talqinining noaniqligi ikkalasi uchun bloklangan. Kitob 128×32×60 belgini 512 bit/s bilan yuborish topshirig‘ida 8 bit/belgi taxmini manbada berilmagani va A=3600 s / B=60 minut tengligi qayd qilingan.
+
+**Release:** ushbu branch REVIEW uchun; mavjud published question revision/key, o‘quvchi natijalari va production frontendga yozmang.
