@@ -1,5 +1,7 @@
 -- TASK-379 · BANKWIDE READ-ONLY QUALITY AUDIT (all 8,603 records, published + review + draft + archived).
 -- No revision is edited here. Numeric/lexical heuristics are CANDIDATES, not verified semantic faults.
+-- Case-sensitive exact strings matter for program output: 'True', 'true' and 'TRUE' are distinct.
+-- Native Y2 may be 3x3/4x4/4x5; Y3 may be 3..6 ordering items.
 -- Safe to repeat in production; single JSON report by group/format.
 WITH base AS (
  SELECT q.id,q.group_code,q.format::text AS fmt,q.status::text AS state,
@@ -15,8 +17,8 @@ WITH base AS (
    (SELECT count(*) FROM public.question_options o WHERE o.question_id=b.id) option_n,
    (SELECT count(*) FROM public.question_options o WHERE o.question_id=b.id AND trim(o.side)='a') a_n,
    (SELECT count(*) FROM public.question_options o WHERE o.question_id=b.id AND trim(o.side)='b') b_n,
-   (SELECT count(distinct lower(btrim(o.content_md))) FROM public.question_options o WHERE o.question_id=b.id AND trim(o.side)='a') a_distinct,
-   (SELECT count(distinct lower(btrim(o.content_md))) FROM public.question_options o WHERE o.question_id=b.id AND trim(o.side)='b') b_distinct,
+   (SELECT count(distinct btrim(o.content_md)) FROM public.question_options o WHERE o.question_id=b.id AND trim(o.side)='a') a_distinct,
+   (SELECT count(distinct btrim(o.content_md)) FROM public.question_options o WHERE o.question_id=b.id AND trim(o.side)='b') b_distinct,
    (SELECT count(*) FROM public.question_options o WHERE o.question_id=b.id AND o.id::text=b.correct_option_id AND trim(o.side)='a') correct_id_n,
    (SELECT count(*) FROM public.question_options o WHERE o.question_id=b.id AND trim(o.side)='a' AND o.id::text<>coalesce(b.correct_option_id,'')
      AND o.content_md ~* '(^|[^[:alpha:]])(faqat|hech|mutlaqo|umuman|har doim|hech qachon|faoliyatdan chetlatish)([^[:alpha:]]|$)') negative_cue_n,
@@ -39,9 +41,9 @@ WITH base AS (
 ), flag AS(
  SELECT *,
    (fmt='Y1' AND (a_n<>4 OR b_n<>0 OR correct_id_n<>1 OR a_distinct<>4)) invalid_y1,
-   (fmt='Y2' AND (a_n NOT IN (4,5) OR a_n<>b_n OR a_distinct<>a_n OR b_distinct<>b_n
+   (fmt='Y2' AND (a_n NOT BETWEEN 3 AND 5 OR b_n<a_n OR b_n>a_n+1 OR a_distinct<>a_n OR b_distinct<>b_n
      OR pairs_n<>a_n OR pairs_distinct_b<>a_n OR pairs_invalid_n<>0)) invalid_y2,
-   (fmt='Y3' AND (a_n NOT IN (4,5) OR b_n<>0 OR a_distinct<>a_n OR order_n<>a_n
+   (fmt='Y3' AND (a_n NOT BETWEEN 3 AND 6 OR b_n<>0 OR a_distinct<>a_n OR order_n<>a_n
      OR order_distinct_n<>a_n OR order_invalid_n<>0)) invalid_y3,
    (fmt='Y1' AND a_n=4 AND correct_id_n=1 AND correct_words>max_wrong_words*1.5) answer_length_signal,
    (fmt='Y1' AND negative_cue_n>=2 AND coalesce(stem_md,'') !~* '(1[)]|2[)]|3[)]|4[)]|qaysilari.*to.g.ri|to.g.ri.*tanlang)') possible_trivial_cues,
