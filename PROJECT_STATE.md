@@ -1,3 +1,11 @@
+## TASK-427 — 8 ta Office Y1 javob variantini sifatli REVIEW'ga o'tkazish (2026-10-21)
+
+- **Owner:** ChatGPT; foydalanuvchi butun bazaga audit va partiyali tuzatishlarga ruxsat bergan.
+- **Status:** Word, Excel va PowerPoint mavzularida 8 ta moslashtirilgan tahrir, 32 ta distractor/javob varianti, exact eski correct key. Live Supabase BEGIN...ROLLBACK rehearsal PASS (8/8 REVIEW, 32/32 options), GitHub CI/merge + doimiy REVIEW staging keyingi bosqich.
+- **Ish chegarasi:** faqat `S2.OFFICE` Y1 va aynan 8 pinned UUID; published savollar va tarixiy 4 ta exam-item o‘zgarmaydi. AI-assisted `is_generated=true` va `human_editorial_approval=false`; manba kodlari DBdan, asl PDF sahifalari mustaqil tasdiqlanmagan.
+- **Fayllar:** `supabase/maintenance/task427_office_eight_review_stage.sql`; `src/tests/task427OfficeReview.test.ts`; `docs/TASK427_OFFICE_Y1_REVIEW_20261021.md`.
+- **Keyingi:** CI green bo‘lgandan so‘ng REVIEW staging va postflight; alohida publication QA, qolgan full-bank audit #469.
+
 ## TASK-425 — Sifat auditi 2-partiya 8 savol nashri (2026-10-21)
 
 - **Owner:** ChatGPT (user explicitly delegated whole-bank quality audit and staged releases).
