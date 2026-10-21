@@ -11,7 +11,7 @@ Live Supabase `supabase_migrations.schema_migrations`:
 - `20261021144805` — `task382_office_38_explicit_y3_goals_immutable_revisions`
 - `20261021145214` — `task376_pedguli_verified_intake`
 
-Source `task376_pedguli_verified_intake.sql`ning GitHub SQL tanasi bazadagi `statements[1]` bilan **aynidir**: ikkala tomon 13 019 UTF-8 bayt/belgidan iborat; `md5=9740ed8ec22aca8088bbeb1e7984db81`. Diff: **faqat nom**, SQL satrlarini yangidan yozmadik. Supabase production schema_migrations yozuvi, amaliy DB jadvali va tarixiy savollar mutlaqo o‘zgartirilmaydi.
+Source `task376_pedguli_verified_intake.sql`ning GitHub SQL tanasi bazadagi `statements[1]` bilan **aynidir**: ikkala tomon Postgres LENGTH bo‘yicha 13 019 belgidan iborat; `md5=9740ed8ec22aca8088bbeb1e7984db81`. Diff: **faqat nom**, SQL satrlarini yangidan yozmadik. Supabase production schema_migrations yozuvi, amaliy DB jadvali va tarixiy savollar mutlaqo o‘zgartirilmaydi.
 
 ## Xavfsiz yechim
 Source alias filename `20261021221000_task376_pedguli_verified_intake.sql` → exact already-applied production migration version filename `20261021145214_task376_pedguli_verified_intake.sql`.
