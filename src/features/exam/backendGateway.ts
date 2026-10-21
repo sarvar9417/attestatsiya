@@ -125,6 +125,11 @@ export const backendGateway: ExamGateway = {
   getPendingAnswer(examId, questionId) {
     return listPendingAnswers().find(item => item.examId === examId && item.questionId === questionId)?.answer
   },
+  queueExamAnswer(input) {
+    const ownerId = sessionStore.get()?.user.id
+    if (!ownerId) throw new Error('Javobni saqlash uchun hisobga kiring.')
+    enqueuePendingAnswer(input, ownerId)
+  },
   queueMockAnswer(input) {
     if (input.examKind !== 'mock') throw new Error('Faqat mock sinovda avtomatik saqlanadi.')
     const ownerId = sessionStore.get()?.user.id
@@ -151,6 +156,11 @@ export const backendGateway: ExamGateway = {
     return parseResponse(examSessionSchema, data, 'axb_chapter_start')
   },
 
+  async getActiveMockExam(): Promise<ExamSession | null> {
+    const data = await api.get<unknown>('/api/exam/mock/active')
+    if (data === null) return null
+    return parseResponse(examSessionSchema, data, 'resume_mock')
+  },
   async startMockExam(): Promise<ExamSession> {
     const data = await api.post<unknown>('/api/exam/start', { kind: 'mock' })
     return parseResponse(examSessionSchema, data, 'start_mock')

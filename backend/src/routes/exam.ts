@@ -45,6 +45,18 @@ export async function examRoutes(app: FastifyInstance) {
     } catch (error) { return sendError(reply, error) }
   })
 
+  /** Restore the authenticated learner's unexpired mock; this never starts one. */
+  app.get('/api/exam/mock/active', async (req, reply) => {
+    let token = getToken(req)
+    if (!token && config.demo.enabled) {
+      try { token = await getDemoToken() }
+      catch (error) { return sendError(reply, error) }
+    }
+    if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
+    try { return reply.send(await examService.getActiveMock(token)) }
+    catch (error) { return sendError(reply, error) }
+  })
+
   /**
    * POST /api/exam/start
    * Start a new exam (mock, bolim, mavzu, takrorlash, zaif)

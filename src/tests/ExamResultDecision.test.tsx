@@ -1,4 +1,4 @@
-import { act, render, screen } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
@@ -142,7 +142,7 @@ describe('T-014 server-authoritative natija ekrani', () => {
     renderMock(examGateway, '/exam/pedagogik_15')
     await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
     await user.click(await screen.findByRole('button', { name: /Variant A/ }))
-    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
+    await waitFor(() => expect(examGateway.submitAnswer).toHaveBeenCalled())
     await user.click(screen.getByRole('button', { name: 'Sinovni yakunlash' }))
     await user.click(screen.getByRole('button', { name: 'Yakunlash' }))
 
@@ -222,7 +222,7 @@ describe('T-014 server-authoritative natija ekrani', () => {
     renderMock(examGateway, '/exam/pedagogik_15')
     await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
     await user.click(await screen.findByRole('button', { name: /Variant A/ }))
-    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
+    await waitFor(() => expect(examGateway.submitAnswer).toHaveBeenCalled())
     await user.click(screen.getByRole('button', { name: 'Sinovni yakunlash' }))
 
     expect(await screen.findByRole('heading', { name: 'Sinov yakunlandi' })).toBeDefined()

@@ -128,6 +128,18 @@ describe('Exam Routes', () => {
     expect(response.json().error.code).toBe('TOKEN_REQUIRED')
   })
 
+  it('GET /api/exam/mock/active never exposes a resume without authentication', async () => {
+    for (const authorization of [undefined, 'Basic foo', 'Bearer ']) {
+      const response = await app.inject({
+        method: 'GET',
+        url: '/api/exam/mock/active',
+        ...(authorization ? { headers: { authorization } } : {}),
+      })
+      expect(response.statusCode).toBe(401)
+      expect(response.json().error.code).toBe('TOKEN_REQUIRED')
+    }
+  })
+
   it('POST /api/exam/start returns 401 without auth token', async () => {
     const response = await app.inject({
       method: 'POST',

@@ -1,6 +1,7 @@
 import { M12_LEARNER_RELEASE_APPROVED } from '../../features/content/m12ReleaseGate'
 import { useState, useRef, useEffect, useMemo, lazy, Suspense } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../hooks/useAuth'
 import { getTopicContent, displayedCognitiveLevel, type TestQuestion, type TheoryBlock } from '../../data/topicContent'
 import { learnerExplanation } from '../../features/exam/learnerExplanation'
 import { checkQuestionAnswer } from '../../features/content/lessonContentGateway'
@@ -137,6 +138,10 @@ export default function TopicView({
   onComplete, onBack, previousSubtopic, nextSubtopic, onOpenTopic,
 }: Props) {
   const navigate = useNavigate()
+  const { user } = useAuth()
+  const lessonDraftKey = user?.id ? `attestatsiya:learning:drafts:v1:${user.id}:${subtopicId}` : null
+  const latestAnswersRef = useRef<Record<string, unknown>>({})
+  const [saveError, setSaveError] = useState<string | null>(null)
   const [phase, setPhase] = useState<Phase>('theory')
   const [answers, setAnswers] = useState<Record<string, unknown>>({})
   const [submitted, setSubmitted] = useState<Record<string, boolean>>({})
@@ -189,7 +194,23 @@ export default function TopicView({
   // mavzu almashganda o'qish holatini tozalaymiz
   useEffect(() => {
     setPhase('theory')
-    setAnswers({})
+    let restored: Record<string, unknown> = {}
+    if (lessonDraftKey && typeof window !== 'undefined') {
+      try {
+        const value = window.localStorage.getItem(lessonDraftKey)
+        if (value) {
+          const parsed: unknown = JSON.parse(value)
+          if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+            restored = parsed as Record<string, unknown>
+          }
+        }
+        setSaveError(null)
+      } catch {
+        setSaveError('Saqlangan javoblarni tiklab bo‘lmadi. Brauzer xotirasini tekshiring.')
+      }
+    }
+    latestAnswersRef.current = restored
+    setAnswers(restored)
     setSubmitted({})
     setReadProgress(0)
     setTheoryPage(0)
@@ -199,7 +220,7 @@ export default function TopicView({
     setChecking({})
     setCheckErrors({})
     setTheoryError(null)
-  }, [subtopicId])
+  }, [subtopicId, lessonDraftKey])
 
   // Resolve published core BEFORE first render, rather than replacing an already
   // visible theory when its asynchronous request finally completes.
@@ -372,7 +393,19 @@ export default function TopicView({
   const handleAnswer = (qId: string, answer: unknown) => {
     if (submitted[qId]) return
     setCheckErrors(p => ({ ...p, [qId]: '' }))
-    setAnswers(p => ({ ...p, [qId]: answer }))
+    const next = { ...latestAnswersRef.current, [qId]: answer }
+    latestAnswersRef.current = next
+    setAnswers(next)
+    if (!lessonDraftKey) {
+      setSaveError('Javobni uzoq muddatga saqlash uchun hisobga kiring.')
+      return
+    }
+    try {
+      window.localStorage.setItem(lessonDraftKey, JSON.stringify(next))
+      setSaveError(null)
+    } catch {
+      setSaveError('Javob hozircha faqat ekranda saqlandi. Brauzer xotirasi ishlamayapti.')
+    }
   }
 
   const handleSubmit = async (qId: string) => {
@@ -820,6 +853,12 @@ export default function TopicView({
               />
             </div>
           </div>
+
+          {saveError ? (
+            <p role="alert" className="mb-4 rounded-xl border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800 dark:bg-amber-950/30 dark:text-amber-200">{saveError}</p>
+          ) : (
+            <p role="status" className="mb-4 text-xs text-emerald-700 dark:text-emerald-300">Tanlangan javoblar qurilmada avtomatik saqlanadi. “Tekshirish” faqat natijani baholaydi.</p>
+          )}
 
           {/* ── Questions ── */}
           <div className="space-y-5">

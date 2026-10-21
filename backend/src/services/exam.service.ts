@@ -51,6 +51,13 @@ export const examService = {
    * - takrorlash → due reviews (15 questions)
    * - zaif → weak area focus (10 questions)
    */
+  /** Read-only resume: never creates a new attempt or exposes correct answers. */
+  async getActiveMock(userToken: string): Promise<ExamStartResponse | null> {
+    const { data, error } = await getAuthedClient(userToken).rpc('get_active_mock_exam')
+    if (error) throw new AppError('Faol mock sinovini tiklab bo‘lmadi', 503, 'MOCK_RESUME_ERROR')
+    return (data ?? null) as ExamStartResponse | null
+  },
+
   async start(kind: StartExamInput['kind'], userToken: string, moduleId?: string, lessonId?: string): Promise<ExamStartResponse> {
     const client = getAuthedClient(userToken)
 

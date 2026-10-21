@@ -41,6 +41,8 @@ export interface ExamGateway {
   getPendingAnswer?(examId: string, questionId: string): Json | undefined
   getAxborotChapters?(): Promise<AXBChapter[]>
   startAxborotChapter?(chapter: number, count: number): Promise<ExamSession>
+  /** Read-only lookup for the current owner's unfinished, unexpired mock. */
+  getActiveMockExam?(): Promise<ExamSession | null>
   startMockExam(): Promise<ExamSession>
   startCustomExam?(config: CustomExamConfig): Promise<ExamSession>
   startModuleExam(moduleId: string): Promise<ExamSession>
@@ -52,6 +54,8 @@ export interface ExamGateway {
   ): Promise<ExamSession>
   /** Intro ekranda vaqt cheklovini ko'rsatish uchun (mavzu testi). */
   previewTopicTest?(lessonId: string): Promise<TopicTestPreview | null>
+  /** Durable local first-commit for every learning/assessment answer. */
+  queueExamAnswer?(input: SubmitAnswerInput): void
   /** Persist a complete mock draft locally immediately; no answer keys. */
   queueMockAnswer?(input: SubmitAnswerInput): void
   /** Replay locally queued drafts and return server-pending count. */
