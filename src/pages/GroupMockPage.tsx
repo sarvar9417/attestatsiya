@@ -261,6 +261,7 @@ export default function GroupMockPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const { user, loading: authLoading } = useAuth()
   const roomId = searchParams.get('room')
+  const recentRoomKey = user?.id ? `attestatsiya:group:last-room:${user.id}` : null
   const [joinCode, setJoinCode] = useState(searchParams.get('code') ?? '')
   const [mode, setMode] = useState<GroupMockMode>('spec')
   const [catalog, setCatalog] = useState<CatalogModule[]>([])
@@ -312,6 +313,12 @@ export default function GroupMockPage() {
   }, [roomId, setSearchParams])
 
   useEffect(() => {
+    if (!roomId || !recentRoomKey) return
+    try { window.localStorage.setItem(recentRoomKey, roomId) }
+    catch { /* No local storage: server room list still offers resume. */ }
+  }, [roomId, recentRoomKey])
+
+  useEffect(() => {
     requestSequence.current += 1
     if (!roomId) {
       setState(null)
@@ -337,12 +344,25 @@ export default function GroupMockPage() {
     let active = true
     setRoomsLoading(true)
     void listMyGroupMockRooms().then(rooms => {
-      if (active) { setMyRooms(rooms); setRoomsError(null) }
+      if (active) {
+        setMyRooms(rooms)
+        setRoomsError(null)
+        // Recover the last active group room only after the server confirms
+        // this account is still a member. Never override an invitation code.
+        if (recentRoomKey && !searchParams.get('code')) {
+          let remembered: string | null = null
+          try { remembered = window.localStorage.getItem(recentRoomKey) } catch { /* optional */ }
+          if (remembered && rooms.some(room => room.room_id === remembered &&
+              room.status !== 'finished')) {
+            setSearchParams({ room: remembered }, { replace: true })
+          }
+        }
+      }
     }).catch(err => {
       if (active) setRoomsError(err instanceof Error ? err.message : 'Xonalar ro‘yxati yuklanmadi')
     }).finally(() => { if (active) setRoomsLoading(false) })
     return () => { active = false }
-  }, [roomId, user?.id, authLoading])
+  }, [roomId, user?.id, authLoading, recentRoomKey, searchParams, setSearchParams])
 
   useEffect(() => {
     if (roomId || mode === 'spec' || catalog.length) return

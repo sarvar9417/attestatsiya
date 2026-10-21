@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { Navigate, useLocation, useParams, useSearchParams } from 'react-router-dom'
+import { useLocation, useParams, useSearchParams } from 'react-router-dom'
 import { customExamConfigSchema } from '../features/custom-test/customTestApi'
 import ExamRunner from '../features/exam/ExamRunner'
 import type { ExamGateway } from '../features/exam/examGateway'
@@ -73,7 +73,9 @@ export default function ExamPage({ gateway }: ExamPageProps) {
     [completeTopic, examKind, lessonId, moduleId]
   )
 
-  if (examKind === 'custom' && !customConfig) return <Navigate to="/custom-test" replace />
+  // Custom exam may have been opened from a refreshed tab: recover by account
+  // and kind even when React Router's transient navigation state has disappeared.
+  // The runner disables 'start new' without a configuration, but can resume.
 
   return (
     <ExamRunner

@@ -132,7 +132,7 @@ export default function ExamRunner({
   const [submittingId, setSubmittingId] = useState<string | null>(null)
   const [message, setMessage] = useState<string | null>(null)
   const [startError, setStartError] = useState<string | null>(null)
-  const [resuming, setResuming] = useState(examKind === 'mock' && Boolean(gateway.getActiveMockExam))
+  const [resuming, setResuming] = useState(Boolean(gateway.getActiveExam || (examKind === 'mock' && gateway.getActiveMockExam)))
   const [resumeFailed, setResumeFailed] = useState(false)
   const [resumeRetry, setResumeRetry] = useState(0)
   const [finishArmed, setFinishArmed] = useState(false)
@@ -248,11 +248,13 @@ export default function ExamRunner({
   /** Restore answer drafts and navigation without ever reading answer keys. */
   const restoreSession = (nextSession: ExamSession) => {
     let resumeIndex = 0
-    if (nextSession.kind === 'mock' && user?.id && typeof window !== 'undefined') {
+    if (user?.id && typeof window !== 'undefined') {
       try {
         const remembered = Number(window.localStorage.getItem(
-          `attestatsiya:mock:position:${user.id}:${nextSession.exam_id}`
-        ))
+          `attestatsiya:exam:position:${user.id}:${nextSession.exam_id}`
+        ) ?? (nextSession.kind === 'mock'
+          ? window.localStorage.getItem(`attestatsiya:mock:position:${user.id}:${nextSession.exam_id}`)
+          : null))
         if (Number.isInteger(remembered) && remembered >= 0 && remembered < nextSession.items.length) {
           resumeIndex = remembered
         }
@@ -304,6 +306,7 @@ export default function ExamRunner({
   }
 
   const startExam = async () => {
+    if (resuming || resumeFailed) return
     // Preview is a read-only snapshot; the server generator rechecks on start.
     // Never start while preflight is missing, incomplete or failed.
     if (examKind === 'mavzu' && (topicPreflightLoading || topicPreview?.ready !== true)) return
@@ -362,18 +365,24 @@ export default function ExamRunner({
     }
   }
 
-  // Refresh never creates a replacement mock. Restore only an existing, unexpired
-  // attempt associated with the authenticated user.
+  // On every authenticated single-user assessment page, look up the owner's
+  // exact active mode/scope before offering to start a replacement.
   useEffect(() => {
-    if (examKind !== 'mock' || !gateway.getActiveMockExam) return
+    const lookup = gateway.getActiveExam
+      ? () => gateway.getActiveExam!(examKind, {
+        moduleId: examKind === 'bolim' ? moduleId : undefined,
+        lessonId: examKind === 'mavzu' || examKind === 'mashq' ? lessonId : undefined,
+        chapter: examKind === 'axb_bob' ? axbChapter : undefined,
+        count: examKind === 'axb_bob' ? axbCount : undefined,
+      })
+      : examKind === 'mock' ? gateway.getActiveMockExam : undefined
+    if (!lookup) return
     let cancelled = false
     setResuming(true)
     setResumeFailed(false)
     setStartError(null)
-    void gateway.getActiveMockExam()
-      .then(active => {
-        if (!cancelled && active) restoreSession(active)
-      })
+    void lookup()
+      .then(active => { if (!cancelled && active) restoreSession(active) })
       .catch(error => {
         if (!cancelled) {
           setResumeFailed(true)
@@ -382,19 +391,19 @@ export default function ExamRunner({
       })
       .finally(() => { if (!cancelled) setResuming(false) })
     return () => { cancelled = true }
-  // Restore once per account/gateway; session activity doesn't trigger a re-fetch.
+  // Only scope/account/gateway changes should retry lookup, not navigation.
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [examKind, gateway, user?.id, resumeRetry])
+  }, [examKind, gateway, user?.id, moduleId, lessonId, axbChapter, axbCount, resumeRetry])
 
   useEffect(() => {
-    if (session?.kind !== 'mock' || !user?.id || typeof window === 'undefined') return
+    if (!session || !user?.id || typeof window === 'undefined') return
     try {
       window.localStorage.setItem(
-        `attestatsiya:mock:position:${user.id}:${session.exam_id}`,
+        `attestatsiya:exam:position:${user.id}:${session.exam_id}`,
         String(currentIndex)
       )
-    } catch { /* Navigation is recoverable even when storage is disabled. */ }
-  }, [session?.exam_id, session?.kind, currentIndex, user?.id])
+    } catch { /* Unavailable local storage must not break the live assessment. */ }
+  }, [session, currentIndex, user?.id])
 
   // Persist the latest completed mock choices without leaking answer keys.
   const syncMockAnswers = useCallback(async () => {
@@ -828,16 +837,23 @@ export default function ExamRunner({
                 </div>
               )}
 
+              {examKind === 'custom' && !customConfig && !resuming && !resumeFailed && (
+                <p className="mt-4 text-sm text-amber-700 dark:text-amber-300">
+                  Davom ettiriladigan shaxsiy test topilmadi. Yangi test uchun
+                  {' '}<Link to="/custom-test" className="font-semibold underline">konstruktorga qayting</Link>.
+                </p>
+              )}
+
               {resumeFailed && !resuming && (
                 <button type="button" onClick={() => setResumeRetry(n => n + 1)}
                   className="mt-4 rounded-lg border border-amber-300 px-3 py-2 text-sm font-semibold text-amber-700 dark:border-amber-700 dark:text-amber-300">
-                  <RefreshCw size={15} className="mr-2 inline" /> Sinovni qayta tiklash
+                  <RefreshCw size={15} className="mr-2 inline" /> Oldingi testni qayta tiklash
                 </button>
               )}
 
               {resuming && (
                 <p role="status" className="mt-5 text-sm text-indigo-600 dark:text-indigo-300">
-                  Tugallanmagan mock sinovi tekshirilmoqda…
+                  Tugallanmagan test va javoblar tekshirilmoqda…
                 </p>
               )}
 
@@ -855,7 +871,7 @@ export default function ExamRunner({
 
               <button
                 type="button"
-                disabled={starting || resuming || resumeFailed || (examKind === 'mavzu' && (topicPreflightLoading || topicPreview?.ready !== true))}
+                disabled={starting || resuming || resumeFailed || (examKind === 'custom' && !customConfig) || (examKind === 'mavzu' && (topicPreflightLoading || topicPreview?.ready !== true))}
                 onClick={() => void startExam()}
                 className="mt-7 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 disabled:opacity-60 sm:w-auto"
               >

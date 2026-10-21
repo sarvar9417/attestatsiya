@@ -237,6 +237,7 @@ jobs:
             -f supabase/tests/section_mock_50.test.sql \
             -f supabase/tests/official_mock_50.test.sql \
             -f supabase/tests/active_mock_resume.test.sql \
+            -f supabase/tests/all_assessment_active_resume.test.sql \
             -f supabase/tests/task306_question_bank_remediation.test.sql \
             -f supabase/tests/task254_y2_side_integrity.test.sql \
             -f supabase/tests/mock_y2_option_projection.test.sql \

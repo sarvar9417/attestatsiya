@@ -51,6 +51,30 @@ export const examService = {
    * - takrorlash → due reviews (15 questions)
    * - zaif → weak area focus (10 questions)
    */
+  /** Read-only owner-scoped resume, including topic/section/AXB scopes. */
+  async getActiveExam(
+    kind: 'mock' | 'bolim' | 'mavzu' | 'mashq' | 'diagnostika' |
+      'takrorlash' | 'zaif' | 'pedagogik_15' | 'axb_bob' | 'custom',
+    userToken: string,
+    moduleId?: string,
+    lessonId?: string,
+    chapterNo?: number,
+    requestedCount?: number,
+  ): Promise<ExamStartResponse | null> {
+    const moduleUuid = moduleId ? await resolveModuleUuid(moduleId) : null
+    const lessonUuid = lessonId ? await resolveLessonUuid(lessonId) : null
+    if ((moduleId && !moduleUuid) || (lessonId && !lessonUuid)) return null
+    const { data, error } = await getAuthedClient(userToken).rpc('get_active_exam', {
+      p_kind: kind,
+      p_module_id: moduleUuid,
+      p_lesson_id: lessonUuid,
+      p_chapter_no: chapterNo ?? null,
+      p_requested_count: requestedCount ?? null,
+    })
+    if (error) throw new AppError('Davom ettiriladigan sinovni tekshirib bo‘lmadi', 503, 'EXAM_RESUME_ERROR')
+    return (data ?? null) as ExamStartResponse | null
+  },
+
   /** Read-only resume: never creates a new attempt or exposes correct answers. */
   async getActiveMock(userToken: string): Promise<ExamStartResponse | null> {
     const { data, error } = await getAuthedClient(userToken).rpc('get_active_mock_exam')

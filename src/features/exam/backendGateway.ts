@@ -156,6 +156,16 @@ export const backendGateway: ExamGateway = {
     return parseResponse(examSessionSchema, data, 'axb_chapter_start')
   },
 
+  async getActiveExam(kind, scope): Promise<ExamSession | null> {
+    const query = new URLSearchParams({ kind })
+    if (scope?.moduleId) query.set('module_id', scope.moduleId)
+    if (scope?.lessonId) query.set('lesson_id', scope.lessonId)
+    if (scope?.chapter) query.set('chapter_no', String(scope.chapter))
+    if (scope?.count) query.set('count', String(scope.count))
+    const data = await api.get<unknown>(`/api/exam/active?${query.toString()}`)
+    if (data === null) return null
+    return parseResponse(examSessionSchema, data, 'resume_exam')
+  },
   async getActiveMockExam(): Promise<ExamSession | null> {
     const data = await api.get<unknown>('/api/exam/mock/active')
     if (data === null) return null
