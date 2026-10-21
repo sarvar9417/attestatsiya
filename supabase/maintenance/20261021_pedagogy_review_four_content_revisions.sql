@@ -4,7 +4,7 @@
 -- Published source versions and historical result UUIDs MUST remain unchanged.
 BEGIN;
 DO $quality$
-DECLARE r record; idx integer; o record; answer_idx integer; optid uuid; optkey uuid;
+DECLARE r record; idx integer; answer_idx integer;
 BEGIN
  FOR r IN SELECT * FROM (VALUES
 ('24916d08-008f-43df-90e6-720f58982678'::uuid,'631b17ec-1ab7-45cc-b51f-655e0efa6cf1'::uuid,1,'Pedagog mavzuni tushuntirayotganda fikrni uzmasdan bayon etadi, tabiiy temp va ritmni saqlab, ifodali so‘zlaydi. Bunda nutqning qaysi sifati ustuvor?','["Mantiqiylik — xulosalarni dalil va sabablar bilan bog‘lash","Ravonlik — fikr oqimini uzluksiz va mos tempda ifodalash","Aniqlik — atama va tushunchalarni bir ma’noda ishlatish","Moslik — bayonni tinglovchining tayyorgarligiga moslash"]'::jsonb,'Fikrning uzluksiz oqimi, ifodalilik hamda temp va ritmning to‘g‘riligi nutq ravonligiga tegishli. Asl to‘plamning 2025-yil kuzgi (3) nusxasidagi savolda 1,2,4 deb berilgan. Bu yerda shu belgilarning ma’nosi vaziyat orqali baholanadi.'),
@@ -26,9 +26,9 @@ BEGIN
     OR jsonb_array_length(r.revised_choices)<>4
     OR (SELECT count(DISTINCT v.value) FROM jsonb_array_elements_text(r.revised_choices) AS v(value))<>4
   THEN RAISE EXCEPTION 'Option uniqueness/count invalid %',r.original_id;END IF;
-  SELECT o.order_idx INTO answer_idx FROM public.question_keys k
-    JOIN public.question_options o
-      ON o.id=(k.payload->>'correct_option_id')::uuid AND o.question_id=k.question_id
+  SELECT opt.order_idx INTO answer_idx FROM public.question_keys k
+    JOIN public.question_options opt
+      ON opt.id=(k.payload->>'correct_option_id')::uuid AND opt.question_id=k.question_id
     WHERE k.question_id=r.revision_id;
   IF answer_idx IS DISTINCT FROM r.correct_index THEN RAISE EXCEPTION 'Key mismatch %',r.original_id; END IF;
   UPDATE public.questions SET stem_md=r.revised_stem, updated_at=now()
