@@ -1,4 +1,5 @@
 import 'dotenv/config'
+import { resolveAuthRedirectUrl } from './lib/authRedirect.js'
 
 function requireEnv(name: string): string {
   const value = process.env[name]
@@ -28,8 +29,6 @@ export const config = {
     userPassword: process.env.DEMO_USER_PASSWORD || 'demo123456',
   },
   auth: {
-    redirectUrl:
-      process.env.AUTH_REDIRECT_URL ||
-      `http://localhost:${process.env.FRONTEND_PORT || 3000}`,
+    redirectUrl: resolveAuthRedirectUrl(),
   },
 } as const
