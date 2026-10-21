@@ -40,6 +40,15 @@ describe('TASK-369 learner-facing explanations', () => {
     expect(learnerExplanation(source)).toBe('Diapazon — ovoz chegarasi; artikulyatsiya — nutq a’zolari ishi.')
   })
 
+  it('keeps autumn pedagogy reasoning but removes author-key crosswalk notes', () => {
+    const a = 'Induksiya faktlardan umumiy qoida, deduksiya qoidadan xususiy xulosa chiqaradi. PDFda 1-A, 2-B mosligi berilgan.'
+    expect(learnerExplanation(a)).toBe('Induksiya faktlardan umumiy qoida, deduksiya qoidadan xususiy xulosa chiqaradi.')
+    expect(learnerExplanation('Pedagog o‘quvchini hurmat qiladi. Asl PDF javobi aynan shu.'))
+      .toBe('Pedagog o‘quvchini hurmat qiladi.')
+    expect(learnerExplanation('Natija izohlandi. Asl manbada shu.'))
+      .toBe('Natija izohlandi.')
+  })
+
   it('does not invent an explanation for empty data, and flags pure-source explanations', () => {
     expect(learnerExplanation(null)).toBe('')
     expect(learnerExplanation('')).toBe('')
