@@ -104,7 +104,7 @@ describe('legacy exam code readability', () => {
     }).outputText.replace(/\\s+/g, '')
     for (const original of samples) {
       const displayed = formatCodeForDisplay(original, 'javascript')
-      expect(compile(displayed), original).toBe(compile(original))
+      expect(compile(displayed).replace(/\s+/g, ''), original).toBe(compile(original).replace(/\s+/g, ''))
     }
   })
 
