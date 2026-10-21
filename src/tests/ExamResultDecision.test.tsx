@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
@@ -252,6 +252,27 @@ describe('T-014 server-authoritative natija ekrani', () => {
 
     expect(await screen.findByText('Baholash qarori mavjud emas')).toBeDefined()
     expect(screen.queryByText('Natija talab darajasida')).toBeNull()
+  })
+
+
+  it('does not update an unmounted runner when auto-sync rejects late', async () => {
+    const user = userEvent.setup()
+    const examGateway = gateway()
+    let rejectSync: ((reason: Error) => void) | undefined
+    examGateway.flushQueuedAnswers = vi.fn(() => new Promise((_, reject) => {
+      rejectSync = reject
+    }))
+
+    const view = renderMock(examGateway)
+    await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
+    await screen.findByRole('button', { name: /Variant A/ })
+    expect(examGateway.flushQueuedAnswers).toHaveBeenCalled()
+
+    view.unmount()
+    await act(async () => {
+      rejectSync?.(new Error('network offline after navigation'))
+    })
+    expect(examGateway.flushQueuedAnswers).toHaveBeenCalledTimes(1)
   })
 
 })
