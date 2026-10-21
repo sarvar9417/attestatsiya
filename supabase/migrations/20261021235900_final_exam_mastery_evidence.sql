@@ -97,7 +97,7 @@ begin
 
   return new;
 end
-$function$
+$function$;
 
 
 CREATE OR REPLACE FUNCTION public.capture_final_exam_mastery_evidence()
