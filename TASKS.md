@@ -1,3 +1,9 @@
+## TASK-422 — PedGuli Telegram savollarini owner-authorized ekspert release (2026-10-21)
+
+| Task | Status | Acceptance / release |
+|---|---|---|
+| TASK-422 | DONE — production postflight 16/16; CI + GitHub merge pending | User yakuniy tahririy qarorni ChatGPTga topshirdi. 16 ta `task421:expert-rewrite:v1` Y1 savol grammatikasi, kaliti, taksonomiya/lesson mappingi, variant sifati va dublikatlari fail-closed tekshirildi; 16 published, 16 valid key/4-option set, 16 balance pass, 16 waiver va 16 immutable snapshot. Migration `20261021151001_task422_pedguli_16_owner_authorized_release`; mustaqil inson eksperti da’vosi yo‘q. Vercel/application deploy yo‘q. |
+
 ## TASK-378 — Ota-ona bilan suhbat savoli, alohida production release (2026-10-21)
 
 | Task | Status | Acceptance / release |
