@@ -19,8 +19,8 @@ In earlier PR #386, 24 of 83 short-explanation review questions received initial
 
 ### Evidence classification (based on user-provided physical PDF page text extraction)
 
-- **24 direct:** relevant textbook wording/tool/attribute occurs on the cited original pages. This does not prove the exact question or distractor design is endorsed by the textbook.
-- **27 partial:** answer is independently derived from supported subject knowledge/arithmetic, but the exact wording, image-only explanation or all subclaims are not directly in the cited text.
+- **27 direct:** relevant textbook wording/tool/attribute occurs on the cited original pages. This does not prove the exact question or distractor design is endorsed by the textbook.
+- **24 partial:** answer is independently derived from supported subject knowledge/arithmetic, but the exact wording, image-only explanation or all subclaims are not directly in the cited text.
 - **8 original-book text gaps:** relevant precise term/convention was **not found in the cited page range's text layer**. An embedded image might still provide support; this is **not evidence that the key is wrong**.
 - **29** entries share semantic clusters worth checking for test diversity, including CSS box width, PSD/Photoshop mask terminology, image pixel-count multiplication and vector operations. This is a deduplication **risk flag**, not proof that questions are exact duplicates.
 
@@ -67,3 +67,14 @@ Read the matrix at `docs/audits/TASK20261021_REMAINING_59_WEB_REVIEW_EVIDENCE.cs
 4. Only stage content corrections with exact source evidence and independent editorial release controls. Never fabricate human signoff. No automatic `review` -> `published`.
 
 **No production SQL mutation, no Vercel deployment, no release-gate override.**
+
+
+### 2026-10-21: direct textbook page audit — three corrected classifications
+
+Three previously marked `partial` entries have direct explanation in the **user-supplied `ICT 7_sinf-2021(1).pdf`** (physical PDF pages):
+
+- `GV2:GV-ED-008`: physical **p.64** describes selecting *Add layer mask* and hiding the flower layer (`gul qatlami yashirinadi`). This directly supports a layer mask controlling visibility. It does not establish the **black/white mask convention**, which is a different question.
+- `GV2:GV-HT-017`: **p.138** defines the `name` field identifier sent with form data; **p.142** explicitly describes the `<label for>` reference to the HTML element's `id`.
+- `GV2:GV-HT-018`: **p.139** describes one-choice `radio`, **p.140** multiple-choice `checkbox`, and **p.144** shows three radio buttons sharing `name="who"`.
+
+The verified tally for the 59-row evidence matrix is now **27 direct, 24 partial, 8 source gaps**. This upgrades *source-text support* for these concepts; it is not exam publication approval or evidence of exhaustive visual inspection of every page. Original answer keys, review statuses and archived editions are unchanged.
