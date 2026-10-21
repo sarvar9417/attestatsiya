@@ -296,11 +296,20 @@ export default function GroupMockPage() {
       }
     } catch (error) {
       if (requestId === requestSequence.current) {
+        if (error instanceof Error && error.message === 'Siz ushbu xonaning ishtirokchisi emassiz.') {
+          // A host may have permanently deleted a room while a member was viewing it.
+          // Do not leave an outdated question/report on screen or poll an invalid room.
+          setState(null)
+          setConnectionWarning(null)
+          setError('Guruhli test o‘chirilgan yoki sizning unga kirish huquqingiz bekor qilingan.')
+          setSearchParams({})
+          return
+        }
         setConnectionWarning('Ulanish uzildi. Natijalar yangilanmayapti; tarmoq tiklanganda avtomatik qayta ulanadi.')
       }
       throw error
     }
-  }, [roomId])
+  }, [roomId, setSearchParams])
 
   useEffect(() => {
     requestSequence.current += 1
