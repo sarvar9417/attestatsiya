@@ -51,7 +51,29 @@ describe('GET /api/health', () => {
     expect(body.checks.database.status).toBe('healthy')
     expect(body.checks.database.error).toBeNull()
     expect(body.version).toBe('1.0.0')
+    expect(body.gitCommit).toBeNull()
+    expect(response.headers['cache-control']).toBe('no-store')
     expect(body.timestamp).toBeDefined()
+  })
+
+  it('reports a verified deploy SHA without exposing arbitrary environment strings', async () => {
+    const previous = process.env.VERCEL_GIT_COMMIT_SHA
+    try {
+      mockFrom.mockReturnValue({ select: mockSelect })
+      mockSelect.mockReturnValue({ limit: mockLimit })
+      mockLimit.mockResolvedValue({ data: [], error: null })
+
+      process.env.VERCEL_GIT_COMMIT_SHA = 'A'.repeat(40)
+      const valid = await app.inject({ method: 'GET', url: '/api/health' })
+      expect(JSON.parse(valid.body).gitCommit).toBe('a'.repeat(40))
+
+      process.env.VERCEL_GIT_COMMIT_SHA = 'secret-key-not-a-commit-sha'
+      const invalid = await app.inject({ method: 'GET', url: '/api/health' })
+      expect(JSON.parse(invalid.body).gitCommit).toBeNull()
+    } finally {
+      if (previous === undefined) delete process.env.VERCEL_GIT_COMMIT_SHA
+      else process.env.VERCEL_GIT_COMMIT_SHA = previous
+    }
   })
 
   it('returns degraded status when DB query fails', async () => {
