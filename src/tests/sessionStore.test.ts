@@ -83,6 +83,55 @@ describe('sessionStore', () => {
     expect(sessionStore.get()).toBeNull()
   })
 
+  it('brauzer localStorage bloklansa ham session holati va bildirishlar ishlaydi', () => {
+    const listener = vi.fn()
+    const unsubscribe = sessionStore.subscribe(listener)
+    const original = Object.getOwnPropertyDescriptor(window, 'localStorage')
+    Object.defineProperty(window, 'localStorage', {
+      configurable: true,
+      value: {
+        getItem: () => { throw new DOMException('Storage disabled', 'SecurityError') },
+        setItem: () => { throw new DOMException('Storage disabled', 'SecurityError') },
+        removeItem: () => { throw new DOMException('Storage disabled', 'SecurityError') },
+      },
+    })
+    const session = makeSession()
+    try {
+      expect(() => sessionStore.set(session)).not.toThrow()
+      expect(sessionStore.get()?.access_token).toBe('access-1')
+      expect(listener).toHaveBeenCalledWith(session)
+
+      expect(() => sessionStore.updateUser({
+        ...session.user, display_name: 'Yangilangan',
+      })).not.toThrow()
+      expect(sessionStore.get()?.user.display_name).toBe('Yangilangan')
+
+      expect(() => sessionStore.clear()).not.toThrow()
+      expect(sessionStore.get()).toBeNull()
+      expect(listener).toHaveBeenLastCalledWith(null)
+    } finally {
+      if (original) Object.defineProperty(window, 'localStorage', original)
+      unsubscribe()
+    }
+  })
+
+  it('dastlabki localStorage o‘qib bo‘lmasa ham modulni yuklaydi', async () => {
+    const original = Object.getOwnPropertyDescriptor(window, 'localStorage')
+    Object.defineProperty(window, 'localStorage', {
+      configurable: true,
+      value: {
+        getItem: () => { throw new DOMException('Storage disabled', 'SecurityError') },
+      },
+    })
+    try {
+      vi.resetModules()
+      const fresh = await import('../features/auth/sessionStore')
+      expect(fresh.sessionStore.get()).toBeNull()
+    } finally {
+      if (original) Object.defineProperty(window, 'localStorage', original)
+    }
+  })
+
   it('subscribe listener\'lar session o\'zgarishida chaqiriladi', () => {
     const listener = vi.fn()
     sessionStore.subscribe(listener)

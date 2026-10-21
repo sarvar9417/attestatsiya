@@ -35,6 +35,7 @@ function getTheme(): Theme {
 
 function applyTheme(theme: Theme) {
   const root = document.documentElement
+  const changed = root.classList.contains('dark') !== (theme === 'dark')
   const meta = document.getElementById('theme-color')
   if (theme === 'dark') {
     root.classList.add('dark')
@@ -43,27 +44,38 @@ function applyTheme(theme: Theme) {
     root.classList.remove('dark')
     if (meta) meta.setAttribute('content', '#ffffff')
   }
+  if (changed) listeners.forEach(cb => cb())
 }
+
+let themeListenersReady = false
 
 export function initTheme() {
   applyTheme(getTheme())
+  if (themeListenersReady) return
+  themeListenersReady = true
 
-  // Listen for system theme changes — always listen, apply only when preference is 'system'
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-    if (getThemePreference() === 'system') {
-      applyTheme(e.matches ? 'dark' : 'light')
-    }
+  // React subscribers and other tabs see OS / persisted theme changes.
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (getThemePreference() === 'system') applyTheme(e.matches ? 'dark' : 'light')
   })
+  window.addEventListener('storage', event => {
+    if (event.key === STORAGE_KEY) applyTheme(getTheme())
+  })
+}
+
+/** Cycles: light → dark → system → light */
+export function setThemePreference(next: ThemePreference): ThemePreference {
+  try { localStorage.setItem(STORAGE_KEY, next) } catch (e) {
+    monitoring.captureMessage('setThemePreference failed: ' + (e instanceof Error ? e.message : String(e)), 'warn')
+  }
+  applyTheme(next === 'system' ? getSystemTheme() : next)
+  return next
 }
 
 /** Cycles: light → dark → system → light */
 export function cycleTheme(): ThemePreference {
   const current = getThemePreference()
-  const next: ThemePreference = current === 'light' ? 'dark' : current === 'dark' ? 'system' : 'light'
-  try { localStorage.setItem(STORAGE_KEY, next) } catch (e) { monitoring.captureMessage('cycleTheme setItem failed: ' + (e instanceof Error ? e.message : String(e)), 'warn') }
-  applyTheme(next === 'system' ? getSystemTheme() : next)
-  listeners.forEach(cb => cb()) // notify React subscribers
-  return next
+  return setThemePreference(current === 'light' ? 'dark' : current === 'dark' ? 'system' : 'light')
 }
 
 export function isDark(): boolean {

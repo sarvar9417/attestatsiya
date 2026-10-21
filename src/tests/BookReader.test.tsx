@@ -35,6 +35,26 @@ describe('InlineText', () => {
     expect(screen.getByText('✓')).toHaveClass('book-yes')
   })
 
+  it('faqat xavfsiz havolalarni ochadi, bajariladigan protokollarni bloklaydi', () => {
+    const { container } = render(
+      <div>
+        <InlineText text="[Rasmiy manba](https://example.com/doc)" />
+        <InlineText text="[Ichki](./lesson.pdf)" />
+        <InlineText text="[Xavf](javascript:alert)" />
+        <InlineText text="[Ma’lumot](data:text/html)" />
+        <InlineText text="[Nisbiy](//other.example/path)" />
+      </div>,
+    )
+    expect(screen.getByRole('link', { name: 'Rasmiy manba' })).toHaveAttribute(
+      'href', 'https://example.com/doc',
+    )
+    expect(screen.getByRole('link', { name: 'Ichki' })).toHaveAttribute('href', './lesson.pdf')
+    expect(screen.queryByRole('link', { name: 'Xavf' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: 'Ma’lumot' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: 'Nisbiy' })).not.toBeInTheDocument()
+    expect(container).toHaveTextContent('Xavf')
+  })
+
   it('plainText tokenlarni olib tashlaydi', () => {
     expect(plainText('==Bit== — $2^i$ ~~binary digit~~@@ICT7, PDF 4@@')).toBe('Bit — 2^i binary digit')
   })
