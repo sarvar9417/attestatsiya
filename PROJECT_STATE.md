@@ -4,7 +4,7 @@
 - **Status:** 16/16 immutable release migration prepared; live Supabase transactional ROLLBACK rehearsal PASS; PR/CI then production apply and postflight pending.
 - **Scope:** 16 REVIEW successors only; 16 original published, 41 historical exam-item references retained. 15 successor correct answer phrases differ semantically-equivalent from source; answer-key option IDs must remain intact.
 - **Release protection:** versioned `publish_pedagogy_revision`, owner-waived existing protocol with provenance and no false human-editor claims. Explicit source/fingerprint/option match, all-or-nothing 16 release.
-- **Files:** `supabase/migrations/20261021114500_task377_pedagogy_16_distractor_release.sql`, `src/tests/task377PedagogyProductionRelease.test.ts`, docs.
+- **Files:** `supabase/maintenance/task377_pedagogy_16_owner_authorized_release.sql`, `src/tests/task377PedagogyProductionRelease.test.ts`, docs.
 - **Production app:** Supabase data release only; no frontend change or Vercel redeploy required. Remaining pedagogy bank work issue #461.
 
 ## TASK-376 — Pedagogika distractorlari semantik sifati (2026-10-21)
