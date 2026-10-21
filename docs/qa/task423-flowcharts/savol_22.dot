@@ -10,7 +10,7 @@ digraph savol_22 {
   calc [label="c = a + b",shape=box];
   cond [label="c <= n ?",shape=diamond];
   out [label="c ni chiqarish",shape=parallelogram];
-  advance [label="a = b\\nb = c",shape=box];
+  advance [label="a = b\nb = c",shape=box];
   end [label="Tugatish",shape=oval];
   start -> input;
   input -> calc;
