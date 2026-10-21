@@ -1,4 +1,3 @@
-import { learnerExplanation } from './learnerExplanation'
 import {
   AlertTriangle,
   ArrowLeft,
@@ -129,7 +128,6 @@ export default function ExamRunner({
     new Set()
   )
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [submittingId, setSubmittingId] = useState<string | null>(null)
   const [message, setMessage] = useState<string | null>(null)
   const [startError, setStartError] = useState<string | null>(null)
   const [resuming, setResuming] = useState(Boolean(gateway.getActiveExam || (examKind === 'mock' && gateway.getActiveMockExam)))
@@ -143,7 +141,6 @@ export default function ExamRunner({
   const [preflightRetry, setPreflightRetry] = useState(0)
   const questionOpenedAtRef = useRef(Date.now())
   const finishInFlightRef = useRef(false)
-  const submitInFlightRef = useRef(false)
   const autoFinishAttemptedRef = useRef(false)
   const autosaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   // Prevent unresolved answer-sync promises from touching an unmounted exam.
@@ -179,9 +176,7 @@ export default function ExamRunner({
 
   const currentItem = session?.items[currentIndex]
   const total = session?.items.length ?? 0
-  const savedCount = session?.kind === 'mock'
-    ? new Set([...savedQuestionIds, ...queuedQuestionIds]).size
-    : savedQuestionIds.size
+  const savedCount = new Set([...savedQuestionIds, ...queuedQuestionIds]).size
   const unansweredCount = Math.max(0, total - savedCount)
 
   const deadlineMs = useMemo(() => {
@@ -236,7 +231,6 @@ export default function ExamRunner({
     setQueuedQuestionIds(new Set())
     setFlaggedQuestionIds(new Set())
     setCurrentIndex(0)
-    setSubmittingId(null)
     setMessage(null)
     setStartError(null)
     setFinishArmed(false)
@@ -270,9 +264,7 @@ export default function ExamRunner({
     // Restore only the owner's persisted answers; correctness and keys remain hidden.
     for (const item of nextSession.items) {
       const pending = gateway.getPendingAnswer?.(nextSession.exam_id, item.question_id)
-      const stored = nextSession.kind === 'mock'
-        ? pending ?? nextSession.saved_answers?.[item.question_id]
-        : nextSession.saved_answers?.[item.question_id] ?? pending
+      const stored = pending ?? nextSession.saved_answers?.[item.question_id]
       if (!stored || typeof stored !== 'object' || Array.isArray(stored)) continue
       const response = stored as Record<string, unknown>
       if (item.format === 'Y1' && typeof response.option_id === 'string') {
@@ -405,8 +397,8 @@ export default function ExamRunner({
     } catch { /* Unavailable local storage must not break the live assessment. */ }
   }, [session, currentIndex, user?.id])
 
-  // Persist the latest completed mock choices without leaking answer keys.
-  const syncMockAnswers = useCallback(async () => {
+  // Persist the latest complete answer choice of any test, without leaking keys.
+  const syncAnswers = useCallback(async () => {
     if (!session || !gateway.flushQueuedAnswers) return
     try {
       const report = await gateway.flushQueuedAnswers(session.exam_id)
@@ -432,25 +424,25 @@ export default function ExamRunner({
 
   useEffect(() => {
     if (phase !== 'active' || !session) return
-    const onReconnect = () => { void syncMockAnswers() }
+    const onReconnect = () => { void syncAnswers() }
     const onVisible = () => {
-      if (document.visibilityState === 'visible') void syncMockAnswers()
+      if (document.visibilityState === 'visible') void syncAnswers()
     }
     const interval = window.setInterval(() => {
-      if (navigator.onLine) void syncMockAnswers()
+      if (navigator.onLine) void syncAnswers()
     }, 5_000)
     window.addEventListener('online', onReconnect)
     document.addEventListener('visibilitychange', onVisible)
-    void syncMockAnswers()
+    void syncAnswers()
     return () => {
       window.clearInterval(interval)
       window.removeEventListener('online', onReconnect)
       document.removeEventListener('visibilitychange', onVisible)
     }
-  }, [phase, session, syncMockAnswers])
+  }, [phase, session, syncAnswers])
 
   const finishExam = useCallback(async () => {
-    if (!session || finishInFlightRef.current || submitInFlightRef.current) return
+    if (!session || finishInFlightRef.current) return
 
     finishInFlightRef.current = true
     setPhase('finishing')
@@ -477,7 +469,6 @@ export default function ExamRunner({
   useEffect(() => {
     if (
       phase !== 'active' ||
-      submittingId !== null ||
       remainingSeconds !== 0 ||
       autoFinishAttemptedRef.current
     ) {
@@ -486,31 +477,25 @@ export default function ExamRunner({
 
     autoFinishAttemptedRef.current = true
     void finishExam()
-  }, [finishExam, phase, remainingSeconds, submittingId])
+  }, [finishExam, phase, remainingSeconds]
 
   const updateDraft = (value: AnswerValue) => {
     if (!currentItem || !session || phase !== 'active') return
-    if (session.kind !== 'mock' &&
-        (savedQuestionIds.has(currentItem.question_id) || queuedQuestionIds.has(currentItem.question_id) ||
-         gateway.getPendingAnswer?.(session.exam_id, currentItem.question_id))) return
 
+    // An autosaved selection remains editable. It is finalized only at finish.
     latestDraftsRef.current = { ...latestDraftsRef.current, [currentItem.question_id]: value }
     setDrafts(latestDraftsRef.current)
     setMessage(null)
 
-    if (session.kind !== 'mock') {
-      // Learning, lesson and section tests save a completed selection immediately.
-      if (isAnswerComplete(currentItem, value)) void submitCurrentAnswer(value)
-      return
-    }
     if (!isAnswerComplete(currentItem, value)) return
-    if (!gateway.queueMockAnswer || !gateway.flushQueuedAnswers) {
+    const queueAnswer = session.kind === 'mock' ? gateway.queueMockAnswer : gateway.queueExamAnswer
+    if (!queueAnswer || !gateway.flushQueuedAnswers) {
       setMessage('Avtomatik saqlash xizmati mavjud emas. Sahifani yangilab qayta urining.')
       return
     }
     try {
       lastMockRevisionRef.current = Math.max(Date.now(), lastMockRevisionRef.current + 1)
-      gateway.queueMockAnswer({
+      queueAnswer({
         examId: session.exam_id,
         examKind: session.kind,
         questionId: currentItem.question_id,
@@ -528,118 +513,15 @@ export default function ExamRunner({
         return next
       })
       if (autosaveTimerRef.current) clearTimeout(autosaveTimerRef.current)
-      autosaveTimerRef.current = setTimeout(() => { void syncMockAnswers() }, 300)
+      autosaveTimerRef.current = setTimeout(() => { void syncAnswers() }, 300)
     } catch (error) {
       setMessage(`Javobni qurilmada saqlab bo‘lmadi: ${errorMessage(error)}`)
     }
   }
 
-  const moveToNextUnsaved = (questionId: string) => {
-    if (!session) return
-
-    const nextIndex = session.items.findIndex(
-      (item, index) =>
-        index > currentIndex &&
-        item.question_id !== questionId &&
-        !savedQuestionIds.has(item.question_id)
-    )
-
-    if (nextIndex >= 0) setCurrentIndex(nextIndex)
-  }
-
-  const submitCurrentAnswer = async (answerOverride?: AnswerValue) => {
-    if (!session || !currentItem || submitInFlightRef.current || finishInFlightRef.current ||
-        phase !== 'active' || savedQuestionIds.has(currentItem.question_id)) return
-
-    const answer = answerOverride ?? drafts[currentItem.question_id]
-    if (!isAnswerComplete(currentItem, answer)) {
-      setMessage('Javobni to‘liq belgilang.')
-      return
-    }
-
-    submitInFlightRef.current = true
-    setSubmittingId(currentItem.question_id)
-    setMessage(null)
-
-    try {
-      const input = {
-        examId: session.exam_id,
-        examKind: session.kind,
-        questionId: currentItem.question_id,
-        answer: encodeAnswer(currentItem, answer),
-        timeSpentSec: Math.min(
-          86_400,
-          Math.max(0, Math.floor((Date.now() - questionOpenedAtRef.current) / 1000))
-        ),
-      }
-      // Store the immutable first choice BEFORE the network request, so even
-      // an immediate F5 cannot lose the learner's selected answer.
-      if (session.kind !== 'mock' && gateway.queueExamAnswer) {
-        try {
-          gateway.queueExamAnswer(input)
-          locallyQueuedRef.current.add(currentItem.question_id)
-          setQueuedQuestionIds(prev => new Set([...prev, currentItem.question_id]))
-        } catch (storageError) {
-          setMessage(`Qurilmada saqlash amalga oshmadi: ${errorMessage(storageError)}. Serverga yuborilmoqda…`)
-        }
-      }
-      const response = await gateway.submitAnswer(input)
-
-      if ('error' in response) {
-        if (response.error === 'vaqt_tugadi') {
-          setMessage('Sinov vaqti tugadi. Natija hisoblanmoqda.')
-          submitInFlightRef.current = false
-          setSubmittingId(null)
-          await finishExam()
-          return
-        }
-
-        setMessage('Bu sinov allaqachon yakunlangan.')
-        return
-      }
-
-      setSavedQuestionIds((current) => {
-        const next = new Set(current)
-        next.add(currentItem.question_id)
-        return next
-      })
-      if (!gateway.getPendingAnswer?.(session.exam_id, currentItem.question_id)) {
-        setQueuedQuestionIds(current => {
-          const next = new Set(current)
-          next.delete(currentItem.question_id)
-          return next
-        })
-      }
-      if ('correct' in response) {
-        setMessage(
-          `${response.correct ? 'To‘g‘ri.' : 'Noto‘g‘ri.'} ${learnerExplanation(response.explanation_md)}`
-        )
-      } else {
-        setMessage('Javob serverda saqlandi.')
-        moveToNextUnsaved(currentItem.question_id)
-      }
-    } catch (error) {
-      if (gateway.getPendingAnswer?.(session.exam_id, currentItem.question_id)) {
-        locallyQueuedRef.current.add(currentItem.question_id)
-        setQueuedQuestionIds(current => new Set([...current, currentItem.question_id]))
-      }
-      setMessage(errorMessage(error))
-    } finally {
-      submitInFlightRef.current = false
-      setSubmittingId(null)
-    }
-  }
-
   const renderQuestion = (item: ExamItem) => {
     const value = drafts[item.question_id]
-    const disabled = phase !== 'active' || (
-      session?.kind !== 'mock' && (
-        savedQuestionIds.has(item.question_id) ||
-        queuedQuestionIds.has(item.question_id) ||
-        Boolean(session && gateway.getPendingAnswer?.(session.exam_id, item.question_id)) ||
-        submittingId === item.question_id
-      )
-    )
+    const disabled = phase !== 'active'
 
     if (item.format === 'Y1') {
       return (
@@ -1176,9 +1058,9 @@ export default function ExamRunner({
   const currentFlagged = flaggedQuestionIds.has(currentItem.question_id)
   const flaggedCount = flaggedQuestionIds.size
   const busy = phase === 'finishing'
-  const interactionBusy = busy || submittingId !== null
+  const interactionBusy = busy
   const answeredQuestions = session.items.filter(
-    (item) => savedQuestionIds.has(item.question_id)
+    (item) => savedQuestionIds.has(item.question_id) || queuedQuestionIds.has(item.question_id)
   ).length
   const progressPercent =
     total > 0 ? Math.round((answeredQuestions / total) * 100) : 0
@@ -1304,7 +1186,7 @@ export default function ExamRunner({
           <div
             className={[
               'hidden items-center gap-1.5 rounded-full px-2.5 py-1.5 text-[11px] font-semibold sm:flex',
-              submittingId
+              currentQueued
                 ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300'
                 : currentSaved
                   ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300'
@@ -1312,14 +1194,14 @@ export default function ExamRunner({
             ].join(' ')}
             aria-live="polite"
           >
-            {submittingId ? (
+            {currentQueued ? (
               <LoaderCircle size={12} className="animate-spin" aria-hidden="true" />
             ) : currentSaved ? (
               <Check size={12} aria-hidden="true" />
             ) : (
               <span className="h-1.5 w-1.5 rounded-full bg-gray-400" aria-hidden="true" />
             )}
-            {submittingId
+            {currentQueued
               ? 'Saqlanmoqda...'
               : currentSaved
                 ? 'Saqlandi'
