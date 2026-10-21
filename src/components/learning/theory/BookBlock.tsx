@@ -7,6 +7,7 @@ import type { TheoryBlock } from '../../../data/topicContent'
 import InlineText, { plainText } from './InlineText'
 import { renderMath } from './renderMath'
 import { BOOK_DIAGRAMS } from './BookDiagrams'
+import { isLocalAlgorithmSvgPath } from '../../../features/content/localAlgorithmDiagram'
 
 /** Qutili bloklarning standart sarlavha, ikonka va rang sinfi.
  *  Manbada quti o'z nomi bilan berilgan bo'lsa (`block.label`), o'sha ishlatiladi. */
@@ -220,6 +221,22 @@ function Formula({ block, accent }: { block: TheoryBlock; accent?: boolean }) {
 }
 
 function Diagram({ block }: { block: TheoryBlock }) {
+  // Only local SVG paths explicitly packaged with the client may be loaded.
+  // Do not turn arbitrary Markdown or user-provided URLs into image sources.
+  if (block.diagram && isLocalAlgorithmSvgPath(block.diagram)) {
+    return (
+      <figure className="book-diagram">
+        <img
+          src={block.diagram}
+          alt={block.content}
+          loading="lazy"
+          decoding="async"
+          className="block h-auto max-h-[36rem] w-full object-contain"
+        />
+        <figcaption className="book-diagram-figcaption">{block.content}</figcaption>
+      </figure>
+    )
+  }
   const Component = block.diagram ? BOOK_DIAGRAMS[block.diagram] : undefined
   // Unknown source figure IDs must not create blank paragraphs or invented diagrams.
   if (!Component) return block.content.trim()

@@ -11,6 +11,7 @@ import type { LessonSummary } from './contentApi'
 import { M16_SOURCE_THEORY_ADDITIONS } from '../../data/topics/m16SourceTheoryAdditions'
 import { M14_NORMATIVE_SOURCE_ADDITIONS } from '../../data/topics/m14NormativeSourceAdditions'
 import { cleanLearnerPedagogyText } from './learnerPedagogyTextCleanup'
+import { isLocalAlgorithmSvgPath } from './localAlgorithmDiagram'
 
 const rowCells = (line: string): string[] =>
   line.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map(cell => cell.trim())
@@ -51,6 +52,15 @@ export function markdownToTheoryBlocks(markdown: string): TheoryBlock[] {
     if (!line) { flush(); continue }
     // Migration markers and Markdown comments are metadata, not learner-facing prose.
     if (/^<!--.*-->$/.test(line)) { flush(); continue }
+
+    // Only shipped, source-backed algorithm diagrams become image blocks.
+    // Keep arbitrary/remote Markdown image references inert as text.
+    const localFigure = /^!\[([^\]\n]{1,150})\]\((\/algoritmlash-v(?:2|3)\/[a-z0-9_-]+\.svg)\)$/i.exec(line)
+    if (localFigure && isLocalAlgorithmSvgPath(localFigure[2])) {
+      flush()
+      result.push({ type: 'diagram', content: localFigure[1], diagram: localFigure[2] })
+      continue
+    }
 
     const heading = /^(#{1,4})\s+(.+)$/.exec(line)
     if (heading) {
