@@ -25,8 +25,10 @@
     <!-- Dark mode flash prevention + Mobile keyboard handling -->
     <script>
       (function() {
-        var theme = localStorage.getItem('theme');
-        if (theme === 'dark' || theme === 'system' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        var theme = null;
+        try { theme = localStorage.getItem('theme'); } catch (e) { /* Storage may be blocked. */ }
+        var darkSystem = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (theme === 'dark' || (theme === 'system' && darkSystem) || (!theme && darkSystem)) {
           document.documentElement.classList.add('dark');
           document.getElementById('theme-color').setAttribute('content', '#030712');
         }
