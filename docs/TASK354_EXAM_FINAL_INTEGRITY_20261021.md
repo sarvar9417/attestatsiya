@@ -8,3 +8,6 @@
 
 ## Release order and rollback
 Apply this migration only after fresh DB CI passes, test on an authenticated staging account, then verify production SQL signature. Avoid migrating old history or rewriting scores. Rollback via a forward-fix migration restoring the previous four function definitions and previous batch grants, after assessing affected open attempts. The SQL contains no destructive data migration.
+
+## Compatibility exception / verification
+An exam that already recorded first-answer evidence before this rollout deliberately retains legacy mastery counts. Editing an old open attempt can therefore leave historical first-answer learning statistics intact even if its final test score changes. A backfill/rebuild of mastery history requires a separately reviewed design; no destructive historic recalculation is attempted here. Newly created revisioned attempts use final-only policy, preventing further divergence.
