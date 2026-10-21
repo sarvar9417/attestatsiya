@@ -1,3 +1,16 @@
+## TASK-347 — Group Mock Test (branch-only, not deployed)
+
+- Tables: `group_mock_rooms`, `group_mock_items`, `group_mock_members`,
+  `group_mock_answers`, `group_mock_messages` (all RLS-enabled with
+  direct learner table grants revoked).
+- RPCs: `group_mock_eligible` (private helper), `group_mock_bank`,
+  `group_mock_create`, `group_mock_join`, `group_mock_start`,
+  `group_mock_answer`, `group_mock_step`, `group_mock_message`,
+  `group_mock_state`. Server-authoritative answer visibility and roster.
+- Migration: `20261021001500_task347_group_mock.sql`; **not applied** to production.
+- SQL regression: `supabase/tests/group_mock.test.sql` (fresh DB pending).
+- Personal and official exam tables, mastery and published revision remain untouched.
+
 # Database Schema — Attestatsiya
 
 ## Supabase Project

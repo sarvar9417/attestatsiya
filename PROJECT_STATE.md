@@ -1,3 +1,21 @@
+## TASK-348 — Guruhli Mock Test xonalarini tiklash (2026-10-20)
+
+- **Base:** TASK-347 #352 GitHub main merge SUCCESS, `72ce5b67d9e918312e5ea65f973246561ea811fc` (2026-10-20).
+- **Branch:** `task/TASK-348-group-mock-resilience`; hali main merge/production deploy qilinmagan.
+- **Status:** CODE READY / CI + staging 2-session acceptance PENDING.
+- **Scope:** a'zolik bo‘yicha qayta kirish ro‘yxati, xonani lobbyda bekor qilish, a'zoning boshlashdan oldin chiqishi, taklif havolasi, manual savol ID ketma-ketligini boshqarish va stale polling response guard.
+- **Security:** auth.uid() ga bog‘langan group_mock_my_rooms, direct table select yo‘q, host-only lobby cancellation, started room + scores uchun fail closed; migration va SQL regression yangi.
+- **Evidence:** `docs/TASK348_GROUP_MOCK_RESILIENCE_20261020.md`.
+
+## TASK-347 — Guruhli Mock Test (2026-10-20)
+
+- **Owner:** ChatGPT; foydalanuvchi 2026-10-20 loyiha bajarilishini tasdiqladi.
+- **Branch:** `task/TASK-347-group-mock`, based on 2026-10-20 main.
+- **Status:** CODE IN BRANCH / CI + fresh DB + multiuser QA PENDING; merge/deploy/production DB migration yo‘q.
+- **Scope:** Spetsifikatsiya 50 / mavzular soni va darajasi / bankdan ID bilan qo‘lda tanlash; 8 belgili taklif kodi, lobby, host start/reveal/next, cross-client 2.5 s poll, Y1/Y2/Y3, all-answer auto-reveal, 2/0 scoreboard and chat.
+- **Security:** Authoritative scoring, no pre-reveal answer keys, 5 private RLS tables, explicit authenticated RPC only, room membership/host checks, immutable per-question answer. `supabase/tests/group_mock.test.sql` and frontend privacy tests added.
+- **Next gates:** CI lint/typecheck/build/unit, database reset/SQL role regression, two authenticated browser sessions, generated DB types. Docs: `docs/TASK347_GROUP_MOCK_20261020.md`.
+
 ## TASK-346 — PedGuli xabar 4843 rasm tiklash (2026-10-20)
 
 - **Owner:** ChatGPT — foydalanuvchi rasm yo‘qligi haqida xabar berdi.
