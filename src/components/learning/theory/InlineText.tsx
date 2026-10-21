@@ -62,7 +62,8 @@ function tokenize(text: string): Node[] {
 function safeTheoryLink(href: string | undefined): string | null {
   if (!href) return null
   const url = href.trim()
-  if (!url || /[\\\u0000-\u001f\u007f]/.test(url) || url.startsWith('//')) return null
+  const invalidChar = [...url].some(char => char === '\\' || char.charCodeAt(0) < 32 || char.charCodeAt(0) === 127)
+  if (!url || invalidChar || url.startsWith('//')) return null
   const scheme = /^[a-z][a-z\d+.-]*:/i.exec(url)?.[0].toLowerCase()
   if (scheme && scheme !== 'https:' && scheme !== 'http:') return null
   return url
