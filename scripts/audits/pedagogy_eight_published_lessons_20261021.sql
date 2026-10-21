@@ -33,3 +33,22 @@ FROM public.lessons
 WHERE module_id=(SELECT id FROM public.modules WHERE slug='umumiy-pedagogika')
   AND status='review'::content_status
 ORDER BY order_idx;
+
+-- Second publication tranche: original source has exactly 38 study cards,
+-- and the teacher-reflection theory chapter was expanded before publishing.
+SELECT slug,status::text AS lesson_status,order_idx,length(body_mdx) AS theory_characters,
+       (SELECT count(*) FROM public.questions q WHERE q.source_lesson_id=l.id) AS scored_questions
+FROM public.lessons l
+WHERE slug IN ('baholash-nazariyasi-38-savol-takrorlash',
+               'pedagogik-refleksiya-va-kasbiy-tashxis')
+ORDER BY order_idx;
+
+-- Public RLS is based on published status; a separate SELECT with ROLE anon
+-- in the live connection independently returned 18 pedagogika lessons.
+SELECT m.slug,m.status::text AS module_status,
+       count(*) FILTER(WHERE l.status='published'::content_status) AS published_lessons,
+       count(*) FILTER(WHERE l.status='review'::content_status) AS remaining_review
+FROM public.modules m
+JOIN public.lessons l ON l.module_id=m.id
+WHERE m.slug='umumiy-pedagogika'
+GROUP BY m.slug,m.status::text;
