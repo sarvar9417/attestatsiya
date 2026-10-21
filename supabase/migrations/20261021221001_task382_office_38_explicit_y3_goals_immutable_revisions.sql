@@ -56,6 +56,13 @@ DECLARE
   new_order jsonb;
   v_count integer:=0;
 BEGIN
+  -- Full Office_2026_v2 corpus is a live import, not a fresh-CI bootstrap seed.
+  -- Skip only if the whole source bank is absent. Partial/imported drift fails closed.
+  IF NOT EXISTS (SELECT 1 FROM public.questions q
+                 WHERE q.source_reference LIKE 'Office_2026_v2|%') THEN
+    RAISE NOTICE 'TASK-382 Office_2026_v2 source bank absent: defer 38 revisions';
+    RETURN;
+  END IF;
   IF (SELECT count(*) FROM task382_stems)<>38 THEN
     RAISE EXCEPTION 'TASK-382 expected exactly 38 case-reviewed goal rewrites';
   END IF;
