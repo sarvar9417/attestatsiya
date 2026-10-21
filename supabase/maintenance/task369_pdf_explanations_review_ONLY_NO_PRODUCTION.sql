@@ -58,7 +58,7 @@ BEGIN
   WHERE q.status='published'::public.content_status
     AND q.format='Y1'::public.question_format
     AND q.group_code IN ('KS','PM.GEN','PM.MET')
-    AND k.explanation_md ~* '(baza kandidati|PDF muallif kaliti saqlandi|manba javobi shu)'
+    AND k.explanation_md ~* '(baza kandidati|PDF muallif kaliti saqlandi|Asl Javob belgisi saqlandi|manba javobi shu)'
     AND NOT EXISTS(SELECT 1 FROM public.pedagogy_revision_queue r WHERE r.source_question_id=q.id);
   IF v_count <> 18 THEN RAISE EXCEPTION 'TASK369_PRODUCTION_SOURCE_DRIFT_OR_ALREADY_REVISED_%', v_count; END IF;
 
