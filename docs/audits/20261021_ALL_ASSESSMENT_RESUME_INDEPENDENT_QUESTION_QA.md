@@ -20,7 +20,7 @@ semantics outside the revisable official mock.
 
 ## Production question bank snapshot (read-only audit)
 
-- Published total **5,439**: Y1 **4,439**, Y2 **506**, Y3 **494**.
+- Initial published snapshot **5,439** (before archiving one confirmed double-key question): Y1 **4,439**, Y2 **506**, Y3 **494**.
 - Published Y1 KS/PM.GEN/PM.MET: **794**.
 - Automatic cue screen: **359** Y1 items in which at least two incorrect
   distractors use absolute expressions such as `faqat`, `umuman`,
@@ -73,3 +73,24 @@ and preserve historical attempts and source provenance.
 
 Production rollout is separate: GitHub merge does not mean the new backend
 is live; previous Vercel backend attempts were BLOCKED.
+
+
+## Confirmed semantic double-key and immediate quarantine
+
+Independently reading the complete original PM.GEN source question
+`0862e4b3-c6bd-42c9-bb7b-a3dec2224707`
+("Sinf rahbari faqat muammo chiqqanda ota-onaga qo‘ng‘iroq qiladi..."),
+the nominally correct response says contact limited to problems makes
+cooperation reactive and potentially accusatory. A marked *incorrect*
+alternative also says this can turn contact into complaints, weakening
+positive collaboration. **Both alternatives are substantively correct.**
+This is a confirmed, genuinely ambiguous one-answer assessment—not
+merely a lexical heuristic.
+
+A single transactional, auditable repair archived the original, linked
+its already-prepared `review` successor in the quarantine registry, and
+added a critical semantic finding. Postflight: source **archived**,
+successor **review**, quality evidence present; the **one** historical
+exam item remains referenced and was not deleted or regraded. No
+replacement was automatically published. New published total after this
+single quarantine: **5,438**.
