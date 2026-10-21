@@ -38,7 +38,8 @@ describe('S3.LOGIC independent truth-table expert QA', () => {
         const q = mantiqAmalGenerator.generate(seed, construct)
         expect(q.key.kind).toBe('Y1')
         if (q.key.kind !== 'Y1') continue
-        const answer = q.options.find(o => o.id === q.key.optionId)?.content
+        const key = q.key
+        const answer = q.options.find(o => o.id === key.optionId)?.content
         expect(new Set(q.options.map(o => o.content)).size).toBe(4)
 
         if (construct === 'S3.LOGIC.02') {
