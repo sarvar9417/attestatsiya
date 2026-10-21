@@ -20,6 +20,7 @@ import {
   type GroupMockTopic,
 } from '../features/group-mock/groupMockApi'
 import { reorderManualQuestions } from '../features/group-mock/manualSelection'
+import { coalesceRoomRequests } from '../features/group-mock/groupPolling'
 
 type TopicSelection = Record<string, { count: number; difficulty: number }>
 const panel = 'rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900'
@@ -277,6 +278,8 @@ export default function GroupMockPage() {
   const [roomsError, setRoomsError] = useState<string | null>(null)
   const [connectionWarning, setConnectionWarning] = useState<string | null>(null)
   const requestSequence = useRef(0)
+  // Reuse an in-flight room request; slow networks must not starve polling.
+  const loadRoomState = useMemo(() => coalesceRoomRequests(getGroupMockState), [])
   const [state, setState] = useState<GroupMockState | null>(null)
   const [report, setReport] = useState<GroupMockReport | null>(null)
   const [reportError, setReportError] = useState<string | null>(null)
@@ -289,7 +292,7 @@ export default function GroupMockPage() {
     if (!roomId) return
     const requestId = ++requestSequence.current
     try {
-      const value = await getGroupMockState(roomId)
+      const value = await loadRoomState(roomId)
       // A slower response must not roll a question/reveal back to an earlier phase.
       if (requestId === requestSequence.current) {
         setState(value)
@@ -310,7 +313,7 @@ export default function GroupMockPage() {
       }
       throw error
     }
-  }, [roomId, setSearchParams])
+  }, [roomId, setSearchParams, loadRoomState])
 
   useEffect(() => {
     if (!roomId || !recentRoomKey) return
