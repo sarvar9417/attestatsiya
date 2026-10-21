@@ -56,3 +56,12 @@
 Sanoq sistemalariga oid 49 ta cross-PDF dublikatlar alohida belgilangan; №19 da 636(10)=529(11) talqinining noaniqligi ikkalasi uchun bloklangan. Kitob 128×32×60 belgini 512 bit/s bilan yuborish topshirig‘ida 8 bit/belgi taxmini manbada berilmagani va A=3600 s / B=60 minut tengligi qayd qilingan.
 
 **Release:** ushbu branch REVIEW uchun; mavjud published question revision/key, o‘quvchi natijalari va production frontendga yozmang.
+
+## №17 — asl bosma sxema va qo‘lyozma talqini farqi (2026-10-21)
+
+Asl PDFning **11-betini 2.5x tasvir** bilan tekshirishda M4 for-siklning bosma diapazoni `i = 1,5` ekanligi ko‘rindi. Sahifadagi qizil qo‘lyozma **5 ni chizib tashlagan** va to‘rtinchi iteratsiyagacha `1 × 2 × 3 × 4 = 24` yechimini yozgan. Bu muallifning qizil qo‘lyozmasi bosma shartdan boshqa talqin qo‘llaganini bildiradi; u nashr uchun rasmiy javob kaliti sifatida qabul qilinmaydi.
+
+- **Bosma sxema talqini**: `i=1..5` inkluziv, `P=1×2×3×4×5=120`; mavjud `savol_17.dot` ushbu bosma diapazonga mos.
+- **Qo‘lyozma talqini**: `i=1..4`, `P=24`; bosma sxemadagi 5 ustidan chizilgan, PDF originalining bosma qatlamini o‘zgartirmaydi.
+- **Database himoyasi**: `attest_ingest.telegram_informatika_pdf_release_blockers`da №17 uchun `ambiguous_or_nonunique_answer` nashr bloki qo‘shildi. Bosma shart, yozuv va javoblar o‘quvchi nashriga chiqmasin; 120 matematik hisob ekani model QA tavsiyasi, inson eksperti tan olgan kalit emas.
+- **Keyingi qat’iy test**: Graphviz sxemasida `i=1..5` saqlanishi, manba/provenance izohi va release blocker alohida qayd etilishi; image hamda QA ajratish yakunlanmasdan publish mumkin emas.
