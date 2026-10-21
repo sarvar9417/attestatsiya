@@ -21,7 +21,7 @@ User butun attestatsiya savollar bazasini audit qilish va sifatli tuzatishlarni 
 - Yangi har bir savolda 3 ta mavzuga yaqin noto‘g‘ri javob, aynan saqlangan to‘g‘ri javob va tushuntirish mavjud.
 - Case-sensitive 4 ta turli variant; word-count max/min ≤1.8; correct/max_wrong ≤1.25.
 - `is_generated=true`, `status=review`, `human_editorial_approval=false`, `release_performed=false` ko‘rsatilgan.
-- Old published savol versiyasi, eski answer key, old exam attempt va 4 ta tarixiy exam item bog‘lanishi o‘zgarmas.
+- Old published savol versiyasi, eski answer key, old exam attempt va 4 ta tarixiy exam item bog‘lanishi o‘zgarmas. REVIEW navbati uchun asl savolga qo‘yiladigan yangi sifat belgisi \`medium\` bo‘lib, mavjud official mock eligibility'ni sun’iy ravishda cheklamaydi. 2026-10-21 preflight: tanlangan 8 ta originaldan 6 tasida allaqachon ochiq high/critical sifat belgisi bor va faqat 2 tasi official-mock eligible; stage bundan pastga tushirmasligi lozim.
 - Manba/variant kaliti/fingerprint/drift, source lesson, Y1 tuzilmasi va oldingi revision mavjud emasligi barcha 8 uchun qat’iy tekshiriladi.
 
 ## Production'dagi qaytariladigan sinov
