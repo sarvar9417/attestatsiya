@@ -6,7 +6,7 @@ digraph savol_21 {
   node [fontname="DejaVu Sans", fontsize=13, style=filled, fillcolor="#f6f8fc", color="#334155"];
   edge [fontname="DejaVu Sans", fontsize=11, color="#334155"];
   start [label="Boshlash",shape=oval];
-  init [label="s = 0\\na = 0",shape=box];
+  init [label="s = 0\na = 0",shape=box];
   sum [label="s = s + a",shape=box];
   input [label="a ni kiritish",shape=parallelogram];
   cond [label="a < 0 ?",shape=diamond];
