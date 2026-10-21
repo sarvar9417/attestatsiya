@@ -362,7 +362,7 @@ export default function GroupMockPage() {
       if (active) setRoomsError(err instanceof Error ? err.message : 'Xonalar ro‘yxati yuklanmadi')
     }).finally(() => { if (active) setRoomsLoading(false) })
     return () => { active = false }
-  }, [roomId, user?.id, authLoading])
+  }, [roomId, user?.id, authLoading, recentRoomKey, searchParams, setSearchParams])
 
   useEffect(() => {
     if (roomId || mode === 'spec' || catalog.length) return
