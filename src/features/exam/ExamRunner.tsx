@@ -133,6 +133,8 @@ export default function ExamRunner({
   const [message, setMessage] = useState<string | null>(null)
   const [startError, setStartError] = useState<string | null>(null)
   const [resuming, setResuming] = useState(examKind === 'mock' && Boolean(gateway.getActiveMockExam))
+  const [resumeFailed, setResumeFailed] = useState(false)
+  const [resumeRetry, setResumeRetry] = useState(0)
   const [finishArmed, setFinishArmed] = useState(false)
   const [clockNow, setClockNow] = useState(Date.now())
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -366,18 +368,23 @@ export default function ExamRunner({
     if (examKind !== 'mock' || !gateway.getActiveMockExam) return
     let cancelled = false
     setResuming(true)
+    setResumeFailed(false)
+    setStartError(null)
     void gateway.getActiveMockExam()
       .then(active => {
         if (!cancelled && active) restoreSession(active)
       })
       .catch(error => {
-        if (!cancelled) setStartError(`Oldingi sinovni tekshirishda xatolik: ${errorMessage(error)}`)
+        if (!cancelled) {
+          setResumeFailed(true)
+          setStartError(`Oldingi sinovni tekshirishda xatolik: ${errorMessage(error)}`)
+        }
       })
       .finally(() => { if (!cancelled) setResuming(false) })
     return () => { cancelled = true }
   // Restore once per account/gateway; session activity doesn't trigger a re-fetch.
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [examKind, gateway, user?.id])
+  }, [examKind, gateway, user?.id, resumeRetry])
 
   useEffect(() => {
     if (session?.kind !== 'mock' || !user?.id || typeof window === 'undefined') return
@@ -805,6 +812,13 @@ export default function ExamRunner({
                 </div>
               )}
 
+              {resumeFailed && !resuming && (
+                <button type="button" onClick={() => setResumeRetry(n => n + 1)}
+                  className="mt-4 rounded-lg border border-amber-300 px-3 py-2 text-sm font-semibold text-amber-700 dark:border-amber-700 dark:text-amber-300">
+                  <RefreshCw size={15} className="mr-2 inline" /> Sinovni qayta tiklash
+                </button>
+              )}
+
               {resuming && (
                 <p role="status" className="mt-5 text-sm text-indigo-600 dark:text-indigo-300">
                   Tugallanmagan mock sinovi tekshirilmoqda…
@@ -825,7 +839,7 @@ export default function ExamRunner({
 
               <button
                 type="button"
-                disabled={starting || resuming || (examKind === 'mavzu' && (topicPreflightLoading || topicPreview?.ready !== true))}
+                disabled={starting || resuming || resumeFailed || (examKind === 'mavzu' && (topicPreflightLoading || topicPreview?.ready !== true))}
                 onClick={() => void startExam()}
                 className="mt-7 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 disabled:opacity-60 sm:w-auto"
               >
