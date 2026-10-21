@@ -1,0 +1,58 @@
+name: TASK-423 persist review-only SVG assets
+
+on:
+  push:
+    branches:
+      - 'task/TASK-423-informatika-flowchart-qa-20261021'
+    paths:
+      - 'docs/qa/task423-flowcharts/*.dot'
+      - 'scripts/task423-render-flowcharts.mjs'
+      - 'scripts/task423-persist-flowcharts.mjs'
+      - '.github/workflows/task423-sync-assets.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: task423-svg-sync-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  sync-review-svg:
+    if: github.repository == 'sarvar9417/attestatsiya' && github.ref == 'refs/heads/task/TASK-423-informatika-flowchart-qa-20261021'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Ensure Graphviz is available
+        run: |
+          if ! command -v dot >/dev/null; then
+            sudo apt-get update
+            sudo apt-get install -y graphviz
+          fi
+          dot -V
+      - name: Check all ten DOT sources
+        run: node --test scripts/task423-flowcharts.test.mjs
+      - name: Render SVGs ONLY in review directory
+        run: node scripts/task423-render-flowcharts.mjs docs/qa/task423-flowcharts/rendered
+      - name: Check SVG safety and pin provenance hashes
+        run: |
+          node scripts/task423-persist-flowcharts.mjs
+          node scripts/task423-persist-flowcharts.mjs --check
+      - name: Commit review assets ONLY to this feature branch
+        run: |
+          git add docs/qa/task423-flowcharts/rendered/
+          if git diff --cached --quiet; then
+            echo 'Generated SVGs are already in sync.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'TASK-423: store generated SVG review assets [skip ci]'
+          git push origin HEAD:task/TASK-423-informatika-flowchart-qa-20261021
