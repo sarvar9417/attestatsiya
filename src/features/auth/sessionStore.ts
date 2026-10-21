@@ -53,7 +53,23 @@ function loadInitial(): AuthSession | null {
   // Muddati o'tgan session ham yuklanadi: useAuth mount'da refresh_token
   // bilan silent refresh qiladi. Shu yerda tashlab yuborilsa refresh_token
   // yo'qoladi va foydalanuvchi keraksiz login sahifasiga tushadi.
-  return parseStored(window.localStorage.getItem(STORAGE_KEY))
+  // Private mode / disabled cookies can make accessing localStorage throw.
+  try {
+    return parseStored(window.localStorage.getItem(STORAGE_KEY))
+  } catch {
+    return null
+  }
+}
+
+function persistSession(session: AuthSession | null): void {
+  if (typeof window === 'undefined') return
+  try {
+    if (session === null) window.localStorage.removeItem(STORAGE_KEY)
+    else window.localStorage.setItem(STORAGE_KEY, JSON.stringify(session))
+  } catch {
+    // Keep the current in-memory session usable even if browser storage is
+    // blocked or full. A page reload will require signing in again.
+  }
 }
 
 currentSession = loadInitial()
@@ -83,18 +99,14 @@ export const sessionStore = {
 
   set(session: AuthSession | null) {
     currentSession = session
-    if (session === null) {
-      window.localStorage.removeItem(STORAGE_KEY)
-    } else {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(session))
-    }
+    persistSession(session)
     notify()
   },
 
   updateUser(user: AuthUser) {
     if (!currentSession) return
     currentSession = { ...currentSession, user }
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(currentSession))
+    persistSession(currentSession)
     notify()
   },
 
