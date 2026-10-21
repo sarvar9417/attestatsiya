@@ -190,7 +190,9 @@ const reportQuestion = z.object({
   idx: z.number().int().positive(),
   stem_md: z.string(),
   format: z.enum(['Y1', 'Y2', 'Y3']),
-  options: z.array(z.object({ id: z.string().uuid(), side: z.enum(['a','b']), content_md: z.string() })),
+  // Imported / MD5-derived IDs are valid PostgreSQL UUIDs without RFC version bits.
+  // Use the shared exam option contract so completed reports accept the saved IDs unchanged.
+  options: z.array(z.object({ id: postgresUuidSchema, side: z.enum(['a','b']), content_md: z.string() })),
   correct_answer: z.record(z.string(), z.unknown()),
   explanation_md: z.string(),
   answered: z.number().int().nonnegative(),
