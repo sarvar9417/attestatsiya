@@ -33,6 +33,17 @@ export default function ModulePage() {
 
   const mod = modules.find(module => module.id === moduleId)
 
+  // The catalog is hydrated asynchronously; an unknown module while it is
+  // loading is not yet a 404. Avoid flashing a false "Bo‘lim topilmadi" page.
+  if (loading && (!mod || !moduleId)) {
+    return (
+      <div role="status" aria-live="polite"
+        className="mx-auto flex min-h-[45vh] max-w-xl items-center justify-center px-5 text-center text-sm text-gray-600 dark:text-gray-300">
+        Bo‘lim ma’lumotlari yuklanmoqda…
+      </div>
+    )
+  }
+
   if (!mod || !moduleId) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center px-4">
