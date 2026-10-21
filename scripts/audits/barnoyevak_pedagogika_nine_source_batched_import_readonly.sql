@@ -28,6 +28,6 @@ SELECT source_file_name,source_question_no,page_no,source_quality_flags
 FROM public.pedagogy_pdf_source_candidates
 WHERE source_file_name IN ('pedagogika6.pdf','Pedmahorat 4.pdf')
 AND (extraction_confidence='needs_manual_parse'
-     OR 'potential_duplicate_answer_options'=ANY(source_quality_flags)
+     OR 'confirmed_identical_option_C_D_in_source'=ANY(source_quality_flags)
      OR 'source_encoding_typo_review'=ANY(source_quality_flags))
 ORDER BY source_file_name,source_question_no;
