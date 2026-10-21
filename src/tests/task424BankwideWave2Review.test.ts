@@ -26,7 +26,7 @@ describe('TASK-424 bankwide audit wave 2 review-only Y1 revisions', () => {
     expect(source).toContain("'human_editorial_approval',false")
     expect(source).toContain("'release_performed',false")
     expect(source).toContain('task424_semantic_distractor_review_pending')
-    expect(source).toContain("r.status='review'")
+    expect(source).toContain("WHERE q.status='review'")
     expect(source).not.toContain("SET status='published'")
     expect(source).not.toContain("SET status='archived'")
   })
