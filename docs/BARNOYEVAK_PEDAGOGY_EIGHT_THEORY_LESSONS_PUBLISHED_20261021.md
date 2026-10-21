@@ -36,3 +36,15 @@ Reproduktiv read-only query: `scripts/audits/pedagogy_eight_published_lessons_20
 ## Qolgan ish
 
 Ikki review darsdagi terminlar/yorliqlar/ilmiy izohlarni alohida tekshirish, manba PDFlaridan xavfsiz yana dars/test qilish, oldindan mavjud 416+ xususiy nomzod javoblarini mustaqil solishtirish. Unverified testlarni faqat nashr soni oshishi uchun `published` qilmang.
+
+
+## Ikkinchi nashr bosqichi — qolgan ikki dars ham yakunlandi
+
+Birinchi sakkizta nashr bo‘yicha qayd tuzilganidan keyin qolgan ikki darsning asl manbalari ham qayta o‘qildi va ular ham `review` → `published` holatiga o‘tkazildi:
+
+1. **`baholash-nazariyasi-38-savol-takrorlash`**, order 111, 3 834 belgi. `Baholash_nazariyasi_40_nazariy_savol_javob.docx` sarlavhasida 40 deyilsa ham o‘qilgan asl matnda faqat 1–38 savol bor. Shu **38 ta nazariy kartochka** nashr qilindi; mavjud bo‘lmagan 39–40 to‘qilmadi. Komil Jalilovning *Baholash nazariyasi asoslari* (2020) manbasida monomorf/polimorf, gomogen/geterogen, normativ/mezonli/ipsativ va chiziqli/adaptiv test tasniflari bilan solishtirildi. Bu **o‘quv kartochkalari** bo‘lib, avtomatik baholanadigan 38 test emas. `review` uchun ichki izoh o‘quvchiga mos cheklovga almashtirildi, geterogen testning bir nechta **turdosh** fan sohasini qamrab olishi aniqlashtirildi.
+2. **`pedagogik-refleksiya-va-kasbiy-tashxis`**, order 112, 3 694 belgi. Oldingi 706 belgili dars kengaytirildi: kuzatish → dalil → ehtiyotkor tahlil → keyingi harakat → natijani qayta baholash; o‘qituvchining kasbiy refleksiyasi va o‘quvchining o‘zlashtirish tashxisini farqlash; to‘rtta amaliy mustahkamlash savoli. 2025-yildagi *Pedagogik mahorat* test spetsifikatsiyasi pedagogik refleksiya, o‘qituvchi faoliyatini tashxislash va kasbiy rivojlanish mavzularini sanab beradi; bosqichlar unga asoslangan mustaqil dars tahlili, **rasmiy javob kaliti emas**.
+
+**Yakuniy jonli Supabase postflight:** `umumiy-pedagogika` modulida **18 ta `published`**, **0 ta `review`** dars. `anon` rolida o‘qish tekshiruvi ham **18 ta publicly readable** yozuv qaytardi. Shu 10 ta nazariy darsning hech biri shu nashr operatsiyasi orqali scored savol yoki kalit yaratmadi. Qo‘lda frontend deploy bajarilmadi.
+
+Birinchi bosqich uchun yuqorida berilgan **16 published / 2 review** sonlari tarixiy oraliq o‘lchov ekanini, ushbu ikkinchi bosqichdan keyingi yakuniy holat **18 / 0** ekanini ajrating.
