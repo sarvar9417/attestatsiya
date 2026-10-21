@@ -62,7 +62,10 @@ describe('InlineText', () => {
     expect(container.querySelectorAll('.book-code')).toHaveLength(3)
     expect(container.querySelector('.book-math .katex')).toBeNull()
     expect(plainText(prompt)).toBe(prompt)
-    expect(plainText('=$A$1 va $N = 2^i
+    expect(plainText('=$A$1 va $N = 2^i$')).toBe('=$A$1 va N = 2^i')
+  })
+
+  it('plainText tokenlarni olib tashlaydi', () => {
     expect(plainText('==Bit== — $2^i$ ~~binary digit~~@@ICT7, PDF 4@@')).toBe('Bit — 2^i binary digit')
   })
 })
