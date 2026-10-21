@@ -1,0 +1,27 @@
+// TASK-423 review-only transcription from PDF page 13; not learner-published.
+// PDF source: Google Drive 13k9q8hDA5b-s-5x8p1apCAnRqJaLKtmi
+// Editorial note: graph is a redraw, NOT a pixel-exact original; source check required.
+digraph savol_19 {
+  graph [rankdir=TB, labelloc=t, label="№19. M8 — blok-sxema", fontname="DejaVu Sans", fontsize=18, bgcolor=white, splines=polyline];
+  node [fontname="DejaVu Sans", fontsize=13, style=filled, fillcolor="#f6f8fc", color="#334155"];
+  edge [fontname="DejaVu Sans", fontsize=11, color="#334155"];
+  start [label="Boshlash",shape=oval];
+  input [label="n ni kiritish",shape=parallelogram];
+  zero [label="n = 0 ?",shape=diamond];
+  one [label="1 ni chiqarish",shape=parallelogram];
+  init [label="k = 1\\ni = 1",shape=box];
+  cond [label="i <= n ?",shape=diamond];
+  mul [label="k = k * i\\ni = i + 1",shape=box];
+  out [label="k ni chiqarish",shape=parallelogram];
+  end [label="Tugatish",shape=oval];
+  start -> input;
+  input -> zero;
+  zero -> one [label="ha"];
+  one -> end;
+  zero -> init [label="yo'q"];
+  init -> cond;
+  cond -> mul [label="ha"];
+  mul -> cond;
+  cond -> out [label="yo'q"];
+  out -> end;
+}
