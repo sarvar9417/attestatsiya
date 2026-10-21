@@ -142,7 +142,7 @@ describe('T-014 server-authoritative natija ekrani', () => {
     renderMock(examGateway, '/exam/pedagogik_15')
     await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
     await user.click(await screen.findByRole('button', { name: /Variant A/ }))
-    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
+    await screen.findByText('Avtomatik saqlandi ✓')
     await user.click(screen.getByRole('button', { name: 'Sinovni yakunlash' }))
     await user.click(screen.getByRole('button', { name: 'Yakunlash' }))
 
@@ -222,7 +222,7 @@ describe('T-014 server-authoritative natija ekrani', () => {
     renderMock(examGateway, '/exam/pedagogik_15')
     await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
     await user.click(await screen.findByRole('button', { name: /Variant A/ }))
-    await user.click(screen.getByRole('button', { name: 'Javobni saqlash' }))
+    await screen.findByText('Avtomatik saqlandi ✓')
     await user.click(screen.getByRole('button', { name: 'Sinovni yakunlash' }))
 
     expect(await screen.findByRole('heading', { name: 'Sinov yakunlandi' })).toBeDefined()
