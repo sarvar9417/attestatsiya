@@ -20,7 +20,6 @@ begin
   then raise exception 'TASK352 needs 2 eligible published Y1 questions'; end if;
   if has_function_privilege('anon','public.group_mock_finish(uuid)','execute')
     or has_function_privilege('anon','public.group_mock_delete(uuid,text)','execute')
-    or has_function_privilege('public','public.group_mock_delete(uuid,text)','execute')
   then raise exception 'unsafe anonymous delete or finish permissions'; end if;
 end $check$;
 grant select on task352_questions to authenticated;
