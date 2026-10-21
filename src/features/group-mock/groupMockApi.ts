@@ -92,10 +92,9 @@ const messages: Record<string, string> = {
 // The platform authenticates through /api/auth and stores its JWT in sessionStore.
 // A separate Supabase client has no knowledge of that session and sends the anon
 // token instead. Call the PostgREST RPC with the actual authenticated JWT.
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined
-
 async function call(name: string, args: Record<string, unknown>): Promise<unknown> {
+  const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined
+  const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined
   const token = sessionStore.get()?.access_token
   if (!token) throw new Error(messages.group_auth_required)
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
