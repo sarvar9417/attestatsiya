@@ -1,3 +1,9 @@
+## TASK-379 — Barcha savollar javob variantlari sifat auditi: 1-partiya (2026-10-21)
+
+| Task | Holat | Natija |
+|---|---|---|
+| TASK-379 | IN PROGRESS: full read-only bank audit + 8 Y1 REVIEW successors | 8 603 jami, 5 438 faol (Y1 4 438 / Y2 506 / Y3 494). 257 Y1 javob uzunligi nomzod, 308 shubhali ifoda, 20 Y2 strukturaviy nomzod, 1 934 qisqa izoh. 8 Y1: 3 tadan mazmunan yaqin distractor va to‘liq izoh; real Supabase ROLLBACK rehearsal 8/8 va 32/32 PASS. **Faqat review staging; hech qanday published overwrite yoki muallif/ekspert imzosini qalbakilashtirish yo‘q.** Track issue #469. |
+
 ## TASK-422 — PedGuli Telegram savollarini owner-authorized ekspert release (2026-10-21)
 
 | Task | Status | Acceptance / release |

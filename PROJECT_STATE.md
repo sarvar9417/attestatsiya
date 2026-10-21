@@ -1,3 +1,14 @@
+## TASK-379 — Y1/Y2/Y3 butun bank sifat auditi, dastlabki partiya (2026-10-21)
+
+- **Owner:** ChatGPT, foydalanuvchi barcha testlarni tekshirish va tuzatish ishlarini boshlashni tasdiqlagan.
+- **Status:** Full read-only audit completed; 8 high-signal Y1 professional distractor rewrites prepared for NEW REVIEW revisions only. No claim of full-bank semantic examination.
+- Production baseline: 8 603 total / 5 438 active (Y1: 4 438; Y2: 506; Y3: 494); 1 406 review, 33 draft, 1 726 archived. Heuristic candidates: 257 Y1 correct-answer length >1.5× max wrong, 308 linguistic cues, 20 Y2 legacy side format, 1 934 short rationales. All counts signal-only pending meaning-based adjudication.
+- Eight first-wave source answer texts kept exactly; each new revision has three realistic wrong options + topic-specific explanation. SQL preflight checks exact original source/key, four unique options, source fingerprint and no existing revision; **8/8 review and 32/32 options Supabase ROLLBACK passed**.
+- Current main strict migration versions unique; fresh CI skips only exact production-only Office Y3 cutovers with content already applied, no schema-migration bypass. PR #470 was superseded by this refreshed branch.
+- **Gate:** do not publish new AI-authored distractor content to learners before editorial approval; only stage REVIEWS via signed controlled migration after CI. Existing published versions and attempts remain immutable.
+- Files: `supabase/maintenance/task379_full_bank_option_quality_audit_READONLY.sql`, `supabase/maintenance/task379_wave1_EIGHT_REVIEW_STAGE.sql`, `src/tests/task379BankwideQualityAudit.test.ts`, `docs/TASK379_BANKWIDE_OPTION_QUALITY_AUDIT_20261021.md`.
+- Next: verify CI; stage review-only; manual/expert adjudication and follow-up waves. Tracker: issue #469.
+
 ## TASK-422 — PedGuli Telegram savollarining yakuniy tahririy release'i (2026-10-21)
 
 - **Owner:** ChatGPT; user 2026-10-21 kuni to‘liq review va yakuniy qaror vakolatini berdi, qayta tasdiq talab qilinmaydi.
