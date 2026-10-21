@@ -10,7 +10,7 @@ describe('TASK-385 historical migration version reconciliation', () => {
   it('matches the actual applied production version and exact SQL body fingerprint', () => {
     expect(existsSync(path)).toBe(true)
     expect(existsSync(oldAlias)).toBe(false)
-    const migration = readFileSync(path)
+    const migration = readFileSync(path, 'utf8')
     expect(migration.length).toBe(13019)
     expect(createHash('md5').update(migration).digest('hex')).toBe(expectedProductionMd5)
   })
