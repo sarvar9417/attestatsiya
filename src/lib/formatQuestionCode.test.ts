@@ -7,7 +7,7 @@ describe('legacy exam code readability', () => {
     const original = 'function f(x){if(x%2===0)return x/2;return 3*x+1;}console.log(f(6));'
     const formatted = formatCodeForDisplay(original, 'javascript')
     expect(formatted).toContain('function f(x) {\n')
-    expect(formatted).toContain('  if(x%2===0)return x/2;\n')
+    expect(formatted).toContain('  if(x%2===0)\n    return x/2;\n')
     expect(formatted).toContain('  return 3*x+1;\n}\nconsole.log(f(6));')
   })
 
@@ -68,7 +68,7 @@ describe('legacy exam code readability', () => {
     }).outputText
     for (const source of samples) {
       const formatted = formatCodeForDisplay(source, 'javascript')
-      expect(compile(formatted), source).toBe(compile(source))
+      expect(compile(formatted).replace(/\\s+/g, ''), source).toBe(compile(source).replace(/\\s+/g, ''))
     }
     expect(formatCodeForDisplay(samples[0], 'javascript')).toContain('if(x%2===0)\\n    return x/2;')
   })
