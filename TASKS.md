@@ -1,3 +1,9 @@
+## TASK-379 — Butun 8 603 test bazasi: sifat auditi, 1-bosqich (2026-10-21)
+
+| Task | Status | Acceptance / release |
+|---|---|---|
+| TASK-379 | IN PROGRESS — read-only all-format audit PASS; 8 REVIEW revisions transactional rehearsal PASS, CI and production review-stage pending | Baseline published 5,438 / total 8,603. Y1 length >1.5×: 257 candidate; Y1 lexical: 308; explanations <70: 1,934; Y2 matching structure: 20 needs context review. First 8 semantic distractors were authored from exact existing stem/source/key; all 8 correct text unchanged and 32 choices validation PASS. **Do not publish AI draft without the appropriate editorial gate.** Tracking issue #469, report `docs/TASK379_BANKWIDE_OPTION_QUALITY_AUDIT_20261021.md`. |
+
 ## TASK-378 — Ota-ona bilan suhbat savoli, alohida production release (2026-10-21)
 
 | Task | Status | Acceptance / release |
