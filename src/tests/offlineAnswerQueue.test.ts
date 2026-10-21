@@ -24,6 +24,24 @@ beforeEach(() => {
 })
 
 describe('offline answer queue', () => {
+  it('localStorage yozish xatosida javob saqlandi deb xabar bermaydi', () => {
+    const original = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new DOMException('Quota exceeded', 'QuotaExceededError')
+    })
+    expect(() => enqueuePendingAnswer(firstAnswer)).toThrow('Javob qurilmada saqlanmadi.')
+    original.mockRestore()
+    expect(listPendingAnswers()).toHaveLength(0)
+  })
+
+  it('localStorage o‘qish cheklansa ham mavjud onlayn testni yiqitmaydi', () => {
+    const original = vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+      throw new DOMException('Storage denied', 'SecurityError')
+    })
+    expect(() => listPendingAnswers()).not.toThrow()
+    expect(listPendingAnswers()).toEqual([])
+    original.mockRestore()
+  })
+
   it('boshqa test turida birinchi offline urinishni immutable saqlaydi', () => {
     enqueuePendingAnswer({ ...firstAnswer, examKind: 'bolim' })
     enqueuePendingAnswer({
