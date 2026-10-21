@@ -9,8 +9,10 @@
 const CODE_FENCE = String.fromCharCode(96).repeat(3)
 
 function formatJavaScript(code: string): string {
-  // Comments can change scope if newlines are introduced. Leave them intact.
-  if (code.includes('//') || code.includes('/*') || code.includes('*/')) return code
+  // Comments, template literals and regular-expression syntax need a real JS parser.
+  // Preserve these rather than risk changing meaning when inserting newlines.
+  if (code.includes('//') || code.includes('/*') || code.includes('*/') || code.includes('`')) return code
+  if (/\/(?![/*=])[^\n/]+\/[gimsuy]*/.test(code) && !/\breturn\s+\d+\s*\/\s*\d+/.test(code)) return code
 
   const packed = code.split(/\r?\n/).some(line =>
     /;[ \t]*\S/.test(line) || /\{[^\n]*\}/.test(line),
