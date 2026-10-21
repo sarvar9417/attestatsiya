@@ -8,10 +8,11 @@
 - Seven-published `m13-axr-06` — **Kontent va auditoriya**, legacy `M13.06` — **Elektron tijorat, to‘lov va blockchain**. Mazmunni chalkashtirmaslik uchun IDlarni tartib bo‘yicha avtomatik o‘zgartirish yo‘q.
 - URLda legacy `M13.06` bo‘lsa, published katalog kelganidan keyin ham eski darsning mavjud lokal nazariyasi ko‘rsatiladi; published boblarni yoki DBni o‘zgartirmaydi.
 - M13 katalog so‘rovi kutilayotganida 11 eski mavzuli vaqtinchalik navigatsiya ko‘rsatilmaydi.
+- Published M13ning yetti bobli ro‘yxatida oldingi elektron tijorat darsi «Qo‘shimcha mavzu» sifatida alohida ochiladi; yetti bob progressi faqat canonical subtopic IDlarini sanaydi.
 - Xato `?topic=` xavfsiz modul umumiy ekranida qoladi. M01/M07/M08/M12 rejimlariga tegilmaydi.
 
 ## Verification
-- `LearningModulePages.test.tsx`ga 4 ta regressiya testi: 11→7 o‘tishda eski darsning saqlanishi va URL tiklash; published UUID darsni yangilash; yuklanish paytida xavfsiz holat; yaroqsiz query.
+- `LearningModulePages.test.tsx`ga 5 ta regressiya testi: 11→7 o‘tishda eski darsning saqlanishi va URL tiklash; published UUID darsni yangilash; yuklanish paytida xavfsiz holat; yaroqsiz query.
 - GitHub CI: lint, typecheck, test, build va E2E holati merge oldidan tekshiriladi.
 
 ## Scope va release
