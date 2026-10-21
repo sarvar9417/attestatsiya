@@ -213,5 +213,9 @@ begin
     'items', v_items
   );
 end
-$function$
+$function$;
 
+-- The legacy function was PUBLIC-executable on a fresh database.
+-- Only authenticated users should be able to invoke this privileged path.
+REVOKE EXECUTE ON FUNCTION public.finish_exam_batch(uuid,jsonb) FROM PUBLIC, anon;
+GRANT EXECUTE ON FUNCTION public.finish_exam_batch(uuid,jsonb) TO authenticated;
