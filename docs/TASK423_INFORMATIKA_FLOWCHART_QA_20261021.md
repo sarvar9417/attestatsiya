@@ -3,13 +3,13 @@
 - `docs/qa/task423-flowcharts/savol_15.dot` — `savol_24.dot`: **10 ta haqiqiy Graphviz manba fayli GitHub task branch’iga commit qilindi**. Shu manbadan SVGni qayta yaratish mumkin.
 - `scripts/task423-render-flowcharts.mjs`: Graphviz `dot` bilan SVG yaratish, tashqi SVG DTDni olib tashlash, script/remote image/filter gate, `public/`ga bevosita yozishdan himoya.
 - `scripts/task423-flowcharts.test.mjs`: manba raqami, node/edge, reachability, SVG compile va xavfsizlik regressiyasi.
-- `.github/workflows/task423-flowcharts.yml`: Graphviz CI ishga tushgan, ilk status queued. CI yakuni tekshiriladi.
-- **Farq:** Graphviz DOT source repository’da mavjud; 10 ta asl lokal sanitized SVG + PNG fayllarining binary nusxalari repositoryga hali kiritilmadi. PNG va SVG browser mapping/deploy qolmoqda. Review-only, nashr YO‘Q.
+- `.github/workflows/task423-flowcharts.yml`: dedicated Graphviz CI PASS (2026-10-21, tekshirilgan commit).
+- **Yangi bosqich:** Graphviz DOT bilan birga 10 ta tozalangan SVG ham `docs/qa/task423-flowcharts/rendered/savol_15.svg`–`savol_24.svg` joyiga task branch’da commit qilindi. `rendered/manifest.json` yangi fayllarning manba va SVG SHA-256larini saqlaydi. GitHub Actions sync workflow PASS. Bular **review-only**, `public/` emas; PNG, question-revision UI mapping va production deploy qolmoqda.
 
 # TASK-423 — Informatika №15–24 blok-sxema grafiklari: ekspert QA va nashr himoyasi
 
 **Sana:** 2026-10-21  
-**Holat:** REVIEW / grafiklarni GitHub va platformaga ulash bajarilmagan, deploy yo‘q.  
+**Holat:** REVIEW / Graphviz DOT + 10 ta SVG GitHub task branch’da; learner platformaga ulash va deploy bajarilmagan.  
 **Owner:** ChatGPT; repository branch `task/TASK-423-informatika-flowchart-qa-20261021`.
 
 ## Asl manba
@@ -39,12 +39,12 @@
 - Arxiv: `attestatsiya_informatika_15_24_diagrammalar.zip`; 10 ta `savol_XX.svg`, 10 ta `savol_XX.png`, `README.md`, `manifest.json`.
 - Arxiv SHA-256: `77ee58183eb3adadb6281e7b8ca873425a50aaffb44d55d7ee00518f26b8d576`.
 - XML SVG parser tekshiruvlari, PNG dekodlanishi, tashqi skript/rasm va Graphviz DTDni tozalash, ZIP integrity — PASS.
-- Paket ushbu Git commit ichiga **hali yuklanmagan**. Grafiklar ChatGPTning joriy ish maydoni/artefakti sifatida mavjud; arxiv SHA-256 va ichki manifest bilan keyin alohida ulanishi kerak.
+- Mahalliy ZIP va PNG paket **GitHubga yuklanmagan**. Ammo GitHub task branch’da 10 ta **CI-rendered SVG** mavjud: `docs/qa/task423-flowcharts/rendered/` va uning tekshiriladigan SHA-256 manifesti. Mahalliy ZIP checksumini GitHub CI-render manifestining SHA qiymati bilan aralashtirmaslik kerak.
 - Muallif PDFidagi qizil qo‘lyozma javoblar chizmalarga ko‘chirilmagan; bu fayllar mustaqil qayta chizmalar.
 
 ## Publish-gate / zarur acceptance
 
-1. 10 ta SVG + PNG GitHub/Storage'ga real upload va checksum verification. SVG xavfsizligi saqlansin; learner assetlari uchun CDN/access qonuniyligi tekshirilsin.
+1. GitHub task branch’dagi 10 ta review-only SVG to‘liq mavjud va sha256 verified; learnerga yaroqli Storage/public joylashuv, PNG variantlari, CDN va version locator hali bajarilishi kerak. SVG xavfsizlik tekshiruvi doimiy bo‘lsin.
 2. UI SVG yoki PNGni learnerga aynan kerakli savol revision ID bilan bog‘lasin. Question lookup bo‘yicha cross-question image leakage mumkin bo‘lmasin.
 3. SVGni asl PDF bilan mustaqil tahririy solishtirish va sikl/fork shartlarini isbotlash; №17 bo‘yicha for-chegara aniq bo‘lsin.
 4. Private Supabase `telegram_informatika_pdf_visual_index` hozir 10 savolni `pdf_figure_not_exported_to_platform` deb ko‘rsatadi; haqiqiy asset deployment bo‘lmaguncha bu holatni kamaytirmang.
