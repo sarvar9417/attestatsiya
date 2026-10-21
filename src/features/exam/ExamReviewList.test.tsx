@@ -76,6 +76,14 @@ describe('ExamReviewList finalized answer analysis', () => {
     expect(screen.queryByText('To‘g‘ri javob')).toBeNull()
   })
 
+  it('keeps pedagogical rationale but hides PDF candidate metadata in the finished exam review', () => {
+    render(<ExamReviewList items={[entry({
+      explanation_md: 'Ustoz yangi metodni hamkasbidan o‘rganib darsda ishlatdi. Manba javobi shu.\n\nManba: to‘plam.pdf (baza kandidati 66). PDF muallif kaliti saqlandi.',
+    })]} />)
+    expect(screen.getByText('Ustoz yangi metodni hamkasbidan o‘rganib darsda ishlatdi.')).toBeTruthy()
+    expect(screen.queryByText(/Manba javobi|baza kandidati|muallif kaliti/i)).toBeNull()
+  })
+
   it('renders imported Word/Excel literal escapes as a table and readable explanation', () => {
     render(<ExamReviewList items={[entry({
       stem_md: 'Excel:\\n\\n| Meva | kg |\\n|---|---:|\\n| Olma | 24 |',

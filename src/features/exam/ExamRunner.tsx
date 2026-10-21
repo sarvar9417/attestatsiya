@@ -1,3 +1,4 @@
+import { learnerExplanation } from './learnerExplanation'
 import {
   AlertTriangle,
   ArrowLeft,
@@ -516,7 +517,7 @@ export default function ExamRunner({
       })
       if ('correct' in response) {
         setMessage(
-          `${response.correct ? 'To‘g‘ri.' : 'Noto‘g‘ri.'} ${response.explanation_md}`
+          `${response.correct ? 'To‘g‘ri.' : 'Noto‘g‘ri.'} ${learnerExplanation(response.explanation_md)}`
         )
       } else {
         setMessage('Javob serverda saqlandi.')

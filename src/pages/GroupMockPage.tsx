@@ -9,6 +9,7 @@ import Y1Choice from '../features/exam/questions/Y1Choice'
 import Y2Match from '../features/exam/questions/Y2Match'
 import Y3Order from '../features/exam/questions/Y3Order'
 import ExamRichText from '../features/exam/questions/ExamRichText'
+import { learnerExplanation } from '../features/exam/learnerExplanation'
 import ExamQuestionAssets from '../features/exam/questions/ExamQuestionAssets'
 import {
   answerGroupMock, cancelGroupMockLobby, correctGroupAnswerLabel, createGroupMock,
@@ -137,7 +138,7 @@ function GroupQuestionCard({
           </div>
           <div>
             <h3 className="mb-2 font-bold text-gray-900 dark:text-white">Batafsil izoh</h3>
-            <ExamRichText text={feedback.explanation_md || 'Ushbu savol uchun izoh mavjud emas.'} />
+            <ExamRichText text={learnerExplanation(feedback.explanation_md) || 'Ushbu savol uchun izoh mavjud emas.'} />
           </div>
           <div>
             <h3 className="mb-2 font-bold text-gray-900 dark:text-white">Guruhning javoblari</h3>

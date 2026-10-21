@@ -1,3 +1,4 @@
+import { learnerExplanation } from '../exam/learnerExplanation'
 /**
  * Lesson Content Gateway — dars kontentini backend-first o'qiydi.
  *
@@ -89,7 +90,7 @@ export async function checkQuestionAnswer(
     return {
       correct: result.correct,
       correctIndex: correctIndex >= 0 ? correctIndex : question.correctIndex,
-      explanation: result.explanation_md ?? '',
+      explanation: learnerExplanation(result.explanation_md),
     }
   } catch (error) {
     // Offline fallback: statik savolda kalit bor bo'lsa lokaldan tekshiramiz
