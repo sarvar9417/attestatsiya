@@ -56,3 +56,16 @@ Source scripts:
 All original published question content and historical attempts remain unchanged. No editor approval, production publication, merge, or deploy was fabricated or performed. Legacy published rows can still surface outside selectors enforcing high-severity findings until a coordinated final release atomically publishes each vetted revision and archives its predecessor via the existing `publish_pedagogy_revision` RPC. The `pedagogy_published_no_source_label_chk` constraint in the proposed release-guard SQL is **NOT applied**: it needs formal migration generation, final regression checks and release coordination under `PEDAGOGY_RELEASE_FREEZE.md`.
 
 Do **not** represent the 52 review drafts as 52 fixed learner-visible questions. Review each answer, ambiguity, plausible distractor and original content provenance before promotion; simple keyword cleanup does not verify pedagogical truth. Related informatika matches found by the same broad regex use "PDF" or "asl manba" in the *subject matter* rather than to reference an inaccessible questionnaire, so they are intentionally excluded.
+
+## Expanded source-label sweep and concurrent publication status
+
+A broader production audit added imported `#tushgan`, `#tushgan_test` and `Manbada …` wording to the previously identified PDF and Pedmahorat|Guli patterns. The one legitimate topic use of `manbadan` (independently comparing two information sources) is intentionally **not flagged**.
+
+The batch SQL was re-run idempotently to cover newly inserted imported questions. The production validation at audit time confirms:
+
+- The user's exact old conflict question `1a8b48ea-7a89-4c32-a45a-5c10ea3b4968`: **archived**, corrected version `64eb4143-f505-42a3-a4da-d16eddce40ff`: **published**.
+- Old pedagogy-definition source `cca58439-2ff7-449f-adf4-8787ed079b3e`: **archived**, corrected version `2e4ee93a-7781-482f-aa07-52cc8f8c2d38`: **published**.
+- For the expanded detector, at the last postflight **70 active originals remain published** with **70 clean review revisions**, each linked and with a valid key-to-option reference. No matching pending revised stem carries a source label; **zero** of these 70 revisions had completed editorial checklist records.
+- An additional **34** earlier source-labeled originals have been archived with a published replacement, alongside **4 archived-to-archived** lineages and **3 archived with no current linked revision**; some database states changed concurrently during the audit. This addendum reports observed remote state, **not a claim that every concurrent publication was performed by this PR**.
+
+The proposed source-label publication constraint is only a future release proposal, not active production protection. Existing published question content continues to be immutable; a signed review plus atomic release is necessary for the remaining 70 live replacements.
