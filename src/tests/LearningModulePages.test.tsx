@@ -279,7 +279,7 @@ describe('Learning va Module Figma UI', () => {
   it('M13 katalogi yuklanayotganda noto‘g‘ri 11 mavzuli ro‘yxatni ko‘rsatmaydi', () => {
     mocks.useCatalog.mockReturnValue({ modules: [m13Legacy], loading: true })
     renderModule('/learn/M13?topic=M13.06')
-    expect(screen.getByRole('status').textContent).toContain('M13 darslari yuklanmoqda')
+    expect(screen.getByRole('heading', { name: 'M13 darslari yuklanmoqda…' })).toBeDefined()
     expect(screen.queryByRole('heading', { name: "Elektron tijorat, to'lov va blockchain" })).toBeNull()
     expect(screen.queryByText('Topic view: M13.06')).toBeNull()
   })
