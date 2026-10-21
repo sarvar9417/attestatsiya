@@ -403,7 +403,7 @@ export default function ExamRunner({
         String(currentIndex)
       )
     } catch { /* Unavailable local storage must not break the live assessment. */ }
-  }, [session?.exam_id, currentIndex, user?.id])
+  }, [session, currentIndex, user?.id])
 
   // Persist the latest completed mock choices without leaking answer keys.
   const syncMockAnswers = useCallback(async () => {
