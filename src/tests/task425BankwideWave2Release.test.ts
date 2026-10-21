@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { readFileSync } from 'node:fs'
 
-const source = readFileSync('supabase/maintenance/task425_bankwide_wave1_eight_immutable_release.sql','utf8')
+const source = readFileSync('supabase/maintenance/task425_bankwide_wave2_eight_immutable_release.sql','utf8')
 const manifest = source.slice(source.indexOf('INSERT INTO task425_manifest VALUES'),source.indexOf('DO $task425$'))
 const ids = [...manifest.matchAll(/\('([0-9a-f-]{36})'::uuid,\s*'([0-9a-f-]{36})'::uuid/g)]
 describe('TASK-425 owner-delegated second-wave eight Y1 distractor release', () => {
