@@ -23,6 +23,7 @@ for (let n = 15; n <= 24; n += 1) {
     assert.match(source, new RegExp('digraph savol_' + n + '\\s*\\{'));
     assert.ok(source.includes('PDF page ' + (n - 6)));
     assert.ok(source.includes(sourceId));
+    assert.ok(!source.includes('\\\\n'), 'double-escaped newline renders literally in SVG');
     assert.doesNotMatch(source, /\b(?:image|href|URL)\s*=|<script|javascript:/i);
     const { nodes, edges } = parseGraph(source);
     const nodeIds = new Set(nodes.map(({ id }) => id));
