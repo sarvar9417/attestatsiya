@@ -192,6 +192,14 @@ jobs:
           # Fresh DB uchun 00014 schema prerequisite'ni 00012 dan oldin bir marta
           # qo'llaymiz; 00014 normal joyiga kelganda uni qayta ishlatmaymiz.
           while IFS= read -r migration; do
+            # TASK-382 is another production-only owner-authorized question
+            # wording cutover with 38 specific Office Y3 source questions.
+            # The clean CI fixture omits those production-only question rows.
+            if [ "${migration}" = "supabase/migrations/20261021221000_task382_office_38_explicit_y3_goals_immutable_revisions.sql" ]; then
+              echo "Skipping TASK-382 production-only content release in clean CI"
+              continue
+            fi
+
             # TASK-381 is a one-off, owner-approved cutover for a specific
             # production record (OFF-W03-028). The clean CI fixtures do not
             # contain that question. Run it only on real production, where its
@@ -391,6 +399,14 @@ jobs:
           ORDER_PREP_APPLIED=false
 
           while IFS= read -r migration; do
+            # TASK-382 is another production-only owner-authorized question
+            # wording cutover with 38 specific Office Y3 source questions.
+            # The clean CI fixture omits those production-only question rows.
+            if [ "${migration}" = "supabase/migrations/20261021221000_task382_office_38_explicit_y3_goals_immutable_revisions.sql" ]; then
+              echo "Skipping TASK-382 production-only content release in clean CI"
+              continue
+            fi
+
             # TASK-381 is a one-off, owner-approved cutover for a specific
             # production record (OFF-W03-028). The clean CI fixtures do not
             # contain that question. Run it only on real production, where its
