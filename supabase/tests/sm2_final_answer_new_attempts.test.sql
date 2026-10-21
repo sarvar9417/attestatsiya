@@ -14,6 +14,7 @@ DECLARE
  v_meta jsonb;
  v_stats public.user_construct_stats%rowtype;
  v_evidence public.mastery_evidence%rowtype;
+ v_batch_exam uuid := '62000000-0000-4000-8000-000000000103';
  v_count integer;
 BEGIN
  SELECT q.id,q.construct_id,(k.payload->>'correct_option_id')::uuid,
@@ -78,6 +79,30 @@ BEGIN
  SELECT * INTO v_evidence FROM public.mastery_evidence WHERE exam_id=v_exam;
  IF v_evidence.is_correct IS DISTINCT FROM true THEN
    RAISE EXCEPTION 'SM2_EVIDENCE_DID_NOT_TRACK_FINAL_CHOICE';
+ END IF;
+
+ -- The atomic batch finalizer must use the exact same once-only semantics.
+ INSERT INTO public.exams(id,user_id,kind,duration_sec)
+ VALUES(v_batch_exam,v_user,'mavzu',7200);
+ INSERT INTO public.exam_items(exam_id,question_id,construct_id,order_idx)
+ VALUES(v_batch_exam,v_q,v_construct,1);
+ PERFORM public.submit_answer(v_batch_exam,v_q,
+   jsonb_build_object('option_id',v_wrong::text,'_client_revision',v_before+10),3);
+ PERFORM public.submit_answer(v_batch_exam,v_q,
+   jsonb_build_object('option_id',v_correct::text,'_client_revision',v_before+11),5);
+ PERFORM public.finish_exam_batch(v_batch_exam,'[]'::jsonb);
+ PERFORM public.finish_exam_batch(v_batch_exam,'[]'::jsonb);
+ SELECT * INTO v_stats FROM public.user_construct_stats
+ WHERE user_id=v_user AND construct_id=v_construct;
+ IF v_stats.attempts<>2 OR v_stats.correct<>2 OR v_stats.independent_attempts<>2 THEN
+   RAISE EXCEPTION 'SM2_BATCH_REPLAY_OR_WRONG_FINAL_RESULT: %',row_to_json(v_stats);
+ END IF;
+ SELECT count(*) INTO v_count FROM public.mastery_evidence WHERE exam_id=v_batch_exam;
+ IF v_count<>1 OR NOT EXISTS (
+   SELECT 1 FROM public.mastery_evidence
+   WHERE exam_id=v_batch_exam AND is_correct=true
+ ) THEN
+   RAISE EXCEPTION 'SM2_BATCH_FINAL_EVIDENCE_MISMATCH';
  END IF;
 END;
 $sm2_final$;
