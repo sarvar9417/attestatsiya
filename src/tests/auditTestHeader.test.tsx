@@ -8,7 +8,7 @@ describe('test header connectivity', () => {
   const original = Object.getOwnPropertyDescriptor(window.navigator, 'onLine')
   afterEach(() => {
     if (original) Object.defineProperty(window.navigator, 'onLine', original)
-    else delete (window.navigator as Navigator & { onLine?: boolean }).onLine
+    else Reflect.deleteProperty(window.navigator, 'onLine')
   })
 
   function setOnline(online: boolean) {
