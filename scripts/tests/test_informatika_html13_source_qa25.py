@@ -37,7 +37,12 @@ class HtmlOriginalSourceQA25(unittest.TestCase):
 
     def test_q4_q8_are_same_source_prompt(self):
         source = '<table width="350px"><td width="73px">25</td><td width="20%" rowspan="2">27</td><td width="71px">41</td><td colspan="2">44</td></table>'
-        self.assertEqual(source,source)
+        printed_q4 = "4. HTML kodining bir qismi: " + source + " ."
+        printed_q8 = "8.HTML kodining bir qismi: " + source + "."
+        def normalized(source_text):
+            source_text = re.sub(r"^\\d+[.]\\s*", "", source_text).strip(" .")
+            return re.sub(r"\\s+", " ", source_text)
+        self.assertEqual(normalized(printed_q4), normalized(printed_q8))
         self.assertIn('width="20%"',source)
         self.assertIn('width="71px"',source)
 
