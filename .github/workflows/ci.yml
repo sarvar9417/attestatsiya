@@ -260,6 +260,7 @@ jobs:
             -f supabase/tests/all_assessment_active_resume.test.sql \
             -f supabase/tests/editable_answer_revision_all_kinds.test.sql \
             -f supabase/tests/finish_exam_batch_expiry.test.sql \
+            -f supabase/tests/sm2_final_answer_new_attempts.test.sql \
             -f supabase/tests/task306_question_bank_remediation.test.sql \
             -f supabase/tests/task254_y2_side_integrity.test.sql \
             -f supabase/tests/mock_y2_option_projection.test.sql \

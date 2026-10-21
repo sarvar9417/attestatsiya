@@ -65,6 +65,12 @@ values (
   'mavzu'
 );
 
+-- Existing security regression tests the legacy first-submit contract; the
+-- new on-finish policy has a dedicated final-answer integration regression.
+UPDATE public.exams
+SET selection_meta = coalesce(selection_meta,'{}'::jsonb) - 'sm2_commit_policy'
+WHERE id='00000000-0000-4000-8000-000000000201';
+
 insert into public.exam_items (
   id,
   exam_id,
