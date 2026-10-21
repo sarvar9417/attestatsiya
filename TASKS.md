@@ -1,3 +1,9 @@
+## TASK-350 — M14/M15 nazariyada Telegram import izohlarini o‘quvchi ko‘rinishidan tozalash (2026-10-21)
+
+| ID | Status | Scope | Acceptance |
+|---|---|---|---|
+| TASK-350 | CODE COMPLETE — CI/PR verification | Kasb standartining 7 sohasiga oid Telegram 15293 izohi va unga o‘xshash M14/M15 import sarlavhalari | 7 sohaga qo‘shimcha izohli jadval; «Telegram manbasidan», «Kanal muallifining», tahririy heading/kanal source-only satrlari learner readerda yo‘q; PDF manbalari va original published body saqlangan; boshqa modullar va savollar o‘zgarmagan. `docs/TASK350_PEDAGOGY_LEARNER_TEXT_CLEANUP_20261021.md`. |
+
 ## TASK-369 — O‘quvchi javob izohlaridan PDF/Telegram/kandidat tahririy yozuvlarini tozalash (2026-10-21)
 
 | Task | Status | Acceptance / release contract |
