@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { sessionStore, type AuthSession } from '../auth/sessionStore'
-import { createGroupMock, getGroupMockReport, listMyGroupMockRooms, pauseGroupMock, resumeGroupMock } from './groupMockApi'
+import { createGroupMock, deleteGroupMockRoom, finishGroupMock, getGroupMockReport, listMyGroupMockRooms, pauseGroupMock, resumeGroupMock } from './groupMockApi'
 
 const session: AuthSession = {
   access_token: 'test-user-jwt',
@@ -122,6 +122,43 @@ describe('group mock RPC authentication regression', () => {
     await expect(getGroupMockReport('93470000-0000-4000-8000-000000000002')).rejects.toThrow(
       'To‘liq hisobot faqat test yakunlangandan keyin ochiladi.',
     )
+  })
+
+  it('finishes early with the authenticated platform JWT', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(new Response('{"ok":true}', { status: 200 }))
+    vi.stubGlobal('fetch', fetchMock)
+    const room = '93470000-0000-4000-8000-000000000002'
+    await finishGroupMock(room)
+    expect(fetchMock).toHaveBeenCalledWith(
+      'https://example.invalid/rest/v1/rpc/group_mock_finish',
+      expect.objectContaining({
+        method: 'POST',
+        headers: expect.objectContaining({ Authorization: 'Bearer test-user-jwt' }),
+        body: JSON.stringify({ p_room: room }),
+      }),
+    )
+  })
+
+  it('passes the confirmation code to the server for irreversible deletion', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(new Response('{"ok":true}', { status: 200 }))
+    vi.stubGlobal('fetch', fetchMock)
+    const room = '93470000-0000-4000-8000-000000000002'
+    await deleteGroupMockRoom(room, 'AABB1122')
+    expect(fetchMock).toHaveBeenCalledWith(
+      'https://example.invalid/rest/v1/rpc/group_mock_delete',
+      expect.objectContaining({
+        headers: expect.objectContaining({ Authorization: 'Bearer test-user-jwt' }),
+        body: JSON.stringify({ p_room: room, p_code: 'AABB1122' }),
+      }),
+    )
+  })
+
+  it('explains a rejected deletion code without hiding the server error', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify({
+      code: 'P0001', message: 'group_delete_code_mismatch',
+    }), { status: 400 })))
+    await expect(deleteGroupMockRoom('93470000-0000-4000-8000-000000000002', 'WRONG123'))
+      .rejects.toThrow('Xona o‘chirilmadi.')
   })
 
   it('rejects missing login before any network call', async () => {
