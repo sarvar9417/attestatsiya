@@ -115,6 +115,81 @@ describe('group mock RPC authentication regression', () => {
     )
   })
 
+  it('loads all 50 report questions with MD5-derived PostgreSQL UUID option IDs', async () => {
+    // Real published group mocks include PostgreSQL UUIDs without RFC version
+    // or variant bits. Zod .uuid() rejects these even though the database
+    // accepts them. Report parsing must preserve the original IDs for keys.
+    const storedOptionIds = [
+      'b335a155-53e6-fefc-4878-f3ad9315a7ea',
+      'ee50af7a-b106-03d3-1b63-ae6031eea547',
+      '78fa8672-3abc-5a62-f9f6-c71a274cb78d',
+    ]
+    const room = '93470000-0000-4000-8000-000000000002'
+    const questions = Array.from({ length: 50 }, (_, index) => {
+      const id = storedOptionIds[index % storedOptionIds.length]
+      const format = (['Y1', 'Y2', 'Y3'] as const)[index % 3]
+      return {
+        idx: index + 1,
+        stem_md: 'Savol ' + (index + 1),
+        format,
+        options: [
+          { id, side: 'a', content_md: 'Javob A' },
+          { id: '93470000-0000-4000-8000-000000000003', side: format === 'Y2' ? 'b' : 'a', content_md: 'Javob B' },
+        ],
+        correct_answer: format === 'Y1'
+          ? { correct_option_id: id }
+          : format === 'Y2'
+            ? { pairs: { [id]: '93470000-0000-4000-8000-000000000003' } }
+            : { order: [id, '93470000-0000-4000-8000-000000000003'] },
+        explanation_md: 'Izoh',
+        answered: 0, correct: 0, incorrect: 0, unanswered: 1,
+      }
+    })
+    const report = {
+      room_id: room, code: 'AABB1122', total_count: 50, participant_count: 1,
+      finished_at: '2026-10-21T08:00:00Z',
+      participants: [{
+        user_id: session.user.id, name: 'Ishtirokchi', answered: 0,
+        correct: 0, incorrect: 0, unanswered: 50,
+        score: 0, percentage: 0,
+        answers: questions.map(question => ({
+          idx: question.idx, answer: null, is_correct: null,
+        })),
+      }],
+      questions,
+    }
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(
+      new Response(JSON.stringify(report), { status: 200 }),
+    ))
+
+    const parsed = await getGroupMockReport(room)
+    expect(parsed.questions).toHaveLength(50)
+    expect(parsed.questions[0].options[0].id).toBe(storedOptionIds[0])
+    expect(parsed.questions[1].options[0].id).toBe(storedOptionIds[1])
+    expect(parsed.questions[2].options[0].id).toBe(storedOptionIds[2])
+    expect(parsed.questions[1].correct_answer.pairs).toEqual({
+      [storedOptionIds[1]]: '93470000-0000-4000-8000-000000000003',
+    })
+  })
+
+  it('rejects a malformed option ID in the final report', async () => {
+    const report = {
+      room_id: '93470000-0000-4000-8000-000000000002',
+      code: 'AABB1122', total_count: 1, participant_count: 0,
+      finished_at: '2026-10-21T08:00:00Z', participants: [],
+      questions: [{
+        idx: 1, stem_md: 'Savol', format: 'Y1',
+        options: [{ id: 'not-a-postgresql-uuid', side: 'a', content_md: 'A' }],
+        correct_answer: { correct_option_id: 'not-a-postgresql-uuid' },
+        explanation_md: 'Izoh', answered: 0, correct: 0, incorrect: 0, unanswered: 0,
+      }],
+    }
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(
+      new Response(JSON.stringify(report), { status: 200 }),
+    ))
+    await expect(getGroupMockReport(report.room_id)).rejects.toThrow('PostgreSQL UUID shakli noto‘g‘ri')
+  })
+
   it('does not accept a report before the server finishes the test', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify({
       code: 'P0001', message: 'group_report_unavailable',
