@@ -55,6 +55,25 @@ describe('InlineText', () => {
     expect(container).toHaveTextContent('Xavf')
   })
 
+  it('Excel dollar references remain literal alongside real KaTeX mathematics', () => {
+    const prompt = '1) =$A1; 2) =A$1; 3) =$A$1;'
+    const { container } = render(<p><InlineText text={prompt} /></p>)
+    expect(container.textContent).toBe(prompt)
+    expect(container.querySelectorAll('.book-code')).toHaveLength(3)
+    expect(container.querySelector('.book-math .katex')).toBeNull()
+    expect(plainText(prompt)).toBe(prompt)
+    expect(plainText('=$A$1 va $N = 2^i$')).toBe('=$A$1 va N = 2^i')
+  })
+
+  it('Excel ranges, multi-letter columns and mixed references stay readable', () => {
+    const formula = '=SUM($AA$100:$B$7)+C$9'
+    const { container } = render(<p><InlineText text={formula} /></p>)
+    expect(container.textContent).toBe(formula)
+    expect(container.querySelectorAll('.book-code')).toHaveLength(3)
+    expect(container.querySelector('.book-math .katex')).toBeNull()
+    expect(plainText(formula)).toBe(formula)
+  })
+
   it('plainText tokenlarni olib tashlaydi', () => {
     expect(plainText('==Bit== — $2^i$ ~~binary digit~~@@ICT7, PDF 4@@')).toBe('Bit — 2^i binary digit')
   })

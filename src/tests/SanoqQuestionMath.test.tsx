@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import Y1Choice from '../features/exam/questions/Y1Choice'
 import AnswerOption from '../components/exam/AnswerOption'
+import Y2Match from '../features/exam/questions/Y2Match'
 
 describe('Sanoq sistemalari savollaridagi matematik yozuv', () => {
   it('sanoq asoslari va formulalarni mavzu testi savolida KaTeX orqali ko‘rsatadi', () => {
@@ -47,4 +48,32 @@ describe('Sanoq sistemalari savollaridagi matematik yozuv', () => {
     expect(screen.getByText('Sanoq sistemasi nima?')).toBeInTheDocument()
     expect(screen.getByText('Internet tarmog‘i')).toBeInTheDocument()
   })
+  it('renders Office Y2 matching question without eating $ reference markers', () => {
+    const prompt = 'Ushbu vaziyatdagi vositalar va vazifalarni moslashtiring.  1) =$A1;  2) =A$1;  3) =$A$1;  Izohlar: A) Ustun mahkamlangan;  B) Satr mahkamlangan;  C) Ikkalasi mahkamlangan;'
+    const { container } = render(
+      <Y2Match
+        prompt={prompt}
+        left={[
+          { id: 'a0', side: 'a', content_md: '=$A1' },
+          { id: 'a1', side: 'a', content_md: '=A$1' },
+          { id: 'a2', side: 'a', content_md: '=$A$1' },
+        ]}
+        right={[
+          { id: 'b0', side: 'b', content_md: 'Ustun mahkamlangan' },
+          { id: 'b1', side: 'b', content_md: 'Satr mahkamlangan' },
+          { id: 'b2', side: 'b', content_md: 'Ikkalasi mahkamlangan' },
+        ]}
+        value={{}}
+        onChange={vi.fn()}
+      />,
+    )
+    expect(container.textContent).toContain(prompt)
+    for (const reference of ['=$A1', '=A$1', '=$A$1']) {
+      expect(container.querySelectorAll('.book-code').length).toBeGreaterThanOrEqual(3)
+      expect(container.textContent).toContain(reference)
+    }
+    expect(container.querySelector('.book-math .katex')).toBeNull()
+    expect(screen.getAllByRole('combobox')).toHaveLength(3)
+  })
+
 })
