@@ -12,8 +12,8 @@ Source: `barnoyevak@gmail.com`, Drive `pedagogika/files`. Supabase: `plyqezulrfo
 Original PDFs were fetched and page layout inspected. For each, the 15 source stems/options were segmented by printed question boundaries and inserted in guarded groups of five. **Post-write readback confirmed all 30** with 15 distinct numbers and 15 distinct text hashes per PDF, all `editorial_status='needs_review'`, `answer_key_status='missing'`, **zero public `linked_question_id`**. Contents and answer keys are private; GitHub documents only audit metadata.
 
 Notable quality blockers:
-- `pedagogika6.pdf` Q2 may contain identical or overly overlapping distractors; Q5 and Q14 include matching tables; some multi-statement alternatives need unambiguous instructions. Source text has encoding anomalies.
-- `Pedmahorat 4.pdf` Q2's final option and the beginning of Q3 touch in extraction, Q6 contains an unconventional D answer label; Q3, Q8, Q15 matching formats require manual reconstruction. Further distractor and pedagogical correctness review required before any testing.
+- `pedagogika6.pdf` Q2 has confirmed exactly identical C and D options (source defect; prohibit scored use until rewritten); Q5 and Q14 include matching tables; some multi-statement alternatives need unambiguous instructions. Source text has encoding anomalies.
+- `Pedmahorat 4.pdf` Q2 and Q3 were correctly separated on reinspection (false-positive boundary flag removed); Q6 contains an unconventional D answer label; Q3, Q8, Q15 matching formats require manual reconstruction. Further distractor and pedagogical correctness review required before any testing.
 - No answer key was independently verified or guessed. No claim of official exam provenance is made.
 
 ### Cumulative counters
