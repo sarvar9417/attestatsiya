@@ -86,3 +86,19 @@ Har bir formula boshqa truth vector beradi. Bular dastlabki source answer_option
 - AI yozgan mazmun mustaqil inson eksperti ko‘rib chiqqan deb ko‘rsatilmasin.
 - Bu task production ma’lumotlariga, e’lon qilingan immutable revisionlarga, scoring yoki exam tarixiga tegmaydi.
 - GitHub PR dokumentatsiya va QA testlarini nashr qilishi mumkin, **Vercel deploy va learner bank publish** bu task scope’iga kirmaydi.
+
+## 6. MS Access 9-betlik PDF: 5 ta yangi ekspert QA va №17 tuzatish
+
+Manba: [MS Access savollar.pdf](https://drive.google.com/file/d/130SJl3LEn14uvVajDGbhCody_cOuwwbN/view), №1–20 original savollar. PDF 1, 3, 5 va 7-betdagi screenshot jadvallari tekshirildi. Access SQL **yaroqsiz yozilgan** manba variantlari original sifatida saqlanadi; quyidagi ko‘rsatmalar faqat yangi tahrir namunasidir.
+
+| Source № | Asl nuqson | Accessga mos tahririy hisob natijasi |
+|---|---|---|
+| 1 | mavjud bo‘lmagan `toliq_ism` maydoni va Access'da yo‘q `LIMIT 2` | `FISH LIKE '*R*' AND toifasi='mutaxassis'`, `SELECT TOP 2` → 1 qator |
+| 3 | `toifasi 'ikkinchi'` orasida tenglik yo‘q | `FISH LIKE '*m*d*' OR toifasi='ikkinchi'` → 3 qator |
+| 7 | mavjud bo‘lmagan `category` maydoni; jadvalda `toifasi` bor | `toifasi='oliy' OR staji>=18 ORDER BY staji DESC` → 3 qator |
+| 13 | table sarlavha «market», real tab `mevalar`; `kg`, `yetishtirilgan_davlat` maydonlari yo‘q, bo‘sh joyli ustun qavsga olinmagan | `[mevalar]`, `[jami kg]`, `[yetish_davli]`, `[1 kg narxi]` ishlatilsa → 2 qator |
+| 17 | Asl query-grid `teachers.subject = 'Science'` **OR** `teachers.category = 'second category'`, ammo avvalgi staging matnida noto‘g‘ri `students.subject='Science'` deb yozilgan | 9 students × 4 groups × teachers bog‘langan satrlaridan faqat ID 5 (Science), 6 (Math), 8 (English) qoladi; **original A/B/C/D'dan hech biri mos emas** |
+
+№17 da staging matni source rasmiga moslab `teachers.subject`ga o‘zgartirildi (`source_query_column_corrected...` flag); `no_correct_choice` nashr bloki ochildi. Barcha besh savol uchun mustaqil free-response QA tushuntirishi `human_approved=false` va `publish_ready=false` holda saqlandi. Asl yozuv, image-revision mapping va mavjud o‘quvchi savollari o‘zgarmagan.
+
+**Qayta hisoblash:** original jadvaldagi qiymatlarni SQLite test maketiga alohida ko‘chirib, 1/3/7/13 ni tekshirish; №17 uchun turli teacher va student subject filtrlarini mustaqil solishtirish. SQLite Access SQL dialektining to‘g‘ridan-to‘g‘ri validatori emas: uni qatorlar sonini nazorat qilish uchun ishlatdik. `scripts/task426-pdf-logic.test.mjs` №17 bo‘yicha nodavriy JOIN manba semantikasini test qiladi.
