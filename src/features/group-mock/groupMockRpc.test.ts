@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { sessionStore, type AuthSession } from '../auth/sessionStore'
-import { createGroupMock, listMyGroupMockRooms } from './groupMockApi'
+import { createGroupMock, getGroupMockReport, listMyGroupMockRooms, pauseGroupMock, resumeGroupMock } from './groupMockApi'
 
 const session: AuthSession = {
   access_token: 'test-user-jwt',
@@ -61,6 +61,66 @@ describe('group mock RPC authentication regression', () => {
         headers: expect.objectContaining({ Authorization: 'Bearer test-user-jwt' }),
         body: JSON.stringify({ p_mode: 'spec', p_config: {} }),
       }),
+    )
+  })
+
+  it('authorizes host pause and resume actions with the platform JWT', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(new Response('{"ok":true}', { status: 200 }))
+    vi.stubGlobal('fetch', fetchMock)
+    const room = '93470000-0000-4000-8000-000000000002'
+    await pauseGroupMock(room)
+    await resumeGroupMock(room)
+    expect(fetchMock).toHaveBeenNthCalledWith(1,
+      'https://example.invalid/rest/v1/rpc/group_mock_pause',
+      expect.objectContaining({
+        headers: expect.objectContaining({ Authorization: 'Bearer test-user-jwt' }),
+        body: JSON.stringify({ p_room: room }),
+      }))
+    expect(fetchMock).toHaveBeenNthCalledWith(2,
+      'https://example.invalid/rest/v1/rpc/group_mock_resume',
+      expect.objectContaining({
+        headers: expect.objectContaining({ Authorization: 'Bearer test-user-jwt' }),
+        body: JSON.stringify({ p_room: room }),
+      }))
+  })
+
+  it('loads a member-only finished report with per-person and per-question totals', async () => {
+    const room = '93470000-0000-4000-8000-000000000002'
+    const person = session.user.id
+    const payload = {
+      room_id: room, code: 'AABB1122', total_count: 1, participant_count: 1,
+      finished_at: '2026-10-21T08:00:00Z',
+      participants: [{
+        user_id: person, name: 'Test', answered: 0, correct: 0, incorrect: 0,
+        unanswered: 1, score: 0, percentage: 0,
+        answers: [{ idx: 1, answer: null, is_correct: null }],
+      }],
+      questions: [{
+        idx: 1, stem_md: 'Savol', format: 'Y1', options: [],
+        correct_answer: { correct_option_id: '93470000-0000-4000-8000-000000000003' },
+        explanation_md: 'Izoh bor', answered: 0, correct: 0, incorrect: 0, unanswered: 1,
+      }],
+    }
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(JSON.stringify(payload), { status: 200 }),
+    )
+    vi.stubGlobal('fetch', fetchMock)
+    await expect(getGroupMockReport(room)).resolves.toEqual(payload)
+    expect(fetchMock).toHaveBeenCalledWith(
+      'https://example.invalid/rest/v1/rpc/group_mock_report',
+      expect.objectContaining({
+        headers: expect.objectContaining({ Authorization: 'Bearer test-user-jwt' }),
+        body: JSON.stringify({ p_room: room }),
+      }),
+    )
+  })
+
+  it('does not accept a report before the server finishes the test', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify({
+      code: 'P0001', message: 'group_report_unavailable',
+    }), { status: 400 })))
+    await expect(getGroupMockReport('93470000-0000-4000-8000-000000000002')).rejects.toThrow(
+      'To‘liq hisobot faqat test yakunlangandan keyin ochiladi.',
     )
   })
 
