@@ -3,11 +3,11 @@
 -- Legacy attempts remain first-write for compatibility; mock mutable-v1 is finalized at finish.
 -- Security: deprecated batch finalize bypasses expiry and revision guard; remove client execution.
 BEGIN;
-DO $ BEGIN
+DO $guard$ BEGIN
  IF to_regprocedure('public.finish_exam_batch(uuid,jsonb)') IS NOT NULL THEN
    EXECUTE 'REVOKE ALL ON FUNCTION public.finish_exam_batch(uuid,jsonb) FROM PUBLIC,anon,authenticated';
  END IF;
-END $;
+END $guard$;
 CREATE OR REPLACE FUNCTION public.persist_final_mastery_evidence(p_exam_id uuid)
 RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO ''
 AS $final$
