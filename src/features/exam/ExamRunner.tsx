@@ -553,19 +553,28 @@ export default function ExamRunner({
     setMessage(null)
 
     try {
-      const response = await gateway.submitAnswer({
+      const input = {
         examId: session.exam_id,
         examKind: session.kind,
         questionId: currentItem.question_id,
         answer: encodeAnswer(currentItem, answer),
         timeSpentSec: Math.min(
           86_400,
-          Math.max(
-            0,
-            Math.floor((Date.now() - questionOpenedAtRef.current) / 1000)
-          )
+          Math.max(0, Math.floor((Date.now() - questionOpenedAtRef.current) / 1000))
         ),
-      })
+      }
+      // Store the immutable first choice BEFORE the network request, so even
+      // an immediate F5 cannot lose the learner's selected answer.
+      if (session.kind !== 'mock' && gateway.queueExamAnswer) {
+        try {
+          gateway.queueExamAnswer(input)
+          locallyQueuedRef.current.add(currentItem.question_id)
+          setQueuedQuestionIds(prev => new Set([...prev, currentItem.question_id]))
+        } catch (storageError) {
+          setMessage(`Qurilmada saqlash amalga oshmadi: ${errorMessage(storageError)}. Serverga yuborilmoqda…`)
+        }
+      }
+      const response = await gateway.submitAnswer(input)
 
       if ('error' in response) {
         if (response.error === 'vaqt_tugadi') {
@@ -585,6 +594,13 @@ export default function ExamRunner({
         next.add(currentItem.question_id)
         return next
       })
+      if (!gateway.getPendingAnswer?.(session.exam_id, currentItem.question_id)) {
+        setQueuedQuestionIds(current => {
+          const next = new Set(current)
+          next.delete(currentItem.question_id)
+          return next
+        })
+      }
       if ('correct' in response) {
         setMessage(
           `${response.correct ? 'To‘g‘ri.' : 'Noto‘g‘ri.'} ${learnerExplanation(response.explanation_md)}`
