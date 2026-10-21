@@ -209,7 +209,8 @@ jobs:
               supabase/migrations/20261021234000_task392_owner_delegated_ai_y2_narrow_official_mock_eligibility.sql|\
               supabase/migrations/20261021235000_task393_eight_verified_ks_y1_distractors_owner_ai_release.sql|\
               supabase/migrations/20261021235500_task394_ai_review_last_pedagogy_distractor_batch_atomic.sql|\
-              supabase/migrations/20261022000000_task396_two_pedagogy_ambiguous_published_second_revisions.sql)
+              supabase/migrations/20261022000000_task396_two_pedagogy_ambiguous_published_second_revisions.sql|\
+              supabase/migrations/20261022001000_task397_five_informatika_y1_length_bias_semantic_repair.sql)
                 echo "Skipping previously applied production-only Office Y3 data revision in clean-schema CI: ${migration}"
                 continue
                 ;;
@@ -422,7 +423,8 @@ jobs:
               supabase/migrations/20261021234000_task392_owner_delegated_ai_y2_narrow_official_mock_eligibility.sql|\
               supabase/migrations/20261021235000_task393_eight_verified_ks_y1_distractors_owner_ai_release.sql|\
               supabase/migrations/20261021235500_task394_ai_review_last_pedagogy_distractor_batch_atomic.sql|\
-              supabase/migrations/20261022000000_task396_two_pedagogy_ambiguous_published_second_revisions.sql)
+              supabase/migrations/20261022000000_task396_two_pedagogy_ambiguous_published_second_revisions.sql|\
+              supabase/migrations/20261022001000_task397_five_informatika_y1_length_bias_semantic_repair.sql)
                 echo "Skipping previously applied production-only Office Y3 data revision in clean-schema CI: ${migration}"
                 continue
                 ;;
