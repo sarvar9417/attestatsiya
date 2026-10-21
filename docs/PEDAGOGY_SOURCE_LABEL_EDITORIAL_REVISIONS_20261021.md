@@ -23,3 +23,19 @@ Sana: 2026-10-21. Holat: **review talab qiladi; published nusxalar o‘zgartiril
 ## SQL auditor hisoboti
 
 `supabase/maintenance/audit_pedagogy_source_labels_readonly.sql` — zarar yetkazmaydigan, faqat o‘qish tekshiruvi. 2026-10-21 tekshiruviga ko‘ra yuqoridagi ikki published savol mos tushgan, har birida 4 noyob variant bor. Bu mazmunan to‘g‘rilik dalili emas.
+
+## 2026-10-21 — Original PDF bilan tekshirilgan natija
+
+Google Drive: `Pedagogik mahorat to'plam 2025 (6).pdf` (`1-FZJINTG7krHsG227tJ16MBAyEqq8cvP`), **5-savol**. Source snippet:
+
+- `Pedagogik nizolarning turlarini aniqlang`;
+- **5 ta** ta’rif: 1) tez yakun topuvchi; 2) uzoq muddat davom etuvchi; 3) kuchsiz, sust kechadigan; 4) kuchli, tez kechadigan; **5) kuchsiz, tez kechadigan**;
+- Manbadagi javob: **1, 2, 3, 4**.
+
+Live published savolda **5-variant butunlay tushib qolgan**, shu sabab qolgan to‘rttaning barchasini tanlashga undovchi kamchilik bor. Bu javobni fahmlashni osonlashtiradi va asl savoldagi mazmunni buzadi. Source-key tekshiruvi _asl PDFning o‘z javobi_ ekanini anglatadi, mustaqil nazariy tasdiq yoki rasmiy kalit emas.
+
+Taklif etiladigan **review-only** variant: 
+
+> Pedagogik nizolarning kechish muddati va jadalligiga oid ushbu to‘plamda qaysi belgilar nizo turlari sifatida keltirilgan? 1) Tez yakun topuvchi; 2) Uzoq muddat davom etuvchi; 3) Kuchsiz, sust kechadigan; 4) Kuchli, tez kechadigan; 5) Kuchsiz, tez kechadigan.
+
+To‘g‘ri javob (faqat source-key): **1, 2, 3, 4**. Bu nashrga tayyor variant emas: tasnifning nazariy asosini mustaqil tekshirish, 5-band nega kiritilmaganini aniq izohlash va chalg‘ituvchi variantlarni qayta yaratish kerak. Original savoldagi 5-bandning mazmun jihatidan mantiqan mumkinligi alohida xavf. Agar bu farq nazariy manbadan isbotlanmasa, savolni bekor qilish yoki boshqa formatda qayta yozish to‘g‘riroq.
