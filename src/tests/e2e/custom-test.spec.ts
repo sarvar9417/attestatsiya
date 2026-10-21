@@ -41,6 +41,16 @@ test.describe('TASK-210 custom test construction', () => {
       })
     })
 
+    // The shared assessment runner now checks for a resumable custom attempt
+    // before permitting any new start, including direct /exam/custom navigation.
+    await page.route('http://localhost:3001/api/exam/active**', async route => {
+      if (route.request().method() === 'OPTIONS') {
+        await route.fulfill({ status: 204, headers, body: '' })
+        return
+      }
+      await route.fulfill({ status: 200, headers, body: 'null' })
+    })
+
     let presets: Array<{ id: string; name: string; config: unknown; created_at: string; updated_at: string }> = []
     await page.route('http://localhost:3001/api/custom-tests/**', async route => {
       if (route.request().method() === 'OPTIONS') {
@@ -202,13 +212,16 @@ test.describe('TASK-210 custom test construction', () => {
       route.fulfill({ status: 200, body: JSON.stringify(active), headers }))
     await page.route('http://localhost:3001/api/custom-tests/start', route =>
       route.fulfill({ status: 200, body: JSON.stringify(active), headers }))
+    await page.route('http://localhost:3001/api/exam/active**', route =>
+      route.fulfill({ status: 200, body: JSON.stringify(active), headers }))
 
     await page.goto('/custom-test')
     await expect(page.getByText('1/1 savolga javob saqlangan.')).toBeVisible()
     await page.getByRole('button', { name: 'Testni davom ettirish' }).click()
     await expect(page).toHaveURL(/\/exam\/custom/)
-    await page.getByRole('button', { name: 'Sinovni boshlash' }).click()
+    // Resume is automatic; it must not create a second attempt.
     await expect(page.getByText('TASK210 savol 1')).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Sinovni boshlash' })).toHaveCount(0)
   })
 
   test('mobile wizard scroll, keyboard expansion and back navigation', async ({ page }) => {
@@ -230,9 +243,12 @@ test.describe('TASK-210 custom test construction', () => {
     await expect(page).toHaveURL(/\/exam$/)
   })
 
-  test('prevents direct runner access without a valid config', async ({ page }) => {
+  test('direct runner access without config checks for an existing attempt and blocks new start', async ({ page }) => {
     await page.goto('/exam/custom')
-    await expect(page).toHaveURL(/\/custom-test/)
+    await expect(page).toHaveURL(/\/exam\/custom/)
+    await expect(page.getByRole('heading', { name: 'Shaxsiy test' })).toBeVisible()
+    await expect(page.getByText(/konstruktorga qayting/)).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Sinovni boshlash' })).toBeDisabled()
   })
 
   test('saves, reloads, renames and deletes a personal test preset', async ({ page }) => {

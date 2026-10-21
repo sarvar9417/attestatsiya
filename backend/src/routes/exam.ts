@@ -45,6 +45,30 @@ export async function examRoutes(app: FastifyInstance) {
     } catch (error) { return sendError(reply, error) }
   })
 
+  /** Read-only lookup; the server never creates a replacement test here. */
+  app.get('/api/exam/active', async (req, reply) => {
+    const params = z.object({
+      kind: z.enum(['mock','bolim','mavzu','mashq','diagnostika','takrorlash',
+        'zaif','pedagogik_15','axb_bob','custom']),
+      module_id: z.string().min(1).optional(),
+      lesson_id: z.string().min(1).optional(),
+      chapter_no: z.coerce.number().int().min(1).max(19).optional(),
+      count: z.coerce.number().int().min(1).max(30).optional(),
+    }).strict().parse(req.query)
+    let token = getToken(req)
+    if (!token && config.demo.enabled) {
+      try { token = await getDemoToken() }
+      catch (error) { return sendError(reply, error) }
+    }
+    if (!token) throw new AppError('Token kerak', 401, 'TOKEN_REQUIRED')
+    try {
+      return reply.send(await examService.getActiveExam(
+        params.kind, token, params.module_id, params.lesson_id,
+        params.chapter_no, params.count
+      ))
+    } catch (error) { return sendError(reply, error) }
+  })
+
   /** Restore the authenticated learner's unexpired mock; this never starts one. */
   app.get('/api/exam/mock/active', async (req, reply) => {
     let token = getToken(req)

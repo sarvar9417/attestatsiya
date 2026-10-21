@@ -41,6 +41,10 @@ export interface ExamGateway {
   getPendingAnswer?(examId: string, questionId: string): Json | undefined
   getAxborotChapters?(): Promise<AXBChapter[]>
   startAxborotChapter?(chapter: number, count: number): Promise<ExamSession>
+  /** Every single-user test, including chapter, topic, section and custom. */
+  getActiveExam?(kind: ExamSession['kind'], scope?: {
+    moduleId?: string; lessonId?: string; chapter?: number; count?: number
+  }): Promise<ExamSession | null>
   /** Read-only lookup for the current owner's unfinished, unexpired mock. */
   getActiveMockExam?(): Promise<ExamSession | null>
   startMockExam(): Promise<ExamSession>

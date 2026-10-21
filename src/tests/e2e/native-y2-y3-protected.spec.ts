@@ -77,7 +77,7 @@ test('protected mock: native Y2 (3×3, 4×4) and Y3 (4 items) render, interact a
       await route.fulfill({ status: 204, headers: cors, body: '' })
       return
     }
-    if (path === '/api/exam/mock/active') {
+    if (path === '/api/exam/mock/active' || path === '/api/exam/active') {
       await route.fulfill({ status: 200, headers: cors, body: 'null' })
       return
     }
