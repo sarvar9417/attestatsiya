@@ -1,3 +1,9 @@
+## CI dependency resolution
+
+- TASK-382 PR #472 merged (`22dd76eb015a6934091db945dae3751643416366`): fresh-schema CI now skips only source-pinned, production-only TASK-381 cutover; old migration file unchanged.
+- Full backend/database/frontend/E2E/quality checks for #472: PASS.
+- TASK-379 PR #470 must run again against updated main and pass independently before REVIEW staging.
+
 # TASK-379 — Butun testlar bazasi bo‘yicha format va distractor sifat auditi (2026-10-21)
 
 **Ruxsat:** foydalanuvchi 2026-10-21: «Tasdiqlayman ishni boshla» — 8 603 savol bo‘yicha tizimli audit, tasdiqlangan tuzatishlarni bosqichma-bosqich production qilish. AI taklifining o‘zi mustaqil inson ekspert tasdig‘ini anglatmaydi.
