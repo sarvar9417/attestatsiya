@@ -3,7 +3,7 @@
 -- User explicitly prohibited production writes until a later direct authorization.
 -- By default this script terminates with ROLLBACK. Nothing persists when run as-is.
 -- Historic published rows, exam attempts, scoring keys and audit source are immutable.
--- The 18 candidates were inspected using read-only queries on 2026-10-21.
+-- The 26 candidates were inspected using read-only queries on 2026-10-21.
 --
 -- Expert review before future authorization MUST validate the answer keys and
 -- subject taxonomy. Revision rows are only REVIEW, not owner approval.
@@ -34,7 +34,15 @@ INSERT INTO task369_explanations(source_reference,educational_explanation) VALUE
   ('authored:pedagogy-pdf-corpus:2025-spring6-n76', 'Huquqiy tarbiya o‘quvchilarda qonun, huquq, burch va fuqarolik mas’uliyati haqidagi bilim hamda qonuniy xulq ko‘nikmalarini shakllantiradi. Konstitutsiya, fuqarolik va oila huquqi mazmunini o‘rgatish shu maqsadga xizmat qiladi; bu estetik yoki ekologik tarbiyadan vazifasi bilan farqlanadi.'),
   ('authored:pedagogy-pdf-corpus:2025-spring6-n87', 'Rasmiy elektron xat yozishni o‘rgatish bosqichma-bosqich tashkil etiladi. Avval namunadagi mavzu, murojaat, asosiy matn va imzo tahlil qilinadi; keyin o‘qituvchi ko‘magida tuzilma bo‘yicha mashq bajariladi; oxirida o‘quvchi mustaqil xat tuzadi. Shu ketma-ketlik ko‘makni asta-sekin kamaytirib, amaliy mustaqillikka olib keladi.'),
   ('authored:pedagogy-pdf-corpus:2025-spring6-n93', 'Samarali qayta aloqa o‘quvchi ishining muvaffaqiyatli tomonini aniq ko‘rsatish va tuzatish talab qiladigan jihat uchun amaliy tavsiya berishni birlashtiradi. Matnning faqat kamchiligini aytish motivatsiyani pasaytirishi, faqat maqtash esa nima yaxshilanishini yashirishi mumkin. Shu sababli kuchli jihat va takomillashuv yo‘li birga aytiladi.'),
-  ('authored:pedagogy-pdf-corpus:2025-spring6-n96', 'O‘quvchi fanning o‘ziga kerakligini anglamaganda mavzuni uning qiziqishi va kelajakdagi kasbiy maqsadlariga bog‘lash ichki motivatsiyasini kuchaytirishi mumkin. Pedagog mavzuning haqiqiy hayotdagi qo‘llanishini ko‘rsatib, o‘rganishning shaxsiy ma’nosini ochadi. Tanbeh berish yoki majburlash bu ehtiyojni bartaraf etmaydi.');
+  ('authored:pedagogy-pdf-corpus:2025-spring6-n96', 'O‘quvchi fanning o‘ziga kerakligini anglamaganda mavzuni uning qiziqishi va kelajakdagi kasbiy maqsadlariga bog‘lash ichki motivatsiyasini kuchaytirishi mumkin. Pedagog mavzuning haqiqiy hayotdagi qo‘llanishini ko‘rsatib, o‘rganishning shaxsiy ma’nosini ochadi. Tanbeh berish yoki majburlash bu ehtiyojni bartaraf etmaydi.'),
+  ('authored:pedagogy-pdf-corpus:2025-kuzgi3-n1', 'Induksiya ayrim kuzatuv va faktlardan umumiy qonuniyat chiqarish yo‘lidir: bir nechta xususiy misoldan umumiy xulosaga kelinadi. Deduksiya esa avval ma’lum bo‘lgan umumiy qoida asosida alohida vaziyat uchun mantiqiy xulosa chiqaradi. Shuning uchun ular fikrlash yo‘nalishi bilan farqlanadi.'),
+  ('authored:pedagogy-pdf-corpus:2025-kuzgi3-n11', 'Tarbiyaviy talab o‘quvchining xulqi, majburiyati va jamoa qoidalariga rioya etishini aniq belgilaydi. Istiqbol usuli esa oldindagi maqsad yoki ijobiy natijani ko‘rsatish orqali intilishni kuchaytiradi. Birinchisi hozirgi xatti-harakatni tartibga soladi, ikkinchisi kelajakdagi rivojlanishga undaydi.'),
+  ('authored:pedagogy-pdf-corpus:2025-kuzgi3-n12', 'Istiqbol metodi o‘quvchiga kelajakdagi erishish mumkin bo‘lgan maqsadni ko‘rsatib, uning shu natijaga intilish motivatsiyasini oshiradi. Biroq maqsad juda uzoq, mavhum yoki bolaning imkoniyatidan keskin yuqori bo‘lsa, hafsalasi pir bo‘lishi mumkin. Shuning uchun istiqbol yaqin, o‘rta va uzoq bosqichlarga ajratilib, real yordam bilan qo‘llanishi ma’qul.'),
+  ('authored:pedagogy-pdf-corpus:2025-kuzgi3-n15', 'Shaxsiy refleksiya pedagogning o‘z hissiy munosabati, xatti-harakati, so‘zlari va natijalarini tahlil qilib, kelgusi muomalasini yaxshilashga intilishidir. O‘qituvchining noto‘g‘ri tanbehini tan olishi va boladan uzr so‘rashi o‘z faoliyatiga tanqidiy qaraganini ko‘rsatadi; bu o‘quvchini ayblash emas, mas’uliyatni anglashdir.'),
+  ('authored:pedagogy-pdf-corpus:2025-kuzgi3-n42', 'Xolis baholash madaniyati ish va xatti-harakatlarni shaxsiy yoqtirish yoki kayfiyatga qarab emas, oldindan aniqlangan, hamma uchun tushunarli mezonlar orqali baholashni talab qiladi. Pedagog o‘z natijalariga ham, hamkasblar faoliyatiga ham bir xil dalilli yondashganida oqilona va adolatli qaror qabul qilish madaniyatini namoyon etadi.'),
+  ('authored:pedagogy-pdf-corpus:2025-kuzgi3-n50', 'Boshlang‘ich diagnostika yangi mavzudan oldin o‘quvchilarning mavjud bilimlari, xatolari va ehtiyojlarini aniqlashga xizmat qiladi. O‘qituvchi shu natijaga qarab darsning sur’ati, topshiriqlari va yordamini belgilasa, bu diagnostikaga tayangan rejalashtirishdir. Faqat baho qo‘yish emas, natijani kelgusi ta’lim jarayonini moslashtirishga ishlatish muhim.'),
+  ('authored:pedagogy-pdf-corpus:2025-kuzgi3-n6', 'Pedagogik nazokat o‘quvchining sha’ni va hissiyotini hurmat qilgan holda xato yoki nojo‘ya xatti-harakatni tuzatish mahoratidir. Noto‘g‘ri javobga kamsitishsiz, yo‘naltiruvchi savol bilan munosabat bildirish bolaning darsdagi faolligini saqlaydi va xatosini o‘zi tushunishiga yordam beradi. Bu etik muloqotning aniq misolidir.'),
+  ('authored:pedagogy-pdf-corpus:2025-kuzgi3-n64', 'Blum taksonomiyasida tahlil qilish ma’lumotni tarkibiy qismlarga ajratish, ular orasidagi sabab-oqibat va mantiqiy bog‘lanishlarni aniqlashni anglatadi. O‘quvchi ma’lumotni shunchaki eslab yoki qayta aytib bermay, uning tuzilishi va munosabatlarini tekshirgani uchun ushbu vaziyat tahlil darajasiga mos keladi.');
 
 DO $task369$
 DECLARE
@@ -45,7 +53,7 @@ DECLARE
   v_count int;
 BEGIN
   SELECT count(*) INTO v_count FROM task369_explanations;
-  IF v_count <> 18 THEN RAISE EXCEPTION 'TASK369_EXPECTED_18_RECORDS'; END IF;
+  IF v_count <> 26 THEN RAISE EXCEPTION 'TASK369_EXPECTED_26_RECORDS'; END IF;
 
   SELECT count(*) INTO v_count FROM public.profiles WHERE role='admin' AND NOT coalesce(is_blocked,false);
   IF v_count <> 1 THEN RAISE EXCEPTION 'TASK369_ADMIN_ACTOR_NOT_UNIQUE'; END IF;
@@ -60,7 +68,7 @@ BEGIN
     AND q.group_code IN ('KS','PM.GEN','PM.MET')
     AND k.explanation_md ~* '(baza kandidati|PDF muallif kaliti saqlandi|Asl Javob belgisi saqlandi|manba javobi shu)'
     AND NOT EXISTS(SELECT 1 FROM public.pedagogy_revision_queue r WHERE r.source_question_id=q.id);
-  IF v_count <> 18 THEN RAISE EXCEPTION 'TASK369_PRODUCTION_SOURCE_DRIFT_OR_ALREADY_REVISED_%', v_count; END IF;
+  IF v_count <> 26 THEN RAISE EXCEPTION 'TASK369_PRODUCTION_SOURCE_DRIFT_OR_ALREADY_REVISED_%', v_count; END IF;
 
   FOR rec IN
     SELECT q.id, t.educational_explanation
