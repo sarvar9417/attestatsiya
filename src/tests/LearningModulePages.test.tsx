@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { MemoryRouter, Route, Routes } from 'react-router-dom'
+import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom'
 import LearningPage from '../pages/LearningPage'
 import ModulePage from '../pages/ModulePage'
 import type { CatalogModule } from '../features/content/catalog'
@@ -71,6 +71,31 @@ const modules: CatalogModule[] = [
   },
 ]
 
+const m13Legacy: CatalogModule = {
+  id: 'M13',
+  code: 'M13',
+  title: 'Axborot xavfsizligi va raqamli xizmatlar',
+  description: 'Xavfsizlik va raqamli xizmatlar',
+  section: 'specialty',
+  examQuestionCount: 2,
+  source: 'static',
+  subtopics: Array.from({ length: 11 }, (_, index) => ({
+    id: `M13.${String(index + 1).padStart(2, '0')}`,
+    code: `M13.${String(index + 1).padStart(2, '0')}`,
+    title: index === 5 ? 'Elektron tijorat, to\'lov va blockchain' : `Legacy mavzu ${index + 1}`,
+  })),
+}
+
+const m13Published: CatalogModule = {
+  ...m13Legacy,
+  source: 'db',
+  subtopics: Array.from({ length: 7 }, (_, index) => ({
+    id: `a0000000-0000-4000-8000-${String(index + 1).padStart(12, '0')}`,
+    code: `m13-axr-0${index + 1}`,
+    title: index === 5 ? 'Kontent va auditoriya' : `Published bob ${index + 1}`,
+  })),
+}
+
 const emptyProgress: ModuleProgress = {
   completedTopics: [],
   topicProgress: {},
@@ -108,16 +133,30 @@ function renderLearning() {
   )
 }
 
-function renderModule(path = '/learn/M01') {
-  return render(
+function ModuleRoute() {
+  const location = useLocation()
+  return (
+    <>
+      <output data-testid="current-route">{location.pathname}{location.search}</output>
+      <ModulePage />
+    </>
+  )
+}
+
+function moduleRoutes(path: string) {
+  return (
     <MemoryRouter initialEntries={[path]}>
       <Routes>
-        <Route path="/learn/:moduleId" element={<ModulePage />} />
+        <Route path="/learn/:moduleId" element={<ModuleRoute />} />
         <Route path="/learn" element={<div>Learning route</div>} />
         <Route path="/exam/bolim/:moduleId" element={<div>Module exam</div>} />
       </Routes>
-    </MemoryRouter>,
+    </MemoryRouter>
   )
+}
+
+function renderModule(path = '/learn/M01') {
+  return render(moduleRoutes(path))
 }
 
 describe('Learning va Module Figma UI', () => {
@@ -198,4 +237,58 @@ describe('Learning va Module Figma UI', () => {
       screen.getByRole('heading', { name: 'Bo‘lim topilmadi' }),
     ).toBeDefined()
   })
+  it('M13 ochiq eski darsini katalog 11 tadan 7 taga almashganda yo‘qotmaydi', async () => {
+    const user = userEvent.setup()
+    mocks.useCatalog.mockReturnValue({ modules: [m13Legacy], loading: false })
+    const view = renderModule('/learn/M13')
+
+    await user.click(screen.getByRole('heading', { name: "Elektron tijorat, to'lov va blockchain" }))
+    expect(screen.getByText('Topic view: M13.06')).toBeDefined()
+    expect(screen.getByTestId('current-route').textContent).toBe('/learn/M13?topic=M13.06')
+
+    mocks.useCatalog.mockReturnValue({ modules: [m13Published], loading: false })
+    view.rerender(moduleRoutes('/learn/M13'))
+
+    expect(screen.getByText('Topic view: M13.06')).toBeDefined()
+    expect(screen.queryByRole('heading', { name: 'Kontent va auditoriya' })).toBeNull()
+
+    view.unmount()
+    // Full browser reload reconstructs selection from its stable URL.
+    renderModule('/learn/M13?topic=M13.06')
+    expect(screen.getByText('Topic view: M13.06')).toBeDefined()
+    await user.click(screen.getByRole('button', { name: 'Back topic' }))
+    expect(screen.getByRole('heading', { name: 'Axborot xavfsizligi va raqamli xizmatlar' })).toBeDefined()
+    expect(screen.getByText('7 mavzu · 2 attestatsiya savoli')).toBeDefined()
+    expect(screen.getByTestId('current-route').textContent).toBe('/learn/M13')
+  })
+
+  it('M13 published dars havolasi qayta yuklanganda ham aynan shu bobni ochadi', async () => {
+    const user = userEvent.setup()
+    mocks.useCatalog.mockReturnValue({ modules: [m13Published], loading: false })
+    const view = renderModule('/learn/M13')
+    await user.click(screen.getByRole('heading', { name: 'Kontent va auditoriya' }))
+    const publishedId = m13Published.subtopics[5].id
+    expect(screen.getByText(`Topic view: ${publishedId}`)).toBeDefined()
+    expect(screen.getByTestId('current-route').textContent).toBe(`/learn/M13?topic=${publishedId}`)
+
+    view.unmount()
+    renderModule(`/learn/M13?topic=${publishedId}`)
+    expect(screen.getByText(`Topic view: ${publishedId}`)).toBeDefined()
+  })
+
+  it('M13 katalogi yuklanayotganda noto‘g‘ri 11 mavzuli ro‘yxatni ko‘rsatmaydi', () => {
+    mocks.useCatalog.mockReturnValue({ modules: [m13Legacy], loading: true })
+    renderModule('/learn/M13?topic=M13.06')
+    expect(screen.getByRole('status').textContent).toContain('M13 darslari yuklanmoqda')
+    expect(screen.queryByRole('heading', { name: "Elektron tijorat, to'lov va blockchain" })).toBeNull()
+    expect(screen.queryByText('Topic view: M13.06')).toBeNull()
+  })
+
+  it('M13 noto‘g‘ri topic query parametridan xavfsiz qaytadi', () => {
+    mocks.useCatalog.mockReturnValue({ modules: [m13Published], loading: false })
+    renderModule('/learn/M13?topic=INVALID')
+    expect(screen.getByRole('heading', { name: 'Axborot xavfsizligi va raqamli xizmatlar' })).toBeDefined()
+    expect(screen.queryByText('Topic view: INVALID')).toBeNull()
+  })
+
 })
