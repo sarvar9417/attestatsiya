@@ -27,12 +27,15 @@ The existing `docs/manifests/barnoyevak_pedagogika_drive_64_sources_20261021.csv
 
 ## Actual theory database insertions
 
-Two newly paraphrased theory chapters, using Komil Jalilov's printed book (2020) as a documented source, were added to `public.lessons` with `status='review'`:
+Three new paraphrased theory chapters were added: two using Komil Jalilov's book (2020) and one using Muslimov et al. (2015) to `public.lessons` with `status='review'`:
 
 1. `baholash-nazariyasi-distraktor-va-test-sifati` — **2,779 characters**; question stem, keyed response, plausible same-domain distractors, avoid lexical/length clue and repeated distractors (source sections 4.2.1; printed pp. 130–135).
 2. `moslashtirish-va-ketma-ketlik-topshiriqlari-aniqligi` — **2,423 characters**; labeled matching lists, explicit match relation and reuse/extra-answer rules; ordering by a specified chronological/process/algorithm criterion (sections 4.2.3–4.2.4; printed pp. 140–144).
 
-Both read back successfully with `order_idx=114/115` in the existing pedagogy module, `topic_test_question_count=20` is a **desired content target** due to existing database constraint, **not** 20 newly created tests per lesson. No draft became published. Their examples are newly authored exercises rather than copying multiple-choice questions from the book.
+
+3. `pedagogik-kreativlik-sifatlari-va-kompetentlik` — **2,705 characters**, based on N. Muslimov, M. Usmonboyeva, D. Sayfurov and A. To‘rayev, *Pedagogik kompetentlik va kreativlik asoslari* (2015), creativity qualities and pedagogical competence sections. It distinguishes creative ideas from their innovation/application and includes a newly authored differentiated-text exercise.
+
+All three read back successfully with `order_idx=114/115/116` in the existing pedagogy module, `topic_test_question_count=20` is a **desired content target** due to existing database constraint, **not** 20 newly created tests per lesson. No draft became published. Their examples are newly authored exercises rather than copying multiple-choice questions from the book.
 
 ## Further answer-quality audit (separate from pedagogy PDFs)
 
