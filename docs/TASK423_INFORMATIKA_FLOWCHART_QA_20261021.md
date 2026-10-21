@@ -1,3 +1,11 @@
+## 2026-10-21 qo‘shimcha — GitHub source/CI holati
+
+- `docs/qa/task423-flowcharts/savol_15.dot` — `savol_24.dot`: **10 ta haqiqiy Graphviz manba fayli GitHub task branch’iga commit qilindi**. Shu manbadan SVGni qayta yaratish mumkin.
+- `scripts/task423-render-flowcharts.mjs`: Graphviz `dot` bilan SVG yaratish, tashqi SVG DTDni olib tashlash, script/remote image/filter gate, `public/`ga bevosita yozishdan himoya.
+- `scripts/task423-flowcharts.test.mjs`: manba raqami, node/edge, reachability, SVG compile va xavfsizlik regressiyasi.
+- `.github/workflows/task423-flowcharts.yml`: Graphviz CI ishga tushgan, ilk status queued. CI yakuni tekshiriladi.
+- **Farq:** Graphviz DOT source repository’da mavjud; 10 ta asl lokal sanitized SVG + PNG fayllarining binary nusxalari repositoryga hali kiritilmadi. PNG va SVG browser mapping/deploy qolmoqda. Review-only, nashr YO‘Q.
+
 # TASK-423 — Informatika №15–24 blok-sxema grafiklari: ekspert QA va nashr himoyasi
 
 **Sana:** 2026-10-21  
