@@ -261,6 +261,7 @@ export default function GroupMockPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const { user, loading: authLoading } = useAuth()
   const roomId = searchParams.get('room')
+  const recentRoomKey = user?.id ? `attestatsiya:group:last-room:${user.id}` : null
   const [joinCode, setJoinCode] = useState(searchParams.get('code') ?? '')
   const [mode, setMode] = useState<GroupMockMode>('spec')
   const [catalog, setCatalog] = useState<CatalogModule[]>([])
