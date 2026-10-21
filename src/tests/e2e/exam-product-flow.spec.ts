@@ -72,6 +72,11 @@ test.describe('Attestatsiya protected product flow E2E', () => {
         return
       }
 
+      if (url.pathname === '/api/exam/mock/active') {
+        await route.fulfill({ status: 200, headers: corsHeaders, body: 'null' })
+        return
+      }
+
       if (url.pathname === '/api/exam/start') {
         await route.fulfill({
           status: 200,
