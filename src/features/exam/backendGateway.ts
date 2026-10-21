@@ -125,6 +125,11 @@ export const backendGateway: ExamGateway = {
   getPendingAnswer(examId, questionId) {
     return listPendingAnswers().find(item => item.examId === examId && item.questionId === questionId)?.answer
   },
+  queueExamAnswer(input) {
+    const ownerId = sessionStore.get()?.user.id
+    if (!ownerId) throw new Error('Javobni saqlash uchun hisobga kiring.')
+    enqueuePendingAnswer(input, ownerId)
+  },
   queueMockAnswer(input) {
     if (input.examKind !== 'mock') throw new Error('Faqat mock sinovda avtomatik saqlanadi.')
     const ownerId = sessionStore.get()?.user.id
