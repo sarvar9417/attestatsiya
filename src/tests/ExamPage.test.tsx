@@ -605,15 +605,15 @@ describe('secure ExamRunner', () => {
       const user = userEvent.setup()
       const gateway = successfulGateway()
       vi.mocked(gateway.startModuleExam).mockResolvedValue({ ...examSession(), kind: 'bolim',
-        started_at: new Date(now).toISOString(), duration_sec: 1 })
+        started_at: new Date(now).toISOString(), duration_sec: 30 })
       let resolveSave!: (value: { saved: true }) => void
       vi.mocked(gateway.submitAnswer).mockImplementationOnce(() => new Promise(resolve => { resolveSave = resolve }))
       renderExam(gateway, '/exam/bolim/M01')
       await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
       await user.click(screen.getByRole('button', { name: /Variant A/ }))
       await waitFor(() => expect(gateway.submitAnswer).toHaveBeenCalledTimes(1))
-      clock.mockReturnValue(now + 1500)
-      act(() => { vi.advanceTimersByTime(1000) })
+      clock.mockReturnValue(now + 31_500)
+      act(() => { vi.advanceTimersByTime(30_000) })
       expect(gateway.finishExam).not.toHaveBeenCalled()
       await act(async () => { resolveSave({ saved: true }) })
       expect(await screen.findByRole('heading', { name: 'Sinov yakunlandi' })).toBeDefined()
