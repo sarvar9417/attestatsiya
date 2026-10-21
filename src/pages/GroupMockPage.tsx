@@ -768,7 +768,7 @@ export default function GroupMockPage() {
                   </button>
                 </div>
               </section>
-            ) : (
+            ) : state.status === 'finished' ? null : (
               <GroupQuestionCard room={state} busy={busy}
                 onAnswer={answer => void act(() => answerGroupMock(roomId ?? '', answer))} />
             )}

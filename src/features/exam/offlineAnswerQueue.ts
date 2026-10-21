@@ -21,7 +21,12 @@ type AnswerSender = (input: SubmitAnswerInput) => Promise<SubmitAnswerResponse>
 
 function storage(): Storage | null {
   if (typeof window === 'undefined') return null
-  return window.localStorage
+  try {
+    return window.localStorage
+  } catch {
+    // Privacy mode / browser policies can disable even reading the property.
+    return null
+  }
 }
 
 function isPendingAnswer(value: unknown): value is PendingAnswer {
@@ -42,10 +47,9 @@ function readQueue(ownerId = sessionStore.get()?.user.id): PendingAnswer[] {
   const target = storage()
   if (!target) return []
 
-  const raw = target.getItem(`${STORAGE_KEY}:${ownerId}`)
-  if (!raw) return []
-
   try {
+    const raw = target.getItem(`${STORAGE_KEY}:${ownerId}`)
+    if (!raw) return []
     const parsed: unknown = JSON.parse(raw)
     if (!Array.isArray(parsed)) return []
     return parsed.filter(isPendingAnswer).slice(0, MAX_PENDING_ANSWERS)
@@ -57,14 +61,20 @@ function readQueue(ownerId = sessionStore.get()?.user.id): PendingAnswer[] {
 function writeQueue(queue: readonly PendingAnswer[], ownerId = sessionStore.get()?.user.id): void {
   if (!ownerId) throw new Error('Javobni saqlash uchun hisobga kiring.')
   const target = storage()
-  if (!target) return
-
   if (queue.length === 0) {
-    target.removeItem(`${STORAGE_KEY}:${ownerId}`)
+    // Clearing an already empty queue must not interrupt an online save.
+    try { target?.removeItem(`${STORAGE_KEY}:${ownerId}`) } catch { /* storage unavailable */ }
     return
   }
-
-  target.setItem(`${STORAGE_KEY}:${ownerId}`, JSON.stringify(queue))
+  if (!target) {
+    throw new Error('Brauzer xotirasi bloklangan. Javob qurilmada saqlanmadi.')
+  }
+  try {
+    target.setItem(`${STORAGE_KEY}:${ownerId}`, JSON.stringify(queue))
+  } catch {
+    // Never claim an offline answer was saved when quota/storage denied it.
+    throw new Error('Brauzer xotirasiga javobni yozib bo‘lmadi. Javob qurilmada saqlanmadi.')
+  }
 }
 
 function queueIdentity(input: Pick<SubmitAnswerInput, 'examId' | 'questionId'>): string {

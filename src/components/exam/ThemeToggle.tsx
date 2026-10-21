@@ -1,29 +1,16 @@
 import { Moon, Sun } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useSyncExternalStore } from 'react'
+import { isDark, setThemePreference, subscribeToTheme } from '../../utils/theme'
 
 export default function ThemeToggle() {
-  const [dark, setDark] = useState(() => {
-    if (typeof window === 'undefined') return false
-    const stored = localStorage.getItem('theme')
-    if (stored) return stored === 'dark'
-    return window.matchMedia('(prefers-color-scheme: dark)').matches
-  })
-
-  useEffect(() => {
-    const root = document.documentElement
-    if (dark) {
-      root.classList.add('dark')
-      localStorage.setItem('theme', 'dark')
-    } else {
-      root.classList.remove('dark')
-      localStorage.setItem('theme', 'light')
-    }
-  }, [dark])
+  // Reading and writing `theme` independently previously overwrote the
+  // saved "system" preference with "light" as soon as this button mounted.
+  const dark = useSyncExternalStore(subscribeToTheme, isDark, () => false)
 
   return (
     <button
       type="button"
-      onClick={() => setDark((d) => !d)}
+      onClick={() => setThemePreference(dark ? 'light' : 'dark')}
       className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium
                  text-muted-foreground hover:text-foreground
                  hover:bg-muted transition-colors duration-150"

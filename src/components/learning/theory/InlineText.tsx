@@ -58,6 +58,17 @@ function tokenize(text: string): Node[] {
   return nodes
 }
 
+/** Never turn lesson-source Markdown links into executable browser URLs. */
+function safeTheoryLink(href: string | undefined): string | null {
+  if (!href) return null
+  const url = href.trim()
+  const invalidChar = [...url].some(char => char === '\\' || char.charCodeAt(0) < 32 || char.charCodeAt(0) === 127)
+  if (!url || invalidChar || url.startsWith('//')) return null
+  const scheme = /^[a-z][a-z\d+.-]*:/i.exec(url)?.[0].toLowerCase()
+  if (scheme && scheme !== 'https:' && scheme !== 'http:') return null
+  return url
+}
+
 function renderNode(node: Node, key: number) {
   if (typeof node === 'string') {
     // majburiy satr ko'chirish (kitobdagi \\)
@@ -101,12 +112,15 @@ function renderNode(node: Node, key: number) {
       return <span key={key} className="book-yes" aria-label="to‘g‘ri">✓</span>
     case 'no':
       return <span key={key} className="book-no" aria-label="noto‘g‘ri">✗</span>
-    case 'link':
+    case 'link': {
+      const href = safeTheoryLink(node.href)
+      if (!href) return <Fragment key={key}>{node.value}</Fragment>
       return (
-        <a key={key} href={node.href} target="_blank" rel="noreferrer noopener" className="book-link">
+        <a key={key} href={href} target="_blank" rel="noreferrer noopener" className="book-link">
           {node.value}
         </a>
       )
+    }
     default:
       return <Fragment key={key}>{node.value}</Fragment>
   }

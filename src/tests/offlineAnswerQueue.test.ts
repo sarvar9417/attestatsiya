@@ -24,6 +24,42 @@ beforeEach(() => {
 })
 
 describe('offline answer queue', () => {
+  it('localStorage yozish xatosida javob saqlandi deb xabar bermaydi', () => {
+    const original = Object.getOwnPropertyDescriptor(window, 'localStorage')
+    Object.defineProperty(window, 'localStorage', {
+      configurable: true,
+      value: {
+        getItem: () => null,
+        setItem: () => { throw new DOMException('Quota exceeded', 'QuotaExceededError') },
+        removeItem: () => {},
+      },
+    })
+    try {
+      expect(() => enqueuePendingAnswer(firstAnswer)).toThrow('Javob qurilmada saqlanmadi.')
+    } finally {
+      if (original) Object.defineProperty(window, 'localStorage', original)
+    }
+    expect(listPendingAnswers()).toHaveLength(0)
+  })
+
+  it('localStorage o‘qish cheklansa ham mavjud onlayn testni yiqitmaydi', () => {
+    const original = Object.getOwnPropertyDescriptor(window, 'localStorage')
+    Object.defineProperty(window, 'localStorage', {
+      configurable: true,
+      value: {
+        getItem: () => { throw new DOMException('Storage denied', 'SecurityError') },
+        setItem: () => {},
+        removeItem: () => {},
+      },
+    })
+    try {
+      expect(() => listPendingAnswers()).not.toThrow()
+      expect(listPendingAnswers()).toEqual([])
+    } finally {
+      if (original) Object.defineProperty(window, 'localStorage', original)
+    }
+  })
+
   it('boshqa test turida birinchi offline urinishni immutable saqlaydi', () => {
     enqueuePendingAnswer({ ...firstAnswer, examKind: 'bolim' })
     enqueuePendingAnswer({
