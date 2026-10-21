@@ -2,6 +2,7 @@ import { M12_LEARNER_RELEASE_APPROVED } from '../../features/content/m12ReleaseG
 import { useState, useRef, useEffect, useMemo, lazy, Suspense } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getTopicContent, displayedCognitiveLevel, type TestQuestion, type TheoryBlock } from '../../data/topicContent'
+import { learnerExplanation } from '../../features/exam/learnerExplanation'
 import { checkQuestionAnswer } from '../../features/content/lessonContentGateway'
 import { paginateTheoryBlocks } from '../../features/content/theoryPagination'
 import { getTopicTestPreflight, type TopicTestPreflight } from '../../features/content/contentApi'
@@ -520,7 +521,7 @@ export default function TopicView({
                       <div className="mt-3 pt-3 border-t border-red-200 dark:border-red-800/50">
                         <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
                           <span className="font-semibold text-gray-700 dark:text-gray-300">Tushuntirish: </span>
-                          <InlineText text={q.explanation} />
+                          <InlineText text={learnerExplanation(q.explanation)} />
                         </p>
                       </div>
                     </div>
@@ -1499,7 +1500,7 @@ function QuestionCard({ question: q, index, total, selected, isSubmitted, onSele
             </div>
             <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
               <span className="font-medium">Izoh: </span>
-              <InlineText text={q.explanation} />
+              <InlineText text={learnerExplanation(q.explanation)} />
             </p>
           </div>
         )}
