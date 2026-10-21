@@ -2,7 +2,7 @@
 
 | Task | Status | Acceptance / release contract |
 |---|---|---|
-| TASK-369 | Implemented; PR CI + main merge required | 18 authored PDF savolining oldingi izohlarida manba-kalit va kandidat metama’lumoti topildi; 972 published izohda alohida source paragraph mavjud. Umumiy `learnerExplanation` filtri 5 o‘quvchi ko‘rinishiga ulandi; javob-kalitlar frontendga ko‘chirilmagan. 18 alohida didaktik izoh `supabase/maintenance`da **ROLLBACK-only REVIEW tayyorlama**, productionga qo‘llanmagan. Regressiya testlari va `docs/TASK369_LEARNER_EXPLANATION_EDITORIAL_20261021.md`. **Explicit owner permission bo‘lmaguncha production DB/deploy taqiqlangan; faqat GitHub merge.** |
+| TASK-369 | Implemented; PR CI + main merge required | 26 authored PDF savolining oldingi izohlarida manba-kalit va kandidat metama’lumoti topildi; 972 published izohda alohida source paragraph mavjud. Umumiy `learnerExplanation` filtri 5 o‘quvchi ko‘rinishiga ulandi; javob-kalitlar frontendga ko‘chirilmagan. 18 alohida didaktik izoh `supabase/maintenance`da **ROLLBACK-only REVIEW tayyorlama**, productionga qo‘llanmagan. Regressiya testlari va `docs/TASK369_LEARNER_EXPLANATION_EDITORIAL_20261021.md`. **Explicit owner permission bo‘lmaguncha production DB/deploy taqiqlangan; faqat GitHub merge.** |
 
 ## TASK-348 — Guruhli Mock resilient xona UX (2026-10-20)
 
