@@ -1,3 +1,9 @@
+## TASK-372 — Metodika (PM.MET) bo‘yicha 35 qisqa javob izohini chuqurlashtirish (2026-10-21)
+
+| Task | Status | Acceptance / release |
+|---|---|---|
+| TASK-372 | 35 pedagogik tushuntirish review draft; PR CI/main merge pending | 35 published Y1 PM.MET savolining har biri uchun alohida 267–328 belgilik sababli izoh tayyorlandi. `supabase/maintenance/task372_pmmet_35_explanations_ROLLBACK_ONLY.sql` **migration emas, ROLLBACK-only, prodga qo‘llanmagan**. Read-only audit, Vitest 35 unique / no publish / no COMMIT; `docs/TASK372_METHODICAL_EXPLANATIONS_20261021.md`. Foydalanuvchi ruxsatisiz production deploy/db write/publish yo‘q — faqat `main`ga merge. |
+
 ## TASK-371 — M15 pedagogika qisqa izohlarini 56 ta to‘liq pedagogik tushuntirishga tayyorlash (2026-10-21)
 
 | Task | Status | Acceptance / release contract |
