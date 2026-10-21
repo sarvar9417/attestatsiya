@@ -40,11 +40,16 @@ function session(): ExamSession {
 function gateway(): ExamGateway {
   let pendingAnswer: SubmitAnswerInput | undefined
   const result: ExamGateway = {
-    getPendingAnswer: () => pendingAnswer as { option_id: string } | undefined,
-    queueMockAnswer: vi.fn(input => { pendingAnswer = input.answer }),
+    getPendingAnswer: () => pendingAnswer?.answer,
+    queueMockAnswer: vi.fn(input => { pendingAnswer = input }),
+    queueExamAnswer: vi.fn(input => { pendingAnswer = input }),
     flushQueuedAnswers: vi.fn(async () => {
-      pendingAnswer = undefined
-      return { remaining: 0 }
+      if (pendingAnswer) {
+        const submitted = pendingAnswer
+        await result.submitAnswer(submitted)
+        if (submitted === pendingAnswer) pendingAnswer = undefined
+      }
+      return { remaining: pendingAnswer ? 1 : 0 }
     }),
     startMockExam: vi.fn().mockResolvedValue(session()),
     startModuleExam: vi.fn().mockResolvedValue(session()),
