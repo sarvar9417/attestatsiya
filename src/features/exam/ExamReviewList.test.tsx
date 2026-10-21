@@ -78,7 +78,7 @@ describe('ExamReviewList finalized answer analysis', () => {
 
   it('keeps pedagogical rationale but hides PDF candidate metadata in the finished exam review', () => {
     render(<ExamReviewList items={[entry({
-      explanation_md: 'Ustoz yangi metodni hamkasbidan o‘rganib darsda ishlatdi. Manba javobi shu.\\n\\nManba: to‘plam.pdf (baza kandidati 66). PDF muallif kaliti saqlandi.',
+      explanation_md: 'Ustoz yangi metodni hamkasbidan o‘rganib darsda ishlatdi. Manba javobi shu.\n\nManba: to‘plam.pdf (baza kandidati 66). PDF muallif kaliti saqlandi.',
     })]} />)
     expect(screen.getByText('Ustoz yangi metodni hamkasbidan o‘rganib darsda ishlatdi.')).toBeTruthy()
     expect(screen.queryByText(/Manba javobi|baza kandidati|muallif kaliti/i)).toBeNull()
