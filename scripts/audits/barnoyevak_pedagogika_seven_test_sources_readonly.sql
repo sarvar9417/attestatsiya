@@ -35,8 +35,12 @@ ORDER BY a.source_file_name,a.source_question_no;
 
 -- All items requiring extraction/wording review, without private source text.
 SELECT source_file_name,source_question_no,page_no,source_quality_flags
-FROM selected
-WHERE extraction_confidence='needs_manual_parse'
+FROM public.pedagogy_pdf_source_candidates
+WHERE source_file_name IN (
+ 'Pedagogika testi 3.pdf','Pedagogik kompetentlik test 1.pdf',
+ 'Ped mahorat kasb standarti test 6.pdf','Mirayeva test 1.pdf',
+ 'Test Mirzayeva.pdf','Test Mirzayeva 2.pdf','diagnostika.pdf')
+AND extraction_confidence='needs_manual_parse'
 ORDER BY source_file_name,source_question_no;
 
 -- A source item's normalized exact hash alone does NOT prove semantic uniqueness.
