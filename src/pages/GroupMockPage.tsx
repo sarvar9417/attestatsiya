@@ -12,7 +12,7 @@ import ExamRichText from '../features/exam/questions/ExamRichText'
 import { learnerExplanation } from '../features/exam/learnerExplanation'
 import ExamQuestionAssets from '../features/exam/questions/ExamQuestionAssets'
 import {
-  answerGroupMock, cancelGroupMockLobby, correctGroupAnswerLabel, createGroupMock,
+  answerGroupMock, cancelGroupMockLobby, correctGroupAnswerLabel, createGroupMock, deleteGroupMockRoom, finishGroupMock,
   getGroupMockState, getGroupMockReport, joinGroupMock, leaveGroupMockLobby, listGroupBank,
   listMyGroupMockRooms, messageGroupMock, pauseGroupMock, resumeGroupMock,
   startGroupMock, stepGroupMock, visibleGroupFeedback,
@@ -460,6 +460,35 @@ export default function GroupMockPage() {
     await messageGroupMock(roomId, chat)
     setChat('')
   })
+  const finishNow = () => {
+    if (!roomId || !state?.is_host || busy) return
+    if (!window.confirm('Testni hozir butunlay yakunlaysizmi? Qolgan savollar va javoblar javobsiz deb hisoblanadi. Barcha ishtirokchilar yakuniy hisobotni ko‘ra oladi. Bu amalni ortga qaytarib bo‘lmaydi.')) return
+    void act(() => finishGroupMock(roomId))
+  }
+  const deleteRoom = (target: { room_id: string; code: string; is_host: boolean }) => {
+    if (!target.is_host || busy) return
+    const typed = window.prompt(
+      'DIQQAT! Xona, barcha javoblar, guruh muhokamasi va yakuniy hisobot qayta tiklab bo‘lmaydigan tarzda o‘chiriladi. Tasdiqlash uchun xona kodini kiriting: ' + target.code,
+    )
+    if (typed === null) return
+    if (typed.trim().toUpperCase() !== target.code) {
+      setError('Xona kodi mos kelmadi. Hech narsa o‘chirilmadi.')
+      return
+    }
+    setBusy(true)
+    setError(null)
+    void deleteGroupMockRoom(target.room_id, target.code).then(() => {
+      setMyRooms(previous => previous.filter(item => item.room_id !== target.room_id))
+      if (roomId === target.room_id) {
+        requestSequence.current += 1
+        setState(null)
+        setReport(null)
+        setSearchParams({})
+      }
+    }).catch(err => {
+      setError(err instanceof Error ? err.message : 'Testni o‘chirib bo‘lmadi')
+    }).finally(() => setBusy(false))
+  }
 
   if (!roomId) {
     return (
@@ -494,20 +523,28 @@ export default function GroupMockPage() {
           ) : (
             <div className="space-y-2">
               {myRooms.map(room => (
-                <button key={room.room_id} type="button"
-                  onClick={() => setSearchParams({ room: room.room_id })}
-                  className="flex w-full min-h-14 flex-wrap items-center justify-between gap-3 rounded-xl border border-gray-200 p-3 text-left hover:border-indigo-400 dark:border-gray-700 dark:text-white">
-                  <span className="min-w-0">
-                    <strong className="font-mono">{room.code}</strong>
-                    <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
-                      {room.is_host ? 'Tashkilotchi' : 'Ishtirokchi'} · {room.mode === 'spec' ? 'Spetsifikatsiya' : room.mode === 'topics' ? 'Mavzuli' : 'Qo‘lda'}
+                <div key={room.room_id} className="flex flex-wrap items-center gap-2 rounded-xl border border-gray-200 p-2 dark:border-gray-700">
+                  <button type="button" onClick={() => setSearchParams({ room: room.room_id })}
+                    className="flex min-h-12 min-w-0 flex-1 flex-wrap items-center justify-between gap-3 rounded-lg p-2 text-left hover:bg-indigo-50 dark:text-white dark:hover:bg-gray-800">
+                    <span className="min-w-0">
+                      <strong className="font-mono">{room.code}</strong>
+                      <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
+                        {room.is_host ? 'Tashkilotchi' : 'Ishtirokchi'} · {room.mode === 'spec' ? 'Spetsifikatsiya' : room.mode === 'topics' ? 'Mavzuli' : 'Qo‘lda'}
+                      </span>
                     </span>
-                  </span>
-                  <span className="text-sm text-gray-600 dark:text-gray-300">
-                    {room.status === 'lobby' ? 'Kutilmoqda' : room.status === 'question' ? 'Savol' : room.status === 'reveal' ? 'Muhokama' : room.status === 'paused' ? 'Vaqtincha yopilgan' : 'Yakunlangan'}
-                    {' · '}{room.current_idx}/{room.total_count}{' · '}{room.member_count} kishi
-                  </span>
-                </button>
+                    <span className="text-sm text-gray-600 dark:text-gray-300">
+                      {room.status === 'lobby' ? 'Kutilmoqda' : room.status === 'question' ? 'Savol' : room.status === 'reveal' ? 'Muhokama' : room.status === 'paused' ? 'Vaqtincha yopilgan' : 'Yakunlangan'}
+                      {' · '}{room.current_idx}/{room.total_count}{' · '}{room.member_count} kishi
+                    </span>
+                  </button>
+                  {room.is_host && (
+                    <button type="button" disabled={busy} onClick={() => deleteRoom(room)}
+                      className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-red-300 px-3 text-sm font-semibold text-red-700 hover:bg-red-50 disabled:opacity-50 dark:border-red-800 dark:text-red-300"
+                      aria-label={room.code + ' guruhli testini butunlay o‘chirish'}>
+                      <Trash2 size={17} /> O‘chirish
+                    </button>
+                  )}
+                </div>
               ))}
             </div>
           )}
@@ -760,6 +797,35 @@ export default function GroupMockPage() {
                 onClick={() => void act(() => stepGroupMock(roomId ?? '', 'next'))}>
                 {state.current_idx===state.total_count ? 'Testni yakunlash' : 'Keyingi savolga o‘tish →'}
               </button>
+            )}
+            {state.is_host && state.status !== 'finished' && (
+              <section className={panel}>
+                <h2 className="mb-2 font-bold dark:text-white">Testni butunlay yakunlash</h2>
+                <p className="mb-3 text-sm text-gray-600 dark:text-gray-300">
+                  Boshlangan testni hozir yakunlasangiz, qolgan savollar javobsiz deb hisoblanadi.
+                  Barcha ishtirokchilar uchun to‘liq hisobot ochiladi; testni qayta davom ettirib bo‘lmaydi.
+                </p>
+                <button type="button" disabled={busy ||
+                  state.status === 'lobby' ||
+                  (state.status === 'paused' && state.paused_from_status === 'lobby')}
+                  onClick={finishNow}
+                  className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-indigo-600 px-4 font-semibold text-white hover:bg-indigo-700 disabled:opacity-50">
+                  <CheckCircle2 size={18} /> Testni hozir yakunlash
+                </button>
+              </section>
+            )}
+            {state.is_host && (
+              <section className={panel}>
+                <h2 className="mb-2 font-bold text-red-700 dark:text-red-400">Guruhli testni butunlay o‘chirish</h2>
+                <p className="mb-3 text-sm text-gray-600 dark:text-gray-300">
+                  Xona, barcha ishtirokchilarning javoblari, yozishmalari va yakuniy hisobot qaytarib
+                  bo‘lmaydigan tarzda o‘chiriladi. O‘chirish uchun xona kodini kiritish talab qilinadi.
+                </p>
+                <button type="button" disabled={busy} onClick={() => deleteRoom(state)}
+                  className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-red-500 px-4 font-semibold text-red-700 hover:bg-red-50 disabled:opacity-50 dark:text-red-300">
+                  <Trash2 size={18} /> Testni butunlay o‘chirish
+                </button>
+              </section>
             )}
             {state.status === 'finished' && (
               report ? <GroupFinalReport report={report} /> : (
