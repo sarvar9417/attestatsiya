@@ -1,3 +1,13 @@
+## TASK-375 — Savollar bazasidagi bir qatorli kodlarni bloklarga ajratish (2026-10-21)
+
+- **Status:** DONE — production postflight PASS; repository quality gates PASS; GitHub main merge tayyor.
+- 59 ta published Y1 savolda bajariladigan kod/psevdokod savol gapiga bir qatorda qo‘shilgan: 37 inline-backtick, 22 markersiz `FOR` psevdokod. Qisqa identifikator/ifoda/formulalar scope’dan tashqarida.
+- Published tarix immutable: 59 ta yangi revision yaratiladi, option/key UUIDlari xavfsiz remap qilinadi, javob semantikasi va tarixiy attemptlar saqlanadi; eski qatorlar faqat yangi revision tekshirilib published bo‘lgach archived qilinadi.
+- Production: 59 published successor / 59 archived source / 0 semantic mismatch / 0 audited inline remainder / 0 published snapshot gap. Eski 80 ta ochiq quality finding successorlarga ko‘chirildi; official-mock eligibility 54 dan tarixiy gate bilan mos 45 taga qaytarildi.
+- Verification: transactional migration+SQL regression PASS, production SQL regression PASS, 190 Vitest file / 1 210 test PASS, lint/typecheck/build/bundle PASS. `tsx` IPC cheklovi sabab generated-content check aynan `node --import tsx` bilan PASS.
+- Foydalanuvchi database tuzatishni va GitHub main merge’ni so‘radi. Vercel/application deploy qilinmaydi.
+- Handoff: `docs/TASK375_DATABASE_CODE_BLOCKS_20261021.md`.
+
 ## TASK-374 — Pedagogika PM.GEN 30 ta Y1 izoh ekspert tahriri (2026-10-21)
 
 - Read-only Supabase: 495 published PM.GEN Y1, 152 ta qisqa izoh; M15dagi 56 ta oldingi TASK-371 tayyorlamasi ayrilganda qolgan 96 tadan 30 tasi tanlandi.
