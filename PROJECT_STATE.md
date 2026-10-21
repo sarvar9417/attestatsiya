@@ -1,3 +1,13 @@
+## TASK-376 — Pedagogika distractorlari semantik sifati (2026-10-21)
+
+- **Owner:** ChatGPT, user requested full pedagogical-option review and fixes.
+- **Status:** REVIEW DRAFT / 16 option rewrites preview verified / CI+PR+editorial release pending.
+- Production read-only inventory: 823 published in KS/PM.GEN/PM.MET; 1,346 flagged-view rows, 471 flagged across statuses; 105 published flagged items have 105 REVIEW successors. 20 pending revisions have potential categorical-word cues.
+- First scoped intervention: 16 incorrect distractors in 16 REVIEW successors; transaction preflight/integrity PASS, ROLLBACK (production data unchanged).
+- Never overwrite published revisions, scoring keys, or historical exams. Owner's prior rule: no production deployment or DB publish without separate explicit release authorization.
+- Files: `supabase/maintenance/task376_pedagogy_distractor_revisions_ROLLBACK_ONLY.sql`, audit READONLY, `src/tests/task376PedagogyDistractors.test.ts`, report.
+- Remaining: independent semantic review for all questions, then approved immutable revisions and postflight. No claim of completion for whole bank.
+
 ## TASK-375 — Savollar bazasidagi bir qatorli kodlarni bloklarga ajratish (2026-10-21)
 
 - **Status:** DONE — production postflight PASS; repository quality gates PASS; GitHub main merge tayyor.
