@@ -80,6 +80,12 @@ All tests ran against production PostgreSQL in a `BEGIN ... ROLLBACK` wrapper; n
 
 This is **transaction-based simulated 2/3-user role testing**, not browser testing with two genuinely authenticated sessions; do not claim real end-to-end client acceptance on this basis.
 
+## Legacy Y2 — actual payload vs. immutable storage
+- Published bank has **20** historical Y2 rows with raw option sides `8×a, 0×b`. All 20 have 8 contiguous option positions, four original left IDs matching the protected pairs map and four original right IDs; no key-id mismatches.
+- These are **not** broken in normal finished/exam payload projection: `public.exam_payload(uuid)` safely derives `4×a + 4×b` from private keys **inside the server**, without exposing `pairs`, correct ids or explanations before exam finish. A production transactional fixture and pre-existing `task254_y2_side_integrity.test.sql` and `mock_y2_option_projection.test.sql` all **PASS**; no original immutable row was changed.
+- However, the strict `group_mock_eligible` and `is_question_official_mock_eligible` predicates exclude these **20** historical rows from *group* and *official* selectors. Each has a linked `legacy_y2_native_sides` revision with valid **4×a + 4×b** and a key, but all **20 are review** and **0 have all four recorded editorial checks**. This is a real **publication/coverage review gate**, NOT grounds to release drafts automatically.
+- Next action: verify those 20 revised option pairings, source rationale and signatures individually, record legitimate editorial approvals, and separately release only accepted immutable revisions. Do not modify or delete the archived/published historical original IDs.
+
 ## Published pedagogy content quality findings
 - Production private Y1 diagnostic view: 1,195 KS/PM.GEN/PM.MET Y1 questions (786 published, 375 archived, 34 review at prior baseline), **124** published `absolute_word_cue` and **33** published word-balance heuristics. These signals identify *potential overly-obvious distractors*, not necessarily incorrect questions. Sampling showed many `faqat` distractors were pedagogically wrong but too conspicuous.
 - A later production snapshot (concurrent editorial publishes) showed **1,200** items in the Y1 view (**791 published**, **375 archived**, **34 review**). **127 published** had the absolute-word cue; of these **36** had at least two `faqat` wrong-option cues and **25** had three. By group: KS 38, PM.GEN 64, PM.MET 25 flagged published. **33** published had word-balance signal. This later count supersedes earlier point-in-time 124, and proves a live source audit must be time-scoped.
@@ -99,7 +105,8 @@ This is **transaction-based simulated 2/3-user role testing**, not browser testi
 - [x] Corrected invalid heuristic-count regression test and checked it on production.
 - [ ] Reconcile 24 name-unmatched migration effects with current schema/content source by source; select feature releases individually and use a linked CLI dry run before push.
 - [ ] Perform authenticated two-browser QA using real owner-authorized test accounts (not available in this session).
-- [ ] Curate the 124 published distractor signals and review 71 short-rationale explanations through immutable revisions.
+- [ ] Curate the now 127 published distractor signals and review 71 short-rationale explanations through immutable revisions.
+- [ ] Review the 20 native-side Y2 revisions for source/key and editorial approval before any official/group selector inclusion.
 - [ ] Re-run full GitHub CI after this QA PR merges; deploy only if explicitly approved as a subsequent release.
 
 Production one-time Vercel release `dpl_Dj6RXTRCxHtYJUfFgsf6gD2XJKJr` previously reached READY on commit `c34b70d1029de32078f675049f5f54486830940e`; later QA merges are not assumed live.
