@@ -28,6 +28,14 @@ DECLARE
  new_order jsonb;
  count_done integer:=0;
 BEGIN
+ -- TASK-385 requires source rows imported only in the production bank.
+ -- An entirely absent Office source corpus in a clean CI is not source drift.
+ -- If even one source exists, retain all strict nine-case drift checks below.
+ IF NOT EXISTS(SELECT 1 FROM public.questions
+     WHERE source_reference LIKE 'Office_2026_v2|%') THEN
+   RAISE NOTICE 'TASK-385: Office v2 source bank absent in clean CI';
+   RETURN;
+ END IF;
  IF (SELECT count(*) FROM task385_cases)<>9 THEN RAISE EXCEPTION 'TASK-385 expected 9 cases'; END IF;
  FOR c IN SELECT * FROM task385_cases ORDER BY code LOOP
   SELECT * INTO src FROM public.questions q
