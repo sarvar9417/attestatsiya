@@ -3,6 +3,7 @@ import Fastify, { type FastifyRequest, type FastifyReply } from 'fastify'
 import { ZodError } from 'zod'
 import { examRoutes } from '../exam.js'
 import { sendError, AppError } from '../../lib/errors.js'
+import { normalizeVercelApiRequestUrl } from '../../lib/normalizeVercelApiRequestUrl.js'
 
 // vi.mock factories are hoisted — use vi.hoisted() for shared mock variables
 const { mockSupabaseFrom } = vi.hoisted(() => ({
@@ -154,6 +155,25 @@ describe('Exam Routes', () => {
       expect(response.statusCode).toBe(400)
       expect(response.json().error.code).toBe('VALIDATION_ERROR')
     }
+  })
+
+  it('GET /api/exam/active handles the Vercel M05 rewrite without loosening validation', async () => {
+    const rawUrl = '/api/exam/active?kind=bolim&module_id=M05&path=exam%2Factive'
+    const normalizedUrl = normalizeVercelApiRequestUrl(rawUrl)
+    const valid = await app.inject({ method: 'GET', url: normalizedUrl })
+    // The route now reaches its authentication boundary rather than rejecting
+    // Vercel transport metadata with a 400 VALIDATION_ERROR.
+    expect(valid.statusCode).toBe(401)
+    expect(valid.json().error.code).toBe('TOKEN_REQUIRED')
+
+    const badUrl = normalizeVercelApiRequestUrl(rawUrl + '&answer_key=1')
+    const rejected = await app.inject({
+      method: 'GET',
+      url: badUrl,
+      headers: { authorization: 'Bearer token-abc' },
+    })
+    expect(rejected.statusCode).toBe(400)
+    expect(rejected.json().error.code).toBe('VALIDATION_ERROR')
   })
 
   it('GET /api/exam/mock/active never exposes a resume without authentication', async () => {
