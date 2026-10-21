@@ -81,3 +81,37 @@ test('Q59: new 4-choice XOR set has exactly one equivalent formula', () => {
   assert.deepEqual(candidates.map((x) => truth(x).every((v, i) => v === target[i])), [true, false, false, false]);
   assert.equal(new Set(candidates.map((x) => truth(x).map(Number).join(''))).size, 4);
 });
+
+
+test('MS Access Q17: query grid filters teachers.subject, not students.subject', () => {
+  // Source PDF page 7. IDs and labels only; learner answer keys remain private.
+  const students = [
+    [1, 1, 'Math'], [2, 1, 'Science'], [3, 2, 'English'],
+    [4, 1, 'Math'], [5, 4, 'Science'], [6, 4, 'Math'],
+    [7, 2, 'English'], [8, 3, 'English'], [9, 2, 'Science'],
+  ];
+  const groups = { 1: 4, 2: 1, 3: 6, 4: 2 };
+  const teachers = {
+    1: ['Math', 'first category'],
+    2: ['English', 'second category'],
+    4: ['Math', 'first category'],
+    6: ['Science', 'second category'],
+  };
+  const matching = students.filter(([id, group, subject]) => {
+    const teacher = teachers[groups[group]];
+    return teacher[0] === 'Science' || teacher[1] === 'second category';
+  });
+  assert.deepEqual(matching.map(([id]) => id), [5, 6, 8]);
+  assert.deepEqual(Object.fromEntries(['Math', 'English', 'Science'].map(
+    (name) => [name, matching.filter((row) => row[2] === name).length],
+  )), { Math: 1, English: 1, Science: 1 });
+  // Prior wrongly extracted predicate produces a DIFFERENT set, not source truth.
+  const wronglyExtracted = students.filter(([id, group, subject]) =>
+    subject === 'Science' || teachers[groups[group]][1] === 'second category',
+  );
+  assert.deepEqual(wronglyExtracted.map(([id]) => id), [2, 5, 6, 8, 9]);
+  // Source A-D options are [Eng1 Sci1], [Math1 Eng1 Sci2],
+  // [Eng2 Sci2], [Math2 Eng1 Sci3]. None matches 1/1/1.
+  const originalOptions = [[0, 1, 1], [1, 1, 2], [0, 2, 2], [2, 1, 3]];
+  assert.equal(originalOptions.filter(([m, e, s]) => m === 1 && e === 1 && s === 1).length, 0);
+});
