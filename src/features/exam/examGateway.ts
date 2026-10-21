@@ -37,7 +37,7 @@ export interface TopicTestPreview {
 }
 
 export interface ExamGateway {
-  /** Owner's pending offline choice (latest revision for mocks, never a key). */
+  /** Owner's latest locally queued answer revision for every exam. */
   getPendingAnswer?(examId: string, questionId: string): Json | undefined
   getAxborotChapters?(): Promise<AXBChapter[]>
   startAxborotChapter?(chapter: number, count: number): Promise<ExamSession>
@@ -58,7 +58,7 @@ export interface ExamGateway {
   ): Promise<ExamSession>
   /** Intro ekranda vaqt cheklovini ko'rsatish uchun (mavzu testi). */
   previewTopicTest?(lessonId: string): Promise<TopicTestPreview | null>
-  /** Durable local first-commit for every learning/assessment answer. */
+  /** Durable editable autosave for every non-mock assessment answer. */
   queueExamAnswer?(input: SubmitAnswerInput): void
   /** Persist a complete mock draft locally immediately; no answer keys. */
   queueMockAnswer?(input: SubmitAnswerInput): void
