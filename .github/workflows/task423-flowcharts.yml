@@ -34,6 +34,12 @@ jobs:
       - name: Confirm exactly ten SVG previews
         run: |
           test "$(find /tmp/task423-flowcharts -maxdepth 1 -type f -name 'savol_*.svg' | wc -l)" -eq 10
+      - name: Verify committed review SVG files exactly match Graphviz render
+        run: |
+          node scripts/task423-persist-flowcharts.mjs --check
+          for n in $(seq 15 24); do
+            cmp "docs/qa/task423-flowcharts/rendered/savol_${n}.svg" "/tmp/task423-flowcharts/savol_${n}.svg"
+          done
       - name: Keep review-only SVG previews as CI artifact
         uses: actions/upload-artifact@v4
         with:
