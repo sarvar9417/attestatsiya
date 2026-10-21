@@ -1,3 +1,9 @@
+## TASK-376 — Pedagogika javob variantlari: semantic QA (2026-10-21)
+
+| Task | Status | Acceptance / release |
+|---|---|---|
+| TASK-376 | 16 REVIEW distractor revisions prepared; rollback rehearsal PASS; PR + CI pending | 823 published KS/PM.GEN/PM.MET; 471 lexical flags (includes archived), 105 active flags with 105 REVIEW successors. 20 semantic-cue review candidates, 16 context-checked wrong options rewritten in rehearsal (16/16 PASS, ROLLBACK). Exact old-text/key guards, no published mutation, no deploy. Full bank expert review and owner-authorized immutable release remain open. Report: `docs/TASK376_PEDAGOGY_DISTRACTOR_QUALITY_20261021.md`. |
+
 ## TASK-375 — Savollar bazasidagi bir qatorli kodlarni Markdown code blockka o‘tkazish (2026-10-21)
 
 | Task | Status | Acceptance / release |
