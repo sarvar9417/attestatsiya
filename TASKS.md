@@ -1,3 +1,9 @@
+## TASK-425 — Bankwide Y1 sifat tuzatishlari, ikkinchi 8 ta savol release (2026-10-21)
+
+| Task | Status | Verification |
+|---|---|---|
+| TASK-425 | AI-assisted owner-approved 8 source/review manifest; live Supabase complete ROLLBACK trial PASS; CI+production cutover pending | All 8 Y1 wrong distractors source-backed, correct answer text pinned unchanged; 8 new immutable published and 8 predecessors archived only after quality gates; old exam history retained. Evidence: `docs/TASK425_BANKWIDE_WAVE2_IMMUTABLE_RELEASE_20261021.md`. |
+
 ## TASK-420 — M13 dars yangilanishida modulga tashlab yuborilishini tuzatish (2026-10-21)
 
 | Task | Status | Acceptance / release |
