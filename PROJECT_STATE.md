@@ -1,3 +1,12 @@
+## TASK-425 — Sifat auditi 2-partiya 8 savol nashri (2026-10-21)
+
+- **Owner:** ChatGPT (user explicitly delegated whole-bank quality audit and staged releases).
+- **Status:** 8 REVIEW successors from TASK-424 validated; immutable cutover SQL created; live production BEGIN...ROLLBACK QA 8/8 publish + 8/8 archive PASS, durable apply pending GitHub CI+merge.
+- **Safety:** 8 pinned UUID pairs and fingerprints, exactly 4 unique keyed options, unchanged correct-answer text, 8 staged review ledgers, official eligibility, old history intact. AI-generated provenance true; no independent human expert signature claimed.
+- **Files:** `supabase/maintenance/task425_bankwide_wave2_eight_immutable_release.sql`, `src/tests/task425BankwideWave2Release.test.ts`, `docs/TASK425_BANKWIDE_WAVE2_IMMUTABLE_RELEASE_20261021.md`.
+- **Predecessor TASK-423:** DONE — 8 revised Y1 questions published, 8 predecessor archived, 8 snapshots/valid keys/official-eligible and 3 historic exam links postflight PASS; GitHub PR #511 merged.
+- **Follow-up:** continue full bank audit issue #469, prioritize INFO, SEC, OFFICE candidates; historical archived questions immutable.
+
 ## TASK-420 — M13 dars oynasi hydrationda yopilishi (2026-10-21)
 
 - **Owner:** ChatGPT; branch: `task/TASK-420-m13-lesson-refresh-20261021`.
