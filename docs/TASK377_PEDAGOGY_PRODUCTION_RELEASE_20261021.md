@@ -1,3 +1,14 @@
+## Production postflight — COMPLETE
+
+- Supabase migration applied: `20261021114342_task377_owner_authorized_pedagogy_16_release` (success).
+- New published revisions: **16**; old source revisions archived: **16**.
+- Group split: **KS 10, PM.GEN 5, PM.MET 1**.
+- Key contract / four unique options / owner-waiver fingerprint / published-revision snapshot / release ledger: **16/16**.
+- Historic `exam_items` still linked to original revisions: **41**.
+- Current published pedagogy count: **823** (new replaced old); anomaly count: **0**.
+- Github CI (backend, database, frontend quality, E2E) PASS, PR #462 merged into main.
+- Vercel: no application redeploy, because changes were production Supabase content only.
+
 # TASK-377 — Pedagogika 16 distractor tahririni productionga chiqarish (2026-10-21)
 
 ## Scope va ruxsat
