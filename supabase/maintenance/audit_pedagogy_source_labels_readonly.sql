@@ -13,7 +13,7 @@ WITH suspect AS (
 )
 SELECT s.id, s.group_code, s.status, s.reason, s.source_reference,
        left(s.stem_md,240) AS stem_preview,
-       count(o.id) AS option_count,
+       count(DISTINCT o.id) AS option_count,
        count(DISTINCT nullif(btrim(o.content_md),'')) AS distinct_options,
        coalesce(array_agg(DISTINCT f.finding_code) FILTER (WHERE f.resolved_at IS NULL),ARRAY[]::text[]) AS open_findings
 FROM suspect s
