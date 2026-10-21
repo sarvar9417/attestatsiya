@@ -65,3 +65,19 @@ test('Q14: NOT(x >= 0) OR NOT(x < 20) equals x < 0 OR x >= 20', () => {
   assert.ok(sameOnDomain(trueWhen, options[0]));
   assert.ok(exactlyOne(trueWhen, options));
 });
+
+
+test('Q59: new 4-choice XOR set has exactly one equivalent formula', () => {
+  const goal = (a, b) => (!a) === b; // ¬A ↔ B
+  const candidates = [
+    (a, b) => (!a && b) || (a && !b),     // XOR
+    (a, b) => (a && b) || (!a && !b),     // XNOR
+    (a, b) => (!a && b) || (a && b),      // B
+    (a, b) => (a && !b) || (a && b),      // A
+  ];
+  const truth = (fn) => [false, true].flatMap((a) => [false, true].map((b) => Boolean(fn(a, b))));
+  const target = truth(goal);
+  assert.deepEqual(target, [false, true, true, false]);
+  assert.deepEqual(candidates.map((x) => truth(x).every((v, i) => v === target[i])), [true, false, false, false]);
+  assert.equal(new Set(candidates.map((x) => truth(x).map(Number).join(''))).size, 4);
+});
