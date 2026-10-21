@@ -19,9 +19,9 @@ for (let n = 15; n <= 24; n += 1) {
   const data = readFileSync(resolve(rendered, file));
   const svg = data.toString('utf8');
   assert.ok(data.length > 1000 && data.length < 120_000, `unexpected size: ${file}`);
-  assert.match(svg, /<svg\\b/);
-  assert.match(svg, new RegExp(`<title>savol_${n}<\\/title>`));
-  assert.doesNotMatch(svg, /<!DOCTYPE|<!ENTITY|<script|<foreignObject|<image\\b|onload\\s*=|onerror\\s*=|javascript:|data:text\\/html|xlink:href\\s*=\\s*["']https?:/i);
+  assert.match(svg, /<svg\b/);
+  assert.match(svg, new RegExp(`<title>savol_${n}</title>`));
+  assert.doesNotMatch(svg, /<!DOCTYPE|<!ENTITY|<script|<foreignObject|<image\b|onload\s*=|onerror\s*=|javascript:|data:text\/html|xlink:href\s*=\s*["']https?:/i);
   items.push({ source_question_no: n, pdf_page: n - 6, dot, dot_sha256: sha(source), svg: file, svg_sha256: sha(data) });
 }
 
