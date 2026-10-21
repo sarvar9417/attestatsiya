@@ -70,7 +70,7 @@ describe('legacy exam code readability', () => {
       const formatted = formatCodeForDisplay(source, 'javascript')
       expect(compile(formatted).replace(/\s+/g, ''), source).toBe(compile(source).replace(/\s+/g, ''))
     }
-    expect(formatCodeForDisplay(samples[0], 'javascript')).toContain('if(x%2===0)\\n    return x/2;')
+    expect(formatCodeForDisplay(samples[0], 'javascript')).toContain('if(x%2===0)\n    return x/2;')
   })
 
   it('does not reformat deliberate syntax-error code or unknown languages', () => {
