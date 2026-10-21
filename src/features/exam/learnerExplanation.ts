@@ -25,6 +25,12 @@ const editorialSentence = [
   /\bManba\s+huquqiy\s+tarbiya\s+deb\s+beradi\.?/giu,
   /\bManba\s+javobi\s+xususiy-metodik\s*\(mezo\)\.?/giu,
   /\bAsl\s+PDF\s+\d+\s*[-–]\s*[A-D]\s+moslikni\s+beradi\.?/giu,
+  /\bAsl\s+PDF\s+javobi\s+aynan\s+shu\.?/giu,
+  /\bAsl\s+manbada\s+shu\.?/giu,
+  /\bPDFda\s+shu\s+daraja\s+berilgan\.?/giu,
+  /\bPDFda\s+\d+\s*[-–]\s*[A-D](?:\s*,\s*\d+\s*[-–]\s*[A-D])*\s+moslig?i?\s+berilgan\.?/giu,
+  /\bManbada\s+diagnostika\s+ajratib\s+ko‘rsatilgan\.?/giu,
+  /\bPDF\s+ikki\s+tomonini\s+ko‘rsatadi\.?/giu,
 ]
 
 /** Read-only presentation transform; never write the result to a published row. */
