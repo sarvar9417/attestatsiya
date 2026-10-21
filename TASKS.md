@@ -1,8 +1,14 @@
+## TASK-378 — Ota-ona bilan suhbat savoli, alohida production release (2026-10-21)
+
+| Task | Status | Acceptance / release |
+|---|---|---|
+| TASK-378 | QA / production ROLLBACK dry-run PASS, release pending | Userning aynan ko‘rsatgan savoli (KS) 1 REVIEW successor; 4 ta tarixiy exam item saqlansin, 4 variant + kalit, immutable publish/archival va owner waiver. `supabase/maintenance/task378_parent_meeting_example_owner_release.sql`; `src/tests/task378ParentDialogueRelease.test.ts`. |
+
 ## TASK-377 — Pedagogika 16 savol uchun production release (2026-10-21)
 
 | Task | Status | Acceptance / release |
 |---|---|---|
-| TASK-377 | Migration staged; Supabase `ROLLBACK` release rehearsal PASS; CI + production apply pending | User "productionga chiqar" instruction. Apply only 16 TASK-376 wrong-option edits to REVIEW successors, record explicit historical owner waiver (not expert signoff), atomically publish 16 successors and archive 16 prior versions with preserved fingerprints and 41 historical exam refs. Production SQL only via migration, no Vercel app deploy needed. Evidence: `docs/TASK377_PEDAGOGY_PRODUCTION_RELEASE_20261021.md`. |
+| TASK-377 | DONE: production Supabase release; CI PASS; postflight 16/16 and 41 historic refs intact | User "productionga chiqar" instruction. Apply only 16 TASK-376 wrong-option edits to REVIEW successors, record explicit historical owner waiver (not expert signoff), atomically publish 16 successors and archive 16 prior versions with preserved fingerprints and 41 historical exam refs. Production SQL only via migration, no Vercel app deploy needed. Evidence: `docs/TASK377_PEDAGOGY_PRODUCTION_RELEASE_20261021.md`. |
 
 ## TASK-376 — Pedagogika javob variantlari: semantic QA (2026-10-21)
 

@@ -1,7 +1,14 @@
+## TASK-378 — Ota-ona suhbat misoli productionga chiqarish (2026-10-21)
+
+- **Owner:** ChatGPT. Oldingi 16 ta TASK-377 release muvaffaqiyatli (Supabase postflight 16/16, 41 historic).
+- **Status:** Source KS published, improved successor review; atomic release dry-run ROLLBACK 1/1 PASS. GitHub CI va haqiqiy production apply pending.
+- **Scope:** User ko‘rsatgan original `2e951830-a7b7-4788-ac68-1cb3ebf21b31` → `b64b8def-e21f-4e1b-aaeb-97f973cc281e`; oldingi 4 exam refs immutable.
+- **Path:** `supabase/maintenance/task378_parent_meeting_example_owner_release.sql`, `src/tests/task378ParentDialogueRelease.test.ts`, `docs/TASK378_PARENT_MEETING_PRODUCTION_20261021.md`. Boshqa savollar out-of-scope.
+
 ## TASK-377 — Pedagogika savollarining 16 variantini productionga chiqarish (2026-10-21)
 
 - **Owner:** ChatGPT; user expressly requested production release of previous TASK-376 work.
-- **Status:** 16/16 immutable release migration prepared; live Supabase transactional ROLLBACK rehearsal PASS; PR/CI then production apply and postflight pending.
+- **Status:** DONE: controlled production release applied as migration `20261021114342_task377_owner_authorized_pedagogy_16_release`; CI PASS, postflight 16 successors published / 16 sources archived, 41 historical exam links intact, snapshots/waivers/ledgers 16.
 - **Scope:** 16 REVIEW successors only; 16 original published, 41 historical exam-item references retained. 15 successor correct answer phrases differ semantically-equivalent from source; answer-key option IDs must remain intact.
 - **Release protection:** versioned `publish_pedagogy_revision`, owner-waived existing protocol with provenance and no false human-editor claims. Explicit source/fingerprint/option match, all-or-nothing 16 release.
 - **Files:** `supabase/maintenance/task377_pedagogy_16_owner_authorized_release.sql`, `src/tests/task377PedagogyProductionRelease.test.ts`, docs.
