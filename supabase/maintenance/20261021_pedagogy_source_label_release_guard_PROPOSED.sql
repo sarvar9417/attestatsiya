@@ -8,7 +8,7 @@ ADD CONSTRAINT pedagogy_published_no_source_label_chk
 CHECK (
   status <> 'published'::public.content_status OR
   group_code NOT IN ('KS','PM.GEN','PM.MET') OR
-  stem_md !~* '(asl[[:space:]]+(pdf|manba|to.plam)|manbadagi|manba[[:space:]]+to.plam|pdfda|#attestatsiya|pedmahorat[[:space:]]*[|])'
+  stem_md !~* '(^[[:space:]]*#|asl[[:space:]]+(pdf|manba|to.plam)|manbadagi|(^|[[:space:]])manbada[[:space:]]|manbaga[[:space:]]+ko.ra|manba[[:space:]]+qaysi|manba[[:space:]]+to.plam|pdfda|pedmahorat[[:space:]]*[|])'
 ) NOT VALID;
 
 -- Run in a LATER maintenance window, only AFTER every offending published
