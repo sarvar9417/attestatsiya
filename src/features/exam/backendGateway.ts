@@ -225,19 +225,24 @@ export const backendGateway: ExamGateway = {
     const ownerId = sessionStore.get()?.user.id
     const pending = listPendingAnswers().find(item =>
       item.examId === input.examId && item.questionId === input.questionId)
-    const firstAttempt = input.examKind === 'mock' ? input : (pending ?? input)
+    const latestInput = input
     try {
-      const response = await sendAnswerToServer(firstAttempt)
+      const response = await sendAnswerToServer(latestInput)
       if (ownerId) {
-        if (pending && input.examKind === 'mock') acknowledgePendingAnswer(pending, ownerId)
-        else removePendingAnswer(input.examId, input.questionId, ownerId)
+        // A newer edit may have been queued during this request. Acknowledge
+        // only the exact sent revision; never delete a newer pending answer.
+        if (pending) acknowledgePendingAnswer(pending, ownerId)
+        else if (!listPendingAnswers().some(item =>
+          item.examId === input.examId && item.questionId === input.questionId)) {
+          removePendingAnswer(input.examId, input.questionId, ownerId)
+        }
       }
       return response
     } catch (error) {
       if (isNetworkError(error) && ownerId) {
         // Auth token yoki answer key saqlanmaydi — faqat user answer payload.
-        // Mock: oxirgi tanlov; qolgan turlar: birinchi offline javob.
-        enqueuePendingAnswer(firstAttempt, ownerId)
+        // Every test queues its most recent revision, including offline edits.
+        enqueuePendingAnswer(latestInput, ownerId)
         throw new ApiError('Internet uzildi. Javob shu qurilmada saqlandi; ulanish tiklangach qayta yuboriladi.', 0, 'NETWORK_ERROR')
       }
       throw error
