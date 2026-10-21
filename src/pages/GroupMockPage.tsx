@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { ArrowDown, ArrowUp, BookOpen, CheckCircle2, ClipboardList, Copy, Link2, LoaderCircle, MessageCircle, Play, RefreshCw, Trash2, Users } from 'lucide-react'
+import { ArrowDown, ArrowUp, BookOpen, CheckCircle2, ClipboardList, Copy, Link2, LoaderCircle, MessageCircle, PauseCircle, Play, RefreshCw, Trash2, Users } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 import { getCustomTestCatalog, type CatalogModule } from '../features/custom-test/customTestApi'
 import type { AnswerValue } from '../features/exam/contracts'
@@ -13,9 +13,10 @@ import { learnerExplanation } from '../features/exam/learnerExplanation'
 import ExamQuestionAssets from '../features/exam/questions/ExamQuestionAssets'
 import {
   answerGroupMock, cancelGroupMockLobby, correctGroupAnswerLabel, createGroupMock,
-  getGroupMockState, joinGroupMock, leaveGroupMockLobby, listGroupBank, listMyGroupMockRooms, messageGroupMock,
+  getGroupMockState, getGroupMockReport, joinGroupMock, leaveGroupMockLobby, listGroupBank,
+  listMyGroupMockRooms, messageGroupMock, pauseGroupMock, resumeGroupMock,
   startGroupMock, stepGroupMock, visibleGroupFeedback,
-  type BankQuestion, type GroupMockMode, type GroupMockRoomSummary, type GroupMockState,
+  type BankQuestion, type GroupMockMode, type GroupMockReport, type GroupMockRoomSummary, type GroupMockState,
   type GroupMockTopic,
 } from '../features/group-mock/groupMockApi'
 import { reorderManualQuestions } from '../features/group-mock/manualSelection'
@@ -164,6 +165,98 @@ function GroupQuestionCard({
   )
 }
 
+
+function reportAnswerLabel(
+  format: 'Y1' | 'Y2' | 'Y3',
+  data: unknown,
+  options: Array<{ id: string; content_md: string }>,
+): string {
+  if (data === null || !data || typeof data !== 'object' || Array.isArray(data)) return 'Javob berilmagan'
+  const answer = data as Record<string, unknown>
+  const text = (id: unknown) => options.find(item => item.id === String(id))?.content_md ?? String(id)
+  if (format === 'Y1') return text(answer.option_id ?? answer.correct_option_id)
+  if (format === 'Y2' && answer.pairs && typeof answer.pairs === 'object' && !Array.isArray(answer.pairs)) {
+    return Object.entries(answer.pairs).map(([left, right]) => text(left) + ' → ' + text(right)).join('; ')
+  }
+  if (format === 'Y3' && Array.isArray(answer.order)) return answer.order.map(text).join(' → ')
+  return 'Javob mavjud'
+}
+
+function GroupFinalReport({ report }: { report: GroupMockReport }) {
+  const maxPoints = report.total_count * 2
+  return (
+    <section className={panel} aria-label="Guruhli test to‘liq hisoboti">
+      <h2 className="mb-2 text-xl font-bold dark:text-white">Yakuniy to‘liq hisobot</h2>
+      <p className="mb-4 text-sm text-gray-600 dark:text-gray-300">
+        {report.participant_count} ishtirokchi · {report.total_count} savol · Maksimal {maxPoints} ball.
+        Har bir ishtirokchining natijasi va barcha savollarning tahlili quyida.
+      </p>
+      <div className="mb-5 overflow-x-auto">
+        <table className="w-full min-w-[560px] border-collapse text-left text-sm dark:text-gray-200">
+          <thead>
+            <tr className="border-b dark:border-gray-700">
+              <th className="p-2">Ishtirokchi</th><th className="p-2">Ball</th>
+              <th className="p-2">To‘g‘ri</th><th className="p-2">Noto‘g‘ri</th>
+              <th className="p-2">Javobsiz</th><th className="p-2">Natija</th>
+            </tr>
+          </thead>
+          <tbody>
+            {report.participants.map((person,index) => (
+              <tr className="border-b dark:border-gray-800" key={person.user_id}>
+                <td className="p-2">{index+1}. {person.name}</td>
+                <td className="p-2 font-semibold">{person.score}/{maxPoints}</td>
+                <td className="p-2 text-green-600">{person.correct}</td>
+                <td className="p-2 text-red-600">{person.incorrect}</td>
+                <td className="p-2">{person.unanswered}</td>
+                <td className="p-2 font-medium">{person.percentage}%</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <h3 className="mb-3 font-bold dark:text-white">Savollar va ishtirokchilar javoblari</h3>
+      <div className="space-y-3">
+        {report.questions.map(question => (
+          <details key={question.idx} className="rounded-xl border border-gray-200 p-3 dark:border-gray-700">
+            <summary className="cursor-pointer font-semibold dark:text-white">
+              {question.idx}-savol · {question.correct} to‘g‘ri · {question.incorrect} noto‘g‘ri · {question.unanswered} javobsiz
+            </summary>
+            <div className="mt-4 space-y-3 text-sm dark:text-gray-200">
+              <ExamRichText text={question.stem_md} />
+              <div className="rounded-lg bg-green-50 p-3 text-green-900 dark:bg-green-950/40 dark:text-green-200">
+                <strong>To‘g‘ri javob:</strong> {reportAnswerLabel(question.format, question.correct_answer, question.options)}
+              </div>
+              <div>
+                <strong>Ekspert izohi</strong>
+                <ExamRichText text={learnerExplanation(question.explanation_md) || 'Izoh mavjud emas.'} />
+              </div>
+              <ul className="space-y-2">
+                {report.participants.map(person => {
+                  const result = person.answers.find(answer => answer.idx === question.idx)
+                  return (
+                    <li key={person.user_id} className="rounded-lg bg-gray-50 p-3 dark:bg-gray-800">
+                      <div className="flex flex-wrap justify-between gap-2">
+                        <strong>{person.name}</strong>
+                        <span className={result?.is_correct === true ? 'text-green-700 dark:text-green-400' : 'text-red-700 dark:text-red-400'}>
+                          {result?.is_correct === null || result?.is_correct === undefined
+                            ? 'Javobsiz' : result.is_correct ? 'To‘g‘ri (+2)' : 'Noto‘g‘ri'}
+                        </span>
+                      </div>
+                      <p className="mt-1 break-words">
+                        {reportAnswerLabel(question.format, result?.answer, question.options)}
+                      </p>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+  )
+}
+
 export default function GroupMockPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const { user, loading: authLoading } = useAuth()
@@ -184,6 +277,8 @@ export default function GroupMockPage() {
   const [connectionWarning, setConnectionWarning] = useState<string | null>(null)
   const requestSequence = useRef(0)
   const [state, setState] = useState<GroupMockState | null>(null)
+  const [report, setReport] = useState<GroupMockReport | null>(null)
+  const [reportError, setReportError] = useState<string | null>(null)
   const [chat, setChat] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -269,6 +364,20 @@ export default function GroupMockPage() {
     })
     return () => { active = false }
   }, [bankLesson, bankSearch, mode, roomId])
+
+  useEffect(() => {
+    let active = true
+    setReport(null)
+    setReportError(null)
+    if (roomId && state?.room_id === roomId && state.status === 'finished') {
+      void getGroupMockReport(roomId).then(value => {
+        if (active) setReport(value)
+      }).catch(err => {
+        if (active) setReportError(err instanceof Error ? err.message : 'Hisobot yuklanmadi')
+      })
+    }
+    return () => { active = false }
+  }, [roomId, state?.room_id, state?.status])
 
   const topics = useMemo<GroupMockTopic[]>(() =>
     Object.entries(selected).map(([lesson_id, value]) => ({
@@ -395,7 +504,7 @@ export default function GroupMockPage() {
                     </span>
                   </span>
                   <span className="text-sm text-gray-600 dark:text-gray-300">
-                    {room.status === 'lobby' ? 'Kutilmoqda' : room.status === 'question' ? 'Savol' : room.status === 'reveal' ? 'Muhokama' : 'Yakunlangan'}
+                    {room.status === 'lobby' ? 'Kutilmoqda' : room.status === 'question' ? 'Savol' : room.status === 'reveal' ? 'Muhokama' : room.status === 'paused' ? 'Vaqtincha yopilgan' : 'Yakunlangan'}
                     {' · '}{room.current_idx}/{room.total_count}{' · '}{room.member_count} kishi
                   </span>
                 </button>
@@ -581,7 +690,21 @@ export default function GroupMockPage() {
       {state && (
         <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_320px]">
           <div className="space-y-5">
-            {state.status === 'lobby' ? (
+            {state.status === 'paused' ? (
+              <section className={panel}>
+                <h2 className="mb-3 text-xl font-bold dark:text-white">Test vaqtincha yopilgan</h2>
+                <p className="mb-4 text-sm text-gray-600 dark:text-gray-300">
+                  Savollar, ishtirokchilar va yuborilgan javoblar saqlangan.
+                  Tashkilotchi testni qayta ochsa, avvalgi bosqichdan davom etadi.
+                </p>
+                {state.is_host ? (
+                  <button className={action} type="button" disabled={busy}
+                    onClick={() => void act(() => resumeGroupMock(roomId ?? ''))}>
+                    <Play className="inline" size={18} /> Testni qayta ochish
+                  </button>
+                ) : <p role="status" className="font-medium text-indigo-700 dark:text-indigo-300">Tashkilotchi qayta ochishini kuting.</p>}
+              </section>
+            ) : state.status === 'lobby' ? (
               <section className={panel}>
                 <h2 className="mb-3 text-xl font-bold dark:text-white">Guruh yig‘ilmoqda</h2>
                 <p className="mb-4 text-sm text-gray-600 dark:text-gray-300">
@@ -604,6 +727,23 @@ export default function GroupMockPage() {
                 onAnswer={answer => void act(() => answerGroupMock(roomId ?? '', answer))} />
             )}
 
+            {state.is_host && ['lobby','question','reveal'].includes(state.status) && (
+              <section className={panel}>
+                <h2 className="mb-2 font-bold dark:text-white">Testni vaqtincha yopish</h2>
+                <p className="mb-3 text-sm text-gray-500 dark:text-gray-400">
+                  Test o‘chirilmaydi. Keyin «Mening guruhli testlarim» orqali qayta ochib davom ettirishingiz mumkin.
+                </p>
+                <button type="button" disabled={busy}
+                  className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-amber-500 px-4 text-sm font-semibold text-amber-700 dark:text-amber-300"
+                  onClick={() => {
+                    if (window.confirm('Testni vaqtincha yopasizmi? Barcha javoblar saqlanadi.')) {
+                      void act(() => pauseGroupMock(roomId ?? ''))
+                    }
+                  }}>
+                  <PauseCircle size={18} /> Vaqtincha yopish
+                </button>
+              </section>
+            )}
             {state.is_host && state.status === 'question' && (
               <section className={panel}>
                 <h2 className="mb-2 font-bold dark:text-white">Tashkilotchi boshqaruvi</h2>
@@ -622,17 +762,21 @@ export default function GroupMockPage() {
               </button>
             )}
             {state.status === 'finished' && (
-              <section className={panel}>
-                <h2 className="mb-3 text-xl font-bold dark:text-white">Yakuniy reyting</h2>
-                <ol className="space-y-2">
-                  {[...state.members].sort((a,b)=>b.score-a.score).map((member,index)=>(
-                    <li key={member.user_id} className="flex justify-between rounded-lg bg-gray-50 p-3 dark:bg-gray-800">
-                      <span>{index+1}. {member.name}</span>
-                      <strong>{member.score} / {state.total_count*2} ball</strong>
-                    </li>
-                  ))}
-                </ol>
-              </section>
+              report ? <GroupFinalReport report={report} /> : (
+                <section className={panel}>
+                  <h2 className="mb-2 text-xl font-bold dark:text-white">Test yakunlandi</h2>
+                  {reportError ? <p role="alert" className="text-red-700">{reportError}</p>
+                    : <p role="status">Yakuniy to‘liq hisobot yuklanmoqda...</p>}
+                  {reportError && (
+                    <button className={action + ' mt-3'} type="button"
+                      onClick={() => {
+                        setReportError(null)
+                        void getGroupMockReport(roomId ?? '').then(setReport).catch(err =>
+                          setReportError(err instanceof Error ? err.message : 'Hisobot yuklanmadi'))
+                      }}>Qayta yuklash</button>
+                  )}
+                </section>
+              )
             )}
           </div>
 
