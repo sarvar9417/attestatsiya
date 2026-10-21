@@ -1,3 +1,11 @@
+## TASK-422 — PedGuli Telegram savollarining yakuniy tahririy release'i (2026-10-21)
+
+- **Owner:** ChatGPT; user 2026-10-21 kuni to‘liq review va yakuniy qaror vakolatini berdi, qayta tasdiq talab qilinmaydi.
+- **Status:** DONE — production migration `20261021151001_task422_pedguli_16_owner_authorized_release`; postflight 16 published / 16 four-option+key valid / 16 balance pass / 16 waiver / 16 immutable snapshot / 0 open finding / 0 historical exam reference.
+- **Release contract:** owner-authorized AI editorial qarori alohida provenance bilan yoziladi; mustaqil inson eksperti tasdig‘i deb ko‘rsatilmaydi. Exact-scope va fingerprint guardlari, atomar publish va postflight talab qilinadi.
+- **Quality edits:** 2 ta o‘zbekcha qaratqich xatosi tuzatildi; barcha variantlar mazmunan yaqinroq va production length-bias gate’iga moslashtirildi; exact normalized stem duplicate 0.
+- **Delivery:** production Supabase data update bajarildi; GitHub `main` merge pending. Vercel/application deploy qilinmaydi. Evidence: `docs/TASK422_PEDGULI_OWNER_RELEASE_20261021.md`.
+
 ## TASK-378 — Ota-ona suhbat misoli productionga chiqarish (2026-10-21)
 
 - **Owner:** ChatGPT. Oldingi 16 ta TASK-377 release muvaffaqiyatli (Supabase postflight 16/16, 41 historic).
