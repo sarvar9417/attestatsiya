@@ -28,6 +28,10 @@ A further pairwise editorial check showed **11 of the 95 full-stem-linked** spri
 
 Private source slots **43, 107, 116, 117, 126, 144, 153, 171, 185, 187, 194** were therefore moved from `needs_review` to `rejected` as **redundant source occurrences of already published items**, retaining the raw source and canonical relationship for audit. The 11 candidates themselves have **no public links**. The five other candidates with **incomplete extracted source answer fragments** were not rejected on this rule and remain `needs_review` and `missing` as documented below.
 
+### 3b. One additional autumn source duplicate retired
+
+`Pedmahorat to'plam 2025 kuzgi (3).pdf` printed/staged **Q2** has complete normalized stem **and** normalized printed answer identical to the older `Pedmahorat to'plam 2025 kuzgi.pdf` Q2, which was already `verified` / `independently_verified` and linked to a public question. The (3) source copy was marked `rejected` while preserving its original text and `near_duplicate_of_candidate_id` linkage. No new learner question was created or scored.
+
 ### 4. Five extracted source answers confirmed incomplete
 
 Of 16 links to a verified/published counterpart, **11** spring source answer markers agreed with their verified counterpart under normalized watermark-stripped answer text. **Five** were shorter because the spring source extraction stopped at a line wrap:
@@ -44,7 +48,7 @@ All five original answer values were crosschecked against original authenticated
 
 ### 5. Counts and boundaries
 
-Readback shortly after this batch: **1,091** total private PDF source records and **417** `needs_review`. Counts are live snapshots (other work may also change the inbox); two source-exact copies and eleven duplicate copies of already published items were retired (13 pending slots total); 95 stem linkages and five truncated-source-answer flags do not independently approve other items.
+Readback shortly after this batch: **1,091** total private PDF source records and **416** `needs_review`. Counts are live snapshots (other work may also change the inbox); two source-exact copies and twelve duplicate copies of already published items were retired (14 pending slots total); 95 stem linkages and five truncated-source-answer flags do not independently approve other items.
 
 This batch did not touch `questions`, `question_options`, `question_keys` or user attempts. No manual production deploy was performed.
 
