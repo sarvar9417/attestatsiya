@@ -74,6 +74,14 @@ values
   ('00000000-0000-4000-8000-000000000732', '00000000-0000-4000-8000-000000000701', 'takrorlash'),
   ('00000000-0000-4000-8000-000000000733', '00000000-0000-4000-8000-000000000701', 'zaif');
 
+-- The historical fixture asserts original first-submit mastery semantics.
+-- New exams are tagged on_finish_v1; explicitly model pre-upgrade sessions
+-- in this legacy test. New attempt behavior is covered by sm2_final_answer_new_attempts.
+UPDATE public.exams SET selection_meta = coalesce(selection_meta,'{}'::jsonb) - 'sm2_commit_policy'
+WHERE id IN ('00000000-0000-4000-8000-000000000731',
+             '00000000-0000-4000-8000-000000000732',
+             '00000000-0000-4000-8000-000000000733');
+
 insert into public.exam_items (
   id, exam_id, question_id, construct_id, order_idx
 )
