@@ -1662,3 +1662,10 @@ Old Vercel project: attestatsiya-backend PAUSED; permanent delete Vercel user co
 - 2025 kuzgi Informatika demo PDF was visually inspected: PDF p11 Q25, /27 mask = 255.255.255.224, 32 total vs 30 usable. docs/TASK220_M12_2025_DEMO_CIDR_SOURCE_Q25.md.
 - Original source and six tracked migrations are in PR #331; production DB had already applied them through tracked Supabase apply_migration calls.
 - Gate: independent human specialist approval of full M12 source/key/distractor review, final authorized learner checks and release migration still OPEN. Never auto-promote 101 review items or rewrite 321 published snapshots.
+## TASK-421 — PedMahoratGuli Telegram tarixidan attestatsiya testlari (2026-10-21)
+
+- **Status:** DONE; owner ChatGPT; branch `task/TASK-421-pedguli-telegram-test-intake`.
+- **Source:** Barnoyevak Drive `attestatsiya/pedagogika/result.json`, kanal `Pedmahorat|Guli`, 21 085 xabar; Telegram export read-only olinadi.
+- **Gate:** faqat attestatsiya pedagogikasi/kasbiy standart/metodika konstruktiga mos, to‘rt variantli, source locatorli va javobi mustaqil tekshirilgan savol qabul qilinadi. Kalitsiz poll, reklama, shaxsiy ma’lumot, dublikat va noaniq item release qilinmaydi.
+- **Result:** 20 591 oddiy xabarning 20 588 tasi xususiy production arxivida; qolgan 3 tasi testga aloqasiz (2 bo‘sh, 1 shaxsiy motivatsion hikoya). 16 ta mustaqil qayta yozilgan Y1 savol 7 konstrukt/7 canonical darsga `review` holatida kiritildi; 16/16 variant, kalit va izoh kontrakti postflightdan o‘tdi.
+- **Mutation boundary:** published kontent joyida tahrirlanmadi; yangi savollar migratsiya va DB regressiya bilan; application deploy qilinmadi.
