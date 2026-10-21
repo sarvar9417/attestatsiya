@@ -438,7 +438,7 @@ export default function ExamRunner({
       window.removeEventListener('online', onReconnect)
       document.removeEventListener('visibilitychange', onVisible)
     }
-  }, [phase, session?.kind, session?.exam_id, syncMockAnswers])
+  }, [phase, session, syncMockAnswers])
 
   const finishExam = useCallback(async () => {
     if (!session || finishInFlightRef.current || submitInFlightRef.current) return
@@ -1159,10 +1159,6 @@ export default function ExamRunner({
   const currentQueued = queuedQuestionIds.has(currentItem.question_id)
   const currentFlagged = flaggedQuestionIds.has(currentItem.question_id)
   const flaggedCount = flaggedQuestionIds.size
-  const currentComplete = isAnswerComplete(
-    currentItem,
-    drafts[currentItem.question_id]
-  )
   const busy = phase === 'finishing'
   const interactionBusy = busy || submittingId !== null
   const answeredQuestions = session.items.filter(
