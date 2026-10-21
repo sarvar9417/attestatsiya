@@ -67,7 +67,7 @@ class OtganSourceQA24(unittest.TestCase):
 
     def test_q3_encoding_not_given_by_source(self):
         # Same source letters may use different byte lengths by encoding.
-        self.assertNotEqual(len("o‘".encode("utf-8")),len("o‘".encode("utf-16-le")))
+        self.assertNotEqual(len("o‘q".encode("utf-8")),len("o‘q".encode("utf-16-le")))
 
     def test_q15_one_character_byte_is_only_an_assumption(self):
         count=160*6*240
