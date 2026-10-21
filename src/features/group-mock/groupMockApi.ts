@@ -24,7 +24,8 @@ const answerSummary = z.object({
 })
 const stateSchema = roomRef.extend({
   mode: z.enum(['spec', 'topics', 'manual']),
-  status: z.enum(['lobby', 'question', 'reveal', 'finished']),
+  status: z.enum(['lobby', 'question', 'reveal', 'paused', 'finished']),
+  paused_from_status: z.enum(['lobby', 'question', 'reveal']).nullable(),
   is_host: z.boolean(),
   total_count: z.number().int().min(1).max(100),
   current_idx: z.number().int().min(1).max(100),
@@ -40,7 +41,7 @@ const stateSchema = roomRef.extend({
 export type GroupMockState = z.infer<typeof stateSchema>
 const myRoomSchema = roomRef.extend({
   mode: z.enum(['spec', 'topics', 'manual']),
-  status: z.enum(['lobby', 'question', 'reveal', 'finished']),
+  status: z.enum(['lobby', 'question', 'reveal', 'paused', 'finished']),
   is_host: z.boolean(),
   total_count: z.number().int().min(1).max(100),
   current_idx: z.number().int().min(1).max(100),
@@ -87,6 +88,7 @@ const messages: Record<string, string> = {
   group_blueprint_invalid: 'Faol spetsifikatsiya kvotalari nomuvofiq.',
   group_lesson_unavailable: 'Tanlangan mavzu hozir mavjud emas.',
   group_host_cannot_leave: 'Tashkilotchi xonadan chiqish o‘rniga uni bekor qilishi mumkin.',
+  group_report_unavailable: 'To‘liq hisobot faqat test yakunlangandan keyin ochiladi.',
 }
 
 // The platform authenticates through /api/auth and stores its JWT in sessionStore.
@@ -152,6 +154,56 @@ export async function joinGroupMock(code: string) {
 export async function getGroupMockState(roomId: string): Promise<GroupMockState> {
   return stateSchema.parse(await call('group_mock_state', { p_room: roomId }))
 }
+
+export async function pauseGroupMock(roomId: string): Promise<void> {
+  await call('group_mock_pause', { p_room: roomId })
+}
+export async function resumeGroupMock(roomId: string): Promise<void> {
+  await call('group_mock_resume', { p_room: roomId })
+}
+
+const reportAnswer = z.object({
+  idx: z.number().int().positive(),
+  answer: z.unknown().nullable(),
+  is_correct: z.boolean().nullable(),
+})
+const reportParticipant = z.object({
+  user_id: z.string().uuid(),
+  name: z.string(),
+  answered: z.number().int().nonnegative(),
+  correct: z.number().int().nonnegative(),
+  incorrect: z.number().int().nonnegative(),
+  unanswered: z.number().int().nonnegative(),
+  score: z.number().int().nonnegative(),
+  percentage: z.number(),
+  answers: z.array(reportAnswer),
+})
+const reportQuestion = z.object({
+  idx: z.number().int().positive(),
+  stem_md: z.string(),
+  format: z.enum(['Y1', 'Y2', 'Y3']),
+  correct_answer: z.record(z.string(), z.unknown()),
+  explanation_md: z.string(),
+  answered: z.number().int().nonnegative(),
+  correct: z.number().int().nonnegative(),
+  incorrect: z.number().int().nonnegative(),
+  unanswered: z.number().int().nonnegative(),
+})
+const groupMockReportSchema = z.object({
+  room_id: z.string().uuid(),
+  code: z.string(),
+  total_count: z.number().int().positive(),
+  participant_count: z.number().int().nonnegative(),
+  finished_at: z.string().nullable(),
+  participants: z.array(reportParticipant),
+  questions: z.array(reportQuestion),
+})
+export type GroupMockReport = z.infer<typeof groupMockReportSchema>
+
+export async function getGroupMockReport(roomId: string): Promise<GroupMockReport> {
+  return groupMockReportSchema.parse(await call('group_mock_report', { p_room: roomId }))
+}
+
 export async function startGroupMock(roomId: string) {
   await call('group_mock_start', { p_room: roomId })
 }
