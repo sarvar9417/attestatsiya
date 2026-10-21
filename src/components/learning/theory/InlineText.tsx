@@ -148,6 +148,6 @@ export function plainText(text: string): string {
       return node.value
     })
     .join('')
-    .replace(/\\s+/g, ' ')
+    .replace(/\s+/g, ' ')
     .trim()
 }
