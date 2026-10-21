@@ -2,7 +2,9 @@
 -- 2026-10-21: owner explicitly requested deployment. Earlier owner waived a separate external expert
 -- on 2026-10-18; this release is AI-assisted and is NOT represented as independent expert review.
 -- Immutable source versions, answer-key option identity and historic exam attempts are preserved.
--- Executed as one migration transaction; refuse missing/drifted items, and do not re-run.
+-- Single explicit transaction for psql CI and Supabase release; fail closed for partially populated databases.
+-- On a fresh CI schema with no admin and no matching source questions, this data release is a no-op.
+BEGIN;
 SET LOCAL lock_timeout='5s';
 SET LOCAL statement_timeout='45s';
 CREATE TEMP TABLE task376_changes (
@@ -30,6 +32,12 @@ INSERT INTO task376_changes VALUES
 DO $qa$
 DECLARE matches integer;
 BEGIN
+ -- CI fresh schema contains no owner admin and none of the 16 source records.
+ -- Production must have its expected admin and all 16 matching source records.
+ IF NOT EXISTS (SELECT 1 FROM public.profiles WHERE role='admin' AND NOT coalesce(is_blocked,false))
+    AND NOT EXISTS (SELECT 1 FROM public.questions q JOIN task376_changes x ON x.source_id=q.id)
+ THEN RETURN;
+ END IF;
  SELECT count(*) INTO matches FROM task376_changes e
  JOIN public.pedagogy_revision_queue queue ON queue.source_question_id=e.source_id
    AND queue.revision_question_id=e.revision_id
@@ -90,6 +98,10 @@ DECLARE
  v_bad int;
  item record;
 BEGIN
+ IF NOT EXISTS (SELECT 1 FROM public.profiles WHERE role='admin' AND NOT coalesce(is_blocked,false))
+    AND NOT EXISTS (SELECT 1 FROM public.questions q JOIN task376_changes x ON x.source_id=q.id)
+ THEN RETURN;
+ END IF;
  IF (SELECT count(*) FROM public.profiles WHERE role='admin' AND NOT coalesce(is_blocked,false))<>1 THEN
    RAISE EXCEPTION 'TASK377_OWNER_NOT_UNIQUE';
  END IF;
@@ -188,4 +200,4 @@ BEGIN
  GET DIAGNOSTICS v_n=ROW_COUNT;
  IF v_n<>16 THEN RAISE EXCEPTION 'TASK377_RELEASE_LEDGER_COUNT_%',v_n; END IF;
 END $release$;
--- Commit is owned by Supabase migration runner, not this file.
+COMMIT; -- single atomic release; any failed preflight aborts the entire transaction.
