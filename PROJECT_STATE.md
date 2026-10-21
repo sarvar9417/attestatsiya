@@ -1,3 +1,12 @@
+## TASK-369 — Pedagogika/PDF manba kandidat izohlari (2026-10-21)
+
+- User release rule: **faqat kodni `main`ga merge; explicit buyruq bo‘lmaguncha productionga deploy yoki Supabase o‘zgarish YO‘Q**. `vercel.json`da `git.deploymentEnabled=false` inspeksiya qilingan.
+- QA snapshot: 8 363 jami savol, 5 415 published; 18 published PDF kandidat/source-key editorial signali; 972 published alohida `Manba:`/source paragrafi. Bu source izlari har doim noto‘g‘ri kalit emas.
+- Yechim: `src/features/exam/learnerExplanation.ts` tozalash qatlami; ExamRunner, ExamReviewList, GroupMockPage, lessonContentGateway, TopicView funksiyalariga ulangan. Backend scoring javob kaliti clientga muddatidan avval chiqmaydi.
+- 18 savolning individual tushuntirishlari `supabase/maintenance/task369_pdf_explanations_review_ONLY_NO_PRODUCTION.sql`da saqlanadi; `ROLLBACK`, **hech qanday prod qo‘llash va publish yo‘q**.
+- Regression va audit: `src/features/exam/learnerExplanation.test.ts`, `src/features/exam/ExamReviewList.test.tsx`, `supabase/maintenance/task369_explanation_audit_READONLY.sql`.
+- Documentation: `docs/TASK369_LEARNER_EXPLANATION_EDITORIAL_20261021.md`. Further release requires new direct owner instruction.
+
 ## TASK-348 — Guruhli Mock Test xonalarini tiklash (2026-10-20)
 
 - **Base:** TASK-347 #352 GitHub main merge SUCCESS, `72ce5b67d9e918312e5ea65f973246561ea811fc` (2026-10-20).
