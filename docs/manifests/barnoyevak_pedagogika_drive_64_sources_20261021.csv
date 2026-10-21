@@ -51,7 +51,7 @@ drive_id,file_name,mime_type,inferred_category,ingestion_disposition,notes
 "1UJCEnK9ZZcXHQnnPoF5B6ctWeeeRU0_I","Test Mirzayeva.pdf","application/pdf","test-candidate","requires-source-reconciliation","Classification inferred from name only; not approval"
 "1BL4lXlgWoaP36f1bF30d85J12EjVWZtT","Attestatsiya to'plam ped mahorat @PedMahoratGuli.pdf","application/pdf","test-candidate","requires-source-reconciliation","Classification inferred from name only; not approval"
 "1woZMas8dNbzk6yephzNH_XdmT19ess-l","Mirzayeva Pedagogika nazriyasi qollanma 2-mavzu.pdf","application/pdf","theory-reference","requires-source-reconciliation","Classification inferred from name only; not approval"
-"1vOW2lKakMehLp44h_4CoWakml9oCwkY0","Mirayeva test 1.pdf","application/pdf","test-candidate","requires-source-reconciliation","Classification inferred from name only; not approval"
+"1vOW2lKakMehLp44h_4CoWakml9oCwkY0","Mirayeva test 1.pdf","application/pdf","test-candidate","15_private_candidates_staged_missing_keys","Classification inferred from name only; not approval"
 "1cMCrrES6RgqPgEwiLhSs2sliOyLXKUhJ","12 ta ibora.pdf","application/pdf","theory-reference","requires-source-reconciliation","Classification inferred from name only; not approval"
 "1Ly5nIDP1e4gxnengoKdrDMEdc4XEFmel","Pedagogik mahorat spetsifikatsiyasi-2025.pdf","application/pdf","standard-reference","requires-source-reconciliation","Classification inferred from name only; not approval"
 "1IwpcwvNG4deDFtxwEw1tIU2G121RrVYB","Maktab pedagoglari - Kasb standarti (Oʻzbek tili).pdf","application/pdf","standard-reference","requires-source-reconciliation","Classification inferred from name only; not approval"
