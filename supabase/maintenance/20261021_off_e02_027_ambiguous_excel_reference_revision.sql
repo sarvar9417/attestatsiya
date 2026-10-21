@@ -43,7 +43,7 @@ begin
   if (select count(*) from public.question_options where question_id=v_source_id and side='a')<>3
      or (select count(*) from public.question_options where question_id=v_source_id and side='b')<>3
      or jsonb_typeof(v_key.payload->'pairs') is distinct from 'object'
-     or jsonb_object_length(v_key.payload->'pairs') <> 3
+     or (select count(*) from jsonb_each_text(v_key.payload->'pairs')) <> 3
   then
     raise exception 'OFF-E02-027 option/pair cardinality drift; abort';
   end if;
