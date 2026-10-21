@@ -133,20 +133,52 @@ drop policy question_keys_staff_manage on public.question_keys;
 -- Cache stable auth context once per SQL statement without broadening rights.
 alter policy profiles_self_read on public.profiles using
   (id=(select auth.uid()) or (select public.auth_role())='admin'::public.user_role);
-alter policy topic_attempts_self on public.topic_test_attempts using
-  (user_id=(select auth.uid()) or (select public.auth_role())='admin'::public.user_role);
-alter policy topic_attempts_insert_self on public.topic_test_attempts with check
-  (user_id=(select auth.uid()));
-alter policy mastery_evidence_self_read on public.mastery_evidence using
-  (user_id=(select auth.uid()) or (select public.auth_role())='admin'::public.user_role);
-alter policy custom_exam_presets_select_self on public.custom_exam_presets using
-  (user_id=(select auth.uid()));
-alter policy custom_exam_presets_insert_self on public.custom_exam_presets with check
-  (user_id=(select auth.uid()));
-alter policy custom_exam_presets_update_self on public.custom_exam_presets using
-  (user_id=(select auth.uid())) with check (user_id=(select auth.uid()));
-alter policy custom_exam_presets_delete_self on public.custom_exam_presets using
-  (user_id=(select auth.uid()));
+-- Some assessment tables are remote-only and absent on fresh CI clones.
+do $optional$
+begin
+  if to_regclass('public.topic_test_attempts') is not null and exists
+    (select 1 from pg_policies where schemaname='public'
+      and tablename='topic_test_attempts' and policyname='topic_attempts_self') then
+    execute $ddl$alter policy topic_attempts_self on public.topic_test_attempts using
+  (user_id=(select auth.uid()) or (select public.auth_role())='admin'::public.user_role);$ddl$;
+  end if;
+  if to_regclass('public.topic_test_attempts') is not null and exists
+    (select 1 from pg_policies where schemaname='public'
+      and tablename='topic_test_attempts' and policyname='topic_attempts_insert_self') then
+    execute $ddl$alter policy topic_attempts_insert_self on public.topic_test_attempts with check
+  (user_id=(select auth.uid()));$ddl$;
+  end if;
+  if to_regclass('public.mastery_evidence') is not null and exists
+    (select 1 from pg_policies where schemaname='public'
+      and tablename='mastery_evidence' and policyname='mastery_evidence_self_read') then
+    execute $ddl$alter policy mastery_evidence_self_read on public.mastery_evidence using
+  (user_id=(select auth.uid()) or (select public.auth_role())='admin'::public.user_role);$ddl$;
+  end if;
+  if to_regclass('public.custom_exam_presets') is not null and exists
+    (select 1 from pg_policies where schemaname='public'
+      and tablename='custom_exam_presets' and policyname='custom_exam_presets_select_self') then
+    execute $ddl$alter policy custom_exam_presets_select_self on public.custom_exam_presets using
+  (user_id=(select auth.uid()));$ddl$;
+  end if;
+  if to_regclass('public.custom_exam_presets') is not null and exists
+    (select 1 from pg_policies where schemaname='public'
+      and tablename='custom_exam_presets' and policyname='custom_exam_presets_insert_self') then
+    execute $ddl$alter policy custom_exam_presets_insert_self on public.custom_exam_presets with check
+  (user_id=(select auth.uid()));$ddl$;
+  end if;
+  if to_regclass('public.custom_exam_presets') is not null and exists
+    (select 1 from pg_policies where schemaname='public'
+      and tablename='custom_exam_presets' and policyname='custom_exam_presets_update_self') then
+    execute $ddl$alter policy custom_exam_presets_update_self on public.custom_exam_presets using
+  (user_id=(select auth.uid())) with check (user_id=(select auth.uid()));$ddl$;
+  end if;
+  if to_regclass('public.custom_exam_presets') is not null and exists
+    (select 1 from pg_policies where schemaname='public'
+      and tablename='custom_exam_presets' and policyname='custom_exam_presets_delete_self') then
+    execute $ddl$alter policy custom_exam_presets_delete_self on public.custom_exam_presets using
+  (user_id=(select auth.uid()));$ddl$;
+  end if;
+end $optional$;
 
 -- Identical partial btree indexes: neither is a constraint index.
 drop index if exists public.idx_questions_source_ref;
