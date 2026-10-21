@@ -313,6 +313,12 @@ export default function GroupMockPage() {
   }, [roomId, setSearchParams])
 
   useEffect(() => {
+    if (!roomId || !recentRoomKey) return
+    try { window.localStorage.setItem(recentRoomKey, roomId) }
+    catch { /* No local storage: server room list still offers resume. */ }
+  }, [roomId, recentRoomKey])
+
+  useEffect(() => {
     requestSequence.current += 1
     if (!roomId) {
       setState(null)
