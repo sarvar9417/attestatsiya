@@ -1,0 +1,36 @@
+name: TASK-423 flowchart source QA
+
+on:
+  pull_request:
+    paths:
+      - 'docs/qa/task423-flowcharts/**'
+      - 'scripts/task423-*.mjs'
+      - '.github/workflows/task423-flowcharts.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-flowcharts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Ensure Graphviz is present
+        run: |
+          if ! command -v dot >/dev/null; then
+            sudo apt-get update
+            sudo apt-get install -y graphviz
+          fi
+          dot -V
+      - name: Validate source, graph topology and SVG security
+        run: node --test scripts/task423-flowcharts.test.mjs
+      - name: Render review-only SVGs outside public
+        run: node scripts/task423-render-flowcharts.mjs /tmp/task423-flowcharts
+      - name: Confirm exactly ten SVG previews
+        run: |
+          test "$(find /tmp/task423-flowcharts -maxdepth 1 -type f -name 'savol_*.svg' | wc -l)" -eq 10
