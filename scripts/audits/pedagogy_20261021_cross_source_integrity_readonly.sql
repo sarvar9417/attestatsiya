@@ -44,6 +44,19 @@ FROM public.pedagogy_pdf_source_candidates
 WHERE source_file_name='Pedagogik mahorat to''plam 2025 (6).pdf'
   AND 'editorial_reject_duplicate_already_published_same_full_stem_and_key'=ANY(source_quality_flags);
 
+-- Autumn source Q2 was also a complete answer-and-stem copy of a previously
+-- verified and publicly linked base-source item. Verify its provenance link.
+SELECT copy.source_question_no,copy.editorial_status,
+       canonical.source_file_name AS representative_file,
+       canonical.source_question_no AS representative_source_no,
+       canonical.linked_question_id IS NOT NULL AS representative_published,
+       copy.linked_question_id IS NOT NULL AS copy_published
+FROM public.pedagogy_pdf_source_candidates copy
+LEFT JOIN public.pedagogy_pdf_source_candidates canonical
+  ON canonical.id=copy.near_duplicate_of_candidate_id
+WHERE copy.source_file_name='Pedmahorat to''plam 2025 kuzgi (3).pdf'
+  AND copy.source_question_no=2;
+
 -- Source-only truncated answers must not be treated as independently keyed or published.
 SELECT source_question_no,page_no,editorial_status,answer_key_status,
        linked_question_id IS NOT NULL as public_link
