@@ -166,7 +166,7 @@ function GroupQuestionCard({
 
 export default function GroupMockPage() {
   const [searchParams, setSearchParams] = useSearchParams()
-  const { user } = useAuth()
+  const { user, loading: authLoading } = useAuth()
   const roomId = searchParams.get('room')
   const [joinCode, setJoinCode] = useState(searchParams.get('code') ?? '')
   const [mode, setMode] = useState<GroupMockMode>('spec')
@@ -214,6 +214,7 @@ export default function GroupMockPage() {
       setConnectionWarning(null)
       return
     }
+    if (authLoading) return
     setState(null)
     void refresh().catch(err => setError(err instanceof Error ? err.message : 'Xona yuklanmadi'))
     const timer = window.setInterval(() => {
@@ -225,10 +226,10 @@ export default function GroupMockPage() {
       requestSequence.current += 1
       window.clearInterval(timer)
     }
-  }, [roomId, refresh])
+  }, [roomId, refresh, authLoading])
 
   useEffect(() => {
-    if (roomId || !user?.id) return
+    if (roomId || !user?.id || authLoading) return
     let active = true
     setRoomsLoading(true)
     void listMyGroupMockRooms().then(rooms => {
@@ -237,7 +238,7 @@ export default function GroupMockPage() {
       if (active) setRoomsError(err instanceof Error ? err.message : 'Xonalar ro‘yxati yuklanmadi')
     }).finally(() => { if (active) setRoomsLoading(false) })
     return () => { active = false }
-  }, [roomId, user?.id])
+  }, [roomId, user?.id, authLoading])
 
   useEffect(() => {
     if (roomId || mode === 'spec' || catalog.length) return
@@ -319,7 +320,7 @@ export default function GroupMockPage() {
     void navigator.clipboard?.writeText(url.toString())
   }
   const refreshRooms = () => {
-    if (roomsLoading) return
+    if (roomsLoading || authLoading) return
     setRoomsLoading(true)
     void listMyGroupMockRooms().then(rooms => {
       setMyRooms(rooms)
@@ -365,21 +366,21 @@ export default function GroupMockPage() {
             <input aria-label="Xona kodi" value={joinCode} maxLength={8}
               onChange={e => setJoinCode(e.target.value.toUpperCase())}
               className={field + ' sm:max-w-xs'} placeholder="Masalan: A12BC34D" />
-            <button disabled={busy || joinCode.trim().length !== 8} type="button" className={action} onClick={join}>Kirish</button>
+            <button disabled={authLoading || busy || joinCode.trim().length !== 8} type="button" className={action} onClick={join}>Kirish</button>
           </div>
         </section>
         <section className={panel}>
           <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
             <h2 className="text-lg font-bold dark:text-white">Mening guruhli testlarim</h2>
-            <button type="button" disabled={roomsLoading} onClick={refreshRooms}
+            <button type="button" disabled={roomsLoading || authLoading} onClick={refreshRooms}
               className="inline-flex min-h-10 items-center gap-2 rounded-lg border border-gray-300 px-3 text-sm dark:border-gray-700 dark:text-gray-200">
               <RefreshCw size={16} className={roomsLoading ? 'animate-spin' : ''} /> Yangilash
             </button>
           </div>
           {roomsError && <p role="alert" className="mb-3 text-sm text-red-600">{roomsError}</p>}
-          {myRooms.length === 0 ? (
+          {!roomsError && myRooms.length === 0 ? (
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              {roomsLoading ? 'Xonalar qidirilmoqda...' : 'Hali saqlangan guruhli testingiz yo‘q.'}
+              {roomsLoading || authLoading ? 'Xonalar qidirilmoqda...' : 'Hali saqlangan guruhli testingiz yo‘q.'}
             </p>
           ) : (
             <div className="space-y-2">

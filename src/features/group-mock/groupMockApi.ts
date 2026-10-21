@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { typedSupabase } from '../../lib/supabase'
+import { sessionStore } from '../auth/sessionStore'
 import { examItemSchema, postgresUuidSchema } from '../exam/contracts'
 
 const roomRef = z.object({ room_id: z.string().uuid(), code: z.string().regex(/^[A-F0-9]{8}$/) })
@@ -89,17 +89,46 @@ const messages: Record<string, string> = {
   group_host_cannot_leave: 'Tashkilotchi xonadan chiqish o‘rniga uni bekor qilishi mumkin.',
 }
 
-type RpcResult = { data: unknown; error: { message: string } | null }
-type RpcCall = (name: string, args: Record<string, unknown>) => PromiseLike<RpcResult>
-const rpc = typedSupabase.rpc.bind(typedSupabase) as unknown as RpcCall
-
+// The platform authenticates through /api/auth and stores its JWT in sessionStore.
+// A separate Supabase client has no knowledge of that session and sends the anon
+// token instead. Call the PostgREST RPC with the actual authenticated JWT.
 async function call(name: string, args: Record<string, unknown>): Promise<unknown> {
-  const { data, error } = await rpc(name, args)
-  if (error) {
-    const code = /group_[a-z_]+/.exec(error.message)?.[0] ?? ''
+  const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined
+  const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined
+  const token = sessionStore.get()?.access_token
+  if (!token) throw new Error(messages.group_auth_required)
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+    throw new Error('Guruhli test serveri sozlanmagan. Administratorga xabar bering.')
+  }
+
+  let response: Response
+  try {
+    response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${name}`, {
+      method: 'POST',
+      headers: {
+        apikey: SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(args),
+    })
+  } catch {
+    throw new Error('Guruhli test serveriga ulanib bo‘lmadi. Internetni tekshiring.')
+  }
+
+  const payload: unknown = await response.json().catch(() => null)
+  if (!response.ok) {
+    const details = payload && typeof payload === 'object' ? payload as {
+      message?: string; code?: string
+    } : {}
+    const code = /group_[a-z_]+/.exec(details.message ?? '')?.[0] ?? ''
+    if (response.status === 401 || response.status === 403 ||
+      details.code === '42501' || details.code === 'PGRST301') {
+      throw new Error('Guruhli testga kirish ruxsati tasdiqlanmadi. Hisobingizdan chiqib, qayta kiring.')
+    }
     throw new Error(messages[code] ?? 'Guruhli test serveri javob bermadi. Qayta urinib ko‘ring.')
   }
-  return data
+  return payload
 }
 
 export async function listMyGroupMockRooms(): Promise<GroupMockRoomSummary[]> {
