@@ -1,3 +1,11 @@
+## TASK-371 — M15 Y1 pedagogika 56 izoh sifatini chuqurlashtirish (2026-10-21)
+
+- 2026-10-21 read-only QA: 5 415 published savoldan 1 945 tasida 70 belgidan qisqa izoh; M15 `authored:m15-topictest-20261018:*` qismidagi 8 mavzu bo‘yicha 56 published Y1 savol uchun alohida didaktik izoh tayyorlandi.
+- **Immutable release:** published savollar, javob kalitlari va exam attempts o‘zgartirilmadi. `supabase/maintenance/task371_m15_56_explanation_revisions_ROLLBACK_ONLY.sql` — qo‘lda ko‘riladigan, ROLLBACK-only tayyorlama, migration emas, productionda bajarilmagan.
+- Read-only audit: `supabase/maintenance/task371_m15_short_explanation_audit_READONLY.sql`. Vitest: `src/tests/task371M15PedagogyDraft.test.ts`.
+- Report: `docs/TASK371_M15_56_PEDAGOGY_EXPLANATIONS_20261021.md`.
+- **User release rule:** faqat GitHub `main`ga merge. Production deploy, db push, publish yoki migration explicit alohida ruxsatgacha taqiqlangan.
+
 ## TASK-350 — Kasb standarti darsidagi ortiqcha Telegram izohlarini tozalash (2026-10-21)
 
 - **Root cause:** `public.lessons.body_mdx`ga import qilingan Telegram matnining sarlavha, manba havolasi va tahririy izlari o‘quvchi BookReaderiga ham ko‘chgan. `oquv-jarayonini-rejalashtirish`da `/15293` asosiy misol.
