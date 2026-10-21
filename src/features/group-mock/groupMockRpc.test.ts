@@ -92,6 +92,16 @@ describe('group mock RPC authentication regression', () => {
     )
   })
 
+  it('surfaces PostgreSQL statement timeout as a useful error', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify({
+      code: '57014', message: 'canceling statement due to statement timeout',
+    }), { status: 500 })))
+
+    await expect(createGroupMock('spec', {})).rejects.toThrow(
+      'Guruhli test uchun savollarni tayyorlash muddati tugadi.',
+    )
+  })
+
   it('distinguishes network unavailability from an empty rooms list', async () => {
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new TypeError('Failed to fetch')))
     await expect(listMyGroupMockRooms()).rejects.toThrow('Internetni tekshiring.')

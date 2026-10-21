@@ -122,6 +122,9 @@ async function call(name: string, args: Record<string, unknown>): Promise<unknow
       message?: string; code?: string
     } : {}
     const code = /group_[a-z_]+/.exec(details.message ?? '')?.[0] ?? ''
+    if (details.code === '57014') {
+      throw new Error('Guruhli test uchun savollarni tayyorlash muddati tugadi. Qayta urinib ko‘ring yoki boshqa tanlovni sinang.')
+    }
     if (response.status === 401 || response.status === 403 ||
       details.code === '42501' || details.code === 'PGRST301') {
       throw new Error('Guruhli testga kirish ruxsati tasdiqlanmadi. Hisobingizdan chiqib, qayta kiring.')
