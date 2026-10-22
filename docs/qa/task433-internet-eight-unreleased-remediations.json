@@ -9,10 +9,10 @@
       "source_no": 2,
       "stem": "Ikki maktabning mustaqil lokal kompyuter tarmoqlari marshrutizatorlar orqali yagona aloqa tizimiga bog‘landi. Bu jarayonni eng aniq qaysi atama ifodalaydi?",
       "options": [
-        "Internetworking — alohida tarmoqlarni o‘zaro bog‘lash.",
-        "Intranet — har qanday tashqi tarmoqqa chiqishsiz bitta foydalanuvchi kompyuteri.",
-        "Internet Explorer — barcha turdagi tarmoqlarni bog‘laydigan fizik uskuna.",
-        "Information Network — faqat veb-sahifalarni saqlovchi katalog."
+        "Internetworking: mustaqil IP tarmoqlarini marshrutlash orqali o‘zaro ulash.",
+        "Link aggregation: bitta kabel o‘rnida parallel interfeyslarni birlashtirish.",
+        "Network address translation: private IP manzillarni boshqa adreslarga tarjima qilish.",
+        "DNS resolution: domen nomini IP manzilga aylantirish."
       ],
       "correct_idx": 0,
       "explanation": "Internetworking bir nechta mustaqil tarmoqni o‘zaro ulash jarayonidir. Original «Internet so‘zi nimaning qisqartmasi» savoli tarixiy/terminologik jihatdan aniq emas; bu tahrir atamani real tarmoq vaziyati orqali sinaydi.",
@@ -23,10 +23,10 @@
       "source_no": 9,
       "stem": "`https://maktab.uz/dars/1?til=uz#top` URLidagi `?til=uz` fragmenti nimani ifodalaydi?",
       "options": [
-        "URL sxemasini belgilaydi.",
-        "Xostning domen nomini belgilaydi.",
-        "So‘rov parametrini (query string) bildiradi.",
-        "HTML hujjatning ichki fragment identifikatorini bildiradi."
+        "URL sxemasini bildiradi: qaysi uzatish usuli qo‘llanadi.",
+        "URL yo‘lini bildiradi: serverdagi resursning joylashuvi.",
+        "URL so‘rov satrini bildiradi: parametr nomi va qiymati uzatiladi.",
+        "URL fragmentini bildiradi: hujjat ichidagi joy ko‘rsatiladi."
       ],
       "correct_idx": 2,
       "explanation": "`?til=uz` query parametridir; `https` scheme, `maktab.uz` host, `#top` esa fragment. Original «URL nechta asosiy qismdan iborat» savolida sanash konvensiyasi ko‘rsatilmagan.",
@@ -37,10 +37,10 @@
       "source_no": 11,
       "stem": "Brauzerga `https://dars.maktab.uz/kurs/2` manzili kiritildi. Shu URLning host (domen nomi) qismini aniqlang.",
       "options": [
-        "`https`",
-        "`dars.maktab.uz`",
-        "`/kurs/2`",
-        "`uz/kurs`"
+        "`https://dars.maktab.uz` — sxema va hostname birgalikda.",
+        "`dars.maktab.uz` — aynan hostname qismi.",
+        "`maktab.uz/kurs/2` — registratsiya qilingan domen va yo‘l birgalikda.",
+        "`/kurs/2` — resurs yo‘li, hostname qismini o‘z ichiga oladi."
       ],
       "correct_idx": 1,
       "explanation": "HTTP URLida authority tarkibidagi hostname `dars.maktab.uz`. `https` sxema, `/kurs/2` yo‘l; shunchaki `.uz` butun domen/host nomi bilan teng emas.",
@@ -51,10 +51,10 @@
       "source_no": 16,
       "stem": "Maktabning arxiv saytida faqat administrator maqolalarni nashr qiladi; odatiy tashrifchi ularni o‘qishi mumkin, lekin sahifa mazmunini to‘g‘ridan-to‘g‘ri tahrirlay olmaydi. Bu model qaysi tavsifga mos?",
       "options": [
-        "Foydalanuvchi hamkorlikda kontentni o‘zgartiradigan wiki modeli.",
-        "O‘quvchi faqat ko‘radigan, nashr huquqi muallif/administratorga tegishli statik veb tajribasi.",
-        "Har bir tashrifchi serverning barcha manba fayllariga avtomatik yozish huquqi oladi.",
-        "Brauzer va server orasidagi TCP transport protokoli modeli."
+        "Anonim tashrifchilar ham mazmunni bevosita tahrirlashi mumkin bo‘lgan hamkorlikdagi wiki.",
+        "Muallif yoki administrator nashr etadigan, tashrifchi esa o‘qiydigan read-only veb modeli.",
+        "Brauzer orqali tahrir qilish mumkin, lekin faqat server IP manzili ma’lum bo‘lsa.",
+        "Faqat foydalanuvchi yaratgan materialni avtomatik nashr qiluvchi ommaviy forum."
       ],
       "correct_idx": 1,
       "explanation": "Web 1.0 deb tavsiflanadigan an’anaviy read-only saytlar ko‘pincha kontentni nashr qiluvchi muharrirga bog‘liq; «faqat veb-dasturchi» degan universal qat’iy qoida noto‘g‘ri.",
@@ -65,10 +65,10 @@
       "source_no": 20,
       "stem": "Bir veb-ilova ma’lumotlarni mashina o‘qishi mumkin bo‘lgan RDF shaklida ifodalaydi va turli manbalardagi tushunchalarni URI orqali bog‘laydi. Bu yondashuv nimaga yaqin?",
       "options": [
-        "Semantik veb va bog‘langan ma’lumotlar (Linked Data) yondashuvi.",
-        "Faqat statik HTMLni hech qanday metama’lumotsiz ko‘rsatish yondashuvi.",
-        "Kabeldagi elektr signalini kuchaytirish yondashuvi.",
-        "Faqat brauzerda rang sxemasini tanlash yondashuvi."
+        "RDF graflari va URI identifikatorlar bilan mashina talqin qila oladigan bog‘langan ma’lumotlar.",
+        "HTMLda faqat ko‘rinish va rang xossalarini CSS bilan yozish.",
+        "REST API orqali ma’lumot almashish, lekin semantik model va ontologiya ishlatmaslik.",
+        "Faqat oddiy matnlarni veb-sahifadan nusxalash va butun tarkibni indekslamaslik."
       ],
       "correct_idx": 0,
       "explanation": "RDF va URI orqali resurslar semantik tavsifi Linked Data / Semantic Web kontseptsiyasiga xos. «Web 3.0» atamasi esa semantik veb, decentralizatsiya va boshqa turli talqinlarda ishlatiladi, shu bois original savol yagona ma’noga ega emas.",
@@ -79,10 +79,10 @@
       "source_no": 21,
       "stem": "O‘quv platformasi foydalanuvchining o‘zi tanlagan fanlari va o‘zlashtirish tarixini hisobga olib yangi darslarni tavsiya qiladi. Quyidagi qaysi funksiya aynan shunday moslashuvni amalga oshiradi?",
       "options": [
-        "Har bir foydalanuvchiga bir xil tasodifiy darsni ko‘rsatish.",
-        "Foydalanuvchi ma’lumotlari asosida darslarni shaxsiy tavsiya qilish.",
-        "Barcha foydalanuvchilar uchun kontentni har kuni o‘chirib tashlash.",
-        "Serverning DNS yozuvini doimo foydalanuvchi nomi bilan almashtirish."
+        "Oldindan tayyorlangan bitta darslar ketma-ketligini barcha foydalanuvchiga ko‘rsatish.",
+        "O‘rganish tarixiga qarab tavsiyalarni foydalanuvchiga mos saralash.",
+        "Darslarni faqat yaratish sanasi bo‘yicha butun auditoriyaga bir xil tartiblash.",
+        "O‘quvchining ehtiyojidan qat’i nazar tasodifiy darsni eng yuqoriga ko‘tarish."
       ],
       "correct_idx": 1,
       "explanation": "Tavsiyalash tizimi foydalanuvchi kontekstini inobatga olib tanlovni moslashtiradi; bu xususiyat Web 3.0 bilangina cheklanmaydi va original avlodga oid umumiy ifoda noaniq edi.",
@@ -93,10 +93,10 @@
       "source_no": 33,
       "stem": "Talaba qidiruv tizimiga `python loop` so‘rovini yubordi. Natijada hujjat sarlavhasi, manzili va qisqacha parchalardan iborat ro‘yxat paydo bo‘ldi. Bu ro‘yxat qaysi tushunchaga mos?",
       "options": [
-        "Qidiruv tizimining natijalar sahifasi (SERP).",
-        "Brauzerning lokal fayllar tizimi ildizi.",
-        "IP paketidagi fizik MAC manzillari ro‘yxati.",
-        "DNS serverdagi operatsion tizim foydalanuvchilari jadvali."
+        "Qidiruv natijalari sahifasi (SERP): havola, sarlavha va qisqa mazmunni ko‘rsatadi.",
+        "Qidiruv indeksi: bot yig‘gan hujjatlarning server ichidagi qayta qidiriladigan ma’lumotlari.",
+        "Brauzer tarixi: foydalanuvchi ilgari ochgan saytlar va tashrif vaqtlarini ko‘rsatadi.",
+        "Sayt xaritasi: bitta veb-sayt muallifi belgilagan URL ro‘yxatini taqdim etadi."
       ],
       "correct_idx": 0,
       "explanation": "SERP odatda havolalar, sarlavhalar, snippetlar va ba’zan boy natijalardan iborat; original «gipermurojaatlar ro‘yxati» barcha holatlarni to‘liq qamrab olmaydi.",
@@ -107,10 +107,10 @@
       "source_no": 39,
       "stem": "Onlayn kurs platformasi foydalanuvchining tanlagan mavzulari va oldingi mashg‘ulotlari asosida keyingi video darslarni tartiblaydi. Bu qarorni qaysi mexanizm eng to‘g‘ri tavsiflaydi?",
       "options": [
-        "Mavzuga aloqasiz tasodifiy saralash.",
-        "Faqat foydalanuvchining IP manzili oxirgi raqamiga qarab tasniflash.",
-        "Foydalanuvchi xatti-harakati asosida ishlaydigan tavsiya va reytinglash algoritmi.",
-        "Darslarni serverga yuklangan sanasiga ko‘ra abadiy bir xil tartiblash."
+        "Tavsiyalarni barcha o‘quvchi uchun faqat qo‘shilgan sana bo‘yicha saralash.",
+        "Ommaviy trendlar asosida har bir foydalanuvchiga mutlaqo bir xil tavsiya ko‘rsatish.",
+        "Har bir o‘quvchining mavzu tanlovi va tarixiga tayangan shaxsiy reytinglash algoritmi.",
+        "Mashg‘ulotlar nomining alifbo tartibini yagona tavsiya mexanizmi qilib olish."
       ],
       "correct_idx": 2,
       "explanation": "Personalizatsiya tavsiya va ranking algoritmlari bilan bajariladi; buni faqat Web 3.0ning ta’riflovchi xossasi deb olish noto‘g‘ri. Tahrir harakatni konkret ma’lumot asosida sinaydi.",
