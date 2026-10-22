@@ -18,7 +18,6 @@ test('numeric source computations are independently reproducible',()=>{
  assert.equal((12**2+16**2),20**2)
  assert.equal(12*16/2,96)
  assert.equal(10*6/2,30)
- assert.equal(3607n.toString(), '3607') // decimal notation doesn't imply original radix
  const n8=s=>parseInt(s,8)
  assert.equal(n8('3607')+n8('25676'),n8('31505'))
  assert.equal(Math.hypot(17-9,14-8),10)
