@@ -36,7 +36,7 @@ Har ikki partiya uchun alohida production SQL regressiya testlari muvaffaqiyatli
 ## GitHub yozuvlari
 
 - `supabase/migrations/20261022008000_task404_ten_y1_info_office_security_distractor_balance.sql`
-- `supabase/migrations/20261022009000_task405_ten_y1_algorithms_python_js_security_semantic_repair.sql`
+- `supabase/migrations/20261022080902_task405_ten_y1_algorithms_python_js_security_semantic_repair.sql`
 - `supabase/tests/task404_info_office_security_y1_balance_release.test.sql`
 - `supabase/tests/task405_algorithms_python_js_security_y1_release.test.sql`
 - `.github/workflows/ci.yml`: productiondagi original savol qatorlari talab qiladigan ushbu ikki migratsiya yangi bo‘sh schema/bootstrap uchun **ikki CI yo‘lida** istisno qilingan. Bu texnik qarz — kelgusida mustaqil source fixturelar bilan qayta bajariladigan testlar kerak.
