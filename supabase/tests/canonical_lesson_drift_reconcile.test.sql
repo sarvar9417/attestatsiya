@@ -162,6 +162,25 @@ begin
                      and em.code='M13'
                      and edition.slug ~ '^m13-axr-0[1-7]$'
                  ))
+        -- TASK-402/403 M13 immutable revisions use their source AXR edition lesson.
+        and not (lane.module_code = 'M13'
+          and q.status in ('review'::public.content_status,'published'::public.content_status,'archived'::public.content_status)
+          and (coalesce(q.source_reference,'') like 'revision:TASK-402:AI-edited:%'
+               or coalesce(q.source_reference,'') like 'revision:TASK-403:AI-edited:%')
+          and exists (
+            select 1 from public.question_bank_revisions br
+            join public.questions original on original.id=br.source_question_id
+            join public.lessons edition on edition.id=q.source_lesson_id
+            join public.modules em on em.id=edition.module_id
+            join public.lesson_constructs lc402 on lc402.lesson_id=edition.id and lc402.construct_id=q.construct_id
+            where br.revision_question_id=q.id
+              and br.revision_kind='owner_ai_y1_option_length_semantic_repair'
+              and original.source_reference like 'm13-axr-v1:Y1:AXR-%'
+              and original.construct_id=q.construct_id
+              and original.source_lesson_id=q.source_lesson_id
+              and em.code='M13'
+              and edition.slug ~ '^m13-axr-0[1-7]$'
+          ))
         -- TASK-306 exact seven source-backed REVIEW 4x5 matching revisions.
         and not (lane.module_code = 'M13'
           and q.status in ('review'::public.content_status,'published'::public.content_status)
