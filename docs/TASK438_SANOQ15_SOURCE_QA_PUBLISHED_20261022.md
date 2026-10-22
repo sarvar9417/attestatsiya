@@ -1,0 +1,7 @@
+# TASK-438 — Sanoq sistemalari 1.pdf 15 new corrected Y1 releases
+
+Original source: [Sanoq sistemalari 1.pdf](https://drive.google.com/file/d/1QQrFePltR2GBNy5lb_Hs4JsKLUcwCWHP/view), 21 source candidates. 15 numbers #1,2,3,5,7,11,12,13,14,15,16,17,18,19,20 have independently worked exact numeric solutions and rewritten options (60 unique choices). Original 6/8 were separately rewritten/published in TASK-428; #4 uses invalid A digit in base 9, #9 a damaged exponent notation, #10 an under-specified binary integer; source versions not automatically keyed.
+
+Exemplar worked answers: #1 right triangle 12/16/20 => area 96; #3 base 8; #5 distance 1010₂; #12 x=7=>111₂; #14 22.65₁₀=34.35(2)₆; #16 distance 23₅; #17 hypotenuse 50₉; #18 parity-digit sum difference −8; #19 minimum base 11 and arithmetic mean 529₁₁; #20 non-divisible-by-6 sum =65₇.
+
+`supabase/maintenance/task438_publish_15_base_arithmetic_y1.sql`: preflight all source IDs, visually checked pages, 4 distinct options+key+explanation, valid subject/construct/lesson, no duplicate stem; official eligibility and immutable snapshot postflight. Live Supabase ROLLBACK QA PASS, COMMIT PASS. AI-assisted owner-authorized successors, not original authored answer keys or human editorial signoff. Original source evidence and exam history preserved. Cross-file exact duplicates flagged; re-ingesting the same stem from similar PDFs must be prevented. `scripts/task438-sanoq15.test.mjs` independently evaluates base conversion and arithmetic in Node.
