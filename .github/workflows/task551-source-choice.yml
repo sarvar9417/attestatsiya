@@ -1,0 +1,19 @@
+name: TASK-551 source choice QA
+on:
+  pull_request:
+    paths:
+      - 'scripts/task551-encoding-options.test.mjs'
+      - '.github/workflows/task551-source-choice.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node --test scripts/task551-encoding-options.test.mjs
