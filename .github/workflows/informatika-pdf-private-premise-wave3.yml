@@ -1,0 +1,19 @@
+name: informatika-pdf-private-premise-wave3
+on:
+  pull_request:
+    paths:
+      - 'scripts/task-informatika-private-premise-wave3.test.mjs'
+      - 'docs/INFORMATIKA_PDF_QA_WAVE3_20261022.md'
+      - '.github/workflows/informatika-pdf-private-premise-wave3.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test scripts/task-informatika-private-premise-wave3.test.mjs
