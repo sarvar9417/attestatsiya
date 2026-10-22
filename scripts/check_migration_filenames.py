@@ -11,6 +11,14 @@ import sys
 NAME = re.compile(r"^(\d{14})_([a-z0-9_]+)\.sql$")
 
 
+# Two historical production-tracked migrations have invalid clock fields
+# (minute 80/90). Renaming changes their deployed migration identities.
+# Allow ONLY these known legacy filenames; reject all new invalid timestamps.
+LEGACY_APPLIED_INVALID_TIMESTAMPS = frozenset({
+    "20261022008000_task404_ten_y1_info_office_security_distractor_balance.sql",
+    "20261022009000_task405_ten_y1_algorithms_python_js_security_semantic_repair.sql",
+})
+
 def check_migrations(folder: Path) -> list[str]:
     if not folder.is_dir():
         return [f"Migration directory is missing: {folder}"]
@@ -27,7 +35,8 @@ def check_migrations(folder: Path) -> list[str]:
         try:
             datetime.strptime(version, "%Y%m%d%H%M%S")
         except ValueError:
-            errors.append(f"Invalid migration timestamp: {file.name}")
+            if file.name not in LEGACY_APPLIED_INVALID_TIMESTAMPS:
+                errors.append(f"Invalid migration timestamp: {file.name}")
         if version in seen:
             errors.append(f"Duplicate migration version {version}: {seen[version]}, {file.name}")
         else:
