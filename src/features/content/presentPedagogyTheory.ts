@@ -19,6 +19,7 @@ function learnerHeading(heading: string): string {
     .replace(/^Chuqurlashtirilgan nazariya\s*[—-]\s*manba korpusi.*$/i, 'Chuqurlashtirilgan nazariya')
     .replace(/^Tekshirilgan qo‘shimcha:\s*/i, '')
     .trim()
+    .replace(/^([a-z])/i, first => first.toUpperCase())
 }
 
 function learnerSentence(text: string): string {
