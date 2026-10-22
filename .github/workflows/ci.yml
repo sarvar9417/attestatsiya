@@ -214,40 +214,12 @@ jobs:
               supabase/migrations/20261022002000_task398_ten_y1_informatika_office_security_answer_length_repairs.sql|\
               supabase/migrations/20261022003000_task399_ten_y1_info_office_security_second_answer_length_repairs.sql|\
               supabase/migrations/20261022004000_task400_ten_y1_hardware_network_length_bias_repairs.sql|\
-              supabase/migrations/20261022005000_task401_ten_y1_information_hardware_concept_length_repairs.sql)
-                echo "Skipping previously applied production-only owner-data release in clean-schema CI: ${migration}"
-                continue
-                ;;
-              supabase/migrations/20261022031000_task428_pedguli_verified_batch02.sql)
-                # TASK-428 is an owner-approved release of 22 new pedagogical
-                # items plus 2 PRE-EXISTING, PRIVATE, review-stage source rows.
-                # An empty CI database intentionally does not contain those
-                # two exact fingerprint-pinned rows. Production already has
-                # all 22 original questions, keys and owner release waivers.
-                # Do not weaken/replace the production migration's preflight
-                # fingerprint or history checks to make fresh CI green.
-                if ! grep -Fq 'TASK428_PINNED_REVIEW_CHANGED' "${migration}" || \
-                   ! grep -Fq 'TASK428_RELEASE_SCOPE_%_OF_24' "${migration}"; then
-                  echo "ERROR: TASK428's strict production data preflight has changed"
-                  exit 1
-                fi
-                echo "Skipping already-applied production-only TASK428 24-item owner release in clean-schema CI: ${migration}"
-                continue
-                ;;
-              supabase/migrations/20261022032000_task428_pedguli_verified_batch03.sql)
-                # TASK-428 batch03 contains 21 previously published private
-                # pedagogical source questions but its release requires the
-                # REAL owner/admin profile. A fresh anonymous CI DB has none;
-                # it cannot replay the owner-authorized release faithfully.
-                # Production was checked read-only: all 21 original records,
-                # their keys and owner release waivers exist (10 published,
-                # 11 subsequently archived through immutable revisions).
-                if ! grep -Fq 'TASK428_B03_OWNER_NOT_UNIQUE' "${migration}" || \
-                   ! grep -Fq 'TASK428_B03_PUBLISHED_%' "${migration}"; then
-                  echo "ERROR: TASK428 batch03 owner/quality release guards have changed"
-                  exit 1
-                fi
-                echo "Skipping already-applied production-only TASK428 21-item owner release in clean-schema CI: ${migration}"
+              supabase/migrations/20261022005000_task401_ten_y1_information_hardware_concept_length_repairs.sql|\
+              supabase/migrations/20261022031000_task428_pedguli_verified_batch02.sql|\
+              supabase/migrations/20261022032000_task428_pedguli_verified_batch03.sql|\
+              supabase/migrations/20261022033000_task428_pedguli_verified_batch04.sql|\
+              supabase/migrations/20261022034000_task428_pedguli_verified_batch05.sql)
+                echo "Skipping previously applied production-specific data release in clean-schema CI: ${migration}"
                 continue
                 ;;
             esac
@@ -464,8 +436,12 @@ jobs:
               supabase/migrations/20261022002000_task398_ten_y1_informatika_office_security_answer_length_repairs.sql|\
               supabase/migrations/20261022003000_task399_ten_y1_info_office_security_second_answer_length_repairs.sql|\
               supabase/migrations/20261022004000_task400_ten_y1_hardware_network_length_bias_repairs.sql|\
-              supabase/migrations/20261022005000_task401_ten_y1_information_hardware_concept_length_repairs.sql)
-                echo "Skipping previously applied production-only Office Y3 data revision in clean-schema CI: ${migration}"
+              supabase/migrations/20261022005000_task401_ten_y1_information_hardware_concept_length_repairs.sql|\
+              supabase/migrations/20261022031000_task428_pedguli_verified_batch02.sql|\
+              supabase/migrations/20261022032000_task428_pedguli_verified_batch03.sql|\
+              supabase/migrations/20261022033000_task428_pedguli_verified_batch04.sql|\
+              supabase/migrations/20261022034000_task428_pedguli_verified_batch05.sql)
+                echo "Skipping previously applied production-specific data release in clean-schema CI: ${migration}"
                 continue
                 ;;
             esac
