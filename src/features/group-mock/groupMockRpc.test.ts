@@ -83,10 +83,9 @@ describe('group mock RPC authentication regression', () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(
       new Response(JSON.stringify(oldClientPayload), { status: 200 }),
     ))
-    await expect(getGroupMockState(oldClientPayload.room_id))
-      .rejects.toBeInstanceOf(GroupMockClientVersionError)
-    await expect(getGroupMockState(oldClientPayload.room_id))
-      .rejects.toThrow(/Sahifani yangilang/)
+    const error = await getGroupMockState(oldClientPayload.room_id).catch(value => value)
+    expect(error).toBeInstanceOf(GroupMockClientVersionError)
+    expect((error as Error).message).toMatch(/Sahifani yangilang/)
   })
 
   it('uses the same authenticated credentials when creating rooms', async () => {
