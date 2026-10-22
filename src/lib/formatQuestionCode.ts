@@ -98,11 +98,35 @@ function formatPython(code: string): string {
   )
 }
 
+/**
+ * Pretty-print only conservative, multi-rule inline CSS (no quotes, functions,
+ * comments, at-rules or nested blocks). Never interpret or execute source HTML.
+ * Unrecognised or intentionally tricky CSS stays byte-for-byte unchanged.
+ */
+function formatPackedCss(code: string): string {
+  if (code.includes('\n') || /["'\u0060()@]/.test(code) || /\/\*|\/\//.test(code)) return code
+  const rulePattern = /([^{}]+)\{([^{}]*)\}/g
+  const rules = [...code.matchAll(rulePattern)]
+  if (rules.length < 2 || code.replace(rulePattern, '').trim()) return code
+
+  const formatted: string[] = []
+  for (const match of rules) {
+    const selector = match[1].trim()
+    const declarations = match[2].split(';').map(item => item.trim()).filter(Boolean)
+    if (!selector || !declarations.length || declarations.some(item =>
+      !/^[a-zA-Z-]+\s*:\s*[^:;{}]+$/.test(item)
+    )) return code
+    formatted.push(selector + ' {\n' + declarations.map(item => '  ' + item + ';').join('\n') + '\n}')
+  }
+  return formatted.join('\n')
+}
+
 /** Keep short single-statement examples unchanged. */
 export function formatCodeForDisplay(code: string, language?: string): string {
   const lang = (language ?? '').toLowerCase()
   if (lang === 'javascript' || lang === 'js') return formatJavaScript(code)
   if (lang === 'python' || lang === 'py') return formatPython(code)
+  if (lang === 'css') return formatPackedCss(code)
   return code
 }
 
@@ -113,6 +137,18 @@ export function formatCodeForDisplay(code: string, language?: string): string {
  */
 export function prepareExamCodeText(source: string): string {
   if (source.includes(CODE_FENCE)) return source
+
+  // Legacy "CSS: `rule{a:b} other{c:d}`" questions need a real code block.
+  // Restrict promotion to explicit CSS labels and safely parsed multi-rule CSS.
+  const packedCss = /^(\s*CSS\s*:\s*)`([^`\n]+)`/i.exec(source)
+  if (packedCss) {
+    const formattedCss = formatPackedCss(packedCss[2])
+    if (formattedCss !== packedCss[2]) {
+      return packedCss[1].trimEnd() + '\n\n' + CODE_FENCE + 'css\n' +
+        formattedCss + '\n' + CODE_FENCE + '\n\n' +
+        source.slice(packedCss[0].length).trimStart()
+    }
+  }
 
   const tick = String.fromCharCode(96)
   const expression = new RegExp(tick + '([^' + tick + '\\n]+)' + tick, 'g')
