@@ -1,7 +1,7 @@
 {
   "task": "TASK-433",
   "source_file_id": "1PGTYxUSxB4rCHkjnNlIfmyjlTLd2-BzX",
-  "editorial_state": "proposed_new_immutable_revision_not_published",
+  "editorial_state": "separate_new_y1_successors_published_in_supabase",
   "human_approved": false,
   "source_existing_published_successor": false,
   "questions": [
@@ -17,7 +17,8 @@
       "correct_idx": 0,
       "explanation": "Internetworking bir nechta mustaqil tarmoqni o‘zaro ulash jarayonidir. Original «Internet so‘zi nimaning qisqartmasi» savoli tarixiy/terminologik jihatdan aniq emas; bu tahrir atamani real tarmoq vaziyati orqali sinaydi.",
       "construct": "S6.NET.01",
-      "lesson": "ab330370-8a99-133c-8593-484d325d5155"
+      "lesson": "ab330370-8a99-133c-8593-484d325d5155",
+      "separate_successor_published": true
     },
     {
       "source_no": 9,
@@ -31,7 +32,8 @@
       "correct_idx": 2,
       "explanation": "`?til=uz` query parametridir; `https` scheme, `maktab.uz` host, `#top` esa fragment. Original «URL nechta asosiy qismdan iborat» savolida sanash konvensiyasi ko‘rsatilmagan.",
       "construct": "S6.NET.05",
-      "lesson": "dc1441a7-7a25-2d46-f347-58eda433becd"
+      "lesson": "dc1441a7-7a25-2d46-f347-58eda433becd",
+      "separate_successor_published": true
     },
     {
       "source_no": 11,
@@ -45,7 +47,8 @@
       "correct_idx": 1,
       "explanation": "HTTP URLida authority tarkibidagi hostname `dars.maktab.uz`. `https` sxema, `/kurs/2` yo‘l; shunchaki `.uz` butun domen/host nomi bilan teng emas.",
       "construct": "S6.NET.05",
-      "lesson": "dc1441a7-7a25-2d46-f347-58eda433becd"
+      "lesson": "dc1441a7-7a25-2d46-f347-58eda433becd",
+      "separate_successor_published": true
     },
     {
       "source_no": 16,
@@ -59,7 +62,8 @@
       "correct_idx": 1,
       "explanation": "Web 1.0 deb tavsiflanadigan an’anaviy read-only saytlar ko‘pincha kontentni nashr qiluvchi muharrirga bog‘liq; «faqat veb-dasturchi» degan universal qat’iy qoida noto‘g‘ri.",
       "construct": "S6.NET.05",
-      "lesson": "dc1441a7-7a25-2d46-f347-58eda433becd"
+      "lesson": "dc1441a7-7a25-2d46-f347-58eda433becd",
+      "separate_successor_published": true
     },
     {
       "source_no": 20,
@@ -73,7 +77,8 @@
       "correct_idx": 0,
       "explanation": "RDF va URI orqali resurslar semantik tavsifi Linked Data / Semantic Web kontseptsiyasiga xos. «Web 3.0» atamasi esa semantik veb, decentralizatsiya va boshqa turli talqinlarda ishlatiladi, shu bois original savol yagona ma’noga ega emas.",
       "construct": "S6.NET.05",
-      "lesson": "dc1441a7-7a25-2d46-f347-58eda433becd"
+      "lesson": "dc1441a7-7a25-2d46-f347-58eda433becd",
+      "separate_successor_published": true
     },
     {
       "source_no": 21,
@@ -87,7 +92,8 @@
       "correct_idx": 1,
       "explanation": "Tavsiyalash tizimi foydalanuvchi kontekstini inobatga olib tanlovni moslashtiradi; bu xususiyat Web 3.0 bilangina cheklanmaydi va original avlodga oid umumiy ifoda noaniq edi.",
       "construct": "S6.NET.05",
-      "lesson": "dc1441a7-7a25-2d46-f347-58eda433becd"
+      "lesson": "dc1441a7-7a25-2d46-f347-58eda433becd",
+      "separate_successor_published": true
     },
     {
       "source_no": 33,
@@ -101,7 +107,8 @@
       "correct_idx": 0,
       "explanation": "SERP odatda havolalar, sarlavhalar, snippetlar va ba’zan boy natijalardan iborat; original «gipermurojaatlar ro‘yxati» barcha holatlarni to‘liq qamrab olmaydi.",
       "construct": "S6.NET.05",
-      "lesson": "c1200000-0000-4000-8000-000000000005"
+      "lesson": "c1200000-0000-4000-8000-000000000005",
+      "separate_successor_published": true
     },
     {
       "source_no": 39,
@@ -115,7 +122,9 @@
       "correct_idx": 2,
       "explanation": "Personalizatsiya tavsiya va ranking algoritmlari bilan bajariladi; buni faqat Web 3.0ning ta’riflovchi xossasi deb olish noto‘g‘ri. Tahrir harakatni konkret ma’lumot asosida sinaydi.",
       "construct": "S6.NET.05",
-      "lesson": "c1200000-0000-4000-8000-000000000005"
+      "lesson": "c1200000-0000-4000-8000-000000000005",
+      "separate_successor_published": true
     }
-  ]
+  ],
+  "published_status_checked_20261022": true
 }
