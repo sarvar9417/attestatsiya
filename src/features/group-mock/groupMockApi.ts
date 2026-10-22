@@ -23,12 +23,14 @@ const answerSummary = z.object({
   is_correct: z.boolean().nullable(),
 })
 const stateSchema = roomRef.extend({
-  mode: z.enum(['spec', 'topics', 'manual']),
+  mode: z.enum(['spec', 'topics', 'manual', 'pedagogy']),
   status: z.enum(['lobby', 'question', 'reveal', 'paused', 'finished']),
   paused_from_status: z.enum(['lobby', 'question', 'reveal']).nullable(),
   is_host: z.boolean(),
   total_count: z.number().int().min(1).max(100),
   current_idx: z.number().int().min(1).max(100),
+  duration_minutes: z.number().int().positive().nullable().optional(),
+  deadline_at: z.string().datetime({offset:true}).nullable().optional(),
   members: z.array(member),
   messages: z.array(message),
   question: examItemSchema.nullable(),
@@ -40,7 +42,7 @@ const stateSchema = roomRef.extend({
 })
 export type GroupMockState = z.infer<typeof stateSchema>
 const myRoomSchema = roomRef.extend({
-  mode: z.enum(['spec', 'topics', 'manual']),
+  mode: z.enum(['spec', 'topics', 'manual', 'pedagogy']),
   status: z.enum(['lobby', 'question', 'reveal', 'paused', 'finished']),
   is_host: z.boolean(),
   total_count: z.number().int().min(1).max(100),
@@ -62,7 +64,7 @@ const bankQuestion = z.object({
   })),
 })
 export type BankQuestion = z.infer<typeof bankQuestion>
-export type GroupMockMode = 'spec' | 'topics' | 'manual'
+export type GroupMockMode = 'spec' | 'topics' | 'manual' | 'pedagogy'
 export type GroupMockTopic = { lesson_id: string; count: number; difficulty: number }
 
 const messages: Record<string, string> = {
@@ -82,6 +84,8 @@ const messages: Record<string, string> = {
   group_message_rate_limit: 'Keyingi xabar uchun 2 soniya kuting.',
   group_spec_pool_insufficient: 'Rasmiy spetsifikatsiyadagi kvota uchun savollar yetarli emas.',
   group_topic_pool_insufficient: 'Tanlangan mavzu va darajada savollar yetarli emas.',
+  group_pedagogy_pool_insufficient: 'Pedagogika uchun tasdiqlangan 20 ta savolni to‘plashga yetarli sifatli savollar yo‘q.',
+  group_pedagogy_pause_unavailable: '30 daqiqalik pedagogika sinovini boshlagandan keyin vaqtincha to‘xtatib bo‘lmaydi.',
   group_question_unavailable: 'Tanlangan savollardan biri nashr etilmagan yoki yaroqsiz.',
   group_too_many_rooms: 'Avval ochilgan guruhlaringizni yakunlang (maksimum 5 ta).',
   group_blueprint_unavailable: 'Faol rasmiy spetsifikatsiya topilmadi.',
