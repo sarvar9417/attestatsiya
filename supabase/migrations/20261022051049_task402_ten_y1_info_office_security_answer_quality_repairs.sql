@@ -34,7 +34,16 @@ DO $pre402$
 DECLARE c int;wrong int;
 BEGIN
  SELECT count(*) INTO c FROM task402_selection;
- IF c<>10 THEN RAISE EXCEPTION 'TASK-402 unmodified eligible original selection changed: %/10',c;END IF;
+ IF c<>10 THEN
+   RAISE NOTICE 'TASK402 preflight drift: %', (
+     SELECT jsonb_agg(jsonb_build_object(
+       'ref',left(m.ref,46),
+       'published',(SELECT count(*) FROM public.questions q WHERE q.source_reference=m.ref AND q.group_code=m.grp AND q.status='published'),
+       'eligible_findings',(SELECT count(*) FROM public.questions q JOIN public.question_quality_findings f ON f.question_id=q.id WHERE q.source_reference=m.ref AND q.group_code=m.grp AND f.finding_code='y1_answer_length_high_risk' AND f.resolved_at IS NULL),
+       'revisions',(SELECT count(*) FROM public.questions q JOIN public.question_bank_revisions br ON br.source_question_id=q.id WHERE q.source_reference=m.ref AND q.group_code=m.grp)
+     )) FROM task402_manifest m);
+   RAISE EXCEPTION 'TASK-402 unmodified eligible original selection changed: %/10',c;
+ END IF;
  SELECT count(*) INTO wrong
  FROM task402_selection s JOIN public.question_keys k ON k.question_id=s.original_id
  WHERE NOT EXISTS(
