@@ -64,7 +64,7 @@ export function validateM08Y3ReviewCandidate(value: unknown): string[] {
     for (const choice of choices) {
       const option = record(choice)
       if (!option || option.side !== 'a' || typeof option.content_md !== 'string'
-        || !option.content_md.trim() || !Number.isInteger(option.order_idx)) {
+        || !option.content_md.trim() || typeof option.order_idx !== 'number' || !Number.isInteger(option.order_idx)) {
         errors.push('malformed_option')
       } else {
         indices.push(option.order_idx as number)
