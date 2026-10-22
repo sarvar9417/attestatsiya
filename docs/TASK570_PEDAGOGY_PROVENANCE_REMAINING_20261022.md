@@ -15,3 +15,7 @@ Production Supabase `public.lessons`da 18 ta asosiy M14–M16 dars matni o‘qil
 Faqat `presentPedagogyTheory.ts`dagi **learner projection** yangilanadi; `public.lessons.body_mdx`, test savollari, to‘g‘ri javob kalitlari, manba auditlari va boshqa fanlar o‘zgarmaydi. `src/tests/task570PedagogyProvenanceRemaining.test.ts` real matn fragmentlari bilan tekshiradi. PR CI quality gate: frontend, backend, database.
 
 **Deploy:** yo‘q. **Production Supabase yozuvi:** yo‘q. **Rollback:** PRni revert qilish.
+
+## CI retrigger va bazaviy repo tekshiruvi
+
+PR #569 ning dastlabki CI ishga tushish paytida asosiy repodagi `20261022009000_task405_...` nomli tarixiy migratsiyani timestamp-validator rad etdi. Ushbu task SQL migratsiya fayllarini o‘zgartirmadi. Joriy `main` `scripts/check_migration_filenames.py` faylida faqat ilgari ishlab chiqarishda kuzatilgan ikkita tarixiy noto‘g‘ri vaqtga aniq allowlist mavjud. PRni yangi `main` bilan qayta tekshirish uchun ushbu eslatma kiritildi; quality gate natijasi muvaffaqiyatli bo‘lmasa birlashtirish mumkin emas.
