@@ -279,6 +279,7 @@ jobs:
             -f supabase/tests/adaptive_practice_selector.test.sql \
             -f supabase/tests/m01_professional_bank_import.test.sql \
             -f supabase/tests/section_mock_50.test.sql \
+            -f supabase/tests/adaptive_section_mock_contract.test.sql \
             -f supabase/tests/official_mock_50.test.sql \
             -f supabase/tests/active_mock_resume.test.sql \
             -f supabase/tests/all_assessment_active_resume.test.sql \
