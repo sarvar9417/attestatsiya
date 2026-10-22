@@ -340,6 +340,7 @@ jobs:
             -f supabase/tests/task258_four_priority_topics.test.sql \
             -f supabase/tests/anon_rpc_hardening.test.sql \
             -f supabase/tests/task580_y3_trigger_execute_hardening.test.sql \
+            -f supabase/tests/task581_trigger_security_definer_privileges.test.sql \
             -f supabase/tests/m01_exact_source_lesson_reconcile.test.sql \
             -f supabase/tests/canonical_lesson_drift_reconcile.test.sql \
             -f supabase/tests/task305_m13_y2_revision_contract.test.sql \
@@ -515,7 +516,8 @@ jobs:
             -f supabase/tests/canonical_lesson_drift_reconcile.test.sql \
             -f supabase/tests/spec_zero_construct_review_bank.test.sql \
             -f supabase/tests/anon_rpc_hardening.test.sql \
-            -f supabase/tests/task580_y3_trigger_execute_hardening.test.sql
+            -f supabase/tests/task580_y3_trigger_execute_hardening.test.sql \
+            -f supabase/tests/task581_trigger_security_definer_privileges.test.sql
 
   # Required branch protection context. The legacy "quality" commit status
   # written by frontend-quality can be insufficient if branch protection
