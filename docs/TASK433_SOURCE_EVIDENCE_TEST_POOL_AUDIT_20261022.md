@@ -8,7 +8,7 @@ Dastlabki auditda 201 ta `published` savolda `editorial_evidence_missing` ochiq 
 
 ## Tuzatish
 
-`supabase/migrations/20261022073000_task433_filter_unverified_source_all_test_pools.sql`:
+`supabase/migrations/20261022075428_task433_filter_unverified_source_all_test_pools.sql`:
 
 - `public.question_source_evidence_eligible(uuid)` — manba-dalil findinglaridan (`editorial_evidence_missing`, `source_provenance_unverified`, `answer_key_unverified`, `revision_source_no_longer_published`) **istalgan severity**da ochiq qaydi bor pedagogika savollarini rad etadi. Boshqa fanlarga mavjud qoidalar saqlanadi.
 - Helper `SECURITY INVOKER`, to‘liq kvalifikatsiyalangan jadval nomlari va yopiq `search_path` bilan yozilgan. `anon/authenticated/PUBLIC` uchun bevosita `EXECUTE` o‘chirilgan. Uni mavjud, ruxsatlari saqlangan server-side `SECURITY DEFINER` RPC’lar ishlatadi.
