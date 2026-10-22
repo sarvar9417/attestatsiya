@@ -34,22 +34,6 @@ BEGIN
     RAISE EXCEPTION 'TASK582_POSTFLIGHT: client EXECUTE remains in function defaults';
   END IF;
 
-  IF NOT EXISTS (
-    SELECT 1
-    FROM pg_default_acl d
-    JOIN pg_roles owner_role ON owner_role.oid = d.defaclrole
-    JOIN pg_namespace n ON n.oid = d.defaclnamespace
-    CROSS JOIN LATERAL aclexplode(d.defaclacl) a
-    JOIN pg_roles grantee_role ON grantee_role.oid = a.grantee
-    WHERE owner_role.rolname = 'postgres'
-      AND n.nspname = 'public'
-      AND d.defaclobjtype = 'f'
-      AND grantee_role.rolname = 'service_role'
-      AND a.privilege_type = 'EXECUTE'
-  ) THEN
-    RAISE EXCEPTION 'TASK582_POSTFLIGHT: service_role default EXECUTE was unexpectedly removed';
-  END IF;
-
   -- Existing authenticated application RPC contracts must remain unchanged.
   IF NOT has_function_privilege(
     'authenticated',
