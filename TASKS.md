@@ -1,3 +1,11 @@
+## TASK-530 — PedGuli Telegram testlar bankini to‘liq ekspert saralash (2026-10-22)
+
+- **Owner:** ChatGPT; foydalanuvchi pedagogika testlarini to‘liq ekspert ko‘rigidan o‘tkazish, barcha yaroqli savollarni bazaga kiritish va yakuniy qarorni mustaqil qabul qilish vakolatini bergan.
+- **Status:** IN PROGRESS — 429 ta noyob kalitli Telegram xabari inventarizatsiya qilindi; batch 02–05 orqali 82 ta yangi savol va 2 ta mavjud REVIEW productionga nashr qilindi. 82/82 manba faol published reviziya bilan ifodalangan va 4-option/key integrity PASS. Qolgan kandidatlarning ekspert saralashi davom etadi. Ish dastlab TASK-428 sifatida boshlangan, lekin `main`da parallel informatika TASK-428 merge bo‘lgach repository koordinatsiyasi TASK-530ga ko‘chirildi; qo‘llangan migration nomlari tarixiy TASK-428 yorlig‘ini saqlaydi.
+- **Chegara:** faqat pedagogika/KSga tegishli, mustaqil tushunarli, javobi yagona va kanonik konstruktga aniq mos savollar. Dublikat, sharti yetishmaydigan, kaliti xato yoki mazmunan bahsli xabarlar nashr qilinmaydi va qaror reyestrida sabab bilan qayd etiladi.
+- **Xavfsizlik:** eski published reviziya, kalit, exam item va attemptlar joyida o‘zgartirilmaydi; yangi savollar additive UUID bilan kiritiladi. AI-assisted owner-authorized provenance rost yoziladi, mustaqil inson ekspert tasdig‘i da’vo qilinmaydi. Vercel/application deploy qilinmaydi.
+- **Dalil:** `docs/TASK530_PEDGULI_COMPLETE_BANK_PROGRESS_20261022.md`; 4 production migration va 4 Vitest regressiya.
+
 ## TASK-529 — Office REVIEW source sahifalari mustaqil audit (2026-10-22)
 
 - **Owner:** ChatGPT; branch `task/TASK-529-office-textbook-source-verification`.
