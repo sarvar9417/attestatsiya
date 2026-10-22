@@ -1,0 +1,24 @@
+name: TASK-433 Internet Editorial QA
+
+on:
+  pull_request:
+    paths:
+      - 'docs/qa/task433-internet-twelve-rewrites.json'
+      - 'scripts/task433-internet-editorial.test.mjs'
+      - 'scripts/task433-attestatsiya7-q3.test.mjs'
+      - '.github/workflows/task433-internet-editorial.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-editorial-proposals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node --test scripts/task433-internet-editorial.test.mjs scripts/task433-attestatsiya7-q3.test.mjs
