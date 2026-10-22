@@ -1,0 +1,19 @@
+name: TASK-439 Encoding 8 source QA
+on:
+  pull_request:
+    paths:
+      - 'scripts/task439-eight.test.mjs'
+      - 'supabase/maintenance/task439_publish_8_base_encoding_y1.sql'
+      - '.github/workflows/task439-eight.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node --test scripts/task439-eight.test.mjs
