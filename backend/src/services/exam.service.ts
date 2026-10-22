@@ -45,7 +45,7 @@ export const examService = {
   /**
    * Start a new exam.
    * - mock → full attestatsiya (50 questions, 120 min)
-   * - bolim → 50-question section mock (100 min)
+   * - bolim → adaptive section mock (up to 50 questions, 2 min per question)
    * - mavzu → topic test (unlimited time)
    * - mashq → adaptive guided practice (10 questions)
    * - takrorlash → due reviews (15 questions)
@@ -148,7 +148,7 @@ export const examService = {
       }
       if (result.error.message?.includes('section_mock_pool_insufficient')) {
         throw new AppError(
-          'Bo‘lim mock testi 50 savol va majburiy qamrovni yig‘ish uchun yetarli tasdiqlangan savolga ega emas.',
+          'Bo‘lim sinovi uchun yetarli tasdiqlangan savol yoki majburiy mavzu qamrovi mavjud emas.',
           409,
           'SECTION_MOCK_POOL_INSUFFICIENT'
         )
