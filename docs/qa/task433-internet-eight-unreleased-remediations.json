@@ -1,0 +1,121 @@
+{
+  "task": "TASK-433",
+  "source_file_id": "1PGTYxUSxB4rCHkjnNlIfmyjlTLd2-BzX",
+  "editorial_state": "proposed_new_immutable_revision_not_published",
+  "human_approved": false,
+  "source_existing_published_successor": false,
+  "questions": [
+    {
+      "source_no": 2,
+      "stem": "Ikki maktabning mustaqil lokal kompyuter tarmoqlari marshrutizatorlar orqali yagona aloqa tizimiga bog‘landi. Bu jarayonni eng aniq qaysi atama ifodalaydi?",
+      "options": [
+        "Internetworking — alohida tarmoqlarni o‘zaro bog‘lash.",
+        "Intranet — har qanday tashqi tarmoqqa chiqishsiz bitta foydalanuvchi kompyuteri.",
+        "Internet Explorer — barcha turdagi tarmoqlarni bog‘laydigan fizik uskuna.",
+        "Information Network — faqat veb-sahifalarni saqlovchi katalog."
+      ],
+      "correct_idx": 0,
+      "explanation": "Internetworking bir nechta mustaqil tarmoqni o‘zaro ulash jarayonidir. Original «Internet so‘zi nimaning qisqartmasi» savoli tarixiy/terminologik jihatdan aniq emas; bu tahrir atamani real tarmoq vaziyati orqali sinaydi.",
+      "construct": "S6.NET.01",
+      "lesson": "ab330370-8a99-133c-8593-484d325d5155"
+    },
+    {
+      "source_no": 9,
+      "stem": "`https://maktab.uz/dars/1?til=uz#top` URLidagi `?til=uz` fragmenti nimani ifodalaydi?",
+      "options": [
+        "URL sxemasini belgilaydi.",
+        "Xostning domen nomini belgilaydi.",
+        "So‘rov parametrini (query string) bildiradi.",
+        "HTML hujjatning ichki fragment identifikatorini bildiradi."
+      ],
+      "correct_idx": 2,
+      "explanation": "`?til=uz` query parametridir; `https` scheme, `maktab.uz` host, `#top` esa fragment. Original «URL nechta asosiy qismdan iborat» savolida sanash konvensiyasi ko‘rsatilmagan.",
+      "construct": "S6.NET.05",
+      "lesson": "dc1441a7-7a25-2d46-f347-58eda433becd"
+    },
+    {
+      "source_no": 11,
+      "stem": "Brauzerga `https://dars.maktab.uz/kurs/2` manzili kiritildi. Shu URLning host (domen nomi) qismini aniqlang.",
+      "options": [
+        "`https`",
+        "`dars.maktab.uz`",
+        "`/kurs/2`",
+        "`uz/kurs`"
+      ],
+      "correct_idx": 1,
+      "explanation": "HTTP URLida authority tarkibidagi hostname `dars.maktab.uz`. `https` sxema, `/kurs/2` yo‘l; shunchaki `.uz` butun domen/host nomi bilan teng emas.",
+      "construct": "S6.NET.05",
+      "lesson": "dc1441a7-7a25-2d46-f347-58eda433becd"
+    },
+    {
+      "source_no": 16,
+      "stem": "Maktabning arxiv saytida faqat administrator maqolalarni nashr qiladi; odatiy tashrifchi ularni o‘qishi mumkin, lekin sahifa mazmunini to‘g‘ridan-to‘g‘ri tahrirlay olmaydi. Bu model qaysi tavsifga mos?",
+      "options": [
+        "Foydalanuvchi hamkorlikda kontentni o‘zgartiradigan wiki modeli.",
+        "O‘quvchi faqat ko‘radigan, nashr huquqi muallif/administratorga tegishli statik veb tajribasi.",
+        "Har bir tashrifchi serverning barcha manba fayllariga avtomatik yozish huquqi oladi.",
+        "Brauzer va server orasidagi TCP transport protokoli modeli."
+      ],
+      "correct_idx": 1,
+      "explanation": "Web 1.0 deb tavsiflanadigan an’anaviy read-only saytlar ko‘pincha kontentni nashr qiluvchi muharrirga bog‘liq; «faqat veb-dasturchi» degan universal qat’iy qoida noto‘g‘ri.",
+      "construct": "S6.NET.05",
+      "lesson": "dc1441a7-7a25-2d46-f347-58eda433becd"
+    },
+    {
+      "source_no": 20,
+      "stem": "Bir veb-ilova ma’lumotlarni mashina o‘qishi mumkin bo‘lgan RDF shaklida ifodalaydi va turli manbalardagi tushunchalarni URI orqali bog‘laydi. Bu yondashuv nimaga yaqin?",
+      "options": [
+        "Semantik veb va bog‘langan ma’lumotlar (Linked Data) yondashuvi.",
+        "Faqat statik HTMLni hech qanday metama’lumotsiz ko‘rsatish yondashuvi.",
+        "Kabeldagi elektr signalini kuchaytirish yondashuvi.",
+        "Faqat brauzerda rang sxemasini tanlash yondashuvi."
+      ],
+      "correct_idx": 0,
+      "explanation": "RDF va URI orqali resurslar semantik tavsifi Linked Data / Semantic Web kontseptsiyasiga xos. «Web 3.0» atamasi esa semantik veb, decentralizatsiya va boshqa turli talqinlarda ishlatiladi, shu bois original savol yagona ma’noga ega emas.",
+      "construct": "S6.NET.05",
+      "lesson": "dc1441a7-7a25-2d46-f347-58eda433becd"
+    },
+    {
+      "source_no": 21,
+      "stem": "O‘quv platformasi foydalanuvchining o‘zi tanlagan fanlari va o‘zlashtirish tarixini hisobga olib yangi darslarni tavsiya qiladi. Quyidagi qaysi funksiya aynan shunday moslashuvni amalga oshiradi?",
+      "options": [
+        "Har bir foydalanuvchiga bir xil tasodifiy darsni ko‘rsatish.",
+        "Foydalanuvchi ma’lumotlari asosida darslarni shaxsiy tavsiya qilish.",
+        "Barcha foydalanuvchilar uchun kontentni har kuni o‘chirib tashlash.",
+        "Serverning DNS yozuvini doimo foydalanuvchi nomi bilan almashtirish."
+      ],
+      "correct_idx": 1,
+      "explanation": "Tavsiyalash tizimi foydalanuvchi kontekstini inobatga olib tanlovni moslashtiradi; bu xususiyat Web 3.0 bilangina cheklanmaydi va original avlodga oid umumiy ifoda noaniq edi.",
+      "construct": "S6.NET.05",
+      "lesson": "dc1441a7-7a25-2d46-f347-58eda433becd"
+    },
+    {
+      "source_no": 33,
+      "stem": "Talaba qidiruv tizimiga `python loop` so‘rovini yubordi. Natijada hujjat sarlavhasi, manzili va qisqacha parchalardan iborat ro‘yxat paydo bo‘ldi. Bu ro‘yxat qaysi tushunchaga mos?",
+      "options": [
+        "Qidiruv tizimining natijalar sahifasi (SERP).",
+        "Brauzerning lokal fayllar tizimi ildizi.",
+        "IP paketidagi fizik MAC manzillari ro‘yxati.",
+        "DNS serverdagi operatsion tizim foydalanuvchilari jadvali."
+      ],
+      "correct_idx": 0,
+      "explanation": "SERP odatda havolalar, sarlavhalar, snippetlar va ba’zan boy natijalardan iborat; original «gipermurojaatlar ro‘yxati» barcha holatlarni to‘liq qamrab olmaydi.",
+      "construct": "S6.NET.05",
+      "lesson": "c1200000-0000-4000-8000-000000000005"
+    },
+    {
+      "source_no": 39,
+      "stem": "Onlayn kurs platformasi foydalanuvchining tanlagan mavzulari va oldingi mashg‘ulotlari asosida keyingi video darslarni tartiblaydi. Bu qarorni qaysi mexanizm eng to‘g‘ri tavsiflaydi?",
+      "options": [
+        "Mavzuga aloqasiz tasodifiy saralash.",
+        "Faqat foydalanuvchining IP manzili oxirgi raqamiga qarab tasniflash.",
+        "Foydalanuvchi xatti-harakati asosida ishlaydigan tavsiya va reytinglash algoritmi.",
+        "Darslarni serverga yuklangan sanasiga ko‘ra abadiy bir xil tartiblash."
+      ],
+      "correct_idx": 2,
+      "explanation": "Personalizatsiya tavsiya va ranking algoritmlari bilan bajariladi; buni faqat Web 3.0ning ta’riflovchi xossasi deb olish noto‘g‘ri. Tahrir harakatni konkret ma’lumot asosida sinaydi.",
+      "construct": "S6.NET.05",
+      "lesson": "c1200000-0000-4000-8000-000000000005"
+    }
+  ]
+}
