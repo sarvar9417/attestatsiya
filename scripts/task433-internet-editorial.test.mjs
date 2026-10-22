@@ -26,3 +26,27 @@ test('Q14 disambiguates HTTP application layer vs TCP transport',()=>{
  assert.match(q.options[q.correct_idx],/HTTP va HTTPS/);
  assert.match(q.explanation,/TCP transport qatlamida/);
 });
+
+const e=JSON.parse(readFileSync(new URL('../docs/qa/task433-internet-eight-unreleased-remediations.json',import.meta.url),'utf8'));
+test('8 source defects have distinct new editorial rewrites and no duplicate release',()=>{
+ assert.equal(e.editorial_state,'proposed_new_immutable_revision_not_published');
+ assert.equal(e.human_approved,false);
+ assert.equal(e.source_existing_published_successor,false);
+ assert.deepEqual(e.questions.map(q=>q.source_no).sort((a,b)=>a-b),[2,9,11,16,20,21,33,39]);
+ for(const q of e.questions){
+   assert.equal(q.options.length,4);
+   assert.equal(new Set(q.options.map(s=>s.trim())).size,4);
+   assert.ok(q.options.every(s=>s.length>=35));
+   assert.ok(q.stem.length>=65);
+   assert.ok(q.explanation.length>100);
+   assert.ok(q.correct_idx>=0&&q.correct_idx<4);
+   assert.ok(q.construct.startsWith('S6.NET.'));
+   assert.ok(q.lesson.length===36);
+ }
+});
+test('Q9 and Q11 URL components and Q20 Web3 ambiguity are narrowed',()=>{
+ const get=n=>e.questions.find(q=>q.source_no===n);
+ assert.match(get(9).options[get(9).correct_idx],/so‘rov satrini/);
+ assert.match(get(11).options[get(11).correct_idx],/hostname/);
+ assert.match(get(20).explanation,/turli talqinlarda/);
+});
