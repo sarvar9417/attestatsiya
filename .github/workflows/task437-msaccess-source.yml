@@ -1,0 +1,19 @@
+name: TASK-437 MS Access source image query QA
+on:
+  pull_request:
+    paths:
+      - scripts/task437-msaccess-screenshot-query.test.mjs
+      - .github/workflows/task437-msaccess-source.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect-query-grids:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node --test scripts/task437-msaccess-screenshot-query.test.mjs
