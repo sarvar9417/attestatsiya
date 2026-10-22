@@ -264,7 +264,7 @@ begin
   return jsonb_build_object('room_id',v_room,'code',v_code);
 end $gm$;
 
-create function public.group_mock_start(p_room uuid)
+create or replace function public.group_mock_start(p_room uuid)
 returns jsonb language plpgsql security definer set search_path = ''
 as $gm$
 declare v_room public.group_mock_rooms%rowtype;
@@ -366,7 +366,7 @@ begin
   );
 end $gm$;
 
-create function public.group_mock_answer(p_room uuid, p_answer jsonb)
+create or replace function public.group_mock_answer(p_room uuid, p_answer jsonb)
 returns jsonb language plpgsql security definer set search_path = ''
 as $gm$
 declare
@@ -460,7 +460,7 @@ begin
   return jsonb_build_object('saved',true);
 end $gm$;
 
-create function public.group_mock_step(p_room uuid, p_action text)
+create or replace function public.group_mock_step(p_room uuid, p_action text)
 returns jsonb language plpgsql security definer set search_path = ''
 as $gm$
 declare v_room public.group_mock_rooms%rowtype;
@@ -486,7 +486,7 @@ begin
   return jsonb_build_object('ok',true);
 end $gm$;
 
-create function public.group_mock_pause(p_room uuid)
+create or replace function public.group_mock_pause(p_room uuid)
 returns jsonb language plpgsql security definer set search_path=''
 as $gm$
 declare
