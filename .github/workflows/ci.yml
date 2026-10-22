@@ -222,7 +222,14 @@ jobs:
               supabase/migrations/20261022031000_task428_pedguli_verified_batch02.sql|\
               supabase/migrations/20261022032000_task428_pedguli_verified_batch03.sql|\
               supabase/migrations/20261022033000_task428_pedguli_verified_batch04.sql|\
-              supabase/migrations/20261022034000_task428_pedguli_verified_batch05.sql)
+              supabase/migrations/20261022034000_task428_pedguli_verified_batch05.sql|\
+              supabase/migrations/20261022035000_task530_pedguli_verified_batch06.sql|\
+              supabase/migrations/20261022040000_task530_pedguli_verified_batch07.sql|\
+              supabase/migrations/20261022041000_task530_pedguli_verified_batch08.sql|\
+              supabase/migrations/20261022042000_task530_pedguli_verified_batch09.sql|\
+              supabase/migrations/20261022043000_task530_pedguli_verified_batch10.sql|\
+              supabase/migrations/20261022044000_task530_pedguli_verified_batch11.sql|\
+              supabase/migrations/20261022045000_task530_pedguli_verified_batch12.sql)
                 echo "Skipping previously applied production-specific data release in clean-schema CI: ${migration}"
                 continue
                 ;;
