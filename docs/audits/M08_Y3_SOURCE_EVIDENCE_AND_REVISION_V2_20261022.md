@@ -42,3 +42,7 @@ The original private V1 JSON has no per-question `source_evidence` and is theref
 **AI source-topic and runtime review: PASS; publication: NOT EXECUTED.** The new code and answer keys have not been inserted into production. Preserve all three historical `exam_items` references and immutable source-question lineage. Publication remains contingent on an authorized guarded transaction, a final comparison of source and successor fields, editorial authority and postflight fingerprints. Avoid writing fabricated human signoffs or external 'official past paper' attributions.
 
 **No database modifications** were made while preparing this V2 review and public QA code.
+
+## Repository CI prerequisite addressed
+
+A separate database CI blocker was traced to invalid migration timestamp prefixes for TASK402/TASK403; the intended applied production versions were confirmed through Supabase's migration list. These filenames were corrected without changing SQL in [PR #554](https://github.com/sarvar9417/attestatsiya/pull/554) (merge commit `de72a378e7f1308cd816c5e9ab642958fc358cd4`), which passed full CI. This M08-specific PR does not alter database schema, migration history, production question content, or answer keys.
