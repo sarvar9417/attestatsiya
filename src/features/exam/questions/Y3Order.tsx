@@ -8,6 +8,8 @@ interface Y3OrderProps {
   items: ExamOption[]
   value: string[]
   disabled?: boolean
+  /** Allow explicitly accepting the initial order without moving an item. */
+  allowConfirmCurrentOrder?: boolean
   onChange: (order: string[]) => void
 }
 
@@ -16,6 +18,7 @@ export default function Y3Order({
   items,
   value,
   disabled = false,
+  allowConfirmCurrentOrder = false,
   onChange,
 }: Y3OrderProps) {
   const promptId = useId()
@@ -75,6 +78,15 @@ export default function Y3Order({
           </div>
         ))}
       </div>
+      {allowConfirmCurrentOrder && value.length === items.length &&
+        new Set(value).size === items.length &&
+        value.every(id => byId.has(id)) && (
+          <button type="button" disabled={disabled}
+            onClick={() => onChange([...value])}
+            className="mt-4 min-h-11 rounded-xl border border-primary-500 px-4 py-2 text-sm font-semibold text-primary-700 dark:text-primary-300 disabled:opacity-60">
+            Shu tartibni tasdiqlash
+          </button>
+        )}
     </fieldset>
   )
 }
