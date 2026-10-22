@@ -1,0 +1,19 @@
+name: TASK-435 Encoding 18 source audit QA
+on:
+  pull_request:
+    paths:
+      - 'scripts/task435-encoding.test.mjs'
+      - 'supabase/maintenance/task435_publish_18_information_encoding_y1.sql'
+      - '.github/workflows/task435-encoding.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  calculations:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node --test scripts/task435-encoding.test.mjs

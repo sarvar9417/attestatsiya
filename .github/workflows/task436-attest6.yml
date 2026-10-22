@@ -1,0 +1,19 @@
+name: TASK-436 attest 6 eight Y1 QA
+on:
+  pull_request:
+    paths:
+      - 'scripts/task436-attest6.test.mjs'
+      - 'supabase/maintenance/task436_publish_eight_attest6_cross_subject_y1.sql'
+      - '.github/workflows/task436-attest6.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node --test scripts/task436-attest6.test.mjs
