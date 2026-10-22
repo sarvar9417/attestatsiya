@@ -16,6 +16,7 @@ import {
   getGroupMockState, getGroupMockReport, joinGroupMock, leaveGroupMockLobby, listGroupBank,
   listMyGroupMockRooms, messageGroupMock, pauseGroupMock, resumeGroupMock,
   startGroupMock, stepGroupMock, visibleGroupFeedback,
+  GroupMockClientVersionError,
   type BankQuestion, type GroupMockMode, type GroupMockReport, type GroupMockRoomSummary, type GroupMockState,
   type GroupMockTopic,
 } from '../features/group-mock/groupMockApi'
@@ -278,6 +279,7 @@ export default function GroupMockPage() {
   const [roomsLoading, setRoomsLoading] = useState(false)
   const [roomsError, setRoomsError] = useState<string | null>(null)
   const [connectionWarning, setConnectionWarning] = useState<string | null>(null)
+  const [clientVersionMismatch, setClientVersionMismatch] = useState(false)
   const requestSequence = useRef(0)
   // Coalesce overlapping room reads so high-latency polling cannot starve.
   const loadRoomState = useMemo(() => coalesceRoomRequests(getGroupMockState), [])
@@ -298,9 +300,19 @@ export default function GroupMockPage() {
       if (requestId === requestSequence.current) {
         setState(value)
         setConnectionWarning(null)
+        setClientVersionMismatch(false)
       }
     } catch (error) {
       if (requestId === requestSequence.current) {
+        if (error instanceof GroupMockClientVersionError) {
+          // A schema/client mismatch is not a connection outage. Keep the room URL
+          // and offer an explicit reload instead of retrying a broken contract.
+          setState(null)
+          setConnectionWarning(null)
+          setClientVersionMismatch(true)
+          setError(error.message)
+          return
+        }
         if (error instanceof Error && error.message === 'Siz ushbu xonaning ishtirokchisi emassiz.') {
           // A host may have permanently deleted a room while a member was viewing it.
           // Do not leave an outdated question/report on screen or poll an invalid room.
@@ -327,6 +339,7 @@ export default function GroupMockPage() {
     if (!roomId) {
       setState(null)
       setConnectionWarning(null)
+      setClientVersionMismatch(false)
       return
     }
     if (authLoading) return
@@ -575,7 +588,7 @@ export default function GroupMockPage() {
                     <span className="min-w-0">
                       <strong className="font-mono">{room.code}</strong>
                       <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
-                        {room.is_host ? 'Tashkilotchi' : 'Ishtirokchi'} · {room.mode === 'spec' ? 'Spetsifikatsiya' : room.mode === 'topics' ? 'Mavzuli' : 'Qo‘lda'}
+                        {room.is_host ? 'Tashkilotchi' : 'Ishtirokchi'} · {room.mode === 'spec' ? 'Spetsifikatsiya' : room.mode === 'topics' ? 'Mavzuli' : room.mode === 'pedagogy' ? 'Faqat pedagogika' : 'Qo‘lda'}
                       </span>
                     </span>
                     <span className="text-sm text-gray-600 dark:text-gray-300">
@@ -774,6 +787,11 @@ export default function GroupMockPage() {
         )}
       </header>
       {error && <p role="alert" className="rounded-xl border border-red-300 bg-red-50 p-3 text-red-700">{error}</p>}
+      {clientVersionMismatch && (
+        <button type="button" className={action} onClick={() => window.location.reload()}>
+          <RefreshCw className="inline" size={17} /> Yangi versiyani yuklash
+        </button>
+      )}
       {connectionWarning && <p role="status" className="rounded-xl border border-amber-300 bg-amber-50 p-3 text-amber-800">{connectionWarning}</p>}
       {!state && <p role="status" className={panel}>Xona yuklanmoqda...</p>}
       {state?.mode === 'pedagogy' && (
