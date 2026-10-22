@@ -19,11 +19,10 @@
 ## TASK-530 — PedGuli Telegram testlar bankini to‘liq ekspert saralash (2026-10-22)
 
 - **Owner:** ChatGPT; foydalanuvchi pedagogika testlarini to‘liq ekspert ko‘rigidan o‘tkazish, barcha yaroqli savollarni bazaga kiritish va yakuniy qarorni mustaqil qabul qilish vakolatini bergan.
-- **Status:** IN PROGRESS — 429 ta noyob kalitli Telegram xabari inventarizatsiya qilindi; batch 02–05 orqali 82 ta yangi savol va 2 ta mavjud REVIEW productionga nashr qilindi. 82/82 manba faol published reviziya bilan ifodalangan va 4-option/key integrity PASS. Qolgan kandidatlarning ekspert saralashi davom etadi. Ish dastlab TASK-428 sifatida boshlangan, lekin `main`da parallel informatika TASK-428 merge bo‘lgach repository koordinatsiyasi TASK-530ga ko‘chirildi; qo‘llangan migration nomlari tarixiy TASK-428 yorlig‘ini saqlaydi.
+- **Status:** DONE — 429/429 noyob kalitli Telegram xabari ekspert qaroriga ega, 0 ta qarorsiz. 358 yangi kandidatning 309 tasi production bazada faol lineage bilan ifodalangan, 49 tasi dublikat/premise yo‘q/xato-noaniq/versiyasiz normativ sabablar bilan rad etilgan. Batch 02–12 orqali 290 ta additive expert-rewrite savol nashr qilindi; batch 06–12dagi 208/208 yangi savol production postflightdan o‘tdi. Ish dastlab TASK-428 sifatida boshlangan, parallel task sabab repository koordinatsiyasi TASK-530ga ko‘chirildi; tarixiy source-reference yorliqlari saqlandi.
 - **Chegara:** faqat pedagogika/KSga tegishli, mustaqil tushunarli, javobi yagona va kanonik konstruktga aniq mos savollar. Dublikat, sharti yetishmaydigan, kaliti xato yoki mazmunan bahsli xabarlar nashr qilinmaydi va qaror reyestrida sabab bilan qayd etiladi.
 - **Xavfsizlik:** eski published reviziya, kalit, exam item va attemptlar joyida o‘zgartirilmaydi; yangi savollar additive UUID bilan kiritiladi. AI-assisted owner-authorized provenance rost yoziladi, mustaqil inson ekspert tasdig‘i da’vo qilinmaydi. Vercel/application deploy qilinmaydi.
-- **Dalil:** `docs/TASK530_PEDGULI_COMPLETE_BANK_PROGRESS_20261022.md`; 4 production migration va 4 Vitest regressiya.
-
+- **Dalil:** `docs/TASK530_PEDGULI_COMPLETE_BANK_PROGRESS_20261022.md`, `docs/quality/task530_pedguli_adjudication.json`; batch 02–12 migrationlari va qamrov regressiyalari.
 ## TASK-532 — TASK-428 production-only release/CI fixture ajratish (2026-10-22)
 
 - **Owner:** ChatGPT; branch `task/TASK-532-fresh-ci-task428-prod-only-guard`.
@@ -32,13 +31,6 @@
 - **Fayllar:** `.github/workflows/ci.yml`, `src/tests/task532CiTask428Guard.test.ts`, `docs/TASK532_TASK428_CI_FIXTURE_GUARD.md`.
 - **Next:** CI PASS → main merge → TASK-531 PR #530 uchun yangi current-main quality gates; learner kontentga hech qanday o‘zgartirish yo‘q.
 
-## TASK-530 — PedGuli Telegram testlar bankini to‘liq ekspert saralash (2026-10-22)
-
-- **Owner:** ChatGPT; foydalanuvchi pedagogika testlarini to‘liq ekspert ko‘rigidan o‘tkazish, barcha yaroqli savollarni bazaga kiritish va yakuniy qarorni mustaqil qabul qilish vakolatini bergan.
-- **Status:** IN PROGRESS — 429 ta noyob kalitli Telegram xabari inventarizatsiya qilindi; batch 02–05 orqali 82 ta yangi savol va 2 ta mavjud REVIEW productionga nashr qilindi. 82/82 manba faol published reviziya bilan ifodalangan va 4-option/key integrity PASS. Qolgan kandidatlarning ekspert saralashi davom etadi. Ish dastlab TASK-428 sifatida boshlangan, lekin `main`da parallel informatika TASK-428 merge bo‘lgach repository koordinatsiyasi TASK-530ga ko‘chirildi; qo‘llangan migration nomlari tarixiy TASK-428 yorlig‘ini saqlaydi.
-- **Chegara:** faqat pedagogika/KSga tegishli, mustaqil tushunarli, javobi yagona va kanonik konstruktga aniq mos savollar. Dublikat, sharti yetishmaydigan, kaliti xato yoki mazmunan bahsli xabarlar nashr qilinmaydi va qaror reyestrida sabab bilan qayd etiladi.
-- **Xavfsizlik:** eski published reviziya, kalit, exam item va attemptlar joyida o‘zgartirilmaydi; yangi savollar additive UUID bilan kiritiladi. AI-assisted owner-authorized provenance rost yoziladi, mustaqil inson ekspert tasdig‘i da’vo qilinmaydi. Vercel/application deploy qilinmaydi.
-- **Dalil:** `docs/TASK530_PEDGULI_COMPLETE_BANK_PROGRESS_20261022.md`; 4 production migration va 4 Vitest regressiya.
 
 ## TASK-529 — Office REVIEW source sahifalari mustaqil audit (2026-10-22)
 

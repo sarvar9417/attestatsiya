@@ -1,0 +1,44 @@
+{
+  "task": "TASK-530",
+  "source": "Telegram @PedMahoratGuli bold-keyed unique-message inventory",
+  "inventory_total": 429,
+  "initial_triage": {
+    "existing_source": 37,
+    "exact_content": 18,
+    "same_stem_review": 16,
+    "new_candidate": 358
+  },
+  "new_candidate_adjudication": {
+    "represented_in_database": 309,
+    "rejected": 49,
+    "unadjudicated": 0,
+    "represented_lineages": {
+      "task428_expert_rewrite": 290,
+      "task421_expert_rewrite": 16,
+      "other_existing_source": 3
+    },
+    "task530_batches_06_12_added": 208
+  },
+  "rejection_groups": [
+    {
+      "code": "duplicate_or_already_covered",
+      "reason": "Mazmuni faol bazadagi boshqa sifatli savol bilan allaqachon qamrab olingan; takror nashr test balansini sun’iy oshiradi.",
+      "message_ids": [632, 657, 659, 795, 796, 797, 1450, 1559, 1572, 2185, 2486, 2487, 2722, 3113]
+    },
+    {
+      "code": "incomplete_premise",
+      "reason": "Moslashtiriladigan ustunlar yoki zarur shart Telegram eksportida yo‘q; yagona javobni tiklab bo‘lmaydi.",
+      "message_ids": [1260, 1350, 2260, 2404, 2684, 2685, 2687]
+    },
+    {
+      "code": "wrong_ambiguous_or_unverifiable",
+      "reason": "Kalit xato, tushuncha chegarasi munozarali, tasnif nostandart yoki tarixiy iqtibos/atributsiya ishonchli tasdiqlanmagan.",
+      "message_ids": [514, 664, 673, 739, 785, 863, 1033, 1036, 1112, 1115, 1214, 1488, 1575, 1888, 2174, 2242, 2243, 2244, 2245, 2246, 2247, 2480, 2688, 2689, 2696]
+    },
+    {
+      "code": "versionless_normative_content",
+      "reason": "Savol eski davlat ta’lim standarti tarkibi yoki ta’rifini hujjat versiyasi va sanasisiz mutlaq haqiqat sifatida so‘raydi.",
+      "message_ids": [1443, 1445, 1447]
+    }
+  ]
+}
