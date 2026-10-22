@@ -19,3 +19,7 @@ Faqat `presentPedagogyTheory.ts`dagi **learner projection** yangilanadi; `public
 ## CI retrigger va bazaviy repo tekshiruvi
 
 PR #569 ning dastlabki CI ishga tushish paytida asosiy repodagi `20261022009000_task405_...` nomli tarixiy migratsiyani timestamp-validator rad etdi. Ushbu task SQL migratsiya fayllarini o‘zgartirmadi. Joriy `main` `scripts/check_migration_filenames.py` faylida faqat ilgari ishlab chiqarishda kuzatilgan ikkita tarixiy noto‘g‘ri vaqtga aniq allowlist mavjud. PRni yangi `main` bilan qayta tekshirish uchun ushbu eslatma kiritildi; quality gate natijasi muvaffaqiyatli bo‘lmasa birlashtirish mumkin emas.
+
+## CI dependency closed
+
+PR #571 (TASK-572), merge commit `4d34d62c`, passed backend/frontend/database/quality CI and updated the stale group-mock source-evidence regression test for its verified indirect helper chain. This documentation commit retriggers PR #569 on the current main baseline. No production deployment or Supabase data changes.
