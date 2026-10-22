@@ -1,3 +1,11 @@
+## TASK-531 — Axborot xavfsizligi 8 ta Y1 distractor qayta ishlash (2026-10-22)
+
+- **Owner:** ChatGPT; branch `task/TASK-531-security-y1-distractor-review`.
+- **Scope/status:** 8 x published S7.SEC Y1 ning to‘g‘ri javob matni pin qilindi, 3 ta pedagogik chalg‘ituvchi variant va tushuntirish yozildi. Live production BEGIN…ROLLBACK preview: 8 review / 32 option / 8 key PASS, old mock-eligible 1 original va old history 2 yozuv o‘zgarmagan. Durable stage pending CI.
+- **Files:** `supabase/maintenance/task531_security_eight_review_stage.sql`, `src/tests/task531SecurityReview.test.ts`, `docs/TASK531_SECURITY_Y1_REVIEW_20261022.md`.
+- **Safety:** only REVIEW stage, `is_generated=true`, independent human attestation not claimed; medium pending finding avoids new exclusion of originals. All published originals and exam history immutable; source PDF page not independently verified.
+- **Next:** GitHub CI→main merge→one-time REVIEW stage→production postflight, user-visible publish only after separate content approval; full bank issue #469.
+
 ## TASK-530 — PedGuli Telegram testlar bankini to‘liq ekspert saralash (2026-10-22)
 
 - **Owner:** ChatGPT; branch: `task/TASK-530-pedguli-complete-bank`.
