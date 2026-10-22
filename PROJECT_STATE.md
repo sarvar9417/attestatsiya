@@ -1,11 +1,12 @@
 ## TASK-546 — Tarmoq Y1 javoblarining mavzuviy aniqligi, 8 ta REVIEW nusxa (2026-10-22)
 
-- **Owner:** ChatGPT; branch `task/TASK-546-network-y1-review-wave`; scope: 8 aniq published S6.NET Y1 original savol uchun mazmunan yaqin distractorlar, o‘zgarmagan correct key va izohlar.
-- **State:** 8 × reviewed content revision + 32 variants SQL tayyor; live Supabase BEGIN→ROLLBACK sinovi PASS, original 2 old exam item va 0 old official eligible o‘zgarmadi. Doimiy REVIEW staging CI/main gate'dan keyin.
-- **Evidence:** user PDF `ICT 11_sinf-2021(1).pdf`: repeater PDF160, T-568A/B PDF153, DNS PDF175–176. TCP/IP PDF172 faqat partial. RFC4291 VLSM uchun mos emas; qolgan 3 aniq PDF sahifasi pending. `docs/quality/task546_network_8_source_evidence.json`.
-- **Safety:** production published savollar/kalit/imtihon tarixi immutable; yangi nusxalar faqat `review`, AI provenance true, `human_editorial_approval=false`, `medium` finding.
+- **Owner:** ChatGPT; **status:** DONE — 8 ta AI-assisted Y1 tarmoq qobiliyat testi yangi `review` sifatida production bazasiga xavfsiz kiritildi; eski sakkizta `published` o‘zgarmadi.
+- **Merge:** PR #544, commit `58c55cc516192dd7dbabb1d9629490a2a5573e03` — frontend/unit/build/E2E + backend + database + quality CI PASS.
+- **Production migration:** `20261022040349_task546_network_eight_y1_semantic_distractors_review_only` (Supabase bir martalik, qaytariladigan trialdan so‘ng).
+- **Independent postflight:** 8/8 REVIEW, 8/8 original PUBLISHED, 32 ta variant, 8 ta 4-unique/1-correct va original correct text aynan o‘zgarmagan, 8 ta AI flag, 8 ta ledger va 8 ta MEDIUM editorial pending, 2 old exam item saqlandi, old mock eligible 0 bo‘lib qoldi, **0 anomal holat va 0 yangi learner-published**.
+- **Source evidence:** user `ICT 11_sinf-2021(1).pdf`: repeater PDF160; T-568A/B PDF153; DNS PDF175–176. TCP/IP PDF172 qisman, RFC4291 VLSM uchun noto‘g‘ri manba, qidiruv/reklama/privacy 3 ta sahifa pending; `docs/quality/task546_network_8_source_evidence.json`. Darslikning moslik farqlari manzili va ekspert gate GitHub #546.
 - **Files:** `supabase/maintenance/task546_network_eight_review_stage.sql`, `src/tests/task546NetworkReview.test.ts`, `docs/TASK546_NETWORK_Y1_REVIEW.md`.
-- **Next:** full CI success+main merge → one-time REVIEW-only Supabase migration → postflight; learner publish faqat alohida ekspert editorial qaror va source evidence to‘liq bo‘lsa.
+- **Handoff:** nashrga o‘tish alohida ekspert dalili/qarori va immutable cutover bilan; parent full bank QA #469 davom etadi. Approved staged proposals ≠ independent human verification.
 
 ## TASK-531 — Axborot xavfsizligi 8 ta Y1 distractor qayta ishlash (2026-10-22)
 
