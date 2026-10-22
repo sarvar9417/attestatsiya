@@ -1,0 +1,23 @@
+name: task548-informatika-private-review
+on:
+  pull_request:
+    paths:
+      - 'supabase/migrations/20261022102800_task548_informatika_private_editorial_derivatives.sql'
+      - 'scripts/task548-private-editorial-schema.test.mjs'
+      - 'docs/TASK548_INFORMATIKA_PDF_SIX_PRIVATE_REWRITES_20261022.md'
+      - '.github/workflows/task548-informatika-private-review.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  schema-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: No-public-key and schema safeguards
+        run: node --test scripts/task548-private-editorial-schema.test.mjs
