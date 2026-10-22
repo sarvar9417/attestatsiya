@@ -375,7 +375,7 @@ describe('secure ExamRunner', () => {
     expect(await screen.findByText('Yagona javobni tanlang')).toBeDefined()
   })
 
-  it('modul sinovi kirish oynasi backendning 50 savol va 100 daqiqalik kontraktini ko‘rsatadi', async () => {
+  it('modul sinovi kirish oynasi moslashuvchan savol va vaqt kontraktini ko‘rsatadi', async () => {
     const user = userEvent.setup()
     const gateway = successfulGateway()
     vi.mocked(gateway.startModuleExam).mockResolvedValue({
@@ -387,8 +387,8 @@ describe('secure ExamRunner', () => {
     renderExam(gateway, '/exam/bolim/M10')
 
     expect(screen.getByRole('heading', { name: 'Modul sinovi' })).toBeDefined()
-    expect(screen.getByText('50 savol')).toBeDefined()
-    expect(screen.getByText('100 daqiqa')).toBeDefined()
+    expect(screen.getByText('50 tagacha (tasdiqlangan mavjud savollar)')).toBeDefined()
+    expect(screen.getByText('Har savolga 2 daqiqa (ko‘pi bilan 100 daqiqa)')).toBeDefined()
     expect(gateway.startModuleExam).not.toHaveBeenCalled()
 
     await user.click(screen.getByRole('button', { name: 'Sinovni boshlash' }))
