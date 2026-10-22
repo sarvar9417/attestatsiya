@@ -1,0 +1,23 @@
+name: TASK-431 Internet PDF 24 revision QA
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/task431-internet-source.test.mjs'
+      - 'supabase/maintenance/task431_publish_24_internet_source_rewrites.sql'
+      - '.github/workflows/task431-internet-qa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  qa-source-internet:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node --test scripts/task431-internet-source.test.mjs
