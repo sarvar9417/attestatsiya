@@ -215,7 +215,23 @@ jobs:
               supabase/migrations/20261022003000_task399_ten_y1_info_office_security_second_answer_length_repairs.sql|\
               supabase/migrations/20261022004000_task400_ten_y1_hardware_network_length_bias_repairs.sql|\
               supabase/migrations/20261022005000_task401_ten_y1_information_hardware_concept_length_repairs.sql)
-                echo "Skipping previously applied production-only Office Y3 data revision in clean-schema CI: ${migration}"
+                echo "Skipping previously applied production-only owner-data release in clean-schema CI: ${migration}"
+                continue
+                ;;
+              supabase/migrations/20261022031000_task428_pedguli_verified_batch02.sql)
+                # TASK-428 is an owner-approved release of 22 new pedagogical
+                # items plus 2 PRE-EXISTING, PRIVATE, review-stage source rows.
+                # An empty CI database intentionally does not contain those
+                # two exact fingerprint-pinned rows. Production already has
+                # all 22 original questions, keys and owner release waivers.
+                # Do not weaken/replace the production migration's preflight
+                # fingerprint or history checks to make fresh CI green.
+                if ! grep -Fq 'TASK428_PINNED_REVIEW_CHANGED' "${migration}" || \
+                   ! grep -Fq 'TASK428_RELEASE_SCOPE_%_OF_24' "${migration}"; then
+                  echo "ERROR: TASK428's strict production data preflight has changed"
+                  exit 1
+                fi
+                echo "Skipping already-applied production-only TASK428 24-item owner release in clean-schema CI: ${migration}"
                 continue
                 ;;
             esac
