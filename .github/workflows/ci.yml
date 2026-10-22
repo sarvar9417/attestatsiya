@@ -219,6 +219,8 @@ jobs:
               supabase/migrations/20261022051517_task403_ten_y1_info_office_security_semantic_balance_repairs.sql|\
               supabase/migrations/20261022080203_task404_ten_y1_info_office_security_distractor_balance.sql|\
               supabase/migrations/20261022080902_task405_ten_y1_algorithms_python_js_security_semantic_repair.sql|\
+              supabase/migrations/20261022150529_task459_css_roman_list_code_fences_heading_color_correction.sql|\
+              supabase/migrations/20261022150625_task460_html_css_two_legacy_multiline_display_repairs.sql|\
               supabase/migrations/20261022031000_task428_pedguli_verified_batch02.sql|\
               supabase/migrations/20261022032000_task428_pedguli_verified_batch03.sql|\
               supabase/migrations/20261022033000_task428_pedguli_verified_batch04.sql|\
@@ -460,6 +462,8 @@ jobs:
               supabase/migrations/20261022051517_task403_ten_y1_info_office_security_semantic_balance_repairs.sql|\
               supabase/migrations/20261022080203_task404_ten_y1_info_office_security_distractor_balance.sql|\
               supabase/migrations/20261022080902_task405_ten_y1_algorithms_python_js_security_semantic_repair.sql|\
+              supabase/migrations/20261022150529_task459_css_roman_list_code_fences_heading_color_correction.sql|\
+              supabase/migrations/20261022150625_task460_html_css_two_legacy_multiline_display_repairs.sql|\
               supabase/migrations/20261022031000_task428_pedguli_verified_batch02.sql|\
               supabase/migrations/20261022032000_task428_pedguli_verified_batch03.sql|\
               supabase/migrations/20261022033000_task428_pedguli_verified_batch04.sql|\
