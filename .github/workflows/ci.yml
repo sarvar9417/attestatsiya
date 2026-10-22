@@ -234,6 +234,22 @@ jobs:
                 echo "Skipping already-applied production-only TASK428 24-item owner release in clean-schema CI: ${migration}"
                 continue
                 ;;
+              supabase/migrations/20261022032000_task428_pedguli_verified_batch03.sql)
+                # TASK-428 batch03 contains 21 previously published private
+                # pedagogical source questions but its release requires the
+                # REAL owner/admin profile. A fresh anonymous CI DB has none;
+                # it cannot replay the owner-authorized release faithfully.
+                # Production was checked read-only: all 21 original records,
+                # their keys and owner release waivers exist (10 published,
+                # 11 subsequently archived through immutable revisions).
+                if ! grep -Fq 'TASK428_B03_OWNER_NOT_UNIQUE' "${migration}" || \
+                   ! grep -Fq 'TASK428_B03_PUBLISHED_%' "${migration}"; then
+                  echo "ERROR: TASK428 batch03 owner/quality release guards have changed"
+                  exit 1
+                fi
+                echo "Skipping already-applied production-only TASK428 21-item owner release in clean-schema CI: ${migration}"
+                continue
+                ;;
             esac
 
             if [ "${migration}" = "${BROKEN_MIGRATION}" ]; then
