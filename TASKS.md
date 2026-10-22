@@ -1,3 +1,19 @@
+## TASK-531 — Axborot xavfsizligi 8 ta Y1 distractor qayta ishlash (2026-10-22)
+
+- **Owner:** ChatGPT; branch `task/TASK-531-security-y1-distractor-review`.
+- **Scope/status:** 8 x published S7.SEC Y1 ning to‘g‘ri javob matni pin qilindi, 3 ta pedagogik chalg‘ituvchi variant va tushuntirish yozildi. Live production BEGIN…ROLLBACK preview: 8 review / 32 option / 8 key PASS, old mock-eligible 1 original va old history 2 yozuv o‘zgarmagan. Durable stage pending CI.
+- **Files:** `supabase/maintenance/task531_security_eight_review_stage.sql`, `src/tests/task531SecurityReview.test.ts`, `docs/TASK531_SECURITY_Y1_REVIEW_20261022.md`.
+- **Safety:** only REVIEW stage, `is_generated=true`, independent human attestation not claimed; medium pending finding avoids new exclusion of originals. All published originals and exam history immutable; source PDF page not independently verified.
+- **Next:** GitHub CI→main merge→one-time REVIEW stage→production postflight, user-visible publish only after separate content approval; full bank issue #469.
+
+## TASK-530 — PedGuli Telegram testlar bankini to‘liq ekspert saralash (2026-10-22)
+
+- **Owner:** ChatGPT; foydalanuvchi pedagogika testlarini to‘liq ekspert ko‘rigidan o‘tkazish, barcha yaroqli savollarni bazaga kiritish va yakuniy qarorni mustaqil qabul qilish vakolatini bergan.
+- **Status:** IN PROGRESS — 429 ta noyob kalitli Telegram xabari inventarizatsiya qilindi; batch 02–05 orqali 82 ta yangi savol va 2 ta mavjud REVIEW productionga nashr qilindi. 82/82 manba faol published reviziya bilan ifodalangan va 4-option/key integrity PASS. Qolgan kandidatlarning ekspert saralashi davom etadi. Ish dastlab TASK-428 sifatida boshlangan, lekin `main`da parallel informatika TASK-428 merge bo‘lgach repository koordinatsiyasi TASK-530ga ko‘chirildi; qo‘llangan migration nomlari tarixiy TASK-428 yorlig‘ini saqlaydi.
+- **Chegara:** faqat pedagogika/KSga tegishli, mustaqil tushunarli, javobi yagona va kanonik konstruktga aniq mos savollar. Dublikat, sharti yetishmaydigan, kaliti xato yoki mazmunan bahsli xabarlar nashr qilinmaydi va qaror reyestrida sabab bilan qayd etiladi.
+- **Xavfsizlik:** eski published reviziya, kalit, exam item va attemptlar joyida o‘zgartirilmaydi; yangi savollar additive UUID bilan kiritiladi. AI-assisted owner-authorized provenance rost yoziladi, mustaqil inson ekspert tasdig‘i da’vo qilinmaydi. Vercel/application deploy qilinmaydi.
+- **Dalil:** `docs/TASK530_PEDGULI_COMPLETE_BANK_PROGRESS_20261022.md`; 4 production migration va 4 Vitest regressiya.
+
 ## TASK-532 — TASK-428 production-only release/CI fixture ajratish (2026-10-22)
 
 - **Owner:** ChatGPT; branch `task/TASK-532-fresh-ci-task428-prod-only-guard`.
