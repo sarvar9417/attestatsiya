@@ -1,0 +1,22 @@
+name: TASK-429 PDF truth-table release QA
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/task429-truth-counts.test.mjs'
+      - 'supabase/maintenance/task429_publish_five_truth_table_y1.sql'
+      - '.github/workflows/task429-truth-release.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+jobs:
+  test-five-corrections:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node --test scripts/task429-truth-counts.test.mjs
