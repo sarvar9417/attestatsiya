@@ -1,3 +1,9 @@
+## 2026-10-21 continuation: migration collision reconciled
+
+The duplicate `20261021221000` filename reported under #480 has been reconciled on current `main`: `task376_pedguli_verified_intake` remains `20261021221000`, and the Office Y3 release now uses distinct `20261021221001`. Production Supabase history already records both under distinct real versions. The fresh-schema CI workflow also excludes exact applied production-only data releases without removing their safeguards.
+
+The old PR #470 became unmergeable after concurrent `main` updates, and its four audit/staging/test/report files are already present byte-for-byte on `main`. This successor PR records the continuation and obtains fresh CI against current `main`, **without touching historical migrations or replacing published questions**. After green CI, apply only the 8-review staging script with transactional postflight. This remains review-only; release requires separately verified content acceptance.
+
 ## CI dependency resolution
 
 - TASK-382 PR #472 merged (`22dd76eb015a6934091db945dae3751643416366`): fresh-schema CI now skips only source-pinned, production-only TASK-381 cutover; old migration file unchanged.
