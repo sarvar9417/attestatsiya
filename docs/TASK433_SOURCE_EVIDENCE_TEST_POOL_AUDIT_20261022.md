@@ -41,3 +41,9 @@ Production postflightda 201 ta shubhali manbali savol yangi helper orqali **fals
 Manba tasdig‘i ochiq qolgan ayrim konstrukt/turlarda pool kamayadi: PM.MET ning Y2 turida mavjud bitta nashrdagi savol ham ochiq manba finding sababli filtrlanadi. Ushbu format talab qilinsa, tizim allaqachon mavjud `insufficient pool` mexanizmi bilan to‘xtashi kerak, eski sifatsiz savolni majburan kiritmasligi kerak. Manba tekshiruvlari keyinchalik haqiqiy dalil bilan yopilganda savol avvalgi published holatida yana eligible bo‘ladi.
 
 **Mustaqil inson ekspertizasi** yoki hukumatning rasmiy answer key tasdig‘i amalga oshirilgan deb da’vo qilinmaydi.
+
+## TASK-434 qamrov auditi
+
+2026-10-22 davomiy tekshiruvda `PM.MET` guruhidagi **yagona** published Y2 savol `084c0fcf-be84-4981-84a4-bb7b714c747a` ekanligi tasdiqlandi. Mazkur savolning `authored:pedagogy-examstyle:20261020:PM.MET.02:Y2:01` havolasi faqat ichki mualliflik manbasidir; `editorial_evidence_missing` ochiq, tashqi birlamchi manba va mustaqil baholash tasdiqlanmagan. Unga faqat kerakli hisobni to‘ldirish uchun sun’iy tasdiq bermaslik lozim. Qo‘shimcha haqiqiy manbali Y2 savollari alohida tayyorlanishi kerak.
+
+Nashrdagi 18 ta majburiy dars–konstrukt bog‘lanishidan hech biri umumiy minimal test soni bo‘yicha filtr sabab yangi kamchilikka tushmadi; format kesimidagi Y2 yetishmovchiligi esa ochiq qolmoqda.
