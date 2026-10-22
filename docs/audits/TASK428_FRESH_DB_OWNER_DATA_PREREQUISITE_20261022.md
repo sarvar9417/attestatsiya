@@ -43,3 +43,9 @@ Following the first specific CI exemption, the next migration in chronological o
 Read-only production verification against the batch03 migration's **exact 21 source IDs** found 21/21 source rows, 21/21 question keys and 21/21 owner-release waivers; 10 source versions remain published and 11 originals were subsequently archived via immutable revisions. The live migration and owner gate were left intact.
 
 The fresh-schema CI exception therefore also covers **only that exact batch03 path**, while checking the migration retains its strict `TASK428_B03_OWNER_NOT_UNIQUE` and `TASK428_B03_PUBLISHED_%` checks. This makes the omitted release explicit rather than falsely claiming clean CI can recreate a real admin identity and private owner-reviewed content. No live changes were made.
+
+## Concurrent TASK-532 mainline resolution
+
+During this PR, a separate, newer **TASK-532** commit landed on `main` (commit `c701dda2f92e3b5af574c26e90221bfe85d63922`). It independently and more comprehensively adjusts **both** clean CI migration replay loops for all four production-specific releases (batch02–batch05), and adds regression checks. The current branch's CI workflow was synchronized **byte-for-byte** to that `main` version. This report's first- and second-batch findings remain read-only historical evidence; it no longer proposes replacing the broader mainline solution.
+
+PR #532 primarily contributes the separate M08 private Y3 preflight and regression tests. Do not treat the concurrent TASK-532 source-data fix as newly introduced by PR #532.
