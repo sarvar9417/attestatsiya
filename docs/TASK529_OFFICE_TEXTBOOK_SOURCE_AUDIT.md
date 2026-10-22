@@ -19,6 +19,18 @@ PDF sahifa raqami va kitobning bosma raqami ajratib ko‘rsatildi. Ma’lumotlar
 
 **Ehtiyot chorasi:** 5 ta savolning asosiy nazariyasi darslikda tekshirildi (shartli formatlash, Mail Merge, ikki PowerPoint savoli, COUNTIF). Bitta Word savoli qisman qo‘llab-quvvatlandi; ikkitasi uchun aynan nazarda tutilgan hodisa/klavish dalili yo‘q. Qisman tasdiqlangan yoki manbasi mos kelmaydigan savollar avtomatik learner publication uchun ruxsat hisoblanmaydi.
 
+## Qo‘shimcha: rasmiy Microsoft qo‘llanmalari bilan texnik validatsiya
+
+Quyidagi uchta savol bo‘yicha **darslikdagi aniq sahifa hanuz tasdiqlanmagan**, ammo mustaqil texnik manba bilan javob mexanizmi aniqlandi:
+
+| Savol | Microsoft rasmiy manbasi | Natija |
+|---|---|---|
+| Word bir sahifada Landscape | [Use section breaks](https://support.microsoft.com/en-us/word/use-section-breaks-to-change-the-layout-or-formatting-in-one-section-of-your-word-document) va [Change page orientation](https://support.microsoft.com/en-us/office/video-use-landscape-and-portrait-in-the-same-document-ddd80cb6-c9ae-4493-ba75-c663074031a0) | Ikki section chegarasi bilan formatni ajratish mumkin; shuningdek `Selected text` usuli bor. Darslikning aynan `Next Page` ketma-ketligi bo‘yicha dalili yo‘q |
+| Word `Shift+Enter` | [Word keyboard shortcuts](https://support.microsoft.com/en-us/accessibility/word/keyboard-shortcuts-in-word) | `Shift+Enter` satr uzilishi; bu kitobning tekshirilgan sahifasidagi dalil bilan almashtirilmaydi |
+| Excel `#####` | [How to correct a ##### error](https://support.microsoft.com/en-us/excel/how-to-correct-a-error) | Ustun torligi keng tarqalgan sabab, lekin manfiy sana/vaqt qiymati ham sabab bo‘lishi mumkin; savolning «ehtimoliy oddiy sabab» degan ifodasi shu nuansga mos |
+
+Bu havolalar `external_technical_support` sifatida **alohida maydon**da saqlanadi; `references` faqat foydalanuvchining PDF darsliklarini bildiradi. Shuning uchun `page_evidence_pending` holatidagi ikki savolni darslikda tasdiqlangan deb qayta belgilash noto‘g‘ri bo‘ladi.
+
 ## Muammo va keyingi ish
 1. Mail Merge `source_reference`dagi CAM7 6–35 oralig‘i dalil topilgan 121–122-sahifaga mos emas. Asl published savolni **joyida tahrirlamasdan**, yangi versiyada manbani qayta tekshirib tasdiqlash kerak.
 2. Wordning bir sahifalik Landscape yechimi texnik jihatdan Section Break orqali bajarilishi mumkin, ammo ko‘rilgan Cambridge betlari boshqa — tanlangan matnga orientatsiyani qo‘llash — usulni ko‘rsatadi. Testning to‘g‘riligini boshqa ishonchli manbada asoslash yoki savolni manbaga mos qayta ifodalash kerak.
