@@ -265,6 +265,7 @@ export default function GroupMockPage() {
   const recentRoomKey = user?.id ? `attestatsiya:group:last-room:${user.id}` : null
   const [joinCode, setJoinCode] = useState(searchParams.get('code') ?? '')
   const [mode, setMode] = useState<GroupMockMode>('spec')
+  const [now, setNow] = useState(() => Date.now())
   const [catalog, setCatalog] = useState<CatalogModule[]>([])
   const [loadingCatalog, setLoadingCatalog] = useState(false)
   const [selected, setSelected] = useState<TopicSelection>({})
@@ -368,7 +369,7 @@ export default function GroupMockPage() {
   }, [roomId, user?.id, authLoading, recentRoomKey, searchParams, setSearchParams])
 
   useEffect(() => {
-    if (roomId || mode === 'spec' || catalog.length) return
+    if (roomId || (mode !== 'topics' && mode !== 'manual') || catalog.length) return
     let active = true
     setLoadingCatalog(true)
     void getCustomTestCatalog().then(items => {
@@ -411,6 +412,18 @@ export default function GroupMockPage() {
     return () => { active = false }
   }, [roomId, state?.room_id, state?.status])
 
+  useEffect(() => {
+    if (!state?.deadline_at || state.status === 'finished') return
+    setNow(Date.now())
+    const timer = window.setInterval(() => setNow(Date.now()), 1000)
+    return () => window.clearInterval(timer)
+  }, [state?.deadline_at, state?.status])
+
+  const remainingSeconds = state?.deadline_at
+    ? Math.max(0, Math.ceil((Date.parse(state.deadline_at) - now) / 1000)) : null
+  const countdown = remainingSeconds === null ? null
+    : `${Math.floor(remainingSeconds / 60).toString().padStart(2, '0')}:${(remainingSeconds % 60).toString().padStart(2, '0')}`
+
   const topics = useMemo<GroupMockTopic[]>(() =>
     Object.entries(selected).map(([lesson_id, value]) => ({
       lesson_id, count: value.count, difficulty: value.difficulty,
@@ -433,6 +446,7 @@ export default function GroupMockPage() {
 
   const create = () => void act(async () => {
     const config: Record<string, unknown> = mode === 'spec' ? {} :
+      mode === 'pedagogy' ? { total_count: 20, duration_minutes: 30 } :
       mode === 'topics' ? { total_count: count, topics } : { question_ids: manual }
     const result = await createGroupMock(mode, config)
     setSearchParams({ room: result.room_id })
@@ -566,7 +580,7 @@ export default function GroupMockPage() {
                     </span>
                     <span className="text-sm text-gray-600 dark:text-gray-300">
                       {room.status === 'lobby' ? 'Kutilmoqda' : room.status === 'question' ? 'Savol' : room.status === 'reveal' ? 'Muhokama' : room.status === 'paused' ? 'Vaqtincha yopilgan' : 'Yakunlangan'}
-                      {' · '}{room.current_idx}/{room.total_count}{' · '}{room.member_count} kishi
+                      {' · '}{room.mode === 'pedagogy' ? 'Faqat pedagogika · ' : ''}{room.current_idx}/{room.total_count}{' · '}{room.member_count} kishi
                     </span>
                   </button>
                   {room.is_host && (
@@ -585,9 +599,10 @@ export default function GroupMockPage() {
           <h2 className="mb-4 flex items-center gap-2 text-xl font-bold dark:text-white"><ClipboardList /> Guruhli test tashkil etish</h2>
           <fieldset className="mb-5">
             <legend className={label}>Savollarni tanlash usuli</legend>
-            <div className="mt-2 grid gap-2 sm:grid-cols-3">
+            <div className="mt-2 grid gap-2 sm:grid-cols-4">
               {([
                 ['spec', 'Spetsifikatsiya (50 ta)'],
+                ['pedagogy', 'Faqat pedagogika (20 ta · 30 daqiqa)'],
                 ['topics', 'Mavzular bo‘yicha'],
                 ['manual', 'Savollarni qo‘lda'],
               ] as const).map(([value, text]) => (
@@ -605,7 +620,12 @@ export default function GroupMockPage() {
               Amaldagi rasmiy attestatsiya spetsifikatsiyasi: 50 savol, barcha bo‘limlar va kognitiv darajalar kvotasi avtomatik saqlanadi.
             </p>
           )}
-          {mode !== 'spec' && (
+          {mode === 'pedagogy' && (
+            <p className="mb-5 rounded-xl border border-indigo-200 bg-indigo-50 p-4 text-sm text-indigo-900 dark:border-indigo-900 dark:bg-indigo-950/30 dark:text-indigo-200">
+              20 ta tasodifiy sifat nazoratidan o‘tgan savol: 7 ta kasb standartlari, 9 ta umumiy pedagogika va 4 ta o‘qitish metodikasi. Vaqt test boshlanganidan keyin 30 daqiqa; avtomatik yakunlanadi va tanaffus qilinmaydi.
+            </p>
+          )}
+          {(mode === 'topics' || mode === 'manual') && (
             <div className="mb-5 space-y-4">
               {loadingCatalog && <p role="status">Mavzular yuklanmoqda...</p>}
               {catalogError && <p role="alert" className="text-red-600">{catalogError}</p>}
@@ -756,6 +776,13 @@ export default function GroupMockPage() {
       {error && <p role="alert" className="rounded-xl border border-red-300 bg-red-50 p-3 text-red-700">{error}</p>}
       {connectionWarning && <p role="status" className="rounded-xl border border-amber-300 bg-amber-50 p-3 text-amber-800">{connectionWarning}</p>}
       {!state && <p role="status" className={panel}>Xona yuklanmoqda...</p>}
+      {state?.mode === 'pedagogy' && (
+        <section aria-live="polite" className="rounded-xl border border-indigo-200 bg-indigo-50 p-4 font-semibold text-indigo-900 dark:border-indigo-900 dark:bg-indigo-950/30 dark:text-indigo-200">
+          Faqat pedagogika · 20 ta savol · {state.status === 'lobby' || (state.status === 'paused' && state.paused_from_status === 'lobby')
+            ? '30 daqiqa (boshlangach)' : state.status === 'finished' ? 'Test yakunlandi'
+              : `Qolgan vaqt: ${countdown ?? 'hisoblanmoqda'}`}
+        </section>
+      )}
       {state && (
         <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_320px]">
           <div className="space-y-5">
@@ -796,7 +823,8 @@ export default function GroupMockPage() {
                 onAnswer={answer => void act(() => answerGroupMock(roomId ?? '', answer))} />
             )}
 
-            {state.is_host && ['lobby','question','reveal'].includes(state.status) && (
+            {state.is_host && ['lobby','question','reveal'].includes(state.status) &&
+              (state.mode !== 'pedagogy' || state.status === 'lobby') && (
               <section className={panel}>
                 <h2 className="mb-2 font-bold dark:text-white">Testni vaqtincha yopish</h2>
                 <p className="mb-3 text-sm text-gray-500 dark:text-gray-400">
