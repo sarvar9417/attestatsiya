@@ -281,6 +281,7 @@ jobs:
             -f supabase/tests/professional_120_canonical_links.test.sql \
             -f supabase/tests/pedguli_editorial_fingerprint_gate.test.sql \
             -f supabase/tests/task201_pedagogy_publish_gate.test.sql \
+            -f supabase/tests/task429_pedagogy_semantic_publish_gate.test.sql \
             -f supabase/tests/task202_pedagogy_revision_queue.test.sql \
             -f supabase/tests/task202_atomic_pedagogy_publish.test.sql \
             -f supabase/tests/task202_verified_pdf_review_authoring.test.sql \
