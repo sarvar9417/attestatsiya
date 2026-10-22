@@ -1,3 +1,11 @@
+## TASK-547 — Pedagogika nazariyasi darslaridagi ichki manba-audit izlarini ajratish (2026-10-22)
+
+- **Owner:** ChatGPT; **status:** PR #563 (CI/release tekshiruvida).
+- **Scope:** M14–M16 learner BookReaderda Markdown PDF/SHA-256, «Asl manba», «Qo‘shimcha tekshiruv», to‘plam/Telegram yuborilgan vaqt va ichki kalit belgilari o‘rniga foydalanishga yaroqli nazariya. 2026-10-22 read-only audit: 249 ta dars, keng naqsh bo‘yicha 62 candidate, 7 ta SHA-256.
+- **Safety:** immutable `public.lessons.body_mdx`ga yozilmaydi, published savollar/kalitlar tegilmaydi, Supabase migration yo‘q, Vercel deploy yo‘q. Source provenance DBda qoladi.
+- **Implementation:** `src/features/content/presentPedagogyTheory.ts`, `TopicView.tsx`, `src/tests/task547PedagogyTheoryCopy.test.ts`.
+- **Review evidence:** `docs/TASK547_PEDAGOGY_THEORY_LEARNER_COPY_20261022.md`. CI va learner smoke gate o'tmasdan merge/release qilinmasin.
+
 ## TASK-546 — Tarmoq Y1 javoblarining mavzuviy aniqligi, 8 ta REVIEW nusxa (2026-10-22)
 
 - **Owner:** ChatGPT; **status:** DONE — 8 ta AI-assisted Y1 tarmoq qobiliyat testi yangi `review` sifatida production bazasiga xavfsiz kiritildi; eski sakkizta `published` o‘zgarmadi.
