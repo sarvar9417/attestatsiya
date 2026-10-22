@@ -35,3 +35,11 @@ The current workflow already intentionally exempts production-only editorial rel
 - Production-only editorial release: `20261022031000_task428_pedguli_verified_batch02.sql`.
 
 **No human expert endorsement is implied.** The owner delegated AI review; the private source content remains subject to the previously established editorial and authorisation policies.
+
+## Batch03 additional clean CI prerequisite
+
+Following the first specific CI exemption, the next migration in chronological order — `supabase/migrations/20261022032000_task428_pedguli_verified_batch03.sql` — applied its 21 private question drafts but stopped in its release routine at a strict `SELECT ... INTO STRICT` for a real unblocked admin/owner profile. Fresh CI does not create the identity. This is another **production-only release prerequisite**, not a source/type/key mismatch in the M08 validator.
+
+Read-only production verification against the batch03 migration's **exact 21 source IDs** found 21/21 source rows, 21/21 question keys and 21/21 owner-release waivers; 10 source versions remain published and 11 originals were subsequently archived via immutable revisions. The live migration and owner gate were left intact.
+
+The fresh-schema CI exception therefore also covers **only that exact batch03 path**, while checking the migration retains its strict `TASK428_B03_OWNER_NOT_UNIQUE` and `TASK428_B03_PUBLISHED_%` checks. This makes the omitted release explicit rather than falsely claiming clean CI can recreate a real admin identity and private owner-reviewed content. No live changes were made.
