@@ -94,14 +94,6 @@ begin
     group by lc.construct_id
   ) criticals;
 
-  if v_topic_count + v_critical_slots > v_target then
-    raise exception
-      'section_mock_blueprint_invalid: topic_slots=% critical_slots=% target=%',
-      v_topic_count,
-      v_critical_slots,
-      v_target;
-  end if;
-
   -- Global eligible pool for the module.
   select count(distinct q.id)
     into v_pool_count
@@ -127,8 +119,11 @@ begin
   end if;
   v_target := least(50, v_pool_count);
   v_dur := v_target * 120;
-  if v_topic_count + v_critical_slots > v_target then
-    raise exception 'section_mock_blueprint_invalid: topic_slots=% critical_slots=% target=%', v_topic_count,v_critical_slots,v_target;
+  -- Topic and critical-objective slots may share the same selected question.
+  -- A sum-based preflight incorrectly rejects e.g. one critical topic/one item.
+  -- The actual deterministic selector below enforces both coverage requirements.
+  if greatest(v_topic_count, v_critical_slots) > v_target then
+    raise exception 'section_mock_blueprint_invalid: topic_slots=% critical_slots=% target=%', v_topic_count, v_critical_slots, v_target;
   end if;
 
   -- Check every critical objective deterministically before creating a session.
