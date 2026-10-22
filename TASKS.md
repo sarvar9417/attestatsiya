@@ -1,3 +1,11 @@
+## TASK-532 — TASK-428 production-only release/CI fixture ajratish (2026-10-22)
+
+- **Owner:** ChatGPT; branch `task/TASK-532-fresh-ci-task428-prod-only-guard`.
+- **Status:** CI BLOCKER: task428 batch02 clean DB job `TASK428_PINNED_REVIEW_CHANGED`. TASK-428 batch02–05 source-pinned AI editorial releases production Supabase historyda allaqachon alohida versiyalarda mavjud, clean fixture'siz ishlay olmaydi. Ikkita CI loopga aynan 4 ta production-only release allowlistga qo‘shildi.
+- **Safeguard:** committed migrationlar, real Supabase production va historical answers o‘zgartirilmaydi; qolgan barcha schema migrations/testlar ishlaydi.
+- **Fayllar:** `.github/workflows/ci.yml`, `src/tests/task532CiTask428Guard.test.ts`, `docs/TASK532_TASK428_CI_FIXTURE_GUARD.md`.
+- **Next:** CI PASS → main merge → TASK-531 PR #530 uchun yangi current-main quality gates; learner kontentga hech qanday o‘zgartirish yo‘q.
+
 ## TASK-530 — PedGuli Telegram testlar bankini to‘liq ekspert saralash (2026-10-22)
 
 - **Owner:** ChatGPT; foydalanuvchi pedagogika testlarini to‘liq ekspert ko‘rigidan o‘tkazish, barcha yaroqli savollarni bazaga kiritish va yakuniy qarorni mustaqil qabul qilish vakolatini bergan.
