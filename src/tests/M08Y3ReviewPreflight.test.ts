@@ -47,6 +47,8 @@ describe('M08 private Y3 review-only candidate preflight', () => {
     item.previous_source_reference = 'pyjs-2026-v2:P06-023'
     item.source_evidence[1].file = 'ICT 10_sinf-2021(1).pdf'
     item.source_evidence[1].pdf_page_1_based = 111
+    item.source_evidence[0].supported_skill = 'Python condition and list constructs'
+    item.source_evidence[1].supported_skill = 'Python lists and for loops'
     item.stem_md = 'Natijalarni chiqish tartibida joylashtiring.\n\n' +
       '```python\nfor x in [2,3,4,5]:\n    print(x)\n```'
     expect(validateM08Y3ReviewCandidate(item)).toEqual([])
@@ -152,6 +154,15 @@ describe('M08 private Y3 review-only candidate preflight', () => {
     item.source_evidence[0].pdf_page_1_based = 5
     expect(validateM08Y3ReviewCandidate(item)).toContain(
       'missing_2026_specification_reference',
+    )
+  })
+
+
+  it('rejects inherited-object-property names as fake PDF sources', () => {
+    const item = fresh()
+    item.source_evidence[1].file = 'toString'
+    expect(validateM08Y3ReviewCandidate(item)).toContain(
+      'invalid_source_pdf_page_or_file',
     )
   })
 
