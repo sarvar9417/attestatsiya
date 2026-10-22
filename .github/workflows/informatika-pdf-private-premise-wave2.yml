@@ -1,0 +1,23 @@
+name: informatika-pdf-private-premise-wave2
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/task-informatika-private-premise-wave2.test.mjs'
+      - 'supabase/maintenance/informatika_pdf_private_wave2_READONLY.sql'
+      - 'docs/INFORMATIKA_PDF_QA_WAVE2_20261022.md'
+      - '.github/workflows/informatika-pdf-private-premise-wave2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test scripts/task-informatika-private-premise-wave2.test.mjs
