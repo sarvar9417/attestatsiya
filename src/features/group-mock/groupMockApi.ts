@@ -3,6 +3,25 @@ import { sessionStore } from '../auth/sessionStore'
 import { examItemSchema, postgresUuidSchema } from '../exam/contracts'
 
 const roomRef = z.object({ room_id: z.string().uuid(), code: z.string().regex(/^[A-F0-9]{8}$/) })
+// Keep every room response contract in sync when a new test mode is introduced.
+const groupMockModeSchema = z.enum(['spec', 'topics', 'manual', 'pedagogy'])
+export type GroupMockMode = z.infer<typeof groupMockModeSchema>
+
+export class GroupMockClientVersionError extends Error {
+  constructor() {
+    super('Guruhli testning yangi turi brauzeringizdagi dastur versiyasida qo‘llab-quvvatlanmaydi. Sahifani yangilang va qayta kiring. Xonangiz va javoblar saqlanadi.')
+    this.name = 'GroupMockClientVersionError'
+  }
+}
+
+function parseGroupMockContract<T>(schema: z.ZodType<T>, payload: unknown): T {
+  const parsed = schema.safeParse(payload)
+  if (parsed.success) return parsed.data
+  if (parsed.error.issues.some(issue => issue.path[0] === 'mode' && issue.code === 'invalid_value')) {
+    throw new GroupMockClientVersionError()
+  }
+  throw parsed.error
+}
 const member = z.object({
   user_id: z.string().uuid(),
   name: z.string(),
@@ -23,7 +42,7 @@ const answerSummary = z.object({
   is_correct: z.boolean().nullable(),
 })
 const stateSchema = roomRef.extend({
-  mode: z.enum(['spec', 'topics', 'manual', 'pedagogy']),
+  mode: groupMockModeSchema,
   status: z.enum(['lobby', 'question', 'reveal', 'paused', 'finished']),
   paused_from_status: z.enum(['lobby', 'question', 'reveal']).nullable(),
   is_host: z.boolean(),
@@ -42,7 +61,7 @@ const stateSchema = roomRef.extend({
 })
 export type GroupMockState = z.infer<typeof stateSchema>
 const myRoomSchema = roomRef.extend({
-  mode: z.enum(['spec', 'topics', 'manual', 'pedagogy']),
+  mode: groupMockModeSchema,
   status: z.enum(['lobby', 'question', 'reveal', 'paused', 'finished']),
   is_host: z.boolean(),
   total_count: z.number().int().min(1).max(100),
@@ -64,7 +83,6 @@ const bankQuestion = z.object({
   })),
 })
 export type BankQuestion = z.infer<typeof bankQuestion>
-export type GroupMockMode = 'spec' | 'topics' | 'manual' | 'pedagogy'
 export type GroupMockTopic = { lesson_id: string; count: number; difficulty: number }
 
 const messages: Record<string, string> = {
@@ -142,7 +160,7 @@ async function call(name: string, args: Record<string, unknown>): Promise<unknow
 }
 
 export async function listMyGroupMockRooms(): Promise<GroupMockRoomSummary[]> {
-  return z.array(myRoomSchema).parse(await call('group_mock_my_rooms', { p_limit: 20 }))
+  return parseGroupMockContract(z.array(myRoomSchema), await call('group_mock_my_rooms', { p_limit: 20 }))
 }
 export async function cancelGroupMockLobby(roomId: string): Promise<void> {
   await call('group_mock_cancel', { p_room: roomId })
@@ -157,7 +175,7 @@ export async function joinGroupMock(code: string) {
   return roomRef.parse(await call('group_mock_join', { p_code: code.toUpperCase().trim() }))
 }
 export async function getGroupMockState(roomId: string): Promise<GroupMockState> {
-  return stateSchema.parse(await call('group_mock_state', { p_room: roomId }))
+  return parseGroupMockContract(stateSchema, await call('group_mock_state', { p_room: roomId }))
 }
 
 export async function finishGroupMock(roomId: string): Promise<void> {

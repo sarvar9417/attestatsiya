@@ -14,5 +14,34 @@
   ],
   "git": {
     "deploymentEnabled": false
-  }
+  },
+  "headers": [
+    {
+      "source": "/group-mock",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "private, no-cache, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/index.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "private, no-cache, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "private, no-cache, must-revalidate"
+        }
+      ]
+    }
+  ]
 }

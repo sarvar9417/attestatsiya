@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { sessionStore, type AuthSession } from '../auth/sessionStore'
-import { createGroupMock, deleteGroupMockRoom, finishGroupMock, getGroupMockReport, listMyGroupMockRooms, pauseGroupMock, resumeGroupMock } from './groupMockApi'
+import { createGroupMock, deleteGroupMockRoom, finishGroupMock, getGroupMockReport, getGroupMockState, GroupMockClientVersionError, listMyGroupMockRooms, pauseGroupMock, resumeGroupMock } from './groupMockApi'
 
 const session: AuthSession = {
   access_token: 'test-user-jwt',
@@ -44,6 +44,48 @@ describe('group mock RPC authentication regression', () => {
         body: JSON.stringify({ p_limit: 20 }),
       }),
     )
+  })
+
+
+  it('accepts pedagogy in both room lists and joined room state', async () => {
+    const roomId = '93470000-0000-4000-8000-000000000002'
+    const summary = {
+      room_id: roomId, code: 'AABB1122', mode: 'pedagogy', status: 'lobby',
+      is_host: false, total_count: 20, current_idx: 1,
+      created_at: '2026-10-22T09:00:00Z', member_count: 2,
+    }
+    const state = {
+      room_id: roomId, code: 'AABB1122', mode: 'pedagogy',
+      status: 'lobby', paused_from_status: null, is_host: false,
+      total_count: 20, current_idx: 1,
+      duration_minutes: 30, deadline_at: null,
+      members: [], messages: [], question: null, my_answer: null,
+      answered_count: 0, answers: [], correct_answer: null, explanation_md: null,
+    }
+    const fetchMock = vi.fn()
+      .mockResolvedValueOnce(new Response(JSON.stringify([summary]), { status: 200 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify(state), { status: 200 }))
+    vi.stubGlobal('fetch', fetchMock)
+    await expect(listMyGroupMockRooms()).resolves.toEqual([summary])
+    await expect(getGroupMockState(roomId)).resolves.toEqual(state)
+    expect(fetchMock).toHaveBeenCalledTimes(2)
+  })
+
+  it('explains an unsupported newer mode as a client update, not a network outage', async () => {
+    const oldClientPayload = {
+      room_id: '93470000-0000-4000-8000-000000000002',
+      code: 'AABB1122', mode: 'newer_mode',
+      status: 'lobby', paused_from_status: null, is_host: false,
+      total_count: 20, current_idx: 1,
+      members: [], messages: [], question: null, my_answer: null,
+      answered_count: 0, answers: [], correct_answer: null, explanation_md: null,
+    }
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(
+      new Response(JSON.stringify(oldClientPayload), { status: 200 }),
+    ))
+    const error = await getGroupMockState(oldClientPayload.room_id).catch(value => value)
+    expect(error).toBeInstanceOf(GroupMockClientVersionError)
+    expect((error as Error).message).toMatch(/Sahifani yangilang/)
   })
 
   it('uses the same authenticated credentials when creating rooms', async () => {
