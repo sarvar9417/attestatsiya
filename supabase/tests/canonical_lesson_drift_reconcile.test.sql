@@ -162,6 +162,88 @@ begin
                      and em.code='M13'
                      and edition.slug ~ '^m13-axr-0[1-7]$'
                  ))
+        -- TASK-402/403 immutable repairs keep their exact M13 AXR source edition.
+        -- Exempt ONLY a properly linked edition revision whose original question
+        -- is one of the already-authorized M13 AXR V1 source questions.
+        and not (lane.module_code = 'M13'
+          and q.status in ('review'::public.content_status,'published'::public.content_status,'archived'::public.content_status)
+          and (coalesce(q.source_reference,'') like 'revision:TASK-402:AI-edited:%'
+               or coalesce(q.source_reference,'') like 'revision:TASK-403:AI-edited:%')
+          and exists (
+            select 1 from public.question_bank_revisions br
+            join public.questions original on original.id=br.source_question_id
+            join public.lessons edition on edition.id=q.source_lesson_id
+            join public.modules em on em.id=edition.module_id
+            join public.lesson_constructs link on link.lesson_id=edition.id
+                 and link.construct_id=q.construct_id
+            where br.revision_question_id=q.id
+              and br.revision_kind='owner_ai_y1_option_length_semantic_repair'
+              and original.source_reference like 'm13-axr-v1:Y1:AXR-%'
+              and original.construct_id=q.construct_id
+              and original.source_lesson_id=q.source_lesson_id
+              and em.code='M13'
+              and edition.slug ~ '^m13-axr-0[1-7]
+        and not (lane.module_code = 'M13'
+          and q.status in ('review'::public.content_status,'published'::public.content_status)
+          and q.format = 'Y2'::public.question_format
+          and coalesce(q.source_reference,'') ~ '^m13-qc-v2:Y2:AXRN-0[1-7]-Y2-01'
+          and length(coalesce(q.source_reference,'')) = length('m13-qc-v2:Y2:AXRN-01-Y2-01')
+          and exists (
+            select 1 from public.lessons l306
+            join public.modules m306 on m306.id=l306.module_id
+            join public.lesson_constructs lc306 on lc306.lesson_id=l306.id
+            where l306.id=q.source_lesson_id
+              and lc306.construct_id=q.construct_id
+              and m306.code='M13'
+              and l306.slug ~ '^m13-axr-0[1-7]'
+              and length(l306.slug)=length('m13-axr-01')
+          ))
+        -- TASK-213 graphics/web V2 is a separate unpublished content edition.
+        -- Do not exempt published items or non-V2 sources from drift checks.
+        and not (lane.module_code IN ('M10','M11')
+                 and q.status = 'review'::public.content_status
+                 and (coalesce(q.source_reference,'') like 'GV2:GV-%'
+                      or coalesce(q.source_reference,'') like '%GV2-EXT-%')
+                 and EXISTS (
+                    SELECT 1 FROM public.lessons v2
+                    WHERE v2.id=q.source_lesson_id
+                      AND v2.status='review'::public.content_status
+                      AND v2.slug LIKE '%-v2-review'
+                 ))
+        -- TASK-220: isolated REVIEW edition question candidates must remain linked
+        -- to their own M12 V2 source snapshots even when lessons are published.
+        -- Strict source labels and status-review keep every other item gated.
+        and not (lane.module_code = 'M12'
+                 and q.status in ('review'::public.content_status,'published'::public.content_status)
+                 and (coalesce(q.source_reference,'') like 'network-v2-20261018:TAR-%:original-%'
+                      or coalesce(q.source_reference,'') like 'network-v3-extra-20261018:TAR-NET26-Y%'
+                      or coalesce(q.source_reference,'') like 'm12-examstyle-20261020:M12-REAL26-%'
+                      or coalesce(q.source_reference,'') like 'm12-stylefix-20261020:M12-REV26-%')
+                 and exists (
+                    select 1 from public.lessons v2
+                    join public.modules vm on vm.id=v2.module_id
+                    where v2.id=q.source_lesson_id
+                      and vm.code='M12'
+                      and v2.slug like 'tarmoq-v2-bob-%'
+                      and v2.status IN ('draft','published')
+                 ))
+    ) then
+      raise exception 'TASK-064 % question source lesson drift remains',lane.module_code;
+    end if;
+
+    if exists (
+      select 1
+      from public.lesson_constructs lc
+      join public.lessons l on l.id=lc.lesson_id
+      where l.module_id=v_module and l.status='archived'::public.content_status
+    ) then
+      raise exception 'TASK-064 % archived legacy construct mapping remains',lane.module_code;
+    end if;
+  end loop;
+end
+$$;
+
+          ))
         -- TASK-306 exact seven source-backed REVIEW 4x5 matching revisions.
         and not (lane.module_code = 'M13'
           and q.status in ('review'::public.content_status,'published'::public.content_status)
