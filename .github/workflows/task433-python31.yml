@@ -1,0 +1,24 @@
+name: TASK-433 Python 31 interpreter QA
+on:
+  pull_request:
+    paths:
+      - 'docs/qa/task433-python31-executable-manifest.json'
+      - 'scripts/task433-python31.test.mjs'
+      - 'supabase/maintenance/task433_publish_31_python_operator_questions.sql'
+      - '.github/workflows/task433-python31.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  interpreter:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: node --test scripts/task433-python31.test.mjs
