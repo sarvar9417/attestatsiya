@@ -88,6 +88,44 @@ export function validateM08Y3ReviewCandidate(value: unknown): string[] {
   if (typeof item.source_context !== 'string' || !item.source_context.trim()) {
     errors.push('source_context_required')
   }
+
+  // Topic/syntax evidence is not an assertion that this original question
+  // appears verbatim on a textbook page, nor an automatic source approval.
+  // The bounds are PDF page numbers, not the page numbers printed in books.
+  const sourcePdfPages: Record<string, number> = {
+    'Informatika Testlar spesifikatsiyasi.pdf': 10,
+    'ICT 9_sinf-2020(1).pdf': 114,
+    'ICT 10_sinf-2021(1).pdf': 257,
+    '10-11-sinf informatika (Cambridge +)(1).pdf': 360,
+  }
+  const pythonBooks = new Set(['ICT 9_sinf-2020(1).pdf', 'ICT 10_sinf-2021(1).pdf'])
+  const javascriptBooks = new Set(['10-11-sinf informatika (Cambridge +)(1).pdf'])
+  const evidence = Array.isArray(item.source_evidence) ? item.source_evidence : []
+  let specEvidence = false
+  let textbookEvidence = false
+  if (evidence.length < 2) errors.push('specification_and_textbook_evidence_required')
+  for (const raw of evidence) {
+    const e = record(raw)
+    const file = typeof e?.file === 'string' ? e.file : ''
+    const page = e?.pdf_page_1_based
+    if (!Object.prototype.hasOwnProperty.call(sourcePdfPages, file) || typeof page !== 'number'
+      || !Number.isInteger(page) || page < 1 || page > sourcePdfPages[file]) {
+      errors.push('invalid_source_pdf_page_or_file')
+      continue
+    }
+    if (e?.evidence_level !== 'topic_and_syntax_not_verbatim_source'
+      || typeof e?.supported_skill !== 'string' || e.supported_skill.trim().length < 7) {
+      errors.push('unqualified_or_unsupported_source_evidence')
+    }
+    if (file === 'Informatika Testlar spesifikatsiyasi.pdf' && page === 4) {
+      specEvidence = true
+    }
+    if (sourceMatch?.[1] === 'P' && pythonBooks.has(file)) textbookEvidence = true
+    if (sourceMatch?.[1] === 'J' && javascriptBooks.has(file)) textbookEvidence = true
+  }
+  if (!specEvidence) errors.push('missing_2026_specification_reference')
+  if (!textbookEvidence) errors.push('missing_language_appropriate_textbook_reference')
+
   return [...new Set(errors)]
 }
 

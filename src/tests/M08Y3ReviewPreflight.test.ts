@@ -25,6 +25,14 @@ const baseline = {
   correct_order_option_indices: [2, 0, 3, 1],
   explanation_md: 'The loop visits each element in source order and prints all four values.',
   source_context: 'New independently authored pedagogical example, not an official exam item.',
+  source_evidence: [
+    { file: 'Informatika Testlar spesifikatsiyasi.pdf', pdf_page_1_based: 4,
+      supported_skill: 'JavaScript constructs and arrays',
+      evidence_level: 'topic_and_syntax_not_verbatim_source' },
+    { file: '10-11-sinf informatika (Cambridge +)(1).pdf', pdf_page_1_based: 322,
+      supported_skill: 'JavaScript conditions and arrays',
+      evidence_level: 'topic_and_syntax_not_verbatim_source' },
+  ],
 }
 
 const fresh = () => structuredClone(baseline)
@@ -37,6 +45,10 @@ describe('M08 private Y3 review-only candidate preflight', () => {
   it('accepts a Python candidate with the corresponding reference prefix', () => {
     const item = fresh()
     item.previous_source_reference = 'pyjs-2026-v2:P06-023'
+    item.source_evidence[1].file = 'ICT 10_sinf-2021(1).pdf'
+    item.source_evidence[1].pdf_page_1_based = 111
+    item.source_evidence[0].supported_skill = 'Python condition and list constructs'
+    item.source_evidence[1].supported_skill = 'Python lists and for loops'
     item.stem_md = 'Natijalarni chiqish tartibida joylashtiring.\n\n' +
       '```python\nfor x in [2,3,4,5]:\n    print(x)\n```'
     expect(validateM08Y3ReviewCandidate(item)).toEqual([])
@@ -102,4 +114,56 @@ describe('M08 private Y3 review-only candidate preflight', () => {
       { index: -1, codes: ['nonempty_review_array_required'] },
     ])
   })
+
+  it('rejects candidates lacking verified source-topic metadata', () => {
+    const item = fresh()
+    item.source_evidence = []
+    const errors = validateM08Y3ReviewCandidate(item)
+    expect(errors).toContain('specification_and_textbook_evidence_required')
+    expect(errors).toContain('missing_2026_specification_reference')
+    expect(errors).toContain('missing_language_appropriate_textbook_reference')
+  })
+
+  it('rejects invented or out-of-range PDF page references', () => {
+    const item = fresh()
+    item.source_evidence[1].pdf_page_1_based = 4000
+    const errors = validateM08Y3ReviewCandidate(item)
+    expect(errors).toContain('invalid_source_pdf_page_or_file')
+    expect(errors).toContain('missing_language_appropriate_textbook_reference')
+  })
+
+  it('requires a textbook for the actual candidate language', () => {
+    const item = fresh()
+    item.source_evidence[1].file = 'ICT 9_sinf-2020(1).pdf'
+    item.source_evidence[1].pdf_page_1_based = 80
+    expect(validateM08Y3ReviewCandidate(item)).toContain(
+      'missing_language_appropriate_textbook_reference',
+    )
+  })
+
+  it('will not treat an unsupported verbatim-source claim as evidence', () => {
+    const item = fresh()
+    item.source_evidence[1].evidence_level = 'verbatim_question_from_official_exam'
+    expect(validateM08Y3ReviewCandidate(item)).toContain(
+      'unqualified_or_unsupported_source_evidence',
+    )
+  })
+
+  it('rejects a fake specification page even with a real textbook', () => {
+    const item = fresh()
+    item.source_evidence[0].pdf_page_1_based = 5
+    expect(validateM08Y3ReviewCandidate(item)).toContain(
+      'missing_2026_specification_reference',
+    )
+  })
+
+
+  it('rejects inherited-object-property names as fake PDF sources', () => {
+    const item = fresh()
+    item.source_evidence[1].file = 'toString'
+    expect(validateM08Y3ReviewCandidate(item)).toContain(
+      'invalid_source_pdf_page_or_file',
+    )
+  })
+
 })
