@@ -25,7 +25,8 @@ BEGIN
     JOIN public.constructs c ON c.id=q.construct_id
     JOIN public.lesson_constructs lc ON lc.construct_id=c.id AND lc.lesson_id=v_lesson
     WHERE q.status='published'::public.content_status AND c.is_active
-      AND q.group_code=c.group_code;
+      AND q.group_code=c.group_code
+      AND public.question_source_evidence_eligible(q.id);
   IF (v_json->>'required')::int<>20 OR (v_json->>'available')::int<>v_q
     OR (v_json->>'ready')::boolean<>(v_q>=20) THEN
     RAISE EXCEPTION 'Preflight eligibility mismatch for M15.01: %, available=%',v_json,v_q;
