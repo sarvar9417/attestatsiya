@@ -25,7 +25,7 @@ test('numeric source computations are independently reproducible',()=>{
  assert.equal(13*15+13,208)
  assert.equal(3**12 %5,1)
  assert.equal(parseInt('321',4)+2*7*7+4,parseInt('237',8))
- assert.equal(7**27%8,7)
+ assert.equal((7n**27n)%8n,7n)
  assert.equal(16+8,24)
  assert.equal(base(Math.hypot(38-26,36-31),5),'23')
  assert.equal(base(Math.hypot(27,36),9),'50')
