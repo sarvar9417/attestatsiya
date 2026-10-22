@@ -65,6 +65,18 @@ $test$;
 -- The 5+7+3 assembler must still work after addition, without leaking correct keys.
 insert into auth.users(id,email)
 values ('79990000-0000-4000-8000-000000000001','pedguli-assembly@example.test');
+-- TASK433: This 5+7+3 regression is run against a CI-only test transaction.
+-- Existing source evidence findings on the synthetic 36-question seed must
+-- not reduce the controlled assembler sample. This never persists: ROLLBACK.
+UPDATE public.question_quality_findings f SET resolved_at=now()
+FROM public.questions q WHERE q.id=f.question_id
+  AND q.id::text LIKE '75000000-0000-4000-8000-%'
+  AND f.resolved_at IS NULL
+  AND f.finding_code IN (
+    'editorial_evidence_missing','source_provenance_unverified',
+    'answer_key_unverified','revision_source_no_longer_published'
+  );
+
 select set_config('request.jwt.claim.sub','79990000-0000-4000-8000-000000000001',false);
 do $test$
 declare

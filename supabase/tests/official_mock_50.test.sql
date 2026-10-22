@@ -201,6 +201,46 @@ begin
       values(v_qid,v_key,'T045 regression key');
     end loop;
   end loop;
+
+  -- TASK433: The official mock regression needs a complete KS/PM quota,
+  -- but genuine published pedagogy questions with unresolved source-evidence
+  -- findings must now be excluded. Publish ONLY the synthetic T045 fixture
+  -- using its own CI-only editorial record. The outer transaction ROLLBACK
+  -- guarantees this assertion fixture never escapes to production.
+  UPDATE public.questions
+  SET status='review'::public.content_status
+  WHERE source_reference LIKE 'T045:%'
+    AND group_code IN ('KS','PM.GEN','PM.MET')
+    AND status='draft'::public.content_status;
+
+  INSERT INTO public.question_editorial_checks(
+    question_id,reviewer_id,answer_verified,reference_verified,
+    wording_verified,original_authorship_verified,reviewer_notes,content_fingerprint
+  )
+  SELECT q.id,'73000000-0000-4000-8000-000000000001'::uuid,
+    true,true,true,true,
+    'TASK433 CI-only fully synthetic test question; key and reference are controlled by this fixture, not an external exam source or independent human review.',
+    public.professional_question_fingerprint(q.id)
+  FROM public.questions q
+  WHERE q.source_reference LIKE 'T045:%'
+    AND q.group_code IN ('KS','PM.GEN','PM.MET')
+    AND q.status='review'::public.content_status
+  ON CONFLICT(question_id) DO NOTHING;
+
+  UPDATE public.questions
+  SET status='published'::public.content_status
+  WHERE source_reference LIKE 'T045:%'
+    AND group_code IN ('KS','PM.GEN','PM.MET')
+    AND status='review'::public.content_status;
+
+  IF EXISTS(
+    SELECT 1 FROM public.questions q
+    WHERE q.source_reference LIKE 'T045:%'
+      AND q.group_code IN ('KS','PM.GEN','PM.MET')
+      AND q.status<>'published'::public.content_status
+  ) THEN
+    RAISE EXCEPTION 'TASK433: synthetic pedagogy mock fixture failed publication';
+  END IF;
 end
 $mock_fixture_v3$;
 
