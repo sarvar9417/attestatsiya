@@ -1,0 +1,19 @@
+name: TASK-433 JavaScript PDF 21 example QA
+on:
+  pull_request:
+    paths:
+      - scripts/task433-javascript-pdf-21-snippets.test.mjs
+      - .github/workflows/task433-js-examples.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-restored-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node --test scripts/task433-javascript-pdf-21-snippets.test.mjs
