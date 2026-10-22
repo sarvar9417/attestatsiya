@@ -19,7 +19,7 @@ test('31 original numbers are unique, all original defective #17,#21,#22,#30 exc
   assert.ok(sql.trimEnd().endsWith('COMMIT;'));
 });
 for (const q of tests) {
-  test(\`PDF Python original №\${q.source_question_no}: interpreter output and answer key match\`,()=>{
+  test(`PDF Python original №${q.source_question_no}: interpreter output and answer key match`,()=>{
     assert.equal(q.source_file_id,'1VViLB_EZHq_ayXRH5fsnrF91vw9sUl0Z');
     const r=spawnSync('python3',['-I','-c',q.code],{encoding:'utf8',timeout:4000});
     assert.equal(r.status,0, r.stderr||r.error?.message);
