@@ -1,0 +1,19 @@
+name: TASK-438 Number bases 15 source QA
+on:
+  pull_request:
+    paths:
+      - 'scripts/task438-sanoq15.test.mjs'
+      - 'supabase/maintenance/task438_publish_15_base_arithmetic_y1.sql'
+      - '.github/workflows/task438-sanoq.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  arithmetic:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node --test scripts/task438-sanoq15.test.mjs
