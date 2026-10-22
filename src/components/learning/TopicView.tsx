@@ -10,6 +10,7 @@ import { getTopicTestPreflight, type TopicTestPreflight } from '../../features/c
 import { getLessonDetail } from '../../features/content/contentApi'
 import { markdownToTheoryBlocks, overlayPublishedProfessionalLesson } from '../../features/content/professionalLessonTheory'
 import { presentPedagogyTheory } from '../../features/content/presentPedagogyTheory'
+import { projectLearnerTheoryWithoutEditorialTraces } from '../../features/content/projectLearnerTheoryWithoutEditorialTraces'
 import { isLocalAlgorithmSvgPath } from '../../features/content/localAlgorithmDiagram'
 import PedagogyTheoryBlock from './PedagogyTheoryBlock'
 import { completeLessonReader } from '../../features/content/completeLessonReader'
@@ -185,8 +186,11 @@ export default function TopicView({
   // Only the visible reading projection removes PDF hashes and editorial notes.
   const content = useMemo(() => {
     const completed = completeLessonReader(staticContent, loadedContent)
-    if (!completed || !/^M1[456]\.\d{2}$/.test(subtopicId)) return completed
-    return { ...completed, theory: presentPedagogyTheory(completed.theory) }
+    if (!completed) return completed
+    const theory = /^M1[456]\.\d{2}$/.test(subtopicId)
+      ? presentPedagogyTheory(completed.theory)
+      : projectLearnerTheoryWithoutEditorialTraces(completed.theory)
+    return theory === completed.theory ? completed : { ...completed, theory }
   }, [staticContent, loadedContent, subtopicId])
   /** Barcha darslar M01 namunasi kabi yagona kitob o‘qish rejimidan foydalanadi.
    *  Manbasi bor darslar o‘z bo‘limlarini saqlaydi, eski darslar adaptiv bo‘linadi. */
