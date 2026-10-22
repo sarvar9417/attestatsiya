@@ -34,6 +34,39 @@ begin
 end
 $qa$;
 
+-- TASK433: the 36 legacy regression fixtures are source-flagged in the
+-- production source audit. This transaction is CI-only and ends with ROLLBACK.
+-- Temporarily mark those synthetic fixtures as evidence-complete ONLY for
+-- verifying the 5/7/3 algorithm, never in live content or other tests.
+update public.question_quality_findings f set resolved_at=now()
+from public.questions q
+where q.id=f.question_id
+  and q.id::text like '75000000-0000-4000-8000-%'
+  and f.resolved_at is null
+  and f.finding_code in (
+    'editorial_evidence_missing','source_provenance_unverified',
+    'answer_key_unverified','revision_source_no_longer_published'
+  );
+
+do $task433_fixture$
+declare v_group text; n int; v_min int;
+begin
+  for v_group,v_min in
+    select * from (values ('KS'::text,5),('PM.GEN'::text,7),('PM.MET'::text,3)) t(g,n)
+  loop
+    select count(*) into n from public.questions q
+    where q.id::text like '75000000-0000-4000-8000-%'
+      and q.status='published'::public.content_status
+      and q.group_code=v_group
+      and public.question_source_evidence_eligible(q.id);
+    if n<v_min then
+      raise exception 'TASK433 CI fixture lacks source-filtered % pool: need % got %',
+        v_group,v_min,n;
+    end if;
+  end loop;
+end
+$task433_fixture$;
+
 select set_config('request.jwt.claim.sub','77000000-0000-4000-8000-000000000001',false);
 
 do $qa$
