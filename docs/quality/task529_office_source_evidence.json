@@ -63,7 +63,19 @@
           "details": "Portrait/Landscape explained, including a single selected page using Page Setup > Apply to Selected text; source does NOT explicitly teach two Section Break (Next Page) boundaries."
         }
       ],
-      "caveat": "Do not assert that the specific two-Section-Break method is directly verified by these pages. It is a separate correct Word method needing technical/editorial signoff."
+      "caveat": "Do not assert that the specific two-Section-Break method is directly verified by these pages. It is a separate correct Word method needing technical/editorial signoff.",
+      "external_technical_support": [
+        {
+          "publisher": "Microsoft Support",
+          "url": "https://support.microsoft.com/en-us/word/use-section-breaks-to-change-the-layout-or-formatting-in-one-section-of-your-word-document",
+          "finding": "Use a section break before and after the region when formatting must change for just that section; Next Page is a supported break type."
+        },
+        {
+          "publisher": "Microsoft Support",
+          "url": "https://support.microsoft.com/en-us/office/video-use-landscape-and-portrait-in-the-same-document-ddd80cb6-c9ae-4493-ba75-c663074031a0",
+          "finding": "An alternative is changing orientation for Selected text; this aligns with the Cambridge 7 passage. Multiple valid Word workflows are not interchangeable with a cited exact textbook procedure."
+        }
+      ]
     },
     {
       "source_id": "a88f3eab-5d91-ee34-6121-30231555b187",
@@ -90,7 +102,14 @@
       "topic": "Word Enter versus Shift+Enter",
       "status": "page_evidence_pending",
       "references": [],
-      "caveat": "The source_reference lists ICT5/ICT6/CAM7 page ranges, but these were not independently confirmed as explaining a soft return (Shift+Enter)."
+      "caveat": "The source_reference lists ICT5/ICT6/CAM7 page ranges, but these were not independently confirmed as explaining a soft return (Shift+Enter).",
+      "external_technical_support": [
+        {
+          "publisher": "Microsoft Support",
+          "url": "https://support.microsoft.com/en-us/accessibility/word/keyboard-shortcuts-in-word",
+          "finding": "Word keyboard shortcuts explicitly list Shift+Enter for a line break and Ctrl+Enter for a page break. Paragraph-break detail is Word behavior, not independently confirmed in supplied textbook pages."
+        }
+      ]
     },
     {
       "source_id": "5672ac57-35ea-f504-94cd-e5d4f321c22b",
@@ -148,7 +167,15 @@
           "details": "Worksheet row/column widths can be adjusted to fit more information; the ##### symptom itself is not stated on this page."
         }
       ],
-      "caveat": "Width-setting concept found; specific Excel ##### symptom not independently verified from cited book pages."
+      "caveat": "Width-setting concept found; specific Excel ##### symptom not independently verified from cited book pages.",
+      "external_technical_support": [
+        {
+          "publisher": "Microsoft Support",
+          "url": "https://support.microsoft.com/en-us/excel/how-to-correct-a-error",
+          "finding": "Excel ##### usually means a column cannot show its value, but negative date/time outputs can also produce #####; question uses 'ehtimoliy oddiy sabab' rather than an exclusive cause."
+        }
+      ]
     }
-  ]
+  ],
+  "external_sources_distinct_from_uploaded_textbooks": true
 }
