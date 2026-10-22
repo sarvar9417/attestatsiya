@@ -43,4 +43,18 @@ describe('TASK-529 Office source evidence integrity', () => {
       }
     }
   })
+  it('keeps external vendor verification distinct from uploaded textbook page evidence', () => {
+    const external = report.entries.filter((e) => 'external_technical_support' in e)
+    expect(external).toHaveLength(3)
+    const withExternal = report.entries as (EvidenceRow & { external_technical_support?: { publisher: string; url: string; finding: string }[] })[]
+    for (const e of withExternal.filter((v) => v.external_technical_support)) {
+      expect(['partial_topic_only', 'page_evidence_pending']).toContain(e.status)
+      for (const s of e.external_technical_support ?? []) {
+        expect(s.publisher).toBe('Microsoft Support')
+        expect(s.url.startsWith('https://support.microsoft.com/')).toBe(true)
+        expect(s.finding.length).toBeGreaterThan(45)
+      }
+    }
+  })
+
 })
