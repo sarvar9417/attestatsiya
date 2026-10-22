@@ -217,7 +217,7 @@ jobs:
               supabase/migrations/20261022005000_task401_ten_y1_information_hardware_concept_length_repairs.sql|\
               supabase/migrations/20261022051049_task402_ten_y1_info_office_security_answer_quality_repairs.sql|\
               supabase/migrations/20261022051517_task403_ten_y1_info_office_security_semantic_balance_repairs.sql|\
-              supabase/migrations/20261022008000_task404_ten_y1_info_office_security_distractor_balance.sql|\
+              supabase/migrations/20261022080203_task404_ten_y1_info_office_security_distractor_balance.sql|\
               supabase/migrations/20261022031000_task428_pedguli_verified_batch02.sql|\
               supabase/migrations/20261022032000_task428_pedguli_verified_batch03.sql|\
               supabase/migrations/20261022033000_task428_pedguli_verified_batch04.sql|\
@@ -286,6 +286,7 @@ jobs:
             -f supabase/tests/task201_pedagogy_publish_gate.test.sql \
             -f supabase/tests/task429_pedagogy_semantic_publish_gate.test.sql \
             -f supabase/tests/task432_pedagogy_source_evidence_publish_gate.test.sql \
+            -f supabase/tests/task433_all_test_pools_source_evidence.test.sql \
             -f supabase/tests/task202_pedagogy_revision_queue.test.sql \
             -f supabase/tests/task202_atomic_pedagogy_publish.test.sql \
             -f supabase/tests/task202_verified_pdf_review_authoring.test.sql \
@@ -444,7 +445,7 @@ jobs:
               supabase/migrations/20261022005000_task401_ten_y1_information_hardware_concept_length_repairs.sql|\
               supabase/migrations/20261022051049_task402_ten_y1_info_office_security_answer_quality_repairs.sql|\
               supabase/migrations/20261022051517_task403_ten_y1_info_office_security_semantic_balance_repairs.sql|\
-              supabase/migrations/20261022008000_task404_ten_y1_info_office_security_distractor_balance.sql|\
+              supabase/migrations/20261022080203_task404_ten_y1_info_office_security_distractor_balance.sql|\
               supabase/migrations/20261022031000_task428_pedguli_verified_batch02.sql|\
               supabase/migrations/20261022032000_task428_pedguli_verified_batch03.sql|\
               supabase/migrations/20261022033000_task428_pedguli_verified_batch04.sql|\
