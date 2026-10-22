@@ -1,0 +1,153 @@
+{
+  "task": "TASK-433",
+  "source_file_id": "1PGTYxUSxB4rCHkjnNlIfmyjlTLd2-BzX",
+  "source_file_name": "Internet test.pdf",
+  "editorial_state": "review_only_not_published",
+  "human_approved": false,
+  "questions": [
+    {
+      "source_no": 1,
+      "stem": "Maktab tarmog‘idagi kompyuterlar bir-biriga ulangan, lekin tashqi tarmoqlar bilan marshrut mavjud emas. Mazkur holatni Internet bilan solishtirganda qaysi izoh to‘g‘ri?",
+      "options": [
+        "Ichki tarmoq TCP/IP ishlatsa, u avtomatik ravishda Internet bo‘ladi.",
+        "Internet turli mustaqil tarmoqlarni global miqyosda o‘zaro bog‘laydi; ichki LANning o‘zi Internet emas.",
+        "Brauzer o‘rnatilgani kompyuterni global Internetga bog‘langan deb hisoblash uchun yetarli.",
+        "Ichki tarmoqda veb-server ishlasa, barcha Internet resurslari undan mavjud bo‘ladi."
+      ],
+      "correct_idx": 1,
+      "explanation": "TCP/IP va brauzer mavjudligi global ulanishni kafolatlamaydi. Internet ko‘p mustaqil tarmoqlar o‘zaro ulangan global tarmoqdir."
+    },
+    {
+      "source_no": 3,
+      "stem": "Tashkilot domen nomini ro‘yxatdan o‘tkazgan, lekin binosidagi qurilmalarga tashqi Internet aloqasi kerak. Qaysi xizmatni aynan shu maqsad uchun oladi?",
+      "options": [
+        "Domen registratori orqali yangi domen sotib olishni",
+        "DNS hosting xizmatida yozuvlarni o‘zgartirishni",
+        "Internet-provayderdan ulanish xizmatini",
+        "Statik sayt sahifalarini veb-hostingda joylashtirishni"
+      ],
+      "correct_idx": 2,
+      "explanation": "Domen registratori, DNS va hosting manzil hamda saytni boshqaradi; foydalanuvchi tarmog‘ini Internetga ulash xizmati ISPga tegishli."
+    },
+    {
+      "source_no": 4,
+      "stem": "Foydalanuvchi HTML hujjatni brauzer orqali HTTP bilan ko‘rmoqda. WWW tushunchasiga oid qaysi izoh to‘g‘ri?",
+      "options": [
+        "WWW Internet tarmoq infratuzilmasining to‘liq sinonimi.",
+        "WWW asosan o‘zaro havolalangan veb-resurslar tizimi bo‘lib, Internet ustida ishlaydi.",
+        "WWW brauzer va operatsion tizim orasidagi faqat fayl almashish protokoli.",
+        "WWW faqat shaxsiy kompyuterdagi mahalliy hujjatlar papkasi."
+      ],
+      "correct_idx": 1,
+      "explanation": "World Wide Web Internet ustida ishlaydigan gipermatn/veb-resurslar tizimidir; Internetning o‘zi bilan teng tushuncha emas."
+    },
+    {
+      "source_no": 7,
+      "stem": "Dasturchi veb-sahifada sarlavha, havola va jadvalning semantik tuzilishini yozmoqchi. Qaysi texnologiya shu vazifani to‘g‘ridan-to‘g‘ri bajaradi?",
+      "options": [
+        "CSS — sahifa elementlarining semantik teglarini yaratadi.",
+        "JavaScript — barcha semantik teglarni majburiy ravishda yozadi.",
+        "HTML — hujjat elementlarini teglar orqali belgilaydi.",
+        "HTTP — veb-hujjatning teglar tuzilishini aniqlaydi."
+      ],
+      "correct_idx": 2,
+      "explanation": "HTML teglar orqali hujjat tuzilishini belgilaydi. CSS ko‘rinish, JS xatti-harakat, HTTP esa uzatish protokolidir."
+    },
+    {
+      "source_no": 8,
+      "stem": "`https://example.org/dars?id=5` yozuvidagi URL tarkibi haqida qaysi tasnif to‘g‘ri?",
+      "options": [
+        "`https` — sxema; `example.org` — host; `/dars` — yo‘l; `id=5` — so‘rov parametri.",
+        "`https` — domen; `example.org` — protokol; `/dars` — port; `id=5` — fayl kengaytmasi.",
+        "`example.org` — yo‘l; `/dars` — yuqori darajali domen; `id=5` — brauzer nomi.",
+        "`/dars` — sxema; `https` — katalog; `id=5` — IP manzil."
+      ],
+      "correct_idx": 0,
+      "explanation": "URL: https sxema, example.org hostname, /dars path, ?id=5 query. Bu asli berilgan «noyob veb-sahifa manzili» ta’rifidan aniqroq."
+    },
+    {
+      "source_no": 10,
+      "stem": "`https://edu.example/` manzilidagi `https` qismi qanday vazifani bajaradi?",
+      "options": [
+        "Saytning yuqori darajali domenini bildiradi.",
+        "URL sxemasini va resursga murojaat uchun qo‘llanadigan HTTPS protokolini bildiradi.",
+        "Veb-serverning IP adresini o‘nlik ko‘rinishda yozadi.",
+        "Serverdagi sahifaning majburiy HTML fayl nomini bildiradi."
+      ],
+      "correct_idx": 1,
+      "explanation": "https scheme bo‘lib, HTTPS protokoli orqali resursga murojaat qilishni bildiradi. edu.example host nomi bilan chalkashtirilmaydi."
+    },
+    {
+      "source_no": 12,
+      "stem": "`portal.edu.uz` host nomida yuqori darajali domen (TLD) qaysi qism va u qanday turga kiradi?",
+      "options": [
+        "`portal`, chunki u server dasturi nomi.",
+        "`edu`, chunki u HTTPS protokoli nomi.",
+        "`uz`, mamlakat kodli yuqori darajali domen.",
+        "`portal.edu`, chunki u mustaqil IP manzil."
+      ],
+      "correct_idx": 2,
+      "explanation": ".uz — ccTLD; edu.uz ikkinchi darajadagi struktura bo‘lishi mumkin, portal esa hostdagi chap komponent."
+    },
+    {
+      "source_no": 13,
+      "stem": "HTTPS bilan ochilgan saytda TLS sertifikati mos va ulanish shifrlangan. Qaysi xulosa texnik jihatdan asosli?",
+      "options": [
+        "Veb-saytdagi barcha ma’lumotlar albatta to‘g‘ri va zararsiz.",
+        "Brauzer va server orasidagi uzatilayotgan trafikning maxfiyligi va yaxlitligi himoyalanadi, lekin sayt kontentining ishonchliligi kafolatlanmaydi.",
+        "HTTPS saytni har doim HTTPdan ikki baravar tez ishlatadi.",
+        "HTTPS server ma’lumotini barcha uchinchi shaxslarga ochiq ulashadi."
+      ],
+      "correct_idx": 1,
+      "explanation": "TLS transport maxfiyligi, yaxlitligi va mos autentifikatsiyani beradi, lekin saytning niyati yoki faktik mazmuniga kafolat bermaydi."
+    },
+    {
+      "source_no": 14,
+      "stem": "Veb-brauzer serverdan HTML hujjat so‘ramoqda. Quyidagilardan qaysi biri bevosita **ilova qatlamidagi** veb-so‘rov protokollarini bildiradi?",
+      "options": [
+        "TCP va UDP, chunki ular veb-hujjat markup teglarini yozadi.",
+        "IP va ICMP, chunki ular resursning HTML semantikasini belgilaydi.",
+        "HTTP va HTTPS, chunki ular ilova qatlamida veb-so‘rov almashinuvini boshqaradi.",
+        "DNS va ARP, chunki ular hujjat tarkibini kodlaydi."
+      ],
+      "correct_idx": 2,
+      "explanation": "HTTP(S) veb so‘rov-javob protokoli. TCP transport qatlamida ishlaydi; original «WWWda qaysi protokol» savoli qatlamni aniqlamaganligi uchun noaniq edi."
+    },
+    {
+      "source_no": 17,
+      "stem": "Maktab saytida o‘quvchilar o‘z maqolalarini joylab, bir-birining materiallarini izohlay oladi. Ushbu xususiyat odatda qaysi kontseptsiya bilan bog‘lanadi?",
+      "options": [
+        "Statik faqat-o‘qish HTML arxivi.",
+        "Web 2.0 — foydalanuvchi kontenti va hamkorlikka asoslangan interaktiv tajriba.",
+        "Faqat tarmoq marshrutlash jadvalini avtomatik yangilash.",
+        "Faqat serverga fayl uzatish tezligini cheklash."
+      ],
+      "correct_idx": 1,
+      "explanation": "Web 2.0 atamasi o‘zaro ishtirok, hamkorlik va user-generated contentga urg‘u beradi. Bu qat’iy alohida protokol emas."
+    },
+    {
+      "source_no": 18,
+      "stem": "Qaysi vaziyat Web 2.0 dagi foydalanuvchi hamkorligi tamoyiliga eng yaqin misol?",
+      "options": [
+        "Faqat muallif yozadigan va foydalanuvchi o‘zgartira olmaydigan statik ma’lumot sahifasi.",
+        "Hujjatni mahalliy kompyuterda internetga ulamasdan saqlash.",
+        "Foydalanuvchilar bir mavzu bo‘yicha onlayn maqolani hamkorlikda tahrirlashi va tarixini ko‘rishi.",
+        "Veb-server TCP paketlariga IP marshrutlash bajarishi."
+      ],
+      "correct_idx": 2,
+      "explanation": "Wikipedia turidagi jamoaviy maqola tahriri interaktiv foydalanuvchi ishtirokiga misol."
+    },
+    {
+      "source_no": 22,
+      "stem": "Talaba `example.com` sahifasini ochish uchun URL kiritadi, brauzer esa serverdan ma’lumot olib HTML/CSSni tasvirlaydi. Qaysi dastur vazifasi tasvirlangan?",
+      "options": [
+        "Indekslangan veb-hujjatlarni reytinglab qidiruvchi qidiruv xizmati.",
+        "Brauzer — veb-resurslarni olish va sahifani ko‘rsatish dasturi.",
+        "Router — TCP seansini foydalanuvchiga sahifa sifatida render qiluvchi dastur.",
+        "DNS registrator — HTML va CSSni brauzer o‘rniga chiqaruvchi dastur."
+      ],
+      "correct_idx": 1,
+      "explanation": "Brauzer web contentni yuklaydi va render qiladi; qidiruv tizimi resurslarni indekslaydi, router trafik yo‘naltiradi, registrator domen bilan shug‘ullanadi."
+    }
+  ]
+}
