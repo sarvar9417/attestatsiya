@@ -46,7 +46,7 @@ describe('TASK-434: learner-facing professional theory copy', () => {
     expect(joined).toContain('Natijaga qarab dars maqsadi')
     expect(joined).toContain('A/01.6')
     expect(joined).toContain('dars rejasini davlat ta’lim standarti')
-    expect(joined).toContain('darsga tayyorgarlikning uch bosqichi')
+    expect(joined).toContain('Darsga tayyorgarlikning uch bosqichi')
     expect(joined).not.toMatch(/SHA-256|Asl manba:|Qo‘shimcha tekshiruv|Pedmahorat\|Guli|2025 PDF:|14-bet, 50-indeks/)
     expect(visible.some(block => block.type === 'source')).toBe(false)
 
