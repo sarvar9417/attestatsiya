@@ -29,7 +29,9 @@ test('Q14 disambiguates HTTP application layer vs TCP transport',()=>{
 
 const e=JSON.parse(readFileSync(new URL('../docs/qa/task433-internet-eight-unreleased-remediations.json',import.meta.url),'utf8'));
 test('8 source defects have distinct new editorial rewrites and no duplicate release',()=>{
- assert.equal(e.editorial_state,'proposed_new_immutable_revision_not_published');
+ assert.equal(e.editorial_state,'separate_new_y1_successors_published_in_supabase');
+ assert.equal(e.published_status_checked_20261022,true);
+ assert.ok(e.questions.every(q=>q.separate_successor_published===true));
  assert.equal(e.human_approved,false);
  assert.equal(e.source_existing_published_successor,false);
  assert.deepEqual(e.questions.map(q=>q.source_no).sort((a,b)=>a-b),[2,9,11,16,20,21,33,39]);
