@@ -217,6 +217,7 @@ jobs:
               supabase/migrations/20261022005000_task401_ten_y1_information_hardware_concept_length_repairs.sql|\
               supabase/migrations/20261022051049_task402_ten_y1_info_office_security_answer_quality_repairs.sql|\
               supabase/migrations/20261022051517_task403_ten_y1_info_office_security_semantic_balance_repairs.sql|\
+              supabase/migrations/20261022008000_task404_ten_y1_info_office_security_distractor_balance.sql|\
               supabase/migrations/20261022031000_task428_pedguli_verified_batch02.sql|\
               supabase/migrations/20261022032000_task428_pedguli_verified_batch03.sql|\
               supabase/migrations/20261022033000_task428_pedguli_verified_batch04.sql|\
@@ -443,6 +444,7 @@ jobs:
               supabase/migrations/20261022005000_task401_ten_y1_information_hardware_concept_length_repairs.sql|\
               supabase/migrations/20261022051049_task402_ten_y1_info_office_security_answer_quality_repairs.sql|\
               supabase/migrations/20261022051517_task403_ten_y1_info_office_security_semantic_balance_repairs.sql|\
+              supabase/migrations/20261022008000_task404_ten_y1_info_office_security_distractor_balance.sql|\
               supabase/migrations/20261022031000_task428_pedguli_verified_batch02.sql|\
               supabase/migrations/20261022032000_task428_pedguli_verified_batch03.sql|\
               supabase/migrations/20261022033000_task428_pedguli_verified_batch04.sql|\
