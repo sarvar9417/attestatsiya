@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "source_file_id": "13k9q8hDA5b-s-5x8p1apCAnRqJaLKtmi",
+  "state": "review_only_not_published",
+  "publish_ready": false,
+  "items": [
+    {
+      "source_question_no": 15,
+      "pdf_page": 9,
+      "dot": "savol_15.dot",
+      "dot_sha256": "68a5338a62bcb09b25af06553e702a6f1404964406dfcc037c9eccdf302de1db",
+      "svg": "savol_15.svg",
+      "svg_sha256": "6be30b7b6869adf4db77225957ad748cee286f80f560cfc716836a9c3e363444"
+    },
+    {
+      "source_question_no": 16,
+      "pdf_page": 10,
+      "dot": "savol_16.dot",
+      "dot_sha256": "3045c049275d631ec457214c50c83b085abc4b24884b98d7d9c8a4a7b6960c2c",
+      "svg": "savol_16.svg",
+      "svg_sha256": "01664663bc109b15c534f0c0c4b761b24566e35cf33e202cfa391924df3c17f6"
+    },
+    {
+      "source_question_no": 17,
+      "pdf_page": 11,
+      "dot": "savol_17.dot",
+      "dot_sha256": "e75f0e8187bd12f540791ae4ca33648a170f8a12bf545fd0f23995745fb25771",
+      "svg": "savol_17.svg",
+      "svg_sha256": "0b769cb072428143c6d2c6b03f5b6a34c0f5a1329b2ceec9d40479247205d00d"
+    },
+    {
+      "source_question_no": 18,
+      "pdf_page": 12,
+      "dot": "savol_18.dot",
+      "dot_sha256": "89268efed2230f3bcc4cbab6047eea50f081f49e46d7734adeec2758ac1e96aa",
+      "svg": "savol_18.svg",
+      "svg_sha256": "47209b49440fdd7862408efac3cae431006453650c6d4dfc7b86b7fc43208272"
+    },
+    {
+      "source_question_no": 19,
+      "pdf_page": 13,
+      "dot": "savol_19.dot",
+      "dot_sha256": "c62205e2ac3fc6a0a978ea92748486a6b1dd04b0b9a8a5f379cc6cd572b2f3cb",
+      "svg": "savol_19.svg",
+      "svg_sha256": "a66ddea2a5007e2e6d6c83c639bc8ee5d4def1e20d8e76a8b1bdb7211702c143"
+    },
+    {
+      "source_question_no": 20,
+      "pdf_page": 14,
+      "dot": "savol_20.dot",
+      "dot_sha256": "8d7a2e7cddd8170141b10b77ed9386a8764f63513b5777da21e8b0646909dbdb",
+      "svg": "savol_20.svg",
+      "svg_sha256": "6b2a539475be75d5644603b1cabcab9b2f0a8458487168437893d43e23d219ee"
+    },
+    {
+      "source_question_no": 21,
+      "pdf_page": 15,
+      "dot": "savol_21.dot",
+      "dot_sha256": "c46cfa26054fb061d5988beb392b71f1c645b60325e7f4ecf887391884ac4769",
+      "svg": "savol_21.svg",
+      "svg_sha256": "734f82e63a0d4b6240d1fbb7c1729877993ea1d3d264e0cd872c0f9f2058e87b"
+    },
+    {
+      "source_question_no": 22,
+      "pdf_page": 16,
+      "dot": "savol_22.dot",
+      "dot_sha256": "80b4df3a602017550080d1abb11b3b351312aea9ffc3f847b7b9baec6d33fe1a",
+      "svg": "savol_22.svg",
+      "svg_sha256": "4a305a5dc8a97e5cee798c2076274467f0fce5c35f1c3e3fb56682648846df68"
+    },
+    {
+      "source_question_no": 23,
+      "pdf_page": 17,
+      "dot": "savol_23.dot",
+      "dot_sha256": "6314ff654a671f0f0b556e5a28c160935e94662bf97b59e08b52ab3dcc9766b7",
+      "svg": "savol_23.svg",
+      "svg_sha256": "8c36fbbbdc09dff853c992745e8441d536763d641b22aed16d2f758ecb2e7b18"
+    },
+    {
+      "source_question_no": 24,
+      "pdf_page": 18,
+      "dot": "savol_24.dot",
+      "dot_sha256": "faad8c0df41bc67f21844af9d0c163371c22def9246546f4c3f45988df4e8478",
+      "svg": "savol_24.svg",
+      "svg_sha256": "a29d900c6b13e965e27933b10c71357d8a7c749e401fc7d7c5d14b9a7d02d792"
+    }
+  ]
+}

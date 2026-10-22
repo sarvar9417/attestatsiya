@@ -1,0 +1,20 @@
+// TASK-423 review-only transcription from PDF page 11; not learner-published.
+// PDF source: Google Drive 13k9q8hDA5b-s-5x8p1apCAnRqJaLKtmi
+// Editorial note: graph is a redraw, NOT a pixel-exact original; source check required.
+digraph savol_17 {
+  graph [rankdir=TB, labelloc=t, label="№17. M4 — blok-sxema", fontname="DejaVu Sans", fontsize=18, bgcolor=white, splines=polyline];
+  node [fontname="DejaVu Sans", fontsize=13, style=filled, fillcolor="#f6f8fc", color="#334155"];
+  edge [fontname="DejaVu Sans", fontsize=11, color="#334155"];
+  start [label="Boshlash",shape=oval];
+  init [label="P = 1",shape=box];
+  loop [label="i = 1 .. 5",shape=hexagon];
+  mul [label="P = P * i",shape=box];
+  out [label="P ni chiqarish",shape=parallelogram];
+  end [label="Tugatish",shape=oval];
+  start -> init;
+  init -> loop;
+  loop -> mul [label="navbatdagi i"];
+  mul -> loop [label="takrorlash"];
+  loop -> out [label="tugadi"];
+  out -> end;
+}
