@@ -2,7 +2,7 @@
   "task": "TASK-433",
   "source_file_id": "1PGTYxUSxB4rCHkjnNlIfmyjlTLd2-BzX",
   "source_file_name": "Internet test.pdf",
-  "editorial_state": "review_only_not_published",
+  "editorial_state": "alternative_comparison_only_not_release",
   "human_approved": false,
   "questions": [
     {
@@ -15,7 +15,8 @@
         "Ichki tarmoqda veb-server ishlasa, barcha Internet resurslari undan mavjud bo‘ladi."
       ],
       "correct_idx": 1,
-      "explanation": "TCP/IP va brauzer mavjudligi global ulanishni kafolatlamaydi. Internet ko‘p mustaqil tarmoqlar o‘zaro ulangan global tarmoqdir."
+      "explanation": "TCP/IP va brauzer mavjudligi global ulanishni kafolatlamaydi. Internet ko‘p mustaqil tarmoqlar o‘zaro ulangan global tarmoqdir.",
+      "source_already_has_published_successor": true
     },
     {
       "source_no": 3,
@@ -27,7 +28,8 @@
         "Statik sayt sahifalarini veb-hostingda joylashtirishni"
       ],
       "correct_idx": 2,
-      "explanation": "Domen registratori, DNS va hosting manzil hamda saytni boshqaradi; foydalanuvchi tarmog‘ini Internetga ulash xizmati ISPga tegishli."
+      "explanation": "Domen registratori, DNS va hosting manzil hamda saytni boshqaradi; foydalanuvchi tarmog‘ini Internetga ulash xizmati ISPga tegishli.",
+      "source_already_has_published_successor": true
     },
     {
       "source_no": 4,
@@ -39,7 +41,8 @@
         "WWW faqat shaxsiy kompyuterdagi mahalliy hujjatlar papkasi."
       ],
       "correct_idx": 1,
-      "explanation": "World Wide Web Internet ustida ishlaydigan gipermatn/veb-resurslar tizimidir; Internetning o‘zi bilan teng tushuncha emas."
+      "explanation": "World Wide Web Internet ustida ishlaydigan gipermatn/veb-resurslar tizimidir; Internetning o‘zi bilan teng tushuncha emas.",
+      "source_already_has_published_successor": true
     },
     {
       "source_no": 7,
@@ -51,7 +54,8 @@
         "HTTP — veb-hujjatning teglar tuzilishini aniqlaydi."
       ],
       "correct_idx": 2,
-      "explanation": "HTML teglar orqali hujjat tuzilishini belgilaydi. CSS ko‘rinish, JS xatti-harakat, HTTP esa uzatish protokolidir."
+      "explanation": "HTML teglar orqali hujjat tuzilishini belgilaydi. CSS ko‘rinish, JS xatti-harakat, HTTP esa uzatish protokolidir.",
+      "source_already_has_published_successor": true
     },
     {
       "source_no": 8,
@@ -63,7 +67,8 @@
         "`/dars` — sxema; `https` — katalog; `id=5` — IP manzil."
       ],
       "correct_idx": 0,
-      "explanation": "URL: https sxema, example.org hostname, /dars path, ?id=5 query. Bu asli berilgan «noyob veb-sahifa manzili» ta’rifidan aniqroq."
+      "explanation": "URL: https sxema, example.org hostname, /dars path, ?id=5 query. Bu asli berilgan «noyob veb-sahifa manzili» ta’rifidan aniqroq.",
+      "source_already_has_published_successor": true
     },
     {
       "source_no": 10,
@@ -75,7 +80,8 @@
         "Serverdagi sahifaning majburiy HTML fayl nomini bildiradi."
       ],
       "correct_idx": 1,
-      "explanation": "https scheme bo‘lib, HTTPS protokoli orqali resursga murojaat qilishni bildiradi. edu.example host nomi bilan chalkashtirilmaydi."
+      "explanation": "https scheme bo‘lib, HTTPS protokoli orqali resursga murojaat qilishni bildiradi. edu.example host nomi bilan chalkashtirilmaydi.",
+      "source_already_has_published_successor": true
     },
     {
       "source_no": 12,
@@ -87,7 +93,8 @@
         "`portal.edu`, chunki u mustaqil IP manzil."
       ],
       "correct_idx": 2,
-      "explanation": ".uz — ccTLD; edu.uz ikkinchi darajadagi struktura bo‘lishi mumkin, portal esa hostdagi chap komponent."
+      "explanation": ".uz — ccTLD; edu.uz ikkinchi darajadagi struktura bo‘lishi mumkin, portal esa hostdagi chap komponent.",
+      "source_already_has_published_successor": true
     },
     {
       "source_no": 13,
@@ -99,7 +106,8 @@
         "HTTPS server ma’lumotini barcha uchinchi shaxslarga ochiq ulashadi."
       ],
       "correct_idx": 1,
-      "explanation": "TLS transport maxfiyligi, yaxlitligi va mos autentifikatsiyani beradi, lekin saytning niyati yoki faktik mazmuniga kafolat bermaydi."
+      "explanation": "TLS transport maxfiyligi, yaxlitligi va mos autentifikatsiyani beradi, lekin saytning niyati yoki faktik mazmuniga kafolat bermaydi.",
+      "source_already_has_published_successor": true
     },
     {
       "source_no": 14,
@@ -111,7 +119,8 @@
         "DNS va ARP, chunki ular hujjat tarkibini kodlaydi."
       ],
       "correct_idx": 2,
-      "explanation": "HTTP(S) veb so‘rov-javob protokoli. TCP transport qatlamida ishlaydi; original «WWWda qaysi protokol» savoli qatlamni aniqlamaganligi uchun noaniq edi."
+      "explanation": "HTTP(S) veb so‘rov-javob protokoli. TCP transport qatlamida ishlaydi; original «WWWda qaysi protokol» savoli qatlamni aniqlamaganligi uchun noaniq edi.",
+      "source_already_has_published_successor": true
     },
     {
       "source_no": 17,
@@ -123,7 +132,8 @@
         "Faqat serverga fayl uzatish tezligini cheklash."
       ],
       "correct_idx": 1,
-      "explanation": "Web 2.0 atamasi o‘zaro ishtirok, hamkorlik va user-generated contentga urg‘u beradi. Bu qat’iy alohida protokol emas."
+      "explanation": "Web 2.0 atamasi o‘zaro ishtirok, hamkorlik va user-generated contentga urg‘u beradi. Bu qat’iy alohida protokol emas.",
+      "source_already_has_published_successor": true
     },
     {
       "source_no": 18,
@@ -135,7 +145,8 @@
         "Veb-server TCP paketlariga IP marshrutlash bajarishi."
       ],
       "correct_idx": 2,
-      "explanation": "Wikipedia turidagi jamoaviy maqola tahriri interaktiv foydalanuvchi ishtirokiga misol."
+      "explanation": "Wikipedia turidagi jamoaviy maqola tahriri interaktiv foydalanuvchi ishtirokiga misol.",
+      "source_already_has_published_successor": true
     },
     {
       "source_no": 22,
@@ -147,7 +158,9 @@
         "DNS registrator — HTML va CSSni brauzer o‘rniga chiqaruvchi dastur."
       ],
       "correct_idx": 1,
-      "explanation": "Brauzer web contentni yuklaydi va render qiladi; qidiruv tizimi resurslarni indekslaydi, router trafik yo‘naltiradi, registrator domen bilan shug‘ullanadi."
+      "explanation": "Brauzer web contentni yuklaydi va render qiladi; qidiruv tizimi resurslarni indekslaydi, router trafik yo‘naltiradi, registrator domen bilan shug‘ullanadi.",
+      "source_already_has_published_successor": true
     }
-  ]
+  ],
+  "existing_successor_batch": "task431:pdf-editorial:20261022"
 }
