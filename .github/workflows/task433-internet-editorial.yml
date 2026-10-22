@@ -5,6 +5,7 @@ on:
     paths:
       - 'docs/qa/task433-internet-twelve-rewrites.json'
       - 'scripts/task433-internet-editorial.test.mjs'
+      - 'scripts/task433-attestatsiya7-q3.test.mjs'
       - '.github/workflows/task433-internet-editorial.yml'
   workflow_dispatch:
 
@@ -20,4 +21,4 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - run: node --test scripts/task433-internet-editorial.test.mjs
+      - run: node --test scripts/task433-internet-editorial.test.mjs scripts/task433-attestatsiya7-q3.test.mjs
