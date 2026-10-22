@@ -1,3 +1,11 @@
+## TASK-529 — Office REVIEW source sahifalari mustaqil audit (2026-10-22)
+
+- **Owner:** ChatGPT; branch `task/TASK-529-office-textbook-source-verification`.
+- **Status:** S2.OFFICE TASK-427'dagi 8 tahrir uchun PDF sahifalar bevosita tekshirildi; 5 ta asosiy tushuncha tasdiqlandi (shartli formatlash, Mail Merge, COUNTIF, 2 PowerPoint), Word Landscape qisman, Word Shift+Enter va Excel ##### manbasi ochiq. Mail Merge'da CAM7 manba sahifasi mos emas (source_ref 6–35, topilgan PDF 121–122).
+- **Source:** `docs/quality/task529_office_source_evidence.json`, `docs/TASK529_OFFICE_TEXTBOOK_SOURCE_AUDIT.md`; regression `src/tests/task529OfficeSourceEvidence.test.ts`.
+- **Boundary:** READ-ONLY, yangi SQL yoki production nashr yo‘q; 8 REVIEW, 8 asl published, 4 old historical exam-item immutable. Source-page ishonchliligi tasdiqlanmagan joyda «tasdiqlangan» deyilmaydi.
+- **Next:** GitHub CI/main merge, issue #525'dagi unsupported source mapping'larni hal qilish, editorial nashr alohida.
+
 ## TASK-427 — 8 ta Office Y1 javob variantini sifatli REVIEW'ga o'tkazish (2026-10-21)
 
 - **Owner:** ChatGPT; foydalanuvchi butun bazaga audit va partiyali tuzatishlarga ruxsat bergan.

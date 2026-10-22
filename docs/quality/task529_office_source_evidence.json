@@ -1,0 +1,181 @@
+{
+  "task": "TASK-529",
+  "stage_task": "TASK-427",
+  "verified_on": "2026-10-22",
+  "scope": "exactly eight production REVIEW Office Y1 revisions; source-ID keyed",
+  "source_basis": "user-provided PDFs directly extracted and visually inspected; original source references cross-checked as metadata rather than presumed true",
+  "entries": [
+    {
+      "source_id": "cd772e39-d561-8aab-7986-a6f200445980",
+      "topic": "Excel Conditional Formatting <50",
+      "status": "concept_verified",
+      "references": [
+        {
+          "file": "7-sinf informatika (Cambridge +)(1).pdf",
+          "pdf_pages": [
+            95,
+            96
+          ],
+          "printed_pages": [
+            92,
+            93
+          ],
+          "details": "Conditional Formatting uses cell value; Home > Conditional Formatting > Highlight Cell Rules > Less than. Book examples use zero; applying the rule to 50 is a valid parameter substitution."
+        }
+      ],
+      "caveat": "Verified rule and UI, not an exact example of threshold 50."
+    },
+    {
+      "source_id": "813fb43d-17bf-7f9c-7368-8d1fe26287d9",
+      "topic": "Word Mail Merge certificate list",
+      "status": "concept_verified_reference_mismatch",
+      "references": [
+        {
+          "file": "7-sinf informatika (Cambridge +)(1).pdf",
+          "pdf_pages": [
+            121,
+            122
+          ],
+          "printed_pages": [
+            118,
+            119
+          ],
+          "details": "Database-to-Word merge, per-record customized letters, labels and certificates, Word Merge and Insert Merge Field."
+        }
+      ],
+      "caveat": "Original source_reference advertises CAM7 pp.6–35; actually found relevant topic on PDF pp.121–122. Confirm list/preview/finish independently before citing as exact command path."
+    },
+    {
+      "source_id": "dd8d8ed0-9187-5f44-2c54-a1dbb3b6d803",
+      "topic": "Word one Landscape page / Section Break",
+      "status": "partial_topic_only",
+      "references": [
+        {
+          "file": "7-sinf informatika (Cambridge +)(1).pdf",
+          "pdf_pages": [
+            27,
+            28
+          ],
+          "printed_pages": [
+            24,
+            25
+          ],
+          "details": "Portrait/Landscape explained, including a single selected page using Page Setup > Apply to Selected text; source does NOT explicitly teach two Section Break (Next Page) boundaries."
+        }
+      ],
+      "caveat": "Do not assert that the specific two-Section-Break method is directly verified by these pages. It is a separate correct Word method needing technical/editorial signoff.",
+      "external_technical_support": [
+        {
+          "publisher": "Microsoft Support",
+          "url": "https://support.microsoft.com/en-us/word/use-section-breaks-to-change-the-layout-or-formatting-in-one-section-of-your-word-document",
+          "finding": "Use a section break before and after the region when formatting must change for just that section; Next Page is a supported break type."
+        },
+        {
+          "publisher": "Microsoft Support",
+          "url": "https://support.microsoft.com/en-us/office/video-use-landscape-and-portrait-in-the-same-document-ddd80cb6-c9ae-4493-ba75-c663074031a0",
+          "finding": "An alternative is changing orientation for Selected text; this aligns with the Cambridge 7 passage. Multiple valid Word workflows are not interchangeable with a cited exact textbook procedure."
+        }
+      ]
+    },
+    {
+      "source_id": "a88f3eab-5d91-ee34-6121-30231555b187",
+      "topic": "PowerPoint Entrance animation versus Fade transition",
+      "status": "concept_verified",
+      "references": [
+        {
+          "file": "ICT 6_sinf-2021(1).pdf",
+          "pdf_pages": [
+            151,
+            152
+          ],
+          "printed_pages": [
+            151,
+            152
+          ],
+          "details": "Clear distinction between slide transition effects and animations on objects; animation entrance category is listed."
+        }
+      ],
+      "caveat": "Slide transition versus object animation is directly evidenced; exact Fade named effect not independently located in the two pages."
+    },
+    {
+      "source_id": "15599f0c-323d-b28a-ae69-2c6ad4ea9896",
+      "topic": "Word Enter versus Shift+Enter",
+      "status": "page_evidence_pending",
+      "references": [],
+      "caveat": "The source_reference lists ICT5/ICT6/CAM7 page ranges, but these were not independently confirmed as explaining a soft return (Shift+Enter).",
+      "external_technical_support": [
+        {
+          "publisher": "Microsoft Support",
+          "url": "https://support.microsoft.com/en-us/accessibility/word/keyboard-shortcuts-in-word",
+          "finding": "Word keyboard shortcuts explicitly list Shift+Enter for a line break and Ctrl+Enter for a page break. Paragraph-break detail is Word behavior, not independently confirmed in supplied textbook pages."
+        }
+      ]
+    },
+    {
+      "source_id": "5672ac57-35ea-f504-94cd-e5d4f321c22b",
+      "topic": "PowerPoint slide auto advance after 15 seconds",
+      "status": "concept_verified",
+      "references": [
+        {
+          "file": "ICT 6_sinf-2021(1).pdf",
+          "pdf_pages": [
+            151,
+            152
+          ],
+          "printed_pages": [
+            151,
+            152
+          ],
+          "details": "Slide transition timing setting (five controls): transition duration and automatic slide-change timing are distinctly identified."
+        }
+      ],
+      "caveat": "Exact 00:15 numeric value is a task parameter rather than a verbatim textbook example."
+    },
+    {
+      "source_id": "939fc993-7f18-1dd8-17ca-35882f0f5692",
+      "topic": "Excel SUM versus COUNTIF",
+      "status": "concept_verified",
+      "references": [
+        {
+          "file": "10-11-sinf informatika (Cambridge +)(1).pdf",
+          "pdf_pages": [
+            134,
+            135
+          ],
+          "printed_pages": [
+            125,
+            126
+          ],
+          "details": "SUM mentioned as aggregation; COUNTIF table defines the function as counting cells meeting a criterion, contrasted with SUMIF for conditional summation."
+        }
+      ],
+      "caveat": "Original CAM10–11 page range 115–137 includes verified PDF 135."
+    },
+    {
+      "source_id": "d53d3cfc-f971-a72c-8c98-90cd2084dbdb",
+      "topic": "Excel ##### display and column width",
+      "status": "page_evidence_pending",
+      "references": [
+        {
+          "file": "10-11-sinf informatika (Cambridge +)(1).pdf",
+          "pdf_pages": [
+            114
+          ],
+          "printed_pages": [
+            105
+          ],
+          "details": "Worksheet row/column widths can be adjusted to fit more information; the ##### symptom itself is not stated on this page."
+        }
+      ],
+      "caveat": "Width-setting concept found; specific Excel ##### symptom not independently verified from cited book pages.",
+      "external_technical_support": [
+        {
+          "publisher": "Microsoft Support",
+          "url": "https://support.microsoft.com/en-us/excel/how-to-correct-a-error",
+          "finding": "Excel ##### usually means a column cannot show its value, but negative date/time outputs can also produce #####; question uses 'ehtimoliy oddiy sabab' rather than an exclusive cause."
+        }
+      ]
+    }
+  ],
+  "external_sources_distinct_from_uploaded_textbooks": true
+}
