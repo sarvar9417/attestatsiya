@@ -1,3 +1,12 @@
+## TASK-546 — Tarmoq Y1 javoblarining mavzuviy aniqligi, 8 ta REVIEW nusxa (2026-10-22)
+
+- **Owner:** ChatGPT; branch `task/TASK-546-network-y1-review-wave`; scope: 8 aniq published S6.NET Y1 original savol uchun mazmunan yaqin distractorlar, o‘zgarmagan correct key va izohlar.
+- **State:** 8 × reviewed content revision + 32 variants SQL tayyor; live Supabase BEGIN→ROLLBACK sinovi PASS, original 2 old exam item va 0 old official eligible o‘zgarmadi. Doimiy REVIEW staging CI/main gate'dan keyin.
+- **Evidence:** user PDF `ICT 11_sinf-2021(1).pdf`: repeater PDF160, T-568A/B PDF153, DNS PDF175–176. TCP/IP PDF172 faqat partial. RFC4291 VLSM uchun mos emas; qolgan 3 aniq PDF sahifasi pending. `docs/quality/task546_network_8_source_evidence.json`.
+- **Safety:** production published savollar/kalit/imtihon tarixi immutable; yangi nusxalar faqat `review`, AI provenance true, `human_editorial_approval=false`, `medium` finding.
+- **Files:** `supabase/maintenance/task546_network_eight_review_stage.sql`, `src/tests/task546NetworkReview.test.ts`, `docs/TASK546_NETWORK_Y1_REVIEW.md`.
+- **Next:** full CI success+main merge → one-time REVIEW-only Supabase migration → postflight; learner publish faqat alohida ekspert editorial qaror va source evidence to‘liq bo‘lsa.
+
 ## TASK-531 — Axborot xavfsizligi 8 ta Y1 distractor qayta ishlash (2026-10-22)
 
 - **Owner:** ChatGPT; branch `task/TASK-531-security-y1-distractor-review`.

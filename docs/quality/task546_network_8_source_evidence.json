@@ -1,0 +1,98 @@
+{
+  "task": "TASK-546",
+  "date": "2026-10-22",
+  "scope": "eight original S6.NET Y1 published questions; AI-generated review successors only",
+  "source_method": "direct inspection of user-provided ICT11 PDF for named pages, original live production answer key and source_reference; no assumption of exact M11/C11 edition correspondence",
+  "source_rfc": "https://www.rfc-editor.org/rfc/rfc4291.html",
+  "entries": [
+    {
+      "source_id": "03866ab9-6791-5e6b-3403-999d93ddb138",
+      "topic": "repeater",
+      "status": "textbook_concept_verified",
+      "book_evidence": [
+        {
+          "file": "ICT 11_sinf-2021(1).pdf",
+          "pdf_pages": [
+            160
+          ],
+          "detail": "Qaytargich (Repeater) kabelda susaygan analog signalni qayta tiklaydi va aloqa kanali bo‘ylab uzatadi."
+        }
+      ],
+      "caveat": "Original source_reference M11 146-166 kabi oraliqqa ishora qiladi, ICT 11 PDF 160-sahifa bevosita ko‘rildi."
+    },
+    {
+      "source_id": "ed3c2030-e2ac-1d94-32d6-8cd8d6e20836",
+      "topic": "T568A_T568B",
+      "status": "textbook_concept_verified",
+      "book_evidence": [
+        {
+          "file": "ICT 11_sinf-2021(1).pdf",
+          "pdf_pages": [
+            153
+          ],
+          "detail": "T-568A va T-568B rangli simlar ketma-ketligidagi farq va ulagich sxemalari rasm bilan berilgan."
+        }
+      ],
+      "caveat": "11-sinf ICT PDF 153-sahifada bevosita tekshirildi."
+    },
+    {
+      "source_id": "7bb51b69-dd0d-eed7-9c1e-590dd7445992",
+      "topic": "DNS",
+      "status": "textbook_concept_verified",
+      "book_evidence": [
+        {
+          "file": "ICT 11_sinf-2021(1).pdf",
+          "pdf_pages": [
+            175,
+            176
+          ],
+          "detail": "DNS domen/xost nomlarini tegishli IP-manzillarga moslaydi va aksincha tarjima qiladi."
+        }
+      ],
+      "caveat": "DNS ning umumiy vazifasi bevosita tasdiqlangan; IP bilan kirish domen bilan ishlamasligi DNS ehtimolini ko‘rsatishi mumkin, lekin yagona sabab emas."
+    },
+    {
+      "source_id": "37b107a3-959e-8df2-daf6-2d61d720d1b1",
+      "topic": "TCP_UDP",
+      "status": "textbook_partial",
+      "book_evidence": [
+        {
+          "file": "ICT 11_sinf-2021(1).pdf",
+          "pdf_pages": [
+            172
+          ],
+          "detail": "TCP/IP tushunchasi va TCP ning paketli uzatish vazifasi berilgan, ammo TCP retransmission va UDP farqi aynan shu betda ko‘rsatilmagan."
+        }
+      ],
+      "caveat": "Javob mexanizmi TCP/UDP transport nazariyasiga asoslangan. To‘liq TCP retransmission va UDP guarantee bandlari uchun maxsus darslik bo‘limi tekshirilishi kerak."
+    },
+    {
+      "source_id": "83d304a8-e9df-c386-bda0-babff03533b6",
+      "topic": "VLSM",
+      "status": "source_reference_mismatch",
+      "book_evidence": [],
+      "caveat": "Dastlabki manba yozuvida RFC 4291 ko‘rsatilgan, RFC 4291 IPv6 Addressing Architecture bo‘lib VLSM bloklarni rejalashning bevosita asosiy manbasi emas. https://www.rfc-editor.org/rfc/rfc4291.html; VLSM uchun tegishli IPv4/CIDR manbasi mustaqil topilishi kerak."
+    },
+    {
+      "source_id": "cdc2e64a-e62b-e35e-3fda-28994efce954",
+      "topic": "search_refinement",
+      "status": "page_evidence_pending",
+      "book_evidence": [],
+      "caveat": "Qidiruv operatorlari va iterativ baholash haqida tushuncha didaktik; original M6/C5 sahifalari hali bevosita tekshirilmagan."
+    },
+    {
+      "source_id": "fac120d8-5157-0300-4f31-5f1bfe247f33",
+      "topic": "paid_search_results",
+      "status": "page_evidence_pending",
+      "book_evidence": [],
+      "caveat": "Homiylik belgisi qidiruv tartibiga to‘lov ta’sir etishi mumkinligini anglatadi; M6/C5 PDF bo‘limi hali bevosita tekshirilmagan."
+    },
+    {
+      "source_id": "2b613454-06ad-44c3-8907-2f115cc1f199",
+      "topic": "data_minimization",
+      "status": "page_evidence_pending",
+      "book_evidence": [],
+      "caveat": "Saytga shaxsiy ma’lumot kiritishdan oldingi haqiqiylik va zarurat tekshiruvi nazariyasi to‘g‘ri; specgap-2026 sahifasi ma’lumotlari mustaqil tasdiqlanmagan."
+    }
+  ]
+}
