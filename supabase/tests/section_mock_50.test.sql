@@ -144,7 +144,7 @@ begin
     raise exception 'duplicate question in section mock';
   end if;
 
-  if (v_meta->>'selector_version') <> 'section-mock-v1'
+  if (v_meta->>'selector_version') <> 'section-mock-flex-v2'
      or (v_meta->>'target_count')::int <> 50
      or (v_meta->>'selected_count')::int <> 50
      or (v_meta->>'assessable_topic_count')::int <> 3
