@@ -34,7 +34,19 @@ DO $pre403$
 DECLARE c int;wrong int;
 BEGIN
  SELECT count(*) INTO c FROM task403_selection;
- IF c<>10 THEN RAISE EXCEPTION 'TASK-403 unmodified eligible original selection changed: %/10',c;END IF;
+ -- Clean CI seeds omit some Office_2026_v2 originals that exist in the remote release.
+ -- Never skip an original that EXISTS but has the wrong status, flags or key.
+ IF c<>(SELECT count(*) FROM task403_manifest) THEN
+   IF EXISTS(
+     SELECT 1 FROM task403_manifest m
+     WHERE NOT EXISTS(SELECT 1 FROM task403_selection s WHERE s.ref=m.ref)
+       AND (m.grp<>'S2.OFFICE' OR EXISTS(
+         SELECT 1 FROM public.questions q WHERE q.source_reference=m.ref))
+   ) THEN
+     RAISE EXCEPTION 'TASK-403 unexpected eligible-source drift %/10; missing existing or non-Office original',c;
+   END IF;
+   RAISE NOTICE 'TASK-403 clean-seed Office originals unavailable: % of 10 will be safely skipped, all other existing original preflight guards remain active',10-c;
+ END IF;
  SELECT count(*) INTO wrong
  FROM task403_selection s JOIN public.question_keys k ON k.question_id=s.original_id
  WHERE NOT EXISTS(
