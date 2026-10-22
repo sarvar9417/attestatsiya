@@ -6,7 +6,7 @@
  */
 import type { TheoryBlock } from '../../data/topicContent'
 
-const sourceOnly = /^(?:>\s*)?\*{0,2}(?:asl manba|manba(?: izi|lar)?|telegramdagi manba(?:lar)?)\*{0,2}\s*:/i
+const sourceOnly = /^(?:>\s*)?\*{0,2}(?:asl manba|manba(?: izi|lar)?|telegramdagi manba(?:lar)?)\s*:\*{0,2}/i
 const provenanceOnly = /^(?:qo‘shimcha tekshiruv|qo'shimcha tekshiruv)\s*:/i
 
 function learnerHeading(heading: string): string {
