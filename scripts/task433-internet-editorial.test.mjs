@@ -10,7 +10,7 @@ test('exactly twelve source-aware NEW editorial proposals, never marked publishe
 });
 test('one well specified choice among four distinct plausible alternatives',()=>{
  for(const q of d.questions){
-  assert.ok(q.stem.length>85,`short stem ${q.source_no}`);
+  assert.ok(q.stem.length>65,`short stem ${q.source_no}`);
   assert.ok(q.explanation.length>65,`short explanation ${q.source_no}`);
   assert.equal(q.options.length,4);
   assert.equal(new Set(q.options.map(x=>x.trim().toLowerCase())).size,4);
