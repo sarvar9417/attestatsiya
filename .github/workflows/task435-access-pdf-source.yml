@@ -1,0 +1,19 @@
+name: TASK-435 Access PDF screenshot query QA
+on:
+  pull_request:
+    paths:
+      - scripts/task435-access-pdf-query-grid.test.mjs
+      - .github/workflows/task435-access-pdf-source.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  access-source-query-grid:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node --test scripts/task435-access-pdf-query-grid.test.mjs
