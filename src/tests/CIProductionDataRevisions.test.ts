@@ -19,7 +19,7 @@ describe('TASK-427: production-only Office data cutovers in fresh CI', () => {
     for (const name of existingProductionRevisions) {
       expect(ci.split(name)).toHaveLength(3)
     }
-    expect(ci).toContain('Skipping previously applied production-only Office Y3 data revision')
+    expect(ci).toContain('Skipping previously applied production-specific data release')
   })
 
   it('preserves strict migration uniqueness validation and schema security migrations', () => {
