@@ -7,6 +7,7 @@
 import type { TheoryBlock } from '../../data/topicContent'
 
 const sourceOnly = /^(?:>\s*)?\*{0,2}(?:asl manba|manba(?: izi|lar)?|telegramdagi manba(?:lar)?)\s*:\*{0,2}/i
+const answerKeyOnly = /^\*\*\d{1,3}-savolning asl javobi:/i
 const provenanceOnly = /^(?:qo‘shimcha tekshiruv|qo'shimcha tekshiruv)\s*:/i
 
 function learnerHeading(heading: string): string {
@@ -14,7 +15,7 @@ function learnerHeading(heading: string): string {
     .replace(/\s+\[(?:THEORY-CORPUS|PEDGULI-STUDY)[^\]]+\]/gi, '')
     .replace(/^Kasb standarti:\s*to‘liq nazariya xaritasi/i, 'Kasb standarti: vazifalar va ko‘nikmalar')
     .replace(/^Asl kasb standarti\s*[—-]\s*/i, 'Kasb standarti: ')
-    .replace(/^(?:Kuzgi 2025|Kuzgi to‘plam|Bahorgi to‘plam|2025 bahorgi PDF|2024 to‘plam|2025 to‘plam|2025 PDF|PedKasb to‘plami|PedKasb|Bahorgi attestatsiya to‘plamidan|Telegram rasmlaridan|Telegram manbasidan|Pedmahorat\|Guli hujjatidan|Pedmahorat\|Guli manbasidan|Pedmahorat\|Guli|Telegram qo‘llanmasi):\s*/i, '')
+    .replace(/^(?:Kuzgi 2025|Kuzgi to‘plam|Bahorgi to‘plam|2025 bahorgi PDF|2025 bahor PDF|2024 to‘plam|2025 to‘plam|2025 PDF|PedKasb to‘plami|PedKasb|Bahorgi attestatsiya to‘plamidan|Telegram rasmlaridan|Telegram manbasidan|Pedmahorat\|Guli hujjatidan|Pedmahorat\|Guli manbasidan|Pedmahorat\|Guli|Telegram qo‘llanmasi):\s*/i, '')
     .replace(/^Manbalardagi qo‘llash ketma-ketligi/i, 'Qo‘llash ketma-ketligi')
     .replace(/^Chuqurlashtirilgan nazariya\s*[—-]\s*manba korpusi.*$/i, 'Chuqurlashtirilgan nazariya')
     .replace(/^Tekshirilgan qo‘shimcha:\s*/i, '')
@@ -40,6 +41,18 @@ function learnerSentence(text: string): string {
     .replace(/^2025-yil kuzgi to‘plamdagi ayrim savollar quyidagi kognitiv amallarni farqlashni talab etadi\./i, 'Bilish jarayonida quyidagi kognitiv amallarni farqlash muhim.')
     .replace(/^Pedmahorat\|Guli kuzgi to‘plamida usullarning faqat ta’rifi emas, \*\*foydali va noto‘g‘ri qo‘llanganda salbiy natijasi\*\* ham taqqoslangan\./i, 'Tarbiya usulini baholashda uning nafaqat ta’rifi, balki **to‘g‘ri qo‘llangandagi foydasi va noo‘rin qo‘llangandagi salbiy oqibati** ham hisobga olinadi.')
     .replace(/^Dars kuzatuvida bir xil vaziyat turli mezon bilan tekshirilishi mumkin\. 2024-yilgi PDFda quyidagi ikki tahlil farqlanadi\./i, 'Dars kuzatuvida bir vaziyat turli mezon bilan tahlil qilinishi mumkin. Quyidagi ikki tahlil turini farqlang.')
+    .replace(/^PedKasb to‘plamining \*\*9-savolida\*\* o‘qituvchi noto‘g‘ri javobni kamsitmaydi, uning sababini madaniyatli tushuntiradi, o‘quvchining fikr aytishiga imkon beradi va barcha bilan hurmat asosida muomala qiladi\./i, 'O‘quvchi noto‘g‘ri javob berganida o‘qituvchi uni kamsitmaydi: xato sababini xotirjam tushuntiradi, fikr aytishga imkon beradi va muloqotda hurmatni saqlaydi.')
+    .replace(/^`Pedagogik mahorat to'plam 2025 \(6\)\.pdf`ning \*\*13-betidagi 67–68-moslashtirish savollari\*\* nutq texnikasining to‘rtta unsurini ajratadi\./i, 'Nutq texnikasida **diapazon**, **artikulyatsiya**, **tembr** va **ritmika** o‘ziga xos vazifaga ega. Ularni quyidagi belgilar orqali farqlang.')
+    .replace(/^`Pedagogik mahorat to'plam 2025 \(6\)\.pdf`ning \*\*15-betidagi 76–77-moslashtirish savollari\*\* vosita turlarini farqlaydi\./i, 'Ta’lim vositalari moddiy va ideal shakllarga ajratilishi, shuningdek o‘rgatish yoki o‘rganish jarayonidagi vazifasiga ko‘ra farqlanishi mumkin.')
+    .replace(/^`Pedagogik mahorat to'plam 2025 \(6\)\.pdf`ning \*\*2- va 12-betlarida\*\* pedagogik texnologiya darajalari uch vaziyat asosida farqlanadi\./i, 'Pedagogik texnologiyaning darajalarini quyidagi uch vaziyat asosida farqlang.')
+    .replace(/^\*\*O‘z-o‘zini rivojlantirish va kasbiy o‘sish\.\*\* 2-betdagi xaritaga ko‘ra bu vazifa \*\*B\/01\.6\*\*, ya’ni \*\*B — kasbiy rivojlanish va hamkorlik\*\* guruhiga kiradi\./i, '**O‘z-o‘zini rivojlantirish va kasbiy o‘sish** — **B/01.6** mehnat vazifasi bo‘lib, kasbiy rivojlanish va hamkorlik yo‘nalishiga kiradi.')
+    .replace(/^`PedKasb tushgan testlar PedMahoratGuli \(1\) \(1\) \(1\)\.pdf` ning \*\*59-savolida\*\* /i, 'Masalan, jismoniy tarbiya darsida ')
+    .replace(/^`Pedagogik qobilyatlar umumiy\.pdf` faylida Xoliqovning «Pedagogik mahorat» darsligi asosida Olga Matveeva talqin qilgan oltita jihat keltiriladi:/i, 'Pedagogik qobiliyatlarni tushuntirishga doir yondashuvlardan birida quyidagi oltita jihat ajratiladi:')
+    .replace(/^\*\*Eslatma:\*\* manbaning kuzgi savollarida aynan \*\*«Qo‘llash», «Tahlil qilish», «Yaratish»\*\* javoblari berilgan \(indekslar 62, 64, 58\)\. Bu jadval shu uchala savolni farqlashga xizmat qiladi; eski va yangilangan Blum tasniflarining barcha bosqichlari bir xil deb talqin qilinmaydi\./i, '**Eslatma:** ushbu jadval **«Qo‘llash», «Tahlil qilish», «Yaratish»** bosqichlarini farqlaydi. Blum taksonomiyasining eski va yangilangan tasniflarini to‘laligicha bir xil deb talqin qilish to‘g‘ri emas.')
+    .replace(/ \(\*\*(?:30|31)-savol\*\*\)/g, '')
+    .replace(/ \*Manbada \d+-savol: [^*]+\*\./g, '.')
+    .replace(/ \*\d+-savol: [^*]+\*/g, '')
+
 }
 
 function learnerTableCell(cell: string): string {
@@ -62,7 +75,7 @@ export function presentPedagogyTheory(blocks: TheoryBlock[]): TheoryBlock[] {
       if (inBibliography) continue
     }
     if (inBibliography || block.type === 'source') continue
-    if (sourceOnly.test(block.content.trim()) || provenanceOnly.test(block.content.trim())) continue
+    if (sourceOnly.test(block.content.trim()) || provenanceOnly.test(block.content.trim()) || answerKeyOnly.test(block.content.trim())) continue
 
     if (heading) {
       const content = learnerHeading(block.content)
