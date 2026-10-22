@@ -63,6 +63,62 @@ FROM jsonb_array_elements($bank$
 ]
 $bank$::jsonb) AS source(item);
 
+-- TASK-434: deterministic editorial preflight for two previously staged REVIEW items.
+-- The old checksum included randomly generated question_option UUIDs; its MD5
+-- cannot be reproduced on a clean schema. Apply the exact owner-reviewed
+-- source content while status is REVIEW, retaining the existing option IDs/keys.
+-- Never changes an already published question or historical exam data.
+DO $task434_reconcile$
+DECLARE n integer;
+BEGIN
+  SELECT count(*) INTO n FROM public.questions q
+  JOIN public.question_keys k ON k.question_id=q.id
+  JOIN public.question_options o ON o.question_id=q.id
+    AND o.id::text=k.payload->>'correct_option_id'
+  WHERE (
+    (q.id='7782afd8-62e4-4acc-bbf5-2e9e2946f649'::uuid
+     AND q.source_reference='telegram:@PedMahoratGuli:2447' AND o.order_idx=3) OR
+    (q.id='b3296a52-f20d-4f56-93f9-0b3f6cd18da9'::uuid
+     AND q.source_reference='telegram:@PedMahoratGuli:11756' AND o.order_idx=1))
+  AND q.status='review'::public.content_status
+  AND (SELECT count(*) FROM public.question_options allopt
+       WHERE allopt.question_id=q.id AND allopt.side='a')=4;
+  IF n<>2 THEN RAISE EXCEPTION 'TASK434_RECONCILIATION_REQUIRES_TWO_STAGED_KEYS_%',n; END IF;
+
+  UPDATE public.questions SET stem_md=
+    'Musiqa o‘qituvchisi «Notadagi xatoni top» bellashuvini tashkil etdi. Ikki jamoa navbat bilan doskaga yozilgan do–mi–sol notalarini tinglangan sol–mi–do ijrosi bilan solishtiradi. Xatoni birinchi topib, asoslagan jamoaga ball beriladi. Qaysi metod yetakchi?'
+  WHERE id='7782afd8-62e4-4acc-bbf5-2e9e2946f649'::uuid
+    AND source_reference='telegram:@PedMahoratGuli:2447' AND status='review';
+  UPDATE public.question_options SET content_md=CASE order_idx
+    WHEN 0 THEN 'Namoyish metodi — musiqiy ijroni namuna sifatida ko‘rsatish'
+    WHEN 1 THEN 'Loyiha metodi — yakuniy musiqiy mahsulot yaratishni rejalash'
+    WHEN 2 THEN 'Amaliy mashq — nota ketma-ketligini mustaqil qayta ijro etish'
+    WHEN 3 THEN 'Didaktik o‘yin — ijrodagi tafovutni aniqlash va tuzatish' END
+  WHERE question_id='7782afd8-62e4-4acc-bbf5-2e9e2946f649'::uuid AND side='a'
+    AND (SELECT status FROM public.questions WHERE id=question_id)='review';
+  UPDATE public.question_keys SET explanation_md=
+    'Vaziyatda jamoalarning navbat bilan qatnashishi, xatoni aniqlash qoidasi va ball berish ko‘zda tutilgan. Mazkur belgilar ijrodagi xatoni topish faoliyatini didaktik o‘yinga aylantiradi.'
+  WHERE question_id='7782afd8-62e4-4acc-bbf5-2e9e2946f649'::uuid
+    AND (SELECT status FROM public.questions WHERE id=question_id)='review';
+
+  UPDATE public.questions SET stem_md=
+    'O‘qituvchi ikki shaklda dars rejaladi: 1) evristik mashg‘ulotda o‘quvchilar ochiq muammo uchun turli yechimlar izlab, ularni muhokama qiladi; 2) masofaviy sinxron dars videomuloqot orqali o‘tiladi. Shu sharoitlarda har bir shaklga xos tashkiliy cheklov qaysi juftlikda aniq ko‘rsatilgan?'
+  WHERE id='b3296a52-f20d-4f56-93f9-0b3f6cd18da9'::uuid
+    AND source_reference='telegram:@PedMahoratGuli:11756' AND status='review';
+  UPDATE public.question_options SET content_md=CASE order_idx
+    WHEN 0 THEN '1 — internet barqarorligi; 2 — muammoli yechimlarni solishtirishga vaqt'
+    WHEN 1 THEN '1 — yechimlarni izlash va muhokamaga ko‘proq vaqt; 2 — internet va qurilmalarga bog‘liqlik'
+    WHEN 2 THEN '1 — videokonferensiya uzilishlari; 2 — sinfxonadagi vositalarning cheklanganligi'
+    WHEN 3 THEN '1 — raqamli qurilmalarni sozlash; 2 — individual farazlarni amalda tekshirishga ko‘proq vaqt' END
+  WHERE question_id='b3296a52-f20d-4f56-93f9-0b3f6cd18da9'::uuid AND side='a'
+    AND (SELECT status FROM public.questions WHERE id=question_id)='review';
+  UPDATE public.question_keys SET explanation_md=
+    'Evristik mashg‘ulotda o‘quvchilar muammoga turli yechimlar ishlab chiqadi va ularni muhokama qiladi; bunga yetarli vaqt ajratilishi kerak. Jonli masofaviy darsda esa bog‘lanish sifati, internet va qurilma mavjudligi tashkiliy omillardir. Bu holat ikkala texnologiyani umumiy ravishda salbiy deb baholash emas, ayni shartlarga xos cheklovlarni farqlashdir.'
+  WHERE question_id='b3296a52-f20d-4f56-93f9-0b3f6cd18da9'::uuid
+    AND (SELECT status FROM public.questions WHERE id=question_id)='review';
+END
+$task434_reconcile$;
+
 DO $preflight$
 DECLARE
   n integer;
@@ -103,18 +159,26 @@ BEGIN
     RAISE EXCEPTION 'TASK428_ACTIVE_EXACT_STEM_DUPLICATE';
   END IF;
 
-  IF (SELECT count(*) FROM public.questions
-      WHERE source_reference IN (
-          'telegram:@PedMahoratGuli:2447',
-          'telegram:@PedMahoratGuli:11756'
-        )
-        AND status = 'review'::public.content_status
-        AND public.professional_question_fingerprint(id) IN (
-          'b7226c526366733f4df709aafa21d351',
-          '58eaceea538e451c6cea6515224b73a4'
-        )) <> 2 THEN
-    RAISE EXCEPTION 'TASK428_PINNED_REVIEW_CHANGED';
-  END IF;
+  -- New review content is deterministic. An MD5 over randomly seeded option
+  -- UUIDs is not; use the pinned identities, keyed indexes, actual reviewed
+  -- stems, distinct option text and educational explanations instead.
+  SELECT count(*) INTO n FROM public.questions q
+  JOIN public.question_keys k ON k.question_id=q.id
+  JOIN public.question_options keyed ON keyed.question_id=q.id
+    AND keyed.id::text=k.payload->>'correct_option_id'
+  WHERE q.status='review'::public.content_status
+    AND ((q.id='7782afd8-62e4-4acc-bbf5-2e9e2946f649'::uuid
+         AND q.source_reference='telegram:@PedMahoratGuli:2447'
+         AND q.stem_md LIKE '%ball beriladi. Qaysi metod%'
+         AND keyed.order_idx=3)
+      OR (q.id='b3296a52-f20d-4f56-93f9-0b3f6cd18da9'::uuid
+         AND q.source_reference='telegram:@PedMahoratGuli:11756'
+         AND q.stem_md LIKE '%masofaviy sinxron dars videomuloqot%'
+         AND keyed.order_idx=1))
+    AND length(k.explanation_md)>140
+    AND (SELECT count(*) FROM public.question_options o WHERE o.question_id=q.id AND o.side='a')=4
+    AND (SELECT count(DISTINCT btrim(o.content_md)) FROM public.question_options o WHERE o.question_id=q.id AND o.side='a')=4;
+  IF n<>2 THEN RAISE EXCEPTION 'TASK428_PINNED_REVIEW_SEMANTIC_GUARD_%',n; END IF;
 END
 $preflight$;
 
