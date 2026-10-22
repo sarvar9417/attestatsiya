@@ -108,7 +108,7 @@ export function validateM08Y3ReviewCandidate(value: unknown): string[] {
     const e = record(raw)
     const file = typeof e?.file === 'string' ? e.file : ''
     const page = e?.pdf_page_1_based
-    if (!(file in sourcePdfPages) || typeof page !== 'number'
+    if (!Object.prototype.hasOwnProperty.call(sourcePdfPages, file) || typeof page !== 'number'
       || !Number.isInteger(page) || page < 1 || page > sourcePdfPages[file]) {
       errors.push('invalid_source_pdf_page_or_file')
       continue
