@@ -73,6 +73,30 @@ describe('legacy exam code readability', () => {
     expect(formatCodeForDisplay(samples[0], 'javascript')).toContain('if(x%2===0)\n    return x/2;')
   })
 
+  it('renders legacy packed CSS as a multiline fenced CSS block', () => {
+    const tick = String.fromCharCode(96)
+    const rules = '*{color:purple;font-weight:bold} body{color:orange} ol{list-style-type:upper-roman;color:orange}'
+    const input = 'CSS: ' + tick + rules + tick + '. Bodydagi ro‘yxat natijasini toping.'
+    const result = prepareExamCodeText(input)
+    expect(result).toContain(tick.repeat(3) + 'css\n* {\n  color:purple;\n  font-weight:bold;\n}')
+    expect(result).toContain('body {\n  color:orange;\n}')
+    expect(result).toContain('ol {\n  list-style-type:upper-roman;\n  color:orange;\n}')
+    expect(result).toContain('Bodydagi ro‘yxat natijasini toping.')
+    expect(result).not.toContain('} body{')
+  })
+
+  it('keeps single-rule, complex-value, and non-CSS inline snippets unchanged', () => {
+    const tick = String.fromCharCode(96)
+    const short = 'CSS: ' + tick + 'p{color:red}' + tick
+    const complex = 'CSS: ' + tick + 'a{content:"a;b"} b{color:green}' + tick
+    const html = 'HTML: ' + tick + '<p>Test</p><div>A</div>' + tick
+    expect(prepareExamCodeText(short)).toBe(short)
+    expect(prepareExamCodeText(complex)).toBe(complex)
+    expect(prepareExamCodeText(html)).toBe(html)
+    expect(formatCodeForDisplay('div{color:red} p{color:green}', 'css'))
+      .toBe('div {\n  color:red;\n}\np {\n  color:green;\n}')
+  })
+
   it('does not reformat deliberate syntax-error code or unknown languages', () => {
     const snippet = 'if x=5:'
     expect(formatCodeForDisplay(snippet, 'python')).toBe(snippet)
