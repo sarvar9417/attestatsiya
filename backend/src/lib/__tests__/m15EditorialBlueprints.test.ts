@@ -98,6 +98,8 @@ describe('Ten published M15 theory-only lessons: editorial blueprint proposal', 
       expect(q.options).toHaveLength(4)
       expect(new Set(q.options.map(s => s.toLowerCase().trim())).size).toBe(4)
       expect(q.options.every(s => s.trim().length > 16)).toBe(true)
+      const optionLengths = q.options.map(option => option.trim().length)
+      expect(Math.max(...optionLengths) / Math.min(...optionLengths)).toBeLessThanOrEqual(1.35)
       expect(Object.keys(q).sort()).toEqual(
         ['draft_id', 'objective_ref', 'stem', 'options', 'review_status', 'requires_independent_key_solution'].sort(),
       )
