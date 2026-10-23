@@ -221,6 +221,19 @@ describe('resolveLessonUuid', () => {
     expect(mockEq).not.toHaveBeenCalledWith('slug', 'm04-07')
   })
 
+  it.each([
+    ['M11.02', 'html-matn-rasm-royxat', 'b1100000-0000-4000-8000-000000000001'],
+    ['M11.03', 'html-jadval-va-forma', 'b1100000-0000-4000-8000-000000000002'],
+  ])('resolves %s only to matching published HTML lesson slug', async (code, slug, id) => {
+    mockEq.mockImplementation(() => ({ eq: mockEq, maybeSingle: mockMaybeSingle }))
+    mockMaybeSingle.mockResolvedValueOnce({ data: { id }, error: null })
+    const result = await resolveLessonUuid(code)
+    expect(result).toBe(id)
+    expect(mockEq).toHaveBeenCalledWith('slug', slug)
+    expect(mockEq).toHaveBeenCalledWith('status', 'published')
+    expect(mockILike).not.toHaveBeenCalled()
+  })
+
   it('tries exact slug match first', async () => {
     mockMaybeSingle.mockResolvedValueOnce({ data: { id: 'lesson-exact' }, error: null })
 
