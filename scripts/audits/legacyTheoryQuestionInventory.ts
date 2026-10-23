@@ -101,3 +101,8 @@ export function auditTheoryOnlyLegacyQuestions() {
     totals, rows,
   }
 }
+
+if (process.argv[1]?.endsWith('legacyTheoryQuestionInventory.ts')) {
+  // Summary only. No stems, options, explanations or correctIndex are emitted.
+  console.log(JSON.stringify(auditTheoryOnlyLegacyQuestions(), null, 2))
+}
