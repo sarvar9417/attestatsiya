@@ -81,7 +81,9 @@ describe('Ten published M15 theory-only lessons: editorial blueprint proposal', 
         ['draft_id', 'objective', 'requires_page_level_source_verification'].sort(),
       )
     }
-  })  it('stages exactly two keyless, source-check-pending candidates per lesson', () => {
+  })
+
+  it('stages exactly two keyless, source-check-pending candidates per lesson', () => {
     expect(stemDrafts.status).toBe('review_only')
     expect(stemDrafts.never_use_for_live_scoring).toBe(true)
     expect(stemDrafts.has_validated_answer_keys).toBe(false)
