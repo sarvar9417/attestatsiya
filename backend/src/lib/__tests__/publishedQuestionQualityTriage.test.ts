@@ -6,6 +6,11 @@ const sql = readFileSync(
   'utf8',
 )
 
+const securitySql = readFileSync(
+  new URL('../../../../supabase/maintenance/20261023_security_definer_grants_READONLY.sql', import.meta.url),
+  'utf8',
+)
+
 describe('published question quality review inventory', () => {
   it('is an inspection-only artifact, never an automatic release or answer-key rewrite', () => {
     // Drop SQL comments so remediation suggestions in comments cannot fool checks.
@@ -23,5 +28,18 @@ describe('published question quality review inventory', () => {
     expect(sql).toMatch(/flag_rows_not_distinct_questions/i)
     expect(sql).toMatch(/question_source_evidence_eligible/i)
     expect(sql).toMatch(/LIMIT 100/i)
+  })
+})
+
+describe('public SECURITY DEFINER function privilege inventory', () => {
+  it('uses only catalog reads, never changes production grants or code', () => {
+    const body = securitySql.split('\n').filter(line => !line.trimStart().startsWith('--')).join('\n')
+    expect(body).not.toMatch(/^\s*(?:update|delete|insert|alter|drop|truncate|grant|revoke|create)\b/im)
+    expect(body).toMatch(/pg_proc/)
+    expect(body).toMatch(/pg_namespace/)
+    expect(body).toMatch(/has_function_privilege/)
+    expect(body).toMatch(/aclexplode/)
+    expect(body).toMatch(/auth\.uid\(\)/)
+    expect(body).toMatch(/search_path/)
   })
 })
