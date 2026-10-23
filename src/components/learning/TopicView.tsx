@@ -718,7 +718,9 @@ export default function TopicView({
               <div>
                 <strong>{isTestChecking ? 'Mavzu testi tekshirilmoqda.' : readinessIssue?.title ?? (currentReadiness ? describeUnreadyTopic(currentReadiness.reason, currentReadiness.available, currentReadiness.required) : 'Mavzu testi hozircha tayyor emas.')}</strong>{' '}
                 {readinessIssue?.detail ?? (currentReadiness
-                  ? `Hozir ${currentReadiness.available}/${currentReadiness.required} ta mos savol mavjud. Nazariyani o‘rganishda davom etishingiz mumkin.`
+                  ? currentReadiness.required === 0
+                    ? 'Bu mavzu uchun alohida baholanadigan test hali nashr qilinmagan. Nazariyani o‘rganishingiz mumkin.'
+                    : `Hozir ${currentReadiness.available}/${currentReadiness.required} ta mos savol mavjud. Nazariyani o‘rganishda davom etishingiz mumkin.`
                   : 'Server javobi kutilmoqda. Nazariyani o‘rganishda davom etishingiz mumkin.')}
               </div>
               {readinessIssue?.canRetry && (
