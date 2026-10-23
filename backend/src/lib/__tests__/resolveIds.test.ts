@@ -234,6 +234,28 @@ describe('resolveLessonUuid', () => {
     expect(mockILike).not.toHaveBeenCalled()
   })
 
+  it.each([
+    ['M03.01', 'office-v2-w01'], ['M03.02', 'office-v2-w02'],
+    ['M03.03', 'office-v2-w03'], ['M03.04', 'office-v2-e01'],
+    ['M03.05', 'excel-formulalar-va-funksiyalar'],
+    ['M03.06', 'excel-filtr-saralash-diagramma'],
+    ['M03.08', 'office-v2-p01'], ['M03.10', 'office-v2-p02'],
+    ['M09.01', 'malumotlar-bazasi-va-mbbt-asoslari'],
+    ['M09.03', 'kalitlar-va-jadvallarni-boglash'],
+    ['M10.01', 'kompyuter-grafikasi-turlari'],
+    ['M10.02', 'paint-va-photoshop-asoslari'],
+    ['M12.03', 'arxitektura-va-topologiyalar'],
+    ['M12.05', 'ip-manzil-va-tarmoq-maskasi'],
+  ])('resolves vetted %s to only published lesson slug %s', async (code, slug) => {
+    mockEq.mockImplementation(() => ({ eq: mockEq, maybeSingle: mockMaybeSingle }))
+    const id = `verified-${code}`
+    mockMaybeSingle.mockResolvedValueOnce({ data: { id }, error: null })
+    expect(await resolveLessonUuid(code)).toBe(id)
+    expect(mockEq).toHaveBeenCalledWith('slug', slug)
+    expect(mockEq).toHaveBeenCalledWith('status', 'published')
+    expect(mockILike).not.toHaveBeenCalled()
+  })
+
   it('tries exact slug match first', async () => {
     mockMaybeSingle.mockResolvedValueOnce({ data: { id: 'lesson-exact' }, error: null })
 
