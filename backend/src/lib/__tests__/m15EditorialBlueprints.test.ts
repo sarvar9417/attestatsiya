@@ -99,7 +99,7 @@ describe('Ten published M15 theory-only lessons: editorial blueprint proposal', 
       expect(Object.keys(q).sort()).toEqual(
         ['draft_id', 'objective_ref', 'stem', 'options', 'review_status', 'requires_independent_key_solution'].sort(),
       )
-      const lesson = q.objective_ref.split('.').slice(0, 4).join('.')
+      const lesson = q.objective_ref.split('.').slice(0, 3).join('.')
       perLesson.set(lesson, (perLesson.get(lesson) ?? 0) + 1)
     }
     expect(perLesson.size).toBe(10)
