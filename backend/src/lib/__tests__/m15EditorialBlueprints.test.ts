@@ -26,6 +26,17 @@ const manifest = JSON.parse(readFileSync(path, 'utf8')) as {
   }>
 }
 
+const stemDrafts = JSON.parse(readFileSync(
+  new URL('../../../../supabase/maintenance/m15_twenty_question_stems_REVIEW_20261023.json', import.meta.url),
+  'utf8',
+)) as {
+  status: string
+  never_use_for_live_scoring: boolean
+  has_validated_answer_keys: boolean
+  source_page_verification_pending: boolean
+  questions: Array<{ draft_id: string; objective_ref: string; stem: string; options: string[]; review_status: string }>
+}
+
 describe('Ten published M15 theory-only lessons: editorial blueprint proposal', () => {
   it('does not misrepresent unreviewed objectives as scored/published tests', () => {
     expect(manifest.status).toBe('review_only')
@@ -70,5 +81,30 @@ describe('Ten published M15 theory-only lessons: editorial blueprint proposal', 
         ['draft_id', 'objective', 'requires_page_level_source_verification'].sort(),
       )
     }
+  })  it('stages exactly two keyless, source-check-pending candidates per lesson', () => {
+    expect(stemDrafts.status).toBe('review_only')
+    expect(stemDrafts.never_use_for_live_scoring).toBe(true)
+    expect(stemDrafts.has_validated_answer_keys).toBe(false)
+    expect(stemDrafts.source_page_verification_pending).toBe(true)
+    expect(stemDrafts.questions).toHaveLength(20)
+    const objectiveIds = new Set(manifest.lessons.flatMap(l => l.proposed_objectives.map(o => o.draft_id)))
+    const perLesson = new Map<string, number>()
+    for (const q of stemDrafts.questions) {
+      expect(q.review_status).toBe('unverified')
+      expect(objectiveIds.has(q.objective_ref)).toBe(true)
+      expect(q.stem.length).toBeGreaterThan(45)
+      expect(q.options).toHaveLength(4)
+      expect(new Set(q.options.map(s => s.toLowerCase().trim())).size).toBe(4)
+      expect(q.options.every(s => s.trim().length > 16)).toBe(true)
+      expect(Object.keys(q).sort()).toEqual(
+        ['draft_id', 'objective_ref', 'stem', 'options', 'review_status', 'requires_independent_key_solution'].sort(),
+      )
+      const lesson = q.objective_ref.split('.').slice(0, 4).join('.')
+      perLesson.set(lesson, (perLesson.get(lesson) ?? 0) + 1)
+    }
+    expect(perLesson.size).toBe(10)
+    expect([...perLesson.values()]).toEqual(Array(10).fill(2))
   })
+
+
 })
