@@ -9,7 +9,6 @@ export interface CatalogState {
   modules: CatalogModule[]
   loading: boolean
   online: boolean
-  retry: () => void
 }
 
 const STATIC_MODULES: CatalogModule[] = mergeCatalog(MODULES, [])
@@ -19,7 +18,7 @@ const STATIC_MODULES: CatalogModule[] = mergeCatalog(MODULES, [])
  * backend published modullari kelgach meta-ma'lumotni qoplaydi. API xatosida
  * statik katalog saqlanadi va `online` false bo'ladi (UI buzilmaydi).
  */
-export function useCatalog(): CatalogState {
+export function useCatalog(): CatalogState & { retry: () => void } {
   const [retryIndex, setRetryIndex] = useState(0)
   const retry = () => { setState(current => ({ ...current, loading: true })); setRetryIndex(i => i + 1) }
   const [state, setState] = useState<CatalogState>(() => ({
