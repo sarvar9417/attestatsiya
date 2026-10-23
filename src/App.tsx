@@ -101,7 +101,7 @@ function MainLayout() {
           <button type="button" className="mt-3 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
             onClick={() => window.location.reload()}>Hozir yangilash</button>
         </div>
-      )
+      )}
       <div className="flex h-screen bg-gray-50 dark:bg-gray-950 overflow-hidden">
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary-600 focus:text-white focus:rounded-lg">
           Asosiy kontentga o'tish
