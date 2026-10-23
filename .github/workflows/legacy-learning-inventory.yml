@@ -1,0 +1,74 @@
+name: Legacy theory exam-candidate inventory (read-only)
+
+on:
+  push:
+    branches:
+      - 'fix/theory-only-legacy-test-readiness-20261023'
+  pull_request:
+    paths:
+      - 'scripts/audits/legacyTheoryQuestionInventory.ts'
+      - 'backend/src/lib/theoryOnlyLegacyTopicCodes.ts'
+      - 'src/data/topicContent.ts'
+      - 'src/data/topics/**'
+      - '.github/workflows/legacy-learning-inventory.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - name: Inspect offline candidates only (no remote DB, no answer keys)
+        shell: bash
+        run: |
+          set -euo pipefail
+          npx --no-install tsx scripts/audits/legacyTheoryQuestionInventory.ts > "$RUNNER_TEMP/legacy-review.json"
+          node --input-type=module -e '
+            import {readFileSync,appendFileSync} from "node:fs";
+            const f=JSON.parse(readFileSync(process.env.RUNNER_TEMP+"/legacy-review.json","utf8"));
+            if(f.uniqueChapterCount!==23 || f.serverPublicationAuthorized!==false)
+              throw new Error("Unexpected theory-only inventory state");
+            for(const r of f.rows){
+              if(r.scoredServerPoolReady!==false)throw new Error("Invalid scoring claim");
+            }
+            const t=f.totals;
+            const text=["## Local theory mini-quiz inventory — NOT scored exams",
+              "| Measure | Value |","|---|---:|",
+              "| Static chapters without approved server tests | "+f.uniqueChapterCount+" |",
+              "| Existing local mini-quiz items | "+t.localPracticeItems+" |",
+              "| Four-choice items | "+t.fourChoiceItems+" |",
+              "| Duplicate stems within topic | "+t.duplicateStems+" |",
+              "| Malformed four-choice structures | "+t.malformedChoiceItems+" |",
+              "| Option-length imbalance heuristic | "+t.highAnswerLengthImbalance+" |",
+              "| Correct choice uniquely longest heuristic | "+t.correctOptionLongestHeuristics+" |",
+              "",
+              "### Highest-priority local question pools (counts only)",
+              "| Topic | Local questions | Length imbalance | Correct uniquely longest | Duplicate stems |",
+              "|---|---:|---:|---:|---:|",
+              ...f.rows.filter(r=>r.localPracticeItems>0).sort((a,b)=>
+                b.highAnswerLengthImbalance-a.highAnswerLengthImbalance ||
+                b.correctOptionLongestHeuristics-a.correctOptionLongestHeuristics)
+                .map(r=>"| "+r.topicId+" | "+r.localPracticeItems+" | "+
+                  r.highAnswerLengthImbalance+" | "+r.correctOptionLongestHeuristics+
+                  " | "+r.duplicateStems+" |"),
+              "",
+              "Source page, key and distractor review pending. No questions or keys exported."].join("\n");
+            console.log(text);
+            if(process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY,text+"\n");
+          '
+      - name: Upload keyless review inventory
+        uses: actions/upload-artifact@v4
+        with:
+          name: legacy-theory-question-inventory
+          path: ${{ runner.temp }}/legacy-review.json
+          retention-days: 14
