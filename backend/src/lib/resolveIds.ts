@@ -84,19 +84,35 @@ export async function resolveLessonUuid(subtopicCode: string): Promise<string | 
     return null
   }
 
-  // Two verified legacy M11 topics exactly correspond to currently published
-  // canonical HTML lessons. Match by immutable slug AND published status,
-  // never by a different chapter's ordinal. Other M11 chapters stay unmapped.
-  const publishedWebTopicSlugs: Record<string, string> = {
+  // Manually vetted chapter→published lesson links, backed by the
+  // exact topic titles and active published source records. Never derive this
+  // mapping from ordinals: several modules contain both legacy and V2 editions.
+  // Deliberately exclude many-to-one and only partially matching chapters.
+  const publishedTopicSlugs: Record<string, string> = {
+    'M03.01': 'office-v2-w01', // Word interface, create/edit
+    'M03.02': 'office-v2-w02', // Word formatting
+    'M03.03': 'office-v2-w03', // Word objects
+    'M03.04': 'office-v2-e01', // Excel data/workbook structure
+    'M03.05': 'excel-formulalar-va-funksiyalar',
+    'M03.06': 'excel-filtr-saralash-diagramma',
+    'M03.08': 'office-v2-p01', // PowerPoint design
+    'M03.10': 'office-v2-p02', // PowerPoint animation/transitions
+    'M09.01': 'malumotlar-bazasi-va-mbbt-asoslari',
+    'M09.03': 'kalitlar-va-jadvallarni-boglash',
+    'M10.01': 'kompyuter-grafikasi-turlari',
+    'M10.02': 'paint-va-photoshop-asoslari',
     'M11.02': 'html-matn-rasm-royxat',
     'M11.03': 'html-jadval-va-forma',
+    'M12.03': 'arxitektura-va-topologiyalar',
+    'M12.05': 'ip-manzil-va-tarmoq-maskasi',
   }
-  const publishedWebSlug = publishedWebTopicSlugs[subtopicCode.toUpperCase()]
-  if (publishedWebSlug) {
+  const publishedSlug = publishedTopicSlugs[subtopicCode.toUpperCase()]
+  if (publishedSlug) {
+    // The slug is exact and publication-gated; no archived/draft fallback.
     const { data: lesson, error } = await supabase
       .from('lessons')
       .select('id')
-      .eq('slug', publishedWebSlug)
+      .eq('slug', publishedSlug)
       .eq('status', 'published')
       .maybeSingle()
     if (error || !lesson) return null
