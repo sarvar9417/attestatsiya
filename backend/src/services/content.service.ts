@@ -1,5 +1,6 @@
 import { supabase } from '../lib/supabase.js'
 import { resolveModuleUuid, resolveLessonUuid } from '../lib/resolveIds.js'
+import { isKnownTheoryOnlyLegacyTopic, theoryOnlyTopicPreflight } from '../lib/theoryOnlyLegacyTopicCodes.js'
 import { NotFoundError, AppError } from '../lib/errors.js'
 import type {
   ModuleResponse,
@@ -390,7 +391,13 @@ export const contentService = {
    */
   async topicTestPreflight(id: string) {
     const resolvedId = await resolveLessonUuid(id)
-    if (!resolvedId) throw new NotFoundError('Mavzu topilmadi')
+    if (!resolvedId) {
+      // Local theory can legitimately exist without any published *test* lesson.
+      // Known static chapters return an explicit unready response; truly
+      // unknown identifiers still return HTTP 404.
+      if (isKnownTheoryOnlyLegacyTopic(id)) return theoryOnlyTopicPreflight()
+      throw new NotFoundError('Mavzu topilmadi')
+    }
     const lesson = await publishedLesson(resolvedId)
     // Appendices are reading/reference material, not incomplete exams.
     // The historic database stores a generic numeric test quota even on M01
