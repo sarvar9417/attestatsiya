@@ -164,7 +164,6 @@ export default function TopicView({
   const [readinessRetry, setReadinessRetry] = useState(0)
   const [readinessFailure, setReadinessFailure] = useState<{ subtopicId: string; issue: TopicPreflightIssue } | null>(null)
   const [checkErrors, setCheckErrors] = useState<Record<string, string>>({})
-  const isProfessionalLesson = /^(?:M04|M1[456])\.\d{2}$/.test(subtopicId)
   const isAlgoritmlashV2 = moduleId === 'M06' &&
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
   const isPyjsV2 = moduleId === 'M08' &&
@@ -752,6 +751,7 @@ export default function TopicView({
                 <BookReader
                   key={subtopicId}
                   content={content}
+                  readerSessionKey={`${user?.id ?? 'guest'}:${subtopicId}`}
                   questionCount={hasTest ? displayedTestCount : 0}
                   isAppendix={isAppendix}
                   requireTest={!isAppendix}
