@@ -27,7 +27,7 @@ const manifest = JSON.parse(readFileSync(path, 'utf8')) as {
 }
 
 const stemDrafts = JSON.parse(readFileSync(
-  new URL('../../../../supabase/maintenance/m15_twenty_question_stems_REVIEW_20261023.json', import.meta.url),
+  new URL('../../../../supabase/maintenance/m15_forty_question_stems_REVIEW_20261023.json', import.meta.url),
   'utf8',
 )) as {
   status: string
@@ -83,12 +83,12 @@ describe('Ten published M15 theory-only lessons: editorial blueprint proposal', 
     }
   })
 
-  it('stages exactly two keyless, source-check-pending candidates per lesson', () => {
+  it('stages four keyless, source-check-pending candidates per lesson', () => {
     expect(stemDrafts.status).toBe('review_only')
     expect(stemDrafts.never_use_for_live_scoring).toBe(true)
     expect(stemDrafts.has_validated_answer_keys).toBe(false)
     expect(stemDrafts.source_page_verification_pending).toBe(true)
-    expect(stemDrafts.questions).toHaveLength(20)
+    expect(stemDrafts.questions).toHaveLength(40)
     const objectiveIds = new Set(manifest.lessons.flatMap(l => l.proposed_objectives.map(o => o.draft_id)))
     const perLesson = new Map<string, number>()
     for (const q of stemDrafts.questions) {
@@ -107,7 +107,11 @@ describe('Ten published M15 theory-only lessons: editorial blueprint proposal', 
       perLesson.set(lesson, (perLesson.get(lesson) ?? 0) + 1)
     }
     expect(perLesson.size).toBe(10)
-    expect([...perLesson.values()]).toEqual(Array(10).fill(2))
+    expect([...perLesson.values()]).toEqual(Array(10).fill(4))
+    // Every objective has at least one candidate; no single concept is forgotten.
+    const includedObjectives = new Set(stemDrafts.questions.map(q => q.objective_ref))
+    expect(includedObjectives.size).toBe(40)
+    expect(includedObjectives).toEqual(objectiveIds)
   })
 
 
