@@ -391,7 +391,17 @@ export const contentService = {
   async topicTestPreflight(id: string) {
     const resolvedId = await resolveLessonUuid(id)
     if (!resolvedId) throw new NotFoundError('Mavzu topilmadi')
-    await publishedLesson(resolvedId)
+    const lesson = await publishedLesson(resolvedId)
+    // Appendices are reading/reference material, not incomplete exams.
+    // The historic database stores a generic numeric test quota even on M01
+    // appendices. Never convert that placeholder into a false required test.
+    if (lesson.blocks_kind === 'appendix') {
+      return {
+        ready: false, required: 0, available: 0, duration_sec: 0,
+        reason: 'not_required', coverage: [],
+        critical_objective_gaps: [], missing_required_objectives: [],
+      }
+    }
 
     const { data, error } = await supabase.rpc('topic_test_preflight', {
       p_lesson_id: resolvedId,
