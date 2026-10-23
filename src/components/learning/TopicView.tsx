@@ -8,6 +8,7 @@ import { checkQuestionAnswer } from '../../features/content/lessonContentGateway
 import { paginateTheoryBlocks } from '../../features/content/theoryPagination'
 import { getTopicTestPreflight, type TopicTestPreflight } from '../../features/content/contentApi'
 import { getLessonDetail } from '../../features/content/contentApi'
+import { describeTopicPreflightError, describeUnreadyTopic, type TopicPreflightIssue } from '../../features/content/topicPreflightError'
 import { markdownToTheoryBlocks, overlayPublishedProfessionalLesson } from '../../features/content/professionalLessonTheory'
 import { presentPedagogyTheory } from '../../features/content/presentPedagogyTheory'
 import { projectLearnerTheoryWithoutEditorialTraces } from '../../features/content/projectLearnerTheoryWithoutEditorialTraces'
@@ -161,9 +162,8 @@ export default function TopicView({
   const [theoryRetry, setTheoryRetry] = useState(0)
   const [topicReadiness, setTopicReadiness] = useState<{ subtopicId: string; data: TopicTestPreflight } | null>(null)
   const [readinessRetry, setReadinessRetry] = useState(0)
-  const [readinessErrorTopic, setReadinessErrorTopic] = useState<string | null>(null)
+  const [readinessFailure, setReadinessFailure] = useState<{ subtopicId: string; issue: TopicPreflightIssue } | null>(null)
   const [checkErrors, setCheckErrors] = useState<Record<string, string>>({})
-  const isProfessionalLesson = /^(?:M04|M1[456])\.\d{2}$/.test(subtopicId)
   const isAlgoritmlashV2 = moduleId === 'M06' &&
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(subtopicId)
   const isPyjsV2 = moduleId === 'M08' &&
@@ -223,7 +223,7 @@ export default function TopicView({
     setReadProgress(0)
     setTheoryPage(0)
     setFurthestTheoryPage(0)
-    setReadinessErrorTopic(null)
+    setReadinessFailure(null)
     setLiveQuestions(null)
     setChecking({})
     setCheckErrors({})
@@ -329,15 +329,27 @@ export default function TopicView({
     return () => { cancelled = true }
   }, [isPublishedScratchLogoLesson, subtopicId])
 
-  // Published/keyed lesson coverage must be checked by the authoritative
-  // backend generator preflight, not by the number of visible learning questions.
+  // Readiness is server-authoritative. Never report a 404 as a network outage.
+  // Appendices have no mandatory exam and must not request a topic preflight.
+  const isAppendix = content?.kind === 'appendix'
   useEffect(() => {
+    if (isAppendix) return
     let active = true
     getTopicTestPreflight(subtopicId)
-      .then(data => { if (active) { setTopicReadiness({ subtopicId, data }); setReadinessErrorTopic(null) } })
-      .catch(() => { if (active) { setTopicReadiness(null); setReadinessErrorTopic(subtopicId) } })
+      .then(data => {
+        if (active) {
+          setTopicReadiness({ subtopicId, data })
+          setReadinessFailure(null)
+        }
+      })
+      .catch(error => {
+        if (active) {
+          setTopicReadiness(null)
+          setReadinessFailure({ subtopicId, issue: describeTopicPreflightError(error) })
+        }
+      })
     return () => { active = false }
-  }, [subtopicId, isProfessionalLesson, isAlgoritmlashV2, isPyjsV2, isAxrM13, readinessRetry])
+  }, [subtopicId, isAppendix, readinessRetry])
 
   // Tests are authenticated ExamRunner sessions; do not preload exam-bank questions.
 
@@ -369,14 +381,13 @@ export default function TopicView({
   const score = questions.length > 0 ? Math.round((correctCount / questions.length) * 100) : 0
   const passed = score >= 80
 
-  /** Qo'llanma ilovasi (formulalar varag'i, lug'at, manbalar) — testi yo'q. */
-  const isAppendix = content?.kind === 'appendix'
   /** Testga o'tish imkoni bormi. */
   const currentReadiness = topicReadiness?.subtopicId === subtopicId ? topicReadiness.data : null
   const hasTest = currentReadiness?.ready === true
   const displayedTestCount = currentReadiness?.required ?? 0
-  const testCheckFailed = readinessErrorTopic === subtopicId
-  const isTestChecking = !currentReadiness && !testCheckFailed
+  const readinessIssue = readinessFailure?.subtopicId === subtopicId ? readinessFailure.issue : null
+  const testCheckFailed = Boolean(readinessIssue)
+  const isTestChecking = !isAppendix && !currentReadiness && !testCheckFailed
   const handleTopicTestAction = () => {
     if (hasTest) navigate(`/exam/mavzu/${moduleId}?lessonId=${subtopicId}`)
     else if (isAppendix) handleComplete(0, 0)
@@ -705,16 +716,18 @@ export default function TopicView({
             <div role="status" aria-live="polite"
               className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-amber-200 bg-amber-50/70 px-4 py-3 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950/20 dark:text-amber-100">
               <div>
-                <strong>{isTestChecking ? 'Mavzu testi tekshirilmoqda.' : testCheckFailed ? 'Test serveriga ulanib bo‘lmadi.' : 'Mavzu testi hozircha tayyor emas.'}</strong>{' '}
-                {currentReadiness
+                <strong>{isTestChecking ? 'Mavzu testi tekshirilmoqda.' : readinessIssue?.title ?? (currentReadiness ? describeUnreadyTopic(currentReadiness.reason, currentReadiness.available, currentReadiness.required) : 'Mavzu testi hozircha tayyor emas.')}</strong>{' '}
+                {readinessIssue?.detail ?? (currentReadiness
                   ? `Hozir ${currentReadiness.available}/${currentReadiness.required} ta mos savol mavjud. Nazariyani o‘rganishda davom etishingiz mumkin.`
-                  : testCheckFailed ? 'Bu test umuman mavjud emas degani emas. Qayta tekshiring yoki keyingi mavzuga o‘ting.' : 'Server javobi kutilmoqda. Nazariyani o‘rganishda davom etishingiz mumkin.'}
+                  : 'Server javobi kutilmoqda. Nazariyani o‘rganishda davom etishingiz mumkin.')}
               </div>
-              <button type="button"
-                onClick={() => setReadinessRetry(n => n + 1)}
-                className="min-h-10 shrink-0 rounded-lg border border-amber-400 px-3 font-semibold hover:bg-amber-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-600 dark:border-amber-700 dark:hover:bg-amber-900/30">
-                Holatni qayta tekshirish
-              </button>
+              {readinessIssue?.canRetry && (
+                <button type="button"
+                  onClick={() => { setReadinessFailure(null); setReadinessRetry(n => n + 1) }}
+                  className="min-h-10 shrink-0 rounded-lg border border-amber-400 px-3 font-semibold hover:bg-amber-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-600 dark:border-amber-700 dark:hover:bg-amber-900/30">
+                  Holatni qayta tekshirish
+                </button>
+              )}
             </div>
           )}
 
@@ -738,6 +751,7 @@ export default function TopicView({
                 <BookReader
                   key={subtopicId}
                   content={content}
+                  readerSessionKey={`${user?.id ?? 'guest'}:${subtopicId}`}
                   questionCount={hasTest ? displayedTestCount : 0}
                   isAppendix={isAppendix}
                   requireTest={!isAppendix}
@@ -789,7 +803,7 @@ export default function TopicView({
                   <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
                     {hasTest ? `Endi ${displayedTestCount} ta savoldan iborat testni boshlashingiz mumkin.`
                       : isTestChecking ? 'Test tekshirilmoqda; keyingi mavzuga o‘tishingiz mumkin.'
-                      : testCheckFailed ? 'Test serveri javob bermadi; bu test mavjud emas degani emas.'
+                      : testCheckFailed ? readinessIssue?.title
                       : currentReadiness ? 'Mavzu testi hozircha tayyor emas.'
                       : 'Test holati aniqlanmoqda.'}
                   </p>

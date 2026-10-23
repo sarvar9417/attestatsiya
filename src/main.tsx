@@ -8,12 +8,11 @@ import { createSentryProvider, initSentry } from './lib/sentryProvider'
 
 initTheme()
 
-window.addEventListener('vite:preloadError', () => {
-  const last = Number(sessionStorage.getItem('lastChunkReload') || 0)
-  if (Date.now() - last > 10_000) {
-    sessionStorage.setItem('lastChunkReload', String(Date.now()))
-    window.location.reload()
-  }
+// A stale Vite chunk can fail after a deployment. Do NOT reload the page
+// unexpectedly during reading or a timed exam: ask the user to update.
+window.addEventListener('vite:preloadError', (event) => {
+  event.preventDefault()
+  window.dispatchEvent(new Event('attestatsiya:chunk-update-needed'))
 })
 
 const dsn = import.meta.env.VITE_SENTRY_DSN

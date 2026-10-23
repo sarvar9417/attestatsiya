@@ -46,7 +46,7 @@ describe('M11 unified book theory navigation regression', () => {
     expect(screen.getByText(/O‘quv materialini faqat chiroyli shrift va rasm qilib qo‘yish yetarli emas/)).toBeInTheDocument()
 
     await waitFor(() =>
-      expect(screen.getByText(/Test serveriga ulanib bo‘lmadi/)).toBeInTheDocument()
+      expect(screen.getByText(/Test holatini aniqlab bo‘lmadi/)).toBeInTheDocument()
     )
     expect(screen.queryByRole('button', { name: 'Mavzuni yakunlash' })).not.toBeInTheDocument()
 

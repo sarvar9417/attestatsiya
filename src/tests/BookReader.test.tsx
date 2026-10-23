@@ -184,6 +184,25 @@ describe('BookReader', () => {
     expect(screen.getByRole('button', { name: /oldingi/i })).toBeEnabled()
   })
 
+  it('browser refreshdan keyin avvalgi bo‘lim va ko‘rilgan sahifalarni tiklaydi', async () => {
+    const user = userEvent.setup()
+    const content = M01_CONTENT['M01.02']
+    const sections = splitBalancedSections(content.theory)
+    const readerSessionKey = 'test-user:M01.02'
+    const storageKey = `attestatsiya:reader:v1:${readerSessionKey}`
+    window.sessionStorage.removeItem(storageKey)
+    const view = render(<BookReader content={content} {...readerProps} readerSessionKey={readerSessionKey} />)
+    await user.click(screen.getByRole('button', { name: /keyingi/i }))
+    expect(screen.getByRole('heading', { name: sections[1].title })).toBeInTheDocument()
+    expect(JSON.parse(window.sessionStorage.getItem(storageKey) ?? '{}').index).toBe(1)
+    view.unmount()
+
+    render(<BookReader content={content} {...readerProps} readerSessionKey={readerSessionKey} />)
+    expect(screen.getByRole('heading', { name: sections[1].title })).toBeInTheDocument()
+    expect(JSON.parse(window.sessionStorage.getItem(storageKey) ?? '{}').visited).toEqual([0, 1])
+    window.sessionStorage.removeItem(storageKey)
+  })
+
   it('mundarija orqali istalgan bo‘limga o‘tadi', async () => {
     const user = userEvent.setup()
     const content = M01_CONTENT['M01.02']

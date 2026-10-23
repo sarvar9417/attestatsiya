@@ -158,8 +158,31 @@ export function splitBalancedSections(
   return pages
 }
 
+/** Browser-tab-only reading position; isolated by user and lesson. */
+function restoreReadingPosition(storageKey: string | null, total: number) {
+  const initial = { index: 0, visited: [0] as number[] }
+  if (!storageKey || total < 1) return initial
+  try {
+    const raw = window.sessionStorage.getItem(storageKey)
+    if (!raw) return initial
+    const parsed: unknown = JSON.parse(raw)
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return initial
+    const state = parsed as { index?: unknown; visited?: unknown }
+    const index = typeof state.index === 'number' && Number.isInteger(state.index)
+      ? Math.min(Math.max(state.index, 0), total - 1) : 0
+    const visited = Array.isArray(state.visited)
+      ? state.visited.filter((n): n is number =>
+          typeof n === 'number' && Number.isInteger(n) && n >= 0 && n < total)
+      : [0]
+    return { index, visited: [...new Set([0, ...visited, index])] }
+  } catch {
+    return initial
+  }
+}
+
 interface Props {
   content: TopicContent
+  readerSessionKey?: string
   /** Mavzudagi test savollari soni. */
   questionCount: number
   /** Ilova (formulalar varag'i, lug'at, manbalar) — test ko'zda tutilmagan. */
@@ -184,23 +207,26 @@ interface Props {
  * "Oldingi / Keyingi", oxirgi bo'limda esa bitta aniq davom etish yo'li.
  */
 export default function BookReader({
-  content, questionCount, isAppendix, requireTest = false, onFinishReading, onProgress,
+  content, readerSessionKey, questionCount, isAppendix, requireTest = false, onFinishReading, onProgress,
   previousTopic, onOpenPreviousTopic, nextTopic, onOpenNextTopic,
 }: Props) {
   const sections = useMemo(() => splitBalancedSections(content.theory), [content.theory])
-  const [pageIndex, setIndex] = useState(0)
-  const [visited, setVisited] = useState<Set<number>>(() => new Set([0]))
+  const storageKey = readerSessionKey ? `attestatsiya:reader:v1:${readerSessionKey}` : null
+  const [pageIndex, setIndex] = useState(() => restoreReadingPosition(storageKey, sections.length).index)
+  const [visited, setVisited] = useState<Set<number>>(() =>
+    new Set(restoreReadingPosition(storageKey, sections.length).visited))
   const [outlineOpen, setOutlineOpen] = useState(false)
   const [readingContent, setReadingContent] = useState(content)
   // Reset before rendering: an effect runs too late when a shorter lesson
   // replaces a longer one and sections[index] no longer exists.
   const contentChanged = readingContent.subtopicId !== content.subtopicId
     || readingContent.theory !== content.theory || readingContent.source !== content.source
-  const index = contentChanged ? 0 : pageIndex
+  const restored = contentChanged ? restoreReadingPosition(storageKey, sections.length) : null
+  const index = restored ? restored.index : pageIndex
   if (contentChanged) {
     setReadingContent(content)
-    setIndex(0)
-    setVisited(new Set([0]))
+    setIndex(restored!.index)
+    setVisited(new Set(restored!.visited))
     setOutlineOpen(false)
   }
   const topRef = useRef<HTMLDivElement>(null)
@@ -211,13 +237,16 @@ export default function BookReader({
   const isLast = index === total - 1
   const hasTest = questionCount > 0
 
-  // mavzu almashsa — boshidan
+  // Persist only a reading-position marker, never answers or sensitive content.
+  // Changing content editions clamps the index to the new number of sections.
   useEffect(() => {
-    setIndex(0)
-    setVisited(new Set([0]))
-    setOutlineOpen(false)
-    firstRender.current = true
-  }, [content.subtopicId])
+    if (!storageKey) return
+    try {
+      window.sessionStorage.setItem(storageKey, JSON.stringify({
+        index, visited: [...visited],
+      }))
+    } catch { /* Private mode / quota exceeded: keep the reader working. */ }
+  }, [index, visited, storageKey])
 
   useEffect(() => {
     onProgress?.(Math.round((visited.size / total) * 100))

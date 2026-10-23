@@ -70,7 +70,14 @@ function ConfigErrorScreen() {
 function MainLayout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const isOnline = useOnlineStatus()
+  const [chunkUpdateNeeded, setChunkUpdateNeeded] = useState(false)
   const location = useLocation()
+
+  useEffect(() => {
+    const notify = () => setChunkUpdateNeeded(true)
+    window.addEventListener('attestatsiya:chunk-update-needed', notify)
+    return () => window.removeEventListener('attestatsiya:chunk-update-needed', notify)
+  }, [])
   const immersiveExamRoute = /^\/exam(?:\/|$)/.test(location.pathname)
 
   useEffect(() => {
@@ -85,6 +92,16 @@ function MainLayout() {
     <>
       <SessionExpiredHandler />
       <OfflineBanner isOnline={isOnline} />
+      {chunkUpdateNeeded && (
+        <div role="alert" className="fixed bottom-20 right-4 z-[80] w-[min(25rem,calc(100vw-2rem))] rounded-xl border border-amber-300 bg-white p-4 shadow-xl dark:border-amber-800 dark:bg-gray-900">
+          <p className="font-semibold text-gray-900 dark:text-white">Yangi versiya mavjud</p>
+          <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+            Ilova fayllari yangilangan. O‘qish yoki testdagi ishlaringizni yakunlab, o‘zingizga qulay paytda sahifani yangilang.
+          </p>
+          <button type="button" className="mt-3 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
+            onClick={() => window.location.reload()}>Hozir yangilash</button>
+        </div>
+      )}
       <div className="flex h-screen bg-gray-50 dark:bg-gray-950 overflow-hidden">
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary-600 focus:text-white focus:rounded-lg">
           Asosiy kontentga o'tish

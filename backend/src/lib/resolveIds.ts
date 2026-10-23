@@ -84,6 +84,26 @@ export async function resolveLessonUuid(subtopicCode: string): Promise<string | 
     return null
   }
 
+  // Two verified legacy M11 topics exactly correspond to currently published
+  // canonical HTML lessons. Match by immutable slug AND published status,
+  // never by a different chapter's ordinal. Other M11 chapters stay unmapped.
+  const publishedWebTopicSlugs: Record<string, string> = {
+    'M11.02': 'html-matn-rasm-royxat',
+    'M11.03': 'html-jadval-va-forma',
+  }
+  const publishedWebSlug = publishedWebTopicSlugs[subtopicCode.toUpperCase()]
+  if (publishedWebSlug) {
+    const { data: lesson, error } = await supabase
+      .from('lessons')
+      .select('id')
+      .eq('slug', publishedWebSlug)
+      .eq('status', 'published')
+      .maybeSingle()
+    if (error || !lesson) return null
+    lessonCache.set(subtopicCode, { id: lesson.id, fetchedAt: Date.now() })
+    return lesson.id
+  }
+
   const baseSlug = subtopicCode.toLowerCase().replace('.', '-')
 
   // Strategy 1: exact slug match

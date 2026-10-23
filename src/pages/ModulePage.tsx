@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { ArrowLeft, BookOpen, CheckCircle2, ChevronRight, FileQuestion, Play, RefreshCw, Target } from 'lucide-react'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import TopicView from '../components/learning/TopicView'
@@ -28,23 +28,16 @@ export default function ModulePage() {
     setSearchParams(next, { replace: true })
   }
 
-  const { modules, loading } = useCatalog()
+  const { modules, loading, retry } = useCatalog()
   const { getModuleProgress, completeTopic } = useProgressStore()
-  const [localSubtopicId, setLocalSubtopicId] = useState<string | null>(null)
-  // M13 originally showed eleven static topics before seven published lessons
-  // arrived. Persist the lesson in the URL across hydration and full reloads.
-  const activeSubtopicId = moduleId === 'M13'
-    ? searchParams.get('topic')
-    : localSubtopicId
+  // All M01–M16 lesson selections are deep-linkable and survive a full reload.
+  // Opening a lesson adds a history entry; finishing/backing out clears the URL.
+  const activeSubtopicId = searchParams.get('topic')
   const openSubtopic = (topicId: string | null) => {
-    if (moduleId !== 'M13') {
-      setLocalSubtopicId(topicId)
-      return
-    }
     const next = new URLSearchParams(searchParams)
     if (topicId) next.set('topic', topicId)
     else next.delete('topic')
-    setSearchParams(next, { replace: true })
+    setSearchParams(next, { replace: !topicId })
   }
 
   const mod = modules.find(module => module.id === moduleId)
@@ -101,7 +94,7 @@ export default function ModulePage() {
             : 'Qisqartirilgan eski nazariya ko‘rsatilmaydi. Internet yoki server aloqasini tekshirib qayta urinib ko‘ring.'}
         </p>
         {!loading && (
-          <button type="button" onClick={() => window.location.reload()}
+          <button type="button" onClick={retry}
             className="mt-6 inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-white hover:bg-indigo-700">
             <RefreshCw size={16} /> Qayta yuklash
           </button>
