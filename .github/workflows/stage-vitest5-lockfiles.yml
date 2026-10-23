@@ -1,0 +1,53 @@
+name: Stage Vitest v5 lockfiles (isolated review branch only)
+
+on:
+  push:
+    branches:
+      - security/vitest5-compatibility-review-20261023
+
+permissions:
+  contents: write
+
+jobs:
+  regenerate-test-lockfiles:
+    if: github.repository == 'sarvar9417/attestatsiya' && github.ref == 'refs/heads/security/vitest5-compatibility-review-20261023'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: security/vitest5-compatibility-review-20261023
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Resolve lockfiles only, never execute installed package scripts
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+          npm --prefix backend install --package-lock-only --ignore-scripts --no-audit --no-fund
+          git diff --check
+          npm audit --package-lock-only --json > "$RUNNER_TEMP/root-audit.json" || true
+          (cd backend && npm audit --package-lock-only --json) > "$RUNNER_TEMP/backend-audit.json" || true
+          node --input-type=module -e '
+            import {readFileSync} from "node:fs";
+            for(const file of ["root-audit.json","backend-audit.json"]){
+              const v=JSON.parse(readFileSync(process.env.RUNNER_TEMP+"/"+file,"utf8")).metadata?.vulnerabilities;
+              if (!v) throw new Error("npm registry audit unavailable: "+file);
+              console.log(file,JSON.stringify(v));
+            }
+          '
+
+      - name: Commit reviewed lockfile diff on current branch only
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF_NAME" = 'security/vitest5-compatibility-review-20261023'
+          git add -- package-lock.json backend/package-lock.json
+          if git diff --cached --quiet; then exit 0; fi
+          git -c user.name='github-actions[bot]' \
+            -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+            commit -m 'chore(test): stage Vitest 5 lockfile refresh for compatibility CI [no-prod-deploy]'
+          git push origin HEAD:refs/heads/security/vitest5-compatibility-review-20261023
