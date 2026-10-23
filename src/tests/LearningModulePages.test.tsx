@@ -219,6 +219,24 @@ describe('Learning va Module Figma UI', () => {
     expect(mocks.topicView).toHaveBeenCalled()
   })
 
+  it('M01 tanlangan mavzu URL orqali sahifa yangilangandan keyin ham saqlanadi', async () => {
+    const user = userEvent.setup()
+    const view = renderModule('/learn/M01')
+    await user.click(screen.getByRole('heading', { name: 'Axborot hajmi' }))
+    expect(screen.getByTestId('current-route').textContent).toBe('/learn/M01?topic=M01.02')
+    view.unmount()
+
+    renderModule('/learn/M01?topic=M01.02')
+    expect(screen.getByText('Topic view: M01.02')).toBeDefined()
+    await user.click(screen.getByRole('button', { name: 'Back topic' }))
+    expect(screen.getByTestId('current-route').textContent).toBe('/learn/M01')
+  })
+
+  it('M16 metodika darsi deep linkdan to‘g‘ri ochiladi', () => {
+    renderModule('/learn/M16?topic=M16.01')
+    expect(screen.getByText('Topic view: M16.01')).toBeDefined()
+  })
+
   it('Module sinovi tugmasi xavfsiz exam routega yo‘naltiradi', async () => {
     const user = userEvent.setup()
     renderModule()
