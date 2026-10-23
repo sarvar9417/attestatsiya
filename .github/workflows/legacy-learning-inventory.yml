@@ -52,6 +52,16 @@ jobs:
               "| Option-length imbalance heuristic | "+t.highAnswerLengthImbalance+" |",
               "| Correct choice uniquely longest heuristic | "+t.correctOptionLongestHeuristics+" |",
               "",
+              "### Highest-priority local question pools (counts only)",
+              "| Topic | Local questions | Length imbalance | Correct uniquely longest | Duplicate stems |",
+              "|---|---:|---:|---:|---:|",
+              ...f.rows.filter(r=>r.localPracticeItems>0).sort((a,b)=>
+                b.highAnswerLengthImbalance-a.highAnswerLengthImbalance ||
+                b.correctOptionLongestHeuristics-a.correctOptionLongestHeuristics)
+                .map(r=>"| "+r.topicId+" | "+r.localPracticeItems+" | "+
+                  r.highAnswerLengthImbalance+" | "+r.correctOptionLongestHeuristics+
+                  " | "+r.duplicateStems+" |"),
+              "",
               "Source page, key and distractor review pending. No questions or keys exported."].join("\n");
             console.log(text);
             if(process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY,text+"\n");
