@@ -9,6 +9,7 @@ export interface CatalogState {
   modules: CatalogModule[]
   loading: boolean
   online: boolean
+  retry: () => void
 }
 
 const STATIC_MODULES: CatalogModule[] = mergeCatalog(MODULES, [])
@@ -19,6 +20,8 @@ const STATIC_MODULES: CatalogModule[] = mergeCatalog(MODULES, [])
  * statik katalog saqlanadi va `online` false bo'ladi (UI buzilmaydi).
  */
 export function useCatalog(): CatalogState {
+  const [retryIndex, setRetryIndex] = useState(0)
+  const retry = () => { setState(current => ({ ...current, loading: true })); setRetryIndex(i => i + 1) }
   const [state, setState] = useState<CatalogState>(() => ({
     modules: STATIC_MODULES,
     loading: true,
@@ -110,7 +113,7 @@ export function useCatalog(): CatalogState {
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [retryIndex])
 
-  return state
+  return { ...state, retry }
 }
