@@ -351,7 +351,7 @@ export default function ModulePage() {
                     {subtopic.description ??
                       (done
                         ? 'Mavzu yakunlangan'
-                        : 'Nazariya va mavzu testi mavjud')}
+                        : 'Nazariya mavjud; test tayyorligi mavzuda tekshiriladi')}
                   </p>
                 </div>
 
