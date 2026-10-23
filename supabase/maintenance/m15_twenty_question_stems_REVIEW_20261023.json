@@ -12,9 +12,9 @@
       "objective_ref": "REVIEW.M15.108.01",
       "stem": "O‘qituvchining dars metodlari va mazmuni qanday o‘rganilishini tadqiq qiluvchi yo‘nalish qaysi?",
       "options": [
-        "Didaktika, o‘qitish jarayoni qonuniyatlari",
-        "Tarbiya nazariyasi, xulq shakllanishi",
         "Pedagogik etika, muomala me’yorlari",
+        "Tarbiya nazariyasi, xulq shakllanishi",
+        "Didaktika, o‘qitish jarayoni qonuniyatlari",
         "Sinf boshqaruvi, intizom mexanizmlari"
       ],
       "review_status": "unverified",
@@ -38,10 +38,10 @@
       "objective_ref": "REVIEW.M15.109.02",
       "stem": "Bitta o‘quv maqsadini saqlagan holda topshiriqni moslashtirishga qaysi qaror mos?",
       "options": [
-        "Matn bilan birga tushunarli audio ko‘rsatma berish",
+        "Yordamga muhtoj bolaga dars maqsadini bekor qilish",
         "O‘quvchini baholash jarayonidan butunlay chiqarish",
         "Barcha o‘quvchiga faqat bitta murakkab shakl berish",
-        "Yordamga muhtoj bolaga dars maqsadini bekor qilish"
+        "Matn bilan birga tushunarli audio ko‘rsatma berish"
       ],
       "review_status": "unverified",
       "requires_independent_key_solution": true
@@ -51,8 +51,8 @@
       "objective_ref": "REVIEW.M15.109.03",
       "stem": "O‘quvchining shaxsiy tashxisi bilan bog‘liq ma’lumot qanday muhofaza qilinadi?",
       "options": [
-        "Zarur mutaxassislar doirasida maxfiy tarzda",
         "Sinfning umumiy chatida ochiq ulashish orqali",
+        "Zarur mutaxassislar doirasida maxfiy tarzda",
         "Guruh oldida o‘qituvchining e’loni yordamida",
         "Har bir ota-onaga bir xil xabar sifatida"
       ],
@@ -64,8 +64,8 @@
       "objective_ref": "REVIEW.M15.110.01",
       "stem": "Ta’lim oluvchining eshitish bilan bog‘liq ehtiyoji qaysi mutaxassislik yo‘nalishiga yaqin?",
       "options": [
-        "Surdopedagogika yo‘nalishidagi pedagogik ko‘mak",
         "Tiflopedagogika yo‘nalishidagi pedagogik ko‘mak",
+        "Surdopedagogika yo‘nalishidagi pedagogik ko‘mak",
         "Logopediya yo‘nalishidagi nutqiy mashg‘ulot",
         "Didaktika yo‘nalishidagi umumiy baholash"
       ],
@@ -77,10 +77,10 @@
       "objective_ref": "REVIEW.M15.110.02",
       "stem": "Ko‘rish imkoniyati cheklangan o‘quvchiga o‘quv materiali qanday taklif etilishi mumkin?",
       "options": [
-        "Qulay audio yoki moslashtirilgan matn shaklida",
+        "Maqsadni o‘zgartirib har qanday matndan voz kechib",
         "Faqat kichik shriftli odatiy jadval ko‘rinishida",
         "Vazifani alohida izohsiz butunlay olib tashlab",
-        "Maqsadni o‘zgartirib har qanday matndan voz kechib"
+        "Qulay audio yoki moslashtirilgan matn shaklida"
       ],
       "review_status": "unverified",
       "requires_independent_key_solution": true
@@ -103,9 +103,9 @@
       "objective_ref": "REVIEW.M15.111.01",
       "stem": "Baholashda «domen» va «konstrukt» o‘rtasidagi farq qaysi ta’rifda aniq?",
       "options": [
-        "Domen — soha, konstrukt — aniq o‘lchanadigan sifat",
-        "Domen — natija, konstrukt — topshiriqdagi ball",
         "Domen — baho, konstrukt — sinfdagi o‘rta ball",
+        "Domen — natija, konstrukt — topshiriqdagi ball",
+        "Domen — soha, konstrukt — aniq o‘lchanadigan sifat",
         "Domen — savol turi, konstrukt — javob varianti"
       ],
       "review_status": "unverified",
@@ -116,10 +116,10 @@
       "objective_ref": "REVIEW.M15.112.02",
       "stem": "Pedagogik refleksiyada darsdagi o‘zgarish natijasi qanday tekshiriladi?",
       "options": [
-        "Yangi dalillar oldingi holat bilan solishtiriladi",
+        "Qayta aloqa olinmasdan yangi usul yaxshi deyiladi",
         "O‘qituvchi birinchi taassurotini saqlab qoladi",
         "Bir o‘quvchi bahosi barcha sabablarni tasdiqlaydi",
-        "Qayta aloqa olinmasdan yangi usul yaxshi deyiladi"
+        "Yangi dalillar oldingi holat bilan solishtiriladi"
       ],
       "review_status": "unverified",
       "requires_independent_key_solution": true
@@ -129,8 +129,8 @@
       "objective_ref": "REVIEW.M15.112.03",
       "stem": "Birgina past bahodan o‘quvchining o‘zlashtirish sababi haqida qanday xulosa to‘g‘ri?",
       "options": [
-        "Sababni izohlash uchun qo‘shimcha dalil kerak",
         "Past baho yagona sababni to‘liq ochib beradi",
+        "Sababni izohlash uchun qo‘shimcha dalil kerak",
         "Baho o‘qituvchining metodini aniq inkor qiladi",
         "Bahodan boshqa kuzatuv va suhbat zarur emas"
       ],
@@ -142,9 +142,9 @@
       "objective_ref": "REVIEW.M15.113.01",
       "stem": "Pedagogik mahoratning to‘rtta tarkibiy qismi qaysi javobda mos ko‘rsatilgan?",
       "options": [
-        "Insonparvarlik, bilim, qobiliyat va texnika",
-        "Intizom, nazorat, reyting va dars jadvali",
         "Yozuv, raqam, tasvir va internet texnologiya",
+        "Intizom, nazorat, reyting va dars jadvali",
+        "Insonparvarlik, bilim, qobiliyat va texnika",
         "Xotira, tezlik, dastur va uskuna imkoniyati"
       ],
       "review_status": "unverified",
@@ -181,9 +181,9 @@
       "objective_ref": "REVIEW.M15.114.02",
       "stem": "Testdagi to‘g‘ri javobni savolni bilmasdan topishga nima yordam berib qo‘yishi mumkin?",
       "options": [
-        "Faqat kalit variantining sezilarli uzunligi",
-        "Barcha variantning bir xil grammatik shakli",
         "Distraktorlarning o‘zaro mazmun jihatidan yaqinligi",
+        "Barcha variantning bir xil grammatik shakli",
+        "Faqat kalit variantining sezilarli uzunligi",
         "Variantlar joylashuvining turlicha almashishi"
       ],
       "review_status": "unverified",
@@ -194,8 +194,8 @@
       "objective_ref": "REVIEW.M15.115.01",
       "stem": "Moslashtirish savolining shartida qay biri albatta aniqlashtirilishi lozim?",
       "options": [
-        "Bir javob takror tanlanishi mumkin yoki mumkinmasligi",
         "Topshiriqdagi har bir so‘zning lug‘aviy kelib chiqishi",
+        "Bir javob takror tanlanishi mumkin yoki mumkinmasligi",
         "Muallifning boshqa darsdagi shaxsiy pedagogik fikri",
         "Savolni yechish davomida o‘quvchining bahosi"
       ],
@@ -207,10 +207,10 @@
       "objective_ref": "REVIEW.M15.115.02",
       "stem": "Ketma-ketlik savolida «eng avvalgi» tushunchasi nimaga bog‘liqligi ochiq bo‘lishi kerak?",
       "options": [
-        "Vaqt, ish bosqichi yoki tartib mezoniga",
+        "Savol variantidagi belgilar uzunligi farqiga",
         "Variantlarning alifbo tartibidagi ko‘rinishiga",
         "O‘quvchining shaxsiy xohishiga asoslanganiga",
-        "Savol variantidagi belgilar uzunligi farqiga"
+        "Vaqt, ish bosqichi yoki tartib mezoniga"
       ],
       "review_status": "unverified",
       "requires_independent_key_solution": true
@@ -220,9 +220,9 @@
       "objective_ref": "REVIEW.M15.116.01",
       "stem": "Pedagogik kreativ va innovatsion kompetentlikning farqi nimada?",
       "options": [
-        "Ijodiy yechim topish va uni amaliyotga tatbiq etish",
-        "Bahoni hisoblash va jurnalga ko‘chirib yozish",
         "Matnni qaytarish va uni yoddan aytib berish",
+        "Bahoni hisoblash va jurnalga ko‘chirib yozish",
+        "Ijodiy yechim topish va uni amaliyotga tatbiq etish",
         "Sinfni nazorat qilish va dars vaqtini taqsimlash"
       ],
       "review_status": "unverified",
@@ -246,10 +246,10 @@
       "objective_ref": "REVIEW.M15.117.01",
       "stem": "«Topshiriqni yaxshiroq bajaring» kabi noaniq ko‘rsatma nutqning qaysi sifatini susaytiradi?",
       "options": [
-        "Aniqlik — bajarish mezoni tushunarsiz qoladi",
+        "Ifodalilik — urg‘u noto‘g‘ri nuqtaga qo‘yiladi",
         "Boylik — ifoda vositalari soni kamayib ketadi",
         "Soflik — begona birliklar juda ko‘p ishlatiladi",
-        "Ifodalilik — urg‘u noto‘g‘ri nuqtaga qo‘yiladi"
+        "Aniqlik — bajarish mezoni tushunarsiz qoladi"
       ],
       "review_status": "unverified",
       "requires_independent_key_solution": true
@@ -259,8 +259,8 @@
       "objective_ref": "REVIEW.M15.117.01",
       "stem": "5-sinf va 11-sinfga mos misollar bilan bir mazmunni turlicha tushuntirish qaysi sifatga yaqin?",
       "options": [
-        "Jo‘yalilik — ifodaning tinglovchiga mosligi",
         "Soflik — keraksiz til unsurlarini cheklash",
+        "Jo‘yalilik — ifodaning tinglovchiga mosligi",
         "Mantiqiylik — fikrlarning o‘zaro izchilligi",
         "Boylik — sinonimlardan keng foydalanish"
       ],
