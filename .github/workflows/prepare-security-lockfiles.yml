@@ -1,0 +1,55 @@
+name: Prepare security lockfile patch (review branch only)
+
+on:
+  push:
+    branches:
+      - security/lockfile-review-20261023
+
+permissions:
+  contents: write
+
+jobs:
+  prepare-reviewed-lockfiles:
+    if: github.repository == 'sarvar9417/attestatsiya' && github.ref == 'refs/heads/security/lockfile-review-20261023'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: security/lockfile-review-20261023
+          persist-credentials: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Update lockfiles without executing package scripts
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --package-lock-only --ignore-scripts --no-fund --no-audit
+          npm --prefix backend install --package-lock-only --ignore-scripts --no-fund --no-audit
+          # npm audit fix may return 1 for residual vulnerabilities. It must
+          # NEVER use --force or update a production environment.
+          npm audit fix --package-lock-only --omit=dev --ignore-scripts --no-fund || code=$?
+          if (( ${code:-0} > 1 )); then exit "$code"; fi
+          code=0
+          (cd backend && npm audit fix --package-lock-only --omit=dev --ignore-scripts --no-fund) || code=$?
+          if (( code > 1 )); then exit "$code"; fi
+          git diff --check
+          git status --short
+
+      - name: Commit lockfiles only to this review branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF_NAME" = 'security/lockfile-review-20261023'
+          git add -- package-lock.json backend/package-lock.json
+          if git diff --cached --quiet; then
+            echo "No compatible lockfile changes were identified"
+            exit 0
+          fi
+          git -c user.name='github-actions[bot]' \
+              -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+              commit -m 'chore(deps): stage compatible runtime security lockfile patches [no-prod-deploy]'
+          git push origin HEAD:refs/heads/security/lockfile-review-20261023
