@@ -1,0 +1,531 @@
+{
+  "schema_version": "1.0.0",
+  "status": "review_only",
+  "never_use_for_live_scoring": true,
+  "has_validated_answer_keys": false,
+  "source_page_verification_pending": true,
+  "not_claimed_official_exam_questions": true,
+  "origin": "Original drafts aligned to currently published M15 theory text; subject experts must verify source pages, option correctness, distractor fairness and license before any scored publication.",
+  "questions": [
+    {
+      "draft_id": "M15-Q-REVIEW-001",
+      "objective_ref": "REVIEW.M15.108.01",
+      "stem": "O‘qituvchining dars metodlari va mazmuni qanday o‘rganilishini tadqiq qiluvchi yo‘nalish qaysi?",
+      "options": [
+        "Pedagogik etika, muomala me’yorlari",
+        "Tarbiya nazariyasi, xulq shakllanishi",
+        "Didaktika, o‘qitish jarayoni qonuniyatlari",
+        "Sinf boshqaruvi, intizom mexanizmlari"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-002",
+      "objective_ref": "REVIEW.M15.108.04",
+      "stem": "Faqat kuzatishga tayangan tadqiqot xulosasida qaysi ehtiyot chorasini ko‘rish zarur?",
+      "options": [
+        "Sababiy bog‘lanishni boshqa omillar bilan tekshirish",
+        "Natijani bevosita umumiy qoida sifatida qabul qilish",
+        "Bir kuzatuvni sabab-oqibatning to‘liq isboti deyish",
+        "Kuzatuvdagi o‘zgarishni tajriba nazorati deb bilish"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-003",
+      "objective_ref": "REVIEW.M15.109.02",
+      "stem": "Bitta o‘quv maqsadini saqlagan holda topshiriqni moslashtirishga qaysi qaror mos?",
+      "options": [
+        "Yordamga muhtoj bolaga dars maqsadini bekor qilish",
+        "O‘quvchini baholash jarayonidan butunlay chiqarish",
+        "Barcha o‘quvchiga faqat bitta murakkab shakl berish",
+        "Matn bilan birga tushunarli audio ko‘rsatma berish"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-004",
+      "objective_ref": "REVIEW.M15.109.03",
+      "stem": "O‘quvchining shaxsiy tashxisi bilan bog‘liq ma’lumot qanday muhofaza qilinadi?",
+      "options": [
+        "Sinfning umumiy chatida ochiq ulashish orqali",
+        "Zarur mutaxassislar doirasida maxfiy tarzda",
+        "Guruh oldida o‘qituvchining e’loni yordamida",
+        "Har bir ota-onaga bir xil xabar sifatida"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-005",
+      "objective_ref": "REVIEW.M15.110.01",
+      "stem": "Ta’lim oluvchining eshitish bilan bog‘liq ehtiyoji qaysi mutaxassislik yo‘nalishiga yaqin?",
+      "options": [
+        "Tiflopedagogika yo‘nalishidagi pedagogik ko‘mak",
+        "Surdopedagogika yo‘nalishidagi pedagogik ko‘mak",
+        "Logopediya yo‘nalishidagi nutqiy mashg‘ulot",
+        "Didaktika yo‘nalishidagi umumiy baholash"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-006",
+      "objective_ref": "REVIEW.M15.110.02",
+      "stem": "Ko‘rish imkoniyati cheklangan o‘quvchiga o‘quv materiali qanday taklif etilishi mumkin?",
+      "options": [
+        "Maqsadni o‘zgartirib har qanday matndan voz kechib",
+        "Faqat kichik shriftli odatiy jadval ko‘rinishida",
+        "Vazifani alohida izohsiz butunlay olib tashlab",
+        "Qulay audio yoki moslashtirilgan matn shaklida"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-007",
+      "objective_ref": "REVIEW.M15.111.02",
+      "stem": "O‘quvchi natijasini oldindan belgilangan mezon bilan taqqoslash qaysi baholash?",
+      "options": [
+        "Mezonga asoslangan natija talqini",
+        "Normaga asoslangan natija talqini",
+        "Ipsativ o‘sishga asoslangan talqin",
+        "Reytingdagi o‘ringa asoslangan talqin"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-008",
+      "objective_ref": "REVIEW.M15.111.01",
+      "stem": "Baholashda «domen» va «konstrukt» o‘rtasidagi farq qaysi ta’rifda aniq?",
+      "options": [
+        "Domen — baho, konstrukt — sinfdagi o‘rta ball",
+        "Domen — natija, konstrukt — topshiriqdagi ball",
+        "Domen — soha, konstrukt — aniq o‘lchanadigan sifat",
+        "Domen — savol turi, konstrukt — javob varianti"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-009",
+      "objective_ref": "REVIEW.M15.112.02",
+      "stem": "Pedagogik refleksiyada darsdagi o‘zgarish natijasi qanday tekshiriladi?",
+      "options": [
+        "Qayta aloqa olinmasdan yangi usul yaxshi deyiladi",
+        "O‘qituvchi birinchi taassurotini saqlab qoladi",
+        "Bir o‘quvchi bahosi barcha sabablarni tasdiqlaydi",
+        "Yangi dalillar oldingi holat bilan solishtiriladi"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-010",
+      "objective_ref": "REVIEW.M15.112.03",
+      "stem": "Birgina past bahodan o‘quvchining o‘zlashtirish sababi haqida qanday xulosa to‘g‘ri?",
+      "options": [
+        "Past baho yagona sababni to‘liq ochib beradi",
+        "Sababni izohlash uchun qo‘shimcha dalil kerak",
+        "Baho o‘qituvchining metodini aniq inkor qiladi",
+        "Bahodan boshqa kuzatuv va suhbat zarur emas"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-011",
+      "objective_ref": "REVIEW.M15.113.01",
+      "stem": "Pedagogik mahoratning to‘rtta tarkibiy qismi qaysi javobda mos ko‘rsatilgan?",
+      "options": [
+        "Yozuv, raqam, tasvir va internet texnologiya",
+        "Intizom, nazorat, reyting va dars jadvali",
+        "Insonparvarlik, bilim, qobiliyat va texnika",
+        "Xotira, tezlik, dastur va uskuna imkoniyati"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-012",
+      "objective_ref": "REVIEW.M15.113.02",
+      "stem": "O‘qituvchining o‘quvchini xotirjam ohang bilan tushuntirib yo‘naltirishi ko‘proq qaysi komponentga misol?",
+      "options": [
+        "Pedagogik texnika va muloqot vositalariga",
+        "Fanlararo bilim va dastur tuzilishiga",
+        "Nazorat shakli va test natijalariga",
+        "Ilmiy tadqiqot predmeti va obyektiga"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-013",
+      "objective_ref": "REVIEW.M15.114.04",
+      "stem": "Yaxshi distraktorning mazmuni qanday bo‘lishi kerak?",
+      "options": [
+        "Mavzudagi odatiy tushunmovchilikka yaqin",
+        "Savolga butunlay aloqasiz, kulgili bo‘lishi",
+        "Faqat eng uzun variant ko‘rinishida berilishi",
+        "To‘g‘ri javob bilan aynan bir xil bo‘lishi"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-014",
+      "objective_ref": "REVIEW.M15.114.02",
+      "stem": "Testdagi to‘g‘ri javobni savolni bilmasdan topishga nima yordam berib qo‘yishi mumkin?",
+      "options": [
+        "Distraktorlarning o‘zaro mazmun jihatidan yaqinligi",
+        "Barcha variantning bir xil grammatik shakli",
+        "Faqat kalit variantining sezilarli uzunligi",
+        "Variantlar joylashuvining turlicha almashishi"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-015",
+      "objective_ref": "REVIEW.M15.115.01",
+      "stem": "Moslashtirish savolining shartida qay biri albatta aniqlashtirilishi lozim?",
+      "options": [
+        "Topshiriqdagi har bir so‘zning lug‘aviy kelib chiqishi",
+        "Bir javob takror tanlanishi mumkin yoki mumkinmasligi",
+        "Muallifning boshqa darsdagi shaxsiy pedagogik fikri",
+        "Savolni yechish davomida o‘quvchining bahosi"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-016",
+      "objective_ref": "REVIEW.M15.115.02",
+      "stem": "Ketma-ketlik savolida «eng avvalgi» tushunchasi nimaga bog‘liqligi ochiq bo‘lishi kerak?",
+      "options": [
+        "Savol variantidagi belgilar uzunligi farqiga",
+        "Variantlarning alifbo tartibidagi ko‘rinishiga",
+        "O‘quvchining shaxsiy xohishiga asoslanganiga",
+        "Vaqt, ish bosqichi yoki tartib mezoniga"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-017",
+      "objective_ref": "REVIEW.M15.116.01",
+      "stem": "Pedagogik kreativ va innovatsion kompetentlikning farqi nimada?",
+      "options": [
+        "Matnni qaytarish va uni yoddan aytib berish",
+        "Bahoni hisoblash va jurnalga ko‘chirib yozish",
+        "Ijodiy yechim topish va uni amaliyotga tatbiq etish",
+        "Sinfni nazorat qilish va dars vaqtini taqsimlash"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-018",
+      "objective_ref": "REVIEW.M15.116.04",
+      "stem": "Yangi metod samaradorligi haqida qanday xulosa asosli?",
+      "options": [
+        "Natijaga ta’sirini dalillar orqali tekshirish",
+        "Yangiligi uchun uni darhol eng yaxshi deb bilish",
+        "Bir mashg‘ulotdagi tasodifni kafolat deb qabul qilish",
+        "O‘quv maqsadini umuman tekshirishdan voz kechish"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-019",
+      "objective_ref": "REVIEW.M15.117.01",
+      "stem": "«Topshiriqni yaxshiroq bajaring» kabi noaniq ko‘rsatma nutqning qaysi sifatini susaytiradi?",
+      "options": [
+        "Ifodalilik — urg‘u noto‘g‘ri nuqtaga qo‘yiladi",
+        "Boylik — ifoda vositalari soni kamayib ketadi",
+        "Soflik — begona birliklar juda ko‘p ishlatiladi",
+        "Aniqlik — bajarish mezoni tushunarsiz qoladi"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-020",
+      "objective_ref": "REVIEW.M15.117.04",
+      "stem": "5-sinf va 11-sinfga mos misollar bilan bir mazmunni turlicha tushuntirish qaysi sifatga yaqin?",
+      "options": [
+        "Soflik — keraksiz til unsurlarini cheklash",
+        "Jo‘yalilik — ifodaning tinglovchiga mosligi",
+        "Mantiqiylik — fikrlarning o‘zaro izchilligi",
+        "Boylik — sinonimlardan keng foydalanish"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-021",
+      "objective_ref": "REVIEW.M15.108.02",
+      "stem": "Tadqiqotda maktabdagi o‘qish jarayoni «obyekt» bo‘lsa, «predmet» qanday belgilanishi mumkin?",
+      "options": [
+        "Maktabdagi ta’lim jarayonining umumiy ko‘rinishi",
+        "Guruhli ishning o‘quvchi faolligiga ta’siri",
+        "Sinfdagi barcha o‘quvchilarning umumiy ro‘yxati",
+        "Maktab binosi va uning tashkiliy tuzilishi"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-022",
+      "objective_ref": "REVIEW.M15.108.03",
+      "stem": "O‘quvchilarning mustaqil ish haqidagi fikrini tizimli yig‘ish uchun qaysi metod bevosita mos?",
+      "options": [
+        "Guruhlar faoliyatini faqat tashqi rangdan baholash",
+        "Faoliyat samaradorligini faqat bahodan taxmin qilish",
+        "O‘quvchi fikrini tajribasiz mustaqil isbot deb olish",
+        "Savollar asosidagi maxfiy so‘rovnomani qo‘llash"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-023",
+      "objective_ref": "REVIEW.M15.109.01",
+      "stem": "Inklyuziv sinfda o‘quvchi qo‘shimcha ko‘makka muhtoj bo‘lsa, qaysi yondashuv maqsadga mos?",
+      "options": [
+        "Ishtirokni qo‘llash va kamsitmasdan yordam berish",
+        "O‘quvchini barcha umumiy vazifalardan ajratish",
+        "Har qanday yordamni tenglikka zid deb hisoblash",
+        "O‘quvchi ehtiyojini hammaning oldida aytish"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-024",
+      "objective_ref": "REVIEW.M15.109.04",
+      "stem": "Moslashtirilgan topshiriqda ta’lim maqsadini saqlash nimani bildiradi?",
+      "options": [
+        "O‘quvchini vazifadan chetlatib natijani yozish",
+        "Bilim maqsadini bekor qilib o‘rniga baho berish",
+        "Bilim maqsadini saqlab javob shaklini o‘zgartirish",
+        "Barcha topshiriq mezonlarini izohsiz olib tashlash"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-025",
+      "objective_ref": "REVIEW.M15.110.03",
+      "stem": "Sinfda qo‘shimcha pedagogik ehtiyoj aniqlansa, o‘qituvchi qaysi hamkorlikni tanlaydi?",
+      "options": [
+        "Barcha mas’uliyatni o‘quvchining o‘ziga yuklash",
+        "O‘quvchi ma’lumotlarini ochiq tarmoqqa joylash",
+        "Oila va tegishli mutaxassis bilan ehtiyotkor kelishuv",
+        "Hech qanday kuzatuvsiz yagona tashxis qo‘yish"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-026",
+      "objective_ref": "REVIEW.M15.110.04",
+      "stem": "O‘quvchi ehtiyoji haqida darsda gapirilganda qaysi atama va yondashuv maqbul?",
+      "options": [
+        "Shaxsni hurmat qiladigan individual ehtiyoj tili",
+        "O‘quvchini faqat tashxisi bilan ta’riflab qo‘yish",
+        "Eskirgan kamsituvchi yorliqlarni odatiy qilish",
+        "O‘quvchini yordami uchun omma oldida ajratish"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-027",
+      "objective_ref": "REVIEW.M15.111.03",
+      "stem": "O‘quvchi qaysi bilimlarda qiynalayotganini aniqlashga qaysi test yo‘naltiriladi?",
+      "options": [
+        "Avvalgi natijani taqqoslaydigan ipsativ test",
+        "Kelajakdagi yutuqni taxminlovchi prognostik test",
+        "Tengdoshlarga nisbatan o‘rin beruvchi reyting test",
+        "Bo‘shliqlarni topishga qaratilgan diagnostik test"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-028",
+      "objective_ref": "REVIEW.M15.111.04",
+      "stem": "Chiziqli test va adaptiv testni farqlovchi asosiy belgi qaysi?",
+      "options": [
+        "Barcha ishtirokchiga bir xil ko‘rsatma berilishi",
+        "Topshiriq navbatining javoblarga qarab o‘zgarishi",
+        "Baholash uchun dastlab domenning aniqlanishi",
+        "Savollardagi javob variantlarining soni tengligi"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-029",
+      "objective_ref": "REVIEW.M15.112.01",
+      "stem": "O‘qituvchi o‘z dars usulini dalillar bilan tahlil qilsa, bu qaysi faoliyatga misol?",
+      "options": [
+        "O‘quvchi bilimiga qo‘yiladigan yakuniy baholash",
+        "Kasbiy refleksiya va metodik qarorni qayta ko‘rish",
+        "O‘quvchi shaxsini yagona bahodan tashxislash",
+        "Sinf reytingini boshqa maktab bilan solishtirish"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-030",
+      "objective_ref": "REVIEW.M15.112.04",
+      "stem": "Yangi ko‘rsatma yaxshi ishlayotganini aniqlashda qaysi reja asosli?",
+      "options": [
+        "O‘qituvchi hissiyotiga qarab yutuqni baholash",
+        "Bitta yuqori bahoni hamma uchun kafolat deb olish",
+        "Oldingi xatolarni qayd etmasdan usulni almashtirish",
+        "Kichik o‘zgarish kiritib keyingi natijalarni taqqoslash"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-031",
+      "objective_ref": "REVIEW.M15.113.03",
+      "stem": "O‘qituvchi fanini mukammal biladi, lekin sinfda muloqoti samarasiz. Qaysi xulosa o‘rinli?",
+      "options": [
+        "Darsning sifati faqat mavzu hajmi bilan belgilanadi",
+        "Fan bilimi bo‘lsa boshqa komponentlar talab etilmaydi",
+        "Fan bilimi mahoratning yagona tarkibiy qismi emas",
+        "Muloqot ko‘nikmasi umuman pedagogik ishga kirmaydi"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-032",
+      "objective_ref": "REVIEW.M15.113.04",
+      "stem": "O‘qituvchining kasbiy rivojlanish rejasiga qaysi dalil ko‘proq yordam beradi?",
+      "options": [
+        "Dars kuzatuvi va qayta aloqa asosidagi ehtiyojlar",
+        "O‘quvchilarning barcha natijasini yashirib qo‘yish",
+        "Bitta muvaffaqiyatdan barcha metodni ideal deyish",
+        "Faqat dars mavzusining uzunligiga tayangan reja"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-033",
+      "objective_ref": "REVIEW.M15.114.01",
+      "stem": "Testning «o‘zagi» va «distraktor» tushunchalari qaysi ifodada to‘g‘ri farqlangan?",
+      "options": [
+        "O‘zak — savol matni, distraktor — noto‘g‘ri variant",
+        "O‘zak — javob kaliti, distraktor — baholash mezoni",
+        "O‘zak — yakuniy baho, distraktor — savol mavzusi",
+        "O‘zak — fan sohasi, distraktor — o‘qish maqsadi"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-034",
+      "objective_ref": "REVIEW.M15.114.03",
+      "stem": "Test topshirig‘ida A ham, C ham shartga mos kelsa, muharrirning eng to‘g‘ri qarori qaysi?",
+      "options": [
+        "Boshqa variantlarni juda uzoq qilib yozib qo‘yish",
+        "Ikki variantni ham bir vaqtning o‘zida kalit qilish",
+        "Ikkala mos javobni tekshirmasdan sinovni boshlash",
+        "Shartni aniqlashtirib yagona asosli javob qoldirish"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-035",
+      "objective_ref": "REVIEW.M15.115.03",
+      "stem": "Faqat «Moslashtiring» deyilganda o‘quvchida qanday noaniqlik qolishi mumkin?",
+      "options": [
+        "Sinfdagi o‘quvchi yoshining yozilishi qanday",
+        "Variantlar qayta tanlanishi mumkinmi, yo‘qmi",
+        "Fan nomining birinchi harfi katta yoziladimi",
+        "Savol muallifining ish staji nechta yil ekan"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-036",
+      "objective_ref": "REVIEW.M15.115.04",
+      "stem": "Moslashtirish topshirig‘i uchun aniq javob berish qoidasi qaysi?",
+      "options": [
+        "Har qanday variantni cheksiz takrorlashni aytish",
+        "Javoblarni imkon qadar tartibsiz va izohsiz berish",
+        "«1–B, 2–D» ko‘rinishi va qayta ishlatish shartini yozish",
+        "Faqat ustunlarni berib javob formatini yashirish"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-037",
+      "objective_ref": "REVIEW.M15.116.02",
+      "stem": "Sinfda o‘quv maqsadi saqlanib, materialning murakkablik darajasi o‘zgartirilsa, bu qaysi ish?",
+      "options": [
+        "Topshiriqni natijasiz va mezonsiz bekor qilish",
+        "O‘quv maqsadining o‘rniga faqat intizomni qo‘yish",
+        "Maqsadga mos ijodiy metodik yechimni tanlash",
+        "Barcha farqlarni hisobga olmaslikni ko‘zlash"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-038",
+      "objective_ref": "REVIEW.M15.116.03",
+      "stem": "Yangi dars usuli topilgach, uni haqiqiy takomillashtirishga aylantirish uchun nima kerak?",
+      "options": [
+        "Yangilikni doimo bir xil holatda qolishga majburlash",
+        "Natijani kuzatib, dalilga ko‘ra usulni moslashtirish",
+        "Birgalikdagi kuzatuv va solishtirishdan voz kechish",
+        "Samara ko‘rsatkichlarini baholashdan atay qochish"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-039",
+      "objective_ref": "REVIEW.M15.117.02",
+      "stem": "«Vazifani bajaring» o‘rniga qaysi ko‘rsatma o‘quvchi uchun aniqroq bo‘ladi?",
+      "options": [
+        "«Topshiriqni bilganingizcha davom eting»",
+        "«Vazifani yaxshiroq va tezroq bajaring»",
+        "«Oldingi ishni yana biroz yaxshilang»",
+        "«3 ta misolni 10 daqiqada yechib, izohlang»"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    },
+    {
+      "draft_id": "M15-Q-REVIEW-040",
+      "objective_ref": "REVIEW.M15.117.03",
+      "stem": "O‘qituvchi avval bir xulosani aytib, keyin uning teskarisini dalil qilsa, nutqning qaysi sifati buziladi?",
+      "options": [
+        "Mantiqiylik: dalil bilan xulosa zidlashadi",
+        "Soflik: ortiqcha chet so‘z qo‘llangan bo‘ladi",
+        "Jo‘yalilik: tinglovchi yoshi hisobga olinmaydi",
+        "Boylik: ifoda vositalari yetarli bo‘lmaydi"
+      ],
+      "review_status": "unverified",
+      "requires_independent_key_solution": true
+    }
+  ]
+}
