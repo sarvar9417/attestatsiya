@@ -8,7 +8,10 @@ SELECT
   pg_get_userbyid(p.proowner) AS owner_role,
   has_function_privilege('anon',p.oid,'EXECUTE') AS anonymous_can_execute,
   has_function_privilege('authenticated',p.oid,'EXECUTE') AS authenticated_can_execute,
-  has_function_privilege('PUBLIC',p.oid,'EXECUTE') AS public_can_execute,
+  EXISTS (
+    SELECT 1 FROM aclexplode(coalesce(p.proacl,acldefault('f',p.proowner))) a
+    WHERE a.grantee=0 AND a.privilege_type='EXECUTE'
+  ) AS explicitly_granted_to_public,
   coalesce(array_to_string(p.proconfig,','),'') AS function_settings,
   coalesce(array_to_string(p.proconfig,','),'') LIKE '%search_path=%' AS has_fixed_search_path,
   position('auth.uid()' in pg_get_functiondef(p.oid))>0 AS references_auth_uid,
