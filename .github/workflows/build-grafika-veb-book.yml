@@ -1,0 +1,47 @@
+name: Build Grafika va Veb Test Book
+on:
+  push:
+    branches:
+      - books/grafika-veb-2026-10-23
+    paths:
+      - "artifacts/grafika-veb-2026/**"
+      - ".github/workflows/build-grafika-veb-book.yml"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Compile using LaTeX
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: Grafika_va_veb_testlar.tex
+          working_directory: artifacts/grafika-veb-2026
+          latexmk_shell_escape: false
+          args: -pdf -interaction=nonstopmode -file-line-error -halt-on-error
+      - name: Package source and PDF
+        run: |
+          cd artifacts/grafika-veb-2026
+          zip -9 Grafika_va_veb_LaTeX_PDF.zip Grafika_va_veb_testlar.tex Grafika_va_veb_testlar.pdf
+      - name: Commit deliverables to this isolated branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add artifacts/grafika-veb-2026/Grafika_va_veb_testlar.pdf artifacts/grafika-veb-2026/Grafika_va_veb_LaTeX_PDF.zip
+          if ! git diff --cached --quiet; then
+            git commit -m "docs: compile graphics and web 502-question book"
+            git push
+          fi
+      - name: Upload PDF and source package
+        uses: actions/upload-artifact@v4
+        with:
+          name: grafika-veb-502-test-book
+          path: |
+            artifacts/grafika-veb-2026/Grafika_va_veb_testlar.pdf
+            artifacts/grafika-veb-2026/Grafika_va_veb_testlar.tex
+            artifacts/grafika-veb-2026/Grafika_va_veb_LaTeX_PDF.zip
+          retention-days: 30
