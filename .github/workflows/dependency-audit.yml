@@ -1,0 +1,79 @@
+name: Dependency audit (read-only)
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'package.json'
+      - 'package-lock.json'
+      - 'backend/package.json'
+      - 'backend/package-lock.json'
+      - 'scripts/audits/report-npm-audit.mjs'
+      - '.github/workflows/dependency-audit.yml'
+  push:
+    branches:
+      - 'security/**'
+
+permissions:
+  contents: read
+
+jobs:
+  inventory:
+    name: Runtime and dev vulnerability inventory
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Audit root/backend lockfiles (read-only, no installs)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/npm-audit"
+          audit_scope() {
+            local folder="$1" report="$2" omit="$3" code=0
+            pushd "$folder" >/dev/null
+            if [[ "$omit" == "runtime" ]]; then
+              npm audit --json --package-lock-only --omit=dev > "$report" || code=$?
+            else
+              npm audit --json --package-lock-only > "$report" || code=$?
+            fi
+            popd >/dev/null
+            # npm exits 1 when the lockfile contains vulnerabilities.
+            # Other failures are transport/parser errors, not clean scans.
+            if (( code > 1 )); then
+              echo "npm audit failed in $folder ($omit), code $code" >&2
+              return "$code"
+            fi
+            if ! node -e "const a=require(process.argv[1]);if(!a.metadata?.vulnerabilities)process.exit(1)" "$report"; then
+              echo "No valid audit JSON for $folder ($omit)" >&2
+              return 2
+            fi
+          }
+          audit_scope . "$RUNNER_TEMP/npm-audit/root-runtime.json" runtime
+          audit_scope backend "$RUNNER_TEMP/npm-audit/backend-runtime.json" runtime
+          audit_scope . "$RUNNER_TEMP/npm-audit/root-full.json" full
+          audit_scope backend "$RUNNER_TEMP/npm-audit/backend-full.json" full
+
+      - name: Produce risk summary (manual remediation required)
+        shell: bash
+        run: |
+          node --check scripts/audits/report-npm-audit.mjs
+          node scripts/audits/report-npm-audit.mjs \
+            "$RUNNER_TEMP/npm-audit/root-runtime.json" \
+            "$RUNNER_TEMP/npm-audit/backend-runtime.json" \
+            "$RUNNER_TEMP/npm-audit/root-full.json" \
+            "$RUNNER_TEMP/npm-audit/backend-full.json"
+
+      - name: Save audit evidence for human remediation
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-audit-lockfiles
+          path: ${{ runner.temp }}/npm-audit/*.json
+          retention-days: 14
