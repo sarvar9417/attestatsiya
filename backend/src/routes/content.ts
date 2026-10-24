@@ -14,7 +14,7 @@ const specAnswer = z.union([
   z.object({ order: z.array(postgresUuid).min(2).max(12) }).strict(),
 ])
 function bearerToken(headers: { authorization?: string }) {
-  const match = /^Bearer ([^\\s]+)$/i.exec(headers.authorization ?? '')
+  const match = /^Bearer (\S+)$/i.exec(headers.authorization ?? '')
   if (!match) throw new AppError('Hisobga kirish talab qilinadi', 401, 'TOKEN_REQUIRED')
   return match[1]
 }
