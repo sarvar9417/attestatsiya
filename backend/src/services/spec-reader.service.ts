@@ -116,9 +116,10 @@ export const specReaderService = {
 
   async setMark(code: SpecSectionCode, questionId: string, mark: ReaderMark, token: string) {
     const userId = await readerUser(token)
-    const { data: exists, error: questionError } = await scopeQuery(
-      supabase.from('questions').select('id').eq('id', questionId).eq('status', 'published'), code,
-    ).maybeSingle()
+    let lookup = supabase.from('questions').select('id')
+      .eq('id', questionId).eq('status', 'published')
+    lookup = code === 'KS' ? lookup.eq('group_code', 'KS') : lookup.like('group_code', code + '.%')
+    const { data: exists, error: questionError } = await lookup.maybeSingle()
     if (questionError) throw new AppError('Savolni tekshirib bo‘lmadi', 503, 'READER_MARK_FAILED')
     if (!exists) throw new NotFoundError('Ushbu bo‘limning nashr qilingan savoli topilmadi')
     if (mark === null) {
