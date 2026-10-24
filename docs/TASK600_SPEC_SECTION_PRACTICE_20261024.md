@@ -2,7 +2,7 @@
 
 Sana: 2026-10-24
 Branch: `task/TASK-600-specification-full-section-practice`
-Status: implementation/draft review. Main / production / Supabase schema o‘zgarmagan.
+Status: draft PR #596 — CI PASS; independent review/release pending. Main / production / Supabase schema o‘zgarmagan.
 
 ## Foydalanuvchi tasdiqlagan scope
 
@@ -38,10 +38,18 @@ S1=1031; S2=448; S3=1720; S4=973; S5=130; S6=598; S7=420; KS=510; PM=927; jami=6
 - [x] Frontend route, ro‘yxat va savol/izoh komponenti yozilgan.
 - [x] Backend validation/auth/section filter va maxfiy key chegarasi yozilgan.
 - [x] API va domain uchun Y1/Y2/Y3, invalid-section/answer, auth unit testlari qo‘shilgan.
-- [ ] GitHub CI typecheck, lint, unit, E2E va dastlabki deployed smoke tekshiruvi.
+- [x] GitHub CI lint, typecheck, unit, build, E2E smoke va database checks — [run 40076647816](https://github.com/sarvar9417/attestatsiya/actions/runs/40076647816) PASS.
+- [ ] Production deployed smoke (faqat alohida release tasdig‘idan so‘ng).
 - [ ] Mustaqil code review va release ruxsati.
 - [ ] User alohida tasdiqlamagancha MAIN merge, Vercel production deploy yoki DB write **YO‘Q**.
 
 ## Qaytarish
 
 DB migratsiya yo‘q. Branch/PRni merge qilmaslik yoki mergedidan keyin frontend va server o‘zgarishlarini revert qilish yetarli.
+
+## Qo‘shimcha audit (2026-10-24)
+
+- Published formatlar: Y1=5752, Y2=511, Y3=494; kalit va izoh qamrovi 6757/6757.
+- 11 ta Y2 savolda 4 ta chap band, 5 ta o‘ng javob; bitta chalg‘ituvchi ortiqcha. Tekshiruv bir-birini takrorlamagan, faqat chap bandlar sonicha juftliklarni to‘g‘ri qabul qiladi.
+- 517 ta published savolda Markdown kod bloki bor; mavjud CodeBlock ko‘rsatuvi bilan formatlanadi.
+- Regressiya testlari: 42 savolni 3 sahifada ko‘rish, keyni GET’da yashirish, Y1 darhol javob/izoh, Y2/Y3 tanlovlarni orqaga qaytganda saqlash, 4×5 Y2 va fenced Python kodi.
