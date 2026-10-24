@@ -168,13 +168,13 @@ export default function LearningPage() {
           <h2 className="text-lg font-bold text-gray-950 dark:text-white">2026-yil spetsifikatsiyasi — barcha testlar</h2>
           <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
             7 ta mutaxassislik sohasi, kasb standarti va pedagogik mahorat.
-            Har bir asosiy bo‘limning barcha tasdiqlangan testlari va javobdan keyin izohi.
+            Barcha tasdiqlangan testlarni bir sahifada javob va izohlari bilan o‘qing yoki test rejimida yeching.
           </p>
         </div>
         <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
           {SPEC_SECTIONS.map(section => (
             <button key={section.code} type="button"
-              onClick={() => navigate(`/learn/spec/${section.code}`)}
+              onClick={() => navigate(`/learn/spec/${section.code}/read`)}
               className="group flex min-h-20 items-center gap-3 rounded-xl border border-gray-200 bg-white p-3 text-left transition hover:border-indigo-300 hover:shadow-sm dark:border-gray-800 dark:bg-gray-900 dark:hover:border-indigo-700">
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-indigo-50 text-xs font-bold text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
                 {section.code}
@@ -182,7 +182,7 @@ export default function LearningPage() {
               <span className="min-w-0 flex-1">
                 <span className="block text-sm font-semibold leading-5 text-gray-900 dark:text-gray-100">{section.title}</span>
                 <span className="mt-1 block text-xs text-gray-500 dark:text-gray-400">
-                  {specCounts[section.code] === undefined ? 'Barcha testlarni ochish' : `${specCounts[section.code]} ta test`}
+                  {specCounts[section.code] === undefined ? 'O‘qish va yodlash' : `${specCounts[section.code]} ta test`}
                 </span>
               </span>
               <ArrowRight size={16} className="shrink-0 text-indigo-500" aria-hidden="true" />
