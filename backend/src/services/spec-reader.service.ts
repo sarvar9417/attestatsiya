@@ -35,7 +35,7 @@ export const specReaderService = {
     if (!Number.isSafeInteger(start) || start > 200000) {
       throw new AppError('Sahifa chegaradan tashqarida', 422, 'BAD_PAGE')
     }
-    const columns = params.reviewOnly
+    const columns: string = params.reviewOnly
       ? 'id,group_code,format,stem_md,user_spec_question_marks!inner(mark,user_id)'
       : 'id,group_code,format,stem_md'
     let query = scopeQuery(supabase.from('questions')
