@@ -123,6 +123,22 @@ describe('TASK-600: specification section practice screen', () => {
     expect(screen.getByRole('button', { name: /A variant/ })).toBeDisabled()
   })
 
+  it('renders fenced Python code in a readable code block', async () => {
+    mocks.getSpecQuestions.mockResolvedValueOnce({
+      questions: [{ ...first, stem_md: 'Kodli savol:\\n\\n```python\\nprint("salom")\\n```' }],
+      total: 1, next_cursor: null,
+    })
+    render(<MemoryRouter initialEntries={['/learn/spec/S3']}>
+      <Routes>
+        <Route path="/learn/spec/:sectionCode" element={<SpecSectionPracticePage />} />
+      </Routes>
+    </MemoryRouter>)
+    expect(await screen.findByText('Kodli savol:')).toBeInTheDocument()
+    const code = screen.getByText('print("salom")')
+    expect(code.tagName.toLowerCase()).toBe('code')
+    expect(code.closest('pre')).not.toBeNull()
+  })
+
   it('rejects invalid specification section without contacting backend', () => {
     render(<MemoryRouter initialEntries={['/learn/spec/M05']}>
       <Routes>
