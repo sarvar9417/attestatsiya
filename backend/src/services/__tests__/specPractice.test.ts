@@ -98,6 +98,32 @@ describe('TASK-600: full published specification section practice', () => {
     )).rejects.toMatchObject({ statusCode: 422 })
   })
 
+  it('accepts 4×5 Y2 matching with one unused right-hand distractor', async () => {
+    const left = [a, b, c, d]
+    const right = Array.from({ length: 5 }, (_, i) =>
+      'd0000000-0000-0000-0000-' + String(i + 1).padStart(12, '0'))
+    const correctPairs = Object.fromEntries(left.map((id, i) => [id, right[i]]))
+    mockCheckQueries(
+      { id: qid, format: 'Y2' },
+      { payload: { pairs: correctPairs }, explanation_md: 'Ortib qolgan variant ishlatilmaydi.' },
+      [...left.map(id => ({ id, side: 'a' })),
+       ...right.map(id => ({ id, side: 'b' }))],
+    )
+    const result = await specPracticeService.checkAnswer('S3', qid,
+      { pairs: correctPairs }, 'valid')
+    expect(result.correct).toBe(true)
+    expect(result.correct_answer).toEqual({ pairs: correctPairs })
+    expect(result.explanation_md).toContain('Ortib qolgan')
+
+    await expect(specPracticeService.checkAnswer('S3', qid, {
+      pairs: { ...correctPairs, [d]: right[0] },
+    }, 'valid')).rejects.toMatchObject({ statusCode: 422 })
+
+    await expect(specPracticeService.checkAnswer('S3', qid, {
+      pairs: { ...correctPairs, [d]: 'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee' },
+    }, 'valid')).rejects.toMatchObject({ statusCode: 422 })
+  })
+
   it('supports Y2 matching and Y3 ordering without revealing their keys early', async () => {
     mockCheckQueries(
       { id: qid, format: 'Y2' },
