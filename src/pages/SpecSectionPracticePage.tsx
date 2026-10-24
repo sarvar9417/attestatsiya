@@ -206,7 +206,7 @@ export default function SpecSectionPracticePage() {
       if (!cancelled) setLoading(false)
     })
     return () => { cancelled = true }
-  }, [sectionCode])
+  }, [section, sectionCode])
 
   const next = async () => {
     if (!section || moreLoading) return
