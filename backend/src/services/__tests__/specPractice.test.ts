@@ -30,7 +30,7 @@ function mockCheckQueries(
       eq: (k: string, v: string) => { filters.push([k, v]); return chain },
       like: (k: string, v: string) => { filters.push([k, v]); return chain },
       maybeSingle: async () => value,
-      then: (resolve: (value: typeof value) => unknown) =>
+      then: (resolve: (response: { data: unknown; error: null }) => unknown) =>
         Promise.resolve({ data: rows ? options : data, error: null }).then(resolve),
     }
     return { select: () => chain }
