@@ -62,6 +62,32 @@ describe('ExamRichText Markdown table regressions', () => {
     expect(document.body.textContent).not.toContain('\\n\\n')
   })
 
+  it('renders the published S4.DB Book question as a 4-column, 9-book table', () => {
+    const stem = [
+      'MS Access dasturidagi **Book** jadvali:', '',
+      '| BookTitle | BookSubject | BookStatus | Author |',
+      '|---|---|---|---|',
+      '| His Dark Materials | Fantasy | Available | Philip Pullman |',
+      '| The Lord of the Rings | Fantasy | Available | Tolkien |',
+      "| Winnie-the-Pooh | Children's literature | not available | Milne |",
+      '| Harry Potter and the Goblet of Fire | Fantasy | Available | Rowling |',
+      '| War and Peace | Novel | not available | Leo Tolstoy |',
+      '| The Count of Monte Cristo | Novel | Available | Alexandre Dumas |',
+      "| Alice's Adventures in Wonderland | children's literature | not available | Lewis Carroll |",
+      '| Pride and Prejudice | Satire | Available | Jane Austen |',
+      '| Jane Eyre | Novel | Available | Charlotte Brontë |',
+      '', 'So‘rov shartlari: `BookSubject <> "Novel" AND BookStatus="Available" AND Author NOT LIKE "*e*"`.',
+      '', 'Qaysi kitoblar natijada chiqadi?',
+    ].join('\n')
+    render(<ExamRichText text={stem} />)
+    expect(screen.getAllByRole('columnheader')).toHaveLength(4)
+    expect(screen.getAllByRole('row')).toHaveLength(10)
+    expect(screen.getByText('Harry Potter and the Goblet of Fire')).toBeTruthy()
+    expect(screen.getByText('Jane Eyre')).toBeTruthy()
+    expect(screen.getByText(/Qaysi kitoblar natijada chiqadi/)).toBeTruthy()
+    expect(document.body.textContent).not.toContain('|---|')
+  })
+
   it('also parses a table with ordinary newlines and Markdown in cells', () => {
     const stem = 'Jadval:\n\n| **Meva** | Narx |\n|:---|---:|\n| Olma | `25000` |\n\nTahlil qiling.'
     render(<ExamRichText text={stem} />)
