@@ -63,6 +63,23 @@ function sameSet(a: string[], b: string[]) {
     a.every(id => b.includes(id))
 }
 
+/**
+ * Y2 may have extra right-side distractors (the published bank has 4×5 tasks).
+ * Require every left prompt exactly once; each chosen right must be present and
+ * used at most once, but NOT every distractor needs to be selected.
+ */
+function validMatchingPairs(
+  pairs: Record<string, string>,
+  left: string[],
+  right: string[],
+) {
+  const chosen = Object.values(pairs)
+  return sameSet(Object.keys(pairs), left) &&
+    chosen.length === left.length &&
+    new Set(chosen).size === chosen.length &&
+    chosen.every(id => right.includes(id))
+}
+
 export const specPracticeService = {
   async listSections(token: string) {
     await requireUser(token)
@@ -170,14 +187,12 @@ export const specPracticeService = {
     } else if (question.format === 'Y2' && 'pairs' in answer) {
       const left = options.filter(o => o.side === 'a').map(o => o.id)
       const right = options.filter(o => o.side === 'b').map(o => o.id)
-      if (!sameSet(Object.keys(answer.pairs), left) ||
-          !sameSet(Object.values(answer.pairs), right)) {
+      if (!validMatchingPairs(answer.pairs, left, right)) {
         throw new AppError('Barcha juftliklarni bittadan tanlang', 422, 'INVALID_ANSWER')
       }
       if (!isRecord(key.pairs) ||
-          !sameSet(Object.keys(key.pairs), left) ||
           !Object.values(key.pairs).every(v => typeof v === 'string') ||
-          !sameSet(Object.values(key.pairs) as string[], right)) {
+          !validMatchingPairs(key.pairs as Record<string, string>, left, right)) {
         throw new AppError('Juftliklar kaliti xato', 503, 'SPEC_KEY_INVALID')
       }
       const pairs = key.pairs as Record<string, string>
