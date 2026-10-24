@@ -1,10 +1,10 @@
 ## TASK-600 — Spetsifikatsiya asosiy bo‘limlaridagi barcha izohli testlar (2026-10-24)
 
-- **Owner:** ChatGPT; **status:** DRAFT PR / code review / CI gate.
+- **Owner:** ChatGPT; **status:** DRAFT PR #596 — full CI PASS, independent review/release pending.
 - **Scope:** “O‘rganish” sahifasida 2026-yil spetsifikatsiyasining S1–S7, KS, PM asosiy 9 sohasi. Bo‘limga tegishli barcha published testlar; Y1 javob belgilanganda, Y2/Y3 javob to‘liq kiritilganda kalit va izoh darhol chiqadi.
 - **Safety:** Authenticated study endpoint, mock testdagi keys oshkor qilinmaydi, source assets maxfiy metadata yuborilmaydi; DB/production/main yozilmaydi.
 - **Implementation:** `backend/src/services/spec-practice.service.ts`, `backend/src/routes/content.ts`, `src/features/content/specPracticeApi.ts`, `src/pages/SpecSectionPracticePage.tsx`, `LearningPage`, `App.tsx`; unit tests.
-- **QA:** `docs/TASK600_SPEC_SECTION_PRACTICE_20261024.md`; CI, review va alohida production release authorization kutiladi.
+- **QA:** [CI run 40076647816](https://github.com/sarvar9417/attestatsiya/actions/runs/40076647816) PASS (backend, frontend-quality, database, quality); independent review va alohida production authorization kutiladi.
 
 ## TASK-546 — Tarmoq Y1 javoblarining mavzuviy aniqligi, 8 ta REVIEW nusxa (2026-10-22)
 
