@@ -26,7 +26,7 @@ function sectionScope(code: SpecSectionCode) {
 
 function publishedQuestions(code: SpecSectionCode) {
   const query = supabase.from('questions').select(
-    'id,group_code,format,stem_md,assets'
+    'id,group_code,format,stem_md'
   ).eq('status', 'published')
   const scope = sectionScope(code)
   return 'exact' in scope
@@ -118,6 +118,7 @@ export const specPracticeService = {
     return {
       questions: page.map(q => ({
         ...q,
+        assets: [], // Private source screenshot IDs are editorial metadata, not learner assets.
         options: (optionMap.get(q.id) ?? []).map(o => ({
           id: o.id, side: o.side, order_idx: o.order_idx, content_md: o.content_md,
         })),
