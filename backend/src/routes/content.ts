@@ -1,9 +1,56 @@
 import type { FastifyInstance } from 'fastify'
+import { z } from 'zod'
+import { specPracticeService } from '../services/spec-practice.service.js'
 import { contentService } from '../services/content.service.js'
 import { moduleListSchema, moduleDetailSchema, lessonDetailSchema, lessonQuestionsSchema, checkAnswerSchema } from '../schemas/content.js'
 import { AppError, sendError } from '../lib/errors.js'
 
+const specSectionCode = z.enum(['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'KS', 'PM'])
+const postgresUuid = z.string().regex(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)
+const specParams = z.object({ code: specSectionCode }).strict()
+const specAnswer = z.union([
+  z.object({ option_id: postgresUuid }).strict(),
+  z.object({ pairs: z.record(postgresUuid, postgresUuid) }).strict(),
+  z.object({ order: z.array(postgresUuid).min(2).max(12) }).strict(),
+])
+function bearerToken(headers: { authorization?: string }) {
+  const match = /^Bearer (\S+)$/i.exec(headers.authorization ?? '')
+  if (!match) throw new AppError('Hisobga kirish talab qilinadi', 401, 'TOKEN_REQUIRED')
+  return match[1]
+}
+
 export async function contentRoutes(app: FastifyInstance) {
+  /** Specification 2026: main sections (NOT module/lesson-scoped tests). */
+  app.get('/api/content/spec-practice/sections', async (req, reply) => {
+    try {
+      return reply.send(await specPracticeService.listSections(bearerToken(req.headers)))
+    } catch (error) { return sendError(reply, error) }
+  })
+
+  /** Cursor pagination covers the WHOLE published bank without a 20/50 limit. */
+  app.get('/api/content/spec-practice/:code/questions', async (req, reply) => {
+    try {
+      const { code } = specParams.parse(req.params)
+      const { cursor } = z.object({ cursor: postgresUuid.optional() }).strict().parse(req.query)
+      return reply.send(await specPracticeService.listQuestions(code, cursor, bearerToken(req.headers)))
+    } catch (error) { return sendError(reply, error) }
+  })
+
+  /** An answer key may be revealed only AFTER an authenticated submitted answer. */
+  app.post('/api/content/spec-practice/:code/answer', async (req, reply) => {
+    reply.header('Cache-Control', 'no-store')
+    try {
+      const { code } = specParams.parse(req.params)
+      const { question_id, answer } = z.object({
+        question_id: postgresUuid,
+        answer: specAnswer,
+      }).strict().parse(req.body)
+      return reply.send(await specPracticeService.checkAnswer(
+        code, question_id, answer, bearerToken(req.headers),
+      ))
+    } catch (error) { return sendError(reply, error) }
+  })
+
   /**
    * GET /api/content/modules
    * List all published modules
