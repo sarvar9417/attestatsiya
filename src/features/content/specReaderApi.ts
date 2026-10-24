@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { api } from '../../lib/apiClient'
 import type { SpecCode } from './specPracticeApi'
 
-const uuid = z.string().regex(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)
+const uuid = z.string().regex(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)
 export const readerPageSizeSchema = z.union([z.literal(30), z.literal(50), z.literal(100)])
 export type ReaderPageSize = z.infer<typeof readerPageSizeSchema>
 export type ReaderMark = 'memorized' | 'review' | null
