@@ -1,5 +1,5 @@
 import { Check } from 'lucide-react'
-import InlineText from '../learning/theory/InlineText'
+import ExamRichText from '../../features/exam/questions/ExamRichText'
 
 interface AnswerOptionProps {
   letter: string
@@ -65,13 +65,13 @@ export default function AnswerOption({
       </span>
 
       {/* Label */}
-      <span
-        className={`text-sm sm:text-base font-medium leading-snug ${
+      <div
+        className={`min-w-0 flex-1 text-sm sm:text-base font-medium leading-snug ${
           selected ? 'text-primary' : 'text-foreground'
         }`}
       >
-        <InlineText text={label} />
-      </span>
+        <ExamRichText text={label} />
+      </div>
     </button>
   )
 }

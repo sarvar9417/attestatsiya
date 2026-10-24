@@ -1,10 +1,8 @@
-import { prepareExamCodeText } from '../../lib/formatQuestionCode'
 import { Bookmark, BookmarkCheck } from 'lucide-react'
 import type { ExamQuestion } from './exam-data'
 import { LEVEL_LABELS, LETTERS } from './exam-data'
 import AnswerOption from './AnswerOption'
-import CodeBlock, { parseCodeBlocks } from './CodeBlock'
-import InlineText from '../learning/theory/InlineText'
+import ExamRichText from '../../features/exam/questions/ExamRichText'
 
 interface QuestionCardProps {
   question: ExamQuestion
@@ -26,9 +24,6 @@ export default function QuestionCard({
   onToggleReview,
 }: QuestionCardProps) {
   const options = question.options.filter((o) => o.side === 'a')
-
-  // Parse stem for code blocks
-  const stemSegments = parseCodeBlocks(prepareExamCodeText(question.stem_md))
 
   return (
     <div className="bg-card border border-border rounded-xl">
@@ -74,20 +69,9 @@ export default function QuestionCard({
         </button>
       </div>
 
-      {/* Question stem with code block support */}
-      <div className="px-5 pt-5 pb-2 space-y-3">
-        {stemSegments
-          .filter((s) => s.type === 'code' || s.content.length > 0)
-          .map((segment, i) => {
-            if (segment.type === 'code') {
-              return <CodeBlock key={i} code={segment.content} language={segment.language} />
-            }
-            return (
-              <p key={i} className="text-base sm:text-lg leading-relaxed text-foreground font-medium">
-                <InlineText text={segment.content} />
-              </p>
-            )
-          })}
+      {/* Shared renderer preserves code fences and semantic source tables. */}
+      <div className="px-5 pt-5 pb-2 text-base sm:text-lg leading-relaxed text-foreground font-medium">
+        <ExamRichText text={question.stem_md} />
       </div>
 
       {/* Answer options */}

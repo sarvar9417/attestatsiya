@@ -33,6 +33,7 @@ import { isCompleteOrdering } from '../../lib/exam/ordering'
 const BookReader = lazy(() => import('./theory/BookReader'))
 import LessonStageBar from './LessonStageBar'
 import InlineText from './theory/InlineText'
+import ExamRichText from '../../features/exam/questions/ExamRichText'
 
 interface Props {
   moduleId: string
@@ -569,15 +570,15 @@ export default function TopicView({
                   <div className="flex items-start gap-3">
                     <span className="w-7 h-7 rounded-full bg-red-100 dark:bg-red-900/40 flex items-center justify-center text-xs font-bold text-red-600 dark:text-red-400 shrink-0 mt-0.5">{i + 1}</span>
                     <div className="min-w-0 flex-1">
-                      <p className="font-medium text-gray-800 dark:text-gray-200 mb-2 text-sm"><InlineText text={q.text} /></p>
+                      <div className="font-medium text-gray-800 dark:text-gray-200 mb-2 text-sm"><ExamRichText text={q.text} /></div>
                       <div className="space-y-1.5 text-xs">
                         {renderAnswerDetail(q, answers)}
                       </div>
                       <div className="mt-3 pt-3 border-t border-red-200 dark:border-red-800/50">
-                        <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                        <div className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
                           <span className="font-semibold text-gray-700 dark:text-gray-300">Tushuntirish: </span>
-                          <InlineText text={learnerExplanation(q.explanation)} />
-                        </p>
+                          <ExamRichText text={learnerExplanation(q.explanation)} />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1401,9 +1402,9 @@ function QuestionCard({ question: q, index, total, selected, isSubmitted, onSele
             </span>
             <span className="text-[10px] text-gray-400 font-mono">{index + 1}/{total}</span>
           </div>
-          <p className="text-sm font-medium text-gray-900 dark:text-white leading-relaxed">
-            <InlineText text={q.text} />
-          </p>
+          <div className="text-sm font-medium text-gray-900 dark:text-white leading-relaxed">
+            <ExamRichText text={q.text} />
+          </div>
         </div>
         {/* Status icon */}
         {isCorrect && <CheckCircle2 size={20} className="text-emerald-500 shrink-0 mt-1" />}
