@@ -139,6 +139,34 @@ describe('TASK-600: specification section practice screen', () => {
     expect(code.closest('pre')).not.toBeNull()
   })
 
+  it('renders Book rows from a database question as a real table, not pipe text', async () => {
+    mocks.getSpecQuestions.mockResolvedValueOnce({
+      questions: [{
+        ...first,
+        group_code: 'S4.DB',
+        stem_md: [
+          'MS Access dasturidagi **Book** jadvali:', '',
+          '| BookTitle | BookSubject | BookStatus | Author |',
+          '|---|---|---|---|',
+          '| His Dark Materials | Fantasy | Available | Philip Pullman |',
+          '| Jane Eyre | Novel | Available | Charlotte Brontë |',
+          '', 'Qaysi kitoblar natijada chiqadi?',
+        ].join('\n'),
+      }],
+      total: 1, next_cursor: null,
+    })
+    render(<MemoryRouter initialEntries={['/learn/spec/S3']}>
+      <Routes>
+        <Route path="/learn/spec/:sectionCode" element={<SpecSectionPracticePage />} />
+      </Routes>
+    </MemoryRouter>)
+    expect(await screen.findByRole('table')).toBeInTheDocument()
+    expect(screen.getAllByRole('columnheader')).toHaveLength(4)
+    expect(screen.getAllByRole('row')).toHaveLength(3)
+    expect(screen.getByText('His Dark Materials')).toBeInTheDocument()
+    expect(document.body.textContent).not.toContain('|---|')
+  })
+
   it('rejects invalid specification section without contacting backend', () => {
     render(<MemoryRouter initialEntries={['/learn/spec/M05']}>
       <Routes>
