@@ -125,7 +125,7 @@ describe('TASK-600: specification section practice screen', () => {
 
   it('renders fenced Python code in a readable code block', async () => {
     mocks.getSpecQuestions.mockResolvedValueOnce({
-      questions: [{ ...first, stem_md: 'Kodli savol:\\n\\n```python\\nprint("salom")\\n```' }],
+      questions: [{ ...first, stem_md: 'Kodli savol:\n\n```python\nprint("salom")\n```' }],
       total: 1, next_cursor: null,
     })
     render(<MemoryRouter initialEntries={['/learn/spec/S3']}>
