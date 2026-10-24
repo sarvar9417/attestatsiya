@@ -1,6 +1,7 @@
 import type { FastifyInstance } from 'fastify'
 import { z } from 'zod'
 import { specPracticeService } from '../services/spec-practice.service.js'
+import { specReaderService } from '../services/spec-reader.service.js'
 import { contentService } from '../services/content.service.js'
 import { moduleListSchema, moduleDetailSchema, lessonDetailSchema, lessonQuestionsSchema, checkAnswerSchema } from '../schemas/content.js'
 import { AppError, sendError } from '../lib/errors.js'
@@ -19,7 +20,63 @@ function bearerToken(headers: { authorization?: string }) {
   return match[1]
 }
 
+const readerQuerySchema = z.object({
+  page: z.coerce.number().int().min(1).max(100000).default(1),
+  page_size: z.coerce.number().int().refine(v => v === 30 || v === 50 || v === 100).default(30),
+  q: z.string().trim().max(80).default(''),
+  review_only: z.enum(['true', 'false']).default('false'),
+}).strict()
+const positionSchema = z.object({
+  page: z.number().int().min(1).max(100000),
+  page_size: z.union([z.literal(30), z.literal(50), z.literal(100)]),
+  search: z.string().trim().max(80),
+  review_only: z.boolean(),
+}).strict()
+const readerMarkSchema = z.object({
+  question_id: postgresUuid,
+  mark: z.enum(['memorized', 'review']).nullable(),
+}).strict()
+
 export async function contentRoutes(app: FastifyInstance) {
+  // TASK-601: bulk study reader is authenticated and separate from timed exam APIs.
+  app.get('/api/content/spec-reader/:code/page', async (req, reply) => {
+    reply.header('Cache-Control', 'private, no-store')
+    try {
+      const { code } = specParams.parse(req.params)
+      const params = readerQuerySchema.parse(req.query)
+      return reply.send(await specReaderService.getPage(code, {
+        page: params.page, pageSize: params.page_size as 30 | 50 | 100,
+        search: params.q, reviewOnly: params.review_only === 'true',
+      }, bearerToken(req.headers)))
+    } catch (error) { return sendError(reply, error) }
+  })
+  app.get('/api/content/spec-reader/:code/state', async (req, reply) => {
+    reply.header('Cache-Control', 'private, no-store')
+    try {
+      const { code } = specParams.parse(req.params)
+      return reply.send(await specReaderService.getState(code, bearerToken(req.headers)))
+    } catch (error) { return sendError(reply, error) }
+  })
+  app.put('/api/content/spec-reader/:code/mark', async (req, reply) => {
+    reply.header('Cache-Control', 'no-store')
+    try {
+      const { code } = specParams.parse(req.params)
+      const { question_id, mark } = readerMarkSchema.parse(req.body)
+      return reply.send(await specReaderService.setMark(code, question_id, mark, bearerToken(req.headers)))
+    } catch (error) { return sendError(reply, error) }
+  })
+  app.put('/api/content/spec-reader/:code/position', async (req, reply) => {
+    reply.header('Cache-Control', 'no-store')
+    try {
+      const { code } = specParams.parse(req.params)
+      const pos = positionSchema.parse(req.body)
+      return reply.send(await specReaderService.savePosition(code, {
+        page: pos.page, pageSize: pos.page_size,
+        search: pos.search, reviewOnly: pos.review_only,
+      }, bearerToken(req.headers)))
+    } catch (error) { return sendError(reply, error) }
+  })
+
   /** Specification 2026: main sections (NOT module/lesson-scoped tests). */
   app.get('/api/content/spec-practice/sections', async (req, reply) => {
     try {

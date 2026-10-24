@@ -256,6 +256,7 @@ export default function SpecSectionPracticePage() {
     <header className="rounded-2xl border border-indigo-100 bg-indigo-50/60 p-5 dark:border-indigo-900 dark:bg-indigo-950/30">
       <p className="text-xs font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-300">2026-yil attestatsiya spetsifikatsiyasi · {section.code}</p>
       <h1 className="mt-2 text-xl font-bold text-gray-950 dark:text-white sm:text-2xl">{section.title}</h1>
+      <Link to={`/learn/spec/${section.code}/read`} className="mt-3 inline-block rounded-lg border border-indigo-300 bg-white px-4 py-2 text-sm font-semibold text-indigo-700 dark:border-indigo-800 dark:bg-gray-900 dark:text-indigo-300">📖 O‘qish sahifasi — barcha testlar</Link>
       <p className="mt-2 text-sm leading-relaxed text-gray-600 dark:text-gray-300">
         Bo‘limdagi barcha e’lon qilingan testlar. Har javobdan keyin to‘g‘ri javob va uning izohi ko‘rsatiladi.
         Sinov rejimi va umumiy 50 savollik mock bundan alohida.
