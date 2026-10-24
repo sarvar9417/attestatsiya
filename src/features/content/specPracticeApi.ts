@@ -16,14 +16,16 @@ export const SPEC_SECTIONS = [
 
 export type SpecCode = typeof SPEC_SECTIONS[number]['code']
 const specCodeSchema = z.enum(['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'KS', 'PM'])
+// PostgreSQL UUIDs can use canonical strings without RFC version bits.
+const pgUuid = z.string().regex(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)
 const optionSchema = z.object({
-  id: z.string().uuid(),
+  id: pgUuid,
   side: z.string(),
   order_idx: z.number().int(),
   content_md: z.string(),
 })
 const questionSchema = z.object({
-  id: z.string().uuid(),
+  id: pgUuid,
   group_code: z.string(),
   format: z.enum(['Y1', 'Y2', 'Y3']),
   stem_md: z.string(),
@@ -37,11 +39,11 @@ const sectionSchema = z.object({
 })
 const pageSchema = z.object({
   questions: z.array(questionSchema),
-  next_cursor: z.string().uuid().nullable(),
+  next_cursor: pgUuid.nullable(),
   total: z.number().int().nonnegative(),
 })
 const submittedAnswerSchema = z.union([
-  z.object({ option_id: z.string().uuid() }),
+  z.object({ option_id: pgUuid }),
   z.object({ pairs: z.record(z.string(), z.string()) }),
   z.object({ order: z.array(z.string()) }),
 ])
