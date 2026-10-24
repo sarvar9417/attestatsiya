@@ -1,3 +1,11 @@
+## TASK-600 — Spetsifikatsiya asosiy bo‘limlaridagi barcha izohli testlar (2026-10-24)
+
+- **Owner:** ChatGPT; **status:** DRAFT PR / code review / CI gate.
+- **Scope:** “O‘rganish” sahifasida 2026-yil spetsifikatsiyasining S1–S7, KS, PM asosiy 9 sohasi. Bo‘limga tegishli barcha published testlar; Y1 javob belgilanganda, Y2/Y3 javob to‘liq kiritilganda kalit va izoh darhol chiqadi.
+- **Safety:** Authenticated study endpoint, mock testdagi keys oshkor qilinmaydi, source assets maxfiy metadata yuborilmaydi; DB/production/main yozilmaydi.
+- **Implementation:** `backend/src/services/spec-practice.service.ts`, `backend/src/routes/content.ts`, `src/features/content/specPracticeApi.ts`, `src/pages/SpecSectionPracticePage.tsx`, `LearningPage`, `App.tsx`; unit tests.
+- **QA:** `docs/TASK600_SPEC_SECTION_PRACTICE_20261024.md`; CI, review va alohida production release authorization kutiladi.
+
 ## TASK-547 — Pedagogika nazariyasi darslaridagi ichki manba-audit izlarini ajratish (2026-10-22)
 
 - **Owner:** ChatGPT; **status:** PR #563 (CI/release tekshiruvida).
