@@ -125,7 +125,7 @@ function SpecQuestionForm({
               <div key={opt.id} className="grid gap-2 rounded-xl border border-gray-200 p-3 dark:border-gray-700 sm:grid-cols-2 sm:items-center">
                 <span className="text-sm text-gray-800 dark:text-gray-200">{idx + 1}. <InlineText text={opt.content_md} /></span>
                 <select className="min-h-11 w-full rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
-                  disabled={checked || busy} value={pairs[opt.id] ?? ''}
+                  disabled={checked || busy} value={(checked && answerState && 'pairs' in answerState.selected ? answerState.selected.pairs[opt.id] : pairs[opt.id]) ?? ''}
                   onChange={e => setPairs(p => ({ ...p, [opt.id]: e.target.value }))}>
                   <option value="">Mos javobni tanlang</option>
                   {right.map(o => <option key={o.id} value={o.id}>{o.content_md}</option>)}
@@ -145,7 +145,7 @@ function SpecQuestionForm({
               <div key={idx} className="flex items-center gap-3">
                 <span className="w-6 text-sm font-bold text-gray-600 dark:text-gray-300">{idx + 1}.</span>
                 <select className="min-h-11 w-full rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
-                  disabled={checked || busy} value={order[idx] ?? ''}
+                  disabled={checked || busy} value={(checked && answerState && 'order' in answerState.selected ? answerState.selected.order[idx] : order[idx]) ?? ''}
                   onChange={e => setOrder(a => {
                     const next = [...a]
                     next[idx] = e.target.value
