@@ -83,6 +83,29 @@ describe('TASK-601 reading pages: display, reveal, mark, filter and resume', () 
     expect(screen.getByRole('link', { name: 'Test ishlash' })).toHaveAttribute('href', '/learn/spec/S3')
   })
 
+  it('renders an MS Access Book markdown table in the reading page', async () => {
+    mocks.getReaderPage.mockResolvedValueOnce({
+      questions: [{
+        ...first,
+        group_code: 'S4.DB',
+        stem_md: [
+          'MS Access dasturidagi Book jadvali:', '',
+          '| BookTitle | BookSubject | BookStatus | Author |',
+          '|---|---|---|---|',
+          '| His Dark Materials | Fantasy | Available | Philip Pullman |',
+          '| Jane Eyre | Novel | Available | Charlotte Brontë |',
+        ].join('\n'),
+      }],
+      total: 1, page: 1, page_size: 30,
+    })
+    mount()
+    expect(await screen.findByRole('table')).toBeInTheDocument()
+    expect(screen.getAllByRole('columnheader')).toHaveLength(4)
+    expect(screen.getAllByRole('row')).toHaveLength(3)
+    expect(screen.getByText('His Dark Materials')).toBeInTheDocument()
+    expect(document.body.textContent).not.toContain('|---|')
+  })
+
   it('hides both keys and explanations; restores visibility without new network calls', async () => {
     mount()
     await screen.findByText('Mantiqiy savol')

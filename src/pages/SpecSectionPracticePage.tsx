@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react'
 import { ArrowLeft, ArrowRight, CheckCircle2, CircleHelp, RefreshCw, XCircle } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 import InlineText from '../components/learning/theory/InlineText'
-import CodeBlock, { parseCodeBlocks } from '../components/exam/CodeBlock'
-import { prepareExamCodeText } from '../lib/formatQuestionCode'
+import ExamRichText from '../features/exam/questions/ExamRichText'
 import {
   SPEC_SECTIONS, checkSpecAnswer, getSpecQuestions,
   type SpecAnswer, type SpecCode, type SpecFeedback, type SpecQuestion,
@@ -65,7 +64,6 @@ function SpecQuestionForm({
   const [order, setOrder] = useState<string[]>([])
   const checked = Boolean(answerState)
   const left = question.options.filter(o => o.side === 'a')
-  const stemSegments = parseCodeBlocks(prepareExamCodeText(question.stem_md))
   const right = question.options.filter(o => o.side === 'b')
 
   useEffect(() => {
@@ -101,11 +99,7 @@ function SpecQuestionForm({
   return (
     <section>
       <div className="space-y-3 text-sm font-medium leading-7 text-gray-900 dark:text-gray-100">
-        {stemSegments.map((segment, idx) => segment.type === 'code'
-          ? <CodeBlock key={idx} code={segment.content} language={segment.language} />
-          : segment.content.trim()
-            ? <div key={idx}><InlineText text={segment.content} /></div>
-            : null)}
+        <ExamRichText text={question.stem_md} />
       </div>
       <div className="mt-5 space-y-2">
         {question.format === 'Y1' && left.map((opt, index) => {

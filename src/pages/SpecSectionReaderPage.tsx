@@ -1,9 +1,8 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ArrowLeft, ArrowRight, Bookmark, BookOpenText, Check, Eye, EyeOff, Search, RotateCcw } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 import InlineText from '../components/learning/theory/InlineText'
-import CodeBlock, { parseCodeBlocks } from '../components/exam/CodeBlock'
-import { prepareExamCodeText } from '../lib/formatQuestionCode'
+import ExamRichText from '../features/exam/questions/ExamRichText'
 import { SPEC_SECTIONS, type SpecCode } from '../features/content/specPracticeApi'
 import {
   getReaderPage, getReaderState, saveReaderPosition, changeReaderMark,
@@ -13,12 +12,7 @@ import {
 const initialPosition: ReaderPosition = { page: 1, pageSize: 30, search: '', reviewOnly: false }
 
 function RichText({ text }: { text: string }) {
-  const parts = useMemo(() => parseCodeBlocks(prepareExamCodeText(text)), [text])
-  return <div className="space-y-2">
-    {parts.map((part, i) => part.type === 'code'
-      ? <CodeBlock key={i} code={part.content} language={part.language} />
-      : part.content.trim() ? <div key={i} className="whitespace-pre-wrap"><InlineText text={part.content} /></div> : null)}
-  </div>
+  return <ExamRichText text={text} />
 }
 
 function ReaderCard({
