@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   ArrowRight,
@@ -14,6 +14,7 @@ import {
   X,
 } from 'lucide-react'
 import { useCatalog } from '../hooks/useCatalog'
+import { SPEC_SECTIONS, getSpecSectionCounts } from '../features/content/specPracticeApi'
 import { useProgressStore } from '../store/progressStore'
 
 type SectionKey =
@@ -62,6 +63,15 @@ function moduleProgressPercent(completed: number, total: number) {
 
 export default function LearningPage() {
   const [search, setSearch] = useState('')
+  const [specCounts, setSpecCounts] = useState<Record<string, number>>({})
+
+  useEffect(() => {
+    let active = true
+    void getSpecSectionCounts().then(rows => {
+      if (active) setSpecCounts(Object.fromEntries(rows.map(row => [row.code, row.count])))
+    }).catch(() => { /* The test cards stay accessible while counts are unavailable. */ })
+    return () => { active = false }
+  }, [])
   const navigate = useNavigate()
   const { modules } = useCatalog()
   const { getModuleProgress } = useProgressStore()
@@ -152,6 +162,34 @@ export default function LearningPage() {
           )}
         </div>
       </header>
+
+      <section className="rounded-2xl border border-indigo-100 bg-indigo-50/40 p-4 dark:border-indigo-950 dark:bg-indigo-950/20 sm:p-5" aria-label="Spetsifikatsiyaning asosiy bo‘limlari">
+        <div className="mb-4">
+          <h2 className="text-lg font-bold text-gray-950 dark:text-white">2026-yil spetsifikatsiyasi — barcha testlar</h2>
+          <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+            7 ta mutaxassislik sohasi, kasb standarti va pedagogik mahorat.
+            Har bir asosiy bo‘limning barcha tasdiqlangan testlari va javobdan keyin izohi.
+          </p>
+        </div>
+        <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+          {SPEC_SECTIONS.map(section => (
+            <button key={section.code} type="button"
+              onClick={() => navigate(`/learn/spec/${section.code}`)}
+              className="group flex min-h-20 items-center gap-3 rounded-xl border border-gray-200 bg-white p-3 text-left transition hover:border-indigo-300 hover:shadow-sm dark:border-gray-800 dark:bg-gray-900 dark:hover:border-indigo-700">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-indigo-50 text-xs font-bold text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
+                {section.code}
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-sm font-semibold leading-5 text-gray-900 dark:text-gray-100">{section.title}</span>
+                <span className="mt-1 block text-xs text-gray-500 dark:text-gray-400">
+                  {specCounts[section.code] === undefined ? 'Barcha testlarni ochish' : `${specCounts[section.code]} ta test`}
+                </span>
+              </span>
+              <ArrowRight size={16} className="shrink-0 text-indigo-500" aria-hidden="true" />
+            </button>
+          ))}
+        </div>
+      </section>
 
       <section className="grid grid-cols-1 gap-3 sm:grid-cols-3" aria-label="O‘rganish statistikasi">
         <LearningStat
