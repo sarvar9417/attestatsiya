@@ -20,6 +20,7 @@ import Auth from './pages/Auth'
 import Profile from './pages/Profile'
 import ResetPassword from './pages/ResetPassword'
 import LearningPage from './pages/LearningPage'
+import SpecSectionPracticePage from './pages/SpecSectionPracticePage'
 import ModulePage from './pages/ModulePage'
 import DashboardPage from './pages/DashboardPage'
 import ExamPage from './pages/ExamPage'
@@ -129,6 +130,7 @@ function MainLayout() {
                 <Route path="/" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
                 <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
                 <Route path="/learn" element={<ProtectedRoute><LearningPage /></ProtectedRoute>} />
+                <Route path="/learn/spec/:sectionCode" element={<ProtectedRoute><SpecSectionPracticePage /></ProtectedRoute>} />
                 <Route path="/learn/:moduleId" element={<ProtectedRoute><ModulePage /></ProtectedRoute>} />
                 <Route path="/professional-practice" element={<ProtectedRoute><ProfessionalPracticePage /></ProtectedRoute>} />
                 <Route path="/practice/axb" element={<ProtectedRoute><Navigate to="/learn/M01?extra=axb" replace /></ProtectedRoute>} />
